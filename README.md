@@ -1,7 +1,5 @@
 <p align="center">
-  <picture>
-    <img src="https://raw.githubusercontent.com/mozilla-ai/otari/refs/heads/main/docs/public/images/otari-logo-mark.png" width="20%" alt="Project logo"/>
-  </picture>
+  <img src="assets/otari-logo.svg" width="320" alt="otari logo"/>
 </p>
 
 <div align="center">
@@ -118,12 +116,12 @@ The client supports two authentication modes, matching the Python and TypeScript
 
 #### Platform Mode (Recommended)
 
-Uses a Bearer token in the standard Authorization header:
+Uses a Bearer token in the standard Authorization header. On the hosted platform, generate an API token at [otari.ai/organization-settings/api-tokens](https://otari.ai/organization-settings/api-tokens) and add a provider key (e.g. OpenAI) at [otari.ai/organization-settings/provider-keys](https://otari.ai/organization-settings/provider-keys) so the gateway can route requests to that provider:
 
 ```go
 client, err := otari.New(
     otari.WithBaseURL("http://localhost:8000"),
-    otari.WithAPIKey("tk_your_platform_token"),
+    otari.WithAPIKey("tk_your_api_token"),
     otari.WithPlatformMode(),
 )
 ```
@@ -279,7 +277,7 @@ if err != nil {
 | 400 (capability) | `*UnsupportedCapabilityError` | `ErrUnsupported` | Provider does not support the requested capability |
 | 401, 403 | `*AuthenticationError` | `ErrAuthentication` | Invalid or missing credentials |
 | 402 | `*InsufficientFundsError` | `ErrInsufficientFunds` | Budget or credits exhausted |
-| 404 | `*ModelNotFoundError` | `ErrModelNotFound` | Model not found or unavailable |
+| 404 | `*ModelNotFoundError` | `ErrModelNotFound` | Model not found, or no provider key configured for the requested provider; the error carries the gateway's detail |
 | 409 | `*BatchNotCompleteError` | `ErrBatchNotComplete` | Batch not yet finished (includes `BatchID`, `Status`) |
 | 429 | `*RateLimitError` | `ErrRateLimit` | Rate limit exceeded |
 | 502 | `*UpstreamProviderError` | `ErrUpstreamProvider` | Upstream provider unreachable |
