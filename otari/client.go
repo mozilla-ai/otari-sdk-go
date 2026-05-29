@@ -192,6 +192,16 @@ func New(opts ...Option) (*Client, error) {
 	}
 	apiBase = strings.TrimRight(apiBase, "/")
 
+	// Normalize to the gateway root (without a trailing /v1). Each consumer
+	// adds its own /v1: the openai-go client is given <root>/v1 as its base
+	// (it appends bare paths like "chat/completions"), while the endpoints
+	// handled directly here (batches, rerank, moderations) build "/v1/..."
+	// paths onto the root. Normalizing here means the hosted default and a
+	// self-hosted base URL both work whether or not the caller includes /v1
+	// (mirrors the TS and Python SDKs).
+	apiBase = strings.TrimSuffix(apiBase, "/v1")
+	apiBase = strings.TrimRight(apiBase, "/")
+
 	// Build OpenAI client options. User's opts are cloned and auth-specific
 	// opts are layered on top (later options win).
 	sdkOpts := make([]option.RequestOption, 0, 3)
@@ -216,7 +226,9 @@ func New(opts ...Option) (*Client, error) {
 	sdkOpts = append(sdkOpts,
 		option.WithAPIKey(sdkAPIKey),
 		option.WithHTTPClient(httpClient),
-		option.WithBaseURL(apiBase),
+		// openai-go appends bare paths (e.g. "chat/completions"), so it needs
+		// the /v1-suffixed base; apiBase itself stays the root.
+		option.WithBaseURL(apiBase+"/v1"),
 	)
 
 	// Determine the key to use for batch API calls.
@@ -227,16 +239,13 @@ func New(opts ...Option) (*Client, error) {
 		batchAPIKey = otariKey
 	}
 
-	// rawBaseURL strips any trailing /v1 suffix so that raw HTTP endpoints
-	// (e.g. /v1/rerank) can prepend the version prefix themselves.
-	rawBaseURL := strings.TrimSuffix(apiBase, "/v1")
-	rawBaseURL = strings.TrimSuffix(rawBaseURL, "/v1/")
-
 	return &Client{
-		openaiClient:  openai.NewClient(sdkOpts...),
-		apiBase:       apiBase,
-		apiKey:        batchAPIKey,
-		baseURL:       rawBaseURL,
+		openaiClient: openai.NewClient(sdkOpts...),
+		apiBase:      apiBase,
+		apiKey:       batchAPIKey,
+		// apiBase is already the gateway root; raw HTTP endpoints prepend
+		// their own /v1/... path onto it.
+		baseURL:       apiBase,
 		httpClient:    httpClient,
 		platformMode:  platformMode,
 		platformToken: platformToken,

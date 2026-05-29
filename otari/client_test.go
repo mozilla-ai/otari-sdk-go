@@ -188,7 +188,7 @@ func TestNew(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, client)
 		require.True(t, client.platformMode)
-		require.Equal(t, "http://localhost:8000/v1", client.apiBase)
+		require.Equal(t, "http://localhost:8000", client.apiBase)
 	})
 
 	t.Run("forwards custom timeout to underlying client", func(t *testing.T) {
@@ -2225,6 +2225,31 @@ func (m *mockRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) 
 }
 
 // mockCompletionParams returns standard completion params for tests.
+// TestBaseURLNormalizationAddsV1 guards the normalization that lets a base
+// URL without a /v1 suffix still reach the gateway's OpenAI-compatible
+// /v1 routes. openai-go appends bare paths like "chat/completions", so the
+// SDK must give it a /v1-suffixed base.
+func TestBaseURLNormalizationAddsV1(t *testing.T) {
+	t.Setenv(envAPIBase, "")
+	t.Setenv(envPlatformToken, "")
+
+	var capturedPath string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		capturedPath = r.URL.Path
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(mockCompletionResponse("ok")))
+	}))
+	t.Cleanup(srv.Close)
+
+	// Base URL WITHOUT /v1 — the SDK must add it.
+	client, err := New(WithBaseURL(srv.URL), WithOtariKey("test-key"))
+	require.NoError(t, err)
+
+	_, err = client.Completion(context.Background(), mockCompletionParams())
+	require.NoError(t, err)
+	require.Equal(t, "/v1/chat/completions", capturedPath)
+}
+
 func mockCompletionParams() CompletionParams {
 	return CompletionParams{
 		Model:    "openai:gpt-4o-mini",
