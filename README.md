@@ -20,6 +20,8 @@ Communicate with any LLM provider through the gateway using a single, typed inte
 
 ## Quickstart
 
+Generate an API token at [otari.ai/organization-settings/api-tokens](https://otari.ai/organization-settings/api-tokens), then add a provider key (e.g. OpenAI) at [otari.ai/organization-settings/provider-keys](https://otari.ai/organization-settings/provider-keys) so the gateway can route requests to that provider. Then use the client:
+
 ```go
 package main
 
@@ -33,8 +35,7 @@ import (
 
 func main() {
     client, err := otari.New(
-        otari.WithBaseURL("http://localhost:8000"),
-        otari.WithAPIKey("your-token-here"),
+        otari.WithAPIKey("tk_your_api_token"),
         otari.WithPlatformMode(),
     )
     if err != nil {
@@ -53,14 +54,31 @@ func main() {
 }
 ```
 
-**That's it!** Change the model string to switch between LLM providers through the gateway.
+That's it — the client defaults to the hosted gateway at `https://api.otari.ai`, so you don't need to set a base URL. Change the model string to switch between LLM providers through the gateway.
+
+Prefer to keep secrets out of code? Export `OTARI_AI_TOKEN` and call `otari.New(otari.WithPlatformMode())` — the token is picked up from the environment.
+
+## Self-hosting the gateway
+
+Prefer to run the gateway yourself instead of using the hosted otari.ai? Follow the setup in the [otari gateway repo](https://github.com/mozilla-ai/otari), then point the SDK at it:
+
+```go
+client, err := otari.New(
+    otari.WithBaseURL("http://localhost:8000"), // or wherever you host the gateway
+    otari.WithOtariKey("your-gateway-api-key"),
+)
+```
+
+The SDK sends the key via the custom `Otari-Key: Bearer …` header. Env: `GATEWAY_API_BASE` + `GATEWAY_API_KEY`.
+
+Make sure your gateway has provider keys configured (e.g. OpenAI) so it can route requests upstream — see the [otari gateway repo](https://github.com/mozilla-ai/otari) for setup.
 
 ## Installation
 
 ### Requirements
 
 - Go 1.25 or newer
-- A running [otari-gateway](https://mozilla-ai.github.io/otari/gateway/overview/) instance
+- An [otari.ai](https://otari.ai/) account, or a running self-hosted [otari-gateway](https://mozilla-ai.github.io/otari/gateway/overview/) instance
 
 ### Install
 
@@ -70,12 +88,17 @@ go get github.com/mozilla-ai/otari-sdk-go/otari
 
 ### Setting Up Credentials
 
-Set environment variables for your gateway:
+For the hosted platform, set the platform-token environment variable:
+
+```bash
+export OTARI_AI_TOKEN="tk_your_api_token"
+# GATEWAY_PLATFORM_TOKEN is still accepted as a legacy alias.
+```
+
+For a self-hosted gateway, set the base URL and gateway API key:
 
 ```bash
 export GATEWAY_API_BASE="http://localhost:8000"
-export GATEWAY_PLATFORM_TOKEN="your-token-here"
-# or for non-platform mode:
 export GATEWAY_API_KEY="your-key-here"
 ```
 
@@ -116,19 +139,18 @@ The client supports two authentication modes, matching the Python and TypeScript
 
 #### Platform Mode (Recommended)
 
-Uses a Bearer token in the standard Authorization header. On the hosted platform, generate an API token at [otari.ai/organization-settings/api-tokens](https://otari.ai/organization-settings/api-tokens) and add a provider key (e.g. OpenAI) at [otari.ai/organization-settings/provider-keys](https://otari.ai/organization-settings/provider-keys) so the gateway can route requests to that provider:
+Uses a Bearer token in the standard Authorization header. On the hosted platform, generate an API token at [otari.ai/organization-settings/api-tokens](https://otari.ai/organization-settings/api-tokens) and add a provider key (e.g. OpenAI) at [otari.ai/organization-settings/provider-keys](https://otari.ai/organization-settings/provider-keys) so the gateway can route requests to that provider. The base URL defaults to the hosted gateway at `https://api.otari.ai`, so it can be omitted:
 
 ```go
 client, err := otari.New(
-    otari.WithBaseURL("http://localhost:8000"),
     otari.WithAPIKey("tk_your_api_token"),
     otari.WithPlatformMode(),
 )
 ```
 
-#### Non-Platform Mode
+#### Non-Platform Mode (Self-hosted)
 
-Sends the API key via a custom `Otari-Key` header:
+Sends the API key via a custom `Otari-Key` header. A base URL is required:
 
 ```go
 client, err := otari.New(
@@ -142,7 +164,8 @@ client, err := otari.New(
 When no explicit credentials are provided, the client reads from environment variables:
 
 ```go
-// Uses GATEWAY_API_BASE, GATEWAY_PLATFORM_TOKEN, or GATEWAY_API_KEY
+// Platform mode: OTARI_AI_TOKEN (or legacy GATEWAY_PLATFORM_TOKEN) → hosted gateway.
+// Self-hosted: GATEWAY_API_BASE + GATEWAY_API_KEY.
 client, err := otari.New()
 ```
 

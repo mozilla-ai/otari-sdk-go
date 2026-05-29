@@ -43,9 +43,18 @@ const (
 	// in non-platform mode when WithOtariKey is not passed to New.
 	envAPIKey = "GATEWAY_API_KEY"
 
-	// envPlatformToken is the environment variable read for the platform
-	// token used as Bearer auth in platform mode.
-	envPlatformToken = "GATEWAY_PLATFORM_TOKEN"
+	// envPlatformToken is the canonical environment variable read for the
+	// platform token used as Bearer auth in platform mode.
+	envPlatformToken = "OTARI_AI_TOKEN"
+
+	// envPlatformTokenLegacy is the legacy alias for the platform token
+	// environment variable. It is consulted only when envPlatformToken
+	// (OTARI_AI_TOKEN) is unset; the canonical name takes precedence.
+	envPlatformTokenLegacy = "GATEWAY_PLATFORM_TOKEN"
+
+	// defaultPlatformBaseURL is the hosted gateway base URL used when the
+	// client is in platform mode and no base URL is otherwise provided.
+	defaultPlatformBaseURL = "https://api.otari.ai"
 
 	// extraKeyOtariKey is the config extra key used to coordinate
 	// WithOtariKey (writer) with the resolver logic in New (reader).
@@ -102,14 +111,18 @@ type Client struct {
 
 // New creates a new otari client.
 //
-// The base URL is required and can be set via WithBaseURL() or
-// the GATEWAY_API_BASE environment variable.
+// In platform mode the base URL defaults to the hosted gateway at
+// https://api.otari.ai, so it can be omitted. It can still be overridden via
+// WithBaseURL() or the GATEWAY_API_BASE environment variable. In non-platform
+// mode a base URL is required.
 //
 // Authentication mode is determined as follows:
 //   - If WithPlatformMode() is passed, platform mode is used. The token is
-//     resolved from WithAPIKey() or GATEWAY_PLATFORM_TOKEN.
-//   - If GATEWAY_PLATFORM_TOKEN is set and no explicit API key or otari key
-//     is provided, platform mode is auto-detected.
+//     resolved from WithAPIKey(), then the OTARI_AI_TOKEN environment variable
+//     (legacy alias GATEWAY_PLATFORM_TOKEN).
+//   - If a platform token env var (OTARI_AI_TOKEN, or legacy
+//     GATEWAY_PLATFORM_TOKEN) is set and no explicit API key or otari key is
+//     provided, platform mode is auto-detected.
 //   - Otherwise, non-platform mode is used with the key from WithOtariKey()
 //     or GATEWAY_API_KEY, sent via the Otari-Key header.
 func New(opts ...Option) (*Client, error) {
@@ -139,15 +152,15 @@ func New(opts ...Option) (*Client, error) {
 			platformMode = true
 			platformToken = cfg.apiKey
 			if platformToken == "" {
-				platformToken = resolveEnv(envPlatformToken)
+				platformToken = resolvePlatformToken()
 			}
 		}
 	}
 
-	// Auto-detect: GATEWAY_PLATFORM_TOKEN set and no explicit API key or
-	// otari key configured. An otari key signals non-platform intent.
+	// Auto-detect: a platform token is set in the environment and no explicit
+	// API key or otari key configured. An otari key signals non-platform intent.
 	if !platformMode {
-		envToken := resolveEnv(envPlatformToken)
+		envToken := resolvePlatformToken()
 		if envToken != "" && cfg.apiKey == "" && otariKey == "" {
 			platformMode = true
 			platformToken = envToken
@@ -161,8 +174,13 @@ func New(opts ...Option) (*Client, error) {
 		)
 	}
 
-	// Resolve apiBase.
-	apiBase, err := cfg.resolveBaseURL(envAPIBase, "")
+	// Resolve apiBase. In platform mode, fall back to the hosted gateway URL
+	// when no base URL is provided; the non-platform path keeps requiring one.
+	defaultBaseURL := ""
+	if platformMode {
+		defaultBaseURL = defaultPlatformBaseURL
+	}
+	apiBase, err := cfg.resolveBaseURL(envAPIBase, defaultBaseURL)
 	if err != nil {
 		return nil, err
 	}
@@ -241,7 +259,7 @@ func (c *Client) Capabilities() Capabilities {
 		CompletionImage:     true,
 		CompletionPDF:       true,
 		CompletionReasoning: true,
-		CompletionStreaming:  true,
+		CompletionStreaming: true,
 		CompletionTools:     true,
 		Embedding:           true,
 		ListModels:          true,
@@ -353,5 +371,3 @@ func (c *Client) ListModels(ctx context.Context) (*ModelsResponse, error) {
 		Data:   models,
 	}, nil
 }
-
-
