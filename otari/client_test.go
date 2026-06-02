@@ -107,6 +107,90 @@ func TestNew(t *testing.T) {
 		require.False(t, client.platformMode)
 	})
 
+	t.Run("platform mode defaults to hosted base URL with explicit API key", func(t *testing.T) {
+		t.Setenv(envAPIBase, "")
+		t.Setenv(envPlatformToken, "")
+		t.Setenv(envPlatformTokenLegacy, "")
+
+		client, err := New(
+			WithAPIKey("tk_x"),
+			WithPlatformMode(),
+		)
+		require.NoError(t, err)
+		require.NotNil(t, client)
+		require.True(t, client.platformMode)
+		require.Equal(t, defaultPlatformBaseURL, client.apiBase)
+	})
+
+	t.Run("platform mode defaults to hosted base URL with OTARI_AI_TOKEN env", func(t *testing.T) {
+		t.Setenv(envAPIBase, "")
+		t.Setenv(envPlatformToken, "tk_from_env")
+		t.Setenv(envPlatformTokenLegacy, "")
+		t.Setenv(envAPIKey, "")
+
+		client, err := New()
+		require.NoError(t, err)
+		require.NotNil(t, client)
+		require.True(t, client.platformMode)
+		require.Equal(t, defaultPlatformBaseURL, client.apiBase)
+		require.Equal(t, "tk_from_env", client.platformToken)
+	})
+
+	t.Run("non-platform mode still requires base URL when none provided", func(t *testing.T) {
+		t.Setenv(envAPIBase, "")
+		t.Setenv(envPlatformToken, "")
+		t.Setenv(envPlatformTokenLegacy, "")
+		t.Setenv(envAPIKey, "")
+
+		client, err := New(WithOtariKey("gw_key"))
+		require.Nil(t, client)
+		require.Error(t, err)
+		require.Contains(t, err.Error(), "otari base URL is required")
+	})
+
+	t.Run("OTARI_AI_TOKEN takes precedence over legacy env var", func(t *testing.T) {
+		t.Setenv(envAPIBase, "")
+		t.Setenv(envPlatformToken, "tk_canonical")
+		t.Setenv(envPlatformTokenLegacy, "tk_legacy")
+		t.Setenv(envAPIKey, "")
+
+		client, err := New()
+		require.NoError(t, err)
+		require.NotNil(t, client)
+		require.True(t, client.platformMode)
+		require.Equal(t, "tk_canonical", client.platformToken)
+	})
+
+	t.Run("legacy GATEWAY_PLATFORM_TOKEN works when canonical is unset", func(t *testing.T) {
+		t.Setenv(envAPIBase, "")
+		t.Setenv(envPlatformToken, "")
+		t.Setenv(envPlatformTokenLegacy, "tk_legacy")
+		t.Setenv(envAPIKey, "")
+
+		client, err := New()
+		require.NoError(t, err)
+		require.NotNil(t, client)
+		require.True(t, client.platformMode)
+		require.Equal(t, "tk_legacy", client.platformToken)
+		require.Equal(t, defaultPlatformBaseURL, client.apiBase)
+	})
+
+	t.Run("explicit base URL overrides hosted default in platform mode", func(t *testing.T) {
+		t.Setenv(envAPIBase, "")
+		t.Setenv(envPlatformToken, "")
+		t.Setenv(envPlatformTokenLegacy, "")
+
+		client, err := New(
+			WithBaseURL("http://localhost:8000/v1"),
+			WithAPIKey("tk_x"),
+			WithPlatformMode(),
+		)
+		require.NoError(t, err)
+		require.NotNil(t, client)
+		require.True(t, client.platformMode)
+		require.Equal(t, "http://localhost:8000", client.apiBase)
+	})
+
 	t.Run("forwards custom timeout to underlying client", func(t *testing.T) {
 		t.Setenv(envAPIBase, "")
 		t.Setenv(envPlatformToken, "")
@@ -237,6 +321,7 @@ func TestPlatformModeDetection(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Setenv(envAPIBase, "http://localhost:8000/v1")
 			t.Setenv(envPlatformToken, tc.envPlatformToken)
+			t.Setenv(envPlatformTokenLegacy, "")
 			t.Setenv(envAPIKey, tc.envAPIKey)
 
 			var opts []Option
@@ -2140,6 +2225,31 @@ func (m *mockRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) 
 }
 
 // mockCompletionParams returns standard completion params for tests.
+// TestBaseURLNormalizationAddsV1 guards the normalization that lets a base
+// URL without a /v1 suffix still reach the gateway's OpenAI-compatible
+// /v1 routes. openai-go appends bare paths like "chat/completions", so the
+// SDK must give it a /v1-suffixed base.
+func TestBaseURLNormalizationAddsV1(t *testing.T) {
+	t.Setenv(envAPIBase, "")
+	t.Setenv(envPlatformToken, "")
+
+	var capturedPath string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		capturedPath = r.URL.Path
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(mockCompletionResponse("ok")))
+	}))
+	t.Cleanup(srv.Close)
+
+	// Base URL WITHOUT /v1 — the SDK must add it.
+	client, err := New(WithBaseURL(srv.URL), WithOtariKey("test-key"))
+	require.NoError(t, err)
+
+	_, err = client.Completion(context.Background(), mockCompletionParams())
+	require.NoError(t, err)
+	require.Equal(t, "/v1/chat/completions", capturedPath)
+}
+
 func mockCompletionParams() CompletionParams {
 	return CompletionParams{
 		Model:    "openai:gpt-4o-mini",

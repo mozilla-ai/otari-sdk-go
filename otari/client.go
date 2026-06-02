@@ -43,9 +43,18 @@ const (
 	// in non-platform mode when WithOtariKey is not passed to New.
 	envAPIKey = "GATEWAY_API_KEY"
 
-	// envPlatformToken is the environment variable read for the platform
-	// token used as Bearer auth in platform mode.
-	envPlatformToken = "GATEWAY_PLATFORM_TOKEN"
+	// envPlatformToken is the canonical environment variable read for the
+	// platform token used as Bearer auth in platform mode.
+	envPlatformToken = "OTARI_AI_TOKEN"
+
+	// envPlatformTokenLegacy is the legacy alias for the platform token
+	// environment variable. It is consulted only when envPlatformToken
+	// (OTARI_AI_TOKEN) is unset; the canonical name takes precedence.
+	envPlatformTokenLegacy = "GATEWAY_PLATFORM_TOKEN"
+
+	// defaultPlatformBaseURL is the hosted gateway base URL used when the
+	// client is in platform mode and no base URL is otherwise provided.
+	defaultPlatformBaseURL = "https://api.otari.ai"
 
 	// extraKeyOtariKey is the config extra key used to coordinate
 	// WithOtariKey (writer) with the resolver logic in New (reader).
@@ -102,14 +111,18 @@ type Client struct {
 
 // New creates a new otari client.
 //
-// The base URL is required and can be set via WithBaseURL() or
-// the GATEWAY_API_BASE environment variable.
+// In platform mode the base URL defaults to the hosted gateway at
+// https://api.otari.ai, so it can be omitted. It can still be overridden via
+// WithBaseURL() or the GATEWAY_API_BASE environment variable. In non-platform
+// mode a base URL is required.
 //
 // Authentication mode is determined as follows:
 //   - If WithPlatformMode() is passed, platform mode is used. The token is
-//     resolved from WithAPIKey() or GATEWAY_PLATFORM_TOKEN.
-//   - If GATEWAY_PLATFORM_TOKEN is set and no explicit API key or otari key
-//     is provided, platform mode is auto-detected.
+//     resolved from WithAPIKey(), then the OTARI_AI_TOKEN environment variable
+//     (legacy alias GATEWAY_PLATFORM_TOKEN).
+//   - If a platform token env var (OTARI_AI_TOKEN, or legacy
+//     GATEWAY_PLATFORM_TOKEN) is set and no explicit API key or otari key is
+//     provided, platform mode is auto-detected.
 //   - Otherwise, non-platform mode is used with the key from WithOtariKey()
 //     or GATEWAY_API_KEY, sent via the Otari-Key header.
 func New(opts ...Option) (*Client, error) {
@@ -139,15 +152,15 @@ func New(opts ...Option) (*Client, error) {
 			platformMode = true
 			platformToken = cfg.apiKey
 			if platformToken == "" {
-				platformToken = resolveEnv(envPlatformToken)
+				platformToken = resolvePlatformToken()
 			}
 		}
 	}
 
-	// Auto-detect: GATEWAY_PLATFORM_TOKEN set and no explicit API key or
-	// otari key configured. An otari key signals non-platform intent.
+	// Auto-detect: a platform token is set in the environment and no explicit
+	// API key or otari key configured. An otari key signals non-platform intent.
 	if !platformMode {
-		envToken := resolveEnv(envPlatformToken)
+		envToken := resolvePlatformToken()
 		if envToken != "" && cfg.apiKey == "" && otariKey == "" {
 			platformMode = true
 			platformToken = envToken
@@ -161,8 +174,13 @@ func New(opts ...Option) (*Client, error) {
 		)
 	}
 
-	// Resolve apiBase.
-	apiBase, err := cfg.resolveBaseURL(envAPIBase, "")
+	// Resolve apiBase. In platform mode, fall back to the hosted gateway URL
+	// when no base URL is provided; the non-platform path keeps requiring one.
+	defaultBaseURL := ""
+	if platformMode {
+		defaultBaseURL = defaultPlatformBaseURL
+	}
+	apiBase, err := cfg.resolveBaseURL(envAPIBase, defaultBaseURL)
 	if err != nil {
 		return nil, err
 	}
@@ -172,6 +190,16 @@ func New(opts ...Option) (*Client, error) {
 			envAPIBase,
 		)
 	}
+	apiBase = strings.TrimRight(apiBase, "/")
+
+	// Normalize to the gateway root (without a trailing /v1). Each consumer
+	// adds its own /v1: the openai-go client is given <root>/v1 as its base
+	// (it appends bare paths like "chat/completions"), while the endpoints
+	// handled directly here (batches, rerank, moderations) build "/v1/..."
+	// paths onto the root. Normalizing here means the hosted default and a
+	// self-hosted base URL both work whether or not the caller includes /v1
+	// (mirrors the TS and Python SDKs).
+	apiBase = strings.TrimSuffix(apiBase, "/v1")
 	apiBase = strings.TrimRight(apiBase, "/")
 
 	// Build OpenAI client options. User's opts are cloned and auth-specific
@@ -198,7 +226,9 @@ func New(opts ...Option) (*Client, error) {
 	sdkOpts = append(sdkOpts,
 		option.WithAPIKey(sdkAPIKey),
 		option.WithHTTPClient(httpClient),
-		option.WithBaseURL(apiBase),
+		// openai-go appends bare paths (e.g. "chat/completions"), so it needs
+		// the /v1-suffixed base; apiBase itself stays the root.
+		option.WithBaseURL(apiBase+"/v1"),
 	)
 
 	// Determine the key to use for batch API calls.
@@ -209,16 +239,13 @@ func New(opts ...Option) (*Client, error) {
 		batchAPIKey = otariKey
 	}
 
-	// rawBaseURL strips any trailing /v1 suffix so that raw HTTP endpoints
-	// (e.g. /v1/rerank) can prepend the version prefix themselves.
-	rawBaseURL := strings.TrimSuffix(apiBase, "/v1")
-	rawBaseURL = strings.TrimSuffix(rawBaseURL, "/v1/")
-
 	return &Client{
-		openaiClient:  openai.NewClient(sdkOpts...),
-		apiBase:       apiBase,
-		apiKey:        batchAPIKey,
-		baseURL:       rawBaseURL,
+		openaiClient: openai.NewClient(sdkOpts...),
+		apiBase:      apiBase,
+		apiKey:       batchAPIKey,
+		// apiBase is already the gateway root; raw HTTP endpoints prepend
+		// their own /v1/... path onto it.
+		baseURL:       apiBase,
 		httpClient:    httpClient,
 		platformMode:  platformMode,
 		platformToken: platformToken,
@@ -241,7 +268,7 @@ func (c *Client) Capabilities() Capabilities {
 		CompletionImage:     true,
 		CompletionPDF:       true,
 		CompletionReasoning: true,
-		CompletionStreaming:  true,
+		CompletionStreaming: true,
 		CompletionTools:     true,
 		Embedding:           true,
 		ListModels:          true,
@@ -353,5 +380,3 @@ func (c *Client) ListModels(ctx context.Context) (*ModelsResponse, error) {
 		Data:   models,
 	}, nil
 }
-
-

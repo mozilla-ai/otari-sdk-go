@@ -114,8 +114,9 @@ func WithOtariKey(key string) Option {
 }
 
 // WithPlatformMode explicitly enables platform mode authentication.
-// In platform mode, the token (from WithAPIKey or GATEWAY_PLATFORM_TOKEN)
-// is used as standard Bearer authentication.
+// In platform mode, the token (from WithAPIKey, the OTARI_AI_TOKEN env var,
+// or the legacy GATEWAY_PLATFORM_TOKEN alias) is used as standard Bearer
+// authentication, and the base URL defaults to the hosted gateway.
 func WithPlatformMode() Option {
 	return withExtra(extraKeyPlatformMode, true)
 }
@@ -162,6 +163,16 @@ func resolveEnv(envVar string) string {
 		return ""
 	}
 	return strings.TrimSpace(os.Getenv(envVar))
+}
+
+// resolvePlatformToken resolves the platform token from the environment,
+// preferring the canonical OTARI_AI_TOKEN and falling back to the legacy
+// GATEWAY_PLATFORM_TOKEN alias. Returns empty string if neither is set.
+func resolvePlatformToken() string {
+	if token := resolveEnv(envPlatformToken); token != "" {
+		return token
+	}
+	return resolveEnv(envPlatformTokenLegacy)
 }
 
 // resolveBaseURL resolves the base URL from config, environment variable, or default value.
