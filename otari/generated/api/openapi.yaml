@@ -1,0 +1,1418 @@
+openapi: 3.1.0
+info:
+  description: A clean FastAPI gateway for otari with API key management
+  title: otari-gateway
+  version: 0.0.0-dev
+servers:
+- url: /
+paths:
+  /v1/budgets:
+    get:
+      description: List all budgets with pagination.
+      operationId: list_budgets_v1_budgets_get
+      parameters:
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/BudgetResponse"
+                title: Response List Budgets V1 Budgets Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Budgets
+      tags:
+      - budgets
+    post:
+      description: Create a new budget.
+      operationId: create_budget_v1_budgets_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBudgetRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BudgetResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Budget
+      tags:
+      - budgets
+  /v1/budgets/{budget_id}:
+    delete:
+      description: Delete a budget.
+      operationId: delete_budget_v1_budgets__budget_id__delete
+      parameters:
+      - explode: false
+        in: path
+        name: budget_id
+        required: true
+        schema:
+          title: Budget Id
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Delete Budget
+      tags:
+      - budgets
+    get:
+      description: Get details of a specific budget.
+      operationId: get_budget_v1_budgets__budget_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: budget_id
+        required: true
+        schema:
+          title: Budget Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BudgetResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get Budget
+      tags:
+      - budgets
+    patch:
+      description: Update a budget.
+      operationId: update_budget_v1_budgets__budget_id__patch
+      parameters:
+      - explode: false
+        in: path
+        name: budget_id
+        required: true
+        schema:
+          title: Budget Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBudgetRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BudgetResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Update Budget
+      tags:
+      - budgets
+  /v1/keys:
+    get:
+      description: |-
+        List all API keys.
+
+        Requires master key authentication.
+      operationId: list_keys_v1_keys_get
+      parameters:
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/KeyInfo"
+                title: Response List Keys V1 Keys Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Keys
+      tags:
+      - keys
+    post:
+      description: |-
+        Create a new API key.
+
+        Requires master key authentication.
+
+        If user_id is provided, the key will be associated with that user (creates user if it doesn't exist).
+        If user_id is not provided, a new user will be created automatically and the key will be associated with it.
+      operationId: create_key_v1_keys_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateKeyRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateKeyResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Key
+      tags:
+      - keys
+  /v1/keys/{key_id}:
+    delete:
+      description: |-
+        Delete (revoke) an API key.
+
+        Requires master key authentication.
+      operationId: delete_key_v1_keys__key_id__delete
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          title: Key Id
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Delete Key
+      tags:
+      - keys
+    get:
+      description: |-
+        Get details of a specific API key.
+
+        Requires master key authentication.
+      operationId: get_key_v1_keys__key_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          title: Key Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyInfo"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get Key
+      tags:
+      - keys
+    patch:
+      description: |-
+        Update an API key.
+
+        Requires master key authentication.
+      operationId: update_key_v1_keys__key_id__patch
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          title: Key Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateKeyRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyInfo"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Update Key
+      tags:
+      - keys
+  /v1/pricing:
+    get:
+      description: List all model pricing.
+      operationId: list_pricing_v1_pricing_get
+      parameters:
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/PricingResponse"
+                title: Response List Pricing V1 Pricing Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Pricing
+      tags:
+      - pricing
+    post:
+      description: Set or update pricing for a model.
+      operationId: set_pricing_v1_pricing_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetPricingRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PricingResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Set Pricing
+      tags:
+      - pricing
+  /v1/pricing/{model_key}:
+    delete:
+      description: Delete pricing entries for a model.
+      operationId: delete_pricing_v1_pricing__model_key__delete
+      parameters:
+      - explode: false
+        in: path
+        name: model_key
+        required: true
+        schema:
+          title: Model Key
+          type: string
+        style: simple
+      - description: ISO datetime identifying a specific pricing row to delete
+        explode: true
+        in: query
+        name: effective_at
+        required: false
+        schema:
+          description: ISO datetime for effective lookup
+          format: date-time
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "204":
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Delete Pricing
+      tags:
+      - pricing
+    get:
+      description: Get pricing for a specific model as of a timestamp.
+      operationId: get_pricing_v1_pricing__model_key__get
+      parameters:
+      - explode: false
+        in: path
+        name: model_key
+        required: true
+        schema:
+          title: Model Key
+          type: string
+        style: simple
+      - description: ISO datetime for effective lookup
+        explode: true
+        in: query
+        name: as_of
+        required: false
+        schema:
+          description: ISO datetime for effective lookup
+          format: date-time
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PricingResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get Pricing
+      tags:
+      - pricing
+  /v1/pricing/{model_key}/history:
+    get:
+      description: Return the full pricing history for a model.
+      operationId: get_pricing_history_v1_pricing__model_key__history_get
+      parameters:
+      - explode: false
+        in: path
+        name: model_key
+        required: true
+        schema:
+          title: Model Key
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/PricingResponse"
+                title: Response Get Pricing History V1 Pricing  Model Key  History
+                  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get Pricing History
+      tags:
+      - pricing
+  /v1/usage:
+    get:
+      description: |-
+        List usage logs ordered by timestamp (most recent first).
+
+        Supports optional filters for time range and user. Paginated via skip/limit.
+        Timestamps accept either ISO 8601 strings or Unix epoch seconds (numeric).
+      operationId: list_usage_v1_usage_get
+      parameters:
+      - description: Return logs with timestamp >= start_date (ISO 8601 or Unix epoch
+          seconds)
+        explode: true
+        in: query
+        name: start_date
+        required: false
+        schema:
+          description: ISO datetime for effective lookup
+          format: date-time
+          nullable: true
+          type: string
+        style: form
+      - description: Return logs with timestamp < end_date (ISO 8601 or Unix epoch
+          seconds)
+        explode: true
+        in: query
+        name: end_date
+        required: false
+        schema:
+          description: ISO datetime for effective lookup
+          format: date-time
+          nullable: true
+          type: string
+        style: form
+      - description: Filter to a single user
+        explode: true
+        in: query
+        name: user_id
+        required: false
+        schema:
+          description: Filter to a single user
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/UsageEntry"
+                title: Response List Usage V1 Usage Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Usage
+      tags:
+      - usage
+  /v1/users:
+    get:
+      description: List all users with pagination.
+      operationId: list_users_v1_users_get
+      parameters:
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/UserResponse"
+                title: Response List Users V1 Users Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Users
+      tags:
+      - users
+    post:
+      description: Create a new user.
+      operationId: create_user_v1_users_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create User
+      tags:
+      - users
+  /v1/users/{user_id}:
+    delete:
+      description: Delete a user.
+      operationId: delete_user_v1_users__user_id__delete
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          title: User Id
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Delete User
+      tags:
+      - users
+    get:
+      description: Get details of a specific user.
+      operationId: get_user_v1_users__user_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          title: User Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get User
+      tags:
+      - users
+    patch:
+      description: Update a user.
+      operationId: update_user_v1_users__user_id__patch
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          title: User Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Update User
+      tags:
+      - users
+  /v1/users/{user_id}/usage:
+    get:
+      description: Get usage history for a specific user.
+      operationId: get_user_usage_v1_users__user_id__usage_get
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          title: User Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/UsageLogResponse"
+                title: Response Get User Usage V1 Users  User Id  Usage Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get User Usage
+      tags:
+      - users
+components:
+  schemas:
+    BudgetResponse:
+      description: Response model for budget information.
+      example:
+        updated_at: updated_at
+        budget_id: budget_id
+        budget_duration_sec: 0
+        created_at: created_at
+        max_budget: 6.027456183070403
+      properties:
+        budget_duration_sec:
+          nullable: true
+          type: integer
+        budget_id:
+          title: Budget Id
+          type: string
+        created_at:
+          title: Created At
+          type: string
+        max_budget:
+          nullable: true
+          type: number
+        updated_at:
+          title: Updated At
+          type: string
+      required:
+      - budget_duration_sec
+      - budget_id
+      - created_at
+      - max_budget
+      - updated_at
+      title: BudgetResponse
+    CreateBudgetRequest:
+      description: Request model for creating a new budget.
+      example:
+        budget_duration_sec: 0
+        max_budget: 0.6027456183070403
+      properties:
+        budget_duration_sec:
+          description: "Budget duration in seconds (e.g., 86400 for daily, 604800\
+            \ for weekly)"
+          exclusiveMinimum: true
+          minimum: 0.0
+          nullable: true
+          type: integer
+        max_budget:
+          description: Maximum spending limit
+          minimum: 0.0
+          nullable: true
+          type: number
+      title: CreateBudgetRequest
+    CreateKeyRequest:
+      description: Request model for creating a new API key.
+      example:
+        key_name: key_name
+        metadata:
+          key: ""
+        expires_at: 2000-01-23T04:56:07.000+00:00
+        user_id: user_id
+      properties:
+        expires_at:
+          description: Optional expiration timestamp
+          format: date-time
+          nullable: true
+          type: string
+        key_name:
+          description: Optional name for the key
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          description: Optional metadata
+          title: Metadata
+          type: object
+        user_id:
+          description: Optional user ID to associate with this key
+          nullable: true
+          type: string
+      title: CreateKeyRequest
+    CreateKeyResponse:
+      description: Response model for creating a new API key.
+      example:
+        key_name: key_name
+        metadata:
+          key: ""
+        expires_at: expires_at
+        is_active: true
+        user_id: user_id
+        created_at: created_at
+        id: id
+        key: key
+      properties:
+        created_at:
+          title: Created At
+          type: string
+        expires_at:
+          nullable: true
+          type: string
+        id:
+          title: Id
+          type: string
+        is_active:
+          title: Is Active
+          type: boolean
+        key:
+          title: Key
+          type: string
+        key_name:
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          title: Metadata
+          type: object
+        user_id:
+          nullable: true
+          type: string
+      required:
+      - created_at
+      - expires_at
+      - id
+      - is_active
+      - key
+      - key_name
+      - metadata
+      - user_id
+      title: CreateKeyResponse
+    CreateUserRequest:
+      description: Request model for creating a new user.
+      example:
+        metadata:
+          key: ""
+        blocked: false
+        user_id: user_id
+        budget_id: budget_id
+        alias: alias
+      properties:
+        alias:
+          description: Optional admin-facing alias
+          nullable: true
+          type: string
+        blocked:
+          default: false
+          description: Whether user is blocked
+          title: Blocked
+          type: boolean
+        budget_id:
+          description: Optional budget ID
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          description: Optional metadata
+          title: Metadata
+          type: object
+        user_id:
+          description: Unique user identifier
+          title: User Id
+          type: string
+      required:
+      - user_id
+      title: CreateUserRequest
+    HTTPValidationError:
+      example:
+        detail:
+        - msg: msg
+          input: ""
+          loc:
+          - Location_inner
+          - Location_inner
+          ctx: "{}"
+          type: type
+        - msg: msg
+          input: ""
+          loc:
+          - Location_inner
+          - Location_inner
+          ctx: "{}"
+          type: type
+      properties:
+        detail:
+          items:
+            $ref: "#/components/schemas/ValidationError"
+          title: Detail
+          type: array
+      title: HTTPValidationError
+    KeyInfo:
+      description: Response model for key information.
+      example:
+        key_name: key_name
+        last_used_at: last_used_at
+        metadata:
+          key: ""
+        expires_at: expires_at
+        is_active: true
+        user_id: user_id
+        created_at: created_at
+        id: id
+      properties:
+        created_at:
+          title: Created At
+          type: string
+        expires_at:
+          nullable: true
+          type: string
+        id:
+          title: Id
+          type: string
+        is_active:
+          title: Is Active
+          type: boolean
+        key_name:
+          nullable: true
+          type: string
+        last_used_at:
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          title: Metadata
+          type: object
+        user_id:
+          nullable: true
+          type: string
+      required:
+      - created_at
+      - expires_at
+      - id
+      - is_active
+      - key_name
+      - last_used_at
+      - metadata
+      - user_id
+      title: KeyInfo
+    PricingResponse:
+      description: Response model for model pricing.
+      example:
+        effective_at: effective_at
+        model_key: model_key
+        updated_at: updated_at
+        input_price_per_million: 0.8008281904610115
+        created_at: created_at
+        output_price_per_million: 6.027456183070403
+      properties:
+        created_at:
+          title: Created At
+          type: string
+        effective_at:
+          title: Effective At
+          type: string
+        input_price_per_million:
+          title: Input Price Per Million
+          type: number
+        model_key:
+          title: Model Key
+          type: string
+        output_price_per_million:
+          title: Output Price Per Million
+          type: number
+        updated_at:
+          title: Updated At
+          type: string
+      required:
+      - created_at
+      - effective_at
+      - input_price_per_million
+      - model_key
+      - output_price_per_million
+      - updated_at
+      title: PricingResponse
+    SetPricingRequest:
+      description: Request model for setting model pricing.
+      example:
+        effective_at: 2000-01-23T04:56:07.000+00:00
+        model_key: model_key
+        input_price_per_million: 0.08008281904610115
+        output_price_per_million: 0.6027456183070403
+      properties:
+        effective_at:
+          description: ISO 8601 datetime from which this price applies. Defaults to
+            now if omitted.
+          format: date-time
+          nullable: true
+          type: string
+        input_price_per_million:
+          description: Price per 1M input tokens
+          minimum: 0.0
+          title: Input Price Per Million
+          type: number
+        model_key:
+          description: Model identifier in format 'provider:model'
+          title: Model Key
+          type: string
+        output_price_per_million:
+          description: Price per 1M output tokens
+          minimum: 0.0
+          title: Output Price Per Million
+          type: number
+      required:
+      - input_price_per_million
+      - model_key
+      - output_price_per_million
+      title: SetPricingRequest
+    UpdateBudgetRequest:
+      description: Request model for updating a budget.
+      example:
+        budget_duration_sec: 0
+        max_budget: 0.6027456183070403
+      properties:
+        budget_duration_sec:
+          exclusiveMinimum: true
+          minimum: 0.0
+          nullable: true
+          type: integer
+        max_budget:
+          minimum: 0.0
+          nullable: true
+          type: number
+      title: UpdateBudgetRequest
+    UpdateKeyRequest:
+      description: Request model for updating a key.
+      example:
+        key_name: key_name
+        metadata:
+          key: ""
+        expires_at: 2000-01-23T04:56:07.000+00:00
+        is_active: true
+      properties:
+        expires_at:
+          format: date-time
+          nullable: true
+          type: string
+        is_active:
+          nullable: true
+          type: boolean
+        key_name:
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          nullable: true
+          type: object
+      title: UpdateKeyRequest
+    UpdateUserRequest:
+      description: Request model for updating a user.
+      example:
+        metadata:
+          key: ""
+        blocked: true
+        budget_id: budget_id
+        alias: alias
+      properties:
+        alias:
+          nullable: true
+          type: string
+        blocked:
+          nullable: true
+          type: boolean
+        budget_id:
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          nullable: true
+          type: object
+      title: UpdateUserRequest
+    UsageEntry:
+      description: A single usage log entry.
+      example:
+        error_message: error_message
+        completion_tokens: 0
+        cost: 6.027456183070403
+        api_key_id: api_key_id
+        endpoint: endpoint
+        prompt_tokens: 1
+        provider: provider
+        user_id: user_id
+        total_tokens: 5
+        model: model
+        id: id
+        status: status
+        timestamp: timestamp
+      properties:
+        api_key_id:
+          nullable: true
+          type: string
+        completion_tokens:
+          nullable: true
+          type: integer
+        cost:
+          nullable: true
+          type: number
+        endpoint:
+          title: Endpoint
+          type: string
+        error_message:
+          nullable: true
+          type: string
+        id:
+          title: Id
+          type: string
+        model:
+          title: Model
+          type: string
+        prompt_tokens:
+          nullable: true
+          type: integer
+        provider:
+          nullable: true
+          type: string
+        status:
+          title: Status
+          type: string
+        timestamp:
+          title: Timestamp
+          type: string
+        total_tokens:
+          nullable: true
+          type: integer
+        user_id:
+          nullable: true
+          type: string
+      required:
+      - api_key_id
+      - completion_tokens
+      - cost
+      - endpoint
+      - error_message
+      - id
+      - model
+      - prompt_tokens
+      - provider
+      - status
+      - timestamp
+      - total_tokens
+      - user_id
+      title: UsageEntry
+    UsageLogResponse:
+      description: Response model for usage log.
+      example:
+        error_message: error_message
+        completion_tokens: 0
+        cost: 6.027456183070403
+        api_key_id: api_key_id
+        endpoint: endpoint
+        prompt_tokens: 1
+        provider: provider
+        user_id: user_id
+        total_tokens: 5
+        model: model
+        id: id
+        status: status
+        timestamp: timestamp
+      properties:
+        api_key_id:
+          nullable: true
+          type: string
+        completion_tokens:
+          nullable: true
+          type: integer
+        cost:
+          nullable: true
+          type: number
+        endpoint:
+          title: Endpoint
+          type: string
+        error_message:
+          nullable: true
+          type: string
+        id:
+          title: Id
+          type: string
+        model:
+          title: Model
+          type: string
+        prompt_tokens:
+          nullable: true
+          type: integer
+        provider:
+          nullable: true
+          type: string
+        status:
+          title: Status
+          type: string
+        timestamp:
+          title: Timestamp
+          type: string
+        total_tokens:
+          nullable: true
+          type: integer
+        user_id:
+          nullable: true
+          type: string
+      required:
+      - api_key_id
+      - completion_tokens
+      - cost
+      - endpoint
+      - error_message
+      - id
+      - model
+      - prompt_tokens
+      - provider
+      - status
+      - timestamp
+      - total_tokens
+      - user_id
+      title: UsageLogResponse
+    UserResponse:
+      description: Response model for user information.
+      example:
+        budget_started_at: budget_started_at
+        metadata:
+          key: ""
+        blocked: true
+        updated_at: updated_at
+        reserved: 0.8008281904610115
+        user_id: user_id
+        budget_id: budget_id
+        next_budget_reset_at: next_budget_reset_at
+        spend: 6.027456183070403
+        alias: alias
+        created_at: created_at
+      properties:
+        alias:
+          nullable: true
+          type: string
+        blocked:
+          title: Blocked
+          type: boolean
+        budget_id:
+          nullable: true
+          type: string
+        budget_started_at:
+          nullable: true
+          type: string
+        created_at:
+          title: Created At
+          type: string
+        metadata:
+          additionalProperties: true
+          title: Metadata
+          type: object
+        next_budget_reset_at:
+          nullable: true
+          type: string
+        reserved:
+          title: Reserved
+          type: number
+        spend:
+          title: Spend
+          type: number
+        updated_at:
+          title: Updated At
+          type: string
+        user_id:
+          title: User Id
+          type: string
+      required:
+      - alias
+      - blocked
+      - budget_id
+      - budget_started_at
+      - created_at
+      - metadata
+      - next_budget_reset_at
+      - reserved
+      - spend
+      - updated_at
+      - user_id
+      title: UserResponse
+    ValidationError:
+      example:
+        msg: msg
+        input: ""
+        loc:
+        - Location_inner
+        - Location_inner
+        ctx: "{}"
+        type: type
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            $ref: "#/components/schemas/Location_inner"
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Location_inner:
+      anyOf:
+      - type: string
+      - type: integer
