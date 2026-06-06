@@ -21,9 +21,10 @@ jobs:
           go-version: '1.25'
 
       - name: gofmt
-        # The generated client (otari/generated) is not held to gofmt.
+        # The generated client (otari/client) is gofmt'd as part of codegen
+        # postprocess, so the whole tree is held to gofmt.
         run: |
-          unformatted=$(gofmt -l $(git ls-files '*.go' | grep -v '^otari/generated/'))
+          unformatted=$(gofmt -l .)
           if [ -n "$unformatted" ]; then echo "unformatted files:"; echo "$unformatted"; exit 1; fi
 
       - name: go vet

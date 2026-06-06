@@ -1,8 +1,13 @@
 package otari
 
 import (
+	"encoding/json"
 	stderrors "errors"
 	"fmt"
+	"net/http"
+	"regexp"
+	"strconv"
+	"strings"
 )
 
 // Error codes used in OtariError.Code field.
@@ -281,4 +286,117 @@ func newUnsupportedCapabilityError(provider, operation string, err error) *Unsup
 		OtariError: newOtariError(codeUnsupported, provider, err, ErrUnsupported),
 		Operation:  operation,
 	}
+}
+
+// --- Unified HTTP error mapping -------------------------------------------
+//
+// Mirrors the Python reference's _map_api_exception status -> error table.
+// Both the generated-client call path and the hand-written SSE streaming shim
+// feed (status, header, body) here so there is a single mapping in both auth
+// modes.
+
+// unsupportedModerationRe matches the locked gateway phrasing that signals the
+// selected provider does not support a moderation request.
+var unsupportedModerationRe = regexp.MustCompile(`does not support (?:multimodal )?moderation`)
+
+// errorDetail extracts the gateway's human-readable detail from a response
+// body. The gateway encodes it under the FastAPI "detail" key; some upstream
+// errors use "message"/"error". Falls back to the raw body, then a default.
+func errorDetail(body []byte) string {
+	if len(body) > 0 {
+		var parsed map[string]json.RawMessage
+		if err := json.Unmarshal(body, &parsed); err == nil {
+			for _, key := range []string{"detail", "message", "error"} {
+				if raw, ok := parsed[key]; ok {
+					var s string
+					if json.Unmarshal(raw, &s) == nil && s != "" {
+						return s
+					}
+					// Non-string detail (e.g. a validation list): return as-is.
+					trimmed := strings.TrimSpace(string(raw))
+					if trimmed != "" && trimmed != "null" {
+						return trimmed
+					}
+				}
+			}
+		}
+		if s := strings.TrimSpace(string(body)); s != "" {
+			return s
+		}
+	}
+	return "an error occurred"
+}
+
+// mapHTTPError maps a non-2xx HTTP response (status + headers + body) to a
+// typed otari error, matching the Python reference's mapping table. batchID is
+// used to enrich 409 batch errors; pass "" when not applicable.
+func mapHTTPError(status int, header http.Header, body []byte, batchID string) error {
+	detail := errorDetail(body)
+	correlationID := header.Get("X-Correlation-Id")
+	full := detail
+	if correlationID != "" {
+		full = fmt.Sprintf("%s (correlation_id=%s)", detail, correlationID)
+	}
+
+	// Unsupported-capability is surfaced regardless of auth mode.
+	if status == http.StatusBadRequest && unsupportedModerationRe.MatchString(detail) {
+		provider := parseUnsupportedProvider(detail)
+		operation := "moderation"
+		if strings.Contains(detail, "multimodal") {
+			operation = "multimodal_moderation"
+		}
+		return newUnsupportedCapabilityError(provider, operation, stderrors.New(full))
+	}
+
+	switch status {
+	case http.StatusUnauthorized, http.StatusForbidden:
+		return newAuthenticationError(providerName, stderrors.New(full))
+	case http.StatusPaymentRequired:
+		return newInsufficientFundsError(providerName, stderrors.New(full))
+	case http.StatusNotFound:
+		return newModelNotFoundError(providerName, stderrors.New(full))
+	case http.StatusConflict:
+		return newBatchNotCompleteError(batchID, batchStatusFromBody(body, detail), stderrors.New(full))
+	case http.StatusTooManyRequests:
+		err := newRateLimitError(providerName, stderrors.New(full))
+		if ra := header.Get("Retry-After"); ra != "" {
+			if secs, perr := strconv.Atoi(strings.TrimSpace(ra)); perr == nil {
+				err.RetryAfter = secs
+			}
+		}
+		return err
+	case http.StatusGatewayTimeout:
+		return &TimeoutError{
+			OtariError: newOtariError(codeTimeout, providerName, stderrors.New(full), ErrTimeout),
+		}
+	}
+
+	// 502 and any other 5xx are upstream-provider failures.
+	if status == http.StatusBadGateway || (status >= 500 && status < 600) {
+		return &UpstreamProviderError{
+			OtariError: newOtariError(codeUpstreamProvider, providerName, stderrors.New(full), ErrUpstreamProvider),
+		}
+	}
+
+	return newProviderError(providerName, stderrors.New(full))
+}
+
+// batchStatusFromBody resolves the batch status for a 409 response. It prefers
+// a structured "status" field in the JSON body and otherwise falls back to the
+// "... status: <word>" phrasing in the detail message (matching the Python
+// reference's regex extraction).
+func batchStatusFromBody(body []byte, detail string) string {
+	if len(body) > 0 {
+		var parsed struct {
+			Status string `json:"status"`
+		}
+		if json.Unmarshal(body, &parsed) == nil && parsed.Status != "" {
+			return parsed.Status
+		}
+	}
+	m := regexp.MustCompile(`status: (\w+)`).FindStringSubmatch(detail)
+	if len(m) == 2 {
+		return m[1]
+	}
+	return ""
 }

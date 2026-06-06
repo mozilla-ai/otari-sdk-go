@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/mozilla-ai/otari-sdk-go/otari"
-	generated "github.com/mozilla-ai/otari-sdk-go/otari/generated"
+	generated "github.com/mozilla-ai/otari-sdk-go/otari/client"
 )
 
 // Integration tests for the control-plane surface against a live gateway.

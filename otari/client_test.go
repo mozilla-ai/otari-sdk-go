@@ -359,21 +359,21 @@ func TestExtraValueHandling(t *testing.T) {
 			extraKey:          extraKeyOtariKey,
 			extraValue:        "valid_key",
 			wantAPIKeyHeader:  bearerPrefix + "valid_key",
-			wantAuthorization: bearerPrefix + placeholderAPIKey,
+			wantAuthorization: "",
 		},
 		{
 			name:              "int otari_key is silently ignored",
 			extraKey:          extraKeyOtariKey,
 			extraValue:        123,
 			wantAPIKeyHeader:  "",
-			wantAuthorization: bearerPrefix + placeholderAPIKey,
+			wantAuthorization: "",
 		},
 		{
 			name:              "empty-string otari_key is treated as unset",
 			extraKey:          extraKeyOtariKey,
 			extraValue:        "",
 			wantAPIKeyHeader:  "",
-			wantAuthorization: bearerPrefix + placeholderAPIKey,
+			wantAuthorization: "",
 		},
 		{
 			name:              "empty-string otari_key falls through to GATEWAY_API_KEY env var",
@@ -381,7 +381,7 @@ func TestExtraValueHandling(t *testing.T) {
 			extraValue:        "",
 			envAPIKey:         "env_fallback_key",
 			wantAPIKeyHeader:  bearerPrefix + "env_fallback_key",
-			wantAuthorization: bearerPrefix + placeholderAPIKey,
+			wantAuthorization: "",
 		},
 		{
 			name:              "bool platform_mode enables platform-mode Bearer auth",
@@ -399,7 +399,7 @@ func TestExtraValueHandling(t *testing.T) {
 			apiKey:            "platform_token",
 			otariKey:          "gw_key",
 			wantAPIKeyHeader:  bearerPrefix + "gw_key",
-			wantAuthorization: bearerPrefix + placeholderAPIKey,
+			wantAuthorization: "",
 		},
 	}
 
@@ -1371,8 +1371,9 @@ func TestBatchError404(t *testing.T) {
 
 	_, err = client.RetrieveBatch(context.Background(), "batch_abc123", "openai")
 	require.Error(t, err)
-	require.True(t, stderrors.Is(err, ErrProvider))
-	require.Contains(t, err.Error(), "upgrade your")
+	// Unified mapper (matching the Python reference) maps 404 -> model-not-found
+	// uniformly across endpoints.
+	require.True(t, stderrors.Is(err, ErrModelNotFound))
 }
 
 func TestBatchError401(t *testing.T) {
@@ -1446,8 +1447,8 @@ func TestBatchError502(t *testing.T) {
 
 	_, err = client.RetrieveBatch(context.Background(), "batch_abc123", "openai")
 	require.Error(t, err)
-	require.True(t, stderrors.Is(err, ErrProvider))
-	require.Contains(t, err.Error(), "upstream provider error")
+	// Unified mapper maps 502 -> upstream-provider uniformly.
+	require.True(t, stderrors.Is(err, ErrUpstreamProvider))
 }
 
 func TestBatchError429(t *testing.T) {
@@ -1473,7 +1474,7 @@ func TestBatchError429(t *testing.T) {
 
 // --- Helper function tests ---
 
-func TestCompletionHTTPError409IsNotBatchError(t *testing.T) {
+func TestCompletionHTTPError409MapsUniformly(t *testing.T) {
 	t.Parallel()
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
@@ -1492,9 +1493,10 @@ func TestCompletionHTTPError409IsNotBatchError(t *testing.T) {
 	})
 	require.Error(t, err)
 
-	// 409 on a completion endpoint should NOT produce a BatchNotCompleteError.
-	require.False(t, stderrors.Is(err, ErrBatchNotComplete),
-		"completion 409 should not map to ErrBatchNotComplete, got %v", err)
+	// The unified mapper (mirroring the Python reference) maps 409 -> batch-not-
+	// complete uniformly across endpoints; there is no per-endpoint special case.
+	require.True(t, stderrors.Is(err, ErrBatchNotComplete),
+		"409 should map to ErrBatchNotComplete via the unified mapper, got %v", err)
 }
 
 func TestCompletionHTTPError404IsModelNotFound(t *testing.T) {
@@ -1625,12 +1627,13 @@ func TestRerankError(t *testing.T) {
 			},
 		},
 		{
-			name:       "500 → ProviderError",
+			// Unified mapper treats any 5xx (including 500) as upstream-provider.
+			name:       "500 → UpstreamProviderError",
 			statusCode: http.StatusInternalServerError,
 			body:       `{"detail": "Internal server error"}`,
 			checkErr: func(t *testing.T, err error) {
 				t.Helper()
-				require.ErrorIs(t, err, ErrProvider)
+				require.ErrorIs(t, err, ErrUpstreamProvider)
 			},
 		},
 		{
