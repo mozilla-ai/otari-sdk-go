@@ -36,3 +36,9 @@ jobs:
       - name: test
         # Integration tests skip automatically when no gateway is on PATH.
         run: go test ./...
+
+      - name: endpoint-coverage drift gate
+        # Fetches the canonical gateway OpenAPI spec and fails if it exposes an
+        # endpoint absent from sdk-endpoints.txt ([covered] or [excluded]).
+        # Network is available in CI, so this must not skip here.
+        run: go test ./otari/ -run 'TestManifestParses|TestSpecEndpointsAreAccountedFor|TestManifestHasNoStaleEntries' -v
