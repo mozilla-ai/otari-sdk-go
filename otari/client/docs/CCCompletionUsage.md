@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **CompletionTokens** | **int32** |  | 
 **PromptTokens** | **int32** |  | 
 **TotalTokens** | **int32** |  | 
-**CompletionTokensDetails** | Pointer to [**NullableCCCompletionTokensDetails**](CCCompletionTokensDetails.md) |  | [optional] 
+**CompletionTokensDetails** | Pointer to [**NullableCCKCompletionTokensDetails**](CCKCompletionTokensDetails.md) |  | [optional] 
 **PromptTokensDetails** | Pointer to [**NullableCCPromptTokensDetails**](CCPromptTokensDetails.md) |  | [optional] 
 
 ## Methods
@@ -91,20 +91,20 @@ SetTotalTokens sets TotalTokens field to given value.
 
 ### GetCompletionTokensDetails
 
-`func (o *CCCompletionUsage) GetCompletionTokensDetails() CCCompletionTokensDetails`
+`func (o *CCCompletionUsage) GetCompletionTokensDetails() CCKCompletionTokensDetails`
 
 GetCompletionTokensDetails returns the CompletionTokensDetails field if non-nil, zero value otherwise.
 
 ### GetCompletionTokensDetailsOk
 
-`func (o *CCCompletionUsage) GetCompletionTokensDetailsOk() (*CCCompletionTokensDetails, bool)`
+`func (o *CCCompletionUsage) GetCompletionTokensDetailsOk() (*CCKCompletionTokensDetails, bool)`
 
 GetCompletionTokensDetailsOk returns a tuple with the CompletionTokensDetails field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCompletionTokensDetails
 
-`func (o *CCCompletionUsage) SetCompletionTokensDetails(v CCCompletionTokensDetails)`
+`func (o *CCCompletionUsage) SetCompletionTokensDetails(v CCKCompletionTokensDetails)`
 
 SetCompletionTokensDetails sets CompletionTokensDetails field to given value.
 

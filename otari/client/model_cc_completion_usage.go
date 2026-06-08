@@ -20,11 +20,11 @@ var _ MappedNullable = &CCCompletionUsage{}
 
 // CCCompletionUsage Usage statistics for the completion request.
 type CCCompletionUsage struct {
-	CompletionTokens        int32                             `json:"completion_tokens"`
-	PromptTokens            int32                             `json:"prompt_tokens"`
-	TotalTokens             int32                             `json:"total_tokens"`
-	CompletionTokensDetails NullableCCCompletionTokensDetails `json:"completion_tokens_details,omitempty"`
-	PromptTokensDetails     NullableCCPromptTokensDetails     `json:"prompt_tokens_details,omitempty"`
+	CompletionTokens        int32                              `json:"completion_tokens"`
+	PromptTokens            int32                              `json:"prompt_tokens"`
+	TotalTokens             int32                              `json:"total_tokens"`
+	CompletionTokensDetails NullableCCKCompletionTokensDetails `json:"completion_tokens_details,omitempty"`
+	PromptTokensDetails     NullableCCPromptTokensDetails      `json:"prompt_tokens_details,omitempty"`
 	AdditionalProperties    map[string]interface{}
 }
 
@@ -123,9 +123,9 @@ func (o *CCCompletionUsage) SetTotalTokens(v int32) {
 }
 
 // GetCompletionTokensDetails returns the CompletionTokensDetails field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *CCCompletionUsage) GetCompletionTokensDetails() CCCompletionTokensDetails {
+func (o *CCCompletionUsage) GetCompletionTokensDetails() CCKCompletionTokensDetails {
 	if o == nil || IsNil(o.CompletionTokensDetails.Get()) {
-		var ret CCCompletionTokensDetails
+		var ret CCKCompletionTokensDetails
 		return ret
 	}
 	return *o.CompletionTokensDetails.Get()
@@ -134,7 +134,7 @@ func (o *CCCompletionUsage) GetCompletionTokensDetails() CCCompletionTokensDetai
 // GetCompletionTokensDetailsOk returns a tuple with the CompletionTokensDetails field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *CCCompletionUsage) GetCompletionTokensDetailsOk() (*CCCompletionTokensDetails, bool) {
+func (o *CCCompletionUsage) GetCompletionTokensDetailsOk() (*CCKCompletionTokensDetails, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -150,8 +150,8 @@ func (o *CCCompletionUsage) HasCompletionTokensDetails() bool {
 	return false
 }
 
-// SetCompletionTokensDetails gets a reference to the given NullableCCCompletionTokensDetails and assigns it to the CompletionTokensDetails field.
-func (o *CCCompletionUsage) SetCompletionTokensDetails(v CCCompletionTokensDetails) {
+// SetCompletionTokensDetails gets a reference to the given NullableCCKCompletionTokensDetails and assigns it to the CompletionTokensDetails field.
+func (o *CCCompletionUsage) SetCompletionTokensDetails(v CCKCompletionTokensDetails) {
 	o.CompletionTokensDetails.Set(&v)
 }
 

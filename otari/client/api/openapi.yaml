@@ -379,6 +379,7 @@ paths:
                   $ref: "#/components/schemas/BudgetResponse"
                 title: Response List Budgets V1 Budgets Get
                 type: array
+                default: null
           description: Successful Response
         "422":
           content:
@@ -637,6 +638,7 @@ paths:
                   $ref: "#/components/schemas/KeyInfo"
                 title: Response List Keys V1 Keys Get
                 type: array
+                default: null
           description: Successful Response
         "422":
           content:
@@ -951,6 +953,7 @@ paths:
                   $ref: "#/components/schemas/PricingResponse"
                 title: Response List Pricing V1 Pricing Get
                 type: array
+                default: null
           description: Successful Response
         "422":
           content:
@@ -1084,6 +1087,7 @@ paths:
                 title: Response Get Pricing History V1 Pricing  Model Key  History
                   Get
                 type: array
+                default: null
           description: Successful Response
         "422":
           content:
@@ -1233,6 +1237,7 @@ paths:
                   $ref: "#/components/schemas/UsageEntry"
                 title: Response List Usage V1 Usage Get
                 type: array
+                default: null
           description: Successful Response
         "422":
           content:
@@ -1278,6 +1283,7 @@ paths:
                   $ref: "#/components/schemas/UserResponse"
                 title: Response List Users V1 Users Get
                 type: array
+                default: null
           description: Successful Response
         "422":
           content:
@@ -1443,6 +1449,7 @@ paths:
                   $ref: "#/components/schemas/UsageLogResponse"
                 title: Response Get User Usage V1 Users  User Id  Usage Get
                 type: array
+                default: null
           description: Successful Response
         "422":
           content:
@@ -1458,13 +1465,13 @@ components:
     AudioSpeechRequest:
       description: OpenAI-compatible audio speech (TTS) request.
       example:
-        voice: voice
         input: input
         instructions: instructions
-        response_format: response_format
         model: model
-        user: user
+        response_format: response_format
         speed: 0.8008281904610115
+        user: user
+        voice: voice
       properties:
         input:
           title: Input
@@ -1494,9 +1501,9 @@ components:
       title: AudioSpeechRequest
     BatchRequestItem:
       example:
-        custom_id: custom_id
         body:
           key: ""
+        custom_id: custom_id
       properties:
         body:
           additionalProperties: true
@@ -1512,6 +1519,7 @@ components:
     Body_create_transcription_v1_audio_transcriptions_post:
       properties:
         file:
+          format: binary
           title: File
           type: string
         language:
@@ -1539,11 +1547,11 @@ components:
     BudgetResponse:
       description: Response model for budget information.
       example:
-        updated_at: updated_at
-        budget_id: budget_id
         budget_duration_sec: 0
+        budget_id: budget_id
         created_at: created_at
         max_budget: 6.027456183070403
+        updated_at: updated_at
       properties:
         budget_duration_sec:
           nullable: true
@@ -1570,88 +1578,88 @@ components:
     ChatCompletionRequest:
       description: OpenAI-compatible chat completion request.
       example:
+        guardrails:
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        max_completion_tokens: 0
+        max_tokens: 6
         max_tool_iterations: 4
         mcp_server_ids:
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         mcp_servers:
-        - authorization_token: authorization_token
-          allowed_tools:
+        - allowed_tools:
           - allowed_tools
           - allowed_tools
+          authorization_token: authorization_token
           name: name
-          url: url
           purpose_hint: purpose_hint
-        - authorization_token: authorization_token
-          allowed_tools:
+          url: url
+        - allowed_tools:
           - allowed_tools
           - allowed_tools
+          authorization_token: authorization_token
           name: name
-          url: url
           purpose_hint: purpose_hint
-        max_tokens: 6
-        tools:
-        - key: ""
-        - key: ""
-        top_p: 5.637376656633329
-        max_completion_tokens: 0
+          url: url
+        messages:
+        - content: Content_1
+          role: developer
+          name: name
+        - content: Content_1
+          role: developer
+          name: name
+        model: model
         response_format:
           key: ""
         stream: false
-        guardrails:
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        temperature: 5.962133916683182
-        messages:
-        - role: developer
-          name: name
-          content: Content_1
-        - role: developer
-          name: name
-          content: Content_1
-        tool_choice: Tool_Choice
-        model: model
-        tools_header: tools_header
         stream_options:
           key: ""
+        temperature: 5.962133916683182
+        tool_choice: Tool_Choice
+        tools:
+        - key: ""
+        - key: ""
+        tools_header: tools_header
+        top_p: 5.637376656633329
         user: user
       properties:
         guardrails:
@@ -1660,6 +1668,7 @@ components:
           maxItems: 8
           nullable: true
           type: array
+          default: null
         max_completion_tokens:
           nullable: true
           type: integer
@@ -1677,16 +1686,19 @@ components:
             type: string
           nullable: true
           type: array
+          default: null
         mcp_servers:
           items:
             $ref: "#/components/schemas/McpServerConfig"
           nullable: true
           type: array
+          default: null
         messages:
           items:
             $ref: "#/components/schemas/ChatMessageInput"
           minItems: 1
           type: array
+          default: null
         model:
           title: Model
           type: string
@@ -1714,6 +1726,7 @@ components:
             type: object
           nullable: true
           type: array
+          default: null
         tools_header:
           description: "Optional override for the lead-in that the gateway prepends\
             \ before the per-tool hint block in the system message. Useful for expressing\
@@ -1734,26 +1747,26 @@ components:
       title: ChatCompletionRequest
     CreateBatchRequest:
       example:
+        completion_window: 24h
         metadata:
           key: metadata
-        completion_window: 24h
         model: model
         requests:
-        - custom_id: custom_id
-          body:
+        - body:
             key: ""
-        - custom_id: custom_id
-          body:
+          custom_id: custom_id
+        - body:
             key: ""
-        - custom_id: custom_id
-          body:
+          custom_id: custom_id
+        - body:
             key: ""
-        - custom_id: custom_id
-          body:
+          custom_id: custom_id
+        - body:
             key: ""
-        - custom_id: custom_id
-          body:
+          custom_id: custom_id
+        - body:
             key: ""
+          custom_id: custom_id
       properties:
         completion_window:
           default: 24h
@@ -1773,6 +1786,7 @@ components:
           minItems: 1
           title: Requests
           type: array
+          default: null
       required:
       - model
       - requests
@@ -1799,10 +1813,10 @@ components:
     CreateKeyRequest:
       description: Request model for creating a new API key.
       example:
+        expires_at: 2000-01-23T04:56:07.000+00:00
         key_name: key_name
         metadata:
           key: ""
-        expires_at: 2000-01-23T04:56:07.000+00:00
         user_id: user_id
       properties:
         expires_at:
@@ -1827,15 +1841,15 @@ components:
     CreateKeyResponse:
       description: Response model for creating a new API key.
       example:
+        created_at: created_at
+        expires_at: expires_at
+        id: id
+        is_active: true
+        key: key
         key_name: key_name
         metadata:
           key: ""
-        expires_at: expires_at
-        is_active: true
         user_id: user_id
-        created_at: created_at
-        id: id
-        key: key
       properties:
         created_at:
           title: Created At
@@ -1875,12 +1889,12 @@ components:
     CreateUserRequest:
       description: Request model for creating a new user.
       example:
+        alias: alias
+        blocked: false
+        budget_id: budget_id
         metadata:
           key: ""
-        blocked: false
         user_id: user_id
-        budget_id: budget_id
-        alias: alias
       properties:
         alias:
           description: Optional admin-facing alias
@@ -1910,11 +1924,11 @@ components:
     EmbeddingRequest:
       description: OpenAI-compatible embedding request.
       example:
-        input: Input
+        dimensions: 0
         encoding_format: encoding_format
+        input: Input
         model: model
         user: user
-        dimensions: 0
       properties:
         dimensions:
           nullable: true
@@ -1945,13 +1959,13 @@ components:
         on the operator-set ``GATEWAY_GUARDRAILS_URL`` instead.
       example:
         mode: monitor
-        validate_kwargs:
-          key: ""
-        profile: profile
-        url: url
         "on":
         - input
         - input
+        profile: profile
+        url: url
+        validate_kwargs:
+          key: ""
       properties:
         mode:
           default: monitor
@@ -1968,6 +1982,7 @@ components:
             type: string
           title: "On"
           type: array
+          default: null
         profile:
           maxLength: 128
           minLength: 1
@@ -1987,19 +2002,19 @@ components:
     HTTPValidationError:
       example:
         detail:
-        - msg: msg
+        - ctx: "{}"
           input: ""
           loc:
           - Location_inner
           - Location_inner
-          ctx: "{}"
+          msg: msg
           type: type
-        - msg: msg
+        - ctx: "{}"
           input: ""
           loc:
           - Location_inner
           - Location_inner
-          ctx: "{}"
+          msg: msg
           type: type
       properties:
         detail:
@@ -2007,18 +2022,19 @@ components:
             $ref: "#/components/schemas/ValidationError"
           title: Detail
           type: array
+          default: null
       title: HTTPValidationError
     ImageGenerationRequest:
       description: OpenAI-compatible image generation request.
       example:
+        model: model
+        "n": 0
+        prompt: prompt
+        quality: quality
         response_format: response_format
         size: size
-        model: model
         style: style
-        prompt: prompt
         user: user
-        "n": 0
-        quality: quality
       properties:
         model:
           title: Model
@@ -2051,15 +2067,15 @@ components:
     KeyInfo:
       description: Response model for key information.
       example:
+        created_at: created_at
+        expires_at: expires_at
+        id: id
+        is_active: true
         key_name: key_name
         last_used_at: last_used_at
         metadata:
           key: ""
-        expires_at: expires_at
-        is_active: true
         user_id: user_id
-        created_at: created_at
-        id: id
       properties:
         created_at:
           title: Created At
@@ -2109,19 +2125,20 @@ components:
         * Plain ``http://`` is rejected when ``authorization_token`` is set, to keep
           bearer tokens off the wire in cleartext.
       example:
-        authorization_token: authorization_token
         allowed_tools:
         - allowed_tools
         - allowed_tools
+        authorization_token: authorization_token
         name: name
-        url: url
         purpose_hint: purpose_hint
+        url: url
       properties:
         allowed_tools:
           items:
             type: string
           nullable: true
           type: array
+          default: null
         authorization_token:
           nullable: true
           type: string
@@ -2152,91 +2169,91 @@ components:
         changing the upstream wire shape. They're stripped before the request is
         forwarded.
       example:
+        cache_control:
+          key: ""
+        guardrails:
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        max_tokens: 0
         max_tool_iterations: 15
         mcp_server_ids:
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         mcp_servers:
-        - authorization_token: authorization_token
-          allowed_tools:
+        - allowed_tools:
           - allowed_tools
           - allowed_tools
+          authorization_token: authorization_token
           name: name
-          url: url
           purpose_hint: purpose_hint
-        - authorization_token: authorization_token
-          allowed_tools:
+          url: url
+        - allowed_tools:
           - allowed_tools
           - allowed_tools
+          authorization_token: authorization_token
           name: name
-          url: url
           purpose_hint: purpose_hint
+          url: url
+        messages:
+        - key: ""
+        - key: ""
+        metadata:
+          key: ""
+        model: model
         stop_sequences:
         - stop_sequences
         - stop_sequences
-        metadata:
-          key: ""
-        max_tokens: 0
-        cache_control:
-          key: ""
+        stream: false
+        system: System
+        temperature: 1.4658129805029452
         thinking:
+          key: ""
+        tool_choice:
           key: ""
         tools:
         - key: ""
         - key: ""
-        top_p: 5.637376656633329
-        system: System
-        stream: false
-        top_k: 5
-        guardrails:
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        temperature: 1.4658129805029452
-        messages:
-        - key: ""
-        - key: ""
-        tool_choice:
-          key: ""
-        model: model
         tools_header: tools_header
+        top_k: 5
+        top_p: 5.637376656633329
       properties:
         cache_control:
           additionalProperties: true
@@ -2248,6 +2265,7 @@ components:
           maxItems: 8
           nullable: true
           type: array
+          default: null
         max_tokens:
           title: Max Tokens
           type: integer
@@ -2262,11 +2280,13 @@ components:
             type: string
           nullable: true
           type: array
+          default: null
         mcp_servers:
           items:
             $ref: "#/components/schemas/McpServerConfig"
           nullable: true
           type: array
+          default: null
         messages:
           items:
             additionalProperties: true
@@ -2275,6 +2295,7 @@ components:
           minItems: 1
           title: Messages
           type: array
+          default: null
         metadata:
           additionalProperties: true
           nullable: true
@@ -2287,6 +2308,7 @@ components:
             type: string
           nullable: true
           type: array
+          default: null
         stream:
           default: false
           title: Stream
@@ -2310,6 +2332,7 @@ components:
             type: object
           nullable: true
           type: array
+          default: null
         tools_header:
           nullable: true
           type: string
@@ -2329,15 +2352,15 @@ components:
       example:
         data:
         - created: 0
-          owned_by: owned_by
           id: id
-          pricing: ""
           object: model
+          owned_by: owned_by
+          pricing: ""
         - created: 0
-          owned_by: owned_by
           id: id
-          pricing: ""
           object: model
+          owned_by: owned_by
+          pricing: ""
         object: list
       properties:
         data:
@@ -2345,6 +2368,7 @@ components:
             $ref: "#/components/schemas/ModelObject"
           title: Data
           type: array
+          default: null
         object:
           default: list
           title: Object
@@ -2356,10 +2380,10 @@ components:
       description: OpenAI-compatible model object.
       example:
         created: 0
-        owned_by: owned_by
         id: id
-        pricing: ""
         object: model
+        owned_by: owned_by
+        pricing: ""
       properties:
         created:
           title: Created
@@ -2418,31 +2442,31 @@ components:
     ModerationResponse:
       description: Normalized moderation response across providers.
       example:
-        model: model
         id: id
+        model: model
         results:
-        - provider_raw:
-            key: ""
-          category_scores:
-            key: 0.8008281904610115
-          flagged: true
+        - categories:
+            key: true
           category_applied_input_types:
             key:
             - category_applied_input_types
             - category_applied_input_types
-          categories:
-            key: true
-        - provider_raw:
-            key: ""
           category_scores:
             key: 0.8008281904610115
           flagged: true
+          provider_raw:
+            key: ""
+        - categories:
+            key: true
           category_applied_input_types:
             key:
             - category_applied_input_types
             - category_applied_input_types
-          categories:
-            key: true
+          category_scores:
+            key: 0.8008281904610115
+          flagged: true
+          provider_raw:
+            key: ""
       properties:
         id:
           title: Id
@@ -2455,6 +2479,7 @@ components:
             $ref: "#/components/schemas/ModerationResult"
           title: Results
           type: array
+          default: null
       required:
       - id
       - model
@@ -2463,17 +2488,17 @@ components:
     ModerationResult:
       description: "A single moderation decision, typically one per input item."
       example:
-        provider_raw:
-          key: ""
-        category_scores:
-          key: 0.8008281904610115
-        flagged: true
+        categories:
+          key: true
         category_applied_input_types:
           key:
           - category_applied_input_types
           - category_applied_input_types
-        categories:
-          key: true
+        category_scores:
+          key: 0.8008281904610115
+        flagged: true
+        provider_raw:
+          key: ""
       properties:
         categories:
           additionalProperties:
@@ -2501,12 +2526,12 @@ components:
     PricingResponse:
       description: Response model for model pricing.
       example:
-        effective_at: effective_at
-        model_key: model_key
-        updated_at: updated_at
-        input_price_per_million: 0.8008281904610115
         created_at: created_at
+        effective_at: effective_at
+        input_price_per_million: 0.8008281904610115
+        model_key: model_key
         output_price_per_million: 6.027456183070403
+        updated_at: updated_at
       properties:
         created_at:
           title: Created At
@@ -2537,14 +2562,14 @@ components:
     RerankRequest:
       description: Rerank request.
       example:
-        top_n: 0
         documents:
         - documents
         - documents
-        query: query
-        model: model
-        user: user
         max_tokens_per_doc: 0
+        model: model
+        query: query
+        top_n: 0
+        user: user
       properties:
         documents:
           description: List of document strings to rerank
@@ -2553,6 +2578,7 @@ components:
           minItems: 1
           title: Documents
           type: array
+          default: null
         max_tokens_per_doc:
           description: Per-document truncation limit
           exclusiveMinimum: true
@@ -2593,73 +2619,73 @@ components:
         changing the upstream wire shape. They're stripped before the request is
         forwarded.
       example:
+        guardrails:
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
+        - mode: monitor
+          "on":
+          - input
+          - input
+          profile: profile
+          url: url
+          validate_kwargs:
+            key: ""
         input: ""
         max_tool_iterations: 2
         mcp_server_ids:
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         mcp_servers:
-        - authorization_token: authorization_token
-          allowed_tools:
+        - allowed_tools:
           - allowed_tools
           - allowed_tools
+          authorization_token: authorization_token
           name: name
-          url: url
           purpose_hint: purpose_hint
-        - authorization_token: authorization_token
-          allowed_tools:
+          url: url
+        - allowed_tools:
           - allowed_tools
           - allowed_tools
+          authorization_token: authorization_token
           name: name
-          url: url
           purpose_hint: purpose_hint
-        stream: false
-        guardrails:
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
           url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
-        - mode: monitor
-          validate_kwargs:
-            key: ""
-          profile: profile
-          url: url
-          "on":
-          - input
-          - input
         model: model
-        tools_header: tools_header
+        stream: false
         tools:
         - key: ""
         - key: ""
+        tools_header: tools_header
         user: user
       properties:
         guardrails:
@@ -2668,6 +2694,7 @@ components:
           maxItems: 8
           nullable: true
           type: array
+          default: null
         input:
           title: Input
         max_tool_iterations:
@@ -2681,11 +2708,13 @@ components:
             type: string
           nullable: true
           type: array
+          default: null
         mcp_servers:
           items:
             $ref: "#/components/schemas/McpServerConfig"
           nullable: true
           type: array
+          default: null
         model:
           title: Model
           type: string
@@ -2699,6 +2728,7 @@ components:
             type: object
           nullable: true
           type: array
+          default: null
         tools_header:
           nullable: true
           type: string
@@ -2713,8 +2743,8 @@ components:
       description: Request model for setting model pricing.
       example:
         effective_at: 2000-01-23T04:56:07.000+00:00
-        model_key: model_key
         input_price_per_million: 0.08008281904610115
+        model_key: model_key
         output_price_per_million: 0.6027456183070403
       properties:
         effective_at:
@@ -2761,11 +2791,11 @@ components:
     UpdateKeyRequest:
       description: Request model for updating a key.
       example:
+        expires_at: 2000-01-23T04:56:07.000+00:00
+        is_active: true
         key_name: key_name
         metadata:
           key: ""
-        expires_at: 2000-01-23T04:56:07.000+00:00
-        is_active: true
       properties:
         expires_at:
           format: date-time
@@ -2785,11 +2815,11 @@ components:
     UpdateUserRequest:
       description: Request model for updating a user.
       example:
-        metadata:
-          key: ""
+        alias: alias
         blocked: true
         budget_id: budget_id
-        alias: alias
+        metadata:
+          key: ""
       properties:
         alias:
           nullable: true
@@ -2808,19 +2838,19 @@ components:
     UsageEntry:
       description: A single usage log entry.
       example:
-        error_message: error_message
+        api_key_id: api_key_id
         completion_tokens: 0
         cost: 6.027456183070403
-        api_key_id: api_key_id
         endpoint: endpoint
+        error_message: error_message
+        id: id
+        model: model
         prompt_tokens: 1
         provider: provider
-        user_id: user_id
-        total_tokens: 5
-        model: model
-        id: id
         status: status
         timestamp: timestamp
+        total_tokens: 5
+        user_id: user_id
       properties:
         api_key_id:
           nullable: true
@@ -2879,19 +2909,19 @@ components:
     UsageLogResponse:
       description: Response model for usage log.
       example:
-        error_message: error_message
+        api_key_id: api_key_id
         completion_tokens: 0
         cost: 6.027456183070403
-        api_key_id: api_key_id
         endpoint: endpoint
+        error_message: error_message
+        id: id
+        model: model
         prompt_tokens: 1
         provider: provider
-        user_id: user_id
-        total_tokens: 5
-        model: model
-        id: id
         status: status
         timestamp: timestamp
+        total_tokens: 5
+        user_id: user_id
       properties:
         api_key_id:
           nullable: true
@@ -2950,18 +2980,18 @@ components:
     UserResponse:
       description: Response model for user information.
       example:
+        alias: alias
+        blocked: true
+        budget_id: budget_id
         budget_started_at: budget_started_at
+        created_at: created_at
         metadata:
           key: ""
-        blocked: true
-        updated_at: updated_at
-        reserved: 0.8008281904610115
-        user_id: user_id
-        budget_id: budget_id
         next_budget_reset_at: next_budget_reset_at
+        reserved: 0.8008281904610115
         spend: 6.027456183070403
-        alias: alias
-        created_at: created_at
+        updated_at: updated_at
+        user_id: user_id
       properties:
         alias:
           nullable: true
@@ -3012,12 +3042,12 @@ components:
       title: UserResponse
     ValidationError:
       example:
-        msg: msg
+        ctx: "{}"
         input: ""
         loc:
         - Location_inner
         - Location_inner
-        ctx: "{}"
+        msg: msg
         type: type
       properties:
         ctx:
@@ -3030,6 +3060,7 @@ components:
             $ref: "#/components/schemas/Location_inner"
           title: Location
           type: array
+          default: null
         msg:
           title: Message
           type: string
@@ -3068,26 +3099,26 @@ components:
     CC_ChatCompletionMessage:
       additionalProperties: {}
       example:
-        role: assistant
-        function_call: ""
-        reasoning: ""
+        content: content
         refusal: refusal
+        role: assistant
         annotations:
         - key: ""
         - key: ""
-        tool_calls:
-        - function:
-            name: name
-            arguments: arguments
-          id: id
-          type: function
-        - function:
-            name: name
-            arguments: arguments
-          id: id
-          type: function
         audio: ""
-        content: content
+        function_call: ""
+        tool_calls:
+        - id: id
+          function:
+            arguments: arguments
+            name: name
+          type: function
+        - id: id
+          function:
+            arguments: arguments
+            name: name
+          type: function
+        reasoning: ""
       properties:
         content:
           nullable: true
@@ -3106,6 +3137,7 @@ components:
             type: object
           nullable: true
           type: array
+          default: null
         audio:
           allOf:
           - $ref: "#/components/schemas/CC_ChatCompletionAudio"
@@ -3119,9 +3151,10 @@ components:
             $ref: "#/components/schemas/CC_ChatCompletionMessage_tool_calls_inner"
           nullable: true
           type: array
+          default: null
         reasoning:
           allOf:
-          - $ref: "#/components/schemas/CC_Reasoning"
+          - $ref: "#/components/schemas/CCK_Reasoning"
           nullable: true
       required:
       - role
@@ -3149,10 +3182,10 @@ components:
       additionalProperties: true
       description: A call to a function tool created by the model.
       example:
-        function:
-          name: name
-          arguments: arguments
         id: id
+        function:
+          arguments: arguments
+          name: name
         type: function
       properties:
         id:
@@ -3181,14 +3214,16 @@ components:
             type: integer
           nullable: true
           type: array
+          default: null
         logprob:
           title: Logprob
           type: number
         top_logprobs:
           items:
-            $ref: "#/components/schemas/CC_TopLogprob"
+            $ref: "#/components/schemas/CCK_TopLogprob"
           title: Top Logprobs
           type: array
+          default: null
       required:
       - logprob
       - token
@@ -3199,28 +3234,28 @@ components:
       example:
         finish_reason: stop
         index: 0
+        logprobs: ""
         message:
-          role: assistant
-          function_call: ""
-          reasoning: ""
+          content: content
           refusal: refusal
+          role: assistant
           annotations:
           - key: ""
           - key: ""
-          tool_calls:
-          - function:
-              name: name
-              arguments: arguments
-            id: id
-            type: function
-          - function:
-              name: name
-              arguments: arguments
-            id: id
-            type: function
           audio: ""
-          content: content
-        logprobs: ""
+          function_call: ""
+          tool_calls:
+          - id: id
+            function:
+              arguments: arguments
+              name: name
+            type: function
+          - id: id
+            function:
+              arguments: arguments
+              name: name
+            type: function
+          reasoning: ""
       properties:
         finish_reason:
           enum:
@@ -3254,29 +3289,14 @@ components:
             $ref: "#/components/schemas/CC_ChatCompletionTokenLogprob"
           nullable: true
           type: array
+          default: null
         refusal:
           items:
             $ref: "#/components/schemas/CC_ChatCompletionTokenLogprob"
           nullable: true
           type: array
+          default: null
       title: ChoiceLogprobs
-    CC_CompletionTokensDetails:
-      additionalProperties: {}
-      description: Breakdown of tokens used in a completion.
-      properties:
-        accepted_prediction_tokens:
-          nullable: true
-          type: integer
-        audio_tokens:
-          nullable: true
-          type: integer
-        reasoning_tokens:
-          nullable: true
-          type: integer
-        rejected_prediction_tokens:
-          nullable: true
-          type: integer
-      title: CompletionTokensDetails
     CC_CompletionUsage:
       additionalProperties: {}
       description: Usage statistics for the completion request.
@@ -3292,7 +3312,7 @@ components:
           type: integer
         completion_tokens_details:
           allOf:
-          - $ref: "#/components/schemas/CC_CompletionTokensDetails"
+          - $ref: "#/components/schemas/CCK_CompletionTokensDetails"
           nullable: true
         prompt_tokens_details:
           allOf:
@@ -3321,8 +3341,8 @@ components:
       additionalProperties: true
       description: The function that the model called.
       example:
-        name: name
         arguments: arguments
+        name: name
       properties:
         arguments:
           title: Arguments
@@ -3362,98 +3382,65 @@ components:
           nullable: true
           type: integer
       title: PromptTokensDetails
-    CC_Reasoning:
-      description: |-
-        Reasoning content emitted by a model.
-
-        Serializes as a plain JSON string so that responses are compatible with
-        OpenAI-style clients that expect ``delta.reasoning`` / ``message.reasoning``
-        to be a string. The Python attribute ``content`` remains available for
-        typed access (e.g. ``message.reasoning.content``).
-      properties:
-        content:
-          title: Content
-          type: string
-      required:
-      - content
-      title: Reasoning
-    CC_TopLogprob:
-      additionalProperties: true
-      properties:
-        token:
-          title: Token
-          type: string
-        bytes:
-          items:
-            type: integer
-          nullable: true
-          type: array
-        logprob:
-          title: Logprob
-          type: number
-      required:
-      - logprob
-      - token
-      title: TopLogprob
     ChatCompletion:
       additionalProperties: {}
       example:
-        created: 6
-        usage: ""
-        model: model
-        service_tier: service_tier
         id: id
         choices:
         - finish_reason: stop
           index: 0
+          logprobs: ""
           message:
-            role: assistant
-            function_call: ""
-            reasoning: ""
+            content: content
             refusal: refusal
+            role: assistant
             annotations:
             - key: ""
             - key: ""
-            tool_calls:
-            - function:
-                name: name
-                arguments: arguments
-              id: id
-              type: function
-            - function:
-                name: name
-                arguments: arguments
-              id: id
-              type: function
             audio: ""
-            content: content
-          logprobs: ""
+            function_call: ""
+            tool_calls:
+            - id: id
+              function:
+                arguments: arguments
+                name: name
+              type: function
+            - id: id
+              function:
+                arguments: arguments
+                name: name
+              type: function
+            reasoning: ""
         - finish_reason: stop
           index: 0
+          logprobs: ""
           message:
-            role: assistant
-            function_call: ""
-            reasoning: ""
+            content: content
             refusal: refusal
+            role: assistant
             annotations:
             - key: ""
             - key: ""
-            tool_calls:
-            - function:
-                name: name
-                arguments: arguments
-              id: id
-              type: function
-            - function:
-                name: name
-                arguments: arguments
-              id: id
-              type: function
             audio: ""
-            content: content
-          logprobs: ""
-        system_fingerprint: system_fingerprint
+            function_call: ""
+            tool_calls:
+            - id: id
+              function:
+                arguments: arguments
+                name: name
+              type: function
+            - id: id
+              function:
+                arguments: arguments
+                name: name
+              type: function
+            reasoning: ""
+        created: 6
+        model: model
         object: chat.completion
+        service_tier: service_tier
+        system_fingerprint: system_fingerprint
+        usage: ""
       properties:
         id:
           title: Id
@@ -3463,6 +3450,7 @@ components:
             $ref: "#/components/schemas/CC_Choice"
           title: Choices
           type: array
+          default: null
         created:
           title: Created
           type: integer
@@ -3504,6 +3492,7 @@ components:
             type: integer
           nullable: true
           type: array
+          default: null
         logprob:
           title: Logprob
           type: number
@@ -3512,6 +3501,7 @@ components:
             $ref: "#/components/schemas/CCK_TopLogprob"
           title: Top Logprobs
           type: array
+          default: null
       required:
       - logprob
       - token
@@ -3544,6 +3534,7 @@ components:
             $ref: "#/components/schemas/CCK_ChoiceDeltaToolCall"
           nullable: true
           type: array
+          default: null
         reasoning:
           allOf:
           - $ref: "#/components/schemas/CCK_Reasoning"
@@ -3605,11 +3596,13 @@ components:
             $ref: "#/components/schemas/CCK_ChatCompletionTokenLogprob"
           nullable: true
           type: array
+          default: null
         refusal:
           items:
             $ref: "#/components/schemas/CCK_ChatCompletionTokenLogprob"
           nullable: true
           type: array
+          default: null
       title: ChoiceLogprobs
     CCK_ChunkChoice:
       additionalProperties: {}
@@ -3716,6 +3709,7 @@ components:
             type: integer
           nullable: true
           type: array
+          default: null
         logprob:
           title: Logprob
           type: number
@@ -3734,6 +3728,7 @@ components:
             $ref: "#/components/schemas/CCK_ChunkChoice"
           title: Choices
           type: array
+          default: null
         created:
           title: Created
           type: integer
@@ -3802,6 +3797,7 @@ components:
             $ref: "#/components/schemas/Tool_Calls_inner"
           title: Tool Calls
           type: array
+          default: null
       required:
       - role
       title: ChatCompletionAssistantMessageParam
@@ -3868,9 +3864,9 @@ components:
         messages sent by the user. With o1 models and newer, `developer` messages
         replace the previous `system` messages.
       example:
+        content: Content_1
         role: developer
         name: name
-        content: Content_1
       properties:
         content:
           $ref: "#/components/schemas/Content_1"
@@ -4147,6 +4143,7 @@ components:
             $ref: "#/components/schemas/MR_BashCodeExecutionOutputBlock"
           title: Content
           type: array
+          default: null
         return_code:
           title: Return Code
           type: integer
@@ -4223,12 +4220,12 @@ components:
     MR_CitationCharLocation:
       additionalProperties: {}
       example:
-        document_title: document_title
-        start_char_index: 1
         cited_text: cited_text
         document_index: 0
-        file_id: file_id
+        document_title: document_title
         end_char_index: 6
+        file_id: file_id
+        start_char_index: 1
         type: char_location
       properties:
         cited_text:
@@ -4419,6 +4416,7 @@ components:
             $ref: "#/components/schemas/MR_CodeExecutionOutputBlock"
           title: Content
           type: array
+          default: null
         return_code:
           title: Return Code
           type: integer
@@ -4553,6 +4551,7 @@ components:
             $ref: "#/components/schemas/MR_CodeExecutionOutputBlock"
           title: Content
           type: array
+          default: null
         encrypted_stdout:
           title: Encrypted Stdout
           type: string
@@ -4714,19 +4713,19 @@ components:
       additionalProperties: {}
       example:
         citations:
-        - document_title: document_title
-          start_char_index: 1
-          cited_text: cited_text
+        - cited_text: cited_text
           document_index: 0
-          file_id: file_id
+          document_title: document_title
           end_char_index: 6
+          file_id: file_id
+          start_char_index: 1
           type: char_location
-        - document_title: document_title
-          start_char_index: 1
-          cited_text: cited_text
+        - cited_text: cited_text
           document_index: 0
-          file_id: file_id
+          document_title: document_title
           end_char_index: 6
+          file_id: file_id
+          start_char_index: 1
           type: char_location
         text: text
         type: text
@@ -4736,6 +4735,7 @@ components:
             $ref: "#/components/schemas/MR_TextBlock_citations_inner"
           nullable: true
           type: array
+          default: null
         text:
           title: Text
           type: string
@@ -4771,6 +4771,7 @@ components:
             type: string
           nullable: true
           type: array
+          default: null
         new_lines:
           nullable: true
           type: integer
@@ -4948,6 +4949,7 @@ components:
             $ref: "#/components/schemas/MR_ToolReferenceBlock"
           title: Tool References
           type: array
+          default: null
         type:
           enum:
           - tool_search_tool_search_result
@@ -4986,14 +4988,14 @@ components:
     MR_Usage:
       additionalProperties: {}
       example:
-        server_tool_use: ""
         cache_creation: ""
-        output_tokens: 7
-        service_tier: standard
         cache_creation_input_tokens: 5
-        input_tokens: 2
         cache_read_input_tokens: 5
         inference_geo: inference_geo
+        input_tokens: 2
+        output_tokens: 7
+        server_tool_use: ""
+        service_tier: standard
       properties:
         cache_creation:
           allOf:
@@ -5168,58 +5170,58 @@ components:
     MessageResponse:
       additionalProperties: {}
       example:
-        container: ""
-        role: assistant
-        stop_sequence: stop_sequence
-        usage:
-          server_tool_use: ""
-          cache_creation: ""
-          output_tokens: 7
-          service_tier: standard
-          cache_creation_input_tokens: 5
-          input_tokens: 2
-          cache_read_input_tokens: 5
-          inference_geo: inference_geo
-        stop_reason: end_turn
-        model: claude-opus-4-6
-        stop_details: ""
         id: id
-        type: message
+        container: ""
         content:
         - citations:
-          - document_title: document_title
-            start_char_index: 1
-            cited_text: cited_text
+          - cited_text: cited_text
             document_index: 0
-            file_id: file_id
+            document_title: document_title
             end_char_index: 6
+            file_id: file_id
+            start_char_index: 1
             type: char_location
-          - document_title: document_title
-            start_char_index: 1
-            cited_text: cited_text
+          - cited_text: cited_text
             document_index: 0
-            file_id: file_id
+            document_title: document_title
             end_char_index: 6
+            file_id: file_id
+            start_char_index: 1
             type: char_location
           text: text
           type: text
         - citations:
-          - document_title: document_title
-            start_char_index: 1
-            cited_text: cited_text
+          - cited_text: cited_text
             document_index: 0
-            file_id: file_id
+            document_title: document_title
             end_char_index: 6
+            file_id: file_id
+            start_char_index: 1
             type: char_location
-          - document_title: document_title
-            start_char_index: 1
-            cited_text: cited_text
+          - cited_text: cited_text
             document_index: 0
-            file_id: file_id
+            document_title: document_title
             end_char_index: 6
+            file_id: file_id
+            start_char_index: 1
             type: char_location
           text: text
           type: text
+        model: claude-opus-4-6
+        role: assistant
+        stop_details: ""
+        stop_reason: end_turn
+        stop_sequence: stop_sequence
+        type: message
+        usage:
+          cache_creation: ""
+          cache_creation_input_tokens: 5
+          cache_read_input_tokens: 5
+          inference_geo: inference_geo
+          input_tokens: 2
+          output_tokens: 7
+          server_tool_use: ""
+          service_tier: standard
       properties:
         id:
           title: Id
@@ -5233,6 +5235,7 @@ components:
             $ref: "#/components/schemas/Content_9_inner"
           title: Content
           type: array
+          default: null
         model:
           $ref: "#/components/schemas/Model"
         role:
@@ -5313,14 +5316,14 @@ components:
     RerankResponse:
       description: "Normalized rerank response, provider-agnostic."
       example:
-        meta: ""
-        usage: ""
         id: id
         results:
         - index: 0
           relevance_score: 6.027456183070403
         - index: 0
           relevance_score: 6.027456183070403
+        meta: ""
+        usage: ""
       properties:
         id:
           description: Filter models by provider name
@@ -5332,6 +5335,7 @@ components:
             $ref: "#/components/schemas/RR_RerankResult"
           title: Results
           type: array
+          default: null
         meta:
           allOf:
           - $ref: "#/components/schemas/RR_RerankMeta"
@@ -5347,10 +5351,10 @@ components:
       additionalProperties: true
       description: Represents an embedding vector returned by embedding endpoint.
       example:
-        index: 6
         embedding:
         - 0.8008281904610115
         - 0.8008281904610115
+        index: 6
         object: embedding
       properties:
         embedding:
@@ -5358,6 +5362,7 @@ components:
             type: number
           title: Embedding
           type: array
+          default: null
         index:
           title: Index
           type: integer
@@ -5392,27 +5397,28 @@ components:
       additionalProperties: true
       example:
         data:
-        - index: 6
-          embedding:
+        - embedding:
           - 0.8008281904610115
           - 0.8008281904610115
+          index: 6
           object: embedding
-        - index: 6
-          embedding:
+        - embedding:
           - 0.8008281904610115
           - 0.8008281904610115
+          index: 6
           object: embedding
+        model: model
+        object: list
         usage:
           prompt_tokens: 1
           total_tokens: 5
-        model: model
-        object: list
       properties:
         data:
           items:
             $ref: "#/components/schemas/EMB_Embedding"
           title: Data
           type: array
+          default: null
         model:
           title: Model
           type: string
@@ -5445,6 +5451,7 @@ components:
       - items:
           type: string
         type: array
+        default: null
       description: Input text to embed
       title: Input
     System:
@@ -5456,6 +5463,7 @@ components:
           additionalProperties: true
           type: object
         type: array
+        default: null
       nullable: true
       title: System
     Input_1:
@@ -5466,10 +5474,12 @@ components:
       - items:
           type: string
         type: array
+        default: null
       - items:
           additionalProperties: true
           type: object
         type: array
+        default: null
       description: "Text, list of texts, or list of content-part dicts to moderate"
       title: Input
     Location_inner:
@@ -5490,6 +5500,7 @@ components:
       - items:
           $ref: "#/components/schemas/Content_anyOf_inner"
         type: array
+        default: null
       nullable: true
       title: Content
     Tool_Calls_inner:
@@ -5502,6 +5513,7 @@ components:
       - items:
           $ref: "#/components/schemas/MSG_ChatCompletionContentPartTextParam"
         type: array
+        default: null
       title: Content
     Content_2_anyOf_inner:
       anyOf:
@@ -5515,6 +5527,7 @@ components:
       - items:
           $ref: "#/components/schemas/Content_2_anyOf_inner"
         type: array
+        default: null
       title: Content
     Content_3:
       anyOf:
@@ -5539,6 +5552,7 @@ components:
       - $ref: "#/components/schemas/MR_ServerToolCaller20260120"
       nullable: true
       title: Caller
+      default: null
     MR_TextBlock_citations_inner:
       anyOf:
       - $ref: "#/components/schemas/MR_CitationCharLocation"
@@ -5569,6 +5583,7 @@ components:
       - items:
           $ref: "#/components/schemas/MR_WebSearchResultBlock"
         type: array
+        default: null
       title: Content
     Content_9_inner:
       anyOf:

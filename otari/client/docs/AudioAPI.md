@@ -96,7 +96,7 @@ import (
 )
 
 func main() {
-	file := "file_example" // string | 
+	file := os.NewFile(1234, "some_file") // *os.File | 
 	model := "model_example" // string | 
 	language := "language_example" // string |  (optional)
 	prompt := "prompt_example" // string |  (optional)
@@ -127,7 +127,7 @@ Other parameters are passed through a pointer to a apiCreateTranscriptionV1Audio
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file** | **string** |  | 
+ **file** | ***os.File** |  | 
  **model** | **string** |  | 
  **language** | **string** |  | 
  **prompt** | **string** |  | 

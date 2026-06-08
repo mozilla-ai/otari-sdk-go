@@ -16,6 +16,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 )
 
 // AudioAPIService AudioAPI service
@@ -150,7 +151,7 @@ func (a *AudioAPIService) CreateSpeechV1AudioSpeechPostExecute(r ApiCreateSpeech
 type ApiCreateTranscriptionV1AudioTranscriptionsPostRequest struct {
 	ctx            context.Context
 	ApiService     *AudioAPIService
-	file           *string
+	file           *os.File
 	model          *string
 	language       *string
 	prompt         *string
@@ -159,8 +160,8 @@ type ApiCreateTranscriptionV1AudioTranscriptionsPostRequest struct {
 	user           *string
 }
 
-func (r ApiCreateTranscriptionV1AudioTranscriptionsPostRequest) File(file string) ApiCreateTranscriptionV1AudioTranscriptionsPostRequest {
-	r.file = &file
+func (r ApiCreateTranscriptionV1AudioTranscriptionsPostRequest) File(file *os.File) ApiCreateTranscriptionV1AudioTranscriptionsPostRequest {
+	r.file = file
 	return r
 }
 
@@ -263,7 +264,21 @@ func (a *AudioAPIService) CreateTranscriptionV1AudioTranscriptionsPostExecute(r 
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "file", r.file, "", "")
+	var fileLocalVarFormFileName string
+	var fileLocalVarFileName string
+	var fileLocalVarFileBytes []byte
+
+	fileLocalVarFormFileName = "file"
+	fileLocalVarFile := r.file
+
+	if fileLocalVarFile != nil {
+		fbs, _ := io.ReadAll(fileLocalVarFile)
+
+		fileLocalVarFileBytes = fbs
+		fileLocalVarFileName = fileLocalVarFile.Name()
+		fileLocalVarFile.Close()
+		formFiles = append(formFiles, formFile{fileBytes: fileLocalVarFileBytes, fileName: fileLocalVarFileName, formFileName: fileLocalVarFormFileName})
+	}
 	if r.language != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "language", r.language, "", "")
 	}

@@ -35,7 +35,6 @@ docs/CCChatCompletionMessageToolCallsInner.md
 docs/CCChatCompletionTokenLogprob.md
 docs/CCChoice.md
 docs/CCChoiceLogprobs.md
-docs/CCCompletionTokensDetails.md
 docs/CCCompletionUsage.md
 docs/CCCustom.md
 docs/CCFunction.md
@@ -53,8 +52,6 @@ docs/CCKPromptTokensDetails.md
 docs/CCKReasoning.md
 docs/CCKTopLogprob.md
 docs/CCPromptTokensDetails.md
-docs/CCReasoning.md
-docs/CCTopLogprob.md
 docs/Caller.md
 docs/ChatAPI.md
 docs/ChatCompletion.md
@@ -211,14 +208,11 @@ model_cc_chat_completion_message_tool_calls_inner.go
 model_cc_chat_completion_token_logprob.go
 model_cc_choice.go
 model_cc_choice_logprobs.go
-model_cc_completion_tokens_details.go
 model_cc_completion_usage.go
 model_cc_custom.go
 model_cc_function.go
 model_cc_function_call.go
 model_cc_prompt_tokens_details.go
-model_cc_reasoning.go
-model_cc_top_logprob.go
 model_cck_chat_completion_token_logprob.go
 model_cck_choice_delta.go
 model_cck_choice_delta_function_call.go
