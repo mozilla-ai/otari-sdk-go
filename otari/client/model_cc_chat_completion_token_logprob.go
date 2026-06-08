@@ -20,10 +20,10 @@ var _ MappedNullable = &CCChatCompletionTokenLogprob{}
 
 // CCChatCompletionTokenLogprob struct for CCChatCompletionTokenLogprob
 type CCChatCompletionTokenLogprob struct {
-	Token                string         `json:"token"`
-	Bytes                []int32        `json:"bytes,omitempty"`
-	Logprob              float32        `json:"logprob"`
-	TopLogprobs          []CCTopLogprob `json:"top_logprobs"`
+	Token                string          `json:"token"`
+	Bytes                []int32         `json:"bytes,omitempty"`
+	Logprob              float32         `json:"logprob"`
+	TopLogprobs          []CCKTopLogprob `json:"top_logprobs"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -33,7 +33,7 @@ type _CCChatCompletionTokenLogprob CCChatCompletionTokenLogprob
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCCChatCompletionTokenLogprob(token string, logprob float32, topLogprobs []CCTopLogprob) *CCChatCompletionTokenLogprob {
+func NewCCChatCompletionTokenLogprob(token string, logprob float32, topLogprobs []CCKTopLogprob) *CCChatCompletionTokenLogprob {
 	this := CCChatCompletionTokenLogprob{}
 	this.Token = token
 	this.Logprob = logprob
@@ -131,9 +131,9 @@ func (o *CCChatCompletionTokenLogprob) SetLogprob(v float32) {
 }
 
 // GetTopLogprobs returns the TopLogprobs field value
-func (o *CCChatCompletionTokenLogprob) GetTopLogprobs() []CCTopLogprob {
+func (o *CCChatCompletionTokenLogprob) GetTopLogprobs() []CCKTopLogprob {
 	if o == nil {
-		var ret []CCTopLogprob
+		var ret []CCKTopLogprob
 		return ret
 	}
 
@@ -142,7 +142,7 @@ func (o *CCChatCompletionTokenLogprob) GetTopLogprobs() []CCTopLogprob {
 
 // GetTopLogprobsOk returns a tuple with the TopLogprobs field value
 // and a boolean to check if the value has been set.
-func (o *CCChatCompletionTokenLogprob) GetTopLogprobsOk() ([]CCTopLogprob, bool) {
+func (o *CCChatCompletionTokenLogprob) GetTopLogprobsOk() ([]CCKTopLogprob, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -150,7 +150,7 @@ func (o *CCChatCompletionTokenLogprob) GetTopLogprobsOk() ([]CCTopLogprob, bool)
 }
 
 // SetTopLogprobs sets field value
-func (o *CCChatCompletionTokenLogprob) SetTopLogprobs(v []CCTopLogprob) {
+func (o *CCChatCompletionTokenLogprob) SetTopLogprobs(v []CCKTopLogprob) {
 	o.TopLogprobs = v
 }
 

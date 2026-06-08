@@ -7,13 +7,13 @@ Name | Type | Description | Notes
 **Token** | **string** |  | 
 **Bytes** | Pointer to **[]int32** |  | [optional] 
 **Logprob** | **float32** |  | 
-**TopLogprobs** | [**[]CCTopLogprob**](CCTopLogprob.md) |  | 
+**TopLogprobs** | [**[]CCKTopLogprob**](CCKTopLogprob.md) |  | 
 
 ## Methods
 
 ### NewCCChatCompletionTokenLogprob
 
-`func NewCCChatCompletionTokenLogprob(token string, logprob float32, topLogprobs []CCTopLogprob, ) *CCChatCompletionTokenLogprob`
+`func NewCCChatCompletionTokenLogprob(token string, logprob float32, topLogprobs []CCKTopLogprob, ) *CCChatCompletionTokenLogprob`
 
 NewCCChatCompletionTokenLogprob instantiates a new CCChatCompletionTokenLogprob object
 This constructor will assign default values to properties that have it defined,
@@ -105,20 +105,20 @@ SetLogprob sets Logprob field to given value.
 
 ### GetTopLogprobs
 
-`func (o *CCChatCompletionTokenLogprob) GetTopLogprobs() []CCTopLogprob`
+`func (o *CCChatCompletionTokenLogprob) GetTopLogprobs() []CCKTopLogprob`
 
 GetTopLogprobs returns the TopLogprobs field if non-nil, zero value otherwise.
 
 ### GetTopLogprobsOk
 
-`func (o *CCChatCompletionTokenLogprob) GetTopLogprobsOk() (*[]CCTopLogprob, bool)`
+`func (o *CCChatCompletionTokenLogprob) GetTopLogprobsOk() (*[]CCKTopLogprob, bool)`
 
 GetTopLogprobsOk returns a tuple with the TopLogprobs field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTopLogprobs
 
-`func (o *CCChatCompletionTokenLogprob) SetTopLogprobs(v []CCTopLogprob)`
+`func (o *CCChatCompletionTokenLogprob) SetTopLogprobs(v []CCKTopLogprob)`
 
 SetTopLogprobs sets TopLogprobs field to given value.
 
