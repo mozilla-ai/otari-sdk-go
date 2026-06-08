@@ -47,35 +47,35 @@ func TestControlPlaneAliasesRouteToGeneratedOperations(t *testing.T) {
 		// without a gateway. The body-carrying aliases (Create/Update/Set) and
 		// response decoding are covered end to end by the integration test.
 		{"keys.List", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
-			_, _, err := cp.Keys.List(ctx).Execute()
+			_, _, err := cp.Keys.List(ctx, nil, nil)
 			return err
 		}, http.MethodGet, "/v1/keys"},
 		{"keys.Delete", "", func(ctx context.Context, cp *ControlPlaneClient) error {
-			_, err := cp.Keys.Delete(ctx, "k1").Execute()
+			_, err := cp.Keys.Delete(ctx, "k1")
 			return err
 		}, http.MethodDelete, "/v1/keys/k1"},
 		{"users.List", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
-			_, _, err := cp.Users.List(ctx).Execute()
+			_, _, err := cp.Users.List(ctx, nil, nil)
 			return err
 		}, http.MethodGet, "/v1/users"},
 		{"users.GetUsage", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
-			_, _, err := cp.Users.GetUsage(ctx, "u1").Execute()
+			_, _, err := cp.Users.GetUsage(ctx, "u1", nil, nil)
 			return err
 		}, http.MethodGet, "/v1/users/u1/usage"},
 		{"budgets.List", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
-			_, _, err := cp.Budgets.List(ctx).Execute()
+			_, _, err := cp.Budgets.List(ctx, nil, nil)
 			return err
 		}, http.MethodGet, "/v1/budgets"},
 		{"pricing.List", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
-			_, _, err := cp.Pricing.List(ctx).Execute()
+			_, _, err := cp.Pricing.List(ctx, nil, nil)
 			return err
 		}, http.MethodGet, "/v1/pricing"},
 		{"pricing.GetHistory", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
-			_, _, err := cp.Pricing.GetHistory(ctx, "mk1").Execute()
+			_, _, err := cp.Pricing.GetHistory(ctx, "mk1")
 			return err
 		}, http.MethodGet, "/v1/pricing/mk1/history"},
 		{"usage.List", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
-			_, _, err := cp.Usage.List(ctx).Execute()
+			_, _, err := cp.Usage.List(ctx, nil, nil, nil, nil, nil)
 			return err
 		}, http.MethodGet, "/v1/usage"},
 	}
