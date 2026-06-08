@@ -3,11 +3,9 @@ package otari
 import (
 	"context"
 	"fmt"
-	"net/http"
 	"strings"
 
-	"github.com/openai/openai-go"
-	"github.com/openai/openai-go/option"
+	"github.com/mozilla-ai/otari-sdk-go/otari/client"
 )
 
 // Provider configuration constants.
@@ -28,12 +26,6 @@ const (
 
 	// contentTypeJSON is the Content-Type value for JSON request bodies.
 	contentTypeJSON = "application/json"
-
-	// placeholderAPIKey satisfies the OpenAI SDK's requirement that an API key
-	// be set. The SDK still sends it in the Authorization header, but in
-	// non-platform mode real auth is carried by the otari header, so this
-	// is a non-secret placeholder that the gateway ignores.
-	placeholderAPIKey = "otari-no-key"
 
 	// envAPIBase is the environment variable read for the base URL
 	// when WithBaseURL is not passed to New.
@@ -72,35 +64,27 @@ const (
 // Client implements the otari SDK client. It connects to an otari gateway
 // server, which proxies requests to underlying LLM providers.
 //
+// Option C: the client is a thin, ergonomic shell over the OpenAPI-generated
+// core in the otari/client package. Non-streaming inference is issued through
+// that generated core's configured transport; streaming is the hand-written SSE
+// shim; generated/HTTP errors are mapped to the typed errors in this package.
+//
 // The client supports two authentication modes:
 //   - Platform mode: uses a platform token as standard Bearer auth
 //   - Non-platform mode: sends an otari API key via a custom Otari-Key header
 type Client struct {
-	// openaiClient is the OpenAI SDK client configured to point at the
-	// otari gateway's /v1 endpoint.
-	openaiClient openai.Client
+	// api is the generated client configured to point at the gateway's /v1
+	// base, carrying the per-mode auth header as a default header.
+	api *client.APIClient
 
-	// apiBase is the gateway base URL, used for batch API calls that bypass
-	// the OpenAI SDK.
+	// apiBase is the gateway root URL (without /v1).
 	apiBase string
 
-	// apiKey is the otari API key for non-platform mode, or the platform
-	// token in platform mode, used for batch API calls that bypass the
-	// OpenAI SDK.
-	apiKey string
-
-	// baseURL is the resolved base URL used to address endpoints
-	// handled directly by this package (e.g. /v1/moderations, /v1/rerank).
+	// baseURL is the gateway root URL, kept for ControlPlane wiring.
 	baseURL string
 
-	// httpClient is the HTTP client used for endpoints the embedded
-	// openai-go SDK does not expose (e.g. /v1/moderations, rerank, batch).
-	// In non-platform mode this is the header-injecting client so otari
-	// auth is preserved.
-	httpClient *http.Client
-
-	// platformToken is the Bearer token to set on requests we issue
-	// directly in platform mode; empty in non-platform mode.
+	// adminAuth is the resolved Authorization bearer value for batch calls
+	// in platform mode (empty in non-platform mode, where Otari-Key is used).
 	platformToken string
 
 	// platformMode indicates whether the client is operating in platform
@@ -192,61 +176,33 @@ func New(opts ...Option) (*Client, error) {
 	}
 	apiBase = strings.TrimRight(apiBase, "/")
 
-	// Normalize to the gateway root (without a trailing /v1). Each consumer
-	// adds its own /v1: the openai-go client is given <root>/v1 as its base
-	// (it appends bare paths like "chat/completions"), while the endpoints
-	// handled directly here (batches, rerank, moderations) build "/v1/..."
-	// paths onto the root. Normalizing here means the hosted default and a
-	// self-hosted base URL both work whether or not the caller includes /v1
-	// (mirrors the TS and Python SDKs).
+	// Normalize to the gateway root (without a trailing /v1). The generated
+	// client's base server URL is then <root>/v1, and inference/batch paths are
+	// joined relative to it (e.g. "/chat/completions"). Normalizing here means
+	// the hosted default and a self-hosted base URL both work whether or not the
+	// caller includes /v1 (mirrors the TS and Python SDKs).
 	apiBase = strings.TrimSuffix(apiBase, "/v1")
 	apiBase = strings.TrimRight(apiBase, "/")
 
-	// Build OpenAI client options. User's opts are cloned and auth-specific
-	// opts are layered on top (later options win).
-	sdkOpts := make([]option.RequestOption, 0, 3)
-
+	// Assemble the per-mode default auth header fed into the generated client
+	// configuration. Platform mode uses standard Bearer Authorization;
+	// non-platform mode uses the custom Otari-Key header.
 	httpClient := cfg.httpClientValue()
-	var sdkAPIKey string
-
+	headers := map[string]string{}
 	if platformMode {
-		sdkAPIKey = platformToken
-		// Wrap the HTTP client so raw HTTP calls (e.g. Rerank) that bypass
-		// the OpenAI SDK also carry the platform Bearer token.
-		httpClient = newBearerClient(httpClient, platformToken)
-	} else {
-		// Non-platform mode: override any user-supplied API key with the
-		// placeholder so secrets can't leak via the Authorization header.
-		sdkAPIKey = placeholderAPIKey
-		if otariKey != "" {
-			httpClient = newHeaderClient(httpClient, bearerPrefix+otariKey)
-		}
+		headers[authorizationHeader] = bearerPrefix + platformToken
+	} else if otariKey != "" {
+		headers[apiKeyHeaderName] = bearerPrefix + otariKey
 	}
 
-	sdkOpts = append(sdkOpts,
-		option.WithAPIKey(sdkAPIKey),
-		option.WithHTTPClient(httpClient),
-		// openai-go appends bare paths (e.g. "chat/completions"), so it needs
-		// the /v1-suffixed base; apiBase itself stays the root.
-		option.WithBaseURL(apiBase+"/v1"),
-	)
-
-	// Determine the key to use for batch API calls.
-	var batchAPIKey string
-	if platformMode {
-		batchAPIKey = platformToken
-	} else {
-		batchAPIKey = otariKey
-	}
+	// The generated core's operation paths already include the /v1 prefix, so
+	// its base server URL is the gateway root + /v1.
+	api := newAPIClient(apiBase+"/v1", headers, httpClient)
 
 	return &Client{
-		openaiClient: openai.NewClient(sdkOpts...),
-		apiBase:      apiBase,
-		apiKey:       batchAPIKey,
-		// apiBase is already the gateway root; raw HTTP endpoints prepend
-		// their own /v1/... path onto it.
+		api:           api,
+		apiBase:       apiBase,
 		baseURL:       apiBase,
-		httpClient:    httpClient,
 		platformMode:  platformMode,
 		platformToken: platformToken,
 	}, nil
@@ -277,8 +233,8 @@ func (c *Client) Capabilities() Capabilities {
 	}
 }
 
-// Completion performs a chat completion request.
-// Otari-specific errors (402, 502, 504) are converted to typed errors.
+// Completion performs a non-streaming chat completion request via
+// POST /v1/chat/completions. Gateway errors are mapped to typed errors.
 func (c *Client) Completion(
 	ctx context.Context,
 	params CompletionParams,
@@ -287,17 +243,20 @@ func (c *Client) Completion(
 		return nil, err
 	}
 
-	req := convertParams(params)
-	resp, err := c.openaiClient.Chat.Completions.New(ctx, req)
-	if err != nil {
-		return nil, convertOpenAIError(err)
+	body := completionBody(params, false)
+	var out ChatCompletion
+	if err := c.doJSON(ctx, "POST", "/chat/completions", body, &out, ""); err != nil {
+		return nil, err
 	}
-
-	return convertResponse(resp), nil
+	if out.Object == "" {
+		out.Object = objectChatCompletion
+	}
+	return &out, nil
 }
 
-// CompletionStream performs a streaming chat completion request.
-// Otari-specific errors (402, 502, 504) are converted to typed errors.
+// CompletionStream performs a streaming chat completion request. It returns a
+// channel of typed ChatCompletionChunk values and a buffered error channel.
+// The SSE shim parses the gateway's text/event-stream and stops at [DONE].
 func (c *Client) CompletionStream(
 	ctx context.Context,
 	params CompletionParams,
@@ -314,69 +273,169 @@ func (c *Client) CompletionStream(
 			return
 		}
 
-		req := convertParams(params)
-		stream := c.openaiClient.Chat.Completions.NewStreaming(ctx, req)
-
-		for stream.Next() {
-			chunk := stream.Current()
-			select {
-			case chunks <- convertChunk(&chunk):
-			case <-ctx.Done():
-				errs <- ctx.Err()
-				return
+		body := completionBody(params, true)
+		if err := streamSSE(ctx, c, "/chat/completions", body, func(payload []byte) error {
+			var chunk ChatCompletionChunk
+			if err := jsonUnmarshal(payload, &chunk); err != nil {
+				return err
 			}
-		}
-
-		if err := stream.Err(); err != nil {
-			errs <- convertOpenAIError(err)
+			if chunk.Object == "" {
+				chunk.Object = objectChatCompletionChunk
+			}
+			select {
+			case chunks <- chunk:
+				return nil
+			case <-ctx.Done():
+				return ctx.Err()
+			}
+		}); err != nil {
+			errs <- err
 		}
 	}()
 
 	return chunks, errs
 }
 
-// ConvertError converts errors to otari-specific typed errors where
-// applicable. This is exported so callers can use it for custom error handling.
+// ConvertError is retained for API compatibility. It returns the error as-is
+// (errors returned by this SDK are already typed via the unified mapper).
 func (c *Client) ConvertError(err error) error {
-	return convertOpenAIError(err)
+	return err
 }
 
-// Embedding generates embeddings for the given input.
-// Otari-specific errors (402, 502, 504) are converted to typed errors.
+// Embedding generates embeddings for the given input via POST /v1/embeddings.
 func (c *Client) Embedding(
 	ctx context.Context,
 	params EmbeddingParams,
 ) (*EmbeddingResponse, error) {
-	req := convertEmbeddingParams(params)
-
-	resp, err := c.openaiClient.Embeddings.New(ctx, req)
-	if err != nil {
-		return nil, convertOpenAIError(err)
+	var out EmbeddingResponse
+	if err := c.doJSON(ctx, "POST", "/embeddings", params, &out, ""); err != nil {
+		return nil, err
 	}
-
-	return convertEmbeddingResponse(resp), nil
+	if out.Object == "" {
+		out.Object = objectList
+	}
+	return &out, nil
 }
 
-// ListModels returns a list of available models from the gateway.
-// Otari-specific errors (402, 502, 504) are converted to typed errors.
+// ListModels returns the list of available models from GET /v1/models.
 func (c *Client) ListModels(ctx context.Context) (*ModelsResponse, error) {
-	resp, err := c.openaiClient.Models.List(ctx)
-	if err != nil {
-		return nil, convertOpenAIError(err)
+	var out ModelsResponse
+	if err := c.doJSON(ctx, "GET", "/models", nil, &out, ""); err != nil {
+		return nil, err
 	}
-
-	models := make([]Model, 0, len(resp.Data))
-	for _, model := range resp.Data {
-		models = append(models, Model{
-			ID:      model.ID,
-			Object:  objectModel,
-			Created: model.Created,
-			OwnedBy: string(model.OwnedBy),
-		})
+	if out.Object == "" {
+		out.Object = objectList
 	}
+	return &out, nil
+}
 
-	return &ModelsResponse{
-		Object: objectList,
-		Data:   models,
-	}, nil
+// Message creates an Anthropic-shaped message via POST /v1/messages.
+//
+// This endpoint has no OpenAI-SDK seam and was previously missing from the SDK.
+// Its response is opaque (response_model=None on the gateway), so the decoded
+// JSON is returned as a map. max_tokens is required by the gateway.
+func (c *Client) Message(
+	ctx context.Context,
+	params MessageParams,
+) (map[string]any, error) {
+	if params.Model == "" {
+		return nil, newInvalidRequestError(providerName, fmt.Errorf("model is required"))
+	}
+	if params.MaxTokens <= 0 {
+		return nil, newInvalidRequestError(providerName, fmt.Errorf("max_tokens is required"))
+	}
+	body := messageBody(params, false)
+	var out map[string]any
+	if err := c.doJSON(ctx, "POST", "/messages", body, &out, ""); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MessageStream streams an Anthropic-shaped message via POST /v1/messages.
+// The /messages event stream has no single typed chunk model, so each event is
+// delivered as the raw decoded JSON map.
+func (c *Client) MessageStream(
+	ctx context.Context,
+	params MessageParams,
+) (<-chan map[string]any, <-chan error) {
+	return c.rawStream(ctx, "/messages", messageBody(params, true), func() error {
+		if params.Model == "" {
+			return newInvalidRequestError(providerName, fmt.Errorf("model is required"))
+		}
+		if params.MaxTokens <= 0 {
+			return newInvalidRequestError(providerName, fmt.Errorf("max_tokens is required"))
+		}
+		return nil
+	})
+}
+
+// Response creates a response via the OpenAI-style Responses API
+// (POST /v1/responses). Its response is opaque on the gateway, so the decoded
+// JSON is returned as a map.
+func (c *Client) Response(
+	ctx context.Context,
+	params ResponseParams,
+) (map[string]any, error) {
+	if params.Model == "" {
+		return nil, newInvalidRequestError(providerName, fmt.Errorf("model is required"))
+	}
+	body := responseBody(params, false)
+	var out map[string]any
+	if err := c.doJSON(ctx, "POST", "/responses", body, &out, ""); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ResponseStream streams a response via POST /v1/responses, delivering each
+// event as the raw decoded JSON map.
+func (c *Client) ResponseStream(
+	ctx context.Context,
+	params ResponseParams,
+) (<-chan map[string]any, <-chan error) {
+	return c.rawStream(ctx, "/responses", responseBody(params, true), func() error {
+		if params.Model == "" {
+			return newInvalidRequestError(providerName, fmt.Errorf("model is required"))
+		}
+		return nil
+	})
+}
+
+// rawStream runs the SSE shim for endpoints whose events have no typed chunk
+// model, delivering each event as a decoded JSON map. validate runs first.
+func (c *Client) rawStream(
+	ctx context.Context,
+	path string,
+	body any,
+	validate func() error,
+) (<-chan map[string]any, <-chan error) {
+	events := make(chan map[string]any)
+	errs := make(chan error, 1)
+
+	go func() {
+		defer close(events)
+		defer close(errs)
+
+		if err := validate(); err != nil {
+			errs <- err
+			return
+		}
+		if err := streamSSE(ctx, c, path, body, func(payload []byte) error {
+			var evt map[string]any
+			if err := jsonUnmarshal(payload, &evt); err != nil {
+				return err
+			}
+			select {
+			case events <- evt:
+				return nil
+			case <-ctx.Done():
+				return ctx.Err()
+			}
+		}); err != nil {
+			errs <- err
+		}
+	}()
+
+	return events, errs
 }

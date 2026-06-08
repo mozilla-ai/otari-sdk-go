@@ -1,0 +1,5607 @@
+openapi: 3.1.0
+info:
+  description: A clean FastAPI gateway for otari with API key management
+  title: otari-gateway
+  version: 0.0.0-dev
+servers:
+- url: /
+paths:
+  /health:
+    get:
+      description: |-
+        General health check endpoint.
+
+        Returns basic health status. For infrastructure monitoring,
+        use /health/readiness or /health/liveness instead.
+      operationId: health_check_health_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                title: Response Health Check Health Get
+          description: Successful Response
+      summary: Health Check
+      tags:
+      - health
+  /health/liveness:
+    get:
+      description: |-
+        Liveness probe endpoint.
+
+        Simple check to verify the process is alive and responding.
+        Used by Kubernetes/container orchestrators for liveness probes.
+
+        Returns:
+            Plain text "I'm alive!" message
+      operationId: health_liveness_health_liveness_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                title: Response Health Liveness Health Liveness Get
+                type: string
+          description: Successful Response
+      summary: Health Liveness
+      tags:
+      - health
+  /health/readiness:
+    get:
+      description: |-
+        Readiness probe endpoint.
+
+        Checks if the gateway is ready to serve requests by validating:
+        - Database connectivity
+        - Service availability
+
+        Used by Kubernetes/container orchestrators for readiness probes.
+        Returns HTTP 503 if any dependency is unavailable.
+
+        Returns:
+            dict: Status object with health details
+
+        Raises:
+            HTTPException: 503 if service is not ready
+      operationId: health_readiness_health_readiness_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: {}
+                title: Response Health Readiness Health Readiness Get
+          description: Successful Response
+      summary: Health Readiness
+      tags:
+      - health
+  /v1/audio/speech:
+    post:
+      description: |-
+        OpenAI-compatible audio speech (TTS) endpoint.
+
+        Authentication modes:
+        - Master key + user field: Use specified user (must exist)
+        - API key + user field: Use specified user (must exist)
+        - API key without user field: Use virtual user created with API key
+      operationId: create_speech_v1_audio_speech_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AudioSpeechRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+            audio/L16:
+              schema:
+                format: binary
+                type: string
+            audio/aac:
+              schema:
+                format: binary
+                type: string
+            audio/flac:
+              schema:
+                format: binary
+                type: string
+            audio/mpeg:
+              schema:
+                format: binary
+                type: string
+            audio/opus:
+              schema:
+                format: binary
+                type: string
+            audio/wav:
+              schema:
+                format: binary
+                type: string
+          description: Audio bytes in the requested format
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Speech
+      tags:
+      - audio
+  /v1/audio/transcriptions:
+    post:
+      description: |-
+        OpenAI-compatible audio transcription endpoint.
+
+        Authentication modes:
+        - Master key + user field: Use specified user (must exist)
+        - API key + user field: Use specified user (must exist)
+        - API key without user field: Use virtual user created with API key
+      operationId: create_transcription_v1_audio_transcriptions_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Body_create_transcription_v1_audio_transcriptions_post"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Transcription
+      tags:
+      - audio
+  /v1/batches:
+    get:
+      description: List batches for a provider.
+      operationId: list_batches_v1_batches_get
+      parameters:
+      - explode: true
+        in: query
+        name: provider
+        required: true
+        schema:
+          title: Provider
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: after
+        required: false
+        schema:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Batches
+      tags:
+      - batches
+    post:
+      description: Create a batch of LLM requests for asynchronous processing.
+      operationId: create_batch_v1_batches_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBatchRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Batch
+      tags:
+      - batches
+  /v1/batches/{batch_id}:
+    get:
+      description: Retrieve the status of a batch.
+      operationId: retrieve_batch_v1_batches__batch_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: batch_id
+        required: true
+        schema:
+          title: Batch Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: provider
+        required: true
+        schema:
+          title: Provider
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Retrieve Batch
+      tags:
+      - batches
+  /v1/batches/{batch_id}/cancel:
+    post:
+      description: Cancel a batch.
+      operationId: cancel_batch_v1_batches__batch_id__cancel_post
+      parameters:
+      - explode: false
+        in: path
+        name: batch_id
+        required: true
+        schema:
+          title: Batch Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: provider
+        required: true
+        schema:
+          title: Provider
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Cancel Batch
+      tags:
+      - batches
+  /v1/batches/{batch_id}/results:
+    get:
+      description: Retrieve the results of a completed batch.
+      operationId: retrieve_batch_results_v1_batches__batch_id__results_get
+      parameters:
+      - explode: false
+        in: path
+        name: batch_id
+        required: true
+        schema:
+          title: Batch Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: provider
+        required: true
+        schema:
+          title: Provider
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "409":
+          description: Batch is not yet complete
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+        "502":
+          description: LLM provider error
+      summary: Retrieve Batch Results
+      tags:
+      - batches
+  /v1/budgets:
+    get:
+      description: List all budgets with pagination.
+      operationId: list_budgets_v1_budgets_get
+      parameters:
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/BudgetResponse"
+                title: Response List Budgets V1 Budgets Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Budgets
+      tags:
+      - budgets
+    post:
+      description: Create a new budget.
+      operationId: create_budget_v1_budgets_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBudgetRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BudgetResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Budget
+      tags:
+      - budgets
+  /v1/budgets/{budget_id}:
+    delete:
+      description: Delete a budget.
+      operationId: delete_budget_v1_budgets__budget_id__delete
+      parameters:
+      - explode: false
+        in: path
+        name: budget_id
+        required: true
+        schema:
+          title: Budget Id
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Delete Budget
+      tags:
+      - budgets
+    get:
+      description: Get details of a specific budget.
+      operationId: get_budget_v1_budgets__budget_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: budget_id
+        required: true
+        schema:
+          title: Budget Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BudgetResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get Budget
+      tags:
+      - budgets
+    patch:
+      description: Update a budget.
+      operationId: update_budget_v1_budgets__budget_id__patch
+      parameters:
+      - explode: false
+        in: path
+        name: budget_id
+        required: true
+        schema:
+          title: Budget Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBudgetRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BudgetResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Update Budget
+      tags:
+      - budgets
+  /v1/chat/completions:
+    post:
+      description: |-
+        OpenAI-compatible chat completions endpoint.
+
+        Supports both streaming and non-streaming responses.
+        Handles reasoning content from otari providers.
+
+        Authentication modes:
+        - Master key + user field: Use specified user (must exist)
+        - API key + user field: Use specified user (must exist)
+        - API key without user field: Use virtual user created with API key
+      operationId: chat_completions_v1_chat_completions_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatCompletionRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatCompletion"
+          description: Chat completion
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Chat Completions
+      tags:
+      - chat
+  /v1/embeddings:
+    post:
+      description: |-
+        OpenAI-compatible embeddings endpoint.
+
+        Authentication modes:
+        - Master key + user field: Use specified user (must exist)
+        - API key + user field: Use specified user (must exist)
+        - API key without user field: Use virtual user created with API key
+      operationId: create_embedding_v1_embeddings_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmbeddingRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateEmbeddingResponse"
+          description: Embeddings
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Embedding
+      tags:
+      - embeddings
+  /v1/images/generations:
+    post:
+      description: |-
+        OpenAI-compatible image generation endpoint.
+
+        Authentication modes:
+        - Master key + user field: Use specified user (must exist)
+        - API key + user field: Use specified user (must exist)
+        - API key without user field: Use virtual user created with API key
+      operationId: create_image_v1_images_generations_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImageGenerationRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Image
+      tags:
+      - images
+  /v1/keys:
+    get:
+      description: |-
+        List all API keys.
+
+        Requires master key authentication.
+      operationId: list_keys_v1_keys_get
+      parameters:
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/KeyInfo"
+                title: Response List Keys V1 Keys Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Keys
+      tags:
+      - keys
+    post:
+      description: |-
+        Create a new API key.
+
+        Requires master key authentication.
+
+        If user_id is provided, the key will be associated with that user (creates user if it doesn't exist).
+        If user_id is not provided, a new user will be created automatically and the key will be associated with it.
+      operationId: create_key_v1_keys_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateKeyRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateKeyResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Key
+      tags:
+      - keys
+  /v1/keys/{key_id}:
+    delete:
+      description: |-
+        Delete (revoke) an API key.
+
+        Requires master key authentication.
+      operationId: delete_key_v1_keys__key_id__delete
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          title: Key Id
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Delete Key
+      tags:
+      - keys
+    get:
+      description: |-
+        Get details of a specific API key.
+
+        Requires master key authentication.
+      operationId: get_key_v1_keys__key_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          title: Key Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyInfo"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get Key
+      tags:
+      - keys
+    patch:
+      description: |-
+        Update an API key.
+
+        Requires master key authentication.
+      operationId: update_key_v1_keys__key_id__patch
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          title: Key Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateKeyRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyInfo"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Update Key
+      tags:
+      - keys
+  /v1/messages:
+    post:
+      description: |-
+        Anthropic Messages API-compatible endpoint.
+
+        Supports MCP tool-use loops, sandboxed code execution, and SearXNG
+        web_search in both standalone mode and platform mode. Platform-mode
+        requests resolve credentials via the platform service and (for
+        non-tool-loop requests) get multi-attempt fallback across the resolved
+        route. Tool-loop requests collapse to a single attempt — once
+        ``on_first_response`` lock-in plumbing lands across the codebase, a
+        follow-up will enable pre-lock-in fallback for tool-loop requests too.
+      operationId: create_message_v1_messages_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessagesRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+          description: Anthropic-style message
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Message
+      tags:
+      - messages
+  /v1/models:
+    get:
+      description: |-
+        List all available models.
+
+        Returns models auto-discovered from configured providers, enriched with
+        pricing data from the model_pricing table when available. Models that only
+        exist in the pricing table are also included for backward compatibility.
+      operationId: list_models_v1_models_get
+      parameters:
+      - description: Filter models by provider name
+        explode: true
+        in: query
+        name: provider
+        required: false
+        schema:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModelListResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Models
+      tags:
+      - models
+  /v1/models/{model_id}:
+    get:
+      description: Get details for a specific model.
+      operationId: get_model_v1_models__model_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: model_id
+        required: true
+        schema:
+          title: Model Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModelObject"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get Model
+      tags:
+      - models
+  /v1/moderations:
+    post:
+      description: |-
+        OpenAI-compatible moderations endpoint.
+
+        Authentication modes:
+        - Master key + user field: Use specified user (must exist)
+        - API key + user field: Use specified user (must exist)
+        - API key without user field: Use virtual user created with API key
+      operationId: create_moderation_v1_moderations_post
+      parameters:
+      - explode: true
+        in: query
+        name: include_raw
+        required: false
+        schema:
+          default: false
+          title: Include Raw
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ModerationRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModerationResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Moderation
+      tags:
+      - moderations
+  /v1/pricing:
+    get:
+      description: List all model pricing.
+      operationId: list_pricing_v1_pricing_get
+      parameters:
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/PricingResponse"
+                title: Response List Pricing V1 Pricing Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Pricing
+      tags:
+      - pricing
+    post:
+      description: Set or update pricing for a model.
+      operationId: set_pricing_v1_pricing_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetPricingRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PricingResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Set Pricing
+      tags:
+      - pricing
+  /v1/pricing/{model_key}:
+    delete:
+      description: Delete pricing entries for a model.
+      operationId: delete_pricing_v1_pricing__model_key__delete
+      parameters:
+      - explode: false
+        in: path
+        name: model_key
+        required: true
+        schema:
+          title: Model Key
+          type: string
+        style: simple
+      - description: ISO datetime identifying a specific pricing row to delete
+        explode: true
+        in: query
+        name: effective_at
+        required: false
+        schema:
+          description: ISO datetime for effective lookup
+          format: date-time
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "204":
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Delete Pricing
+      tags:
+      - pricing
+    get:
+      description: Get pricing for a specific model as of a timestamp.
+      operationId: get_pricing_v1_pricing__model_key__get
+      parameters:
+      - explode: false
+        in: path
+        name: model_key
+        required: true
+        schema:
+          title: Model Key
+          type: string
+        style: simple
+      - description: ISO datetime for effective lookup
+        explode: true
+        in: query
+        name: as_of
+        required: false
+        schema:
+          description: ISO datetime for effective lookup
+          format: date-time
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PricingResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get Pricing
+      tags:
+      - pricing
+  /v1/pricing/{model_key}/history:
+    get:
+      description: Return the full pricing history for a model.
+      operationId: get_pricing_history_v1_pricing__model_key__history_get
+      parameters:
+      - explode: false
+        in: path
+        name: model_key
+        required: true
+        schema:
+          title: Model Key
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/PricingResponse"
+                title: Response Get Pricing History V1 Pricing  Model Key  History
+                  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get Pricing History
+      tags:
+      - pricing
+  /v1/rerank:
+    post:
+      description: |-
+        Rerank documents by relevance to a query.
+
+        Authentication modes:
+        - Master key + user field: Use specified user (must exist)
+        - API key + user field: Use specified user (must exist)
+        - API key without user field: Use virtual user created with API key
+      operationId: create_rerank_v1_rerank_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RerankRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RerankResponse"
+          description: Rerank result
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Rerank
+      tags:
+      - rerank
+  /v1/responses:
+    post:
+      description: |-
+        OpenAI-compatible Responses endpoint.
+
+        Supports MCP tool-use loops, sandboxed code execution, and SearXNG
+        web_search in both standalone mode and platform mode. Platform-mode
+        requests resolve credentials via the platform service and (for
+        non-tool-loop requests) get multi-attempt fallback across the resolved
+        route. Tool-loop requests collapse to a single attempt — once
+        ``on_first_response`` lock-in plumbing lands across the codebase, a
+        follow-up will enable pre-lock-in fallback for tool-loop requests too.
+      operationId: create_response_v1_responses_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponsesRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Response
+      tags:
+      - responses
+  /v1/usage:
+    get:
+      description: |-
+        List usage logs ordered by timestamp (most recent first).
+
+        Supports optional filters for time range and user. Paginated via skip/limit.
+        Timestamps accept either ISO 8601 strings or Unix epoch seconds (numeric).
+      operationId: list_usage_v1_usage_get
+      parameters:
+      - description: Return logs with timestamp >= start_date (ISO 8601 or Unix epoch
+          seconds)
+        explode: true
+        in: query
+        name: start_date
+        required: false
+        schema:
+          description: ISO datetime for effective lookup
+          format: date-time
+          nullable: true
+          type: string
+        style: form
+      - description: Return logs with timestamp < end_date (ISO 8601 or Unix epoch
+          seconds)
+        explode: true
+        in: query
+        name: end_date
+        required: false
+        schema:
+          description: ISO datetime for effective lookup
+          format: date-time
+          nullable: true
+          type: string
+        style: form
+      - description: Filter to a single user
+        explode: true
+        in: query
+        name: user_id
+        required: false
+        schema:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/UsageEntry"
+                title: Response List Usage V1 Usage Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Usage
+      tags:
+      - usage
+  /v1/users:
+    get:
+      description: List all users with pagination.
+      operationId: list_users_v1_users_get
+      parameters:
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/UserResponse"
+                title: Response List Users V1 Users Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Users
+      tags:
+      - users
+    post:
+      description: Create a new user.
+      operationId: create_user_v1_users_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create User
+      tags:
+      - users
+  /v1/users/{user_id}:
+    delete:
+      description: Delete a user.
+      operationId: delete_user_v1_users__user_id__delete
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          title: User Id
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Delete User
+      tags:
+      - users
+    get:
+      description: Get details of a specific user.
+      operationId: get_user_v1_users__user_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          title: User Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get User
+      tags:
+      - users
+    patch:
+      description: Update a user.
+      operationId: update_user_v1_users__user_id__patch
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          title: User Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Update User
+      tags:
+      - users
+  /v1/users/{user_id}/usage:
+    get:
+      description: Get usage history for a specific user.
+      operationId: get_user_usage_v1_users__user_id__usage_get
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          title: User Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/UsageLogResponse"
+                title: Response Get User Usage V1 Users  User Id  Usage Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get User Usage
+      tags:
+      - users
+components:
+  schemas:
+    AudioSpeechRequest:
+      description: OpenAI-compatible audio speech (TTS) request.
+      example:
+        voice: voice
+        input: input
+        instructions: instructions
+        response_format: response_format
+        model: model
+        user: user
+        speed: 0.8008281904610115
+      properties:
+        input:
+          title: Input
+          type: string
+        instructions:
+          nullable: true
+          type: string
+        model:
+          title: Model
+          type: string
+        response_format:
+          nullable: true
+          type: string
+        speed:
+          nullable: true
+          type: number
+        user:
+          nullable: true
+          type: string
+        voice:
+          title: Voice
+          type: string
+      required:
+      - input
+      - model
+      - voice
+      title: AudioSpeechRequest
+    BatchRequestItem:
+      example:
+        custom_id: custom_id
+        body:
+          key: ""
+      properties:
+        body:
+          additionalProperties: true
+          title: Body
+          type: object
+        custom_id:
+          title: Custom Id
+          type: string
+      required:
+      - body
+      - custom_id
+      title: BatchRequestItem
+    Body_create_transcription_v1_audio_transcriptions_post:
+      properties:
+        file:
+          title: File
+          type: string
+        language:
+          nullable: true
+          type: string
+        model:
+          title: Model
+          type: string
+        prompt:
+          nullable: true
+          type: string
+        response_format:
+          nullable: true
+          type: string
+        temperature:
+          nullable: true
+          type: number
+        user:
+          nullable: true
+          type: string
+      required:
+      - file
+      - model
+      title: Body_create_transcription_v1_audio_transcriptions_post
+    BudgetResponse:
+      description: Response model for budget information.
+      example:
+        updated_at: updated_at
+        budget_id: budget_id
+        budget_duration_sec: 0
+        created_at: created_at
+        max_budget: 6.027456183070403
+      properties:
+        budget_duration_sec:
+          nullable: true
+          type: integer
+        budget_id:
+          title: Budget Id
+          type: string
+        created_at:
+          title: Created At
+          type: string
+        max_budget:
+          nullable: true
+          type: number
+        updated_at:
+          title: Updated At
+          type: string
+      required:
+      - budget_duration_sec
+      - budget_id
+      - created_at
+      - max_budget
+      - updated_at
+      title: BudgetResponse
+    ChatCompletionRequest:
+      description: OpenAI-compatible chat completion request.
+      example:
+        max_tool_iterations: 4
+        mcp_server_ids:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        mcp_servers:
+        - authorization_token: authorization_token
+          allowed_tools:
+          - allowed_tools
+          - allowed_tools
+          name: name
+          url: url
+          purpose_hint: purpose_hint
+        - authorization_token: authorization_token
+          allowed_tools:
+          - allowed_tools
+          - allowed_tools
+          name: name
+          url: url
+          purpose_hint: purpose_hint
+        max_tokens: 6
+        tools:
+        - key: ""
+        - key: ""
+        top_p: 5.637376656633329
+        max_completion_tokens: 0
+        response_format:
+          key: ""
+        stream: false
+        guardrails:
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        temperature: 5.962133916683182
+        messages:
+        - role: developer
+          name: name
+          content: Content_1
+        - role: developer
+          name: name
+          content: Content_1
+        tool_choice: Tool_Choice
+        model: model
+        tools_header: tools_header
+        stream_options:
+          key: ""
+        user: user
+      properties:
+        guardrails:
+          items:
+            $ref: "#/components/schemas/GuardrailConfig"
+          maxItems: 8
+          nullable: true
+          type: array
+        max_completion_tokens:
+          nullable: true
+          type: integer
+        max_tokens:
+          nullable: true
+          type: integer
+        max_tool_iterations:
+          maximum: 25.0
+          minimum: 1.0
+          nullable: true
+          type: integer
+        mcp_server_ids:
+          items:
+            format: uuid
+            type: string
+          nullable: true
+          type: array
+        mcp_servers:
+          items:
+            $ref: "#/components/schemas/McpServerConfig"
+          nullable: true
+          type: array
+        messages:
+          items:
+            $ref: "#/components/schemas/ChatMessageInput"
+          minItems: 1
+          type: array
+        model:
+          title: Model
+          type: string
+        response_format:
+          additionalProperties: true
+          nullable: true
+          type: object
+        stream:
+          default: false
+          title: Stream
+          type: boolean
+        stream_options:
+          additionalProperties: true
+          nullable: true
+          type: object
+        temperature:
+          nullable: true
+          type: number
+        tool_choice:
+          $ref: "#/components/schemas/Tool_Choice"
+        tools:
+          items:
+            additionalProperties: true
+            nullable: true
+            type: object
+          nullable: true
+          type: array
+        tools_header:
+          description: "Optional override for the lead-in that the gateway prepends\
+            \ before the per-tool hint block in the system message. Useful for expressing\
+            \ global tool-selection policy (e.g. 'prefer MCP tools over code_execution').\
+            \ Falls back to GATEWAY_TOOLS_HEADER env, then to the built-in default."
+          maxLength: 4000
+          nullable: true
+          type: string
+        top_p:
+          nullable: true
+          type: number
+        user:
+          nullable: true
+          type: string
+      required:
+      - messages
+      - model
+      title: ChatCompletionRequest
+    CreateBatchRequest:
+      example:
+        metadata:
+          key: metadata
+        completion_window: 24h
+        model: model
+        requests:
+        - custom_id: custom_id
+          body:
+            key: ""
+        - custom_id: custom_id
+          body:
+            key: ""
+        - custom_id: custom_id
+          body:
+            key: ""
+        - custom_id: custom_id
+          body:
+            key: ""
+        - custom_id: custom_id
+          body:
+            key: ""
+      properties:
+        completion_window:
+          default: 24h
+          title: Completion Window
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          nullable: true
+        model:
+          title: Model
+          type: string
+        requests:
+          items:
+            $ref: "#/components/schemas/BatchRequestItem"
+          maxItems: 10000
+          minItems: 1
+          title: Requests
+          type: array
+      required:
+      - model
+      - requests
+      title: CreateBatchRequest
+    CreateBudgetRequest:
+      description: Request model for creating a new budget.
+      example:
+        budget_duration_sec: 0
+        max_budget: 0.6027456183070403
+      properties:
+        budget_duration_sec:
+          description: "Budget duration in seconds (e.g., 86400 for daily, 604800\
+            \ for weekly)"
+          exclusiveMinimum: true
+          minimum: 0.0
+          nullable: true
+          type: integer
+        max_budget:
+          description: Maximum spending limit
+          minimum: 0.0
+          nullable: true
+          type: number
+      title: CreateBudgetRequest
+    CreateKeyRequest:
+      description: Request model for creating a new API key.
+      example:
+        key_name: key_name
+        metadata:
+          key: ""
+        expires_at: 2000-01-23T04:56:07.000+00:00
+        user_id: user_id
+      properties:
+        expires_at:
+          description: Optional expiration timestamp
+          format: date-time
+          nullable: true
+          type: string
+        key_name:
+          description: Optional name for the key
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          description: Optional metadata
+          title: Metadata
+          type: object
+        user_id:
+          description: Optional user ID to associate with this key
+          nullable: true
+          type: string
+      title: CreateKeyRequest
+    CreateKeyResponse:
+      description: Response model for creating a new API key.
+      example:
+        key_name: key_name
+        metadata:
+          key: ""
+        expires_at: expires_at
+        is_active: true
+        user_id: user_id
+        created_at: created_at
+        id: id
+        key: key
+      properties:
+        created_at:
+          title: Created At
+          type: string
+        expires_at:
+          nullable: true
+          type: string
+        id:
+          title: Id
+          type: string
+        is_active:
+          title: Is Active
+          type: boolean
+        key:
+          title: Key
+          type: string
+        key_name:
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          title: Metadata
+          type: object
+        user_id:
+          nullable: true
+          type: string
+      required:
+      - created_at
+      - expires_at
+      - id
+      - is_active
+      - key
+      - key_name
+      - metadata
+      - user_id
+      title: CreateKeyResponse
+    CreateUserRequest:
+      description: Request model for creating a new user.
+      example:
+        metadata:
+          key: ""
+        blocked: false
+        user_id: user_id
+        budget_id: budget_id
+        alias: alias
+      properties:
+        alias:
+          description: Optional admin-facing alias
+          nullable: true
+          type: string
+        blocked:
+          default: false
+          description: Whether user is blocked
+          title: Blocked
+          type: boolean
+        budget_id:
+          description: Optional budget ID
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          description: Optional metadata
+          title: Metadata
+          type: object
+        user_id:
+          description: Unique user identifier
+          title: User Id
+          type: string
+      required:
+      - user_id
+      title: CreateUserRequest
+    EmbeddingRequest:
+      description: OpenAI-compatible embedding request.
+      example:
+        input: Input
+        encoding_format: encoding_format
+        model: model
+        user: user
+        dimensions: 0
+      properties:
+        dimensions:
+          nullable: true
+          type: integer
+        encoding_format:
+          nullable: true
+          type: string
+        input:
+          $ref: "#/components/schemas/Input"
+        model:
+          title: Model
+          type: string
+        user:
+          nullable: true
+          type: string
+      required:
+      - input
+      - model
+      title: EmbeddingRequest
+    GuardrailConfig:
+      description: |-
+        A single guardrail check the caller wants the gateway to enforce.
+
+        URL safety: when ``url`` is supplied it is validated at parse time with the
+        same SSRF guard used for MCP server URLs (loopback allowed by default for
+        same-host sidecars; gated by ``GATEWAY_MCP_ALLOW_LOOPBACK`` /
+        ``GATEWAY_MCP_ALLOW_PRIVATE_HOSTS``). Most deployments omit ``url`` and rely
+        on the operator-set ``GATEWAY_GUARDRAILS_URL`` instead.
+      example:
+        mode: monitor
+        validate_kwargs:
+          key: ""
+        profile: profile
+        url: url
+        "on":
+        - input
+        - input
+      properties:
+        mode:
+          default: monitor
+          enum:
+          - block
+          - monitor
+          title: Mode
+          type: string
+        "on":
+          items:
+            enum:
+            - input
+            - output
+            type: string
+          title: "On"
+          type: array
+        profile:
+          maxLength: 128
+          minLength: 1
+          title: Profile
+          type: string
+        url:
+          minLength: 1
+          nullable: true
+          type: string
+        validate_kwargs:
+          additionalProperties: true
+          title: Validate Kwargs
+          type: object
+      required:
+      - profile
+      title: GuardrailConfig
+    HTTPValidationError:
+      example:
+        detail:
+        - msg: msg
+          input: ""
+          loc:
+          - Location_inner
+          - Location_inner
+          ctx: "{}"
+          type: type
+        - msg: msg
+          input: ""
+          loc:
+          - Location_inner
+          - Location_inner
+          ctx: "{}"
+          type: type
+      properties:
+        detail:
+          items:
+            $ref: "#/components/schemas/ValidationError"
+          title: Detail
+          type: array
+      title: HTTPValidationError
+    ImageGenerationRequest:
+      description: OpenAI-compatible image generation request.
+      example:
+        response_format: response_format
+        size: size
+        model: model
+        style: style
+        prompt: prompt
+        user: user
+        "n": 0
+        quality: quality
+      properties:
+        model:
+          title: Model
+          type: string
+        "n":
+          nullable: true
+          type: integer
+        prompt:
+          title: Prompt
+          type: string
+        quality:
+          nullable: true
+          type: string
+        response_format:
+          nullable: true
+          type: string
+        size:
+          nullable: true
+          type: string
+        style:
+          nullable: true
+          type: string
+        user:
+          nullable: true
+          type: string
+      required:
+      - model
+      - prompt
+      title: ImageGenerationRequest
+    KeyInfo:
+      description: Response model for key information.
+      example:
+        key_name: key_name
+        last_used_at: last_used_at
+        metadata:
+          key: ""
+        expires_at: expires_at
+        is_active: true
+        user_id: user_id
+        created_at: created_at
+        id: id
+      properties:
+        created_at:
+          title: Created At
+          type: string
+        expires_at:
+          nullable: true
+          type: string
+        id:
+          title: Id
+          type: string
+        is_active:
+          title: Is Active
+          type: boolean
+        key_name:
+          nullable: true
+          type: string
+        last_used_at:
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          title: Metadata
+          type: object
+        user_id:
+          nullable: true
+          type: string
+      required:
+      - created_at
+      - expires_at
+      - id
+      - is_active
+      - key_name
+      - last_used_at
+      - metadata
+      - user_id
+      title: KeyInfo
+    McpServerConfig:
+      description: |-
+        Inline MCP server configuration accepted on the chat completions request.
+
+        Streamable HTTP transport. The `url` must be reachable from the gateway process.
+
+        URL safety is enforced at parse time:
+
+        * SSRF guard rejects private, link-local, and reserved IP ranges. Loopback is
+          allowed by default (sidecars, dev) — set ``GATEWAY_MCP_ALLOW_LOOPBACK=false`` to disable.
+        * Plain ``http://`` is rejected when ``authorization_token`` is set, to keep
+          bearer tokens off the wire in cleartext.
+      example:
+        authorization_token: authorization_token
+        allowed_tools:
+        - allowed_tools
+        - allowed_tools
+        name: name
+        url: url
+        purpose_hint: purpose_hint
+      properties:
+        allowed_tools:
+          items:
+            type: string
+          nullable: true
+          type: array
+        authorization_token:
+          nullable: true
+          type: string
+        name:
+          maxLength: 128
+          minLength: 1
+          title: Name
+          type: string
+        purpose_hint:
+          maxLength: 2000
+          nullable: true
+          type: string
+        url:
+          minLength: 1
+          title: Url
+          type: string
+      required:
+      - name
+      - url
+      title: McpServerConfig
+    MessagesRequest:
+      description: |-
+        Anthropic Messages API-compatible request.
+
+        Gateway-internal fields (``mcp_servers``, ``mcp_server_ids``,
+        ``guardrails``, ``tools_header``, ``max_tool_iterations``) opt the request
+        into gateway-managed MCP / sandbox / web_search / guardrails without
+        changing the upstream wire shape. They're stripped before the request is
+        forwarded.
+      example:
+        max_tool_iterations: 15
+        mcp_server_ids:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        mcp_servers:
+        - authorization_token: authorization_token
+          allowed_tools:
+          - allowed_tools
+          - allowed_tools
+          name: name
+          url: url
+          purpose_hint: purpose_hint
+        - authorization_token: authorization_token
+          allowed_tools:
+          - allowed_tools
+          - allowed_tools
+          name: name
+          url: url
+          purpose_hint: purpose_hint
+        stop_sequences:
+        - stop_sequences
+        - stop_sequences
+        metadata:
+          key: ""
+        max_tokens: 0
+        cache_control:
+          key: ""
+        thinking:
+          key: ""
+        tools:
+        - key: ""
+        - key: ""
+        top_p: 5.637376656633329
+        system: System
+        stream: false
+        top_k: 5
+        guardrails:
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        temperature: 1.4658129805029452
+        messages:
+        - key: ""
+        - key: ""
+        tool_choice:
+          key: ""
+        model: model
+        tools_header: tools_header
+      properties:
+        cache_control:
+          additionalProperties: true
+          nullable: true
+          type: object
+        guardrails:
+          items:
+            $ref: "#/components/schemas/GuardrailConfig"
+          maxItems: 8
+          nullable: true
+          type: array
+        max_tokens:
+          title: Max Tokens
+          type: integer
+        max_tool_iterations:
+          maximum: 25.0
+          minimum: 1.0
+          nullable: true
+          type: integer
+        mcp_server_ids:
+          items:
+            format: uuid
+            type: string
+          nullable: true
+          type: array
+        mcp_servers:
+          items:
+            $ref: "#/components/schemas/McpServerConfig"
+          nullable: true
+          type: array
+        messages:
+          items:
+            additionalProperties: true
+            nullable: true
+            type: object
+          minItems: 1
+          title: Messages
+          type: array
+        metadata:
+          additionalProperties: true
+          nullable: true
+          type: object
+        model:
+          title: Model
+          type: string
+        stop_sequences:
+          items:
+            type: string
+          nullable: true
+          type: array
+        stream:
+          default: false
+          title: Stream
+          type: boolean
+        system:
+          $ref: "#/components/schemas/System"
+        temperature:
+          nullable: true
+          type: number
+        thinking:
+          additionalProperties: true
+          nullable: true
+          type: object
+        tool_choice:
+          additionalProperties: true
+          nullable: true
+          type: object
+        tools:
+          items:
+            additionalProperties: true
+            type: object
+          nullable: true
+          type: array
+        tools_header:
+          nullable: true
+          type: string
+        top_k:
+          nullable: true
+          type: integer
+        top_p:
+          nullable: true
+          type: number
+      required:
+      - max_tokens
+      - messages
+      - model
+      title: MessagesRequest
+    ModelListResponse:
+      description: OpenAI-compatible model list response.
+      example:
+        data:
+        - created: 0
+          owned_by: owned_by
+          id: id
+          pricing: ""
+          object: model
+        - created: 0
+          owned_by: owned_by
+          id: id
+          pricing: ""
+          object: model
+        object: list
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/ModelObject"
+          title: Data
+          type: array
+        object:
+          default: list
+          title: Object
+          type: string
+      required:
+      - data
+      title: ModelListResponse
+    ModelObject:
+      description: OpenAI-compatible model object.
+      example:
+        created: 0
+        owned_by: owned_by
+        id: id
+        pricing: ""
+        object: model
+      properties:
+        created:
+          title: Created
+          type: integer
+        id:
+          title: Id
+          type: string
+        object:
+          default: model
+          title: Object
+          type: string
+        owned_by:
+          title: Owned By
+          type: string
+        pricing:
+          allOf:
+          - $ref: "#/components/schemas/ModelPricingInfo"
+          nullable: true
+      required:
+      - created
+      - id
+      - owned_by
+      title: ModelObject
+    ModelPricingInfo:
+      description: Pricing information for a model.
+      properties:
+        input_price_per_million:
+          title: Input Price Per Million
+          type: number
+        output_price_per_million:
+          title: Output Price Per Million
+          type: number
+      required:
+      - input_price_per_million
+      - output_price_per_million
+      title: ModelPricingInfo
+    ModerationRequest:
+      description: OpenAI-compatible moderation request.
+      example:
+        input: Input_1
+        model: model
+        user: user
+      properties:
+        input:
+          $ref: "#/components/schemas/Input_1"
+        model:
+          title: Model
+          type: string
+        user:
+          nullable: true
+          type: string
+      required:
+      - input
+      - model
+      title: ModerationRequest
+    ModerationResponse:
+      description: Normalized moderation response across providers.
+      example:
+        model: model
+        id: id
+        results:
+        - provider_raw:
+            key: ""
+          category_scores:
+            key: 0.8008281904610115
+          flagged: true
+          category_applied_input_types:
+            key:
+            - category_applied_input_types
+            - category_applied_input_types
+          categories:
+            key: true
+        - provider_raw:
+            key: ""
+          category_scores:
+            key: 0.8008281904610115
+          flagged: true
+          category_applied_input_types:
+            key:
+            - category_applied_input_types
+            - category_applied_input_types
+          categories:
+            key: true
+      properties:
+        id:
+          title: Id
+          type: string
+        model:
+          title: Model
+          type: string
+        results:
+          items:
+            $ref: "#/components/schemas/ModerationResult"
+          title: Results
+          type: array
+      required:
+      - id
+      - model
+      - results
+      title: ModerationResponse
+    ModerationResult:
+      description: "A single moderation decision, typically one per input item."
+      example:
+        provider_raw:
+          key: ""
+        category_scores:
+          key: 0.8008281904610115
+        flagged: true
+        category_applied_input_types:
+          key:
+          - category_applied_input_types
+          - category_applied_input_types
+        categories:
+          key: true
+      properties:
+        categories:
+          additionalProperties:
+            type: boolean
+          title: Categories
+        category_applied_input_types:
+          additionalProperties:
+            items:
+              type: string
+          nullable: true
+        category_scores:
+          additionalProperties:
+            type: number
+          title: Category Scores
+        flagged:
+          title: Flagged
+          type: boolean
+        provider_raw:
+          additionalProperties: true
+          nullable: true
+          type: object
+      required:
+      - flagged
+      title: ModerationResult
+    PricingResponse:
+      description: Response model for model pricing.
+      example:
+        effective_at: effective_at
+        model_key: model_key
+        updated_at: updated_at
+        input_price_per_million: 0.8008281904610115
+        created_at: created_at
+        output_price_per_million: 6.027456183070403
+      properties:
+        created_at:
+          title: Created At
+          type: string
+        effective_at:
+          title: Effective At
+          type: string
+        input_price_per_million:
+          title: Input Price Per Million
+          type: number
+        model_key:
+          title: Model Key
+          type: string
+        output_price_per_million:
+          title: Output Price Per Million
+          type: number
+        updated_at:
+          title: Updated At
+          type: string
+      required:
+      - created_at
+      - effective_at
+      - input_price_per_million
+      - model_key
+      - output_price_per_million
+      - updated_at
+      title: PricingResponse
+    RerankRequest:
+      description: Rerank request.
+      example:
+        top_n: 0
+        documents:
+        - documents
+        - documents
+        query: query
+        model: model
+        user: user
+        max_tokens_per_doc: 0
+      properties:
+        documents:
+          description: List of document strings to rerank
+          items:
+            type: string
+          minItems: 1
+          title: Documents
+          type: array
+        max_tokens_per_doc:
+          description: Per-document truncation limit
+          exclusiveMinimum: true
+          minimum: 0.0
+          nullable: true
+          type: integer
+        model:
+          description: "Provider-prefixed model ID, e.g. 'cohere:rerank-v3.5'"
+          title: Model
+          type: string
+        query:
+          description: The search query to rerank documents against
+          title: Query
+          type: string
+        top_n:
+          description: Maximum number of results to return
+          exclusiveMinimum: true
+          minimum: 0.0
+          nullable: true
+          type: integer
+        user:
+          description: User ID for usage attribution
+          nullable: true
+          type: string
+      required:
+      - documents
+      - model
+      - query
+      title: RerankRequest
+    ResponsesRequest:
+      additionalProperties: {}
+      description: |-
+        OpenAI Responses API-compatible request.
+
+        Gateway-internal fields (``mcp_servers``, ``mcp_server_ids``,
+        ``guardrails``, ``tools_header``, ``max_tool_iterations``) opt the request
+        into gateway-managed MCP / sandbox / web_search / guardrails without
+        changing the upstream wire shape. They're stripped before the request is
+        forwarded.
+      example:
+        input: ""
+        max_tool_iterations: 2
+        mcp_server_ids:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        mcp_servers:
+        - authorization_token: authorization_token
+          allowed_tools:
+          - allowed_tools
+          - allowed_tools
+          name: name
+          url: url
+          purpose_hint: purpose_hint
+        - authorization_token: authorization_token
+          allowed_tools:
+          - allowed_tools
+          - allowed_tools
+          name: name
+          url: url
+          purpose_hint: purpose_hint
+        stream: false
+        guardrails:
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        - mode: monitor
+          validate_kwargs:
+            key: ""
+          profile: profile
+          url: url
+          "on":
+          - input
+          - input
+        model: model
+        tools_header: tools_header
+        tools:
+        - key: ""
+        - key: ""
+        user: user
+      properties:
+        guardrails:
+          items:
+            $ref: "#/components/schemas/GuardrailConfig"
+          maxItems: 8
+          nullable: true
+          type: array
+        input:
+          title: Input
+        max_tool_iterations:
+          maximum: 25.0
+          minimum: 1.0
+          nullable: true
+          type: integer
+        mcp_server_ids:
+          items:
+            format: uuid
+            type: string
+          nullable: true
+          type: array
+        mcp_servers:
+          items:
+            $ref: "#/components/schemas/McpServerConfig"
+          nullable: true
+          type: array
+        model:
+          title: Model
+          type: string
+        stream:
+          default: false
+          title: Stream
+          type: boolean
+        tools:
+          items:
+            additionalProperties: true
+            type: object
+          nullable: true
+          type: array
+        tools_header:
+          nullable: true
+          type: string
+        user:
+          nullable: true
+          type: string
+      required:
+      - input
+      - model
+      title: ResponsesRequest
+    SetPricingRequest:
+      description: Request model for setting model pricing.
+      example:
+        effective_at: 2000-01-23T04:56:07.000+00:00
+        model_key: model_key
+        input_price_per_million: 0.08008281904610115
+        output_price_per_million: 0.6027456183070403
+      properties:
+        effective_at:
+          description: ISO 8601 datetime from which this price applies. Defaults to
+            now if omitted.
+          format: date-time
+          nullable: true
+          type: string
+        input_price_per_million:
+          description: Price per 1M input tokens
+          minimum: 0.0
+          title: Input Price Per Million
+          type: number
+        model_key:
+          description: Model identifier in format 'provider:model'
+          title: Model Key
+          type: string
+        output_price_per_million:
+          description: Price per 1M output tokens
+          minimum: 0.0
+          title: Output Price Per Million
+          type: number
+      required:
+      - input_price_per_million
+      - model_key
+      - output_price_per_million
+      title: SetPricingRequest
+    UpdateBudgetRequest:
+      description: Request model for updating a budget.
+      example:
+        budget_duration_sec: 0
+        max_budget: 0.6027456183070403
+      properties:
+        budget_duration_sec:
+          exclusiveMinimum: true
+          minimum: 0.0
+          nullable: true
+          type: integer
+        max_budget:
+          minimum: 0.0
+          nullable: true
+          type: number
+      title: UpdateBudgetRequest
+    UpdateKeyRequest:
+      description: Request model for updating a key.
+      example:
+        key_name: key_name
+        metadata:
+          key: ""
+        expires_at: 2000-01-23T04:56:07.000+00:00
+        is_active: true
+      properties:
+        expires_at:
+          format: date-time
+          nullable: true
+          type: string
+        is_active:
+          nullable: true
+          type: boolean
+        key_name:
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          nullable: true
+          type: object
+      title: UpdateKeyRequest
+    UpdateUserRequest:
+      description: Request model for updating a user.
+      example:
+        metadata:
+          key: ""
+        blocked: true
+        budget_id: budget_id
+        alias: alias
+      properties:
+        alias:
+          nullable: true
+          type: string
+        blocked:
+          nullable: true
+          type: boolean
+        budget_id:
+          nullable: true
+          type: string
+        metadata:
+          additionalProperties: true
+          nullable: true
+          type: object
+      title: UpdateUserRequest
+    UsageEntry:
+      description: A single usage log entry.
+      example:
+        error_message: error_message
+        completion_tokens: 0
+        cost: 6.027456183070403
+        api_key_id: api_key_id
+        endpoint: endpoint
+        prompt_tokens: 1
+        provider: provider
+        user_id: user_id
+        total_tokens: 5
+        model: model
+        id: id
+        status: status
+        timestamp: timestamp
+      properties:
+        api_key_id:
+          nullable: true
+          type: string
+        completion_tokens:
+          nullable: true
+          type: integer
+        cost:
+          nullable: true
+          type: number
+        endpoint:
+          title: Endpoint
+          type: string
+        error_message:
+          nullable: true
+          type: string
+        id:
+          title: Id
+          type: string
+        model:
+          title: Model
+          type: string
+        prompt_tokens:
+          nullable: true
+          type: integer
+        provider:
+          nullable: true
+          type: string
+        status:
+          title: Status
+          type: string
+        timestamp:
+          title: Timestamp
+          type: string
+        total_tokens:
+          nullable: true
+          type: integer
+        user_id:
+          nullable: true
+          type: string
+      required:
+      - api_key_id
+      - completion_tokens
+      - cost
+      - endpoint
+      - error_message
+      - id
+      - model
+      - prompt_tokens
+      - provider
+      - status
+      - timestamp
+      - total_tokens
+      - user_id
+      title: UsageEntry
+    UsageLogResponse:
+      description: Response model for usage log.
+      example:
+        error_message: error_message
+        completion_tokens: 0
+        cost: 6.027456183070403
+        api_key_id: api_key_id
+        endpoint: endpoint
+        prompt_tokens: 1
+        provider: provider
+        user_id: user_id
+        total_tokens: 5
+        model: model
+        id: id
+        status: status
+        timestamp: timestamp
+      properties:
+        api_key_id:
+          nullable: true
+          type: string
+        completion_tokens:
+          nullable: true
+          type: integer
+        cost:
+          nullable: true
+          type: number
+        endpoint:
+          title: Endpoint
+          type: string
+        error_message:
+          nullable: true
+          type: string
+        id:
+          title: Id
+          type: string
+        model:
+          title: Model
+          type: string
+        prompt_tokens:
+          nullable: true
+          type: integer
+        provider:
+          nullable: true
+          type: string
+        status:
+          title: Status
+          type: string
+        timestamp:
+          title: Timestamp
+          type: string
+        total_tokens:
+          nullable: true
+          type: integer
+        user_id:
+          nullable: true
+          type: string
+      required:
+      - api_key_id
+      - completion_tokens
+      - cost
+      - endpoint
+      - error_message
+      - id
+      - model
+      - prompt_tokens
+      - provider
+      - status
+      - timestamp
+      - total_tokens
+      - user_id
+      title: UsageLogResponse
+    UserResponse:
+      description: Response model for user information.
+      example:
+        budget_started_at: budget_started_at
+        metadata:
+          key: ""
+        blocked: true
+        updated_at: updated_at
+        reserved: 0.8008281904610115
+        user_id: user_id
+        budget_id: budget_id
+        next_budget_reset_at: next_budget_reset_at
+        spend: 6.027456183070403
+        alias: alias
+        created_at: created_at
+      properties:
+        alias:
+          nullable: true
+          type: string
+        blocked:
+          title: Blocked
+          type: boolean
+        budget_id:
+          nullable: true
+          type: string
+        budget_started_at:
+          nullable: true
+          type: string
+        created_at:
+          title: Created At
+          type: string
+        metadata:
+          additionalProperties: true
+          title: Metadata
+          type: object
+        next_budget_reset_at:
+          nullable: true
+          type: string
+        reserved:
+          title: Reserved
+          type: number
+        spend:
+          title: Spend
+          type: number
+        updated_at:
+          title: Updated At
+          type: string
+        user_id:
+          title: User Id
+          type: string
+      required:
+      - alias
+      - blocked
+      - budget_id
+      - budget_started_at
+      - created_at
+      - metadata
+      - next_budget_reset_at
+      - reserved
+      - spend
+      - updated_at
+      - user_id
+      title: UserResponse
+    ValidationError:
+      example:
+        msg: msg
+        input: ""
+        loc:
+        - Location_inner
+        - Location_inner
+        ctx: "{}"
+        type: type
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            $ref: "#/components/schemas/Location_inner"
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CC_ChatCompletionAudio:
+      additionalProperties: true
+      description: |-
+        If the audio output modality is requested, this object contains data
+        about the audio response from the model. [Learn more](https://platform.openai.com/docs/guides/audio).
+      properties:
+        id:
+          title: Id
+          type: string
+        data:
+          title: Data
+          type: string
+        expires_at:
+          title: Expires At
+          type: integer
+        transcript:
+          title: Transcript
+          type: string
+      required:
+      - data
+      - expires_at
+      - id
+      - transcript
+      title: ChatCompletionAudio
+    CC_ChatCompletionMessage:
+      additionalProperties: {}
+      example:
+        role: assistant
+        function_call: ""
+        reasoning: ""
+        refusal: refusal
+        annotations:
+        - key: ""
+        - key: ""
+        tool_calls:
+        - function:
+            name: name
+            arguments: arguments
+          id: id
+          type: function
+        - function:
+            name: name
+            arguments: arguments
+          id: id
+          type: function
+        audio: ""
+        content: content
+      properties:
+        content:
+          nullable: true
+          type: string
+        refusal:
+          nullable: true
+          type: string
+        role:
+          enum:
+          - assistant
+          title: Role
+          type: string
+        annotations:
+          items:
+            additionalProperties: true
+            type: object
+          nullable: true
+          type: array
+        audio:
+          allOf:
+          - $ref: "#/components/schemas/CC_ChatCompletionAudio"
+          nullable: true
+        function_call:
+          allOf:
+          - $ref: "#/components/schemas/CC_FunctionCall"
+          nullable: true
+        tool_calls:
+          items:
+            $ref: "#/components/schemas/CC_ChatCompletionMessage_tool_calls_inner"
+          nullable: true
+          type: array
+        reasoning:
+          allOf:
+          - $ref: "#/components/schemas/CC_Reasoning"
+          nullable: true
+      required:
+      - role
+      title: ChatCompletionMessage
+    CC_ChatCompletionMessageCustomToolCall:
+      additionalProperties: true
+      description: A call to a custom tool created by the model.
+      properties:
+        id:
+          title: Id
+          type: string
+        custom:
+          $ref: "#/components/schemas/CC_Custom"
+        type:
+          enum:
+          - custom
+          title: Type
+          type: string
+      required:
+      - custom
+      - id
+      - type
+      title: ChatCompletionMessageCustomToolCall
+    CC_ChatCompletionMessageFunctionToolCall:
+      additionalProperties: true
+      description: A call to a function tool created by the model.
+      example:
+        function:
+          name: name
+          arguments: arguments
+        id: id
+        type: function
+      properties:
+        id:
+          title: Id
+          type: string
+        function:
+          $ref: "#/components/schemas/CC_Function"
+        type:
+          enum:
+          - function
+          title: Type
+          type: string
+      required:
+      - function
+      - id
+      - type
+      title: ChatCompletionMessageFunctionToolCall
+    CC_ChatCompletionTokenLogprob:
+      additionalProperties: {}
+      properties:
+        token:
+          title: Token
+          type: string
+        bytes:
+          items:
+            type: integer
+          nullable: true
+          type: array
+        logprob:
+          title: Logprob
+          type: number
+        top_logprobs:
+          items:
+            $ref: "#/components/schemas/CC_TopLogprob"
+          title: Top Logprobs
+          type: array
+      required:
+      - logprob
+      - token
+      - top_logprobs
+      title: ChatCompletionTokenLogprob
+    CC_Choice:
+      additionalProperties: {}
+      example:
+        finish_reason: stop
+        index: 0
+        message:
+          role: assistant
+          function_call: ""
+          reasoning: ""
+          refusal: refusal
+          annotations:
+          - key: ""
+          - key: ""
+          tool_calls:
+          - function:
+              name: name
+              arguments: arguments
+            id: id
+            type: function
+          - function:
+              name: name
+              arguments: arguments
+            id: id
+            type: function
+          audio: ""
+          content: content
+        logprobs: ""
+      properties:
+        finish_reason:
+          enum:
+          - stop
+          - length
+          - tool_calls
+          - content_filter
+          - function_call
+          title: Finish Reason
+          type: string
+        index:
+          title: Index
+          type: integer
+        logprobs:
+          allOf:
+          - $ref: "#/components/schemas/CC_ChoiceLogprobs"
+          nullable: true
+        message:
+          $ref: "#/components/schemas/CC_ChatCompletionMessage"
+      required:
+      - finish_reason
+      - index
+      - message
+      title: Choice
+    CC_ChoiceLogprobs:
+      additionalProperties: {}
+      description: Log probability information for the choice.
+      properties:
+        content:
+          items:
+            $ref: "#/components/schemas/CC_ChatCompletionTokenLogprob"
+          nullable: true
+          type: array
+        refusal:
+          items:
+            $ref: "#/components/schemas/CC_ChatCompletionTokenLogprob"
+          nullable: true
+          type: array
+      title: ChoiceLogprobs
+    CC_CompletionTokensDetails:
+      additionalProperties: {}
+      description: Breakdown of tokens used in a completion.
+      properties:
+        accepted_prediction_tokens:
+          nullable: true
+          type: integer
+        audio_tokens:
+          nullable: true
+          type: integer
+        reasoning_tokens:
+          nullable: true
+          type: integer
+        rejected_prediction_tokens:
+          nullable: true
+          type: integer
+      title: CompletionTokensDetails
+    CC_CompletionUsage:
+      additionalProperties: {}
+      description: Usage statistics for the completion request.
+      properties:
+        completion_tokens:
+          title: Completion Tokens
+          type: integer
+        prompt_tokens:
+          title: Prompt Tokens
+          type: integer
+        total_tokens:
+          title: Total Tokens
+          type: integer
+        completion_tokens_details:
+          allOf:
+          - $ref: "#/components/schemas/CC_CompletionTokensDetails"
+          nullable: true
+        prompt_tokens_details:
+          allOf:
+          - $ref: "#/components/schemas/CC_PromptTokensDetails"
+          nullable: true
+      required:
+      - completion_tokens
+      - prompt_tokens
+      - total_tokens
+      title: CompletionUsage
+    CC_Custom:
+      additionalProperties: true
+      description: The custom tool that the model called.
+      properties:
+        input:
+          title: Input
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - input
+      - name
+      title: Custom
+    CC_Function:
+      additionalProperties: true
+      description: The function that the model called.
+      example:
+        name: name
+        arguments: arguments
+      properties:
+        arguments:
+          title: Arguments
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - arguments
+      - name
+      title: Function
+    CC_FunctionCall:
+      additionalProperties: true
+      description: |-
+        Deprecated and replaced by `tool_calls`.
+
+        The name and arguments of a function that should be called, as generated by the model.
+      properties:
+        arguments:
+          title: Arguments
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - arguments
+      - name
+      title: FunctionCall
+    CC_PromptTokensDetails:
+      additionalProperties: {}
+      description: Breakdown of tokens used in the prompt.
+      properties:
+        audio_tokens:
+          nullable: true
+          type: integer
+        cached_tokens:
+          nullable: true
+          type: integer
+      title: PromptTokensDetails
+    CC_Reasoning:
+      description: |-
+        Reasoning content emitted by a model.
+
+        Serializes as a plain JSON string so that responses are compatible with
+        OpenAI-style clients that expect ``delta.reasoning`` / ``message.reasoning``
+        to be a string. The Python attribute ``content`` remains available for
+        typed access (e.g. ``message.reasoning.content``).
+      properties:
+        content:
+          title: Content
+          type: string
+      required:
+      - content
+      title: Reasoning
+    CC_TopLogprob:
+      additionalProperties: true
+      properties:
+        token:
+          title: Token
+          type: string
+        bytes:
+          items:
+            type: integer
+          nullable: true
+          type: array
+        logprob:
+          title: Logprob
+          type: number
+      required:
+      - logprob
+      - token
+      title: TopLogprob
+    ChatCompletion:
+      additionalProperties: {}
+      example:
+        created: 6
+        usage: ""
+        model: model
+        service_tier: service_tier
+        id: id
+        choices:
+        - finish_reason: stop
+          index: 0
+          message:
+            role: assistant
+            function_call: ""
+            reasoning: ""
+            refusal: refusal
+            annotations:
+            - key: ""
+            - key: ""
+            tool_calls:
+            - function:
+                name: name
+                arguments: arguments
+              id: id
+              type: function
+            - function:
+                name: name
+                arguments: arguments
+              id: id
+              type: function
+            audio: ""
+            content: content
+          logprobs: ""
+        - finish_reason: stop
+          index: 0
+          message:
+            role: assistant
+            function_call: ""
+            reasoning: ""
+            refusal: refusal
+            annotations:
+            - key: ""
+            - key: ""
+            tool_calls:
+            - function:
+                name: name
+                arguments: arguments
+              id: id
+              type: function
+            - function:
+                name: name
+                arguments: arguments
+              id: id
+              type: function
+            audio: ""
+            content: content
+          logprobs: ""
+        system_fingerprint: system_fingerprint
+        object: chat.completion
+      properties:
+        id:
+          title: Id
+          type: string
+        choices:
+          items:
+            $ref: "#/components/schemas/CC_Choice"
+          title: Choices
+          type: array
+        created:
+          title: Created
+          type: integer
+        model:
+          title: Model
+          type: string
+        object:
+          enum:
+          - chat.completion
+          title: Object
+          type: string
+        service_tier:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        system_fingerprint:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        usage:
+          allOf:
+          - $ref: "#/components/schemas/CC_CompletionUsage"
+          nullable: true
+      required:
+      - choices
+      - created
+      - id
+      - model
+      - object
+      title: ChatCompletion
+    CCK_ChatCompletionTokenLogprob:
+      additionalProperties: {}
+      properties:
+        token:
+          title: Token
+          type: string
+        bytes:
+          items:
+            type: integer
+          nullable: true
+          type: array
+        logprob:
+          title: Logprob
+          type: number
+        top_logprobs:
+          items:
+            $ref: "#/components/schemas/CCK_TopLogprob"
+          title: Top Logprobs
+          type: array
+      required:
+      - logprob
+      - token
+      - top_logprobs
+      title: ChatCompletionTokenLogprob
+    CCK_ChoiceDelta:
+      additionalProperties: {}
+      properties:
+        content:
+          nullable: true
+          type: string
+        function_call:
+          allOf:
+          - $ref: "#/components/schemas/CCK_ChoiceDeltaFunctionCall"
+          nullable: true
+        refusal:
+          nullable: true
+          type: string
+        role:
+          enum:
+          - developer
+          - system
+          - user
+          - assistant
+          - tool
+          nullable: true
+          type: string
+        tool_calls:
+          items:
+            $ref: "#/components/schemas/CCK_ChoiceDeltaToolCall"
+          nullable: true
+          type: array
+        reasoning:
+          allOf:
+          - $ref: "#/components/schemas/CCK_Reasoning"
+          nullable: true
+      title: ChoiceDelta
+    CCK_ChoiceDeltaFunctionCall:
+      additionalProperties: {}
+      description: |-
+        Deprecated and replaced by `tool_calls`.
+
+        The name and arguments of a function that should be called, as generated by the model.
+      properties:
+        arguments:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        name:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+      title: ChoiceDeltaFunctionCall
+    CCK_ChoiceDeltaToolCall:
+      additionalProperties: {}
+      properties:
+        index:
+          title: Index
+          type: integer
+        id:
+          nullable: true
+          type: string
+        function:
+          allOf:
+          - $ref: "#/components/schemas/CCK_ChoiceDeltaToolCallFunction"
+          nullable: true
+        type:
+          enum:
+          - function
+          nullable: true
+          type: string
+      required:
+      - index
+      title: ChoiceDeltaToolCall
+    CCK_ChoiceDeltaToolCallFunction:
+      additionalProperties: true
+      properties:
+        arguments:
+          nullable: true
+          type: string
+        name:
+          nullable: true
+          type: string
+      title: ChoiceDeltaToolCallFunction
+    CCK_ChoiceLogprobs:
+      additionalProperties: {}
+      description: Log probability information for the choice.
+      properties:
+        content:
+          items:
+            $ref: "#/components/schemas/CCK_ChatCompletionTokenLogprob"
+          nullable: true
+          type: array
+        refusal:
+          items:
+            $ref: "#/components/schemas/CCK_ChatCompletionTokenLogprob"
+          nullable: true
+          type: array
+      title: ChoiceLogprobs
+    CCK_ChunkChoice:
+      additionalProperties: {}
+      properties:
+        delta:
+          $ref: "#/components/schemas/CCK_ChoiceDelta"
+        finish_reason:
+          enum:
+          - stop
+          - length
+          - tool_calls
+          - content_filter
+          - function_call
+          nullable: true
+          type: string
+        index:
+          title: Index
+          type: integer
+        logprobs:
+          allOf:
+          - $ref: "#/components/schemas/CCK_ChoiceLogprobs"
+          nullable: true
+      required:
+      - delta
+      - index
+      title: ChunkChoice
+    CCK_CompletionTokensDetails:
+      additionalProperties: {}
+      description: Breakdown of tokens used in a completion.
+      properties:
+        accepted_prediction_tokens:
+          nullable: true
+          type: integer
+        audio_tokens:
+          nullable: true
+          type: integer
+        reasoning_tokens:
+          nullable: true
+          type: integer
+        rejected_prediction_tokens:
+          nullable: true
+          type: integer
+      title: CompletionTokensDetails
+    CCK_CompletionUsage:
+      additionalProperties: {}
+      description: Usage statistics for the completion request.
+      properties:
+        completion_tokens:
+          title: Completion Tokens
+          type: integer
+        prompt_tokens:
+          title: Prompt Tokens
+          type: integer
+        total_tokens:
+          title: Total Tokens
+          type: integer
+        completion_tokens_details:
+          allOf:
+          - $ref: "#/components/schemas/CCK_CompletionTokensDetails"
+          nullable: true
+        prompt_tokens_details:
+          allOf:
+          - $ref: "#/components/schemas/CCK_PromptTokensDetails"
+          nullable: true
+      required:
+      - completion_tokens
+      - prompt_tokens
+      - total_tokens
+      title: CompletionUsage
+    CCK_PromptTokensDetails:
+      additionalProperties: true
+      description: Breakdown of tokens used in the prompt.
+      properties:
+        audio_tokens:
+          nullable: true
+          type: integer
+        cached_tokens:
+          nullable: true
+          type: integer
+      title: PromptTokensDetails
+    CCK_Reasoning:
+      description: |-
+        Reasoning content emitted by a model.
+
+        Serializes as a plain JSON string so that responses are compatible with
+        OpenAI-style clients that expect ``delta.reasoning`` / ``message.reasoning``
+        to be a string. The Python attribute ``content`` remains available for
+        typed access (e.g. ``message.reasoning.content``).
+      properties:
+        content:
+          title: Content
+          type: string
+      required:
+      - content
+      title: Reasoning
+    CCK_TopLogprob:
+      additionalProperties: true
+      properties:
+        token:
+          title: Token
+          type: string
+        bytes:
+          items:
+            type: integer
+          nullable: true
+          type: array
+        logprob:
+          title: Logprob
+          type: number
+      required:
+      - logprob
+      - token
+      title: TopLogprob
+    ChatCompletionChunk:
+      additionalProperties: {}
+      properties:
+        id:
+          title: Id
+          type: string
+        choices:
+          items:
+            $ref: "#/components/schemas/CCK_ChunkChoice"
+          title: Choices
+          type: array
+        created:
+          title: Created
+          type: integer
+        model:
+          title: Model
+          type: string
+        object:
+          enum:
+          - chat.completion.chunk
+          title: Object
+          type: string
+        service_tier:
+          nullable: true
+          type: string
+        system_fingerprint:
+          nullable: true
+          type: string
+        usage:
+          allOf:
+          - $ref: "#/components/schemas/CCK_CompletionUsage"
+          nullable: true
+      required:
+      - choices
+      - created
+      - id
+      - model
+      - object
+      title: ChatCompletionChunk
+    MSG_Audio:
+      description: |-
+        Data about a previous audio response from the model.
+        [Learn more](https://platform.openai.com/docs/guides/audio).
+      properties:
+        id:
+          title: Id
+          type: string
+      required:
+      - id
+      title: Audio
+    MSG_ChatCompletionAssistantMessageParam:
+      description: Messages sent by the model in response to user messages.
+      properties:
+        role:
+          enum:
+          - assistant
+          title: Role
+          type: string
+        audio:
+          allOf:
+          - $ref: "#/components/schemas/MSG_Audio"
+          nullable: true
+        content:
+          $ref: "#/components/schemas/Content"
+        function_call:
+          allOf:
+          - $ref: "#/components/schemas/MSG_FunctionCall"
+          nullable: true
+        name:
+          title: Name
+          type: string
+        refusal:
+          nullable: true
+          type: string
+        tool_calls:
+          items:
+            $ref: "#/components/schemas/Tool_Calls_inner"
+          title: Tool Calls
+          type: array
+      required:
+      - role
+      title: ChatCompletionAssistantMessageParam
+    MSG_ChatCompletionContentPartImageParam:
+      description: "Learn about [image inputs](https://platform.openai.com/docs/guides/vision)."
+      properties:
+        image_url:
+          $ref: "#/components/schemas/MSG_ImageURL"
+        type:
+          enum:
+          - image_url
+          title: Type
+          type: string
+      required:
+      - image_url
+      - type
+      title: ChatCompletionContentPartImageParam
+    MSG_ChatCompletionContentPartInputAudioParam:
+      description: "Learn about [audio inputs](https://platform.openai.com/docs/guides/audio)."
+      properties:
+        input_audio:
+          $ref: "#/components/schemas/MSG_InputAudio"
+        type:
+          enum:
+          - input_audio
+          title: Type
+          type: string
+      required:
+      - input_audio
+      - type
+      title: ChatCompletionContentPartInputAudioParam
+    MSG_ChatCompletionContentPartRefusalParam:
+      properties:
+        refusal:
+          title: Refusal
+          type: string
+        type:
+          enum:
+          - refusal
+          title: Type
+          type: string
+      required:
+      - refusal
+      - type
+      title: ChatCompletionContentPartRefusalParam
+    MSG_ChatCompletionContentPartTextParam:
+      description: "Learn about [text inputs](https://platform.openai.com/docs/guides/text-generation)."
+      properties:
+        text:
+          title: Text
+          type: string
+        type:
+          enum:
+          - text
+          title: Type
+          type: string
+      required:
+      - text
+      - type
+      title: ChatCompletionContentPartTextParam
+    MSG_ChatCompletionDeveloperMessageParam:
+      description: |-
+        Developer-provided instructions that the model should follow, regardless of
+        messages sent by the user. With o1 models and newer, `developer` messages
+        replace the previous `system` messages.
+      example:
+        role: developer
+        name: name
+        content: Content_1
+      properties:
+        content:
+          $ref: "#/components/schemas/Content_1"
+        role:
+          enum:
+          - developer
+          title: Role
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - content
+      - role
+      title: ChatCompletionDeveloperMessageParam
+    MSG_ChatCompletionFunctionMessageParam:
+      properties:
+        content:
+          nullable: true
+          type: string
+        name:
+          title: Name
+          type: string
+        role:
+          enum:
+          - function
+          title: Role
+          type: string
+      required:
+      - content
+      - name
+      - role
+      title: ChatCompletionFunctionMessageParam
+    MSG_ChatCompletionMessageCustomToolCallParam:
+      description: A call to a custom tool created by the model.
+      properties:
+        id:
+          title: Id
+          type: string
+        custom:
+          $ref: "#/components/schemas/MSG_Custom"
+        type:
+          enum:
+          - custom
+          title: Type
+          type: string
+      required:
+      - custom
+      - id
+      - type
+      title: ChatCompletionMessageCustomToolCallParam
+    MSG_ChatCompletionMessageFunctionToolCallParam:
+      description: A call to a function tool created by the model.
+      properties:
+        id:
+          title: Id
+          type: string
+        function:
+          $ref: "#/components/schemas/MSG_Function"
+        type:
+          enum:
+          - function
+          title: Type
+          type: string
+      required:
+      - function
+      - id
+      - type
+      title: ChatCompletionMessageFunctionToolCallParam
+    MSG_ChatCompletionSystemMessageParam:
+      description: |-
+        Developer-provided instructions that the model should follow, regardless of
+        messages sent by the user. With o1 models and newer, use `developer` messages
+        for this purpose instead.
+      properties:
+        content:
+          $ref: "#/components/schemas/Content_1"
+        role:
+          enum:
+          - system
+          title: Role
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - content
+      - role
+      title: ChatCompletionSystemMessageParam
+    MSG_ChatCompletionToolMessageParam:
+      properties:
+        content:
+          $ref: "#/components/schemas/Content_1"
+        role:
+          enum:
+          - tool
+          title: Role
+          type: string
+        tool_call_id:
+          title: Tool Call Id
+          type: string
+      required:
+      - content
+      - role
+      - tool_call_id
+      title: ChatCompletionToolMessageParam
+    MSG_ChatCompletionUserMessageParam:
+      description: |-
+        Messages sent by an end user, containing prompts or additional context
+        information.
+      properties:
+        content:
+          $ref: "#/components/schemas/Content_2"
+        role:
+          enum:
+          - user
+          title: Role
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - content
+      - role
+      title: ChatCompletionUserMessageParam
+    MSG_Custom:
+      description: The custom tool that the model called.
+      properties:
+        input:
+          title: Input
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - input
+      - name
+      title: Custom
+    MSG_File:
+      description: "Learn about [file inputs](https://platform.openai.com/docs/guides/text)\
+        \ for text generation."
+      properties:
+        file:
+          $ref: "#/components/schemas/MSG_FileFile"
+        type:
+          enum:
+          - file
+          title: Type
+          type: string
+      required:
+      - file
+      - type
+      title: File
+    MSG_FileFile:
+      properties:
+        file_data:
+          title: File Data
+          type: string
+        file_id:
+          title: File Id
+          type: string
+        filename:
+          title: Filename
+          type: string
+      title: FileFile
+    MSG_Function:
+      description: The function that the model called.
+      properties:
+        arguments:
+          title: Arguments
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - arguments
+      - name
+      title: Function
+    MSG_FunctionCall:
+      description: |-
+        Deprecated and replaced by `tool_calls`.
+
+        The name and arguments of a function that should be called, as generated by the model.
+      properties:
+        arguments:
+          title: Arguments
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - arguments
+      - name
+      title: FunctionCall
+    MSG_ImageURL:
+      properties:
+        url:
+          title: Url
+          type: string
+        detail:
+          enum:
+          - auto
+          - low
+          - high
+          title: Detail
+          type: string
+      required:
+      - url
+      title: ImageURL
+    MSG_InputAudio:
+      properties:
+        data:
+          title: Data
+          type: string
+        format:
+          enum:
+          - wav
+          - mp3
+          title: Format
+          type: string
+      required:
+      - data
+      - format
+      title: InputAudio
+    ChatMessageInput:
+      anyOf:
+      - $ref: "#/components/schemas/MSG_ChatCompletionDeveloperMessageParam"
+      - $ref: "#/components/schemas/MSG_ChatCompletionSystemMessageParam"
+      - $ref: "#/components/schemas/MSG_ChatCompletionUserMessageParam"
+      - $ref: "#/components/schemas/MSG_ChatCompletionAssistantMessageParam"
+      - $ref: "#/components/schemas/MSG_ChatCompletionToolMessageParam"
+      - $ref: "#/components/schemas/MSG_ChatCompletionFunctionMessageParam"
+    MR_Base64PDFSource:
+      additionalProperties: true
+      properties:
+        data:
+          title: Data
+          type: string
+        media_type:
+          enum:
+          - application/pdf
+          title: Media Type
+          type: string
+        type:
+          enum:
+          - base64
+          title: Type
+          type: string
+      required:
+      - data
+      - media_type
+      - type
+      title: Base64PDFSource
+    MR_BashCodeExecutionOutputBlock:
+      additionalProperties: true
+      properties:
+        file_id:
+          title: File Id
+          type: string
+        type:
+          enum:
+          - bash_code_execution_output
+          title: Type
+          type: string
+      required:
+      - file_id
+      - type
+      title: BashCodeExecutionOutputBlock
+    MR_BashCodeExecutionResultBlock:
+      additionalProperties: true
+      properties:
+        content:
+          items:
+            $ref: "#/components/schemas/MR_BashCodeExecutionOutputBlock"
+          title: Content
+          type: array
+        return_code:
+          title: Return Code
+          type: integer
+        stderr:
+          title: Stderr
+          type: string
+        stdout:
+          title: Stdout
+          type: string
+        type:
+          enum:
+          - bash_code_execution_result
+          title: Type
+          type: string
+      required:
+      - content
+      - return_code
+      - stderr
+      - stdout
+      - type
+      title: BashCodeExecutionResultBlock
+    MR_BashCodeExecutionToolResultBlock:
+      additionalProperties: true
+      properties:
+        content:
+          $ref: "#/components/schemas/Content_3"
+        tool_use_id:
+          title: Tool Use Id
+          type: string
+        type:
+          enum:
+          - bash_code_execution_tool_result
+          title: Type
+          type: string
+      required:
+      - content
+      - tool_use_id
+      - type
+      title: BashCodeExecutionToolResultBlock
+    MR_BashCodeExecutionToolResultError:
+      additionalProperties: true
+      properties:
+        error_code:
+          enum:
+          - invalid_tool_input
+          - unavailable
+          - too_many_requests
+          - execution_time_exceeded
+          - output_file_too_large
+          title: Error Code
+          type: string
+        type:
+          enum:
+          - bash_code_execution_tool_result_error
+          title: Type
+          type: string
+      required:
+      - error_code
+      - type
+      title: BashCodeExecutionToolResultError
+    MR_CacheCreation:
+      additionalProperties: true
+      properties:
+        ephemeral_1h_input_tokens:
+          title: Ephemeral 1H Input Tokens
+          type: integer
+        ephemeral_5m_input_tokens:
+          title: Ephemeral 5M Input Tokens
+          type: integer
+      required:
+      - ephemeral_1h_input_tokens
+      - ephemeral_5m_input_tokens
+      title: CacheCreation
+    MR_CitationCharLocation:
+      additionalProperties: {}
+      example:
+        document_title: document_title
+        start_char_index: 1
+        cited_text: cited_text
+        document_index: 0
+        file_id: file_id
+        end_char_index: 6
+        type: char_location
+      properties:
+        cited_text:
+          title: Cited Text
+          type: string
+        document_index:
+          title: Document Index
+          type: integer
+        document_title:
+          nullable: true
+          type: string
+        end_char_index:
+          title: End Char Index
+          type: integer
+        file_id:
+          nullable: true
+          type: string
+        start_char_index:
+          title: Start Char Index
+          type: integer
+        type:
+          enum:
+          - char_location
+          title: Type
+          type: string
+      required:
+      - cited_text
+      - document_index
+      - end_char_index
+      - start_char_index
+      - type
+      title: CitationCharLocation
+    MR_CitationContentBlockLocation:
+      additionalProperties: true
+      properties:
+        cited_text:
+          title: Cited Text
+          type: string
+        document_index:
+          title: Document Index
+          type: integer
+        document_title:
+          nullable: true
+          type: string
+        end_block_index:
+          title: End Block Index
+          type: integer
+        file_id:
+          nullable: true
+          type: string
+        start_block_index:
+          title: Start Block Index
+          type: integer
+        type:
+          enum:
+          - content_block_location
+          title: Type
+          type: string
+      required:
+      - cited_text
+      - document_index
+      - end_block_index
+      - start_block_index
+      - type
+      title: CitationContentBlockLocation
+    MR_CitationPageLocation:
+      additionalProperties: true
+      properties:
+        cited_text:
+          title: Cited Text
+          type: string
+        document_index:
+          title: Document Index
+          type: integer
+        document_title:
+          nullable: true
+          type: string
+        end_page_number:
+          title: End Page Number
+          type: integer
+        file_id:
+          nullable: true
+          type: string
+        start_page_number:
+          title: Start Page Number
+          type: integer
+        type:
+          enum:
+          - page_location
+          title: Type
+          type: string
+      required:
+      - cited_text
+      - document_index
+      - end_page_number
+      - start_page_number
+      - type
+      title: CitationPageLocation
+    MR_CitationsConfig:
+      additionalProperties: true
+      properties:
+        enabled:
+          title: Enabled
+          type: boolean
+      required:
+      - enabled
+      title: CitationsConfig
+    MR_CitationsSearchResultLocation:
+      additionalProperties: true
+      properties:
+        cited_text:
+          title: Cited Text
+          type: string
+        end_block_index:
+          title: End Block Index
+          type: integer
+        search_result_index:
+          title: Search Result Index
+          type: integer
+        source:
+          title: Source
+          type: string
+        start_block_index:
+          title: Start Block Index
+          type: integer
+        title:
+          nullable: true
+          type: string
+        type:
+          enum:
+          - search_result_location
+          title: Type
+          type: string
+      required:
+      - cited_text
+      - end_block_index
+      - search_result_index
+      - source
+      - start_block_index
+      - type
+      title: CitationsSearchResultLocation
+    MR_CitationsWebSearchResultLocation:
+      additionalProperties: {}
+      properties:
+        cited_text:
+          title: Cited Text
+          type: string
+        encrypted_index:
+          title: Encrypted Index
+          type: string
+        title:
+          nullable: true
+          type: string
+        type:
+          enum:
+          - web_search_result_location
+          title: Type
+          type: string
+        url:
+          title: Url
+          type: string
+      required:
+      - cited_text
+      - encrypted_index
+      - type
+      - url
+      title: CitationsWebSearchResultLocation
+    MR_CodeExecutionOutputBlock:
+      additionalProperties: true
+      properties:
+        file_id:
+          title: File Id
+          type: string
+        type:
+          enum:
+          - code_execution_output
+          title: Type
+          type: string
+      required:
+      - file_id
+      - type
+      title: CodeExecutionOutputBlock
+    MR_CodeExecutionResultBlock:
+      additionalProperties: true
+      properties:
+        content:
+          items:
+            $ref: "#/components/schemas/MR_CodeExecutionOutputBlock"
+          title: Content
+          type: array
+        return_code:
+          title: Return Code
+          type: integer
+        stderr:
+          title: Stderr
+          type: string
+        stdout:
+          title: Stdout
+          type: string
+        type:
+          enum:
+          - code_execution_result
+          title: Type
+          type: string
+      required:
+      - content
+      - return_code
+      - stderr
+      - stdout
+      - type
+      title: CodeExecutionResultBlock
+    MR_CodeExecutionToolResultBlock:
+      additionalProperties: true
+      properties:
+        content:
+          $ref: "#/components/schemas/Content_4"
+        tool_use_id:
+          title: Tool Use Id
+          type: string
+        type:
+          enum:
+          - code_execution_tool_result
+          title: Type
+          type: string
+      required:
+      - content
+      - tool_use_id
+      - type
+      title: CodeExecutionToolResultBlock
+    MR_CodeExecutionToolResultError:
+      additionalProperties: true
+      properties:
+        error_code:
+          enum:
+          - invalid_tool_input
+          - unavailable
+          - too_many_requests
+          - execution_time_exceeded
+          title: Error Code
+          type: string
+        type:
+          enum:
+          - code_execution_tool_result_error
+          title: Type
+          type: string
+      required:
+      - error_code
+      - type
+      title: CodeExecutionToolResultError
+    MR_Container:
+      additionalProperties: true
+      description: Information about the container used in the request (for the code
+        execution tool)
+      properties:
+        id:
+          title: Id
+          type: string
+        expires_at:
+          format: date-time
+          title: Expires At
+          type: string
+      required:
+      - expires_at
+      - id
+      title: Container
+    MR_ContainerUploadBlock:
+      additionalProperties: true
+      description: Response model for a file uploaded to the container.
+      properties:
+        file_id:
+          title: File Id
+          type: string
+        type:
+          enum:
+          - container_upload
+          title: Type
+          type: string
+      required:
+      - file_id
+      - type
+      title: ContainerUploadBlock
+    MR_DirectCaller:
+      additionalProperties: true
+      description: Tool invocation directly from the model.
+      properties:
+        type:
+          enum:
+          - direct
+          title: Type
+          type: string
+      required:
+      - type
+      title: DirectCaller
+    MR_DocumentBlock:
+      additionalProperties: {}
+      properties:
+        citations:
+          allOf:
+          - $ref: "#/components/schemas/MR_CitationsConfig"
+          nullable: true
+        source:
+          $ref: "#/components/schemas/Source"
+        title:
+          nullable: true
+          type: string
+        type:
+          enum:
+          - document
+          title: Type
+          type: string
+      required:
+      - source
+      - type
+      title: DocumentBlock
+    MR_EncryptedCodeExecutionResultBlock:
+      additionalProperties: true
+      description: Code execution result with encrypted stdout for PFC + web_search
+        results.
+      properties:
+        content:
+          items:
+            $ref: "#/components/schemas/MR_CodeExecutionOutputBlock"
+          title: Content
+          type: array
+        encrypted_stdout:
+          title: Encrypted Stdout
+          type: string
+        return_code:
+          title: Return Code
+          type: integer
+        stderr:
+          title: Stderr
+          type: string
+        type:
+          enum:
+          - encrypted_code_execution_result
+          title: Type
+          type: string
+      required:
+      - content
+      - encrypted_stdout
+      - return_code
+      - stderr
+      - type
+      title: EncryptedCodeExecutionResultBlock
+    MR_PlainTextSource:
+      additionalProperties: true
+      properties:
+        data:
+          title: Data
+          type: string
+        media_type:
+          enum:
+          - text/plain
+          title: Media Type
+          type: string
+        type:
+          enum:
+          - text
+          title: Type
+          type: string
+      required:
+      - data
+      - media_type
+      - type
+      title: PlainTextSource
+    MR_RedactedThinkingBlock:
+      additionalProperties: true
+      properties:
+        data:
+          title: Data
+          type: string
+        type:
+          enum:
+          - redacted_thinking
+          title: Type
+          type: string
+      required:
+      - data
+      - type
+      title: RedactedThinkingBlock
+    MR_RefusalStopDetails:
+      additionalProperties: {}
+      description: Structured information about a refusal.
+      properties:
+        category:
+          enum:
+          - cyber
+          - bio
+          nullable: true
+          type: string
+        explanation:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        type:
+          enum:
+          - refusal
+          title: Type
+          type: string
+      required:
+      - type
+      title: RefusalStopDetails
+    MR_ServerToolCaller:
+      additionalProperties: true
+      description: Tool invocation generated by a server-side tool.
+      properties:
+        tool_id:
+          title: Tool Id
+          type: string
+        type:
+          enum:
+          - code_execution_20250825
+          title: Type
+          type: string
+      required:
+      - tool_id
+      - type
+      title: ServerToolCaller
+    MR_ServerToolCaller20260120:
+      additionalProperties: true
+      properties:
+        tool_id:
+          title: Tool Id
+          type: string
+        type:
+          enum:
+          - code_execution_20260120
+          title: Type
+          type: string
+      required:
+      - tool_id
+      - type
+      title: ServerToolCaller20260120
+    MR_ServerToolUsage:
+      additionalProperties: true
+      properties:
+        web_fetch_requests:
+          title: Web Fetch Requests
+          type: integer
+        web_search_requests:
+          title: Web Search Requests
+          type: integer
+      required:
+      - web_fetch_requests
+      - web_search_requests
+      title: ServerToolUsage
+    MR_ServerToolUseBlock:
+      additionalProperties: {}
+      properties:
+        id:
+          title: Id
+          type: string
+        caller:
+          $ref: "#/components/schemas/Caller"
+        input:
+          additionalProperties: true
+          title: Input
+          type: object
+        name:
+          enum:
+          - web_search
+          - web_fetch
+          - code_execution
+          - bash_code_execution
+          - text_editor_code_execution
+          - tool_search_tool_regex
+          - tool_search_tool_bm25
+          title: Name
+          type: string
+        type:
+          enum:
+          - server_tool_use
+          title: Type
+          type: string
+      required:
+      - id
+      - input
+      - name
+      - type
+      title: ServerToolUseBlock
+    MR_TextBlock:
+      additionalProperties: {}
+      example:
+        citations:
+        - document_title: document_title
+          start_char_index: 1
+          cited_text: cited_text
+          document_index: 0
+          file_id: file_id
+          end_char_index: 6
+          type: char_location
+        - document_title: document_title
+          start_char_index: 1
+          cited_text: cited_text
+          document_index: 0
+          file_id: file_id
+          end_char_index: 6
+          type: char_location
+        text: text
+        type: text
+      properties:
+        citations:
+          items:
+            $ref: "#/components/schemas/MR_TextBlock_citations_inner"
+          nullable: true
+          type: array
+        text:
+          title: Text
+          type: string
+        type:
+          enum:
+          - text
+          title: Type
+          type: string
+      required:
+      - text
+      - type
+      title: TextBlock
+    MR_TextEditorCodeExecutionCreateResultBlock:
+      additionalProperties: true
+      properties:
+        is_file_update:
+          title: Is File Update
+          type: boolean
+        type:
+          enum:
+          - text_editor_code_execution_create_result
+          title: Type
+          type: string
+      required:
+      - is_file_update
+      - type
+      title: TextEditorCodeExecutionCreateResultBlock
+    MR_TextEditorCodeExecutionStrReplaceResultBlock:
+      additionalProperties: {}
+      properties:
+        lines:
+          items:
+            type: string
+          nullable: true
+          type: array
+        new_lines:
+          nullable: true
+          type: integer
+        new_start:
+          nullable: true
+          type: integer
+        old_lines:
+          nullable: true
+          type: integer
+        old_start:
+          nullable: true
+          type: integer
+        type:
+          enum:
+          - text_editor_code_execution_str_replace_result
+          title: Type
+          type: string
+      required:
+      - type
+      title: TextEditorCodeExecutionStrReplaceResultBlock
+    MR_TextEditorCodeExecutionToolResultBlock:
+      additionalProperties: true
+      properties:
+        content:
+          $ref: "#/components/schemas/Content_5"
+        tool_use_id:
+          title: Tool Use Id
+          type: string
+        type:
+          enum:
+          - text_editor_code_execution_tool_result
+          title: Type
+          type: string
+      required:
+      - content
+      - tool_use_id
+      - type
+      title: TextEditorCodeExecutionToolResultBlock
+    MR_TextEditorCodeExecutionToolResultError:
+      additionalProperties: {}
+      properties:
+        error_code:
+          enum:
+          - invalid_tool_input
+          - unavailable
+          - too_many_requests
+          - execution_time_exceeded
+          - file_not_found
+          title: Error Code
+          type: string
+        error_message:
+          nullable: true
+          type: string
+        type:
+          enum:
+          - text_editor_code_execution_tool_result_error
+          title: Type
+          type: string
+      required:
+      - error_code
+      - type
+      title: TextEditorCodeExecutionToolResultError
+    MR_TextEditorCodeExecutionViewResultBlock:
+      additionalProperties: {}
+      properties:
+        content:
+          title: Content
+          type: string
+        file_type:
+          enum:
+          - text
+          - image
+          - pdf
+          title: File Type
+          type: string
+        num_lines:
+          nullable: true
+          type: integer
+        start_line:
+          nullable: true
+          type: integer
+        total_lines:
+          nullable: true
+          type: integer
+        type:
+          enum:
+          - text_editor_code_execution_view_result
+          title: Type
+          type: string
+      required:
+      - content
+      - file_type
+      - type
+      title: TextEditorCodeExecutionViewResultBlock
+    MR_ThinkingBlock:
+      additionalProperties: true
+      properties:
+        signature:
+          title: Signature
+          type: string
+        thinking:
+          title: Thinking
+          type: string
+        type:
+          enum:
+          - thinking
+          title: Type
+          type: string
+      required:
+      - signature
+      - thinking
+      - type
+      title: ThinkingBlock
+    MR_ToolReferenceBlock:
+      additionalProperties: true
+      properties:
+        tool_name:
+          title: Tool Name
+          type: string
+        type:
+          enum:
+          - tool_reference
+          title: Type
+          type: string
+      required:
+      - tool_name
+      - type
+      title: ToolReferenceBlock
+    MR_ToolSearchToolResultBlock:
+      additionalProperties: true
+      properties:
+        content:
+          $ref: "#/components/schemas/Content_6"
+        tool_use_id:
+          title: Tool Use Id
+          type: string
+        type:
+          enum:
+          - tool_search_tool_result
+          title: Type
+          type: string
+      required:
+      - content
+      - tool_use_id
+      - type
+      title: ToolSearchToolResultBlock
+    MR_ToolSearchToolResultError:
+      additionalProperties: true
+      properties:
+        error_code:
+          enum:
+          - invalid_tool_input
+          - unavailable
+          - too_many_requests
+          - execution_time_exceeded
+          title: Error Code
+          type: string
+        error_message:
+          nullable: true
+          type: string
+        type:
+          enum:
+          - tool_search_tool_result_error
+          title: Type
+          type: string
+      required:
+      - error_code
+      - type
+      title: ToolSearchToolResultError
+    MR_ToolSearchToolSearchResultBlock:
+      additionalProperties: true
+      properties:
+        tool_references:
+          items:
+            $ref: "#/components/schemas/MR_ToolReferenceBlock"
+          title: Tool References
+          type: array
+        type:
+          enum:
+          - tool_search_tool_search_result
+          title: Type
+          type: string
+      required:
+      - tool_references
+      - type
+      title: ToolSearchToolSearchResultBlock
+    MR_ToolUseBlock:
+      additionalProperties: {}
+      properties:
+        id:
+          title: Id
+          type: string
+        caller:
+          $ref: "#/components/schemas/Caller"
+        input:
+          additionalProperties: true
+          title: Input
+          type: object
+        name:
+          title: Name
+          type: string
+        type:
+          enum:
+          - tool_use
+          title: Type
+          type: string
+      required:
+      - id
+      - input
+      - name
+      - type
+      title: ToolUseBlock
+    MR_Usage:
+      additionalProperties: {}
+      example:
+        server_tool_use: ""
+        cache_creation: ""
+        output_tokens: 7
+        service_tier: standard
+        cache_creation_input_tokens: 5
+        input_tokens: 2
+        cache_read_input_tokens: 5
+        inference_geo: inference_geo
+      properties:
+        cache_creation:
+          allOf:
+          - $ref: "#/components/schemas/MR_CacheCreation"
+          nullable: true
+        cache_creation_input_tokens:
+          nullable: true
+          type: integer
+        cache_read_input_tokens:
+          nullable: true
+          type: integer
+        inference_geo:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        input_tokens:
+          title: Input Tokens
+          type: integer
+        output_tokens:
+          title: Output Tokens
+          type: integer
+        server_tool_use:
+          allOf:
+          - $ref: "#/components/schemas/MR_ServerToolUsage"
+          nullable: true
+        service_tier:
+          enum:
+          - standard
+          - priority
+          - batch
+          nullable: true
+          type: string
+      required:
+      - input_tokens
+      - output_tokens
+      title: Usage
+    MR_WebFetchBlock:
+      additionalProperties: {}
+      properties:
+        content:
+          $ref: "#/components/schemas/MR_DocumentBlock"
+        retrieved_at:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        type:
+          enum:
+          - web_fetch_result
+          title: Type
+          type: string
+        url:
+          title: Url
+          type: string
+      required:
+      - content
+      - type
+      - url
+      title: WebFetchBlock
+    MR_WebFetchToolResultBlock:
+      additionalProperties: true
+      properties:
+        caller:
+          $ref: "#/components/schemas/Caller"
+        content:
+          $ref: "#/components/schemas/Content_7"
+        tool_use_id:
+          title: Tool Use Id
+          type: string
+        type:
+          enum:
+          - web_fetch_tool_result
+          title: Type
+          type: string
+      required:
+      - content
+      - tool_use_id
+      - type
+      title: WebFetchToolResultBlock
+    MR_WebFetchToolResultErrorBlock:
+      additionalProperties: true
+      properties:
+        error_code:
+          enum:
+          - invalid_tool_input
+          - url_too_long
+          - url_not_allowed
+          - url_not_accessible
+          - unsupported_content_type
+          - too_many_requests
+          - max_uses_exceeded
+          - unavailable
+          title: Error Code
+          type: string
+        type:
+          enum:
+          - web_fetch_tool_result_error
+          title: Type
+          type: string
+      required:
+      - error_code
+      - type
+      title: WebFetchToolResultErrorBlock
+    MR_WebSearchResultBlock:
+      additionalProperties: {}
+      properties:
+        encrypted_content:
+          title: Encrypted Content
+          type: string
+        page_age:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        title:
+          title: Title
+          type: string
+        type:
+          enum:
+          - web_search_result
+          title: Type
+          type: string
+        url:
+          title: Url
+          type: string
+      required:
+      - encrypted_content
+      - title
+      - type
+      - url
+      title: WebSearchResultBlock
+    MR_WebSearchToolResultBlock:
+      additionalProperties: true
+      properties:
+        caller:
+          $ref: "#/components/schemas/Caller"
+        content:
+          $ref: "#/components/schemas/Content_8"
+        tool_use_id:
+          title: Tool Use Id
+          type: string
+        type:
+          enum:
+          - web_search_tool_result
+          title: Type
+          type: string
+      required:
+      - content
+      - tool_use_id
+      - type
+      title: WebSearchToolResultBlock
+    MR_WebSearchToolResultError:
+      additionalProperties: true
+      properties:
+        error_code:
+          enum:
+          - invalid_tool_input
+          - unavailable
+          - max_uses_exceeded
+          - too_many_requests
+          - query_too_long
+          - request_too_large
+          title: Error Code
+          type: string
+        type:
+          enum:
+          - web_search_tool_result_error
+          title: Type
+          type: string
+      required:
+      - error_code
+      - type
+      title: WebSearchToolResultError
+    MessageResponse:
+      additionalProperties: {}
+      example:
+        container: ""
+        role: assistant
+        stop_sequence: stop_sequence
+        usage:
+          server_tool_use: ""
+          cache_creation: ""
+          output_tokens: 7
+          service_tier: standard
+          cache_creation_input_tokens: 5
+          input_tokens: 2
+          cache_read_input_tokens: 5
+          inference_geo: inference_geo
+        stop_reason: end_turn
+        model: claude-opus-4-6
+        stop_details: ""
+        id: id
+        type: message
+        content:
+        - citations:
+          - document_title: document_title
+            start_char_index: 1
+            cited_text: cited_text
+            document_index: 0
+            file_id: file_id
+            end_char_index: 6
+            type: char_location
+          - document_title: document_title
+            start_char_index: 1
+            cited_text: cited_text
+            document_index: 0
+            file_id: file_id
+            end_char_index: 6
+            type: char_location
+          text: text
+          type: text
+        - citations:
+          - document_title: document_title
+            start_char_index: 1
+            cited_text: cited_text
+            document_index: 0
+            file_id: file_id
+            end_char_index: 6
+            type: char_location
+          - document_title: document_title
+            start_char_index: 1
+            cited_text: cited_text
+            document_index: 0
+            file_id: file_id
+            end_char_index: 6
+            type: char_location
+          text: text
+          type: text
+      properties:
+        id:
+          title: Id
+          type: string
+        container:
+          allOf:
+          - $ref: "#/components/schemas/MR_Container"
+          nullable: true
+        content:
+          items:
+            $ref: "#/components/schemas/Content_9_inner"
+          title: Content
+          type: array
+        model:
+          $ref: "#/components/schemas/Model"
+        role:
+          enum:
+          - assistant
+          title: Role
+          type: string
+        stop_details:
+          allOf:
+          - $ref: "#/components/schemas/MR_RefusalStopDetails"
+          nullable: true
+        stop_reason:
+          enum:
+          - end_turn
+          - max_tokens
+          - stop_sequence
+          - tool_use
+          - pause_turn
+          - refusal
+          nullable: true
+          type: string
+        stop_sequence:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        type:
+          enum:
+          - message
+          title: Type
+          type: string
+        usage:
+          $ref: "#/components/schemas/MR_Usage"
+      required:
+      - content
+      - id
+      - model
+      - role
+      - type
+      - usage
+      title: MessageResponse
+    RR_RerankMeta:
+      description: "Provider-specific billing metadata (optional, preserved as-is)."
+      properties:
+        billed_units:
+          additionalProperties:
+            type: number
+          nullable: true
+        tokens:
+          additionalProperties:
+            type: integer
+          nullable: true
+      title: RerankMeta
+    RR_RerankResult:
+      description: A single document's relevance score.
+      example:
+        index: 0
+        relevance_score: 6.027456183070403
+      properties:
+        index:
+          description: Zero-based index into the original documents list
+          title: Index
+          type: integer
+        relevance_score:
+          description: "Relevance score, higher is more relevant"
+          title: Relevance Score
+          type: number
+      required:
+      - index
+      - relevance_score
+      title: RerankResult
+    RR_RerankUsage:
+      description: Normalized token usage for gateway logging.
+      properties:
+        total_tokens:
+          nullable: true
+          type: integer
+      title: RerankUsage
+    RerankResponse:
+      description: "Normalized rerank response, provider-agnostic."
+      example:
+        meta: ""
+        usage: ""
+        id: id
+        results:
+        - index: 0
+          relevance_score: 6.027456183070403
+        - index: 0
+          relevance_score: 6.027456183070403
+      properties:
+        id:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        results:
+          description: Results sorted by relevance_score descending
+          items:
+            $ref: "#/components/schemas/RR_RerankResult"
+          title: Results
+          type: array
+        meta:
+          allOf:
+          - $ref: "#/components/schemas/RR_RerankMeta"
+          nullable: true
+        usage:
+          allOf:
+          - $ref: "#/components/schemas/RR_RerankUsage"
+          nullable: true
+      required:
+      - results
+      title: RerankResponse
+    EMB_Embedding:
+      additionalProperties: true
+      description: Represents an embedding vector returned by embedding endpoint.
+      example:
+        index: 6
+        embedding:
+        - 0.8008281904610115
+        - 0.8008281904610115
+        object: embedding
+      properties:
+        embedding:
+          items:
+            type: number
+          title: Embedding
+          type: array
+        index:
+          title: Index
+          type: integer
+        object:
+          enum:
+          - embedding
+          title: Object
+          type: string
+      required:
+      - embedding
+      - index
+      - object
+      title: Embedding
+    EMB_Usage:
+      additionalProperties: true
+      description: The usage information for the request.
+      example:
+        prompt_tokens: 1
+        total_tokens: 5
+      properties:
+        prompt_tokens:
+          title: Prompt Tokens
+          type: integer
+        total_tokens:
+          title: Total Tokens
+          type: integer
+      required:
+      - prompt_tokens
+      - total_tokens
+      title: Usage
+    CreateEmbeddingResponse:
+      additionalProperties: true
+      example:
+        data:
+        - index: 6
+          embedding:
+          - 0.8008281904610115
+          - 0.8008281904610115
+          object: embedding
+        - index: 6
+          embedding:
+          - 0.8008281904610115
+          - 0.8008281904610115
+          object: embedding
+        usage:
+          prompt_tokens: 1
+          total_tokens: 5
+        model: model
+        object: list
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/EMB_Embedding"
+          title: Data
+          type: array
+        model:
+          title: Model
+          type: string
+        object:
+          enum:
+          - list
+          title: Object
+          type: string
+        usage:
+          $ref: "#/components/schemas/EMB_Usage"
+      required:
+      - data
+      - model
+      - object
+      - usage
+      title: CreateEmbeddingResponse
+    Tool_Choice:
+      anyOf:
+      - description: Filter models by provider name
+        nullable: true
+        type: string
+      - additionalProperties: true
+        nullable: true
+        type: object
+      nullable: true
+      title: Tool Choice
+    Input:
+      anyOf:
+      - type: string
+      - items:
+          type: string
+        type: array
+      description: Input text to embed
+      title: Input
+    System:
+      anyOf:
+      - description: Filter models by provider name
+        nullable: true
+        type: string
+      - items:
+          additionalProperties: true
+          type: object
+        type: array
+      nullable: true
+      title: System
+    Input_1:
+      anyOf:
+      - description: Filter models by provider name
+        nullable: true
+        type: string
+      - items:
+          type: string
+        type: array
+      - items:
+          additionalProperties: true
+          type: object
+        type: array
+      description: "Text, list of texts, or list of content-part dicts to moderate"
+      title: Input
+    Location_inner:
+      anyOf:
+      - type: string
+      - type: integer
+    CC_ChatCompletionMessage_tool_calls_inner:
+      anyOf:
+      - $ref: "#/components/schemas/CC_ChatCompletionMessageFunctionToolCall"
+      - $ref: "#/components/schemas/CC_ChatCompletionMessageCustomToolCall"
+    Content_anyOf_inner:
+      anyOf:
+      - $ref: "#/components/schemas/MSG_ChatCompletionContentPartTextParam"
+      - $ref: "#/components/schemas/MSG_ChatCompletionContentPartRefusalParam"
+    Content:
+      anyOf:
+      - type: string
+      - items:
+          $ref: "#/components/schemas/Content_anyOf_inner"
+        type: array
+      nullable: true
+      title: Content
+    Tool_Calls_inner:
+      anyOf:
+      - $ref: "#/components/schemas/MSG_ChatCompletionMessageFunctionToolCallParam"
+      - $ref: "#/components/schemas/MSG_ChatCompletionMessageCustomToolCallParam"
+    Content_1:
+      anyOf:
+      - type: string
+      - items:
+          $ref: "#/components/schemas/MSG_ChatCompletionContentPartTextParam"
+        type: array
+      title: Content
+    Content_2_anyOf_inner:
+      anyOf:
+      - $ref: "#/components/schemas/MSG_ChatCompletionContentPartTextParam"
+      - $ref: "#/components/schemas/MSG_ChatCompletionContentPartImageParam"
+      - $ref: "#/components/schemas/MSG_ChatCompletionContentPartInputAudioParam"
+      - $ref: "#/components/schemas/MSG_File"
+    Content_2:
+      anyOf:
+      - type: string
+      - items:
+          $ref: "#/components/schemas/Content_2_anyOf_inner"
+        type: array
+      title: Content
+    Content_3:
+      anyOf:
+      - $ref: "#/components/schemas/MR_BashCodeExecutionToolResultError"
+      - $ref: "#/components/schemas/MR_BashCodeExecutionResultBlock"
+      title: Content
+    Content_4:
+      anyOf:
+      - $ref: "#/components/schemas/MR_CodeExecutionToolResultError"
+      - $ref: "#/components/schemas/MR_CodeExecutionResultBlock"
+      - $ref: "#/components/schemas/MR_EncryptedCodeExecutionResultBlock"
+      title: Content
+    Source:
+      anyOf:
+      - $ref: "#/components/schemas/MR_Base64PDFSource"
+      - $ref: "#/components/schemas/MR_PlainTextSource"
+      title: Source
+    Caller:
+      anyOf:
+      - $ref: "#/components/schemas/MR_DirectCaller"
+      - $ref: "#/components/schemas/MR_ServerToolCaller"
+      - $ref: "#/components/schemas/MR_ServerToolCaller20260120"
+      nullable: true
+      title: Caller
+    MR_TextBlock_citations_inner:
+      anyOf:
+      - $ref: "#/components/schemas/MR_CitationCharLocation"
+      - $ref: "#/components/schemas/MR_CitationPageLocation"
+      - $ref: "#/components/schemas/MR_CitationContentBlockLocation"
+      - $ref: "#/components/schemas/MR_CitationsWebSearchResultLocation"
+      - $ref: "#/components/schemas/MR_CitationsSearchResultLocation"
+    Content_5:
+      anyOf:
+      - $ref: "#/components/schemas/MR_TextEditorCodeExecutionToolResultError"
+      - $ref: "#/components/schemas/MR_TextEditorCodeExecutionViewResultBlock"
+      - $ref: "#/components/schemas/MR_TextEditorCodeExecutionCreateResultBlock"
+      - $ref: "#/components/schemas/MR_TextEditorCodeExecutionStrReplaceResultBlock"
+      title: Content
+    Content_6:
+      anyOf:
+      - $ref: "#/components/schemas/MR_ToolSearchToolResultError"
+      - $ref: "#/components/schemas/MR_ToolSearchToolSearchResultBlock"
+      title: Content
+    Content_7:
+      anyOf:
+      - $ref: "#/components/schemas/MR_WebFetchToolResultErrorBlock"
+      - $ref: "#/components/schemas/MR_WebFetchBlock"
+      title: Content
+    Content_8:
+      anyOf:
+      - $ref: "#/components/schemas/MR_WebSearchToolResultError"
+      - items:
+          $ref: "#/components/schemas/MR_WebSearchResultBlock"
+        type: array
+      title: Content
+    Content_9_inner:
+      anyOf:
+      - $ref: "#/components/schemas/MR_TextBlock"
+      - $ref: "#/components/schemas/MR_ThinkingBlock"
+      - $ref: "#/components/schemas/MR_RedactedThinkingBlock"
+      - $ref: "#/components/schemas/MR_ToolUseBlock"
+      - $ref: "#/components/schemas/MR_ServerToolUseBlock"
+      - $ref: "#/components/schemas/MR_WebSearchToolResultBlock"
+      - $ref: "#/components/schemas/MR_WebFetchToolResultBlock"
+      - $ref: "#/components/schemas/MR_CodeExecutionToolResultBlock"
+      - $ref: "#/components/schemas/MR_BashCodeExecutionToolResultBlock"
+      - $ref: "#/components/schemas/MR_TextEditorCodeExecutionToolResultBlock"
+      - $ref: "#/components/schemas/MR_ToolSearchToolResultBlock"
+      - $ref: "#/components/schemas/MR_ContainerUploadBlock"
+    Model:
+      anyOf:
+      - enum:
+        - claude-opus-4-6
+        - claude-sonnet-4-6
+        - claude-haiku-4-5
+        - claude-haiku-4-5-20251001
+        - claude-opus-4-5
+        - claude-opus-4-5-20251101
+        - claude-sonnet-4-5
+        - claude-sonnet-4-5-20250929
+        - claude-opus-4-1
+        - claude-opus-4-1-20250805
+        - claude-opus-4-0
+        - claude-opus-4-20250514
+        - claude-sonnet-4-0
+        - claude-sonnet-4-20250514
+        - claude-3-haiku-20240307
+        type: string
+      - type: string
+      title: Model

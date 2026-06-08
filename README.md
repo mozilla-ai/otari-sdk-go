@@ -333,7 +333,7 @@ otari-sdk-go/
 
 - **Simple, unified interface** - Single client for all providers through the gateway, switch models with just a string change
 - **Developer friendly** - Full type safety with Go's type system and clear, actionable error messages
-- **Leverages the OpenAI SDK** - Built on the official [openai-go](https://github.com/openai/openai-go) SDK for maximum compatibility
+- **Generated from the otari spec** - A thin ergonomic shell over a typed core generated from the gateway's OpenAPI spec, so it models otari's real contract (not just the OpenAI-compatible subset)
 - **Stays framework-agnostic** so it can be used across different projects and use cases
 - **Battle-tested** - Extracted from [any-llm-go](https://github.com/mozilla-ai/any-llm-go)'s production gateway provider
 

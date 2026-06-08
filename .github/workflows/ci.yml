@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      - name: gofmt
+        # The generated client (otari/client) is gofmt'd as part of codegen
+        # postprocess, so the whole tree is held to gofmt.
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then echo "unformatted files:"; echo "$unformatted"; exit 1; fi
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: build
+        run: go build ./...
+
+      - name: test
+        # Integration tests skip automatically when no gateway is on PATH.
+        run: go test ./...
+
+      - name: endpoint-coverage drift gate
+        # Fetches the canonical gateway OpenAPI spec and fails if it exposes an
+        # endpoint absent from sdk-endpoints.txt ([covered] or [excluded]).
+        # Network is available in CI, so this must not skip here.
+        run: go test ./otari/ -run 'TestManifestParses|TestSpecEndpointsAreAccountedFor|TestManifestHasNoStaleEntries' -v

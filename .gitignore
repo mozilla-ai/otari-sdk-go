@@ -24,3 +24,7 @@ vendor/
 # OS
 .DS_Store
 Thumbs.db
+
+# Compiled example binaries
+/quickstart
+examples/quickstart/quickstart
