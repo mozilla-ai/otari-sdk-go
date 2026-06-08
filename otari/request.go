@@ -17,7 +17,7 @@ import (
 // unified mapHTTPError so both auth modes produce the same typed errors.
 //
 // This reuses the generated client.APIClient for configuration and auth wiring
-// (Option C) rather than the openai-go SDK, while keeping the SDK's stable
+// rather than the openai-go SDK, while keeping the SDK's stable
 // public request/response types as the marshal/decode targets. batchID enriches
 // 409 batch errors; pass "" when not applicable.
 func (c *Client) doJSON(
