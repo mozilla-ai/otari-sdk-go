@@ -73,6 +73,8 @@ docs/Content7.md
 docs/Content8.md
 docs/Content9Inner.md
 docs/ContentAnyOfInner.md
+docs/CountTokensRequest.md
+docs/CountTokensResponse.md
 docs/CreateBatchRequest.md
 docs/CreateBudgetRequest.md
 docs/CreateEmbeddingResponse.md
@@ -187,6 +189,7 @@ docs/ResponsesRequest.md
 docs/SetPricingRequest.md
 docs/Source.md
 docs/System.md
+docs/System1.md
 docs/ToolCallsInner.md
 docs/ToolChoice.md
 docs/UpdateBudgetRequest.md
@@ -247,6 +250,8 @@ model_content_7.go
 model_content_8.go
 model_content_9_inner.go
 model_content_any_of_inner.go
+model_count_tokens_request.go
+model_count_tokens_response.go
 model_create_batch_request.go
 model_create_budget_request.go
 model_create_embedding_response.go
@@ -351,6 +356,7 @@ model_rr_rerank_usage.go
 model_set_pricing_request.go
 model_source.go
 model_system.go
+model_system_1.go
 model_tool_calls_inner.go
 model_tool_choice.go
 model_update_budget_request.go

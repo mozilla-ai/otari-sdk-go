@@ -94,6 +94,7 @@ Class | Method | HTTP request | Description
 *KeysAPI* | [**GetKeyV1KeysKeyIdGet**](docs/KeysAPI.md#getkeyv1keyskeyidget) | **Get** /v1/keys/{key_id} | Get Key
 *KeysAPI* | [**ListKeysV1KeysGet**](docs/KeysAPI.md#listkeysv1keysget) | **Get** /v1/keys | List Keys
 *KeysAPI* | [**UpdateKeyV1KeysKeyIdPatch**](docs/KeysAPI.md#updatekeyv1keyskeyidpatch) | **Patch** /v1/keys/{key_id} | Update Key
+*MessagesAPI* | [**CountMessageTokensV1MessagesCountTokensPost**](docs/MessagesAPI.md#countmessagetokensv1messagescounttokenspost) | **Post** /v1/messages/count_tokens | Count Message Tokens
 *MessagesAPI* | [**CreateMessageV1MessagesPost**](docs/MessagesAPI.md#createmessagev1messagespost) | **Post** /v1/messages | Create Message
 *ModelsAPI* | [**GetModelV1ModelsModelIdGet**](docs/ModelsAPI.md#getmodelv1modelsmodelidget) | **Get** /v1/models/{model_id} | Get Model
 *ModelsAPI* | [**ListModelsV1ModelsGet**](docs/ModelsAPI.md#listmodelsv1modelsget) | **Get** /v1/models | List Models
@@ -164,6 +165,8 @@ Class | Method | HTTP request | Description
  - [Content8](docs/Content8.md)
  - [Content9Inner](docs/Content9Inner.md)
  - [ContentAnyOfInner](docs/ContentAnyOfInner.md)
+ - [CountTokensRequest](docs/CountTokensRequest.md)
+ - [CountTokensResponse](docs/CountTokensResponse.md)
  - [CreateBatchRequest](docs/CreateBatchRequest.md)
  - [CreateBudgetRequest](docs/CreateBudgetRequest.md)
  - [CreateEmbeddingResponse](docs/CreateEmbeddingResponse.md)
@@ -268,6 +271,7 @@ Class | Method | HTTP request | Description
  - [SetPricingRequest](docs/SetPricingRequest.md)
  - [Source](docs/Source.md)
  - [System](docs/System.md)
+ - [System1](docs/System1.md)
  - [ToolCallsInner](docs/ToolCallsInner.md)
  - [ToolChoice](docs/ToolChoice.md)
  - [UpdateBudgetRequest](docs/UpdateBudgetRequest.md)

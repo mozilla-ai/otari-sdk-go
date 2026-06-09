@@ -809,6 +809,39 @@ paths:
       summary: Create Message
       tags:
       - messages
+  /v1/messages/count_tokens:
+    post:
+      description: |-
+        Anthropic ``/v1/messages/count_tokens``-compatible endpoint.
+
+        Returns ``{"input_tokens": N}`` without contacting an upstream provider:
+        counting is local, so there is no budget reservation, pricing, or usage
+        logging. Authentication mirrors :func:`create_message` — platform mode
+        resolves the caller's token against the platform, standalone mode validates
+        the API key — so the endpoint is not an open token-counting oracle.
+      operationId: count_message_tokens_v1_messages_count_tokens_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CountTokensRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountTokensResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Count Message Tokens
+      tags:
+      - messages
   /v1/models:
     get:
       description: |-
@@ -1732,6 +1765,82 @@ components:
       - messages
       - model
       title: ChatCompletionRequest
+    CountTokensRequest:
+      description: |-
+        Anthropic ``/v1/messages/count_tokens`` request.
+
+        A subset of :class:`MessagesRequest`: the input fields that affect the token
+        count, minus ``max_tokens`` and the streaming/sampling controls, since the
+        endpoint only counts input tokens. Clients such as Claude Code call this on
+        every turn to keep their prompt within the model's context window.
+      example:
+        metadata:
+          key: ""
+        system: System
+        cache_control:
+          key: ""
+        messages:
+        - key: ""
+        - key: ""
+        tool_choice:
+          key: ""
+        model: model
+        thinking:
+          key: ""
+        tools:
+        - key: ""
+        - key: ""
+      properties:
+        cache_control:
+          additionalProperties: true
+          nullable: true
+          type: object
+        messages:
+          items:
+            additionalProperties: true
+            nullable: true
+            type: object
+          minItems: 1
+          title: Messages
+          type: array
+        metadata:
+          additionalProperties: true
+          nullable: true
+          type: object
+        model:
+          title: Model
+          type: string
+        system:
+          $ref: "#/components/schemas/System"
+        thinking:
+          additionalProperties: true
+          nullable: true
+          type: object
+        tool_choice:
+          additionalProperties: true
+          nullable: true
+          type: object
+        tools:
+          items:
+            additionalProperties: true
+            type: object
+          nullable: true
+          type: array
+      required:
+      - messages
+      - model
+      title: CountTokensRequest
+    CountTokensResponse:
+      description: Anthropic ``/v1/messages/count_tokens`` response.
+      example:
+        input_tokens: 0
+      properties:
+        input_tokens:
+          title: Input Tokens
+          type: integer
+      required:
+      - input_tokens
+      title: CountTokensResponse
     CreateBatchRequest:
       example:
         metadata:
@@ -2185,7 +2294,7 @@ components:
         - key: ""
         - key: ""
         top_p: 5.637376656633329
-        system: System
+        system: System_1
         stream: false
         top_k: 5
         guardrails:
@@ -2270,7 +2379,6 @@ components:
         messages:
           items:
             additionalProperties: true
-            nullable: true
             type: object
           minItems: 1
           title: Messages
@@ -2292,7 +2400,7 @@ components:
           title: Stream
           type: boolean
         system:
-          $ref: "#/components/schemas/System"
+          $ref: "#/components/schemas/System_1"
         temperature:
           nullable: true
           type: number
@@ -5439,6 +5547,17 @@ components:
         type: object
       nullable: true
       title: Tool Choice
+    System:
+      anyOf:
+      - description: Filter models by provider name
+        nullable: true
+        type: string
+      - items:
+          additionalProperties: true
+          type: object
+        type: array
+      nullable: true
+      title: System
     Input:
       anyOf:
       - type: string
@@ -5447,11 +5566,9 @@ components:
         type: array
       description: Input text to embed
       title: Input
-    System:
+    System_1:
       anyOf:
-      - description: Filter models by provider name
-        nullable: true
-        type: string
+      - type: string
       - items:
           additionalProperties: true
           type: object
