@@ -83,22 +83,22 @@ func TestControlPlaneLifecycle(t *testing.T) {
 	cp := client.ControlPlane(masterKey)
 	ctx := context.Background()
 
-	// budgets: create -> get -> update
-	budget, _, err := cp.BudgetsAPI.CreateBudgetV1BudgetsPost(ctx).
-		CreateBudgetRequest(generated.CreateBudgetRequest{MaxBudget: *generated.NewNullableFloat32(ptr(float32(100.0)))}).Execute()
+	// budgets: create -> get -> update (via ergonomic aliases)
+	budget, _, err := cp.Budgets.Create(ctx, generated.CreateBudgetRequest{
+		MaxBudget: *generated.NewNullableFloat32(ptr(float32(100.0))),
+	})
 	if err != nil {
 		t.Fatalf("create budget: %v", err)
 	}
 	if budget.BudgetId == "" {
 		t.Fatal("expected budget_id on create")
 	}
-	if _, _, err := cp.BudgetsAPI.GetBudgetV1BudgetsBudgetIdGet(ctx, budget.BudgetId).Execute(); err != nil {
+	if _, _, err := cp.Budgets.Get(ctx, budget.BudgetId); err != nil {
 		t.Fatalf("get budget: %v", err)
 	}
 
 	// users: create -> get
-	user, _, err := cp.UsersAPI.CreateUserV1UsersPost(ctx).
-		CreateUserRequest(generated.CreateUserRequest{UserId: "itest-user"}).Execute()
+	user, _, err := cp.Users.Create(ctx, generated.CreateUserRequest{UserId: "itest-user"})
 	if err != nil {
 		t.Fatalf("create user: %v", err)
 	}
@@ -107,21 +107,25 @@ func TestControlPlaneLifecycle(t *testing.T) {
 	}
 
 	// keys: create returns the secret -> delete
-	key, _, err := cp.KeysAPI.CreateKeyV1KeysPost(ctx).
-		CreateKeyRequest(generated.CreateKeyRequest{}).Execute()
+	key, _, err := cp.Keys.Create(ctx, generated.CreateKeyRequest{})
 	if err != nil {
 		t.Fatalf("create key: %v", err)
 	}
 	if key.Key == "" {
 		t.Fatal("expected key secret on create")
 	}
-	if _, err := cp.KeysAPI.DeleteKeyV1KeysKeyIdDelete(ctx, key.Id).Execute(); err != nil {
+	if _, err := cp.Keys.Delete(ctx, key.Id); err != nil {
 		t.Fatalf("delete key: %v", err)
 	}
 
 	// usage: list is readable
-	if _, _, err := cp.UsageAPI.ListUsageV1UsageGet(ctx).Execute(); err != nil {
+	if _, _, err := cp.Usage.List(ctx, nil, nil, nil, nil, nil); err != nil {
 		t.Fatalf("list usage: %v", err)
+	}
+
+	// raw escape hatch: the generated client stays reachable for the full surface.
+	if _, _, err := cp.Raw.UsageAPI.ListUsageV1UsageGet(ctx).Execute(); err != nil {
+		t.Fatalf("list usage via raw: %v", err)
 	}
 }
 
