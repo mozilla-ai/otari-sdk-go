@@ -370,6 +370,28 @@ func (c *Client) MessageStream(
 	})
 }
 
+// CountTokens counts the input tokens an Anthropic-shaped /messages request
+// would consume, via POST /v1/messages/count_tokens.
+//
+// Unlike Message, this does not generate a response, so max_tokens is not part
+// of the request and is stripped from the body. The response is a clean typed
+// CountTokensResponse.
+func (c *Client) CountTokens(
+	ctx context.Context,
+	params MessageParams,
+) (*CountTokensResponse, error) {
+	if params.Model == "" {
+		return nil, newInvalidRequestError(providerName, fmt.Errorf("model is required"))
+	}
+	body := messageBody(params, false)
+	delete(body, "max_tokens")
+	var out CountTokensResponse
+	if err := c.doJSON(ctx, "POST", "/messages/count_tokens", body, &out, ""); err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 // Response creates a response via the OpenAI-style Responses API
 // (POST /v1/responses). Its response is opaque on the gateway, so the decoded
 // JSON is returned as a map.

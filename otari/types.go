@@ -172,6 +172,12 @@ type EmbeddingResponse struct {
 	Usage  *EmbeddingUsage `json:"usage,omitempty"`
 }
 
+// CountTokensResponse is the result of POST /v1/messages/count_tokens: the
+// number of input tokens the corresponding /messages request would consume.
+type CountTokensResponse struct {
+	InputTokens int `json:"input_tokens"`
+}
+
 // EmbeddingUsage represents token usage for embeddings.
 type EmbeddingUsage struct {
 	PromptTokens int `json:"prompt_tokens"`

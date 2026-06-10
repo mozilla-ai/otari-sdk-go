@@ -83,6 +83,43 @@ func TestMessageRequiresMaxTokens(t *testing.T) {
 	require.Contains(t, err.Error(), "max_tokens is required")
 }
 
+func TestCountTokensTypedDecodeAndStripsMaxTokens(t *testing.T) {
+	t.Parallel()
+
+	var (
+		mu      sync.Mutex
+		gotPath string
+		gotBody map[string]any
+	)
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		mu.Lock()
+		gotPath = r.URL.Path
+		raw, _ := io.ReadAll(r.Body)
+		_ = jsonUnmarshal(raw, &gotBody)
+		mu.Unlock()
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"input_tokens": 42}`))
+	}))
+	t.Cleanup(srv.Close)
+
+	client, err := New(WithBaseURL(srv.URL), WithOtariKey("vk"))
+	require.NoError(t, err)
+
+	out, err := client.CountTokens(context.Background(), MessageParams{
+		Model:    "anthropic:claude-3-5-sonnet",
+		Messages: []map[string]any{{"role": "user", "content": "Hi"}},
+	})
+	require.NoError(t, err)
+	require.Equal(t, 42, out.InputTokens)
+
+	mu.Lock()
+	defer mu.Unlock()
+	require.Equal(t, "/v1/messages/count_tokens", gotPath)
+	require.Equal(t, "anthropic:claude-3-5-sonnet", gotBody["model"])
+	_, hasMaxTokens := gotBody["max_tokens"]
+	require.False(t, hasMaxTokens)
+}
+
 // --- Response (/responses endpoint) ---------------------------------------
 
 func TestResponseTypedDecode(t *testing.T) {
