@@ -21,25 +21,25 @@ var _ MappedNullable = &MessagesRequest{}
 
 // MessagesRequest Anthropic Messages API-compatible request.  Gateway-internal fields (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) opt the request into gateway-managed MCP / sandbox / web_search / guardrails without changing the upstream wire shape. They're stripped before the request is forwarded.
 type MessagesRequest struct {
-	CacheControl      map[string]interface{}    `json:"cache_control,omitempty"`
-	Guardrails        []GuardrailConfig         `json:"guardrails,omitempty"`
-	MaxTokens         int32                     `json:"max_tokens"`
-	MaxToolIterations NullableInt32             `json:"max_tool_iterations,omitempty"`
-	McpServerIds      []string                  `json:"mcp_server_ids,omitempty"`
-	McpServers        []McpServerConfig         `json:"mcp_servers,omitempty"`
-	Messages          []*map[string]interface{} `json:"messages"`
-	Metadata          map[string]interface{}    `json:"metadata,omitempty"`
-	Model             string                    `json:"model"`
-	StopSequences     []string                  `json:"stop_sequences,omitempty"`
-	Stream            *bool                     `json:"stream,omitempty"`
-	System            NullableSystem            `json:"system,omitempty"`
-	Temperature       NullableFloat32           `json:"temperature,omitempty"`
-	Thinking          map[string]interface{}    `json:"thinking,omitempty"`
-	ToolChoice        map[string]interface{}    `json:"tool_choice,omitempty"`
-	Tools             []map[string]interface{}  `json:"tools,omitempty"`
-	ToolsHeader       NullableString            `json:"tools_header,omitempty"`
-	TopK              NullableInt32             `json:"top_k,omitempty"`
-	TopP              NullableFloat32           `json:"top_p,omitempty"`
+	CacheControl      map[string]interface{}   `json:"cache_control,omitempty"`
+	Guardrails        []GuardrailConfig        `json:"guardrails,omitempty"`
+	MaxTokens         int32                    `json:"max_tokens"`
+	MaxToolIterations NullableInt32            `json:"max_tool_iterations,omitempty"`
+	McpServerIds      []string                 `json:"mcp_server_ids,omitempty"`
+	McpServers        []McpServerConfig        `json:"mcp_servers,omitempty"`
+	Messages          []map[string]interface{} `json:"messages"`
+	Metadata          map[string]interface{}   `json:"metadata,omitempty"`
+	Model             string                   `json:"model"`
+	StopSequences     []string                 `json:"stop_sequences,omitempty"`
+	Stream            *bool                    `json:"stream,omitempty"`
+	System            NullableSystem1          `json:"system,omitempty"`
+	Temperature       NullableFloat32          `json:"temperature,omitempty"`
+	Thinking          map[string]interface{}   `json:"thinking,omitempty"`
+	ToolChoice        map[string]interface{}   `json:"tool_choice,omitempty"`
+	Tools             []map[string]interface{} `json:"tools,omitempty"`
+	ToolsHeader       NullableString           `json:"tools_header,omitempty"`
+	TopK              NullableInt32            `json:"top_k,omitempty"`
+	TopP              NullableFloat32          `json:"top_p,omitempty"`
 }
 
 type _MessagesRequest MessagesRequest
@@ -48,7 +48,7 @@ type _MessagesRequest MessagesRequest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMessagesRequest(maxTokens int32, messages []*map[string]interface{}, model string) *MessagesRequest {
+func NewMessagesRequest(maxTokens int32, messages []map[string]interface{}, model string) *MessagesRequest {
 	this := MessagesRequest{}
 	this.MaxTokens = maxTokens
 	this.Messages = messages
@@ -268,9 +268,9 @@ func (o *MessagesRequest) SetMcpServers(v []McpServerConfig) {
 }
 
 // GetMessages returns the Messages field value
-func (o *MessagesRequest) GetMessages() []*map[string]interface{} {
+func (o *MessagesRequest) GetMessages() []map[string]interface{} {
 	if o == nil {
-		var ret []*map[string]interface{}
+		var ret []map[string]interface{}
 		return ret
 	}
 
@@ -279,7 +279,7 @@ func (o *MessagesRequest) GetMessages() []*map[string]interface{} {
 
 // GetMessagesOk returns a tuple with the Messages field value
 // and a boolean to check if the value has been set.
-func (o *MessagesRequest) GetMessagesOk() ([]*map[string]interface{}, bool) {
+func (o *MessagesRequest) GetMessagesOk() ([]map[string]interface{}, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -287,7 +287,7 @@ func (o *MessagesRequest) GetMessagesOk() ([]*map[string]interface{}, bool) {
 }
 
 // SetMessages sets field value
-func (o *MessagesRequest) SetMessages(v []*map[string]interface{}) {
+func (o *MessagesRequest) SetMessages(v []map[string]interface{}) {
 	o.Messages = v
 }
 
@@ -414,9 +414,9 @@ func (o *MessagesRequest) SetStream(v bool) {
 }
 
 // GetSystem returns the System field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *MessagesRequest) GetSystem() System {
+func (o *MessagesRequest) GetSystem() System1 {
 	if o == nil || IsNil(o.System.Get()) {
-		var ret System
+		var ret System1
 		return ret
 	}
 	return *o.System.Get()
@@ -425,7 +425,7 @@ func (o *MessagesRequest) GetSystem() System {
 // GetSystemOk returns a tuple with the System field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *MessagesRequest) GetSystemOk() (*System, bool) {
+func (o *MessagesRequest) GetSystemOk() (*System1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -441,8 +441,8 @@ func (o *MessagesRequest) HasSystem() bool {
 	return false
 }
 
-// SetSystem gets a reference to the given NullableSystem and assigns it to the System field.
-func (o *MessagesRequest) SetSystem(v System) {
+// SetSystem gets a reference to the given NullableSystem1 and assigns it to the System field.
+func (o *MessagesRequest) SetSystem(v System1) {
 	o.System.Set(&v)
 }
 

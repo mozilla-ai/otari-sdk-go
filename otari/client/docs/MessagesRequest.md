@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **Model** | **string** |  | 
 **StopSequences** | Pointer to **[]string** |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
-**System** | Pointer to [**NullableSystem**](System.md) |  | [optional] 
+**System** | Pointer to [**NullableSystem1**](System1.md) |  | [optional] 
 **Temperature** | Pointer to **NullableFloat32** |  | [optional] 
 **Thinking** | Pointer to **map[string]interface{}** |  | [optional] 
 **ToolChoice** | Pointer to **map[string]interface{}** |  | [optional] 
@@ -28,7 +28,7 @@ Name | Type | Description | Notes
 
 ### NewMessagesRequest
 
-`func NewMessagesRequest(maxTokens int32, messages []*map[string]interface{}, model string, ) *MessagesRequest`
+`func NewMessagesRequest(maxTokens int32, messages []map[string]interface{}, model string, ) *MessagesRequest`
 
 NewMessagesRequest instantiates a new MessagesRequest object
 This constructor will assign default values to properties that have it defined,
@@ -240,20 +240,20 @@ HasMcpServers returns a boolean if a field has been set.
 UnsetMcpServers ensures that no value is present for McpServers, not even an explicit nil
 ### GetMessages
 
-`func (o *MessagesRequest) GetMessages() []*map[string]interface{}`
+`func (o *MessagesRequest) GetMessages() []map[string]interface{}`
 
 GetMessages returns the Messages field if non-nil, zero value otherwise.
 
 ### GetMessagesOk
 
-`func (o *MessagesRequest) GetMessagesOk() (*[]*map[string]interface{}, bool)`
+`func (o *MessagesRequest) GetMessagesOk() (*[]map[string]interface{}, bool)`
 
 GetMessagesOk returns a tuple with the Messages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessages
 
-`func (o *MessagesRequest) SetMessages(v []*map[string]interface{})`
+`func (o *MessagesRequest) SetMessages(v []map[string]interface{})`
 
 SetMessages sets Messages field to given value.
 
@@ -375,20 +375,20 @@ HasStream returns a boolean if a field has been set.
 
 ### GetSystem
 
-`func (o *MessagesRequest) GetSystem() System`
+`func (o *MessagesRequest) GetSystem() System1`
 
 GetSystem returns the System field if non-nil, zero value otherwise.
 
 ### GetSystemOk
 
-`func (o *MessagesRequest) GetSystemOk() (*System, bool)`
+`func (o *MessagesRequest) GetSystemOk() (*System1, bool)`
 
 GetSystemOk returns a tuple with the System field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSystem
 
-`func (o *MessagesRequest) SetSystem(v System)`
+`func (o *MessagesRequest) SetSystem(v System1)`
 
 SetSystem sets System field to given value.
 
