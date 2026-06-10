@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// These tests exercise the Option C shell: request shaping + typed decode for
+// These tests exercise the generated-core shell: request shaping + typed decode for
 // the generated-core-backed methods (including the new Message and Response
 // endpoints), the unified status -> typed-error mapping in both auth modes, and
 // the hand-written SSE streaming shim against mocked text/event-stream bytes.

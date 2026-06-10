@@ -64,7 +64,7 @@ const (
 // Client implements the otari SDK client. It connects to an otari gateway
 // server, which proxies requests to underlying LLM providers.
 //
-// Option C: the client is a thin, ergonomic shell over the OpenAPI-generated
+// The client is a thin, ergonomic shell over the OpenAPI-generated
 // core in the otari/client package. Non-streaming inference is issued through
 // that generated core's configured transport; streaming is the hand-written SSE
 // shim; generated/HTTP errors are mapped to the typed errors in this package.

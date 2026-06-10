@@ -4,21 +4,27 @@
 
 <div align="center">
 
-# otari (Go)
+# Otari Go Client SDK
 
 ![Go 1.25+](https://img.shields.io/badge/go-1.25%2B-blue.svg)
 <a href="https://discord.gg/4gf3zXrQUc">
     <img src="https://img.shields.io/static/v1?label=Chat%20on&message=Discord&color=blue&logo=Discord&style=flat-square" alt="Discord">
 </a>
 
-**Go client for [otari-gateway](https://github.com/mozilla-ai/otari).**
-Communicate with any LLM provider through the gateway using a single, typed interface.
+**Go client for [otari](https://github.com/mozilla-ai/otari), the open-source core that powers [otari.ai](https://otari.ai).**
+Communicate with any LLM provider through otari using a single, typed interface.
 
 [Python SDK](https://github.com/mozilla-ai/otari-sdk-python) | [TypeScript SDK](https://github.com/mozilla-ai/otari-sdk-ts) | [Documentation](https://mozilla-ai.github.io/otari/) | [Platform (Beta)](https://otari.ai/)
 
 </div>
 
+> New to otari? The [otari repo](https://github.com/mozilla-ai/otari) explains what it is and why you’d use it.
+
 ## Quickstart
+
+```bash
+go get github.com/mozilla-ai/otari-sdk-go/otari
+```
 
 Generate an API token at [otari.ai/organization-settings/api-tokens](https://otari.ai/organization-settings/api-tokens), then add a provider key (e.g. OpenAI) at [otari.ai/organization-settings/provider-keys](https://otari.ai/organization-settings/provider-keys) so the gateway can route requests to that provider. Then use the client:
 
@@ -54,31 +60,14 @@ func main() {
 }
 ```
 
-That's it — the client defaults to the hosted gateway at `https://api.otari.ai`, so you don't need to set a base URL. Change the model string to switch between LLM providers through the gateway.
-
-Prefer to keep secrets out of code? Export `OTARI_AI_TOKEN` and call `otari.New(otari.WithPlatformMode())` — the token is picked up from the environment.
-
-## Self-hosting the gateway
-
-Prefer to run the gateway yourself instead of using the hosted otari.ai? Follow the setup in the [otari gateway repo](https://github.com/mozilla-ai/otari), then point the SDK at it:
-
-```go
-client, err := otari.New(
-    otari.WithBaseURL("http://localhost:8000"), // or wherever you host the gateway
-    otari.WithOtariKey("your-gateway-api-key"),
-)
-```
-
-The SDK sends the key via the custom `Otari-Key: Bearer …` header. Env: `GATEWAY_API_BASE` + `GATEWAY_API_KEY`.
-
-Make sure your gateway has provider keys configured (e.g. OpenAI) so it can route requests upstream — see the [otari gateway repo](https://github.com/mozilla-ai/otari) for setup.
+That's it: the client defaults to the hosted gateway at `https://api.otari.ai`, so you don't need to set a base URL. Change the model string to switch between LLM providers through the gateway.
 
 ## Installation
 
 ### Requirements
 
 - Go 1.25 or newer
-- An [otari.ai](https://otari.ai/) account, or a running self-hosted [otari-gateway](https://mozilla-ai.github.io/otari/gateway/overview/) instance
+- An [otari.ai](https://otari.ai/) account, or a running self-hosted [otari](https://mozilla-ai.github.io/otari/gateway/overview/) instance
 
 ### Install
 
@@ -86,7 +75,7 @@ Make sure your gateway has provider keys configured (e.g. OpenAI) so it can rout
 go get github.com/mozilla-ai/otari-sdk-go/otari
 ```
 
-### Setting Up Credentials
+### Setting up credentials
 
 For the hosted platform, set the platform-token environment variable:
 
@@ -102,44 +91,13 @@ export GATEWAY_API_BASE="http://localhost:8000"
 export GATEWAY_API_KEY="your-key-here"
 ```
 
-Alternatively, pass credentials directly when creating the client (see [Usage](#usage) examples).
+Alternatively, pass credentials directly when creating the client (see [Authentication](#authentication)).
 
-## otari-gateway
+## Authentication
 
-This Go SDK is a client for [otari-gateway](https://github.com/mozilla-ai/otari), an **optional** FastAPI-based proxy server that adds enterprise-grade features on top of the core library:
+The client supports two authentication modes, matching the Python and TypeScript SDKs.
 
-- **Budget Management** - Enforce spending limits with automatic daily, weekly, or monthly resets
-- **API Key Management** - Issue, revoke, and monitor virtual API keys without exposing provider credentials
-- **Usage Analytics** - Track every request with full token counts, costs, and metadata
-- **Multi-tenant Support** - Manage access and budgets across users and teams
-
-The gateway sits between your applications and LLM providers, exposing an OpenAI-compatible API that works with any supported provider.
-
-### Quick Start
-
-```bash
-docker run \
-  -e GATEWAY_MASTER_KEY="your-secure-master-key" \
-  -e OPENAI_API_KEY="your-api-key" \
-  -p 8000:8000 \
-  ghcr.io/mozilla-ai/otari/gateway:latest
-```
-
-> **Note:** You can use a specific release version instead of `latest` (e.g., `1.2.0`). See [available versions](https://github.com/orgs/mozilla-ai/packages/container/package/otari%2Fgateway).
-
-### Managed Platform (Beta)
-
-Prefer a hosted experience? The [otari platform](https://otari.ai/) provides a managed control plane for keys, usage tracking, and cost visibility across providers, while still building on the same `otari` interfaces.
-
-## Usage
-
-### Authentication Modes
-
-The client supports two authentication modes, matching the Python and TypeScript SDKs:
-
-#### Platform Mode (Recommended)
-
-Uses a Bearer token in the standard Authorization header. On the hosted platform, generate an API token at [otari.ai/organization-settings/api-tokens](https://otari.ai/organization-settings/api-tokens) and add a provider key (e.g. OpenAI) at [otari.ai/organization-settings/provider-keys](https://otari.ai/organization-settings/provider-keys) so the gateway can route requests to that provider. The base URL defaults to the hosted gateway at `https://api.otari.ai`, so it can be omitted:
+**Platform mode (recommended)** uses a platform token as standard `Authorization: Bearer` auth. On the hosted platform, generate an API token at [otari.ai/organization-settings/api-tokens](https://otari.ai/organization-settings/api-tokens) and add a provider key (e.g. OpenAI) at [otari.ai/organization-settings/provider-keys](https://otari.ai/organization-settings/provider-keys) so the gateway can route requests to that provider. The base URL defaults to the hosted gateway at `https://api.otari.ai`, so it can be omitted:
 
 ```go
 client, err := otari.New(
@@ -148,28 +106,22 @@ client, err := otari.New(
 )
 ```
 
-#### Non-Platform Mode (Self-hosted)
+The token can also be supplied via the `OTARI_AI_TOKEN` environment variable (legacy alias `GATEWAY_PLATFORM_TOKEN`), in which case `otari.New(otari.WithPlatformMode())` picks it up automatically.
 
-Sends the API key via a custom `Otari-Key` header. A base URL is required:
+**Self-hosted mode** sends the API key via the custom `Otari-Key: Bearer …` header and requires a base URL. Run the gateway yourself following the setup in the [otari repo](https://github.com/mozilla-ai/otari), make sure it has provider keys configured, then point the SDK at it:
 
 ```go
 client, err := otari.New(
-    otari.WithBaseURL("http://localhost:8000"),
-    otari.WithOtariKey("your-api-key"),
+    otari.WithBaseURL("http://localhost:8000"), // or wherever you host the gateway
+    otari.WithOtariKey("your-gateway-api-key"),
 )
 ```
 
-#### Auto-Detection from Environment Variables
+The base URL and key can also come from the `GATEWAY_API_BASE` and `GATEWAY_API_KEY` environment variables. When no explicit credentials are provided, `otari.New()` resolves the mode from the environment: a platform token (`OTARI_AI_TOKEN` / `GATEWAY_PLATFORM_TOKEN`) selects platform mode against the hosted gateway, otherwise `GATEWAY_API_BASE` + `GATEWAY_API_KEY` select self-hosted mode.
 
-When no explicit credentials are provided, the client reads from environment variables:
+## Usage
 
-```go
-// Platform mode: OTARI_AI_TOKEN (or legacy GATEWAY_PLATFORM_TOKEN) → hosted gateway.
-// Self-hosted: GATEWAY_API_BASE + GATEWAY_API_KEY.
-client, err := otari.New()
-```
-
-### Chat Completions
+### Chat completions
 
 ```go
 resp, err := client.Completion(ctx, otari.CompletionParams{
@@ -184,6 +136,8 @@ fmt.Println(resp.Choices[0].Message.ContentString())
 
 ### Streaming
 
+Streaming methods return a channel of typed chunks and a buffered error channel. Drain the chunk channel, then check the error channel once it closes.
+
 ```go
 chunks, errs := client.CompletionStream(ctx, otari.CompletionParams{
     Model:    "openai:gpt-4o-mini",
@@ -194,6 +148,76 @@ for chunk := range chunks {
     if len(chunk.Choices) > 0 {
         fmt.Print(chunk.Choices[0].Delta.Content)
     }
+}
+
+if err := <-errs; err != nil {
+    log.Fatal(err)
+}
+```
+
+### Responses API
+
+The OpenAI-style Responses API is exposed via `Response` (and `ResponseStream`). The gateway returns an opaque payload, so the decoded JSON is delivered as a `map[string]any`. `Input` accepts any JSON-serializable value (a string, a message list, and so on); `Extra` forwards additional `/responses` fields verbatim.
+
+```go
+resp, err := client.Response(ctx, otari.ResponseParams{
+    Model: "openai:gpt-4o-mini",
+    Input: "Write a haiku about Go.",
+})
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(resp["output_text"])
+```
+
+Streaming delivers each event as a raw decoded JSON map:
+
+```go
+events, errs := client.ResponseStream(ctx, otari.ResponseParams{
+    Model: "openai:gpt-4o-mini",
+    Input: "Write a haiku about Go.",
+})
+
+for event := range events {
+    fmt.Println(event["type"])
+}
+
+if err := <-errs; err != nil {
+    log.Fatal(err)
+}
+```
+
+### Messages API
+
+The Anthropic-shaped Messages API is exposed via `Message` (and `MessageStream`). `MaxTokens` is required by the gateway. The response is opaque, so the decoded JSON is delivered as a `map[string]any`; `Extra` forwards additional `/messages` fields (`system`, `tools`, `thinking`, and so on) verbatim.
+
+```go
+resp, err := client.Message(ctx, otari.MessageParams{
+    Model:     "anthropic:claude-3-5-sonnet",
+    MaxTokens: 1024,
+    Messages: []map[string]any{
+        {"role": "user", "content": "Hello!"},
+    },
+})
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(resp["content"])
+```
+
+Streaming delivers each event as a raw decoded JSON map:
+
+```go
+events, errs := client.MessageStream(ctx, otari.MessageParams{
+    Model:     "anthropic:claude-3-5-sonnet",
+    MaxTokens: 1024,
+    Messages: []map[string]any{
+        {"role": "user", "content": "Tell me a story."},
+    },
+})
+
+for event := range events {
+    fmt.Println(event["type"])
 }
 
 if err := <-errs; err != nil {
@@ -214,7 +238,7 @@ if err != nil {
 fmt.Println(result.Data[0].Embedding)
 ```
 
-### Listing Models
+### Listing models
 
 ```go
 models, err := client.ListModels(ctx)
@@ -224,6 +248,19 @@ if err != nil {
 for _, m := range models.Data {
     fmt.Println(m.ID)
 }
+```
+
+### Moderation
+
+```go
+result, err := client.Moderation(ctx, otari.ModerationParams{
+    Model: "openai:omni-moderation-latest",
+    Input: "some content to check",
+})
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Printf("Flagged: %v\n", result.Results[0].Flagged)
 ```
 
 ### Reranking
@@ -242,23 +279,12 @@ for _, r := range result.Results {
 }
 ```
 
-### Content Moderation
+### Batch operations
+
+Create a batch, poll it with `RetrieveBatch`, cancel it with `CancelBatch`, enumerate jobs with `ListBatches`, and fetch results with `RetrieveBatchResults`. Each lookup takes the batch ID and the upstream provider.
 
 ```go
-result, err := client.Moderation(ctx, otari.ModerationParams{
-    Model: "openai:omni-moderation-latest",
-    Input: "some content to check",
-})
-if err != nil {
-    log.Fatal(err)
-}
-fmt.Printf("Flagged: %v\n", result.Results[0].Flagged)
-```
-
-### Batch Operations
-
-```go
-// Create a batch
+// Create a batch.
 batch, err := client.CreateBatch(ctx, otari.CreateBatchParams{
     Model: "openai:gpt-4o-mini",
     Requests: []otari.BatchRequestItem{
@@ -268,12 +294,26 @@ batch, err := client.CreateBatch(ctx, otari.CreateBatchParams{
     },
     CompletionWindow: "24h",
 })
+if err != nil {
+    log.Fatal(err)
+}
 
-// Retrieve results when complete
+// Check status later.
+status, err := client.RetrieveBatch(ctx, batch.ID, batch.Provider)
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(status.Status)
+
+// Retrieve results once complete.
 results, err := client.RetrieveBatchResults(ctx, batch.ID, batch.Provider)
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Printf("%d results\n", len(results.Results))
 ```
 
-### Error Handling
+### Error handling
 
 All errors are typed. Use `errors.Is` for sentinel checks and `errors.As` for typed details:
 
@@ -310,32 +350,29 @@ if err != nil {
 
 ```
 otari-sdk-go/
-├── otari/                  # Main package
-│   ├── client.go           # Client struct, constructor, core methods
-│   ├── config.go           # Functional options (WithBaseURL, WithAPIKey, etc.)
-│   ├── conversion.go       # OpenAI SDK type conversions
-│   ├── errors.go           # Error hierarchy with sentinel errors
+├── otari/                  # Main package (hand-written ergonomic shell)
+│   ├── client.go           # Client struct, constructor, chat/messages/responses methods
+│   ├── config.go           # Functional options (WithBaseURL, WithAPIKey, WithPlatformMode, ...)
+│   ├── streaming.go        # Hand-written SSE decoder (channel-based streaming)
+│   ├── errors.go           # Typed error hierarchy with sentinel errors
 │   ├── types.go            # Request/response types
 │   ├── batch.go            # Batch API methods
 │   ├── moderation.go       # Content moderation
 │   ├── rerank.go           # Document reranking
+│   ├── control_plane.go    # Control-plane API (keys/users/budgets/pricing/usage)
+│   ├── conversion.go       # Type conversions
+│   ├── request.go          # HTTP request helpers
 │   ├── transport.go        # HTTP transport helpers
 │   ├── otari.go            # Package documentation
-│   └── client_test.go      # Tests
+│   ├── client/             # Generated OpenAPI core (do not hand-edit; regenerated from the spec)
+│   └── *_test.go           # Unit, integration, and endpoint-coverage tests
 ├── examples/
 │   └── quickstart/         # Quick smoke test
+├── sdk-endpoints.txt       # Endpoint-coverage manifest (drift gate)
 ├── go.mod
 ├── go.sum
 └── README.md
 ```
-
-## Why choose `otari`?
-
-- **Simple, unified interface** - Single client for all providers through the gateway, switch models with just a string change
-- **Developer friendly** - Full type safety with Go's type system and clear, actionable error messages
-- **Generated from the otari spec** - A thin ergonomic shell over a typed core generated from the gateway's OpenAPI spec, so it models otari's real contract (not just the OpenAI-compatible subset)
-- **Stays framework-agnostic** so it can be used across different projects and use cases
-- **Battle-tested** - Extracted from [any-llm-go](https://github.com/mozilla-ai/any-llm-go)'s production gateway provider
 
 ## Development
 
