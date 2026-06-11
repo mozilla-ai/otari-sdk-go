@@ -1,0 +1,23 @@
+name: Release
+
+# Independent release automation for this SDK (decoupled from the gateway's own
+# releases). release-please watches main: each merged conventional commit
+# accumulates into a release PR that updates CHANGELOG.md. Merging that release
+# PR tags the release (vX.Y.Z) and creates a GitHub Release. For a Go module the
+# tag is the release, so consumers pick it up via `go get` with no publish step.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
