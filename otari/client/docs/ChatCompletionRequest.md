@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **Temperature** | Pointer to **NullableFloat32** |  | [optional] 
 **ToolChoice** | Pointer to [**NullableToolChoice**](ToolChoice.md) |  | [optional] 
 **Tools** | Pointer to **[]map[string]interface{}** |  | [optional] 
-**ToolsHeader** | Pointer to **NullableString** | Optional override for the lead-in that the gateway prepends before the per-tool hint block in the system message. Useful for expressing global tool-selection policy (e.g. &#39;prefer MCP tools over code_execution&#39;). Falls back to GATEWAY_TOOLS_HEADER env, then to the built-in default. | [optional] 
+**ToolsHeader** | Pointer to **NullableString** | Optional override for the lead-in that the gateway prepends before the per-tool hint block in the system message. Useful for expressing global tool-selection policy (e.g. &#39;prefer MCP tools over code_execution&#39;). Falls back to OTARI_TOOLS_HEADER env, then to the built-in default. | [optional] 
 **TopP** | Pointer to **NullableFloat32** |  | [optional] 
 **User** | Pointer to **NullableString** |  | [optional] 
 

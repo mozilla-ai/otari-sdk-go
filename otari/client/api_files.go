@@ -19,34 +19,46 @@ import (
 	"strings"
 )
 
-// UsersAPIService UsersAPI service
-type UsersAPIService service
+// FilesAPIService FilesAPI service
+type FilesAPIService service
 
-type ApiCreateUserV1UsersPostRequest struct {
-	ctx               context.Context
-	ApiService        *UsersAPIService
-	createUserRequest *CreateUserRequest
+type ApiCreateFileV1FilesPostRequest struct {
+	ctx        context.Context
+	ApiService *FilesAPIService
+	file       *string
+	purpose    *string
+	user       *string
 }
 
-func (r ApiCreateUserV1UsersPostRequest) CreateUserRequest(createUserRequest CreateUserRequest) ApiCreateUserV1UsersPostRequest {
-	r.createUserRequest = &createUserRequest
+func (r ApiCreateFileV1FilesPostRequest) File(file string) ApiCreateFileV1FilesPostRequest {
+	r.file = &file
 	return r
 }
 
-func (r ApiCreateUserV1UsersPostRequest) Execute() (*UserResponse, *http.Response, error) {
-	return r.ApiService.CreateUserV1UsersPostExecute(r)
+func (r ApiCreateFileV1FilesPostRequest) Purpose(purpose string) ApiCreateFileV1FilesPostRequest {
+	r.purpose = &purpose
+	return r
+}
+
+func (r ApiCreateFileV1FilesPostRequest) User(user string) ApiCreateFileV1FilesPostRequest {
+	r.user = &user
+	return r
+}
+
+func (r ApiCreateFileV1FilesPostRequest) Execute() (map[string]interface{}, *http.Response, error) {
+	return r.ApiService.CreateFileV1FilesPostExecute(r)
 }
 
 /*
-CreateUserV1UsersPost Create User
+CreateFileV1FilesPost Create File
 
-Create a new user.
+OpenAI-compatible file upload endpoint.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateUserV1UsersPostRequest
+	@return ApiCreateFileV1FilesPostRequest
 */
-func (a *UsersAPIService) CreateUserV1UsersPost(ctx context.Context) ApiCreateUserV1UsersPostRequest {
-	return ApiCreateUserV1UsersPostRequest{
+func (a *FilesAPIService) CreateFileV1FilesPost(ctx context.Context) ApiCreateFileV1FilesPostRequest {
+	return ApiCreateFileV1FilesPostRequest{
 		ApiService: a,
 		ctx:        ctx,
 	}
@@ -54,31 +66,31 @@ func (a *UsersAPIService) CreateUserV1UsersPost(ctx context.Context) ApiCreateUs
 
 // Execute executes the request
 //
-//	@return UserResponse
-func (a *UsersAPIService) CreateUserV1UsersPostExecute(r ApiCreateUserV1UsersPostRequest) (*UserResponse, *http.Response, error) {
+//	@return map[string]interface{}
+func (a *FilesAPIService) CreateFileV1FilesPostExecute(r ApiCreateFileV1FilesPostRequest) (map[string]interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *UserResponse
+		localVarReturnValue map[string]interface{}
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersAPIService.CreateUserV1UsersPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FilesAPIService.CreateFileV1FilesPost")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/users"
+	localVarPath := localBasePath + "/v1/files"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.createUserRequest == nil {
-		return localVarReturnValue, nil, reportError("createUserRequest is required and must be specified")
+	if r.file == nil {
+		return localVarReturnValue, nil, reportError("file is required and must be specified")
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
+	localVarHTTPContentTypes := []string{"multipart/form-data"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -94,8 +106,13 @@ func (a *UsersAPIService) CreateUserV1UsersPostExecute(r ApiCreateUserV1UsersPos
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	// body params
-	localVarPostBody = r.createUserRequest
+	parameterAddToHeaderOrQuery(localVarFormParams, "file", r.file, "", "")
+	if r.purpose != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "purpose", r.purpose, "", "")
+	}
+	if r.user != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "user", r.user, "", "")
+	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -143,53 +160,65 @@ func (a *UsersAPIService) CreateUserV1UsersPostExecute(r ApiCreateUserV1UsersPos
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDeleteUserV1UsersUserIdDeleteRequest struct {
+type ApiDeleteFileV1FilesFileIdDeleteRequest struct {
 	ctx        context.Context
-	ApiService *UsersAPIService
-	userId     string
+	ApiService *FilesAPIService
+	fileId     string
+	user       *string
 }
 
-func (r ApiDeleteUserV1UsersUserIdDeleteRequest) Execute() (*http.Response, error) {
-	return r.ApiService.DeleteUserV1UsersUserIdDeleteExecute(r)
+func (r ApiDeleteFileV1FilesFileIdDeleteRequest) User(user string) ApiDeleteFileV1FilesFileIdDeleteRequest {
+	r.user = &user
+	return r
+}
+
+func (r ApiDeleteFileV1FilesFileIdDeleteRequest) Execute() (map[string]interface{}, *http.Response, error) {
+	return r.ApiService.DeleteFileV1FilesFileIdDeleteExecute(r)
 }
 
 /*
-DeleteUserV1UsersUserIdDelete Delete User
+DeleteFileV1FilesFileIdDelete Delete File
 
-Delete a user.
+Soft-delete a file's metadata and remove its bytes from the backend.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId
-	@return ApiDeleteUserV1UsersUserIdDeleteRequest
+	@param fileId
+	@return ApiDeleteFileV1FilesFileIdDeleteRequest
 */
-func (a *UsersAPIService) DeleteUserV1UsersUserIdDelete(ctx context.Context, userId string) ApiDeleteUserV1UsersUserIdDeleteRequest {
-	return ApiDeleteUserV1UsersUserIdDeleteRequest{
+func (a *FilesAPIService) DeleteFileV1FilesFileIdDelete(ctx context.Context, fileId string) ApiDeleteFileV1FilesFileIdDeleteRequest {
+	return ApiDeleteFileV1FilesFileIdDeleteRequest{
 		ApiService: a,
 		ctx:        ctx,
-		userId:     userId,
+		fileId:     fileId,
 	}
 }
 
 // Execute executes the request
-func (a *UsersAPIService) DeleteUserV1UsersUserIdDeleteExecute(r ApiDeleteUserV1UsersUserIdDeleteRequest) (*http.Response, error) {
+//
+//	@return map[string]interface{}
+func (a *FilesAPIService) DeleteFileV1FilesFileIdDeleteExecute(r ApiDeleteFileV1FilesFileIdDeleteRequest) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHTTPMethod = http.MethodDelete
-		localVarPostBody   interface{}
-		formFiles          []formFile
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue map[string]interface{}
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersAPIService.DeleteUserV1UsersUserIdDelete")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FilesAPIService.DeleteFileV1FilesFileIdDelete")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/users/{user_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
+	localVarPath := localBasePath + "/v1/files/{file_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"file_id"+"}", url.PathEscape(parameterValueToString(r.fileId, "fileId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.user != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "user", r.user, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -209,19 +238,19 @@ func (a *UsersAPIService) DeleteUserV1UsersUserIdDeleteExecute(r ApiDeleteUserV1
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -234,92 +263,84 @@ func (a *UsersAPIService) DeleteUserV1UsersUserIdDeleteExecute(r ApiDeleteUserV1
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 			newErr.model = v
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetUserUsageV1UsersUserIdUsageGetRequest struct {
+type ApiGetFileContentV1FilesFileIdContentGetRequest struct {
 	ctx        context.Context
-	ApiService *UsersAPIService
-	userId     string
-	skip       *int32
-	limit      *int32
+	ApiService *FilesAPIService
+	fileId     string
+	user       *string
 }
 
-func (r ApiGetUserUsageV1UsersUserIdUsageGetRequest) Skip(skip int32) ApiGetUserUsageV1UsersUserIdUsageGetRequest {
-	r.skip = &skip
+func (r ApiGetFileContentV1FilesFileIdContentGetRequest) User(user string) ApiGetFileContentV1FilesFileIdContentGetRequest {
+	r.user = &user
 	return r
 }
 
-func (r ApiGetUserUsageV1UsersUserIdUsageGetRequest) Limit(limit int32) ApiGetUserUsageV1UsersUserIdUsageGetRequest {
-	r.limit = &limit
-	return r
-}
-
-func (r ApiGetUserUsageV1UsersUserIdUsageGetRequest) Execute() ([]UsageLogResponse, *http.Response, error) {
-	return r.ApiService.GetUserUsageV1UsersUserIdUsageGetExecute(r)
+func (r ApiGetFileContentV1FilesFileIdContentGetRequest) Execute() (interface{}, *http.Response, error) {
+	return r.ApiService.GetFileContentV1FilesFileIdContentGetExecute(r)
 }
 
 /*
-GetUserUsageV1UsersUserIdUsageGet Get User Usage
+GetFileContentV1FilesFileIdContentGet Get File Content
 
-Get usage history for a specific user.
+Download the raw bytes of a file.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId
-	@return ApiGetUserUsageV1UsersUserIdUsageGetRequest
+	@param fileId
+	@return ApiGetFileContentV1FilesFileIdContentGetRequest
 */
-func (a *UsersAPIService) GetUserUsageV1UsersUserIdUsageGet(ctx context.Context, userId string) ApiGetUserUsageV1UsersUserIdUsageGetRequest {
-	return ApiGetUserUsageV1UsersUserIdUsageGetRequest{
+func (a *FilesAPIService) GetFileContentV1FilesFileIdContentGet(ctx context.Context, fileId string) ApiGetFileContentV1FilesFileIdContentGetRequest {
+	return ApiGetFileContentV1FilesFileIdContentGetRequest{
 		ApiService: a,
 		ctx:        ctx,
-		userId:     userId,
+		fileId:     fileId,
 	}
 }
 
 // Execute executes the request
 //
-//	@return []UsageLogResponse
-func (a *UsersAPIService) GetUserUsageV1UsersUserIdUsageGetExecute(r ApiGetUserUsageV1UsersUserIdUsageGetRequest) ([]UsageLogResponse, *http.Response, error) {
+//	@return interface{}
+func (a *FilesAPIService) GetFileContentV1FilesFileIdContentGetExecute(r ApiGetFileContentV1FilesFileIdContentGetRequest) (interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue []UsageLogResponse
+		localVarReturnValue interface{}
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersAPIService.GetUserUsageV1UsersUserIdUsageGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FilesAPIService.GetFileContentV1FilesFileIdContentGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/users/{user_id}/usage"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
+	localVarPath := localBasePath + "/v1/files/{file_id}/content"
+	localVarPath = strings.Replace(localVarPath, "{"+"file_id"+"}", url.PathEscape(parameterValueToString(r.fileId, "fileId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.skip != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "skip", r.skip, "form", "")
-	} else {
-		var defaultValue int32 = 0
-		parameterAddToHeaderOrQuery(localVarQueryParams, "skip", defaultValue, "form", "")
-		r.skip = &defaultValue
-	}
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
-	} else {
-		var defaultValue int32 = 100
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", defaultValue, "form", "")
-		r.limit = &defaultValue
+	if r.user != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "user", r.user, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -385,56 +406,65 @@ func (a *UsersAPIService) GetUserUsageV1UsersUserIdUsageGetExecute(r ApiGetUserU
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetUserV1UsersUserIdGetRequest struct {
+type ApiGetFileV1FilesFileIdGetRequest struct {
 	ctx        context.Context
-	ApiService *UsersAPIService
-	userId     string
+	ApiService *FilesAPIService
+	fileId     string
+	user       *string
 }
 
-func (r ApiGetUserV1UsersUserIdGetRequest) Execute() (*UserResponse, *http.Response, error) {
-	return r.ApiService.GetUserV1UsersUserIdGetExecute(r)
+func (r ApiGetFileV1FilesFileIdGetRequest) User(user string) ApiGetFileV1FilesFileIdGetRequest {
+	r.user = &user
+	return r
+}
+
+func (r ApiGetFileV1FilesFileIdGetRequest) Execute() (map[string]interface{}, *http.Response, error) {
+	return r.ApiService.GetFileV1FilesFileIdGetExecute(r)
 }
 
 /*
-GetUserV1UsersUserIdGet Get User
+GetFileV1FilesFileIdGet Get File
 
-Get details of a specific user.
+Retrieve metadata for a single file.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId
-	@return ApiGetUserV1UsersUserIdGetRequest
+	@param fileId
+	@return ApiGetFileV1FilesFileIdGetRequest
 */
-func (a *UsersAPIService) GetUserV1UsersUserIdGet(ctx context.Context, userId string) ApiGetUserV1UsersUserIdGetRequest {
-	return ApiGetUserV1UsersUserIdGetRequest{
+func (a *FilesAPIService) GetFileV1FilesFileIdGet(ctx context.Context, fileId string) ApiGetFileV1FilesFileIdGetRequest {
+	return ApiGetFileV1FilesFileIdGetRequest{
 		ApiService: a,
 		ctx:        ctx,
-		userId:     userId,
+		fileId:     fileId,
 	}
 }
 
 // Execute executes the request
 //
-//	@return UserResponse
-func (a *UsersAPIService) GetUserV1UsersUserIdGetExecute(r ApiGetUserV1UsersUserIdGetRequest) (*UserResponse, *http.Response, error) {
+//	@return map[string]interface{}
+func (a *FilesAPIService) GetFileV1FilesFileIdGetExecute(r ApiGetFileV1FilesFileIdGetRequest) (map[string]interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *UserResponse
+		localVarReturnValue map[string]interface{}
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersAPIService.GetUserV1UsersUserIdGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FilesAPIService.GetFileV1FilesFileIdGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/users/{user_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
+	localVarPath := localBasePath + "/v1/files/{file_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"file_id"+"}", url.PathEscape(parameterValueToString(r.fileId, "fileId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.user != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "user", r.user, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -499,37 +529,37 @@ func (a *UsersAPIService) GetUserV1UsersUserIdGetExecute(r ApiGetUserV1UsersUser
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiListUsersV1UsersGetRequest struct {
+type ApiListFilesV1FilesGetRequest struct {
 	ctx        context.Context
-	ApiService *UsersAPIService
-	skip       *int32
-	limit      *int32
+	ApiService *FilesAPIService
+	user       *string
+	purpose    *string
 }
 
-func (r ApiListUsersV1UsersGetRequest) Skip(skip int32) ApiListUsersV1UsersGetRequest {
-	r.skip = &skip
+func (r ApiListFilesV1FilesGetRequest) User(user string) ApiListFilesV1FilesGetRequest {
+	r.user = &user
 	return r
 }
 
-func (r ApiListUsersV1UsersGetRequest) Limit(limit int32) ApiListUsersV1UsersGetRequest {
-	r.limit = &limit
+func (r ApiListFilesV1FilesGetRequest) Purpose(purpose string) ApiListFilesV1FilesGetRequest {
+	r.purpose = &purpose
 	return r
 }
 
-func (r ApiListUsersV1UsersGetRequest) Execute() ([]UserResponse, *http.Response, error) {
-	return r.ApiService.ListUsersV1UsersGetExecute(r)
+func (r ApiListFilesV1FilesGetRequest) Execute() (map[string]interface{}, *http.Response, error) {
+	return r.ApiService.ListFilesV1FilesGetExecute(r)
 }
 
 /*
-ListUsersV1UsersGet List Users
+ListFilesV1FilesGet List Files
 
-List all users with pagination.
+List the authenticated user's uploaded files.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiListUsersV1UsersGetRequest
+	@return ApiListFilesV1FilesGetRequest
 */
-func (a *UsersAPIService) ListUsersV1UsersGet(ctx context.Context) ApiListUsersV1UsersGetRequest {
-	return ApiListUsersV1UsersGetRequest{
+func (a *FilesAPIService) ListFilesV1FilesGet(ctx context.Context) ApiListFilesV1FilesGetRequest {
+	return ApiListFilesV1FilesGetRequest{
 		ApiService: a,
 		ctx:        ctx,
 	}
@@ -537,39 +567,31 @@ func (a *UsersAPIService) ListUsersV1UsersGet(ctx context.Context) ApiListUsersV
 
 // Execute executes the request
 //
-//	@return []UserResponse
-func (a *UsersAPIService) ListUsersV1UsersGetExecute(r ApiListUsersV1UsersGetRequest) ([]UserResponse, *http.Response, error) {
+//	@return map[string]interface{}
+func (a *FilesAPIService) ListFilesV1FilesGetExecute(r ApiListFilesV1FilesGetRequest) (map[string]interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue []UserResponse
+		localVarReturnValue map[string]interface{}
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersAPIService.ListUsersV1UsersGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FilesAPIService.ListFilesV1FilesGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/users"
+	localVarPath := localBasePath + "/v1/files"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.skip != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "skip", r.skip, "form", "")
-	} else {
-		var defaultValue int32 = 0
-		parameterAddToHeaderOrQuery(localVarQueryParams, "skip", defaultValue, "form", "")
-		r.skip = &defaultValue
+	if r.user != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "user", r.user, "form", "")
 	}
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
-	} else {
-		var defaultValue int32 = 100
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", defaultValue, "form", "")
-		r.limit = &defaultValue
+	if r.purpose != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "purpose", r.purpose, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -588,131 +610,6 @@ func (a *UsersAPIService) ListUsersV1UsersGetExecute(r ApiListUsersV1UsersGetReq
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v HTTPValidationError
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiUpdateUserV1UsersUserIdPatchRequest struct {
-	ctx               context.Context
-	ApiService        *UsersAPIService
-	userId            string
-	updateUserRequest *UpdateUserRequest
-}
-
-func (r ApiUpdateUserV1UsersUserIdPatchRequest) UpdateUserRequest(updateUserRequest UpdateUserRequest) ApiUpdateUserV1UsersUserIdPatchRequest {
-	r.updateUserRequest = &updateUserRequest
-	return r
-}
-
-func (r ApiUpdateUserV1UsersUserIdPatchRequest) Execute() (*UserResponse, *http.Response, error) {
-	return r.ApiService.UpdateUserV1UsersUserIdPatchExecute(r)
-}
-
-/*
-UpdateUserV1UsersUserIdPatch Update User
-
-Update a user.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId
-	@return ApiUpdateUserV1UsersUserIdPatchRequest
-*/
-func (a *UsersAPIService) UpdateUserV1UsersUserIdPatch(ctx context.Context, userId string) ApiUpdateUserV1UsersUserIdPatchRequest {
-	return ApiUpdateUserV1UsersUserIdPatchRequest{
-		ApiService: a,
-		ctx:        ctx,
-		userId:     userId,
-	}
-}
-
-// Execute executes the request
-//
-//	@return UserResponse
-func (a *UsersAPIService) UpdateUserV1UsersUserIdPatchExecute(r ApiUpdateUserV1UsersUserIdPatchRequest) (*UserResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *UserResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersAPIService.UpdateUserV1UsersUserIdPatch")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v1/users/{user_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.updateUserRequest == nil {
-		return localVarReturnValue, nil, reportError("updateUserRequest is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.updateUserRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
