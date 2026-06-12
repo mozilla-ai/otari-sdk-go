@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
-  description: A clean FastAPI gateway for otari with API key management
-  title: otari-gateway
+  description: "Otari, an OpenAI-compatible LLM gateway with API key management"
+  title: otari
   version: 0.0.0-dev
 servers:
 - url: /
@@ -568,6 +568,182 @@ paths:
       summary: Create Embedding
       tags:
       - embeddings
+  /v1/files:
+    get:
+      description: List the authenticated user's uploaded files.
+      operationId: list_files_v1_files_get
+      parameters:
+      - explode: true
+        in: query
+        name: user
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: purpose
+        required: false
+        schema:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: {}
+                title: Response List Files V1 Files Get
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Files
+      tags:
+      - files
+    post:
+      description: OpenAI-compatible file upload endpoint.
+      operationId: create_file_v1_files_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Body_create_file_v1_files_post"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: {}
+                title: Response Create File V1 Files Post
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create File
+      tags:
+      - files
+  /v1/files/{file_id}:
+    delete:
+      description: Soft-delete a file's metadata and remove its bytes from the backend.
+      operationId: delete_file_v1_files__file_id__delete
+      parameters:
+      - explode: false
+        in: path
+        name: file_id
+        required: true
+        schema:
+          title: File Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: user
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: {}
+                title: Response Delete File V1 Files  File Id  Delete
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Delete File
+      tags:
+      - files
+    get:
+      description: Retrieve metadata for a single file.
+      operationId: get_file_v1_files__file_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: file_id
+        required: true
+        schema:
+          title: File Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: user
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: {}
+                title: Response Get File V1 Files  File Id  Get
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get File
+      tags:
+      - files
+  /v1/files/{file_id}/content:
+    get:
+      description: Download the raw bytes of a file.
+      operationId: get_file_content_v1_files__file_id__content_get
+      parameters:
+      - explode: false
+        in: path
+        name: file_id
+        required: true
+        schema:
+          title: File Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: user
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get File Content
+      tags:
+      - files
   /v1/images/generations:
     post:
       description: |-
@@ -1542,6 +1718,21 @@ components:
       - body
       - custom_id
       title: BatchRequestItem
+    Body_create_file_v1_files_post:
+      properties:
+        file:
+          title: File
+          type: string
+        purpose:
+          default: user_data
+          title: Purpose
+          type: string
+        user:
+          nullable: true
+          type: string
+      required:
+      - file
+      title: Body_create_file_v1_files_post
     Body_create_transcription_v1_audio_transcriptions_post:
       properties:
         file:
@@ -1751,7 +1942,7 @@ components:
           description: "Optional override for the lead-in that the gateway prepends\
             \ before the per-tool hint block in the system message. Useful for expressing\
             \ global tool-selection policy (e.g. 'prefer MCP tools over code_execution').\
-            \ Falls back to GATEWAY_TOOLS_HEADER env, then to the built-in default."
+            \ Falls back to OTARI_TOOLS_HEADER env, then to the built-in default."
           maxLength: 4000
           nullable: true
           type: string
@@ -2049,9 +2240,9 @@ components:
 
         URL safety: when ``url`` is supplied it is validated at parse time with the
         same SSRF guard used for MCP server URLs (loopback allowed by default for
-        same-host sidecars; gated by ``GATEWAY_MCP_ALLOW_LOOPBACK`` /
-        ``GATEWAY_MCP_ALLOW_PRIVATE_HOSTS``). Most deployments omit ``url`` and rely
-        on the operator-set ``GATEWAY_GUARDRAILS_URL`` instead.
+        same-host sidecars; gated by ``OTARI_MCP_ALLOW_LOOPBACK`` /
+        ``OTARI_MCP_ALLOW_PRIVATE_HOSTS``). Most deployments omit ``url`` and rely
+        on the operator-set ``OTARI_GUARDRAILS_URL`` instead.
       example:
         mode: monitor
         validate_kwargs:
@@ -2214,7 +2405,7 @@ components:
         URL safety is enforced at parse time:
 
         * SSRF guard rejects private, link-local, and reserved IP ranges. Loopback is
-          allowed by default (sidecars, dev) — set ``GATEWAY_MCP_ALLOW_LOOPBACK=false`` to disable.
+          allowed by default (sidecars, dev) — set ``OTARI_MCP_ALLOW_LOOPBACK=false`` to disable.
         * Plain ``http://`` is rejected when ``authorization_token`` is set, to keep
           bearer tokens off the wire in cleartext.
       example:

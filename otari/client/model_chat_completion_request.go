@@ -1,7 +1,7 @@
 /*
-otari-gateway
+otari
 
-A clean FastAPI gateway for otari with API key management
+Otari, an OpenAI-compatible LLM gateway with API key management
 
 API version: 0.0.0-dev
 */
@@ -35,7 +35,7 @@ type ChatCompletionRequest struct {
 	Temperature         NullableFloat32           `json:"temperature,omitempty"`
 	ToolChoice          NullableToolChoice        `json:"tool_choice,omitempty"`
 	Tools               []*map[string]interface{} `json:"tools,omitempty"`
-	// Optional override for the lead-in that the gateway prepends before the per-tool hint block in the system message. Useful for expressing global tool-selection policy (e.g. 'prefer MCP tools over code_execution'). Falls back to GATEWAY_TOOLS_HEADER env, then to the built-in default.
+	// Optional override for the lead-in that the gateway prepends before the per-tool hint block in the system message. Useful for expressing global tool-selection policy (e.g. 'prefer MCP tools over code_execution'). Falls back to OTARI_TOOLS_HEADER env, then to the built-in default.
 	ToolsHeader NullableString  `json:"tools_header,omitempty"`
 	TopP        NullableFloat32 `json:"top_p,omitempty"`
 	User        NullableString  `json:"user,omitempty"`

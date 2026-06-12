@@ -8,6 +8,7 @@ api_batches.go
 api_budgets.go
 api_chat.go
 api_embeddings.go
+api_files.go
 api_health.go
 api_images.go
 api_keys.go
@@ -83,6 +84,7 @@ docs/EMBEmbedding.md
 docs/EMBUsage.md
 docs/EmbeddingRequest.md
 docs/EmbeddingsAPI.md
+docs/FilesAPI.md
 docs/GuardrailConfig.md
 docs/HTTPValidationError.md
 docs/HealthAPI.md
@@ -368,6 +370,7 @@ test/api_batches_test.go
 test/api_budgets_test.go
 test/api_chat_test.go
 test/api_embeddings_test.go
+test/api_files_test.go
 test/api_health_test.go
 test/api_images_test.go
 test/api_keys_test.go

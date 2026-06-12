@@ -1,7 +1,7 @@
 /*
-otari-gateway
+otari
 
-A clean FastAPI gateway for otari with API key management
+Otari, an OpenAI-compatible LLM gateway with API key management
 
 API version: 0.0.0-dev
 */
@@ -19,7 +19,7 @@ import (
 // checks if the McpServerConfig type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &McpServerConfig{}
 
-// McpServerConfig Inline MCP server configuration accepted on the chat completions request.  Streamable HTTP transport. The `url` must be reachable from the gateway process.  URL safety is enforced at parse time:  * SSRF guard rejects private, link-local, and reserved IP ranges. Loopback is   allowed by default (sidecars, dev) — set “GATEWAY_MCP_ALLOW_LOOPBACK=false“ to disable. * Plain “http://“ is rejected when “authorization_token“ is set, to keep   bearer tokens off the wire in cleartext.
+// McpServerConfig Inline MCP server configuration accepted on the chat completions request.  Streamable HTTP transport. The `url` must be reachable from the gateway process.  URL safety is enforced at parse time:  * SSRF guard rejects private, link-local, and reserved IP ranges. Loopback is   allowed by default (sidecars, dev) — set “OTARI_MCP_ALLOW_LOOPBACK=false“ to disable. * Plain “http://“ is rejected when “authorization_token“ is set, to keep   bearer tokens off the wire in cleartext.
 type McpServerConfig struct {
 	AllowedTools       []string       `json:"allowed_tools,omitempty"`
 	AuthorizationToken NullableString `json:"authorization_token,omitempty"`
