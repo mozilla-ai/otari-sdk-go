@@ -19,12 +19,13 @@ var _ MappedNullable = &CCKChoiceDelta{}
 
 // CCKChoiceDelta struct for CCKChoiceDelta
 type CCKChoiceDelta struct {
-	Content              NullableString                     `json:"content,omitempty"`
-	FunctionCall         NullableCCKChoiceDeltaFunctionCall `json:"function_call,omitempty"`
-	Refusal              NullableString                     `json:"refusal,omitempty"`
-	Role                 NullableString                     `json:"role,omitempty"`
-	ToolCalls            []CCKChoiceDeltaToolCall           `json:"tool_calls,omitempty"`
-	Reasoning            NullableCCKReasoning               `json:"reasoning,omitempty"`
+	Content      NullableString                     `json:"content,omitempty"`
+	FunctionCall NullableCCKChoiceDeltaFunctionCall `json:"function_call,omitempty"`
+	Refusal      NullableString                     `json:"refusal,omitempty"`
+	Role         NullableString                     `json:"role,omitempty"`
+	ToolCalls    []CCKChoiceDeltaToolCall           `json:"tool_calls,omitempty"`
+	// Filter models by provider name
+	Reasoning            NullableString `json:"reasoning,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -253,9 +254,9 @@ func (o *CCKChoiceDelta) SetToolCalls(v []CCKChoiceDeltaToolCall) {
 }
 
 // GetReasoning returns the Reasoning field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *CCKChoiceDelta) GetReasoning() CCKReasoning {
+func (o *CCKChoiceDelta) GetReasoning() string {
 	if o == nil || IsNil(o.Reasoning.Get()) {
-		var ret CCKReasoning
+		var ret string
 		return ret
 	}
 	return *o.Reasoning.Get()
@@ -264,7 +265,7 @@ func (o *CCKChoiceDelta) GetReasoning() CCKReasoning {
 // GetReasoningOk returns a tuple with the Reasoning field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *CCKChoiceDelta) GetReasoningOk() (*CCKReasoning, bool) {
+func (o *CCKChoiceDelta) GetReasoningOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -280,8 +281,8 @@ func (o *CCKChoiceDelta) HasReasoning() bool {
 	return false
 }
 
-// SetReasoning gets a reference to the given NullableCCKReasoning and assigns it to the Reasoning field.
-func (o *CCKChoiceDelta) SetReasoning(v CCKReasoning) {
+// SetReasoning gets a reference to the given NullableString and assigns it to the Reasoning field.
+func (o *CCKChoiceDelta) SetReasoning(v string) {
 	o.Reasoning.Set(&v)
 }
 

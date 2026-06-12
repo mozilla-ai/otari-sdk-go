@@ -20,14 +20,15 @@ var _ MappedNullable = &CCChatCompletionMessage{}
 
 // CCChatCompletionMessage struct for CCChatCompletionMessage
 type CCChatCompletionMessage struct {
-	Content              NullableString                          `json:"content,omitempty"`
-	Refusal              NullableString                          `json:"refusal,omitempty"`
-	Role                 string                                  `json:"role"`
-	Annotations          []map[string]interface{}                `json:"annotations,omitempty"`
-	Audio                NullableCCChatCompletionAudio           `json:"audio,omitempty"`
-	FunctionCall         NullableCCFunctionCall                  `json:"function_call,omitempty"`
-	ToolCalls            []CCChatCompletionMessageToolCallsInner `json:"tool_calls,omitempty"`
-	Reasoning            NullableCCReasoning                     `json:"reasoning,omitempty"`
+	Content      NullableString                          `json:"content,omitempty"`
+	Refusal      NullableString                          `json:"refusal,omitempty"`
+	Role         string                                  `json:"role"`
+	Annotations  []map[string]interface{}                `json:"annotations,omitempty"`
+	Audio        NullableCCChatCompletionAudio           `json:"audio,omitempty"`
+	FunctionCall NullableCCFunctionCall                  `json:"function_call,omitempty"`
+	ToolCalls    []CCChatCompletionMessageToolCallsInner `json:"tool_calls,omitempty"`
+	// Filter models by provider name
+	Reasoning            NullableString `json:"reasoning,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -314,9 +315,9 @@ func (o *CCChatCompletionMessage) SetToolCalls(v []CCChatCompletionMessageToolCa
 }
 
 // GetReasoning returns the Reasoning field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *CCChatCompletionMessage) GetReasoning() CCReasoning {
+func (o *CCChatCompletionMessage) GetReasoning() string {
 	if o == nil || IsNil(o.Reasoning.Get()) {
-		var ret CCReasoning
+		var ret string
 		return ret
 	}
 	return *o.Reasoning.Get()
@@ -325,7 +326,7 @@ func (o *CCChatCompletionMessage) GetReasoning() CCReasoning {
 // GetReasoningOk returns a tuple with the Reasoning field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *CCChatCompletionMessage) GetReasoningOk() (*CCReasoning, bool) {
+func (o *CCChatCompletionMessage) GetReasoningOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -341,8 +342,8 @@ func (o *CCChatCompletionMessage) HasReasoning() bool {
 	return false
 }
 
-// SetReasoning gets a reference to the given NullableCCReasoning and assigns it to the Reasoning field.
-func (o *CCChatCompletionMessage) SetReasoning(v CCReasoning) {
+// SetReasoning gets a reference to the given NullableString and assigns it to the Reasoning field.
+func (o *CCChatCompletionMessage) SetReasoning(v string) {
 	o.Reasoning.Set(&v)
 }
 

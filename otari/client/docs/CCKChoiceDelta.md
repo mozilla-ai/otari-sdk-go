@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **Refusal** | Pointer to **NullableString** |  | [optional] 
 **Role** | Pointer to **NullableString** |  | [optional] 
 **ToolCalls** | Pointer to [**[]CCKChoiceDeltaToolCall**](CCKChoiceDeltaToolCall.md) |  | [optional] 
-**Reasoning** | Pointer to [**NullableCCKReasoning**](CCKReasoning.md) |  | [optional] 
+**Reasoning** | Pointer to **NullableString** | Filter models by provider name | [optional] 
 
 ## Methods
 
@@ -207,20 +207,20 @@ HasToolCalls returns a boolean if a field has been set.
 UnsetToolCalls ensures that no value is present for ToolCalls, not even an explicit nil
 ### GetReasoning
 
-`func (o *CCKChoiceDelta) GetReasoning() CCKReasoning`
+`func (o *CCKChoiceDelta) GetReasoning() string`
 
 GetReasoning returns the Reasoning field if non-nil, zero value otherwise.
 
 ### GetReasoningOk
 
-`func (o *CCKChoiceDelta) GetReasoningOk() (*CCKReasoning, bool)`
+`func (o *CCKChoiceDelta) GetReasoningOk() (*string, bool)`
 
 GetReasoningOk returns a tuple with the Reasoning field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetReasoning
 
-`func (o *CCKChoiceDelta) SetReasoning(v CCKReasoning)`
+`func (o *CCKChoiceDelta) SetReasoning(v string)`
 
 SetReasoning sets Reasoning field to given value.
 

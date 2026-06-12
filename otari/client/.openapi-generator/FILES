@@ -50,10 +50,8 @@ docs/CCKChunkChoice.md
 docs/CCKCompletionTokensDetails.md
 docs/CCKCompletionUsage.md
 docs/CCKPromptTokensDetails.md
-docs/CCKReasoning.md
 docs/CCKTopLogprob.md
 docs/CCPromptTokensDetails.md
-docs/CCReasoning.md
 docs/CCTopLogprob.md
 docs/Caller.md
 docs/ChatAPI.md
@@ -220,7 +218,6 @@ model_cc_custom.go
 model_cc_function.go
 model_cc_function_call.go
 model_cc_prompt_tokens_details.go
-model_cc_reasoning.go
 model_cc_top_logprob.go
 model_cck_chat_completion_token_logprob.go
 model_cck_choice_delta.go
@@ -232,7 +229,6 @@ model_cck_chunk_choice.go
 model_cck_completion_tokens_details.go
 model_cck_completion_usage.go
 model_cck_prompt_tokens_details.go
-model_cck_reasoning.go
 model_cck_top_logprob.go
 model_chat_completion.go
 model_chat_completion_chunk.go
