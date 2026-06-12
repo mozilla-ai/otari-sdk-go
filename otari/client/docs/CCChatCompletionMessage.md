@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **Audio** | Pointer to [**NullableCCChatCompletionAudio**](CCChatCompletionAudio.md) |  | [optional] 
 **FunctionCall** | Pointer to [**NullableCCFunctionCall**](CCFunctionCall.md) |  | [optional] 
 **ToolCalls** | Pointer to [**[]CCChatCompletionMessageToolCallsInner**](CCChatCompletionMessageToolCallsInner.md) |  | [optional] 
-**Reasoning** | Pointer to [**NullableCCReasoning**](CCReasoning.md) |  | [optional] 
+**Reasoning** | Pointer to **NullableString** | Filter models by provider name | [optional] 
 
 ## Methods
 
@@ -264,20 +264,20 @@ HasToolCalls returns a boolean if a field has been set.
 UnsetToolCalls ensures that no value is present for ToolCalls, not even an explicit nil
 ### GetReasoning
 
-`func (o *CCChatCompletionMessage) GetReasoning() CCReasoning`
+`func (o *CCChatCompletionMessage) GetReasoning() string`
 
 GetReasoning returns the Reasoning field if non-nil, zero value otherwise.
 
 ### GetReasoningOk
 
-`func (o *CCChatCompletionMessage) GetReasoningOk() (*CCReasoning, bool)`
+`func (o *CCChatCompletionMessage) GetReasoningOk() (*string, bool)`
 
 GetReasoningOk returns a tuple with the Reasoning field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetReasoning
 
-`func (o *CCChatCompletionMessage) SetReasoning(v CCReasoning)`
+`func (o *CCChatCompletionMessage) SetReasoning(v string)`
 
 SetReasoning sets Reasoning field to given value.
 
