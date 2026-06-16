@@ -107,6 +107,64 @@ func (c *Client) doRaw(
 	return resp, nil, nil
 }
 
+// rawPOST issues a non-streaming POST through the generated client's configured
+// transport (HTTP client + default auth headers + base server URL) and returns
+// the response together with the fully-read body. Non-2xx responses are routed
+// through the unified mapHTTPError so both auth modes produce the same typed
+// errors.
+//
+// Unlike doJSON, the caller supplies the encoded body, Content-Type, and Accept
+// directly. This is the seam for endpoints that do not fit the generated JSON
+// core: binary audio out (speech) and multipart upload in (transcription). It
+// mirrors the Python reference's _post helper.
+func (c *Client) rawPOST(
+	ctx context.Context,
+	path string,
+	body []byte,
+	contentType string,
+	accept string,
+) (*http.Response, []byte, error) {
+	cfg := c.api.GetConfig()
+
+	var bodyReader io.Reader
+	if body != nil {
+		bodyReader = bytes.NewReader(body)
+	}
+
+	url := c.serverURL() + path
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bodyReader)
+	if err != nil {
+		return nil, nil, newProviderError(providerName, err)
+	}
+
+	if contentType != "" {
+		req.Header.Set(contentTypeHeader, contentType)
+	}
+	if accept != "" {
+		req.Header.Set("Accept", accept)
+	}
+	for k, v := range cfg.DefaultHeader {
+		req.Header.Set(k, v)
+	}
+
+	resp, err := cfg.HTTPClient.Do(req)
+	if err != nil {
+		return nil, nil, newProviderError(providerName, err)
+	}
+
+	buf, rerr := io.ReadAll(resp.Body)
+	_ = resp.Body.Close()
+	if rerr != nil {
+		return resp, nil, newProviderError(providerName, fmt.Errorf("read response: %w", rerr))
+	}
+	resp.Body = io.NopCloser(bytes.NewReader(buf))
+
+	if resp.StatusCode >= http.StatusBadRequest {
+		return resp, buf, mapHTTPError(resp.StatusCode, resp.Header, buf, "")
+	}
+	return resp, buf, nil
+}
+
 // serverURL returns the configured base server URL (the gateway root with the
 // /v1 suffix) from the generated client configuration.
 func (c *Client) serverURL() string {
