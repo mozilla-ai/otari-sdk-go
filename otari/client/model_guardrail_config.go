@@ -1,7 +1,7 @@
 /*
-otari-gateway
+otari
 
-A clean FastAPI gateway for otari with API key management
+Otari, an OpenAI-compatible LLM gateway with API key management
 
 API version: 0.0.0-dev
 */
@@ -19,7 +19,7 @@ import (
 // checks if the GuardrailConfig type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GuardrailConfig{}
 
-// GuardrailConfig A single guardrail check the caller wants the gateway to enforce.  URL safety: when “url“ is supplied it is validated at parse time with the same SSRF guard used for MCP server URLs (loopback allowed by default for same-host sidecars; gated by “GATEWAY_MCP_ALLOW_LOOPBACK“ / “GATEWAY_MCP_ALLOW_PRIVATE_HOSTS“). Most deployments omit “url“ and rely on the operator-set “GATEWAY_GUARDRAILS_URL“ instead.
+// GuardrailConfig A single guardrail check the caller wants the gateway to enforce.  URL safety: when “url“ is supplied it is validated at parse time with the same SSRF guard used for MCP server URLs (loopback allowed by default for same-host sidecars; gated by “OTARI_MCP_ALLOW_LOOPBACK“ / “OTARI_MCP_ALLOW_PRIVATE_HOSTS“). Most deployments omit “url“ and rely on the operator-set “OTARI_GUARDRAILS_URL“ instead.
 type GuardrailConfig struct {
 	Mode           *string                `json:"mode,omitempty"`
 	On             []string               `json:"on,omitempty"`

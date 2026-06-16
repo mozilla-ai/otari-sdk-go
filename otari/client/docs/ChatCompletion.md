@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **Created** | **int32** |  | 
 **Model** | **string** |  | 
 **Object** | **string** |  | 
-**ServiceTier** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**ServiceTier** | Pointer to **NullableString** |  | [optional] 
 **SystemFingerprint** | Pointer to **NullableString** | Filter models by provider name | [optional] 
 **Usage** | Pointer to [**NullableCCCompletionUsage**](CCCompletionUsage.md) |  | [optional] 
 

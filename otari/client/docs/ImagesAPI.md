@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## CreateImageV1ImagesGenerationsPost
 
-> interface{} CreateImageV1ImagesGenerationsPost(ctx).ImageGenerationRequest(imageGenerationRequest).Execute()
+> ImagesResponse CreateImageV1ImagesGenerationsPost(ctx).ImageGenerationRequest(imageGenerationRequest).Execute()
 
 Create Image
 
@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImagesAPI.CreateImageV1ImagesGenerationsPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateImageV1ImagesGenerationsPost`: interface{}
+	// response from `CreateImageV1ImagesGenerationsPost`: ImagesResponse
 	fmt.Fprintf(os.Stdout, "Response from `ImagesAPI.CreateImageV1ImagesGenerationsPost`: %v\n", resp)
 }
 ```
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**ImagesResponse**](ImagesResponse.md)
 
 ### Authorization
 

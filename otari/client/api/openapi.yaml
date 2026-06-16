@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
-  description: A clean FastAPI gateway for otari with API key management
-  title: otari-gateway
+  description: "Otari, an OpenAI-compatible LLM gateway with API key management"
+  title: otari
   version: 0.0.0-dev
 servers:
 - url: /
@@ -568,6 +568,182 @@ paths:
       summary: Create Embedding
       tags:
       - embeddings
+  /v1/files:
+    get:
+      description: List the authenticated user's uploaded files.
+      operationId: list_files_v1_files_get
+      parameters:
+      - explode: true
+        in: query
+        name: user
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: purpose
+        required: false
+        schema:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: {}
+                title: Response List Files V1 Files Get
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: List Files
+      tags:
+      - files
+    post:
+      description: OpenAI-compatible file upload endpoint.
+      operationId: create_file_v1_files_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Body_create_file_v1_files_post"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: {}
+                title: Response Create File V1 Files Post
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create File
+      tags:
+      - files
+  /v1/files/{file_id}:
+    delete:
+      description: Soft-delete a file's metadata and remove its bytes from the backend.
+      operationId: delete_file_v1_files__file_id__delete
+      parameters:
+      - explode: false
+        in: path
+        name: file_id
+        required: true
+        schema:
+          title: File Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: user
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: {}
+                title: Response Delete File V1 Files  File Id  Delete
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Delete File
+      tags:
+      - files
+    get:
+      description: Retrieve metadata for a single file.
+      operationId: get_file_v1_files__file_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: file_id
+        required: true
+        schema:
+          title: File Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: user
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: {}
+                title: Response Get File V1 Files  File Id  Get
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get File
+      tags:
+      - files
+  /v1/files/{file_id}/content:
+    get:
+      description: Download the raw bytes of a file.
+      operationId: get_file_content_v1_files__file_id__content_get
+      parameters:
+      - explode: false
+        in: path
+        name: file_id
+        required: true
+        schema:
+          title: File Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: user
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get File Content
+      tags:
+      - files
   /v1/images/generations:
     post:
       description: |-
@@ -588,8 +764,9 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
-          description: Successful Response
+              schema:
+                $ref: "#/components/schemas/ImagesResponse"
+          description: Generated images
         "422":
           content:
             application/json:
@@ -1489,7 +1666,13 @@ paths:
 components:
   schemas:
     AudioSpeechRequest:
-      description: OpenAI-compatible audio speech (TTS) request.
+      description: |-
+        OpenAI-compatible audio speech (TTS) request.
+
+        The speech fields are derived from any-llm's ``AudioSpeechParams`` (see
+        ``_schema_derive``) so the schema cannot silently drop a param any-llm
+        forwards. ``user`` is gateway-only (billing / auth scoping); it is not an
+        any-llm param and is stripped before the request is forwarded.
       example:
         voice: voice
         input: input
@@ -1542,6 +1725,21 @@ components:
       - body
       - custom_id
       title: BatchRequestItem
+    Body_create_file_v1_files_post:
+      properties:
+        file:
+          title: File
+          type: string
+        purpose:
+          default: user_data
+          title: Purpose
+          type: string
+        user:
+          nullable: true
+          type: string
+      required:
+      - file
+      title: Body_create_file_v1_files_post
     Body_create_transcription_v1_audio_transcriptions_post:
       properties:
         file:
@@ -1601,33 +1799,30 @@ components:
       - updated_at
       title: BudgetResponse
     ChatCompletionRequest:
-      description: OpenAI-compatible chat completion request.
+      description: |-
+        OpenAI-compatible chat completion request.
+
+        The completion-param fields are derived from any-llm's ``CompletionParams``
+        (see ``_schema_derive``) so the schema cannot silently drop a param any-llm
+        forwards. Fields below either tighten a derived field (``messages``,
+        ``response_format``) or add gateway-internal behavior (``mcp_servers``,
+        ``mcp_server_ids``, ``guardrails``, ``tools_header``, ``max_tool_iterations``)
+        that is stripped before the request is forwarded upstream.
       example:
-        max_tool_iterations: 4
-        mcp_server_ids:
-        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        mcp_servers:
-        - authorization_token: authorization_token
-          allowed_tools:
-          - allowed_tools
-          - allowed_tools
-          name: name
-          url: url
-          purpose_hint: purpose_hint
-        - authorization_token: authorization_token
-          allowed_tools:
-          - allowed_tools
-          - allowed_tools
-          name: name
-          url: url
-          purpose_hint: purpose_hint
-        max_tokens: 6
+        reasoning_effort: none
+        top_logprobs: 2
+        max_tool_iterations: 14
+        logit_bias:
+          key: 6.027456183070403
+        seed: 9
+        presence_penalty: 7.061401241503109
         tools:
         - key: ""
         - key: ""
-        top_p: 5.637376656633329
-        max_completion_tokens: 0
+        logprobs: true
+        top_p: 4.145608029883936
+        max_completion_tokens: 1
+        frequency_penalty: 0.8008281904610115
         response_format:
           key: ""
         stream: false
@@ -1672,7 +1867,32 @@ components:
           "on":
           - input
           - input
-        temperature: 5.962133916683182
+        temperature: 3.616076749251911
+        tool_choice: Tool_Choice
+        model: model
+        tools_header: tools_header
+        mcp_server_ids:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        mcp_servers:
+        - authorization_token: authorization_token
+          allowed_tools:
+          - allowed_tools
+          - allowed_tools
+          name: name
+          url: url
+          purpose_hint: purpose_hint
+        - authorization_token: authorization_token
+          allowed_tools:
+          - allowed_tools
+          - allowed_tools
+          name: name
+          url: url
+          purpose_hint: purpose_hint
+        max_tokens: 5
+        "n": 2
+        parallel_tool_calls: true
+        stop: Stop
         messages:
         - role: developer
           name: name
@@ -1680,19 +1900,26 @@ components:
         - role: developer
           name: name
           content: Content_1
-        tool_choice: Tool_Choice
-        model: model
-        tools_header: tools_header
         stream_options:
           key: ""
         user: user
       properties:
+        frequency_penalty:
+          nullable: true
+          type: number
         guardrails:
           items:
             $ref: "#/components/schemas/GuardrailConfig"
           maxItems: 8
           nullable: true
           type: array
+        logit_bias:
+          additionalProperties:
+            type: number
+          nullable: true
+        logprobs:
+          nullable: true
+          type: boolean
         max_completion_tokens:
           nullable: true
           type: integer
@@ -1723,10 +1950,36 @@ components:
         model:
           title: Model
           type: string
+        "n":
+          nullable: true
+          type: integer
+        parallel_tool_calls:
+          nullable: true
+          type: boolean
+        presence_penalty:
+          nullable: true
+          type: number
+        reasoning_effort:
+          enum:
+          - none
+          - minimal
+          - low
+          - medium
+          - high
+          - xhigh
+          - max
+          - auto
+          nullable: true
+          type: string
         response_format:
           additionalProperties: true
           nullable: true
           type: object
+        seed:
+          nullable: true
+          type: integer
+        stop:
+          $ref: "#/components/schemas/Stop"
         stream:
           default: false
           title: Stream
@@ -1751,10 +2004,13 @@ components:
           description: "Optional override for the lead-in that the gateway prepends\
             \ before the per-tool hint block in the system message. Useful for expressing\
             \ global tool-selection policy (e.g. 'prefer MCP tools over code_execution').\
-            \ Falls back to GATEWAY_TOOLS_HEADER env, then to the built-in default."
+            \ Falls back to OTARI_TOOLS_HEADER env, then to the built-in default."
           maxLength: 4000
           nullable: true
           type: string
+        top_logprobs:
+          nullable: true
+          type: integer
         top_p:
           nullable: true
           type: number
@@ -1788,8 +2044,8 @@ components:
         thinking:
           key: ""
         tools:
-        - key: ""
-        - key: ""
+        - null
+        - null
       properties:
         cache_control:
           additionalProperties: true
@@ -1822,8 +2078,7 @@ components:
           type: object
         tools:
           items:
-            additionalProperties: true
-            type: object
+            $ref: "#/components/schemas/FreeFormObject"
           nullable: true
           type: array
       required:
@@ -2049,9 +2304,9 @@ components:
 
         URL safety: when ``url`` is supplied it is validated at parse time with the
         same SSRF guard used for MCP server URLs (loopback allowed by default for
-        same-host sidecars; gated by ``GATEWAY_MCP_ALLOW_LOOPBACK`` /
-        ``GATEWAY_MCP_ALLOW_PRIVATE_HOSTS``). Most deployments omit ``url`` and rely
-        on the operator-set ``GATEWAY_GUARDRAILS_URL`` instead.
+        same-host sidecars; gated by ``OTARI_MCP_ALLOW_LOOPBACK`` /
+        ``OTARI_MCP_ALLOW_PRIVATE_HOSTS``). Most deployments omit ``url`` and rely
+        on the operator-set ``OTARI_GUARDRAILS_URL`` instead.
       example:
         mode: monitor
         validate_kwargs:
@@ -2118,7 +2373,12 @@ components:
           type: array
       title: HTTPValidationError
     ImageGenerationRequest:
-      description: OpenAI-compatible image generation request.
+      description: |-
+        OpenAI-compatible image generation request.
+
+        Fields are derived from any-llm's ``ImageGenerationParams`` (see
+        ``_schema_derive``) so the schema cannot silently drop a param any-llm
+        forwards.
       example:
         response_format: response_format
         size: size
@@ -2214,7 +2474,7 @@ components:
         URL safety is enforced at parse time:
 
         * SSRF guard rejects private, link-local, and reserved IP ranges. Loopback is
-          allowed by default (sidecars, dev) — set ``GATEWAY_MCP_ALLOW_LOOPBACK=false`` to disable.
+          allowed by default (sidecars, dev) — set ``OTARI_MCP_ALLOW_LOOPBACK=false`` to disable.
         * Plain ``http://`` is rejected when ``authorization_token`` is set, to keep
           bearer tokens off the wire in cleartext.
       example:
@@ -2255,7 +2515,9 @@ components:
       description: |-
         Anthropic Messages API-compatible request.
 
-        Gateway-internal fields (``mcp_servers``, ``mcp_server_ids``,
+        The wire fields are derived from any-llm's ``MessagesParams`` (see
+        ``_schema_derive``) so the schema cannot silently drop a param any-llm
+        forwards. Gateway-internal fields (``mcp_servers``, ``mcp_server_ids``,
         ``guardrails``, ``tools_header``, ``max_tool_iterations``) opt the request
         into gateway-managed MCP / sandbox / web_search / guardrails without
         changing the upstream wire shape. They're stripped before the request is
@@ -2291,10 +2553,10 @@ components:
         thinking:
           key: ""
         tools:
-        - key: ""
-        - key: ""
+        - null
+        - null
         top_p: 5.637376656633329
-        system: System_1
+        system: System
         stream: false
         top_k: 5
         guardrails:
@@ -2400,7 +2662,7 @@ components:
           title: Stream
           type: boolean
         system:
-          $ref: "#/components/schemas/System_1"
+          $ref: "#/components/schemas/System"
         temperature:
           nullable: true
           type: number
@@ -2414,8 +2676,7 @@ components:
           type: object
         tools:
           items:
-            additionalProperties: true
-            type: object
+            $ref: "#/components/schemas/FreeFormObject"
           nullable: true
           type: array
         tools_header:
@@ -2695,32 +2956,32 @@ components:
       description: |-
         OpenAI Responses API-compatible request.
 
-        Gateway-internal fields (``mcp_servers``, ``mcp_server_ids``,
+        The wire fields are derived from any-llm's ``ResponsesParams`` (see
+        ``_schema_derive``) so the schema cannot silently drop a param any-llm
+        forwards. Gateway-internal fields (``mcp_servers``, ``mcp_server_ids``,
         ``guardrails``, ``tools_header``, ``max_tool_iterations``) opt the request
         into gateway-managed MCP / sandbox / web_search / guardrails without
         changing the upstream wire shape. They're stripped before the request is
         forwarded.
       example:
-        input: ""
-        max_tool_iterations: 2
-        mcp_server_ids:
-        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        mcp_servers:
-        - authorization_token: authorization_token
-          allowed_tools:
-          - allowed_tools
-          - allowed_tools
-          name: name
-          url: url
-          purpose_hint: purpose_hint
-        - authorization_token: authorization_token
-          allowed_tools:
-          - allowed_tools
-          - allowed_tools
-          name: name
-          url: url
-          purpose_hint: purpose_hint
+        top_logprobs: 7
+        instructions: instructions
+        max_tool_iterations: 15
+        metadata:
+          key: metadata
+        max_tool_calls: 1
+        presence_penalty: 5.637376656633329
+        reasoning:
+          key: ""
+        safety_identifier: safety_identifier
+        tools:
+        - null
+        - null
+        top_p: 9.301444243932576
+        previous_response_id: previous_response_id
+        frequency_penalty: 0.8008281904610115
+        response_format:
+          key: ""
         stream: false
         guardrails:
         - mode: monitor
@@ -2763,21 +3024,76 @@ components:
           "on":
           - input
           - input
+        temperature: 2.3021358869347655
+        tool_choice: Tool_Choice_1
         model: model
+        service_tier: service_tier
         tools_header: tools_header
-        tools:
-        - key: ""
-        - key: ""
+        text: ""
+        prompt_cache_key: prompt_cache_key
+        truncation: truncation
+        conversation: Conversation
+        include:
+        - include
+        - include
+        mcp_server_ids:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        mcp_servers:
+        - authorization_token: authorization_token
+          allowed_tools:
+          - allowed_tools
+          - allowed_tools
+          name: name
+          url: url
+          purpose_hint: purpose_hint
+        - authorization_token: authorization_token
+          allowed_tools:
+          - allowed_tools
+          - allowed_tools
+          name: name
+          url: url
+          purpose_hint: purpose_hint
+        store: true
+        input: ""
+        parallel_tool_calls: true
+        background: true
+        stream_options:
+          key: ""
         user: user
+        max_output_tokens: 6
+        prompt_cache_retention: prompt_cache_retention
       properties:
+        background:
+          nullable: true
+          type: boolean
+        conversation:
+          $ref: "#/components/schemas/Conversation"
+        frequency_penalty:
+          nullable: true
+          type: number
         guardrails:
           items:
             $ref: "#/components/schemas/GuardrailConfig"
           maxItems: 8
           nullable: true
           type: array
+        include:
+          items:
+            type: string
+          nullable: true
+          type: array
         input:
           title: Input
+        instructions:
+          nullable: true
+          type: string
+        max_output_tokens:
+          nullable: true
+          type: integer
+        max_tool_calls:
+          nullable: true
+          type: integer
         max_tool_iterations:
           maximum: 25.0
           minimum: 1.0
@@ -2794,20 +3110,77 @@ components:
             $ref: "#/components/schemas/McpServerConfig"
           nullable: true
           type: array
+        metadata:
+          additionalProperties:
+            type: string
+          nullable: true
         model:
           title: Model
           type: string
+        parallel_tool_calls:
+          nullable: true
+          type: boolean
+        presence_penalty:
+          nullable: true
+          type: number
+        previous_response_id:
+          nullable: true
+          type: string
+        prompt_cache_key:
+          nullable: true
+          type: string
+        prompt_cache_retention:
+          nullable: true
+          type: string
+        reasoning:
+          additionalProperties: true
+          nullable: true
+          type: object
+        response_format:
+          additionalProperties: true
+          nullable: true
+          type: object
+        safety_identifier:
+          nullable: true
+          type: string
+        service_tier:
+          nullable: true
+          type: string
+        store:
+          nullable: true
+          type: boolean
         stream:
           default: false
           title: Stream
           type: boolean
+        stream_options:
+          additionalProperties: true
+          nullable: true
+          type: object
+        temperature:
+          nullable: true
+          type: number
+        text:
+          anyOf: []
+          nullable: true
+          title: Text
+        tool_choice:
+          $ref: "#/components/schemas/Tool_Choice_1"
         tools:
           items:
-            additionalProperties: true
-            type: object
+            $ref: "#/components/schemas/FreeFormObject"
           nullable: true
           type: array
         tools_header:
+          nullable: true
+          type: string
+        top_logprobs:
+          nullable: true
+          type: integer
+        top_p:
+          nullable: true
+          type: number
+        truncation:
           nullable: true
           type: string
         user:
@@ -3181,8 +3554,8 @@ components:
         reasoning: ""
         refusal: refusal
         annotations:
-        - key: ""
-        - key: ""
+        - null
+        - null
         tool_calls:
         - function:
             name: name
@@ -3210,8 +3583,7 @@ components:
           type: string
         annotations:
           items:
-            additionalProperties: true
-            type: object
+            $ref: "#/components/schemas/FreeFormObject"
           nullable: true
           type: array
         audio:
@@ -3313,8 +3685,8 @@ components:
           reasoning: ""
           refusal: refusal
           annotations:
-          - key: ""
-          - key: ""
+          - null
+          - null
           tool_calls:
           - function:
               name: name
@@ -3509,8 +3881,8 @@ components:
             reasoning: ""
             refusal: refusal
             annotations:
-            - key: ""
-            - key: ""
+            - null
+            - null
             tool_calls:
             - function:
                 name: name
@@ -3533,8 +3905,8 @@ components:
             reasoning: ""
             refusal: refusal
             annotations:
-            - key: ""
-            - key: ""
+            - null
+            - null
             tool_calls:
             - function:
                 name: name
@@ -3572,7 +3944,6 @@ components:
           title: Object
           type: string
         service_tier:
-          description: Filter models by provider name
           nullable: true
           type: string
         system_fingerprint:
@@ -5515,6 +5886,153 @@ components:
       - object
       - usage
       title: CreateEmbeddingResponse
+    IMG_Image:
+      additionalProperties: {}
+      description: Represents the content or the URL of an image generated by the
+        OpenAI API.
+      example:
+        revised_prompt: revised_prompt
+        b64_json: b64_json
+        url: url
+      properties:
+        b64_json:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        revised_prompt:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+        url:
+          description: Filter models by provider name
+          nullable: true
+          type: string
+      title: Image
+    IMG_Usage:
+      additionalProperties: {}
+      description: "For `gpt-image-1` only, the token usage information for the image\
+        \ generation."
+      properties:
+        input_tokens:
+          title: Input Tokens
+          type: integer
+        input_tokens_details:
+          $ref: "#/components/schemas/IMG_UsageInputTokensDetails"
+        output_tokens:
+          title: Output Tokens
+          type: integer
+        total_tokens:
+          title: Total Tokens
+          type: integer
+        output_tokens_details:
+          allOf:
+          - $ref: "#/components/schemas/IMG_UsageOutputTokensDetails"
+          nullable: true
+      required:
+      - input_tokens
+      - input_tokens_details
+      - output_tokens
+      - total_tokens
+      title: Usage
+    IMG_UsageInputTokensDetails:
+      additionalProperties: true
+      description: The input tokens detailed information for the image generation.
+      properties:
+        image_tokens:
+          title: Image Tokens
+          type: integer
+        text_tokens:
+          title: Text Tokens
+          type: integer
+      required:
+      - image_tokens
+      - text_tokens
+      title: UsageInputTokensDetails
+    IMG_UsageOutputTokensDetails:
+      additionalProperties: true
+      description: The output token details for the image generation.
+      properties:
+        image_tokens:
+          title: Image Tokens
+          type: integer
+        text_tokens:
+          title: Text Tokens
+          type: integer
+      required:
+      - image_tokens
+      - text_tokens
+      title: UsageOutputTokensDetails
+    ImagesResponse:
+      additionalProperties: {}
+      description: The response from the image generation endpoint.
+      example:
+        data:
+        - revised_prompt: revised_prompt
+          b64_json: b64_json
+          url: url
+        - revised_prompt: revised_prompt
+          b64_json: b64_json
+          url: url
+        output_format: png
+        size: 1024x1024
+        created: 0
+        background: transparent
+        usage: ""
+        quality: low
+      properties:
+        created:
+          title: Created
+          type: integer
+        background:
+          enum:
+          - transparent
+          - opaque
+          nullable: true
+          type: string
+        data:
+          items:
+            $ref: "#/components/schemas/IMG_Image"
+          nullable: true
+          type: array
+        output_format:
+          enum:
+          - png
+          - webp
+          - jpeg
+          nullable: true
+          type: string
+        quality:
+          enum:
+          - low
+          - medium
+          - high
+          nullable: true
+          type: string
+        size:
+          enum:
+          - 1024x1024
+          - 1024x1536
+          - 1536x1024
+          nullable: true
+          type: string
+        usage:
+          allOf:
+          - $ref: "#/components/schemas/IMG_Usage"
+          nullable: true
+      required:
+      - created
+      title: ImagesResponse
+    FreeFormObject:
+      additionalProperties: true
+      type: object
+    Stop:
+      anyOf:
+      - type: string
+      - items:
+          type: string
+        type: array
+      nullable: true
+      title: Stop
     Tool_Choice:
       anyOf:
       - description: Filter models by provider name
@@ -5527,12 +6045,9 @@ components:
       title: Tool Choice
     System:
       anyOf:
-      - description: Filter models by provider name
-        nullable: true
-        type: string
+      - type: string
       - items:
-          additionalProperties: true
-          type: object
+          $ref: "#/components/schemas/FreeFormObject"
         type: array
       nullable: true
       title: System
@@ -5544,29 +6059,34 @@ components:
         type: array
       description: Input text to embed
       title: Input
-    System_1:
-      anyOf:
-      - type: string
-      - items:
-          additionalProperties: true
-          type: object
-        type: array
-      nullable: true
-      title: System
     Input_1:
       anyOf:
-      - description: Filter models by provider name
-        nullable: true
-        type: string
+      - type: string
       - items:
           type: string
         type: array
       - items:
-          additionalProperties: true
-          type: object
+          $ref: "#/components/schemas/FreeFormObject"
         type: array
       description: "Text, list of texts, or list of content-part dicts to moderate"
       title: Input
+    Conversation:
+      anyOf:
+      - description: Filter models by provider name
+        nullable: true
+        type: string
+      - additionalProperties: true
+        nullable: true
+        type: object
+      nullable: true
+      title: Conversation
+    Tool_Choice_1:
+      anyOf:
+      - type: string
+      - additionalProperties: true
+        type: object
+      nullable: true
+      title: Tool Choice
     Location_inner:
       anyOf:
       - type: string

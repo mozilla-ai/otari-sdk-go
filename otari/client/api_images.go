@@ -1,7 +1,7 @@
 /*
-otari-gateway
+otari
 
-A clean FastAPI gateway for otari with API key management
+Otari, an OpenAI-compatible LLM gateway with API key management
 
 API version: 0.0.0-dev
 */
@@ -32,7 +32,7 @@ func (r ApiCreateImageV1ImagesGenerationsPostRequest) ImageGenerationRequest(ima
 	return r
 }
 
-func (r ApiCreateImageV1ImagesGenerationsPostRequest) Execute() (interface{}, *http.Response, error) {
+func (r ApiCreateImageV1ImagesGenerationsPostRequest) Execute() (*ImagesResponse, *http.Response, error) {
 	return r.ApiService.CreateImageV1ImagesGenerationsPostExecute(r)
 }
 
@@ -58,13 +58,13 @@ func (a *ImagesAPIService) CreateImageV1ImagesGenerationsPost(ctx context.Contex
 
 // Execute executes the request
 //
-//	@return interface{}
-func (a *ImagesAPIService) CreateImageV1ImagesGenerationsPostExecute(r ApiCreateImageV1ImagesGenerationsPostRequest) (interface{}, *http.Response, error) {
+//	@return ImagesResponse
+func (a *ImagesAPIService) CreateImageV1ImagesGenerationsPostExecute(r ApiCreateImageV1ImagesGenerationsPostRequest) (*ImagesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue interface{}
+		localVarReturnValue *ImagesResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.CreateImageV1ImagesGenerationsPost")

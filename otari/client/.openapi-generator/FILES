@@ -8,6 +8,7 @@ api_batches.go
 api_budgets.go
 api_chat.go
 api_embeddings.go
+api_files.go
 api_health.go
 api_images.go
 api_keys.go
@@ -71,6 +72,7 @@ docs/Content7.md
 docs/Content8.md
 docs/Content9Inner.md
 docs/ContentAnyOfInner.md
+docs/Conversation.md
 docs/CountTokensRequest.md
 docs/CountTokensResponse.md
 docs/CreateBatchRequest.md
@@ -83,11 +85,17 @@ docs/EMBEmbedding.md
 docs/EMBUsage.md
 docs/EmbeddingRequest.md
 docs/EmbeddingsAPI.md
+docs/FilesAPI.md
 docs/GuardrailConfig.md
 docs/HTTPValidationError.md
 docs/HealthAPI.md
+docs/IMGImage.md
+docs/IMGUsage.md
+docs/IMGUsageInputTokensDetails.md
+docs/IMGUsageOutputTokensDetails.md
 docs/ImageGenerationRequest.md
 docs/ImagesAPI.md
+docs/ImagesResponse.md
 docs/Input.md
 docs/Input1.md
 docs/KeyInfo.md
@@ -186,10 +194,11 @@ docs/ResponsesAPI.md
 docs/ResponsesRequest.md
 docs/SetPricingRequest.md
 docs/Source.md
+docs/Stop.md
 docs/System.md
-docs/System1.md
 docs/ToolCallsInner.md
 docs/ToolChoice.md
+docs/ToolChoice1.md
 docs/UpdateBudgetRequest.md
 docs/UpdateKeyRequest.md
 docs/UpdateUserRequest.md
@@ -246,6 +255,7 @@ model_content_7.go
 model_content_8.go
 model_content_9_inner.go
 model_content_any_of_inner.go
+model_conversation.go
 model_count_tokens_request.go
 model_count_tokens_response.go
 model_create_batch_request.go
@@ -260,6 +270,11 @@ model_embedding_request.go
 model_guardrail_config.go
 model_http_validation_error.go
 model_image_generation_request.go
+model_images_response.go
+model_img_image.go
+model_img_usage.go
+model_img_usage_input_tokens_details.go
+model_img_usage_output_tokens_details.go
 model_input.go
 model_input_1.go
 model_key_info.go
@@ -351,10 +366,11 @@ model_rr_rerank_result.go
 model_rr_rerank_usage.go
 model_set_pricing_request.go
 model_source.go
+model_stop.go
 model_system.go
-model_system_1.go
 model_tool_calls_inner.go
 model_tool_choice.go
+model_tool_choice_1.go
 model_update_budget_request.go
 model_update_key_request.go
 model_update_user_request.go
@@ -368,6 +384,7 @@ test/api_batches_test.go
 test/api_budgets_test.go
 test/api_chat_test.go
 test/api_embeddings_test.go
+test/api_files_test.go
 test/api_health_test.go
 test/api_images_test.go
 test/api_keys_test.go
