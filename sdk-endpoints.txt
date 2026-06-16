@@ -54,9 +54,17 @@ GET /v1/pricing/{model_key}/history
 DELETE /v1/pricing/{model_key}
 # Control plane: usage
 GET /v1/usage
+# Images
+POST /v1/images/generations
+# Audio
+POST /v1/audio/speech
+POST /v1/audio/transcriptions
 
 [excluded]
-POST /v1/audio/speech          # binary, not yet wrapped
-POST /v1/audio/transcriptions  # binary, not yet wrapped
-POST /v1/images/generations    # binary, not yet wrapped
 GET /v1/models/{model_id}      # redundant, list_models covers discovery
+# Files API: added to the gateway spec, not yet wrapped by any SDK shell.
+POST /v1/files                       # not yet wrapped
+GET /v1/files                        # not yet wrapped
+GET /v1/files/{file_id}              # not yet wrapped
+GET /v1/files/{file_id}/content      # not yet wrapped
+DELETE /v1/files/{file_id}           # not yet wrapped
