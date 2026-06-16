@@ -1995,9 +1995,7 @@ components:
           $ref: "#/components/schemas/Tool_Choice"
         tools:
           items:
-            additionalProperties: true
-            nullable: true
-            type: object
+            $ref: "#/components/schemas/ChatCompletionRequest_tools_inner"
           nullable: true
           type: array
         tools_header:
@@ -3161,9 +3159,9 @@ components:
           nullable: true
           type: number
         text:
-          anyOf: []
+          allOf:
+          - $ref: "#/components/schemas/FreeFormObject"
           nullable: true
-          title: Text
         tool_choice:
           $ref: "#/components/schemas/Tool_Choice_1"
         tools:
@@ -6043,6 +6041,12 @@ components:
         type: object
       nullable: true
       title: Tool Choice
+    ChatCompletionRequest_tools_inner:
+      anyOf:
+      - additionalProperties: true
+        nullable: true
+        type: object
+      - $ref: "#/components/schemas/FreeFormObject"
     System:
       anyOf:
       - type: string

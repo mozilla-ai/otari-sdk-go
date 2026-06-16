@@ -59,6 +59,7 @@ docs/ChatAPI.md
 docs/ChatCompletion.md
 docs/ChatCompletionChunk.md
 docs/ChatCompletionRequest.md
+docs/ChatCompletionRequestToolsInner.md
 docs/ChatMessageInput.md
 docs/Content.md
 docs/Content1.md
@@ -242,6 +243,7 @@ model_cck_top_logprob.go
 model_chat_completion.go
 model_chat_completion_chunk.go
 model_chat_completion_request.go
+model_chat_completion_request_tools_inner.go
 model_chat_message_input.go
 model_content.go
 model_content_1.go
