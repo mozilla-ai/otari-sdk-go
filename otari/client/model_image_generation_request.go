@@ -1,7 +1,7 @@
 /*
-otari-gateway
+otari
 
-A clean FastAPI gateway for otari with API key management
+Otari, an OpenAI-compatible LLM gateway with API key management
 
 API version: 0.0.0-dev
 */
@@ -19,7 +19,7 @@ import (
 // checks if the ImageGenerationRequest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ImageGenerationRequest{}
 
-// ImageGenerationRequest OpenAI-compatible image generation request.
+// ImageGenerationRequest OpenAI-compatible image generation request.  Fields are derived from any-llm's “ImageGenerationParams“ (see “_schema_derive“) so the schema cannot silently drop a param any-llm forwards.
 type ImageGenerationRequest struct {
 	Model          string         `json:"model"`
 	N              NullableInt32  `json:"n,omitempty"`

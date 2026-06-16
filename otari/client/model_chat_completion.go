@@ -1,7 +1,7 @@
 /*
-otari-gateway
+otari
 
-A clean FastAPI gateway for otari with API key management
+Otari, an OpenAI-compatible LLM gateway with API key management
 
 API version: 0.0.0-dev
 */
@@ -20,12 +20,11 @@ var _ MappedNullable = &ChatCompletion{}
 
 // ChatCompletion struct for ChatCompletion
 type ChatCompletion struct {
-	Id      string     `json:"id"`
-	Choices []CCChoice `json:"choices"`
-	Created int32      `json:"created"`
-	Model   string     `json:"model"`
-	Object  string     `json:"object"`
-	// Filter models by provider name
+	Id          string         `json:"id"`
+	Choices     []CCChoice     `json:"choices"`
+	Created     int32          `json:"created"`
+	Model       string         `json:"model"`
+	Object      string         `json:"object"`
 	ServiceTier NullableString `json:"service_tier,omitempty"`
 	// Filter models by provider name
 	SystemFingerprint    NullableString            `json:"system_fingerprint,omitempty"`

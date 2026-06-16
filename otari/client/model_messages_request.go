@@ -1,7 +1,7 @@
 /*
-otari-gateway
+otari
 
-A clean FastAPI gateway for otari with API key management
+Otari, an OpenAI-compatible LLM gateway with API key management
 
 API version: 0.0.0-dev
 */
@@ -19,7 +19,7 @@ import (
 // checks if the MessagesRequest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &MessagesRequest{}
 
-// MessagesRequest Anthropic Messages API-compatible request.  Gateway-internal fields (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) opt the request into gateway-managed MCP / sandbox / web_search / guardrails without changing the upstream wire shape. They're stripped before the request is forwarded.
+// MessagesRequest Anthropic Messages API-compatible request.  The wire fields are derived from any-llm's “MessagesParams“ (see “_schema_derive“) so the schema cannot silently drop a param any-llm forwards. Gateway-internal fields (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) opt the request into gateway-managed MCP / sandbox / web_search / guardrails without changing the upstream wire shape. They're stripped before the request is forwarded.
 type MessagesRequest struct {
 	CacheControl      map[string]interface{}   `json:"cache_control,omitempty"`
 	Guardrails        []GuardrailConfig        `json:"guardrails,omitempty"`
@@ -32,7 +32,7 @@ type MessagesRequest struct {
 	Model             string                   `json:"model"`
 	StopSequences     []string                 `json:"stop_sequences,omitempty"`
 	Stream            *bool                    `json:"stream,omitempty"`
-	System            NullableSystem1          `json:"system,omitempty"`
+	System            NullableSystem           `json:"system,omitempty"`
 	Temperature       NullableFloat32          `json:"temperature,omitempty"`
 	Thinking          map[string]interface{}   `json:"thinking,omitempty"`
 	ToolChoice        map[string]interface{}   `json:"tool_choice,omitempty"`
@@ -414,9 +414,9 @@ func (o *MessagesRequest) SetStream(v bool) {
 }
 
 // GetSystem returns the System field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *MessagesRequest) GetSystem() System1 {
+func (o *MessagesRequest) GetSystem() System {
 	if o == nil || IsNil(o.System.Get()) {
-		var ret System1
+		var ret System
 		return ret
 	}
 	return *o.System.Get()
@@ -425,7 +425,7 @@ func (o *MessagesRequest) GetSystem() System1 {
 // GetSystemOk returns a tuple with the System field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *MessagesRequest) GetSystemOk() (*System1, bool) {
+func (o *MessagesRequest) GetSystemOk() (*System, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -441,8 +441,8 @@ func (o *MessagesRequest) HasSystem() bool {
 	return false
 }
 
-// SetSystem gets a reference to the given NullableSystem1 and assigns it to the System field.
-func (o *MessagesRequest) SetSystem(v System1) {
+// SetSystem gets a reference to the given NullableSystem and assigns it to the System field.
+func (o *MessagesRequest) SetSystem(v System) {
 	o.System.Set(&v)
 }
 

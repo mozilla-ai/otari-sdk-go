@@ -1,7 +1,7 @@
 /*
-otari-gateway
+otari
 
-A clean FastAPI gateway for otari with API key management
+Otari, an OpenAI-compatible LLM gateway with API key management
 
 API version: 0.0.0-dev
 */
@@ -40,7 +40,7 @@ var (
 	queryDescape    = strings.NewReplacer("%5B", "[", "%5D", "]")
 )
 
-// APIClient manages communication with the otari-gateway API v0.0.0-dev
+// APIClient manages communication with the otari API v0.0.0-dev
 // In most cases there should be only one, shared, APIClient.
 type APIClient struct {
 	cfg    *Configuration
@@ -57,6 +57,8 @@ type APIClient struct {
 	ChatAPI *ChatAPIService
 
 	EmbeddingsAPI *EmbeddingsAPIService
+
+	FilesAPI *FilesAPIService
 
 	HealthAPI *HealthAPIService
 
@@ -102,6 +104,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.BudgetsAPI = (*BudgetsAPIService)(&c.common)
 	c.ChatAPI = (*ChatAPIService)(&c.common)
 	c.EmbeddingsAPI = (*EmbeddingsAPIService)(&c.common)
+	c.FilesAPI = (*FilesAPIService)(&c.common)
 	c.HealthAPI = (*HealthAPIService)(&c.common)
 	c.ImagesAPI = (*ImagesAPIService)(&c.common)
 	c.KeysAPI = (*KeysAPIService)(&c.common)
