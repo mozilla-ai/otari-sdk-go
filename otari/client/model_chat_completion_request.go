@@ -21,29 +21,29 @@ var _ MappedNullable = &ChatCompletionRequest{}
 
 // ChatCompletionRequest OpenAI-compatible chat completion request.  The completion-param fields are derived from any-llm's “CompletionParams“ (see “_schema_derive“) so the schema cannot silently drop a param any-llm forwards. Fields below either tighten a derived field (“messages“, “response_format“) or add gateway-internal behavior (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) that is stripped before the request is forwarded upstream.
 type ChatCompletionRequest struct {
-	FrequencyPenalty    NullableFloat32           `json:"frequency_penalty,omitempty"`
-	Guardrails          []GuardrailConfig         `json:"guardrails,omitempty"`
-	LogitBias           map[string]float32        `json:"logit_bias,omitempty"`
-	Logprobs            NullableBool              `json:"logprobs,omitempty"`
-	MaxCompletionTokens NullableInt32             `json:"max_completion_tokens,omitempty"`
-	MaxTokens           NullableInt32             `json:"max_tokens,omitempty"`
-	MaxToolIterations   NullableInt32             `json:"max_tool_iterations,omitempty"`
-	McpServerIds        []string                  `json:"mcp_server_ids,omitempty"`
-	McpServers          []McpServerConfig         `json:"mcp_servers,omitempty"`
-	Messages            []ChatMessageInput        `json:"messages"`
-	Model               string                    `json:"model"`
-	N                   NullableInt32             `json:"n,omitempty"`
-	ParallelToolCalls   NullableBool              `json:"parallel_tool_calls,omitempty"`
-	PresencePenalty     NullableFloat32           `json:"presence_penalty,omitempty"`
-	ReasoningEffort     NullableString            `json:"reasoning_effort,omitempty"`
-	ResponseFormat      map[string]interface{}    `json:"response_format,omitempty"`
-	Seed                NullableInt32             `json:"seed,omitempty"`
-	Stop                NullableStop              `json:"stop,omitempty"`
-	Stream              *bool                     `json:"stream,omitempty"`
-	StreamOptions       map[string]interface{}    `json:"stream_options,omitempty"`
-	Temperature         NullableFloat32           `json:"temperature,omitempty"`
-	ToolChoice          NullableToolChoice        `json:"tool_choice,omitempty"`
-	Tools               []*map[string]interface{} `json:"tools,omitempty"`
+	FrequencyPenalty    NullableFloat32                   `json:"frequency_penalty,omitempty"`
+	Guardrails          []GuardrailConfig                 `json:"guardrails,omitempty"`
+	LogitBias           map[string]float32                `json:"logit_bias,omitempty"`
+	Logprobs            NullableBool                      `json:"logprobs,omitempty"`
+	MaxCompletionTokens NullableInt32                     `json:"max_completion_tokens,omitempty"`
+	MaxTokens           NullableInt32                     `json:"max_tokens,omitempty"`
+	MaxToolIterations   NullableInt32                     `json:"max_tool_iterations,omitempty"`
+	McpServerIds        []string                          `json:"mcp_server_ids,omitempty"`
+	McpServers          []McpServerConfig                 `json:"mcp_servers,omitempty"`
+	Messages            []ChatMessageInput                `json:"messages"`
+	Model               string                            `json:"model"`
+	N                   NullableInt32                     `json:"n,omitempty"`
+	ParallelToolCalls   NullableBool                      `json:"parallel_tool_calls,omitempty"`
+	PresencePenalty     NullableFloat32                   `json:"presence_penalty,omitempty"`
+	ReasoningEffort     NullableString                    `json:"reasoning_effort,omitempty"`
+	ResponseFormat      map[string]interface{}            `json:"response_format,omitempty"`
+	Seed                NullableInt32                     `json:"seed,omitempty"`
+	Stop                NullableStop                      `json:"stop,omitempty"`
+	Stream              *bool                             `json:"stream,omitempty"`
+	StreamOptions       map[string]interface{}            `json:"stream_options,omitempty"`
+	Temperature         NullableFloat32                   `json:"temperature,omitempty"`
+	ToolChoice          NullableToolChoice                `json:"tool_choice,omitempty"`
+	Tools               []ChatCompletionRequestToolsInner `json:"tools,omitempty"`
 	// Optional override for the lead-in that the gateway prepends before the per-tool hint block in the system message. Useful for expressing global tool-selection policy (e.g. 'prefer MCP tools over code_execution'). Falls back to OTARI_TOOLS_HEADER env, then to the built-in default.
 	ToolsHeader NullableString  `json:"tools_header,omitempty"`
 	TopLogprobs NullableInt32   `json:"top_logprobs,omitempty"`
@@ -914,9 +914,9 @@ func (o *ChatCompletionRequest) UnsetToolChoice() {
 }
 
 // GetTools returns the Tools field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ChatCompletionRequest) GetTools() []*map[string]interface{} {
+func (o *ChatCompletionRequest) GetTools() []ChatCompletionRequestToolsInner {
 	if o == nil {
-		var ret []*map[string]interface{}
+		var ret []ChatCompletionRequestToolsInner
 		return ret
 	}
 	return o.Tools
@@ -925,7 +925,7 @@ func (o *ChatCompletionRequest) GetTools() []*map[string]interface{} {
 // GetToolsOk returns a tuple with the Tools field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ChatCompletionRequest) GetToolsOk() ([]*map[string]interface{}, bool) {
+func (o *ChatCompletionRequest) GetToolsOk() ([]ChatCompletionRequestToolsInner, bool) {
 	if o == nil || IsNil(o.Tools) {
 		return nil, false
 	}
@@ -941,8 +941,8 @@ func (o *ChatCompletionRequest) HasTools() bool {
 	return false
 }
 
-// SetTools gets a reference to the given []*map[string]interface{} and assigns it to the Tools field.
-func (o *ChatCompletionRequest) SetTools(v []*map[string]interface{}) {
+// SetTools gets a reference to the given []ChatCompletionRequestToolsInner and assigns it to the Tools field.
+func (o *ChatCompletionRequest) SetTools(v []ChatCompletionRequestToolsInner) {
 	o.Tools = v
 }
 

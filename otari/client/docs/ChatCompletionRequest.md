@@ -26,7 +26,7 @@ Name | Type | Description | Notes
 **StreamOptions** | Pointer to **map[string]interface{}** |  | [optional] 
 **Temperature** | Pointer to **NullableFloat32** |  | [optional] 
 **ToolChoice** | Pointer to [**NullableToolChoice**](ToolChoice.md) |  | [optional] 
-**Tools** | Pointer to **[]map[string]interface{}** |  | [optional] 
+**Tools** | Pointer to [**[]ChatCompletionRequestToolsInner**](ChatCompletionRequestToolsInner.md) |  | [optional] 
 **ToolsHeader** | Pointer to **NullableString** | Optional override for the lead-in that the gateway prepends before the per-tool hint block in the system message. Useful for expressing global tool-selection policy (e.g. &#39;prefer MCP tools over code_execution&#39;). Falls back to OTARI_TOOLS_HEADER env, then to the built-in default. | [optional] 
 **TopLogprobs** | Pointer to **NullableInt32** |  | [optional] 
 **TopP** | Pointer to **NullableFloat32** |  | [optional] 
@@ -783,20 +783,20 @@ HasToolChoice returns a boolean if a field has been set.
 UnsetToolChoice ensures that no value is present for ToolChoice, not even an explicit nil
 ### GetTools
 
-`func (o *ChatCompletionRequest) GetTools() []*map[string]interface{}`
+`func (o *ChatCompletionRequest) GetTools() []ChatCompletionRequestToolsInner`
 
 GetTools returns the Tools field if non-nil, zero value otherwise.
 
 ### GetToolsOk
 
-`func (o *ChatCompletionRequest) GetToolsOk() (*[]*map[string]interface{}, bool)`
+`func (o *ChatCompletionRequest) GetToolsOk() (*[]ChatCompletionRequestToolsInner, bool)`
 
 GetToolsOk returns a tuple with the Tools field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTools
 
-`func (o *ChatCompletionRequest) SetTools(v []*map[string]interface{})`
+`func (o *ChatCompletionRequest) SetTools(v []ChatCompletionRequestToolsInner)`
 
 SetTools sets Tools field to given value.
 

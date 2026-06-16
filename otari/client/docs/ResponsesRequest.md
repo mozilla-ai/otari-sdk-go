@@ -31,7 +31,7 @@ Name | Type | Description | Notes
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
 **StreamOptions** | Pointer to **map[string]interface{}** |  | [optional] 
 **Temperature** | Pointer to **NullableFloat32** |  | [optional] 
-**Text** | Pointer to [**NullableAnyOf**](anyOf&lt;&gt;.md) |  | [optional] 
+**Text** | Pointer to **map[string]interface{}** |  | [optional] 
 **ToolChoice** | Pointer to [**NullableToolChoice1**](ToolChoice1.md) |  | [optional] 
 **Tools** | Pointer to **[]map[string]interface{}** |  | [optional] 
 **ToolsHeader** | Pointer to **NullableString** |  | [optional] 
@@ -976,20 +976,20 @@ HasTemperature returns a boolean if a field has been set.
 UnsetTemperature ensures that no value is present for Temperature, not even an explicit nil
 ### GetText
 
-`func (o *ResponsesRequest) GetText() AnyOf`
+`func (o *ResponsesRequest) GetText() map[string]interface{}`
 
 GetText returns the Text field if non-nil, zero value otherwise.
 
 ### GetTextOk
 
-`func (o *ResponsesRequest) GetTextOk() (*AnyOf, bool)`
+`func (o *ResponsesRequest) GetTextOk() (*map[string]interface{}, bool)`
 
 GetTextOk returns a tuple with the Text field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetText
 
-`func (o *ResponsesRequest) SetText(v AnyOf)`
+`func (o *ResponsesRequest) SetText(v map[string]interface{})`
 
 SetText sets Text field to given value.
 

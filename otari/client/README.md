@@ -155,6 +155,7 @@ Class | Method | HTTP request | Description
  - [ChatCompletion](docs/ChatCompletion.md)
  - [ChatCompletionChunk](docs/ChatCompletionChunk.md)
  - [ChatCompletionRequest](docs/ChatCompletionRequest.md)
+ - [ChatCompletionRequestToolsInner](docs/ChatCompletionRequestToolsInner.md)
  - [ChatMessageInput](docs/ChatMessageInput.md)
  - [Content](docs/Content.md)
  - [Content1](docs/Content1.md)
