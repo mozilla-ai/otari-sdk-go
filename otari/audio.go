@@ -73,16 +73,14 @@ type TranscriptionParams struct {
 	Extra    map[string]any
 }
 
-// TranscriptionResult is the result of a transcription request. The gateway
-// returns JSON for json/verbose_json response formats and plain text for
-// text/srt/vtt. JSON holds the decoded object when the response is JSON
-// (otherwise nil); Text holds the raw response body decoded as a string for the
-// text/srt/vtt formats (otherwise empty). Body always holds the raw response
-// bytes.
+// TranscriptionResult is the result of a transcription request. Exactly one
+// field is populated, chosen by the gateway response's Content-Type: JSON holds
+// the decoded object for the json/verbose_json formats (otherwise nil); Text
+// holds the response body decoded as a string for the text/srt/vtt formats
+// (otherwise empty).
 type TranscriptionResult struct {
 	JSON map[string]any
 	Text string
-	Body []byte
 }
 
 // Transcription transcribes audio to text via POST /v1/audio/transcriptions.
@@ -93,8 +91,7 @@ type TranscriptionResult struct {
 // (reusing the per-mode auth default header and unified error mapping).
 //
 // For JSON response formats the result's JSON field holds the decoded object;
-// for text/srt/vtt formats the Text field holds the raw text. Body always holds
-// the raw response bytes so callers can decode an unexpected shape themselves.
+// for text/srt/vtt formats the Text field holds the raw text.
 func (c *Client) Transcription(
 	ctx context.Context,
 	params TranscriptionParams,
@@ -137,7 +134,7 @@ func (c *Client) Transcription(
 		return nil, err
 	}
 
-	result := &TranscriptionResult{Body: body}
+	result := &TranscriptionResult{}
 	if strings.Contains(resp.Header.Get(contentTypeHeader), "application/json") {
 		if err := json.Unmarshal(body, &result.JSON); err != nil {
 			return nil, newProviderError(providerName, fmt.Errorf("decode response: %w", err))
