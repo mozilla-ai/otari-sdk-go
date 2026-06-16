@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+
+	"github.com/mozilla-ai/otari-sdk-go/otari/client"
 )
 
 // ImageGenerationParams are the parameters for POST /v1/images/generations.
@@ -28,14 +30,14 @@ func imageGenerationBody(params ImageGenerationParams) map[string]any {
 // ImageGeneration generates images from a text prompt via
 // POST /v1/images/generations.
 //
-// The gateway returns an OpenAI-compatible image payload
-// (a map with "created" and "data"). The generated core models this response as
-// an opaque object, so the decoded JSON is returned as a map (matching Message
-// and Response).
+// The gateway returns an OpenAI-compatible image payload, modeled by the
+// generated *client.ImagesResponse (Created plus a Data slice of images, each
+// carrying Url / B64Json / RevisedPrompt). This mirrors Rerank and the control
+// plane resources, which also return the typed generated models.
 func (c *Client) ImageGeneration(
 	ctx context.Context,
 	params ImageGenerationParams,
-) (map[string]any, error) {
+) (*client.ImagesResponse, error) {
 	if params.Model == "" {
 		return nil, newInvalidRequestError(providerName, fmt.Errorf("model is required"))
 	}
@@ -43,9 +45,9 @@ func (c *Client) ImageGeneration(
 		return nil, newInvalidRequestError(providerName, fmt.Errorf("prompt is required"))
 	}
 
-	var out map[string]any
+	var out client.ImagesResponse
 	if err := c.doJSON(ctx, http.MethodPost, "/images/generations", imageGenerationBody(params), &out, ""); err != nil {
 		return nil, err
 	}
-	return out, nil
+	return &out, nil
 }

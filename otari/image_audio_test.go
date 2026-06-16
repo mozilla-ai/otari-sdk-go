@@ -46,10 +46,9 @@ func TestImageGeneration(t *testing.T) {
 		Extra:  map[string]any{"size": "1024x1024"},
 	})
 	require.NoError(t, err)
-	require.Equal(t, float64(123), out["created"])
-	data, ok := out["data"].([]any)
-	require.True(t, ok)
-	require.Len(t, data, 1)
+	require.Equal(t, int32(123), out.Created)
+	require.Len(t, out.Data, 1)
+	require.Equal(t, "https://img.example/1.png", out.Data[0].GetUrl())
 
 	mu.Lock()
 	defer mu.Unlock()
