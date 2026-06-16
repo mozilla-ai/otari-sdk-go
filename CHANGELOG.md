@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/mozilla-ai/otari-sdk-go/compare/otari-sdk-go-v0.1.1...otari-sdk-go-v0.2.0) (2026-06-16)
+
+
+### Features
+
+* add image generation and audio (speech/transcription) methods ([#15](https://github.com/mozilla-ai/otari-sdk-go/issues/15)) ([8d2660d](https://github.com/mozilla-ai/otari-sdk-go/commit/8d2660db1d5713e2245cab790bd116bf4a4d6de4))
+
 ## [0.1.1](https://github.com/mozilla-ai/otari-sdk-go/compare/otari-sdk-go-v0.1.0...otari-sdk-go-v0.1.1) (2026-06-12)
 
 
