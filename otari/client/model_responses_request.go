@@ -47,7 +47,7 @@ type ResponsesRequest struct {
 	Stream               *bool                    `json:"stream,omitempty"`
 	StreamOptions        map[string]interface{}   `json:"stream_options,omitempty"`
 	Temperature          NullableFloat32          `json:"temperature,omitempty"`
-	Text                 NullableAnyOf            `json:"text,omitempty"`
+	Text                 map[string]interface{}   `json:"text,omitempty"`
 	ToolChoice           NullableToolChoice1      `json:"tool_choice,omitempty"`
 	Tools                []map[string]interface{} `json:"tools,omitempty"`
 	ToolsHeader          NullableString           `json:"tools_header,omitempty"`
@@ -1118,46 +1118,36 @@ func (o *ResponsesRequest) UnsetTemperature() {
 }
 
 // GetText returns the Text field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ResponsesRequest) GetText() AnyOf {
-	if o == nil || IsNil(o.Text.Get()) {
-		var ret AnyOf
+func (o *ResponsesRequest) GetText() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
 		return ret
 	}
-	return *o.Text.Get()
+	return o.Text
 }
 
 // GetTextOk returns a tuple with the Text field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ResponsesRequest) GetTextOk() (*AnyOf, bool) {
-	if o == nil {
-		return nil, false
+func (o *ResponsesRequest) GetTextOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.Text) {
+		return map[string]interface{}{}, false
 	}
-	return o.Text.Get(), o.Text.IsSet()
+	return o.Text, true
 }
 
 // HasText returns a boolean if a field has been set.
 func (o *ResponsesRequest) HasText() bool {
-	if o != nil && o.Text.IsSet() {
+	if o != nil && !IsNil(o.Text) {
 		return true
 	}
 
 	return false
 }
 
-// SetText gets a reference to the given NullableAnyOf and assigns it to the Text field.
-func (o *ResponsesRequest) SetText(v AnyOf) {
-	o.Text.Set(&v)
-}
-
-// SetTextNil sets the value for Text to be an explicit nil
-func (o *ResponsesRequest) SetTextNil() {
-	o.Text.Set(nil)
-}
-
-// UnsetText ensures that no value is present for Text, not even an explicit nil
-func (o *ResponsesRequest) UnsetText() {
-	o.Text.Unset()
+// SetText gets a reference to the given map[string]interface{} and assigns it to the Text field.
+func (o *ResponsesRequest) SetText(v map[string]interface{}) {
+	o.Text = v
 }
 
 // GetToolChoice returns the ToolChoice field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -1540,8 +1530,8 @@ func (o ResponsesRequest) ToMap() (map[string]interface{}, error) {
 	if o.Temperature.IsSet() {
 		toSerialize["temperature"] = o.Temperature.Get()
 	}
-	if o.Text.IsSet() {
-		toSerialize["text"] = o.Text.Get()
+	if o.Text != nil {
+		toSerialize["text"] = o.Text
 	}
 	if o.ToolChoice.IsSet() {
 		toSerialize["tool_choice"] = o.ToolChoice.Get()
