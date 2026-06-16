@@ -1,4 +1,4 @@
-# System1
+# Stop
 
 ## Properties
 
@@ -7,20 +7,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewSystem1
+### NewStop
 
-`func NewSystem1() *System1`
+`func NewStop() *Stop`
 
-NewSystem1 instantiates a new System1 object
+NewStop instantiates a new Stop object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewSystem1WithDefaults
+### NewStopWithDefaults
 
-`func NewSystem1WithDefaults() *System1`
+`func NewStopWithDefaults() *Stop`
 
-NewSystem1WithDefaults instantiates a new System1 object
+NewStopWithDefaults instantiates a new Stop object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

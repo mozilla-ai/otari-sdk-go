@@ -4,7 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**FrequencyPenalty** | Pointer to **NullableFloat32** |  | [optional] 
 **Guardrails** | Pointer to [**[]GuardrailConfig**](GuardrailConfig.md) |  | [optional] 
+**LogitBias** | Pointer to **map[string]float32** |  | [optional] 
+**Logprobs** | Pointer to **NullableBool** |  | [optional] 
 **MaxCompletionTokens** | Pointer to **NullableInt32** |  | [optional] 
 **MaxTokens** | Pointer to **NullableInt32** |  | [optional] 
 **MaxToolIterations** | Pointer to **NullableInt32** |  | [optional] 
@@ -12,13 +15,20 @@ Name | Type | Description | Notes
 **McpServers** | Pointer to [**[]McpServerConfig**](McpServerConfig.md) |  | [optional] 
 **Messages** | [**[]ChatMessageInput**](ChatMessageInput.md) |  | 
 **Model** | **string** |  | 
+**N** | Pointer to **NullableInt32** |  | [optional] 
+**ParallelToolCalls** | Pointer to **NullableBool** |  | [optional] 
+**PresencePenalty** | Pointer to **NullableFloat32** |  | [optional] 
+**ReasoningEffort** | Pointer to **NullableString** |  | [optional] 
 **ResponseFormat** | Pointer to **map[string]interface{}** |  | [optional] 
+**Seed** | Pointer to **NullableInt32** |  | [optional] 
+**Stop** | Pointer to [**NullableStop**](Stop.md) |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
 **StreamOptions** | Pointer to **map[string]interface{}** |  | [optional] 
 **Temperature** | Pointer to **NullableFloat32** |  | [optional] 
 **ToolChoice** | Pointer to [**NullableToolChoice**](ToolChoice.md) |  | [optional] 
 **Tools** | Pointer to **[]map[string]interface{}** |  | [optional] 
-**ToolsHeader** | Pointer to **NullableString** | Optional override for the lead-in that the gateway prepends before the per-tool hint block in the system message. Useful for expressing global tool-selection policy (e.g. &#39;prefer MCP tools over code_execution&#39;). Falls back to GATEWAY_TOOLS_HEADER env, then to the built-in default. | [optional] 
+**ToolsHeader** | Pointer to **NullableString** | Optional override for the lead-in that the gateway prepends before the per-tool hint block in the system message. Useful for expressing global tool-selection policy (e.g. &#39;prefer MCP tools over code_execution&#39;). Falls back to OTARI_TOOLS_HEADER env, then to the built-in default. | [optional] 
+**TopLogprobs** | Pointer to **NullableInt32** |  | [optional] 
 **TopP** | Pointer to **NullableFloat32** |  | [optional] 
 **User** | Pointer to **NullableString** |  | [optional] 
 
@@ -41,6 +51,41 @@ NewChatCompletionRequestWithDefaults instantiates a new ChatCompletionRequest ob
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetFrequencyPenalty
+
+`func (o *ChatCompletionRequest) GetFrequencyPenalty() float32`
+
+GetFrequencyPenalty returns the FrequencyPenalty field if non-nil, zero value otherwise.
+
+### GetFrequencyPenaltyOk
+
+`func (o *ChatCompletionRequest) GetFrequencyPenaltyOk() (*float32, bool)`
+
+GetFrequencyPenaltyOk returns a tuple with the FrequencyPenalty field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFrequencyPenalty
+
+`func (o *ChatCompletionRequest) SetFrequencyPenalty(v float32)`
+
+SetFrequencyPenalty sets FrequencyPenalty field to given value.
+
+### HasFrequencyPenalty
+
+`func (o *ChatCompletionRequest) HasFrequencyPenalty() bool`
+
+HasFrequencyPenalty returns a boolean if a field has been set.
+
+### SetFrequencyPenaltyNil
+
+`func (o *ChatCompletionRequest) SetFrequencyPenaltyNil(b bool)`
+
+ SetFrequencyPenaltyNil sets the value for FrequencyPenalty to be an explicit nil
+
+### UnsetFrequencyPenalty
+`func (o *ChatCompletionRequest) UnsetFrequencyPenalty()`
+
+UnsetFrequencyPenalty ensures that no value is present for FrequencyPenalty, not even an explicit nil
 ### GetGuardrails
 
 `func (o *ChatCompletionRequest) GetGuardrails() []GuardrailConfig`
@@ -76,6 +121,76 @@ HasGuardrails returns a boolean if a field has been set.
 `func (o *ChatCompletionRequest) UnsetGuardrails()`
 
 UnsetGuardrails ensures that no value is present for Guardrails, not even an explicit nil
+### GetLogitBias
+
+`func (o *ChatCompletionRequest) GetLogitBias() map[string]float32`
+
+GetLogitBias returns the LogitBias field if non-nil, zero value otherwise.
+
+### GetLogitBiasOk
+
+`func (o *ChatCompletionRequest) GetLogitBiasOk() (*map[string]float32, bool)`
+
+GetLogitBiasOk returns a tuple with the LogitBias field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLogitBias
+
+`func (o *ChatCompletionRequest) SetLogitBias(v map[string]float32)`
+
+SetLogitBias sets LogitBias field to given value.
+
+### HasLogitBias
+
+`func (o *ChatCompletionRequest) HasLogitBias() bool`
+
+HasLogitBias returns a boolean if a field has been set.
+
+### SetLogitBiasNil
+
+`func (o *ChatCompletionRequest) SetLogitBiasNil(b bool)`
+
+ SetLogitBiasNil sets the value for LogitBias to be an explicit nil
+
+### UnsetLogitBias
+`func (o *ChatCompletionRequest) UnsetLogitBias()`
+
+UnsetLogitBias ensures that no value is present for LogitBias, not even an explicit nil
+### GetLogprobs
+
+`func (o *ChatCompletionRequest) GetLogprobs() bool`
+
+GetLogprobs returns the Logprobs field if non-nil, zero value otherwise.
+
+### GetLogprobsOk
+
+`func (o *ChatCompletionRequest) GetLogprobsOk() (*bool, bool)`
+
+GetLogprobsOk returns a tuple with the Logprobs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLogprobs
+
+`func (o *ChatCompletionRequest) SetLogprobs(v bool)`
+
+SetLogprobs sets Logprobs field to given value.
+
+### HasLogprobs
+
+`func (o *ChatCompletionRequest) HasLogprobs() bool`
+
+HasLogprobs returns a boolean if a field has been set.
+
+### SetLogprobsNil
+
+`func (o *ChatCompletionRequest) SetLogprobsNil(b bool)`
+
+ SetLogprobsNil sets the value for Logprobs to be an explicit nil
+
+### UnsetLogprobs
+`func (o *ChatCompletionRequest) UnsetLogprobs()`
+
+UnsetLogprobs ensures that no value is present for Logprobs, not even an explicit nil
 ### GetMaxCompletionTokens
 
 `func (o *ChatCompletionRequest) GetMaxCompletionTokens() int32`
@@ -291,6 +406,146 @@ and a boolean to check if the value has been set.
 SetModel sets Model field to given value.
 
 
+### GetN
+
+`func (o *ChatCompletionRequest) GetN() int32`
+
+GetN returns the N field if non-nil, zero value otherwise.
+
+### GetNOk
+
+`func (o *ChatCompletionRequest) GetNOk() (*int32, bool)`
+
+GetNOk returns a tuple with the N field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetN
+
+`func (o *ChatCompletionRequest) SetN(v int32)`
+
+SetN sets N field to given value.
+
+### HasN
+
+`func (o *ChatCompletionRequest) HasN() bool`
+
+HasN returns a boolean if a field has been set.
+
+### SetNNil
+
+`func (o *ChatCompletionRequest) SetNNil(b bool)`
+
+ SetNNil sets the value for N to be an explicit nil
+
+### UnsetN
+`func (o *ChatCompletionRequest) UnsetN()`
+
+UnsetN ensures that no value is present for N, not even an explicit nil
+### GetParallelToolCalls
+
+`func (o *ChatCompletionRequest) GetParallelToolCalls() bool`
+
+GetParallelToolCalls returns the ParallelToolCalls field if non-nil, zero value otherwise.
+
+### GetParallelToolCallsOk
+
+`func (o *ChatCompletionRequest) GetParallelToolCallsOk() (*bool, bool)`
+
+GetParallelToolCallsOk returns a tuple with the ParallelToolCalls field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParallelToolCalls
+
+`func (o *ChatCompletionRequest) SetParallelToolCalls(v bool)`
+
+SetParallelToolCalls sets ParallelToolCalls field to given value.
+
+### HasParallelToolCalls
+
+`func (o *ChatCompletionRequest) HasParallelToolCalls() bool`
+
+HasParallelToolCalls returns a boolean if a field has been set.
+
+### SetParallelToolCallsNil
+
+`func (o *ChatCompletionRequest) SetParallelToolCallsNil(b bool)`
+
+ SetParallelToolCallsNil sets the value for ParallelToolCalls to be an explicit nil
+
+### UnsetParallelToolCalls
+`func (o *ChatCompletionRequest) UnsetParallelToolCalls()`
+
+UnsetParallelToolCalls ensures that no value is present for ParallelToolCalls, not even an explicit nil
+### GetPresencePenalty
+
+`func (o *ChatCompletionRequest) GetPresencePenalty() float32`
+
+GetPresencePenalty returns the PresencePenalty field if non-nil, zero value otherwise.
+
+### GetPresencePenaltyOk
+
+`func (o *ChatCompletionRequest) GetPresencePenaltyOk() (*float32, bool)`
+
+GetPresencePenaltyOk returns a tuple with the PresencePenalty field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPresencePenalty
+
+`func (o *ChatCompletionRequest) SetPresencePenalty(v float32)`
+
+SetPresencePenalty sets PresencePenalty field to given value.
+
+### HasPresencePenalty
+
+`func (o *ChatCompletionRequest) HasPresencePenalty() bool`
+
+HasPresencePenalty returns a boolean if a field has been set.
+
+### SetPresencePenaltyNil
+
+`func (o *ChatCompletionRequest) SetPresencePenaltyNil(b bool)`
+
+ SetPresencePenaltyNil sets the value for PresencePenalty to be an explicit nil
+
+### UnsetPresencePenalty
+`func (o *ChatCompletionRequest) UnsetPresencePenalty()`
+
+UnsetPresencePenalty ensures that no value is present for PresencePenalty, not even an explicit nil
+### GetReasoningEffort
+
+`func (o *ChatCompletionRequest) GetReasoningEffort() string`
+
+GetReasoningEffort returns the ReasoningEffort field if non-nil, zero value otherwise.
+
+### GetReasoningEffortOk
+
+`func (o *ChatCompletionRequest) GetReasoningEffortOk() (*string, bool)`
+
+GetReasoningEffortOk returns a tuple with the ReasoningEffort field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReasoningEffort
+
+`func (o *ChatCompletionRequest) SetReasoningEffort(v string)`
+
+SetReasoningEffort sets ReasoningEffort field to given value.
+
+### HasReasoningEffort
+
+`func (o *ChatCompletionRequest) HasReasoningEffort() bool`
+
+HasReasoningEffort returns a boolean if a field has been set.
+
+### SetReasoningEffortNil
+
+`func (o *ChatCompletionRequest) SetReasoningEffortNil(b bool)`
+
+ SetReasoningEffortNil sets the value for ReasoningEffort to be an explicit nil
+
+### UnsetReasoningEffort
+`func (o *ChatCompletionRequest) UnsetReasoningEffort()`
+
+UnsetReasoningEffort ensures that no value is present for ReasoningEffort, not even an explicit nil
 ### GetResponseFormat
 
 `func (o *ChatCompletionRequest) GetResponseFormat() map[string]interface{}`
@@ -326,6 +581,76 @@ HasResponseFormat returns a boolean if a field has been set.
 `func (o *ChatCompletionRequest) UnsetResponseFormat()`
 
 UnsetResponseFormat ensures that no value is present for ResponseFormat, not even an explicit nil
+### GetSeed
+
+`func (o *ChatCompletionRequest) GetSeed() int32`
+
+GetSeed returns the Seed field if non-nil, zero value otherwise.
+
+### GetSeedOk
+
+`func (o *ChatCompletionRequest) GetSeedOk() (*int32, bool)`
+
+GetSeedOk returns a tuple with the Seed field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSeed
+
+`func (o *ChatCompletionRequest) SetSeed(v int32)`
+
+SetSeed sets Seed field to given value.
+
+### HasSeed
+
+`func (o *ChatCompletionRequest) HasSeed() bool`
+
+HasSeed returns a boolean if a field has been set.
+
+### SetSeedNil
+
+`func (o *ChatCompletionRequest) SetSeedNil(b bool)`
+
+ SetSeedNil sets the value for Seed to be an explicit nil
+
+### UnsetSeed
+`func (o *ChatCompletionRequest) UnsetSeed()`
+
+UnsetSeed ensures that no value is present for Seed, not even an explicit nil
+### GetStop
+
+`func (o *ChatCompletionRequest) GetStop() Stop`
+
+GetStop returns the Stop field if non-nil, zero value otherwise.
+
+### GetStopOk
+
+`func (o *ChatCompletionRequest) GetStopOk() (*Stop, bool)`
+
+GetStopOk returns a tuple with the Stop field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStop
+
+`func (o *ChatCompletionRequest) SetStop(v Stop)`
+
+SetStop sets Stop field to given value.
+
+### HasStop
+
+`func (o *ChatCompletionRequest) HasStop() bool`
+
+HasStop returns a boolean if a field has been set.
+
+### SetStopNil
+
+`func (o *ChatCompletionRequest) SetStopNil(b bool)`
+
+ SetStopNil sets the value for Stop to be an explicit nil
+
+### UnsetStop
+`func (o *ChatCompletionRequest) UnsetStop()`
+
+UnsetStop ensures that no value is present for Stop, not even an explicit nil
 ### GetStream
 
 `func (o *ChatCompletionRequest) GetStream() bool`
@@ -526,6 +851,41 @@ HasToolsHeader returns a boolean if a field has been set.
 `func (o *ChatCompletionRequest) UnsetToolsHeader()`
 
 UnsetToolsHeader ensures that no value is present for ToolsHeader, not even an explicit nil
+### GetTopLogprobs
+
+`func (o *ChatCompletionRequest) GetTopLogprobs() int32`
+
+GetTopLogprobs returns the TopLogprobs field if non-nil, zero value otherwise.
+
+### GetTopLogprobsOk
+
+`func (o *ChatCompletionRequest) GetTopLogprobsOk() (*int32, bool)`
+
+GetTopLogprobsOk returns a tuple with the TopLogprobs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTopLogprobs
+
+`func (o *ChatCompletionRequest) SetTopLogprobs(v int32)`
+
+SetTopLogprobs sets TopLogprobs field to given value.
+
+### HasTopLogprobs
+
+`func (o *ChatCompletionRequest) HasTopLogprobs() bool`
+
+HasTopLogprobs returns a boolean if a field has been set.
+
+### SetTopLogprobsNil
+
+`func (o *ChatCompletionRequest) SetTopLogprobsNil(b bool)`
+
+ SetTopLogprobsNil sets the value for TopLogprobs to be an explicit nil
+
+### UnsetTopLogprobs
+`func (o *ChatCompletionRequest) UnsetTopLogprobs()`
+
+UnsetTopLogprobs ensures that no value is present for TopLogprobs, not even an explicit nil
 ### GetTopP
 
 `func (o *ChatCompletionRequest) GetTopP() float32`

@@ -1,7 +1,7 @@
 /*
-otari-gateway
+otari
 
-A clean FastAPI gateway for otari with API key management
+Otari, an OpenAI-compatible LLM gateway with API key management
 
 API version: 0.0.0-dev
 */
@@ -18,17 +18,42 @@ import (
 // checks if the ResponsesRequest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ResponsesRequest{}
 
-// ResponsesRequest OpenAI Responses API-compatible request.  Gateway-internal fields (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) opt the request into gateway-managed MCP / sandbox / web_search / guardrails without changing the upstream wire shape. They're stripped before the request is forwarded.
+// ResponsesRequest OpenAI Responses API-compatible request.  The wire fields are derived from any-llm's “ResponsesParams“ (see “_schema_derive“) so the schema cannot silently drop a param any-llm forwards. Gateway-internal fields (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) opt the request into gateway-managed MCP / sandbox / web_search / guardrails without changing the upstream wire shape. They're stripped before the request is forwarded.
 type ResponsesRequest struct {
+	Background           NullableBool             `json:"background,omitempty"`
+	Conversation         NullableConversation     `json:"conversation,omitempty"`
+	FrequencyPenalty     NullableFloat32          `json:"frequency_penalty,omitempty"`
 	Guardrails           []GuardrailConfig        `json:"guardrails,omitempty"`
+	Include              []string                 `json:"include,omitempty"`
 	Input                interface{}              `json:"input"`
+	Instructions         NullableString           `json:"instructions,omitempty"`
+	MaxOutputTokens      NullableInt32            `json:"max_output_tokens,omitempty"`
+	MaxToolCalls         NullableInt32            `json:"max_tool_calls,omitempty"`
 	MaxToolIterations    NullableInt32            `json:"max_tool_iterations,omitempty"`
 	McpServerIds         []string                 `json:"mcp_server_ids,omitempty"`
 	McpServers           []McpServerConfig        `json:"mcp_servers,omitempty"`
+	Metadata             map[string]string        `json:"metadata,omitempty"`
 	Model                string                   `json:"model"`
+	ParallelToolCalls    NullableBool             `json:"parallel_tool_calls,omitempty"`
+	PresencePenalty      NullableFloat32          `json:"presence_penalty,omitempty"`
+	PreviousResponseId   NullableString           `json:"previous_response_id,omitempty"`
+	PromptCacheKey       NullableString           `json:"prompt_cache_key,omitempty"`
+	PromptCacheRetention NullableString           `json:"prompt_cache_retention,omitempty"`
+	Reasoning            map[string]interface{}   `json:"reasoning,omitempty"`
+	ResponseFormat       map[string]interface{}   `json:"response_format,omitempty"`
+	SafetyIdentifier     NullableString           `json:"safety_identifier,omitempty"`
+	ServiceTier          NullableString           `json:"service_tier,omitempty"`
+	Store                NullableBool             `json:"store,omitempty"`
 	Stream               *bool                    `json:"stream,omitempty"`
+	StreamOptions        map[string]interface{}   `json:"stream_options,omitempty"`
+	Temperature          NullableFloat32          `json:"temperature,omitempty"`
+	Text                 NullableAnyOf            `json:"text,omitempty"`
+	ToolChoice           NullableToolChoice1      `json:"tool_choice,omitempty"`
 	Tools                []map[string]interface{} `json:"tools,omitempty"`
 	ToolsHeader          NullableString           `json:"tools_header,omitempty"`
+	TopLogprobs          NullableInt32            `json:"top_logprobs,omitempty"`
+	TopP                 NullableFloat32          `json:"top_p,omitempty"`
+	Truncation           NullableString           `json:"truncation,omitempty"`
 	User                 NullableString           `json:"user,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -56,6 +81,135 @@ func NewResponsesRequestWithDefaults() *ResponsesRequest {
 	var stream bool = false
 	this.Stream = &stream
 	return &this
+}
+
+// GetBackground returns the Background field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetBackground() bool {
+	if o == nil || IsNil(o.Background.Get()) {
+		var ret bool
+		return ret
+	}
+	return *o.Background.Get()
+}
+
+// GetBackgroundOk returns a tuple with the Background field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetBackgroundOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Background.Get(), o.Background.IsSet()
+}
+
+// HasBackground returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasBackground() bool {
+	if o != nil && o.Background.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetBackground gets a reference to the given NullableBool and assigns it to the Background field.
+func (o *ResponsesRequest) SetBackground(v bool) {
+	o.Background.Set(&v)
+}
+
+// SetBackgroundNil sets the value for Background to be an explicit nil
+func (o *ResponsesRequest) SetBackgroundNil() {
+	o.Background.Set(nil)
+}
+
+// UnsetBackground ensures that no value is present for Background, not even an explicit nil
+func (o *ResponsesRequest) UnsetBackground() {
+	o.Background.Unset()
+}
+
+// GetConversation returns the Conversation field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetConversation() Conversation {
+	if o == nil || IsNil(o.Conversation.Get()) {
+		var ret Conversation
+		return ret
+	}
+	return *o.Conversation.Get()
+}
+
+// GetConversationOk returns a tuple with the Conversation field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetConversationOk() (*Conversation, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Conversation.Get(), o.Conversation.IsSet()
+}
+
+// HasConversation returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasConversation() bool {
+	if o != nil && o.Conversation.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetConversation gets a reference to the given NullableConversation and assigns it to the Conversation field.
+func (o *ResponsesRequest) SetConversation(v Conversation) {
+	o.Conversation.Set(&v)
+}
+
+// SetConversationNil sets the value for Conversation to be an explicit nil
+func (o *ResponsesRequest) SetConversationNil() {
+	o.Conversation.Set(nil)
+}
+
+// UnsetConversation ensures that no value is present for Conversation, not even an explicit nil
+func (o *ResponsesRequest) UnsetConversation() {
+	o.Conversation.Unset()
+}
+
+// GetFrequencyPenalty returns the FrequencyPenalty field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetFrequencyPenalty() float32 {
+	if o == nil || IsNil(o.FrequencyPenalty.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.FrequencyPenalty.Get()
+}
+
+// GetFrequencyPenaltyOk returns a tuple with the FrequencyPenalty field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetFrequencyPenaltyOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.FrequencyPenalty.Get(), o.FrequencyPenalty.IsSet()
+}
+
+// HasFrequencyPenalty returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasFrequencyPenalty() bool {
+	if o != nil && o.FrequencyPenalty.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetFrequencyPenalty gets a reference to the given NullableFloat32 and assigns it to the FrequencyPenalty field.
+func (o *ResponsesRequest) SetFrequencyPenalty(v float32) {
+	o.FrequencyPenalty.Set(&v)
+}
+
+// SetFrequencyPenaltyNil sets the value for FrequencyPenalty to be an explicit nil
+func (o *ResponsesRequest) SetFrequencyPenaltyNil() {
+	o.FrequencyPenalty.Set(nil)
+}
+
+// UnsetFrequencyPenalty ensures that no value is present for FrequencyPenalty, not even an explicit nil
+func (o *ResponsesRequest) UnsetFrequencyPenalty() {
+	o.FrequencyPenalty.Unset()
 }
 
 // GetGuardrails returns the Guardrails field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -91,6 +245,39 @@ func (o *ResponsesRequest) SetGuardrails(v []GuardrailConfig) {
 	o.Guardrails = v
 }
 
+// GetInclude returns the Include field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetInclude() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+	return o.Include
+}
+
+// GetIncludeOk returns a tuple with the Include field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetIncludeOk() ([]string, bool) {
+	if o == nil || IsNil(o.Include) {
+		return nil, false
+	}
+	return o.Include, true
+}
+
+// HasInclude returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasInclude() bool {
+	if o != nil && !IsNil(o.Include) {
+		return true
+	}
+
+	return false
+}
+
+// SetInclude gets a reference to the given []string and assigns it to the Include field.
+func (o *ResponsesRequest) SetInclude(v []string) {
+	o.Include = v
+}
+
 // GetInput returns the Input field value
 // If the value is explicit nil, the zero value for interface{} will be returned
 func (o *ResponsesRequest) GetInput() interface{} {
@@ -115,6 +302,135 @@ func (o *ResponsesRequest) GetInputOk() (*interface{}, bool) {
 // SetInput sets field value
 func (o *ResponsesRequest) SetInput(v interface{}) {
 	o.Input = v
+}
+
+// GetInstructions returns the Instructions field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetInstructions() string {
+	if o == nil || IsNil(o.Instructions.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.Instructions.Get()
+}
+
+// GetInstructionsOk returns a tuple with the Instructions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetInstructionsOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Instructions.Get(), o.Instructions.IsSet()
+}
+
+// HasInstructions returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasInstructions() bool {
+	if o != nil && o.Instructions.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetInstructions gets a reference to the given NullableString and assigns it to the Instructions field.
+func (o *ResponsesRequest) SetInstructions(v string) {
+	o.Instructions.Set(&v)
+}
+
+// SetInstructionsNil sets the value for Instructions to be an explicit nil
+func (o *ResponsesRequest) SetInstructionsNil() {
+	o.Instructions.Set(nil)
+}
+
+// UnsetInstructions ensures that no value is present for Instructions, not even an explicit nil
+func (o *ResponsesRequest) UnsetInstructions() {
+	o.Instructions.Unset()
+}
+
+// GetMaxOutputTokens returns the MaxOutputTokens field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetMaxOutputTokens() int32 {
+	if o == nil || IsNil(o.MaxOutputTokens.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.MaxOutputTokens.Get()
+}
+
+// GetMaxOutputTokensOk returns a tuple with the MaxOutputTokens field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetMaxOutputTokensOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.MaxOutputTokens.Get(), o.MaxOutputTokens.IsSet()
+}
+
+// HasMaxOutputTokens returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasMaxOutputTokens() bool {
+	if o != nil && o.MaxOutputTokens.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetMaxOutputTokens gets a reference to the given NullableInt32 and assigns it to the MaxOutputTokens field.
+func (o *ResponsesRequest) SetMaxOutputTokens(v int32) {
+	o.MaxOutputTokens.Set(&v)
+}
+
+// SetMaxOutputTokensNil sets the value for MaxOutputTokens to be an explicit nil
+func (o *ResponsesRequest) SetMaxOutputTokensNil() {
+	o.MaxOutputTokens.Set(nil)
+}
+
+// UnsetMaxOutputTokens ensures that no value is present for MaxOutputTokens, not even an explicit nil
+func (o *ResponsesRequest) UnsetMaxOutputTokens() {
+	o.MaxOutputTokens.Unset()
+}
+
+// GetMaxToolCalls returns the MaxToolCalls field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetMaxToolCalls() int32 {
+	if o == nil || IsNil(o.MaxToolCalls.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.MaxToolCalls.Get()
+}
+
+// GetMaxToolCallsOk returns a tuple with the MaxToolCalls field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetMaxToolCallsOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.MaxToolCalls.Get(), o.MaxToolCalls.IsSet()
+}
+
+// HasMaxToolCalls returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasMaxToolCalls() bool {
+	if o != nil && o.MaxToolCalls.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetMaxToolCalls gets a reference to the given NullableInt32 and assigns it to the MaxToolCalls field.
+func (o *ResponsesRequest) SetMaxToolCalls(v int32) {
+	o.MaxToolCalls.Set(&v)
+}
+
+// SetMaxToolCallsNil sets the value for MaxToolCalls to be an explicit nil
+func (o *ResponsesRequest) SetMaxToolCallsNil() {
+	o.MaxToolCalls.Set(nil)
+}
+
+// UnsetMaxToolCalls ensures that no value is present for MaxToolCalls, not even an explicit nil
+func (o *ResponsesRequest) UnsetMaxToolCalls() {
+	o.MaxToolCalls.Unset()
 }
 
 // GetMaxToolIterations returns the MaxToolIterations field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -226,6 +542,39 @@ func (o *ResponsesRequest) SetMcpServers(v []McpServerConfig) {
 	o.McpServers = v
 }
 
+// GetMetadata returns the Metadata field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetMetadata() map[string]string {
+	if o == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Metadata
+}
+
+// GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetMetadataOk() (map[string]string, bool) {
+	if o == nil || IsNil(o.Metadata) {
+		return map[string]string{}, false
+	}
+	return o.Metadata, true
+}
+
+// HasMetadata returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasMetadata() bool {
+	if o != nil && !IsNil(o.Metadata) {
+		return true
+	}
+
+	return false
+}
+
+// SetMetadata gets a reference to the given map[string]string and assigns it to the Metadata field.
+func (o *ResponsesRequest) SetMetadata(v map[string]string) {
+	o.Metadata = v
+}
+
 // GetModel returns the Model field value
 func (o *ResponsesRequest) GetModel() string {
 	if o == nil {
@@ -248,6 +597,416 @@ func (o *ResponsesRequest) GetModelOk() (*string, bool) {
 // SetModel sets field value
 func (o *ResponsesRequest) SetModel(v string) {
 	o.Model = v
+}
+
+// GetParallelToolCalls returns the ParallelToolCalls field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetParallelToolCalls() bool {
+	if o == nil || IsNil(o.ParallelToolCalls.Get()) {
+		var ret bool
+		return ret
+	}
+	return *o.ParallelToolCalls.Get()
+}
+
+// GetParallelToolCallsOk returns a tuple with the ParallelToolCalls field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetParallelToolCallsOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParallelToolCalls.Get(), o.ParallelToolCalls.IsSet()
+}
+
+// HasParallelToolCalls returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasParallelToolCalls() bool {
+	if o != nil && o.ParallelToolCalls.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetParallelToolCalls gets a reference to the given NullableBool and assigns it to the ParallelToolCalls field.
+func (o *ResponsesRequest) SetParallelToolCalls(v bool) {
+	o.ParallelToolCalls.Set(&v)
+}
+
+// SetParallelToolCallsNil sets the value for ParallelToolCalls to be an explicit nil
+func (o *ResponsesRequest) SetParallelToolCallsNil() {
+	o.ParallelToolCalls.Set(nil)
+}
+
+// UnsetParallelToolCalls ensures that no value is present for ParallelToolCalls, not even an explicit nil
+func (o *ResponsesRequest) UnsetParallelToolCalls() {
+	o.ParallelToolCalls.Unset()
+}
+
+// GetPresencePenalty returns the PresencePenalty field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetPresencePenalty() float32 {
+	if o == nil || IsNil(o.PresencePenalty.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.PresencePenalty.Get()
+}
+
+// GetPresencePenaltyOk returns a tuple with the PresencePenalty field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetPresencePenaltyOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PresencePenalty.Get(), o.PresencePenalty.IsSet()
+}
+
+// HasPresencePenalty returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasPresencePenalty() bool {
+	if o != nil && o.PresencePenalty.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetPresencePenalty gets a reference to the given NullableFloat32 and assigns it to the PresencePenalty field.
+func (o *ResponsesRequest) SetPresencePenalty(v float32) {
+	o.PresencePenalty.Set(&v)
+}
+
+// SetPresencePenaltyNil sets the value for PresencePenalty to be an explicit nil
+func (o *ResponsesRequest) SetPresencePenaltyNil() {
+	o.PresencePenalty.Set(nil)
+}
+
+// UnsetPresencePenalty ensures that no value is present for PresencePenalty, not even an explicit nil
+func (o *ResponsesRequest) UnsetPresencePenalty() {
+	o.PresencePenalty.Unset()
+}
+
+// GetPreviousResponseId returns the PreviousResponseId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetPreviousResponseId() string {
+	if o == nil || IsNil(o.PreviousResponseId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.PreviousResponseId.Get()
+}
+
+// GetPreviousResponseIdOk returns a tuple with the PreviousResponseId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetPreviousResponseIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PreviousResponseId.Get(), o.PreviousResponseId.IsSet()
+}
+
+// HasPreviousResponseId returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasPreviousResponseId() bool {
+	if o != nil && o.PreviousResponseId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetPreviousResponseId gets a reference to the given NullableString and assigns it to the PreviousResponseId field.
+func (o *ResponsesRequest) SetPreviousResponseId(v string) {
+	o.PreviousResponseId.Set(&v)
+}
+
+// SetPreviousResponseIdNil sets the value for PreviousResponseId to be an explicit nil
+func (o *ResponsesRequest) SetPreviousResponseIdNil() {
+	o.PreviousResponseId.Set(nil)
+}
+
+// UnsetPreviousResponseId ensures that no value is present for PreviousResponseId, not even an explicit nil
+func (o *ResponsesRequest) UnsetPreviousResponseId() {
+	o.PreviousResponseId.Unset()
+}
+
+// GetPromptCacheKey returns the PromptCacheKey field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetPromptCacheKey() string {
+	if o == nil || IsNil(o.PromptCacheKey.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.PromptCacheKey.Get()
+}
+
+// GetPromptCacheKeyOk returns a tuple with the PromptCacheKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetPromptCacheKeyOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PromptCacheKey.Get(), o.PromptCacheKey.IsSet()
+}
+
+// HasPromptCacheKey returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasPromptCacheKey() bool {
+	if o != nil && o.PromptCacheKey.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetPromptCacheKey gets a reference to the given NullableString and assigns it to the PromptCacheKey field.
+func (o *ResponsesRequest) SetPromptCacheKey(v string) {
+	o.PromptCacheKey.Set(&v)
+}
+
+// SetPromptCacheKeyNil sets the value for PromptCacheKey to be an explicit nil
+func (o *ResponsesRequest) SetPromptCacheKeyNil() {
+	o.PromptCacheKey.Set(nil)
+}
+
+// UnsetPromptCacheKey ensures that no value is present for PromptCacheKey, not even an explicit nil
+func (o *ResponsesRequest) UnsetPromptCacheKey() {
+	o.PromptCacheKey.Unset()
+}
+
+// GetPromptCacheRetention returns the PromptCacheRetention field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetPromptCacheRetention() string {
+	if o == nil || IsNil(o.PromptCacheRetention.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.PromptCacheRetention.Get()
+}
+
+// GetPromptCacheRetentionOk returns a tuple with the PromptCacheRetention field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetPromptCacheRetentionOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PromptCacheRetention.Get(), o.PromptCacheRetention.IsSet()
+}
+
+// HasPromptCacheRetention returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasPromptCacheRetention() bool {
+	if o != nil && o.PromptCacheRetention.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetPromptCacheRetention gets a reference to the given NullableString and assigns it to the PromptCacheRetention field.
+func (o *ResponsesRequest) SetPromptCacheRetention(v string) {
+	o.PromptCacheRetention.Set(&v)
+}
+
+// SetPromptCacheRetentionNil sets the value for PromptCacheRetention to be an explicit nil
+func (o *ResponsesRequest) SetPromptCacheRetentionNil() {
+	o.PromptCacheRetention.Set(nil)
+}
+
+// UnsetPromptCacheRetention ensures that no value is present for PromptCacheRetention, not even an explicit nil
+func (o *ResponsesRequest) UnsetPromptCacheRetention() {
+	o.PromptCacheRetention.Unset()
+}
+
+// GetReasoning returns the Reasoning field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetReasoning() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Reasoning
+}
+
+// GetReasoningOk returns a tuple with the Reasoning field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetReasoningOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.Reasoning) {
+		return map[string]interface{}{}, false
+	}
+	return o.Reasoning, true
+}
+
+// HasReasoning returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasReasoning() bool {
+	if o != nil && !IsNil(o.Reasoning) {
+		return true
+	}
+
+	return false
+}
+
+// SetReasoning gets a reference to the given map[string]interface{} and assigns it to the Reasoning field.
+func (o *ResponsesRequest) SetReasoning(v map[string]interface{}) {
+	o.Reasoning = v
+}
+
+// GetResponseFormat returns the ResponseFormat field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetResponseFormat() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.ResponseFormat
+}
+
+// GetResponseFormatOk returns a tuple with the ResponseFormat field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetResponseFormatOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.ResponseFormat) {
+		return map[string]interface{}{}, false
+	}
+	return o.ResponseFormat, true
+}
+
+// HasResponseFormat returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasResponseFormat() bool {
+	if o != nil && !IsNil(o.ResponseFormat) {
+		return true
+	}
+
+	return false
+}
+
+// SetResponseFormat gets a reference to the given map[string]interface{} and assigns it to the ResponseFormat field.
+func (o *ResponsesRequest) SetResponseFormat(v map[string]interface{}) {
+	o.ResponseFormat = v
+}
+
+// GetSafetyIdentifier returns the SafetyIdentifier field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetSafetyIdentifier() string {
+	if o == nil || IsNil(o.SafetyIdentifier.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.SafetyIdentifier.Get()
+}
+
+// GetSafetyIdentifierOk returns a tuple with the SafetyIdentifier field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetSafetyIdentifierOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SafetyIdentifier.Get(), o.SafetyIdentifier.IsSet()
+}
+
+// HasSafetyIdentifier returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasSafetyIdentifier() bool {
+	if o != nil && o.SafetyIdentifier.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSafetyIdentifier gets a reference to the given NullableString and assigns it to the SafetyIdentifier field.
+func (o *ResponsesRequest) SetSafetyIdentifier(v string) {
+	o.SafetyIdentifier.Set(&v)
+}
+
+// SetSafetyIdentifierNil sets the value for SafetyIdentifier to be an explicit nil
+func (o *ResponsesRequest) SetSafetyIdentifierNil() {
+	o.SafetyIdentifier.Set(nil)
+}
+
+// UnsetSafetyIdentifier ensures that no value is present for SafetyIdentifier, not even an explicit nil
+func (o *ResponsesRequest) UnsetSafetyIdentifier() {
+	o.SafetyIdentifier.Unset()
+}
+
+// GetServiceTier returns the ServiceTier field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetServiceTier() string {
+	if o == nil || IsNil(o.ServiceTier.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.ServiceTier.Get()
+}
+
+// GetServiceTierOk returns a tuple with the ServiceTier field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetServiceTierOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ServiceTier.Get(), o.ServiceTier.IsSet()
+}
+
+// HasServiceTier returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasServiceTier() bool {
+	if o != nil && o.ServiceTier.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetServiceTier gets a reference to the given NullableString and assigns it to the ServiceTier field.
+func (o *ResponsesRequest) SetServiceTier(v string) {
+	o.ServiceTier.Set(&v)
+}
+
+// SetServiceTierNil sets the value for ServiceTier to be an explicit nil
+func (o *ResponsesRequest) SetServiceTierNil() {
+	o.ServiceTier.Set(nil)
+}
+
+// UnsetServiceTier ensures that no value is present for ServiceTier, not even an explicit nil
+func (o *ResponsesRequest) UnsetServiceTier() {
+	o.ServiceTier.Unset()
+}
+
+// GetStore returns the Store field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetStore() bool {
+	if o == nil || IsNil(o.Store.Get()) {
+		var ret bool
+		return ret
+	}
+	return *o.Store.Get()
+}
+
+// GetStoreOk returns a tuple with the Store field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetStoreOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Store.Get(), o.Store.IsSet()
+}
+
+// HasStore returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasStore() bool {
+	if o != nil && o.Store.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetStore gets a reference to the given NullableBool and assigns it to the Store field.
+func (o *ResponsesRequest) SetStore(v bool) {
+	o.Store.Set(&v)
+}
+
+// SetStoreNil sets the value for Store to be an explicit nil
+func (o *ResponsesRequest) SetStoreNil() {
+	o.Store.Set(nil)
+}
+
+// UnsetStore ensures that no value is present for Store, not even an explicit nil
+func (o *ResponsesRequest) UnsetStore() {
+	o.Store.Unset()
 }
 
 // GetStream returns the Stream field value if set, zero value otherwise.
@@ -280,6 +1039,168 @@ func (o *ResponsesRequest) HasStream() bool {
 // SetStream gets a reference to the given bool and assigns it to the Stream field.
 func (o *ResponsesRequest) SetStream(v bool) {
 	o.Stream = &v
+}
+
+// GetStreamOptions returns the StreamOptions field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetStreamOptions() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.StreamOptions
+}
+
+// GetStreamOptionsOk returns a tuple with the StreamOptions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetStreamOptionsOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.StreamOptions) {
+		return map[string]interface{}{}, false
+	}
+	return o.StreamOptions, true
+}
+
+// HasStreamOptions returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasStreamOptions() bool {
+	if o != nil && !IsNil(o.StreamOptions) {
+		return true
+	}
+
+	return false
+}
+
+// SetStreamOptions gets a reference to the given map[string]interface{} and assigns it to the StreamOptions field.
+func (o *ResponsesRequest) SetStreamOptions(v map[string]interface{}) {
+	o.StreamOptions = v
+}
+
+// GetTemperature returns the Temperature field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetTemperature() float32 {
+	if o == nil || IsNil(o.Temperature.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.Temperature.Get()
+}
+
+// GetTemperatureOk returns a tuple with the Temperature field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetTemperatureOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Temperature.Get(), o.Temperature.IsSet()
+}
+
+// HasTemperature returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasTemperature() bool {
+	if o != nil && o.Temperature.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetTemperature gets a reference to the given NullableFloat32 and assigns it to the Temperature field.
+func (o *ResponsesRequest) SetTemperature(v float32) {
+	o.Temperature.Set(&v)
+}
+
+// SetTemperatureNil sets the value for Temperature to be an explicit nil
+func (o *ResponsesRequest) SetTemperatureNil() {
+	o.Temperature.Set(nil)
+}
+
+// UnsetTemperature ensures that no value is present for Temperature, not even an explicit nil
+func (o *ResponsesRequest) UnsetTemperature() {
+	o.Temperature.Unset()
+}
+
+// GetText returns the Text field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetText() AnyOf {
+	if o == nil || IsNil(o.Text.Get()) {
+		var ret AnyOf
+		return ret
+	}
+	return *o.Text.Get()
+}
+
+// GetTextOk returns a tuple with the Text field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetTextOk() (*AnyOf, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Text.Get(), o.Text.IsSet()
+}
+
+// HasText returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasText() bool {
+	if o != nil && o.Text.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetText gets a reference to the given NullableAnyOf and assigns it to the Text field.
+func (o *ResponsesRequest) SetText(v AnyOf) {
+	o.Text.Set(&v)
+}
+
+// SetTextNil sets the value for Text to be an explicit nil
+func (o *ResponsesRequest) SetTextNil() {
+	o.Text.Set(nil)
+}
+
+// UnsetText ensures that no value is present for Text, not even an explicit nil
+func (o *ResponsesRequest) UnsetText() {
+	o.Text.Unset()
+}
+
+// GetToolChoice returns the ToolChoice field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetToolChoice() ToolChoice1 {
+	if o == nil || IsNil(o.ToolChoice.Get()) {
+		var ret ToolChoice1
+		return ret
+	}
+	return *o.ToolChoice.Get()
+}
+
+// GetToolChoiceOk returns a tuple with the ToolChoice field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetToolChoiceOk() (*ToolChoice1, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ToolChoice.Get(), o.ToolChoice.IsSet()
+}
+
+// HasToolChoice returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasToolChoice() bool {
+	if o != nil && o.ToolChoice.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetToolChoice gets a reference to the given NullableToolChoice1 and assigns it to the ToolChoice field.
+func (o *ResponsesRequest) SetToolChoice(v ToolChoice1) {
+	o.ToolChoice.Set(&v)
+}
+
+// SetToolChoiceNil sets the value for ToolChoice to be an explicit nil
+func (o *ResponsesRequest) SetToolChoiceNil() {
+	o.ToolChoice.Set(nil)
+}
+
+// UnsetToolChoice ensures that no value is present for ToolChoice, not even an explicit nil
+func (o *ResponsesRequest) UnsetToolChoice() {
+	o.ToolChoice.Unset()
 }
 
 // GetTools returns the Tools field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -358,6 +1279,135 @@ func (o *ResponsesRequest) UnsetToolsHeader() {
 	o.ToolsHeader.Unset()
 }
 
+// GetTopLogprobs returns the TopLogprobs field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetTopLogprobs() int32 {
+	if o == nil || IsNil(o.TopLogprobs.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.TopLogprobs.Get()
+}
+
+// GetTopLogprobsOk returns a tuple with the TopLogprobs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetTopLogprobsOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.TopLogprobs.Get(), o.TopLogprobs.IsSet()
+}
+
+// HasTopLogprobs returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasTopLogprobs() bool {
+	if o != nil && o.TopLogprobs.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetTopLogprobs gets a reference to the given NullableInt32 and assigns it to the TopLogprobs field.
+func (o *ResponsesRequest) SetTopLogprobs(v int32) {
+	o.TopLogprobs.Set(&v)
+}
+
+// SetTopLogprobsNil sets the value for TopLogprobs to be an explicit nil
+func (o *ResponsesRequest) SetTopLogprobsNil() {
+	o.TopLogprobs.Set(nil)
+}
+
+// UnsetTopLogprobs ensures that no value is present for TopLogprobs, not even an explicit nil
+func (o *ResponsesRequest) UnsetTopLogprobs() {
+	o.TopLogprobs.Unset()
+}
+
+// GetTopP returns the TopP field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetTopP() float32 {
+	if o == nil || IsNil(o.TopP.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.TopP.Get()
+}
+
+// GetTopPOk returns a tuple with the TopP field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetTopPOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.TopP.Get(), o.TopP.IsSet()
+}
+
+// HasTopP returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasTopP() bool {
+	if o != nil && o.TopP.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetTopP gets a reference to the given NullableFloat32 and assigns it to the TopP field.
+func (o *ResponsesRequest) SetTopP(v float32) {
+	o.TopP.Set(&v)
+}
+
+// SetTopPNil sets the value for TopP to be an explicit nil
+func (o *ResponsesRequest) SetTopPNil() {
+	o.TopP.Set(nil)
+}
+
+// UnsetTopP ensures that no value is present for TopP, not even an explicit nil
+func (o *ResponsesRequest) UnsetTopP() {
+	o.TopP.Unset()
+}
+
+// GetTruncation returns the Truncation field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetTruncation() string {
+	if o == nil || IsNil(o.Truncation.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.Truncation.Get()
+}
+
+// GetTruncationOk returns a tuple with the Truncation field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetTruncationOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Truncation.Get(), o.Truncation.IsSet()
+}
+
+// HasTruncation returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasTruncation() bool {
+	if o != nil && o.Truncation.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetTruncation gets a reference to the given NullableString and assigns it to the Truncation field.
+func (o *ResponsesRequest) SetTruncation(v string) {
+	o.Truncation.Set(&v)
+}
+
+// SetTruncationNil sets the value for Truncation to be an explicit nil
+func (o *ResponsesRequest) SetTruncationNil() {
+	o.Truncation.Set(nil)
+}
+
+// UnsetTruncation ensures that no value is present for Truncation, not even an explicit nil
+func (o *ResponsesRequest) UnsetTruncation() {
+	o.Truncation.Unset()
+}
+
 // GetUser returns the User field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ResponsesRequest) GetUser() string {
 	if o == nil || IsNil(o.User.Get()) {
@@ -411,11 +1461,32 @@ func (o ResponsesRequest) MarshalJSON() ([]byte, error) {
 
 func (o ResponsesRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.Background.IsSet() {
+		toSerialize["background"] = o.Background.Get()
+	}
+	if o.Conversation.IsSet() {
+		toSerialize["conversation"] = o.Conversation.Get()
+	}
+	if o.FrequencyPenalty.IsSet() {
+		toSerialize["frequency_penalty"] = o.FrequencyPenalty.Get()
+	}
 	if o.Guardrails != nil {
 		toSerialize["guardrails"] = o.Guardrails
 	}
+	if o.Include != nil {
+		toSerialize["include"] = o.Include
+	}
 	if o.Input != nil {
 		toSerialize["input"] = o.Input
+	}
+	if o.Instructions.IsSet() {
+		toSerialize["instructions"] = o.Instructions.Get()
+	}
+	if o.MaxOutputTokens.IsSet() {
+		toSerialize["max_output_tokens"] = o.MaxOutputTokens.Get()
+	}
+	if o.MaxToolCalls.IsSet() {
+		toSerialize["max_tool_calls"] = o.MaxToolCalls.Get()
 	}
 	if o.MaxToolIterations.IsSet() {
 		toSerialize["max_tool_iterations"] = o.MaxToolIterations.Get()
@@ -426,15 +1497,69 @@ func (o ResponsesRequest) ToMap() (map[string]interface{}, error) {
 	if o.McpServers != nil {
 		toSerialize["mcp_servers"] = o.McpServers
 	}
+	if o.Metadata != nil {
+		toSerialize["metadata"] = o.Metadata
+	}
 	toSerialize["model"] = o.Model
+	if o.ParallelToolCalls.IsSet() {
+		toSerialize["parallel_tool_calls"] = o.ParallelToolCalls.Get()
+	}
+	if o.PresencePenalty.IsSet() {
+		toSerialize["presence_penalty"] = o.PresencePenalty.Get()
+	}
+	if o.PreviousResponseId.IsSet() {
+		toSerialize["previous_response_id"] = o.PreviousResponseId.Get()
+	}
+	if o.PromptCacheKey.IsSet() {
+		toSerialize["prompt_cache_key"] = o.PromptCacheKey.Get()
+	}
+	if o.PromptCacheRetention.IsSet() {
+		toSerialize["prompt_cache_retention"] = o.PromptCacheRetention.Get()
+	}
+	if o.Reasoning != nil {
+		toSerialize["reasoning"] = o.Reasoning
+	}
+	if o.ResponseFormat != nil {
+		toSerialize["response_format"] = o.ResponseFormat
+	}
+	if o.SafetyIdentifier.IsSet() {
+		toSerialize["safety_identifier"] = o.SafetyIdentifier.Get()
+	}
+	if o.ServiceTier.IsSet() {
+		toSerialize["service_tier"] = o.ServiceTier.Get()
+	}
+	if o.Store.IsSet() {
+		toSerialize["store"] = o.Store.Get()
+	}
 	if !IsNil(o.Stream) {
 		toSerialize["stream"] = o.Stream
+	}
+	if o.StreamOptions != nil {
+		toSerialize["stream_options"] = o.StreamOptions
+	}
+	if o.Temperature.IsSet() {
+		toSerialize["temperature"] = o.Temperature.Get()
+	}
+	if o.Text.IsSet() {
+		toSerialize["text"] = o.Text.Get()
+	}
+	if o.ToolChoice.IsSet() {
+		toSerialize["tool_choice"] = o.ToolChoice.Get()
 	}
 	if o.Tools != nil {
 		toSerialize["tools"] = o.Tools
 	}
 	if o.ToolsHeader.IsSet() {
 		toSerialize["tools_header"] = o.ToolsHeader.Get()
+	}
+	if o.TopLogprobs.IsSet() {
+		toSerialize["top_logprobs"] = o.TopLogprobs.Get()
+	}
+	if o.TopP.IsSet() {
+		toSerialize["top_p"] = o.TopP.Get()
+	}
+	if o.Truncation.IsSet() {
+		toSerialize["truncation"] = o.Truncation.Get()
 	}
 	if o.User.IsSet() {
 		toSerialize["user"] = o.User.Get()
@@ -483,15 +1608,40 @@ func (o *ResponsesRequest) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "background")
+		delete(additionalProperties, "conversation")
+		delete(additionalProperties, "frequency_penalty")
 		delete(additionalProperties, "guardrails")
+		delete(additionalProperties, "include")
 		delete(additionalProperties, "input")
+		delete(additionalProperties, "instructions")
+		delete(additionalProperties, "max_output_tokens")
+		delete(additionalProperties, "max_tool_calls")
 		delete(additionalProperties, "max_tool_iterations")
 		delete(additionalProperties, "mcp_server_ids")
 		delete(additionalProperties, "mcp_servers")
+		delete(additionalProperties, "metadata")
 		delete(additionalProperties, "model")
+		delete(additionalProperties, "parallel_tool_calls")
+		delete(additionalProperties, "presence_penalty")
+		delete(additionalProperties, "previous_response_id")
+		delete(additionalProperties, "prompt_cache_key")
+		delete(additionalProperties, "prompt_cache_retention")
+		delete(additionalProperties, "reasoning")
+		delete(additionalProperties, "response_format")
+		delete(additionalProperties, "safety_identifier")
+		delete(additionalProperties, "service_tier")
+		delete(additionalProperties, "store")
 		delete(additionalProperties, "stream")
+		delete(additionalProperties, "stream_options")
+		delete(additionalProperties, "temperature")
+		delete(additionalProperties, "text")
+		delete(additionalProperties, "tool_choice")
 		delete(additionalProperties, "tools")
 		delete(additionalProperties, "tools_header")
+		delete(additionalProperties, "top_logprobs")
+		delete(additionalProperties, "top_p")
+		delete(additionalProperties, "truncation")
 		delete(additionalProperties, "user")
 		o.AdditionalProperties = additionalProperties
 	}

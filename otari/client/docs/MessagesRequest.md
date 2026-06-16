@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **Model** | **string** |  | 
 **StopSequences** | Pointer to **[]string** |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
-**System** | Pointer to [**NullableSystem1**](System1.md) |  | [optional] 
+**System** | Pointer to [**NullableSystem**](System.md) |  | [optional] 
 **Temperature** | Pointer to **NullableFloat32** |  | [optional] 
 **Thinking** | Pointer to **map[string]interface{}** |  | [optional] 
 **ToolChoice** | Pointer to **map[string]interface{}** |  | [optional] 
@@ -375,20 +375,20 @@ HasStream returns a boolean if a field has been set.
 
 ### GetSystem
 
-`func (o *MessagesRequest) GetSystem() System1`
+`func (o *MessagesRequest) GetSystem() System`
 
 GetSystem returns the System field if non-nil, zero value otherwise.
 
 ### GetSystemOk
 
-`func (o *MessagesRequest) GetSystemOk() (*System1, bool)`
+`func (o *MessagesRequest) GetSystemOk() (*System, bool)`
 
 GetSystemOk returns a tuple with the System field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSystem
 
-`func (o *MessagesRequest) SetSystem(v System1)`
+`func (o *MessagesRequest) SetSystem(v System)`
 
 SetSystem sets System field to given value.
 
