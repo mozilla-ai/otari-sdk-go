@@ -2,11 +2,34 @@ package otari
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"time"
 
 	"github.com/mozilla-ai/otari-sdk-go/otari/client"
 )
+
+// translate maps a generated control-plane error onto the SDK's typed error
+// hierarchy, so management calls (keys/users/budgets/pricing/usage) classify
+// the same way as inference via errors.Is/errors.As. When the generated call
+// returns an error for an HTTP error status (>= 400), it surfaces the
+// corresponding typed error (e.g. *AuthenticationError, *RateLimitError)
+// instead of the raw *client.GenericOpenAPIError. Transport-level failures
+// (no response) and successes pass through unchanged.
+func translate(resp *http.Response, err error) error {
+	if err == nil {
+		return nil
+	}
+	if resp == nil || resp.StatusCode < 400 {
+		return err
+	}
+	var body []byte
+	var apiErr client.GenericOpenAPIError
+	if errors.As(err, &apiErr) {
+		body = apiErr.Body()
+	}
+	return mapHTTPError(resp.StatusCode, resp.Header, body, "")
+}
 
 // ControlPlaneClient is a typed client for the gateway management endpoints
 // (API keys, users, budgets, pricing, usage).
@@ -40,11 +63,13 @@ type ControlPlaneClient struct {
 type KeysResource struct{ api *client.KeysAPIService }
 
 func (r KeysResource) Create(ctx context.Context, req client.CreateKeyRequest) (*client.CreateKeyResponse, *http.Response, error) {
-	return r.api.CreateKeyV1KeysPost(ctx).CreateKeyRequest(req).Execute()
+	v, resp, err := r.api.CreateKeyV1KeysPost(ctx).CreateKeyRequest(req).Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r KeysResource) Get(ctx context.Context, keyID string) (*client.KeyInfo, *http.Response, error) {
-	return r.api.GetKeyV1KeysKeyIdGet(ctx, keyID).Execute()
+	v, resp, err := r.api.GetKeyV1KeysKeyIdGet(ctx, keyID).Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r KeysResource) List(ctx context.Context, skip, limit *int32) ([]client.KeyInfo, *http.Response, error) {
@@ -55,26 +80,31 @@ func (r KeysResource) List(ctx context.Context, skip, limit *int32) ([]client.Ke
 	if limit != nil {
 		req = req.Limit(*limit)
 	}
-	return req.Execute()
+	v, resp, err := req.Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r KeysResource) Update(ctx context.Context, keyID string, req client.UpdateKeyRequest) (*client.KeyInfo, *http.Response, error) {
-	return r.api.UpdateKeyV1KeysKeyIdPatch(ctx, keyID).UpdateKeyRequest(req).Execute()
+	v, resp, err := r.api.UpdateKeyV1KeysKeyIdPatch(ctx, keyID).UpdateKeyRequest(req).Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r KeysResource) Delete(ctx context.Context, keyID string) (*http.Response, error) {
-	return r.api.DeleteKeyV1KeysKeyIdDelete(ctx, keyID).Execute()
+	resp, err := r.api.DeleteKeyV1KeysKeyIdDelete(ctx, keyID).Execute()
+	return resp, translate(resp, err)
 }
 
 // UsersResource exposes ergonomic aliases for the users management endpoints.
 type UsersResource struct{ api *client.UsersAPIService }
 
 func (r UsersResource) Create(ctx context.Context, req client.CreateUserRequest) (*client.UserResponse, *http.Response, error) {
-	return r.api.CreateUserV1UsersPost(ctx).CreateUserRequest(req).Execute()
+	v, resp, err := r.api.CreateUserV1UsersPost(ctx).CreateUserRequest(req).Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r UsersResource) Get(ctx context.Context, userID string) (*client.UserResponse, *http.Response, error) {
-	return r.api.GetUserV1UsersUserIdGet(ctx, userID).Execute()
+	v, resp, err := r.api.GetUserV1UsersUserIdGet(ctx, userID).Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r UsersResource) List(ctx context.Context, skip, limit *int32) ([]client.UserResponse, *http.Response, error) {
@@ -85,15 +115,18 @@ func (r UsersResource) List(ctx context.Context, skip, limit *int32) ([]client.U
 	if limit != nil {
 		req = req.Limit(*limit)
 	}
-	return req.Execute()
+	v, resp, err := req.Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r UsersResource) Update(ctx context.Context, userID string, req client.UpdateUserRequest) (*client.UserResponse, *http.Response, error) {
-	return r.api.UpdateUserV1UsersUserIdPatch(ctx, userID).UpdateUserRequest(req).Execute()
+	v, resp, err := r.api.UpdateUserV1UsersUserIdPatch(ctx, userID).UpdateUserRequest(req).Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r UsersResource) Delete(ctx context.Context, userID string) (*http.Response, error) {
-	return r.api.DeleteUserV1UsersUserIdDelete(ctx, userID).Execute()
+	resp, err := r.api.DeleteUserV1UsersUserIdDelete(ctx, userID).Execute()
+	return resp, translate(resp, err)
 }
 
 func (r UsersResource) GetUsage(ctx context.Context, userID string, skip, limit *int32) ([]client.UsageLogResponse, *http.Response, error) {
@@ -104,18 +137,21 @@ func (r UsersResource) GetUsage(ctx context.Context, userID string, skip, limit 
 	if limit != nil {
 		req = req.Limit(*limit)
 	}
-	return req.Execute()
+	v, resp, err := req.Execute()
+	return v, resp, translate(resp, err)
 }
 
 // BudgetsResource exposes ergonomic aliases for the budgets management endpoints.
 type BudgetsResource struct{ api *client.BudgetsAPIService }
 
 func (r BudgetsResource) Create(ctx context.Context, req client.CreateBudgetRequest) (*client.BudgetResponse, *http.Response, error) {
-	return r.api.CreateBudgetV1BudgetsPost(ctx).CreateBudgetRequest(req).Execute()
+	v, resp, err := r.api.CreateBudgetV1BudgetsPost(ctx).CreateBudgetRequest(req).Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r BudgetsResource) Get(ctx context.Context, budgetID string) (*client.BudgetResponse, *http.Response, error) {
-	return r.api.GetBudgetV1BudgetsBudgetIdGet(ctx, budgetID).Execute()
+	v, resp, err := r.api.GetBudgetV1BudgetsBudgetIdGet(ctx, budgetID).Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r BudgetsResource) List(ctx context.Context, skip, limit *int32) ([]client.BudgetResponse, *http.Response, error) {
@@ -126,15 +162,18 @@ func (r BudgetsResource) List(ctx context.Context, skip, limit *int32) ([]client
 	if limit != nil {
 		req = req.Limit(*limit)
 	}
-	return req.Execute()
+	v, resp, err := req.Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r BudgetsResource) Update(ctx context.Context, budgetID string, req client.UpdateBudgetRequest) (*client.BudgetResponse, *http.Response, error) {
-	return r.api.UpdateBudgetV1BudgetsBudgetIdPatch(ctx, budgetID).UpdateBudgetRequest(req).Execute()
+	v, resp, err := r.api.UpdateBudgetV1BudgetsBudgetIdPatch(ctx, budgetID).UpdateBudgetRequest(req).Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r BudgetsResource) Delete(ctx context.Context, budgetID string) (*http.Response, error) {
-	return r.api.DeleteBudgetV1BudgetsBudgetIdDelete(ctx, budgetID).Execute()
+	resp, err := r.api.DeleteBudgetV1BudgetsBudgetIdDelete(ctx, budgetID).Execute()
+	return resp, translate(resp, err)
 }
 
 // PricingResource exposes ergonomic aliases for the model-pricing management endpoints.
@@ -148,7 +187,8 @@ func (r PricingResource) List(ctx context.Context, skip, limit *int32) ([]client
 	if limit != nil {
 		req = req.Limit(*limit)
 	}
-	return req.Execute()
+	v, resp, err := req.Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r PricingResource) Get(ctx context.Context, modelKey string, asOf *time.Time) (*client.PricingResponse, *http.Response, error) {
@@ -156,11 +196,13 @@ func (r PricingResource) Get(ctx context.Context, modelKey string, asOf *time.Ti
 	if asOf != nil {
 		req = req.AsOf(*asOf)
 	}
-	return req.Execute()
+	v, resp, err := req.Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r PricingResource) Set(ctx context.Context, req client.SetPricingRequest) (*client.PricingResponse, *http.Response, error) {
-	return r.api.SetPricingV1PricingPost(ctx).SetPricingRequest(req).Execute()
+	v, resp, err := r.api.SetPricingV1PricingPost(ctx).SetPricingRequest(req).Execute()
+	return v, resp, translate(resp, err)
 }
 
 func (r PricingResource) Delete(ctx context.Context, modelKey string, effectiveAt *time.Time) (*http.Response, error) {
@@ -168,11 +210,13 @@ func (r PricingResource) Delete(ctx context.Context, modelKey string, effectiveA
 	if effectiveAt != nil {
 		req = req.EffectiveAt(*effectiveAt)
 	}
-	return req.Execute()
+	resp, err := req.Execute()
+	return resp, translate(resp, err)
 }
 
 func (r PricingResource) GetHistory(ctx context.Context, modelKey string) ([]client.PricingResponse, *http.Response, error) {
-	return r.api.GetPricingHistoryV1PricingModelKeyHistoryGet(ctx, modelKey).Execute()
+	v, resp, err := r.api.GetPricingHistoryV1PricingModelKeyHistoryGet(ctx, modelKey).Execute()
+	return v, resp, translate(resp, err)
 }
 
 // UsageResource exposes ergonomic aliases for the usage-log management endpoints.
@@ -195,7 +239,8 @@ func (r UsageResource) List(ctx context.Context, startDate, endDate *time.Time, 
 	if limit != nil {
 		req = req.Limit(*limit)
 	}
-	return req.Execute()
+	v, resp, err := req.Execute()
+	return v, resp, translate(resp, err)
 }
 
 // ControlPlane returns a typed client for the gateway management endpoints

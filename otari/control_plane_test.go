@@ -2,11 +2,13 @@ package otari
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"sync"
 	"testing"
 
+	"github.com/mozilla-ai/otari-sdk-go/otari/client"
 	"github.com/stretchr/testify/require"
 )
 
@@ -95,6 +97,112 @@ func TestControlPlaneAliasesRouteToGeneratedOperations(t *testing.T) {
 			require.Equal(t, bearerPrefix+"master", auth)
 		})
 	}
+}
+
+// errorGateway returns an httptest server that replies to every request with
+// the given status code and JSON body, for exercising error mapping.
+func errorGateway(t *testing.T, status int, body string) *httptest.Server {
+	t.Helper()
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(status)
+		_, _ = w.Write([]byte(body))
+	}))
+	t.Cleanup(srv.Close)
+	return srv
+}
+
+// TestControlPlaneMapsTypedErrors asserts that control-plane methods surface the
+// same typed SDK errors as inference (via errors.Is/errors.As), rather than
+// leaking the generated *client.GenericOpenAPIError. It covers a representative
+// method per resource and the documented status -> error mappings.
+func TestControlPlaneMapsTypedErrors(t *testing.T) {
+	t.Parallel()
+
+	statusCases := []struct {
+		name    string
+		status  int
+		body    string
+		wantErr error
+	}{
+		{"401 auth", http.StatusUnauthorized, `{"error":{"message":"invalid token"}}`, ErrAuthentication},
+		{"403 auth", http.StatusForbidden, `{"error":{"message":"forbidden"}}`, ErrAuthentication},
+		{"402 funds", http.StatusPaymentRequired, `{"error":{"message":"payment required"}}`, ErrInsufficientFunds},
+		{"404 not found", http.StatusNotFound, `{"error":{"message":"not found"}}`, ErrModelNotFound},
+		{"429 rate limit", http.StatusTooManyRequests, `{"error":{"message":"slow down"}}`, ErrRateLimit},
+		{"502 upstream", http.StatusBadGateway, `{"error":{"message":"bad gateway"}}`, ErrUpstreamProvider},
+		{"504 timeout", http.StatusGatewayTimeout, `{"error":{"message":"timed out"}}`, ErrTimeout},
+	}
+
+	resources := []struct {
+		name string
+		call func(ctx context.Context, cp *ControlPlaneClient) error
+	}{
+		{"keys.List", func(ctx context.Context, cp *ControlPlaneClient) error {
+			_, _, err := cp.Keys.List(ctx, nil, nil)
+			return err
+		}},
+		{"keys.Delete", func(ctx context.Context, cp *ControlPlaneClient) error {
+			_, err := cp.Keys.Delete(ctx, "k1")
+			return err
+		}},
+		{"users.Get", func(ctx context.Context, cp *ControlPlaneClient) error {
+			_, _, err := cp.Users.Get(ctx, "u1")
+			return err
+		}},
+		{"budgets.List", func(ctx context.Context, cp *ControlPlaneClient) error {
+			_, _, err := cp.Budgets.List(ctx, nil, nil)
+			return err
+		}},
+		{"pricing.List", func(ctx context.Context, cp *ControlPlaneClient) error {
+			_, _, err := cp.Pricing.List(ctx, nil, nil)
+			return err
+		}},
+		{"usage.List", func(ctx context.Context, cp *ControlPlaneClient) error {
+			_, _, err := cp.Usage.List(ctx, nil, nil, nil, nil, nil)
+			return err
+		}},
+	}
+
+	for _, sc := range statusCases {
+		for _, rc := range resources {
+			t.Run(sc.name+"/"+rc.name, func(t *testing.T) {
+				t.Parallel()
+
+				srv := errorGateway(t, sc.status, sc.body)
+				cl, err := New(WithBaseURL(srv.URL), WithAPIKey("unused"))
+				require.NoError(t, err)
+				cp := cl.ControlPlane("master")
+
+				gotErr := rc.call(context.Background(), cp)
+				require.Error(t, gotErr)
+				// Classifies as the SDK sentinel, like inference.
+				require.ErrorIs(t, gotErr, sc.wantErr)
+				// And does NOT leak the generated error type.
+				var generic client.GenericOpenAPIError
+				require.False(t, errors.As(gotErr, &generic),
+					"control-plane error should not be a *client.GenericOpenAPIError")
+			})
+		}
+	}
+}
+
+// TestControlPlaneAuthenticationErrorAs confirms callers can read typed fields
+// off a control-plane error via errors.As (e.g. *AuthenticationError on 401).
+func TestControlPlaneAuthenticationErrorAs(t *testing.T) {
+	t.Parallel()
+
+	srv := errorGateway(t, http.StatusUnauthorized, `{"error":{"message":"invalid token"}}`)
+	cl, err := New(WithBaseURL(srv.URL), WithAPIKey("unused"))
+	require.NoError(t, err)
+	cp := cl.ControlPlane("master")
+
+	_, _, gotErr := cp.Keys.Create(context.Background(), client.CreateKeyRequest{})
+	require.Error(t, gotErr)
+
+	var authErr *AuthenticationError
+	require.True(t, errors.As(gotErr, &authErr),
+		"expected *AuthenticationError, got %T", gotErr)
 }
 
 func TestControlPlaneRawEscapeHatch(t *testing.T) {
