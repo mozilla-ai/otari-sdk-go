@@ -21,6 +21,7 @@ Name | Type | Description | Notes
 **ReasoningEffort** | Pointer to **NullableString** |  | [optional] 
 **ResponseFormat** | Pointer to **map[string]interface{}** |  | [optional] 
 **Seed** | Pointer to **NullableInt32** |  | [optional] 
+**SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to. | [optional] 
 **Stop** | Pointer to [**NullableStop**](Stop.md) |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
 **StreamOptions** | Pointer to **map[string]interface{}** |  | [optional] 
@@ -616,6 +617,41 @@ HasSeed returns a boolean if a field has been set.
 `func (o *ChatCompletionRequest) UnsetSeed()`
 
 UnsetSeed ensures that no value is present for Seed, not even an explicit nil
+### GetSessionLabel
+
+`func (o *ChatCompletionRequest) GetSessionLabel() string`
+
+GetSessionLabel returns the SessionLabel field if non-nil, zero value otherwise.
+
+### GetSessionLabelOk
+
+`func (o *ChatCompletionRequest) GetSessionLabelOk() (*string, bool)`
+
+GetSessionLabelOk returns a tuple with the SessionLabel field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSessionLabel
+
+`func (o *ChatCompletionRequest) SetSessionLabel(v string)`
+
+SetSessionLabel sets SessionLabel field to given value.
+
+### HasSessionLabel
+
+`func (o *ChatCompletionRequest) HasSessionLabel() bool`
+
+HasSessionLabel returns a boolean if a field has been set.
+
+### SetSessionLabelNil
+
+`func (o *ChatCompletionRequest) SetSessionLabelNil(b bool)`
+
+ SetSessionLabelNil sets the value for SessionLabel to be an explicit nil
+
+### UnsetSessionLabel
+`func (o *ChatCompletionRequest) UnsetSessionLabel()`
+
+UnsetSessionLabel ensures that no value is present for SessionLabel, not even an explicit nil
 ### GetStop
 
 `func (o *ChatCompletionRequest) GetStop() Stop`

@@ -957,7 +957,7 @@ paths:
         Anthropic Messages API-compatible endpoint.
 
         Supports MCP tool-use loops, sandboxed code execution, and SearXNG
-        web_search in both standalone mode and platform mode. Platform-mode
+        web_search in both standalone mode and hybrid mode. Hybrid-mode
         requests resolve credentials via the platform service and (for
         non-tool-loop requests) get multi-attempt fallback across the resolved
         route. Tool-loop requests collapse to a single attempt — once
@@ -993,7 +993,7 @@ paths:
 
         Returns ``{"input_tokens": N}`` without contacting an upstream provider:
         counting is local, so there is no budget reservation, pricing, or usage
-        logging. Authentication mirrors :func:`create_message` — platform mode
+        logging. Authentication mirrors :func:`create_message` — hybrid mode
         resolves the caller's token against the platform, standalone mode validates
         the API key — so the endpoint is not an open token-counting oracle.
       operationId: count_message_tokens_v1_messages_count_tokens_post
@@ -1342,7 +1342,7 @@ paths:
         OpenAI-compatible Responses endpoint.
 
         Supports MCP tool-use loops, sandboxed code execution, and SearXNG
-        web_search in both standalone mode and platform mode. Platform-mode
+        web_search in both standalone mode and hybrid mode. Hybrid-mode
         requests resolve credentials via the platform service and (for
         non-tool-loop requests) get multi-attempt fallback across the resolved
         route. Tool-loop requests collapse to a single attempt — once
@@ -1812,6 +1812,7 @@ components:
         reasoning_effort: none
         top_logprobs: 2
         max_tool_iterations: 14
+        session_label: session_label
         logit_bias:
           key: 6.027456183070403
         seed: 9
@@ -1978,6 +1979,16 @@ components:
         seed:
           nullable: true
           type: integer
+        session_label:
+          description: "Optional caller-supplied label for cost attribution (per run,\
+            \ experiment, or conversation). In hybrid mode it is forwarded onto the\
+            \ platform usage report so spend can be sliced by session without standing\
+            \ up OpenTelemetry. Stripped before the request is forwarded upstream\
+            \ to the provider. Has no effect in standalone mode, where there is no\
+            \ platform to report it to."
+          maxLength: 255
+          nullable: true
+          type: string
         stop:
           $ref: "#/components/schemas/Stop"
         stream:
@@ -2545,6 +2556,7 @@ components:
         - stop_sequences
         metadata:
           key: ""
+        session_label: session_label
         max_tokens: 0
         cache_control:
           key: ""
@@ -2649,6 +2661,16 @@ components:
           type: object
         model:
           title: Model
+          type: string
+        session_label:
+          description: "Optional caller-supplied label for cost attribution (per run,\
+            \ experiment, or conversation). In hybrid mode it is forwarded onto the\
+            \ platform usage report so spend can be sliced by session without standing\
+            \ up OpenTelemetry. Stripped before the request is forwarded upstream\
+            \ to the provider. Has no effect in standalone mode, where there is no\
+            \ platform to report it to."
+          maxLength: 255
+          nullable: true
           type: string
         stop_sequences:
           items:
@@ -2967,6 +2989,7 @@ components:
         max_tool_iterations: 15
         metadata:
           key: metadata
+        session_label: session_label
         max_tool_calls: 1
         presence_penalty: 5.637376656633329
         reasoning:
@@ -3144,6 +3167,16 @@ components:
         service_tier:
           nullable: true
           type: string
+        session_label:
+          description: "Optional caller-supplied label for cost attribution (per run,\
+            \ experiment, or conversation). In hybrid mode it is forwarded onto the\
+            \ platform usage report so spend can be sliced by session without standing\
+            \ up OpenTelemetry. Stripped before the request is forwarded upstream\
+            \ to the provider. Has no effect in standalone mode, where there is no\
+            \ platform to report it to."
+          maxLength: 255
+          nullable: true
+          type: string
         store:
           nullable: true
           type: boolean
@@ -3288,14 +3321,16 @@ components:
       description: A single usage log entry.
       example:
         error_message: error_message
-        completion_tokens: 0
-        cost: 6.027456183070403
+        completion_tokens: 1
+        cost: 5.962133916683182
+        cache_read_tokens: 0
         api_key_id: api_key_id
+        cache_write_tokens: 6
         endpoint: endpoint
-        prompt_tokens: 1
+        prompt_tokens: 5
         provider: provider
         user_id: user_id
-        total_tokens: 5
+        total_tokens: 2
         model: model
         id: id
         status: status
@@ -3304,6 +3339,12 @@ components:
         api_key_id:
           nullable: true
           type: string
+        cache_read_tokens:
+          nullable: true
+          type: integer
+        cache_write_tokens:
+          nullable: true
+          type: integer
         completion_tokens:
           nullable: true
           type: integer
@@ -3342,6 +3383,8 @@ components:
           type: string
       required:
       - api_key_id
+      - cache_read_tokens
+      - cache_write_tokens
       - completion_tokens
       - cost
       - endpoint
