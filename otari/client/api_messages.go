@@ -43,7 +43,7 @@ Anthropic “/v1/messages/count_tokens“-compatible endpoint.
 
 Returns “{"input_tokens": N}“ without contacting an upstream provider:
 counting is local, so there is no budget reservation, pricing, or usage
-logging. Authentication mirrors :func:`create_message` — platform mode
+logging. Authentication mirrors :func:`create_message` — hybrid mode
 resolves the caller's token against the platform, standalone mode validates
 the API key — so the endpoint is not an open token-counting oracle.
 
@@ -169,7 +169,7 @@ CreateMessageV1MessagesPost Create Message
 Anthropic Messages API-compatible endpoint.
 
 Supports MCP tool-use loops, sandboxed code execution, and SearXNG
-web_search in both standalone mode and platform mode. Platform-mode
+web_search in both standalone mode and hybrid mode. Hybrid-mode
 requests resolve credentials via the platform service and (for
 non-tool-loop requests) get multi-attempt fallback across the resolved
 route. Tool-loop requests collapse to a single attempt — once

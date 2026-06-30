@@ -21,29 +21,31 @@ var _ MappedNullable = &ChatCompletionRequest{}
 
 // ChatCompletionRequest OpenAI-compatible chat completion request.  The completion-param fields are derived from any-llm's “CompletionParams“ (see “_schema_derive“) so the schema cannot silently drop a param any-llm forwards. Fields below either tighten a derived field (“messages“, “response_format“) or add gateway-internal behavior (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) that is stripped before the request is forwarded upstream.
 type ChatCompletionRequest struct {
-	FrequencyPenalty    NullableFloat32                   `json:"frequency_penalty,omitempty"`
-	Guardrails          []GuardrailConfig                 `json:"guardrails,omitempty"`
-	LogitBias           map[string]float32                `json:"logit_bias,omitempty"`
-	Logprobs            NullableBool                      `json:"logprobs,omitempty"`
-	MaxCompletionTokens NullableInt32                     `json:"max_completion_tokens,omitempty"`
-	MaxTokens           NullableInt32                     `json:"max_tokens,omitempty"`
-	MaxToolIterations   NullableInt32                     `json:"max_tool_iterations,omitempty"`
-	McpServerIds        []string                          `json:"mcp_server_ids,omitempty"`
-	McpServers          []McpServerConfig                 `json:"mcp_servers,omitempty"`
-	Messages            []ChatMessageInput                `json:"messages"`
-	Model               string                            `json:"model"`
-	N                   NullableInt32                     `json:"n,omitempty"`
-	ParallelToolCalls   NullableBool                      `json:"parallel_tool_calls,omitempty"`
-	PresencePenalty     NullableFloat32                   `json:"presence_penalty,omitempty"`
-	ReasoningEffort     NullableString                    `json:"reasoning_effort,omitempty"`
-	ResponseFormat      map[string]interface{}            `json:"response_format,omitempty"`
-	Seed                NullableInt32                     `json:"seed,omitempty"`
-	Stop                NullableStop                      `json:"stop,omitempty"`
-	Stream              *bool                             `json:"stream,omitempty"`
-	StreamOptions       map[string]interface{}            `json:"stream_options,omitempty"`
-	Temperature         NullableFloat32                   `json:"temperature,omitempty"`
-	ToolChoice          NullableToolChoice                `json:"tool_choice,omitempty"`
-	Tools               []ChatCompletionRequestToolsInner `json:"tools,omitempty"`
+	FrequencyPenalty    NullableFloat32        `json:"frequency_penalty,omitempty"`
+	Guardrails          []GuardrailConfig      `json:"guardrails,omitempty"`
+	LogitBias           map[string]float32     `json:"logit_bias,omitempty"`
+	Logprobs            NullableBool           `json:"logprobs,omitempty"`
+	MaxCompletionTokens NullableInt32          `json:"max_completion_tokens,omitempty"`
+	MaxTokens           NullableInt32          `json:"max_tokens,omitempty"`
+	MaxToolIterations   NullableInt32          `json:"max_tool_iterations,omitempty"`
+	McpServerIds        []string               `json:"mcp_server_ids,omitempty"`
+	McpServers          []McpServerConfig      `json:"mcp_servers,omitempty"`
+	Messages            []ChatMessageInput     `json:"messages"`
+	Model               string                 `json:"model"`
+	N                   NullableInt32          `json:"n,omitempty"`
+	ParallelToolCalls   NullableBool           `json:"parallel_tool_calls,omitempty"`
+	PresencePenalty     NullableFloat32        `json:"presence_penalty,omitempty"`
+	ReasoningEffort     NullableString         `json:"reasoning_effort,omitempty"`
+	ResponseFormat      map[string]interface{} `json:"response_format,omitempty"`
+	Seed                NullableInt32          `json:"seed,omitempty"`
+	// Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to.
+	SessionLabel  NullableString                    `json:"session_label,omitempty"`
+	Stop          NullableStop                      `json:"stop,omitempty"`
+	Stream        *bool                             `json:"stream,omitempty"`
+	StreamOptions map[string]interface{}            `json:"stream_options,omitempty"`
+	Temperature   NullableFloat32                   `json:"temperature,omitempty"`
+	ToolChoice    NullableToolChoice                `json:"tool_choice,omitempty"`
+	Tools         []ChatCompletionRequestToolsInner `json:"tools,omitempty"`
 	// Optional override for the lead-in that the gateway prepends before the per-tool hint block in the system message. Useful for expressing global tool-selection policy (e.g. 'prefer MCP tools over code_execution'). Falls back to OTARI_TOOLS_HEADER env, then to the built-in default.
 	ToolsHeader NullableString  `json:"tools_header,omitempty"`
 	TopLogprobs NullableInt32   `json:"top_logprobs,omitempty"`
@@ -719,6 +721,49 @@ func (o *ChatCompletionRequest) UnsetSeed() {
 	o.Seed.Unset()
 }
 
+// GetSessionLabel returns the SessionLabel field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ChatCompletionRequest) GetSessionLabel() string {
+	if o == nil || IsNil(o.SessionLabel.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.SessionLabel.Get()
+}
+
+// GetSessionLabelOk returns a tuple with the SessionLabel field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ChatCompletionRequest) GetSessionLabelOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SessionLabel.Get(), o.SessionLabel.IsSet()
+}
+
+// HasSessionLabel returns a boolean if a field has been set.
+func (o *ChatCompletionRequest) HasSessionLabel() bool {
+	if o != nil && o.SessionLabel.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSessionLabel gets a reference to the given NullableString and assigns it to the SessionLabel field.
+func (o *ChatCompletionRequest) SetSessionLabel(v string) {
+	o.SessionLabel.Set(&v)
+}
+
+// SetSessionLabelNil sets the value for SessionLabel to be an explicit nil
+func (o *ChatCompletionRequest) SetSessionLabelNil() {
+	o.SessionLabel.Set(nil)
+}
+
+// UnsetSessionLabel ensures that no value is present for SessionLabel, not even an explicit nil
+func (o *ChatCompletionRequest) UnsetSessionLabel() {
+	o.SessionLabel.Unset()
+}
+
 // GetStop returns the Stop field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ChatCompletionRequest) GetStop() Stop {
 	if o == nil || IsNil(o.Stop.Get()) {
@@ -1174,6 +1219,9 @@ func (o ChatCompletionRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if o.Seed.IsSet() {
 		toSerialize["seed"] = o.Seed.Get()
+	}
+	if o.SessionLabel.IsSet() {
+		toSerialize["session_label"] = o.SessionLabel.Get()
 	}
 	if o.Stop.IsSet() {
 		toSerialize["stop"] = o.Stop.Get()

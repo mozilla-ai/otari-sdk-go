@@ -5,6 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApiKeyId** | **NullableString** |  | 
+**CacheReadTokens** | **NullableInt32** |  | 
+**CacheWriteTokens** | **NullableInt32** |  | 
 **CompletionTokens** | **NullableInt32** |  | 
 **Cost** | **NullableFloat32** |  | 
 **Endpoint** | **string** |  | 
@@ -22,7 +24,7 @@ Name | Type | Description | Notes
 
 ### NewUsageEntry
 
-`func NewUsageEntry(apiKeyId NullableString, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageEntry`
+`func NewUsageEntry(apiKeyId NullableString, cacheReadTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageEntry`
 
 NewUsageEntry instantiates a new UsageEntry object
 This constructor will assign default values to properties that have it defined,
@@ -67,6 +69,66 @@ SetApiKeyId sets ApiKeyId field to given value.
 `func (o *UsageEntry) UnsetApiKeyId()`
 
 UnsetApiKeyId ensures that no value is present for ApiKeyId, not even an explicit nil
+### GetCacheReadTokens
+
+`func (o *UsageEntry) GetCacheReadTokens() int32`
+
+GetCacheReadTokens returns the CacheReadTokens field if non-nil, zero value otherwise.
+
+### GetCacheReadTokensOk
+
+`func (o *UsageEntry) GetCacheReadTokensOk() (*int32, bool)`
+
+GetCacheReadTokensOk returns a tuple with the CacheReadTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCacheReadTokens
+
+`func (o *UsageEntry) SetCacheReadTokens(v int32)`
+
+SetCacheReadTokens sets CacheReadTokens field to given value.
+
+
+### SetCacheReadTokensNil
+
+`func (o *UsageEntry) SetCacheReadTokensNil(b bool)`
+
+ SetCacheReadTokensNil sets the value for CacheReadTokens to be an explicit nil
+
+### UnsetCacheReadTokens
+`func (o *UsageEntry) UnsetCacheReadTokens()`
+
+UnsetCacheReadTokens ensures that no value is present for CacheReadTokens, not even an explicit nil
+### GetCacheWriteTokens
+
+`func (o *UsageEntry) GetCacheWriteTokens() int32`
+
+GetCacheWriteTokens returns the CacheWriteTokens field if non-nil, zero value otherwise.
+
+### GetCacheWriteTokensOk
+
+`func (o *UsageEntry) GetCacheWriteTokensOk() (*int32, bool)`
+
+GetCacheWriteTokensOk returns a tuple with the CacheWriteTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCacheWriteTokens
+
+`func (o *UsageEntry) SetCacheWriteTokens(v int32)`
+
+SetCacheWriteTokens sets CacheWriteTokens field to given value.
+
+
+### SetCacheWriteTokensNil
+
+`func (o *UsageEntry) SetCacheWriteTokensNil(b bool)`
+
+ SetCacheWriteTokensNil sets the value for CacheWriteTokens to be an explicit nil
+
+### UnsetCacheWriteTokens
+`func (o *UsageEntry) UnsetCacheWriteTokens()`
+
+UnsetCacheWriteTokens ensures that no value is present for CacheWriteTokens, not even an explicit nil
 ### GetCompletionTokens
 
 `func (o *UsageEntry) GetCompletionTokens() int32`

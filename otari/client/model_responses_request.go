@@ -20,29 +20,31 @@ var _ MappedNullable = &ResponsesRequest{}
 
 // ResponsesRequest OpenAI Responses API-compatible request.  The wire fields are derived from any-llm's “ResponsesParams“ (see “_schema_derive“) so the schema cannot silently drop a param any-llm forwards. Gateway-internal fields (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) opt the request into gateway-managed MCP / sandbox / web_search / guardrails without changing the upstream wire shape. They're stripped before the request is forwarded.
 type ResponsesRequest struct {
-	Background           NullableBool             `json:"background,omitempty"`
-	Conversation         NullableConversation     `json:"conversation,omitempty"`
-	FrequencyPenalty     NullableFloat32          `json:"frequency_penalty,omitempty"`
-	Guardrails           []GuardrailConfig        `json:"guardrails,omitempty"`
-	Include              []string                 `json:"include,omitempty"`
-	Input                interface{}              `json:"input"`
-	Instructions         NullableString           `json:"instructions,omitempty"`
-	MaxOutputTokens      NullableInt32            `json:"max_output_tokens,omitempty"`
-	MaxToolCalls         NullableInt32            `json:"max_tool_calls,omitempty"`
-	MaxToolIterations    NullableInt32            `json:"max_tool_iterations,omitempty"`
-	McpServerIds         []string                 `json:"mcp_server_ids,omitempty"`
-	McpServers           []McpServerConfig        `json:"mcp_servers,omitempty"`
-	Metadata             map[string]string        `json:"metadata,omitempty"`
-	Model                string                   `json:"model"`
-	ParallelToolCalls    NullableBool             `json:"parallel_tool_calls,omitempty"`
-	PresencePenalty      NullableFloat32          `json:"presence_penalty,omitempty"`
-	PreviousResponseId   NullableString           `json:"previous_response_id,omitempty"`
-	PromptCacheKey       NullableString           `json:"prompt_cache_key,omitempty"`
-	PromptCacheRetention NullableString           `json:"prompt_cache_retention,omitempty"`
-	Reasoning            map[string]interface{}   `json:"reasoning,omitempty"`
-	ResponseFormat       map[string]interface{}   `json:"response_format,omitempty"`
-	SafetyIdentifier     NullableString           `json:"safety_identifier,omitempty"`
-	ServiceTier          NullableString           `json:"service_tier,omitempty"`
+	Background           NullableBool           `json:"background,omitempty"`
+	Conversation         NullableConversation   `json:"conversation,omitempty"`
+	FrequencyPenalty     NullableFloat32        `json:"frequency_penalty,omitempty"`
+	Guardrails           []GuardrailConfig      `json:"guardrails,omitempty"`
+	Include              []string               `json:"include,omitempty"`
+	Input                interface{}            `json:"input"`
+	Instructions         NullableString         `json:"instructions,omitempty"`
+	MaxOutputTokens      NullableInt32          `json:"max_output_tokens,omitempty"`
+	MaxToolCalls         NullableInt32          `json:"max_tool_calls,omitempty"`
+	MaxToolIterations    NullableInt32          `json:"max_tool_iterations,omitempty"`
+	McpServerIds         []string               `json:"mcp_server_ids,omitempty"`
+	McpServers           []McpServerConfig      `json:"mcp_servers,omitempty"`
+	Metadata             map[string]string      `json:"metadata,omitempty"`
+	Model                string                 `json:"model"`
+	ParallelToolCalls    NullableBool           `json:"parallel_tool_calls,omitempty"`
+	PresencePenalty      NullableFloat32        `json:"presence_penalty,omitempty"`
+	PreviousResponseId   NullableString         `json:"previous_response_id,omitempty"`
+	PromptCacheKey       NullableString         `json:"prompt_cache_key,omitempty"`
+	PromptCacheRetention NullableString         `json:"prompt_cache_retention,omitempty"`
+	Reasoning            map[string]interface{} `json:"reasoning,omitempty"`
+	ResponseFormat       map[string]interface{} `json:"response_format,omitempty"`
+	SafetyIdentifier     NullableString         `json:"safety_identifier,omitempty"`
+	ServiceTier          NullableString         `json:"service_tier,omitempty"`
+	// Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to.
+	SessionLabel         NullableString           `json:"session_label,omitempty"`
 	Store                NullableBool             `json:"store,omitempty"`
 	Stream               *bool                    `json:"stream,omitempty"`
 	StreamOptions        map[string]interface{}   `json:"stream_options,omitempty"`
@@ -966,6 +968,49 @@ func (o *ResponsesRequest) UnsetServiceTier() {
 	o.ServiceTier.Unset()
 }
 
+// GetSessionLabel returns the SessionLabel field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetSessionLabel() string {
+	if o == nil || IsNil(o.SessionLabel.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.SessionLabel.Get()
+}
+
+// GetSessionLabelOk returns a tuple with the SessionLabel field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetSessionLabelOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SessionLabel.Get(), o.SessionLabel.IsSet()
+}
+
+// HasSessionLabel returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasSessionLabel() bool {
+	if o != nil && o.SessionLabel.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSessionLabel gets a reference to the given NullableString and assigns it to the SessionLabel field.
+func (o *ResponsesRequest) SetSessionLabel(v string) {
+	o.SessionLabel.Set(&v)
+}
+
+// SetSessionLabelNil sets the value for SessionLabel to be an explicit nil
+func (o *ResponsesRequest) SetSessionLabelNil() {
+	o.SessionLabel.Set(nil)
+}
+
+// UnsetSessionLabel ensures that no value is present for SessionLabel, not even an explicit nil
+func (o *ResponsesRequest) UnsetSessionLabel() {
+	o.SessionLabel.Unset()
+}
+
 // GetStore returns the Store field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ResponsesRequest) GetStore() bool {
 	if o == nil || IsNil(o.Store.Get()) {
@@ -1518,6 +1563,9 @@ func (o ResponsesRequest) ToMap() (map[string]interface{}, error) {
 	if o.ServiceTier.IsSet() {
 		toSerialize["service_tier"] = o.ServiceTier.Get()
 	}
+	if o.SessionLabel.IsSet() {
+		toSerialize["session_label"] = o.SessionLabel.Get()
+	}
 	if o.Store.IsSet() {
 		toSerialize["store"] = o.Store.Get()
 	}
@@ -1621,6 +1669,7 @@ func (o *ResponsesRequest) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "response_format")
 		delete(additionalProperties, "safety_identifier")
 		delete(additionalProperties, "service_tier")
+		delete(additionalProperties, "session_label")
 		delete(additionalProperties, "store")
 		delete(additionalProperties, "stream")
 		delete(additionalProperties, "stream_options")

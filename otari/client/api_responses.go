@@ -42,7 +42,7 @@ CreateResponseV1ResponsesPost Create Response
 OpenAI-compatible Responses endpoint.
 
 Supports MCP tool-use loops, sandboxed code execution, and SearXNG
-web_search in both standalone mode and platform mode. Platform-mode
+web_search in both standalone mode and hybrid mode. Hybrid-mode
 requests resolve credentials via the platform service and (for
 non-tool-loop requests) get multi-attempt fallback across the resolved
 route. Tool-loop requests collapse to a single attempt — once
