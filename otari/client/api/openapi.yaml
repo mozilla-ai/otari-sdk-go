@@ -129,6 +129,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Speech
       tags:
       - audio
@@ -160,6 +162,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Transcription
       tags:
       - audio
@@ -205,6 +209,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: List Batches
       tags:
       - batches
@@ -229,6 +235,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Batch
       tags:
       - batches
@@ -265,6 +273,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Retrieve Batch
       tags:
       - batches
@@ -301,6 +311,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Cancel Batch
       tags:
       - batches
@@ -341,6 +353,8 @@ paths:
           description: Validation Error
         "502":
           description: LLM provider error
+      security:
+      - ApiKeyAuth: []
       summary: Retrieve Batch Results
       tags:
       - batches
@@ -386,6 +400,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: List Budgets
       tags:
       - budgets
@@ -411,6 +427,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Budget
       tags:
       - budgets
@@ -436,6 +454,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Delete Budget
       tags:
       - budgets
@@ -464,6 +484,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Get Budget
       tags:
       - budgets
@@ -498,6 +520,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Update Budget
       tags:
       - budgets
@@ -533,6 +557,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Chat Completions
       tags:
       - chat
@@ -565,6 +591,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Embedding
       tags:
       - embeddings
@@ -604,6 +632,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: List Files
       tags:
       - files
@@ -630,6 +660,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create File
       tags:
       - files
@@ -668,6 +700,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Delete File
       tags:
       - files
@@ -705,6 +739,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Get File
       tags:
       - files
@@ -741,6 +777,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Get File Content
       tags:
       - files
@@ -773,6 +811,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Image
       tags:
       - images
@@ -821,6 +861,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: List Keys
       tags:
       - keys
@@ -852,6 +894,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Key
       tags:
       - keys
@@ -880,6 +924,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Delete Key
       tags:
       - keys
@@ -911,6 +957,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Get Key
       tags:
       - keys
@@ -948,6 +996,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Update Key
       tags:
       - keys
@@ -957,7 +1007,7 @@ paths:
         Anthropic Messages API-compatible endpoint.
 
         Supports MCP tool-use loops, sandboxed code execution, and SearXNG
-        web_search in both standalone mode and platform mode. Platform-mode
+        web_search in both standalone mode and hybrid mode. Hybrid-mode
         requests resolve credentials via the platform service and (for
         non-tool-loop requests) get multi-attempt fallback across the resolved
         route. Tool-loop requests collapse to a single attempt — once
@@ -983,6 +1033,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Message
       tags:
       - messages
@@ -993,7 +1045,7 @@ paths:
 
         Returns ``{"input_tokens": N}`` without contacting an upstream provider:
         counting is local, so there is no budget reservation, pricing, or usage
-        logging. Authentication mirrors :func:`create_message` — platform mode
+        logging. Authentication mirrors :func:`create_message` — hybrid mode
         resolves the caller's token against the platform, standalone mode validates
         the API key — so the endpoint is not an open token-counting oracle.
       operationId: count_message_tokens_v1_messages_count_tokens_post
@@ -1016,6 +1068,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Count Message Tokens
       tags:
       - messages
@@ -1052,6 +1106,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: List Models
       tags:
       - models
@@ -1081,6 +1137,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Get Model
       tags:
       - models
@@ -1123,6 +1181,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Moderation
       tags:
       - moderations
@@ -1168,6 +1228,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: List Pricing
       tags:
       - pricing
@@ -1193,6 +1255,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Set Pricing
       tags:
       - pricing
@@ -1229,6 +1293,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Delete Pricing
       tags:
       - pricing
@@ -1268,6 +1334,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Get Pricing
       tags:
       - pricing
@@ -1301,6 +1369,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Get Pricing History
       tags:
       - pricing
@@ -1333,6 +1403,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Rerank
       tags:
       - rerank
@@ -1342,7 +1414,7 @@ paths:
         OpenAI-compatible Responses endpoint.
 
         Supports MCP tool-use loops, sandboxed code execution, and SearXNG
-        web_search in both standalone mode and platform mode. Platform-mode
+        web_search in both standalone mode and hybrid mode. Hybrid-mode
         requests resolve credentials via the platform service and (for
         non-tool-loop requests) get multi-attempt fallback across the resolved
         route. Tool-loop requests collapse to a single attempt — once
@@ -1367,6 +1439,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create Response
       tags:
       - responses
@@ -1450,6 +1524,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: List Usage
       tags:
       - usage
@@ -1495,6 +1571,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: List Users
       tags:
       - users
@@ -1520,6 +1598,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Create User
       tags:
       - users
@@ -1545,6 +1625,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Delete User
       tags:
       - users
@@ -1573,6 +1655,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Get User
       tags:
       - users
@@ -1607,6 +1691,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Update User
       tags:
       - users
@@ -1660,6 +1746,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
+      security:
+      - ApiKeyAuth: []
       summary: Get User Usage
       tags:
       - users
@@ -1812,6 +1900,7 @@ components:
         reasoning_effort: none
         top_logprobs: 2
         max_tool_iterations: 14
+        session_label: session_label
         logit_bias:
           key: 6.027456183070403
         seed: 9
@@ -1978,6 +2067,16 @@ components:
         seed:
           nullable: true
           type: integer
+        session_label:
+          description: "Optional caller-supplied label for cost attribution (per run,\
+            \ experiment, or conversation). In hybrid mode it is forwarded onto the\
+            \ platform usage report so spend can be sliced by session without standing\
+            \ up OpenTelemetry. Stripped before the request is forwarded upstream\
+            \ to the provider. Has no effect in standalone mode, where there is no\
+            \ platform to report it to."
+          maxLength: 255
+          nullable: true
+          type: string
         stop:
           $ref: "#/components/schemas/Stop"
         stream:
@@ -2300,8 +2399,10 @@ components:
       description: |-
         A single guardrail check the caller wants the gateway to enforce.
 
-        URL safety: when ``url`` is supplied it is validated at parse time with the
-        same SSRF guard used for MCP server URLs (loopback allowed by default for
+        URL safety: when ``url`` is supplied it is validated by
+        :func:`gateway.services.guardrails.run_input_guardrails` (not here at parse
+        time — the check does a DNS lookup that must be awaited) with the same
+        SSRF guard used for MCP server URLs (loopback allowed by default for
         same-host sidecars; gated by ``OTARI_MCP_ALLOW_LOOPBACK`` /
         ``OTARI_MCP_ALLOW_PRIVATE_HOSTS``). Most deployments omit ``url`` and rely
         on the operator-set ``OTARI_GUARDRAILS_URL`` instead.
@@ -2469,12 +2570,13 @@ components:
 
         Streamable HTTP transport. The `url` must be reachable from the gateway process.
 
-        URL safety is enforced at parse time:
-
-        * SSRF guard rejects private, link-local, and reserved IP ranges. Loopback is
-          allowed by default (sidecars, dev) — set ``OTARI_MCP_ALLOW_LOOPBACK=false`` to disable.
-        * Plain ``http://`` is rejected when ``authorization_token`` is set, to keep
-          bearer tokens off the wire in cleartext.
+        URL safety (SSRF guard against private/link-local/reserved IP ranges, plus
+        rejecting plain ``http://`` when ``authorization_token`` is set) is
+        enforced by :func:`gateway.services.url_safety.validate_mcp_url`, called
+        from the async request pipeline (``prepare_gateway_tools``) rather than
+        here at parse time: the safety check does a DNS lookup, which must be
+        awaited so it can't block the event loop, and Pydantic validators run
+        synchronously during request-body parsing.
       example:
         authorization_token: authorization_token
         allowed_tools:
@@ -2545,6 +2647,7 @@ components:
         - stop_sequences
         metadata:
           key: ""
+        session_label: session_label
         max_tokens: 0
         cache_control:
           key: ""
@@ -2649,6 +2752,16 @@ components:
           type: object
         model:
           title: Model
+          type: string
+        session_label:
+          description: "Optional caller-supplied label for cost attribution (per run,\
+            \ experiment, or conversation). In hybrid mode it is forwarded onto the\
+            \ platform usage report so spend can be sliced by session without standing\
+            \ up OpenTelemetry. Stripped before the request is forwarded upstream\
+            \ to the provider. Has no effect in standalone mode, where there is no\
+            \ platform to report it to."
+          maxLength: 255
+          nullable: true
           type: string
         stop_sequences:
           items:
@@ -2967,6 +3080,7 @@ components:
         max_tool_iterations: 15
         metadata:
           key: metadata
+        session_label: session_label
         max_tool_calls: 1
         presence_penalty: 5.637376656633329
         reasoning:
@@ -3144,6 +3258,16 @@ components:
         service_tier:
           nullable: true
           type: string
+        session_label:
+          description: "Optional caller-supplied label for cost attribution (per run,\
+            \ experiment, or conversation). In hybrid mode it is forwarded onto the\
+            \ platform usage report so spend can be sliced by session without standing\
+            \ up OpenTelemetry. Stripped before the request is forwarded upstream\
+            \ to the provider. Has no effect in standalone mode, where there is no\
+            \ platform to report it to."
+          maxLength: 255
+          nullable: true
+          type: string
         store:
           nullable: true
           type: boolean
@@ -3288,14 +3412,16 @@ components:
       description: A single usage log entry.
       example:
         error_message: error_message
-        completion_tokens: 0
-        cost: 6.027456183070403
+        completion_tokens: 1
+        cost: 5.962133916683182
+        cache_read_tokens: 0
         api_key_id: api_key_id
+        cache_write_tokens: 6
         endpoint: endpoint
-        prompt_tokens: 1
+        prompt_tokens: 5
         provider: provider
         user_id: user_id
-        total_tokens: 5
+        total_tokens: 2
         model: model
         id: id
         status: status
@@ -3304,6 +3430,12 @@ components:
         api_key_id:
           nullable: true
           type: string
+        cache_read_tokens:
+          nullable: true
+          type: integer
+        cache_write_tokens:
+          nullable: true
+          type: integer
         completion_tokens:
           nullable: true
           type: integer
@@ -3342,6 +3474,8 @@ components:
           type: string
       required:
       - api_key_id
+      - cache_read_tokens
+      - cache_write_tokens
       - completion_tokens
       - cost
       - endpoint
@@ -6224,3 +6358,9 @@ components:
         type: string
       - type: string
       title: Model
+  securitySchemes:
+    ApiKeyAuth:
+      description: Enter your API key here (sent as Otari-Key header).
+      in: header
+      name: Otari-Key
+      type: apiKey

@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **Messages** | **[]map[string]interface{}** |  | 
 **Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
 **Model** | **string** |  | 
+**SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to. | [optional] 
 **StopSequences** | Pointer to **[]string** |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
 **System** | Pointer to [**NullableSystem**](System.md) |  | [optional] 
@@ -313,6 +314,41 @@ and a boolean to check if the value has been set.
 SetModel sets Model field to given value.
 
 
+### GetSessionLabel
+
+`func (o *MessagesRequest) GetSessionLabel() string`
+
+GetSessionLabel returns the SessionLabel field if non-nil, zero value otherwise.
+
+### GetSessionLabelOk
+
+`func (o *MessagesRequest) GetSessionLabelOk() (*string, bool)`
+
+GetSessionLabelOk returns a tuple with the SessionLabel field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSessionLabel
+
+`func (o *MessagesRequest) SetSessionLabel(v string)`
+
+SetSessionLabel sets SessionLabel field to given value.
+
+### HasSessionLabel
+
+`func (o *MessagesRequest) HasSessionLabel() bool`
+
+HasSessionLabel returns a boolean if a field has been set.
+
+### SetSessionLabelNil
+
+`func (o *MessagesRequest) SetSessionLabelNil(b bool)`
+
+ SetSessionLabelNil sets the value for SessionLabel to be an explicit nil
+
+### UnsetSessionLabel
+`func (o *MessagesRequest) UnsetSessionLabel()`
+
+UnsetSessionLabel ensures that no value is present for SessionLabel, not even an explicit nil
 ### GetStopSequences
 
 `func (o *MessagesRequest) GetStopSequences() []string`

@@ -27,6 +27,7 @@ Name | Type | Description | Notes
 **ResponseFormat** | Pointer to **map[string]interface{}** |  | [optional] 
 **SafetyIdentifier** | Pointer to **NullableString** |  | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
+**SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to. | [optional] 
 **Store** | Pointer to **NullableBool** |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
 **StreamOptions** | Pointer to **map[string]interface{}** |  | [optional] 
@@ -844,6 +845,41 @@ HasServiceTier returns a boolean if a field has been set.
 `func (o *ResponsesRequest) UnsetServiceTier()`
 
 UnsetServiceTier ensures that no value is present for ServiceTier, not even an explicit nil
+### GetSessionLabel
+
+`func (o *ResponsesRequest) GetSessionLabel() string`
+
+GetSessionLabel returns the SessionLabel field if non-nil, zero value otherwise.
+
+### GetSessionLabelOk
+
+`func (o *ResponsesRequest) GetSessionLabelOk() (*string, bool)`
+
+GetSessionLabelOk returns a tuple with the SessionLabel field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSessionLabel
+
+`func (o *ResponsesRequest) SetSessionLabel(v string)`
+
+SetSessionLabel sets SessionLabel field to given value.
+
+### HasSessionLabel
+
+`func (o *ResponsesRequest) HasSessionLabel() bool`
+
+HasSessionLabel returns a boolean if a field has been set.
+
+### SetSessionLabelNil
+
+`func (o *ResponsesRequest) SetSessionLabelNil(b bool)`
+
+ SetSessionLabelNil sets the value for SessionLabel to be an explicit nil
+
+### UnsetSessionLabel
+`func (o *ResponsesRequest) UnsetSessionLabel()`
+
+UnsetSessionLabel ensures that no value is present for SessionLabel, not even an explicit nil
 ### GetStore
 
 `func (o *ResponsesRequest) GetStore() bool`

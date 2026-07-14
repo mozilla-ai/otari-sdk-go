@@ -42,7 +42,7 @@ CreateResponseV1ResponsesPost Create Response
 OpenAI-compatible Responses endpoint.
 
 Supports MCP tool-use loops, sandboxed code execution, and SearXNG
-web_search in both standalone mode and platform mode. Platform-mode
+web_search in both standalone mode and hybrid mode. Hybrid-mode
 requests resolve credentials via the platform service and (for
 non-tool-loop requests) get multi-attempt fallback across the resolved
 route. Tool-loop requests collapse to a single attempt — once
@@ -103,6 +103,20 @@ func (a *ResponsesAPIService) CreateResponseV1ResponsesPostExecute(r ApiCreateRe
 	}
 	// body params
 	localVarPostBody = r.responsesRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

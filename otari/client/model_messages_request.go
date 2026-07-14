@@ -30,16 +30,18 @@ type MessagesRequest struct {
 	Messages          []map[string]interface{} `json:"messages"`
 	Metadata          map[string]interface{}   `json:"metadata,omitempty"`
 	Model             string                   `json:"model"`
-	StopSequences     []string                 `json:"stop_sequences,omitempty"`
-	Stream            *bool                    `json:"stream,omitempty"`
-	System            NullableSystem           `json:"system,omitempty"`
-	Temperature       NullableFloat32          `json:"temperature,omitempty"`
-	Thinking          map[string]interface{}   `json:"thinking,omitempty"`
-	ToolChoice        map[string]interface{}   `json:"tool_choice,omitempty"`
-	Tools             []map[string]interface{} `json:"tools,omitempty"`
-	ToolsHeader       NullableString           `json:"tools_header,omitempty"`
-	TopK              NullableInt32            `json:"top_k,omitempty"`
-	TopP              NullableFloat32          `json:"top_p,omitempty"`
+	// Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to.
+	SessionLabel  NullableString           `json:"session_label,omitempty"`
+	StopSequences []string                 `json:"stop_sequences,omitempty"`
+	Stream        *bool                    `json:"stream,omitempty"`
+	System        NullableSystem           `json:"system,omitempty"`
+	Temperature   NullableFloat32          `json:"temperature,omitempty"`
+	Thinking      map[string]interface{}   `json:"thinking,omitempty"`
+	ToolChoice    map[string]interface{}   `json:"tool_choice,omitempty"`
+	Tools         []map[string]interface{} `json:"tools,omitempty"`
+	ToolsHeader   NullableString           `json:"tools_header,omitempty"`
+	TopK          NullableInt32            `json:"top_k,omitempty"`
+	TopP          NullableFloat32          `json:"top_p,omitempty"`
 }
 
 type _MessagesRequest MessagesRequest
@@ -346,6 +348,49 @@ func (o *MessagesRequest) GetModelOk() (*string, bool) {
 // SetModel sets field value
 func (o *MessagesRequest) SetModel(v string) {
 	o.Model = v
+}
+
+// GetSessionLabel returns the SessionLabel field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MessagesRequest) GetSessionLabel() string {
+	if o == nil || IsNil(o.SessionLabel.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.SessionLabel.Get()
+}
+
+// GetSessionLabelOk returns a tuple with the SessionLabel field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MessagesRequest) GetSessionLabelOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SessionLabel.Get(), o.SessionLabel.IsSet()
+}
+
+// HasSessionLabel returns a boolean if a field has been set.
+func (o *MessagesRequest) HasSessionLabel() bool {
+	if o != nil && o.SessionLabel.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSessionLabel gets a reference to the given NullableString and assigns it to the SessionLabel field.
+func (o *MessagesRequest) SetSessionLabel(v string) {
+	o.SessionLabel.Set(&v)
+}
+
+// SetSessionLabelNil sets the value for SessionLabel to be an explicit nil
+func (o *MessagesRequest) SetSessionLabelNil() {
+	o.SessionLabel.Set(nil)
+}
+
+// UnsetSessionLabel ensures that no value is present for SessionLabel, not even an explicit nil
+func (o *MessagesRequest) UnsetSessionLabel() {
+	o.SessionLabel.Unset()
 }
 
 // GetStopSequences returns the StopSequences field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -758,6 +803,9 @@ func (o MessagesRequest) ToMap() (map[string]interface{}, error) {
 		toSerialize["metadata"] = o.Metadata
 	}
 	toSerialize["model"] = o.Model
+	if o.SessionLabel.IsSet() {
+		toSerialize["session_label"] = o.SessionLabel.Get()
+	}
 	if o.StopSequences != nil {
 		toSerialize["stop_sequences"] = o.StopSequences
 	}
