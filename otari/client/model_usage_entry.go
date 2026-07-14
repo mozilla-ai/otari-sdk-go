@@ -22,6 +22,8 @@ var _ MappedNullable = &UsageEntry{}
 // UsageEntry A single usage log entry.
 type UsageEntry struct {
 	ApiKeyId         NullableString  `json:"api_key_id"`
+	CacheReadTokens  NullableInt32   `json:"cache_read_tokens"`
+	CacheWriteTokens NullableInt32   `json:"cache_write_tokens"`
 	CompletionTokens NullableInt32   `json:"completion_tokens"`
 	Cost             NullableFloat32 `json:"cost"`
 	Endpoint         string          `json:"endpoint"`
@@ -42,9 +44,11 @@ type _UsageEntry UsageEntry
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUsageEntry(apiKeyId NullableString, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString) *UsageEntry {
+func NewUsageEntry(apiKeyId NullableString, cacheReadTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString) *UsageEntry {
 	this := UsageEntry{}
 	this.ApiKeyId = apiKeyId
+	this.CacheReadTokens = cacheReadTokens
+	this.CacheWriteTokens = cacheWriteTokens
 	this.CompletionTokens = completionTokens
 	this.Cost = cost
 	this.Endpoint = endpoint
@@ -92,6 +96,58 @@ func (o *UsageEntry) GetApiKeyIdOk() (*string, bool) {
 // SetApiKeyId sets field value
 func (o *UsageEntry) SetApiKeyId(v string) {
 	o.ApiKeyId.Set(&v)
+}
+
+// GetCacheReadTokens returns the CacheReadTokens field value
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *UsageEntry) GetCacheReadTokens() int32 {
+	if o == nil || o.CacheReadTokens.Get() == nil {
+		var ret int32
+		return ret
+	}
+
+	return *o.CacheReadTokens.Get()
+}
+
+// GetCacheReadTokensOk returns a tuple with the CacheReadTokens field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetCacheReadTokensOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CacheReadTokens.Get(), o.CacheReadTokens.IsSet()
+}
+
+// SetCacheReadTokens sets field value
+func (o *UsageEntry) SetCacheReadTokens(v int32) {
+	o.CacheReadTokens.Set(&v)
+}
+
+// GetCacheWriteTokens returns the CacheWriteTokens field value
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *UsageEntry) GetCacheWriteTokens() int32 {
+	if o == nil || o.CacheWriteTokens.Get() == nil {
+		var ret int32
+		return ret
+	}
+
+	return *o.CacheWriteTokens.Get()
+}
+
+// GetCacheWriteTokensOk returns a tuple with the CacheWriteTokens field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetCacheWriteTokensOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CacheWriteTokens.Get(), o.CacheWriteTokens.IsSet()
+}
+
+// SetCacheWriteTokens sets field value
+func (o *UsageEntry) SetCacheWriteTokens(v int32) {
+	o.CacheWriteTokens.Set(&v)
 }
 
 // GetCompletionTokens returns the CompletionTokens field value
@@ -407,6 +463,8 @@ func (o UsageEntry) MarshalJSON() ([]byte, error) {
 func (o UsageEntry) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["api_key_id"] = o.ApiKeyId.Get()
+	toSerialize["cache_read_tokens"] = o.CacheReadTokens.Get()
+	toSerialize["cache_write_tokens"] = o.CacheWriteTokens.Get()
 	toSerialize["completion_tokens"] = o.CompletionTokens.Get()
 	toSerialize["cost"] = o.Cost.Get()
 	toSerialize["endpoint"] = o.Endpoint
@@ -428,6 +486,8 @@ func (o *UsageEntry) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"api_key_id",
+		"cache_read_tokens",
+		"cache_write_tokens",
 		"completion_tokens",
 		"cost",
 		"endpoint",
