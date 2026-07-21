@@ -119,19 +119,23 @@ func errorGateway(t *testing.T, status int, body string) *httptest.Server {
 func TestControlPlaneMapsTypedErrors(t *testing.T) {
 	t.Parallel()
 
+	// Bodies use the gateway's real error shape (`{"detail": ...}`) so the test
+	// exercises the same payload production hits and can assert the detail
+	// survives onto the typed error, matching the inference path.
 	statusCases := []struct {
-		name    string
-		status  int
-		body    string
-		wantErr error
+		name       string
+		status     int
+		body       string
+		wantErr    error
+		wantDetail string
 	}{
-		{"401 auth", http.StatusUnauthorized, `{"error":{"message":"invalid token"}}`, ErrAuthentication},
-		{"403 auth", http.StatusForbidden, `{"error":{"message":"forbidden"}}`, ErrAuthentication},
-		{"402 funds", http.StatusPaymentRequired, `{"error":{"message":"payment required"}}`, ErrInsufficientFunds},
-		{"404 not found", http.StatusNotFound, `{"error":{"message":"not found"}}`, ErrModelNotFound},
-		{"429 rate limit", http.StatusTooManyRequests, `{"error":{"message":"slow down"}}`, ErrRateLimit},
-		{"502 upstream", http.StatusBadGateway, `{"error":{"message":"bad gateway"}}`, ErrUpstreamProvider},
-		{"504 timeout", http.StatusGatewayTimeout, `{"error":{"message":"timed out"}}`, ErrTimeout},
+		{"401 auth", http.StatusUnauthorized, `{"detail":"invalid token"}`, ErrAuthentication, "invalid token"},
+		{"403 auth", http.StatusForbidden, `{"detail":"forbidden"}`, ErrAuthentication, "forbidden"},
+		{"402 funds", http.StatusPaymentRequired, `{"detail":"payment required"}`, ErrInsufficientFunds, "payment required"},
+		{"404 not found", http.StatusNotFound, `{"detail":"not found"}`, ErrModelNotFound, "not found"},
+		{"429 rate limit", http.StatusTooManyRequests, `{"detail":"slow down"}`, ErrRateLimit, "slow down"},
+		{"502 upstream", http.StatusBadGateway, `{"detail":"bad gateway"}`, ErrUpstreamProvider, "bad gateway"},
+		{"504 timeout", http.StatusGatewayTimeout, `{"detail":"timed out"}`, ErrTimeout, "timed out"},
 	}
 
 	resources := []struct {
@@ -178,8 +182,14 @@ func TestControlPlaneMapsTypedErrors(t *testing.T) {
 				require.Error(t, gotErr)
 				// Classifies as the SDK sentinel, like inference.
 				require.ErrorIs(t, gotErr, sc.wantErr)
-				// And does NOT leak the generated error type.
-				var generic client.GenericOpenAPIError
+				// The gateway's detail message survives onto the typed error,
+				// matching inference (a value errors.As target used to drop it).
+				require.Contains(t, gotErr.Error(), sc.wantDetail,
+					"gateway detail should survive on control-plane errors")
+				// And does NOT leak the generated error type. The generated
+				// client returns a *GenericOpenAPIError, so the target must be a
+				// pointer, else errors.As never matches and the check is dead.
+				var generic *client.GenericOpenAPIError
 				require.False(t, errors.As(gotErr, &generic),
 					"control-plane error should not be a *client.GenericOpenAPIError")
 			})
@@ -192,7 +202,7 @@ func TestControlPlaneMapsTypedErrors(t *testing.T) {
 func TestControlPlaneAuthenticationErrorAs(t *testing.T) {
 	t.Parallel()
 
-	srv := errorGateway(t, http.StatusUnauthorized, `{"error":{"message":"invalid token"}}`)
+	srv := errorGateway(t, http.StatusUnauthorized, `{"detail":"invalid token"}`)
 	cl, err := New(WithBaseURL(srv.URL), WithAPIKey("unused"))
 	require.NoError(t, err)
 	cp := cl.ControlPlane("master")
@@ -203,6 +213,8 @@ func TestControlPlaneAuthenticationErrorAs(t *testing.T) {
 	var authErr *AuthenticationError
 	require.True(t, errors.As(gotErr, &authErr),
 		"expected *AuthenticationError, got %T", gotErr)
+	require.Contains(t, gotErr.Error(), "invalid token",
+		"gateway detail should survive onto the typed error")
 }
 
 func TestControlPlaneRawEscapeHatch(t *testing.T) {

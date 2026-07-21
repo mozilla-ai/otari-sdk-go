@@ -24,7 +24,7 @@ func translate(resp *http.Response, err error) error {
 		return err
 	}
 	var body []byte
-	var apiErr client.GenericOpenAPIError
+	var apiErr *client.GenericOpenAPIError
 	if errors.As(err, &apiErr) {
 		body = apiErr.Body()
 	}
