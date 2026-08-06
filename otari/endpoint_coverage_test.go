@@ -1,33 +1,29 @@
 package otari
 
-// Endpoint-coverage drift gate.
+// Endpoint-coverage manifest checks.
 //
-// Fetches the canonical otari gateway OpenAPI spec and asserts that every API
-// endpoint it exposes is accounted for in sdk-endpoints.txt -- either wrapped
-// by this SDK's public surface ([covered]) or deliberately deferred
-// ([excluded]). A new gateway endpoint in neither section fails this test, so a
-// future endpoint (as /messages once was) cannot silently go unsurfaced.
+// sdk-endpoints.txt records which gateway endpoints this SDK surfaces
+// ([covered]) and which it deliberately does not ([excluded]). The file is a
+// generated artifact: the gateway's codegen workflow pushes it here alongside
+// the generated core, from the canonical copy at
+// scripts/sdk_codegen/sdk-endpoints.txt in mozilla-ai/otari.
 //
-// The fetch uses net/http. It is skipped offline (network error /
-// OTARI_SKIP_NETWORK_TESTS=1) but runs in CI, where the network is available.
+// The drift gate itself lives in the gateway, where the manifest is validated
+// against docs/public/openapi.json from the same commit. It used to live here
+// and fetch the spec from main over the network at test time, which made the
+// result depend on when the test ran rather than on what the commit contained:
+// an unchanged commit passed one day and failed the next, and because CI only
+// runs on push and pull_request, main sat red unnoticed for over two weeks
+// (mozilla-ai/otari#438). What remains here is offline and deterministic.
 
 import (
-	"encoding/json"
-	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"
 	"sort"
 	"strings"
 	"testing"
-	"time"
 )
-
-const specURL = "https://raw.githubusercontent.com/mozilla-ai/otari/main/docs/public/openapi.json"
-
-var httpMethods = map[string]bool{
-	"get": true, "post": true, "put": true, "patch": true, "delete": true,
-}
 
 // manifestPath returns the absolute path to sdk-endpoints.txt at the repo root
 // (one directory up from this package).
@@ -76,42 +72,6 @@ func parseManifest(t *testing.T) (covered, excluded map[string]bool) {
 	return covered, excluded
 }
 
-// fetchSpecEndpoints fetches the spec and returns its METHOD /path set,
-// dropping /health* meta routes. It skips the test on network failure.
-func fetchSpecEndpoints(t *testing.T) map[string]bool {
-	t.Helper()
-	if os.Getenv("OTARI_SKIP_NETWORK_TESTS") == "1" {
-		t.Skip("OTARI_SKIP_NETWORK_TESTS=1")
-	}
-	client := &http.Client{Timeout: 30 * time.Second}
-	resp, err := client.Get(specURL)
-	if err != nil {
-		t.Skipf("could not fetch otari OpenAPI spec from %s: %v", specURL, err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		t.Skipf("could not fetch otari OpenAPI spec from %s: HTTP %d", specURL, resp.StatusCode)
-	}
-	var doc struct {
-		Paths map[string]map[string]json.RawMessage `json:"paths"`
-	}
-	if err := json.NewDecoder(resp.Body).Decode(&doc); err != nil {
-		t.Fatalf("could not decode OpenAPI spec: %v", err)
-	}
-	eps := map[string]bool{}
-	for path, methods := range doc.Paths {
-		if path == "/health" || strings.HasPrefix(path, "/health/") {
-			continue
-		}
-		for method := range methods {
-			if httpMethods[strings.ToLower(method)] {
-				eps[strings.ToUpper(method)+" "+path] = true
-			}
-		}
-	}
-	return eps
-}
-
 func sortedKeys(m map[string]bool) []string {
 	out := make([]string, 0, len(m))
 	for k := range m {
@@ -126,48 +86,47 @@ func TestManifestParses(t *testing.T) {
 	if len(covered) == 0 {
 		t.Fatal("manifest [covered] section is empty")
 	}
+	if len(excluded) == 0 {
+		t.Fatal("manifest [excluded] section is empty")
+	}
+}
+
+func TestManifestSectionsAreDisjoint(t *testing.T) {
+	covered, excluded := parseManifest(t)
+	var both []string
 	for e := range covered {
 		if excluded[e] {
-			t.Errorf("endpoint in both [covered] and [excluded]: %s", e)
+			both = append(both, e)
 		}
+	}
+	sort.Strings(both)
+	if len(both) > 0 {
+		t.Errorf("endpoint(s) in both [covered] and [excluded]: %v", both)
 	}
 }
 
-func TestSpecEndpointsAreAccountedFor(t *testing.T) {
+func TestManifestEntriesAreWellFormed(t *testing.T) {
 	covered, excluded := parseManifest(t)
-	spec := fetchSpecEndpoints(t)
-	var unaccounted []string
-	for e := range spec {
-		if !covered[e] && !excluded[e] {
-			unaccounted = append(unaccounted, e)
+	methods := map[string]bool{
+		"GET": true, "POST": true, "PUT": true, "PATCH": true, "DELETE": true,
+	}
+	all := map[string]bool{}
+	for _, set := range []map[string]bool{covered, excluded} {
+		for e := range set {
+			all[e] = true
 		}
 	}
-	sort.Strings(unaccounted)
-	if len(unaccounted) > 0 {
-		t.Fatalf("Gateway OpenAPI exposes endpoint(s) the SDK does not account for: %v. "+
-			"Add a public wrapper and list under [covered], or defer it under [excluded] "+
-			"with a reason, in sdk-endpoints.txt.", unaccounted)
-	}
-}
-
-func TestManifestHasNoStaleEntries(t *testing.T) {
-	covered, excluded := parseManifest(t)
-	spec := fetchSpecEndpoints(t)
-	accounted := map[string]bool{}
-	for e := range covered {
-		accounted[e] = true
-	}
-	for e := range excluded {
-		accounted[e] = true
-	}
-	var stale []string
-	for e := range accounted {
-		if !spec[e] {
-			stale = append(stale, e)
+	for _, entry := range sortedKeys(all) {
+		method, path, found := strings.Cut(entry, " ")
+		if !found {
+			t.Errorf("manifest entry is not %q: %q", "METHOD /path", entry)
+			continue
 		}
-	}
-	sort.Strings(stale)
-	if len(stale) > 0 {
-		t.Skipf("manifest entries not present in current spec (review): %v", stale)
+		if !methods[method] {
+			t.Errorf("manifest entry has an unknown method: %q", entry)
+		}
+		if !strings.HasPrefix(path, "/") {
+			t.Errorf("manifest entry path does not start with %q: %q", "/", entry)
+		}
 	}
 }

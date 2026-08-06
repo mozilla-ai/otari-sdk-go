@@ -49,12 +49,17 @@ Callers use `errors.Is(err, otari.ErrRateLimit)` for category checks and `errors
 to read fields (e.g. `*otari.BatchNotCompleteError`). Preserve sentinel wrapping when you add or
 change error paths.
 
-### Endpoint-coverage drift gate
-`otari/endpoint_coverage_test.go` fetches the canonical gateway spec
-(`https://raw.githubusercontent.com/mozilla-ai/otari/main/docs/public/openapi.json`) and asserts
-every endpoint is accounted for in `sdk-endpoints.txt` (`[covered]` / `[excluded]` with a reason).
-Update that manifest when you add or intentionally skip an endpoint. The gate skips offline
-(`OTARI_SKIP_NETWORK_TESTS=1`).
+### Endpoint-coverage manifest
+`sdk-endpoints.txt` records which gateway endpoints this SDK surfaces (`[covered]`) and which it
+deliberately does not (`[excluded]`, with a reason). **It is a generated artifact.** The gateway's
+codegen workflow pushes it here from the canonical copy at `scripts/sdk_codegen/sdk-endpoints.txt`
+in `mozilla-ai/otari`, so an edit made in this repo is overwritten on the next regeneration. To
+change coverage classification, edit the canonical copy in the gateway.
+
+`otari/endpoint_coverage_test.go` only checks the manifest's structure, offline. The drift gate that compares it
+against the OpenAPI spec runs in the gateway, against the spec from the same commit. It used to run
+here over the network, which made the result depend on when CI ran rather than on the commit; see
+mozilla-ai/otari#438.
 
 ## Build / Test Commands
 - Build: `go build ./...`
@@ -62,10 +67,10 @@ Update that manifest when you add or intentionally skip an endpoint. The gate sk
 - Single test: `go test -run TestNew ./otari`
 - Vet: `go vet ./...`
 - Format check (CI fails on unformatted files): `gofmt -l .`
-- Drift gate: `go test ./otari/ -run 'TestManifestParses|TestSpecEndpointsAreAccountedFor|TestManifestHasNoStaleEntries' -v`
+- Manifest checks: `go test ./otari/ -run 'TestManifest' -v`
 
 There is **no `golangci-lint`** config; CI runs `gofmt`, `go vet`, `go build`, `go test`, and the
-drift gate. Integration tests (e.g. `control_plane_integration_test.go`) require a real gateway
+manifest checks. Integration tests (e.g. `control_plane_integration_test.go`) require a real gateway
 and skip when one is not available.
 
 ## Repository Conventions
@@ -80,7 +85,7 @@ and skip when one is not available.
   still classify errors in both auth modes.
 - Touched streaming → exercise the channel-based stream tests; verify context cancellation closes
   channels.
-- Added/removed an endpoint wrapper → update `sdk-endpoints.txt` and run the drift gate.
+- Added/removed an endpoint wrapper → update the canonical `sdk-endpoints.txt` in `mozilla-ai/otari` (`scripts/sdk_codegen/`); the copy here is regenerated.
 - Always run `gofmt -l .` (expect empty), `go vet ./...`, and `go test ./...` before a PR.
 
 ## Writing style

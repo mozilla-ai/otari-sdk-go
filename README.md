@@ -368,7 +368,7 @@ otari-sdk-go/
 │   └── *_test.go           # Unit, integration, and endpoint-coverage tests
 ├── examples/
 │   └── quickstart/         # Quick smoke test
-├── sdk-endpoints.txt       # Endpoint-coverage manifest (drift gate)
+├── sdk-endpoints.txt       # Endpoint-coverage manifest (generated; edit it in otari)
 ├── go.mod
 ├── go.sum
 └── README.md
