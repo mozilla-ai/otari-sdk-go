@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Alias** | **NullableString** |  | 
+**AllowedModels** | **[]string** |  | 
 **Blocked** | **bool** |  | 
 **BudgetId** | **NullableString** |  | 
 **BudgetStartedAt** | **NullableString** |  | 
@@ -20,7 +21,7 @@ Name | Type | Description | Notes
 
 ### NewUserResponse
 
-`func NewUserResponse(alias NullableString, blocked bool, budgetId NullableString, budgetStartedAt NullableString, createdAt string, metadata map[string]interface{}, nextBudgetResetAt NullableString, reserved float32, spend float32, updatedAt string, userId string, ) *UserResponse`
+`func NewUserResponse(alias NullableString, allowedModels []string, blocked bool, budgetId NullableString, budgetStartedAt NullableString, createdAt string, metadata map[string]interface{}, nextBudgetResetAt NullableString, reserved float32, spend float32, updatedAt string, userId string, ) *UserResponse`
 
 NewUserResponse instantiates a new UserResponse object
 This constructor will assign default values to properties that have it defined,
@@ -65,6 +66,36 @@ SetAlias sets Alias field to given value.
 `func (o *UserResponse) UnsetAlias()`
 
 UnsetAlias ensures that no value is present for Alias, not even an explicit nil
+### GetAllowedModels
+
+`func (o *UserResponse) GetAllowedModels() []string`
+
+GetAllowedModels returns the AllowedModels field if non-nil, zero value otherwise.
+
+### GetAllowedModelsOk
+
+`func (o *UserResponse) GetAllowedModelsOk() (*[]string, bool)`
+
+GetAllowedModelsOk returns a tuple with the AllowedModels field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedModels
+
+`func (o *UserResponse) SetAllowedModels(v []string)`
+
+SetAllowedModels sets AllowedModels field to given value.
+
+
+### SetAllowedModelsNil
+
+`func (o *UserResponse) SetAllowedModelsNil(b bool)`
+
+ SetAllowedModelsNil sets the value for AllowedModels to be an explicit nil
+
+### UnsetAllowedModels
+`func (o *UserResponse) UnsetAllowedModels()`
+
+UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
 ### GetBlocked
 
 `func (o *UserResponse) GetBlocked() bool`

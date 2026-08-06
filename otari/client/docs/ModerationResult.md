@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **CategoryAppliedInputTypes** | Pointer to **map[string][]string** |  | [optional] 
 **CategoryScores** | Pointer to **map[string]float32** |  | [optional] 
 **Flagged** | **bool** |  | 
-**ProviderRaw** | Pointer to **map[string]interface{}** |  | [optional] 
+**ProviderRaw** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
 
 ## Methods
 

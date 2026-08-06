@@ -5,17 +5,30 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApiKeyId** | **NullableString** |  | 
+**AttemptCount** | Pointer to **NullableInt32** |  | [optional] 
+**AttemptPosition** | Pointer to **NullableInt32** |  | [optional] 
+**BillingMeters** | **map[string]interface{}** | An unsaved policy body to explain. | 
 **CacheReadTokens** | **NullableInt32** |  | 
+**CacheWrite1hTokens** | **NullableInt32** |  | 
 **CacheWriteTokens** | **NullableInt32** |  | 
 **CompletionTokens** | **NullableInt32** |  | 
 **Cost** | **NullableFloat32** |  | 
+**CountsTowardBudget** | **bool** |  | 
 **Endpoint** | **string** |  | 
 **ErrorMessage** | **NullableString** |  | 
 **Id** | **string** |  | 
+**LatencyMs** | **NullableInt32** |  | 
 **Model** | **string** |  | 
+**PolicyName** | Pointer to **NullableString** |  | [optional] 
+**PricingBreakdown** | [**[]map[string]UsageEntryPricingBreakdownInnerValue**](map[string]UsageEntryPricingBreakdownInnerValue.md) |  | 
 **PromptTokens** | **NullableInt32** |  | 
 **Provider** | **NullableString** |  | 
+**RequestGroupId** | Pointer to **NullableString** |  | [optional] 
+**SelectionReason** | Pointer to **NullableString** |  | [optional] 
+**Source** | **string** |  | 
+**SourceLabel** | **NullableString** |  | 
 **Status** | **string** |  | 
+**StatusCode** | **NullableInt32** |  | 
 **Timestamp** | **string** |  | 
 **TotalTokens** | **NullableInt32** |  | 
 **UserId** | **NullableString** |  | 
@@ -24,7 +37,7 @@ Name | Type | Description | Notes
 
 ### NewUsageEntry
 
-`func NewUsageEntry(apiKeyId NullableString, cacheReadTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageEntry`
+`func NewUsageEntry(apiKeyId NullableString, billingMeters map[string]interface{}, cacheReadTokens NullableInt32, cacheWrite1hTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, countsTowardBudget bool, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, pricingBreakdown []map[string]UsageEntryPricingBreakdownInnerValue, promptTokens NullableInt32, provider NullableString, source string, sourceLabel NullableString, status string, statusCode NullableInt32, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageEntry`
 
 NewUsageEntry instantiates a new UsageEntry object
 This constructor will assign default values to properties that have it defined,
@@ -69,6 +82,106 @@ SetApiKeyId sets ApiKeyId field to given value.
 `func (o *UsageEntry) UnsetApiKeyId()`
 
 UnsetApiKeyId ensures that no value is present for ApiKeyId, not even an explicit nil
+### GetAttemptCount
+
+`func (o *UsageEntry) GetAttemptCount() int32`
+
+GetAttemptCount returns the AttemptCount field if non-nil, zero value otherwise.
+
+### GetAttemptCountOk
+
+`func (o *UsageEntry) GetAttemptCountOk() (*int32, bool)`
+
+GetAttemptCountOk returns a tuple with the AttemptCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAttemptCount
+
+`func (o *UsageEntry) SetAttemptCount(v int32)`
+
+SetAttemptCount sets AttemptCount field to given value.
+
+### HasAttemptCount
+
+`func (o *UsageEntry) HasAttemptCount() bool`
+
+HasAttemptCount returns a boolean if a field has been set.
+
+### SetAttemptCountNil
+
+`func (o *UsageEntry) SetAttemptCountNil(b bool)`
+
+ SetAttemptCountNil sets the value for AttemptCount to be an explicit nil
+
+### UnsetAttemptCount
+`func (o *UsageEntry) UnsetAttemptCount()`
+
+UnsetAttemptCount ensures that no value is present for AttemptCount, not even an explicit nil
+### GetAttemptPosition
+
+`func (o *UsageEntry) GetAttemptPosition() int32`
+
+GetAttemptPosition returns the AttemptPosition field if non-nil, zero value otherwise.
+
+### GetAttemptPositionOk
+
+`func (o *UsageEntry) GetAttemptPositionOk() (*int32, bool)`
+
+GetAttemptPositionOk returns a tuple with the AttemptPosition field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAttemptPosition
+
+`func (o *UsageEntry) SetAttemptPosition(v int32)`
+
+SetAttemptPosition sets AttemptPosition field to given value.
+
+### HasAttemptPosition
+
+`func (o *UsageEntry) HasAttemptPosition() bool`
+
+HasAttemptPosition returns a boolean if a field has been set.
+
+### SetAttemptPositionNil
+
+`func (o *UsageEntry) SetAttemptPositionNil(b bool)`
+
+ SetAttemptPositionNil sets the value for AttemptPosition to be an explicit nil
+
+### UnsetAttemptPosition
+`func (o *UsageEntry) UnsetAttemptPosition()`
+
+UnsetAttemptPosition ensures that no value is present for AttemptPosition, not even an explicit nil
+### GetBillingMeters
+
+`func (o *UsageEntry) GetBillingMeters() map[string]interface{}`
+
+GetBillingMeters returns the BillingMeters field if non-nil, zero value otherwise.
+
+### GetBillingMetersOk
+
+`func (o *UsageEntry) GetBillingMetersOk() (*map[string]interface{}, bool)`
+
+GetBillingMetersOk returns a tuple with the BillingMeters field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBillingMeters
+
+`func (o *UsageEntry) SetBillingMeters(v map[string]interface{})`
+
+SetBillingMeters sets BillingMeters field to given value.
+
+
+### SetBillingMetersNil
+
+`func (o *UsageEntry) SetBillingMetersNil(b bool)`
+
+ SetBillingMetersNil sets the value for BillingMeters to be an explicit nil
+
+### UnsetBillingMeters
+`func (o *UsageEntry) UnsetBillingMeters()`
+
+UnsetBillingMeters ensures that no value is present for BillingMeters, not even an explicit nil
 ### GetCacheReadTokens
 
 `func (o *UsageEntry) GetCacheReadTokens() int32`
@@ -99,6 +212,36 @@ SetCacheReadTokens sets CacheReadTokens field to given value.
 `func (o *UsageEntry) UnsetCacheReadTokens()`
 
 UnsetCacheReadTokens ensures that no value is present for CacheReadTokens, not even an explicit nil
+### GetCacheWrite1hTokens
+
+`func (o *UsageEntry) GetCacheWrite1hTokens() int32`
+
+GetCacheWrite1hTokens returns the CacheWrite1hTokens field if non-nil, zero value otherwise.
+
+### GetCacheWrite1hTokensOk
+
+`func (o *UsageEntry) GetCacheWrite1hTokensOk() (*int32, bool)`
+
+GetCacheWrite1hTokensOk returns a tuple with the CacheWrite1hTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCacheWrite1hTokens
+
+`func (o *UsageEntry) SetCacheWrite1hTokens(v int32)`
+
+SetCacheWrite1hTokens sets CacheWrite1hTokens field to given value.
+
+
+### SetCacheWrite1hTokensNil
+
+`func (o *UsageEntry) SetCacheWrite1hTokensNil(b bool)`
+
+ SetCacheWrite1hTokensNil sets the value for CacheWrite1hTokens to be an explicit nil
+
+### UnsetCacheWrite1hTokens
+`func (o *UsageEntry) UnsetCacheWrite1hTokens()`
+
+UnsetCacheWrite1hTokens ensures that no value is present for CacheWrite1hTokens, not even an explicit nil
 ### GetCacheWriteTokens
 
 `func (o *UsageEntry) GetCacheWriteTokens() int32`
@@ -189,6 +332,26 @@ SetCost sets Cost field to given value.
 `func (o *UsageEntry) UnsetCost()`
 
 UnsetCost ensures that no value is present for Cost, not even an explicit nil
+### GetCountsTowardBudget
+
+`func (o *UsageEntry) GetCountsTowardBudget() bool`
+
+GetCountsTowardBudget returns the CountsTowardBudget field if non-nil, zero value otherwise.
+
+### GetCountsTowardBudgetOk
+
+`func (o *UsageEntry) GetCountsTowardBudgetOk() (*bool, bool)`
+
+GetCountsTowardBudgetOk returns a tuple with the CountsTowardBudget field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCountsTowardBudget
+
+`func (o *UsageEntry) SetCountsTowardBudget(v bool)`
+
+SetCountsTowardBudget sets CountsTowardBudget field to given value.
+
+
 ### GetEndpoint
 
 `func (o *UsageEntry) GetEndpoint() string`
@@ -259,6 +422,36 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
+### GetLatencyMs
+
+`func (o *UsageEntry) GetLatencyMs() int32`
+
+GetLatencyMs returns the LatencyMs field if non-nil, zero value otherwise.
+
+### GetLatencyMsOk
+
+`func (o *UsageEntry) GetLatencyMsOk() (*int32, bool)`
+
+GetLatencyMsOk returns a tuple with the LatencyMs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLatencyMs
+
+`func (o *UsageEntry) SetLatencyMs(v int32)`
+
+SetLatencyMs sets LatencyMs field to given value.
+
+
+### SetLatencyMsNil
+
+`func (o *UsageEntry) SetLatencyMsNil(b bool)`
+
+ SetLatencyMsNil sets the value for LatencyMs to be an explicit nil
+
+### UnsetLatencyMs
+`func (o *UsageEntry) UnsetLatencyMs()`
+
+UnsetLatencyMs ensures that no value is present for LatencyMs, not even an explicit nil
 ### GetModel
 
 `func (o *UsageEntry) GetModel() string`
@@ -279,6 +472,71 @@ and a boolean to check if the value has been set.
 SetModel sets Model field to given value.
 
 
+### GetPolicyName
+
+`func (o *UsageEntry) GetPolicyName() string`
+
+GetPolicyName returns the PolicyName field if non-nil, zero value otherwise.
+
+### GetPolicyNameOk
+
+`func (o *UsageEntry) GetPolicyNameOk() (*string, bool)`
+
+GetPolicyNameOk returns a tuple with the PolicyName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPolicyName
+
+`func (o *UsageEntry) SetPolicyName(v string)`
+
+SetPolicyName sets PolicyName field to given value.
+
+### HasPolicyName
+
+`func (o *UsageEntry) HasPolicyName() bool`
+
+HasPolicyName returns a boolean if a field has been set.
+
+### SetPolicyNameNil
+
+`func (o *UsageEntry) SetPolicyNameNil(b bool)`
+
+ SetPolicyNameNil sets the value for PolicyName to be an explicit nil
+
+### UnsetPolicyName
+`func (o *UsageEntry) UnsetPolicyName()`
+
+UnsetPolicyName ensures that no value is present for PolicyName, not even an explicit nil
+### GetPricingBreakdown
+
+`func (o *UsageEntry) GetPricingBreakdown() []map[string]UsageEntryPricingBreakdownInnerValue`
+
+GetPricingBreakdown returns the PricingBreakdown field if non-nil, zero value otherwise.
+
+### GetPricingBreakdownOk
+
+`func (o *UsageEntry) GetPricingBreakdownOk() (*[]map[string]UsageEntryPricingBreakdownInnerValue, bool)`
+
+GetPricingBreakdownOk returns a tuple with the PricingBreakdown field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPricingBreakdown
+
+`func (o *UsageEntry) SetPricingBreakdown(v []map[string]UsageEntryPricingBreakdownInnerValue)`
+
+SetPricingBreakdown sets PricingBreakdown field to given value.
+
+
+### SetPricingBreakdownNil
+
+`func (o *UsageEntry) SetPricingBreakdownNil(b bool)`
+
+ SetPricingBreakdownNil sets the value for PricingBreakdown to be an explicit nil
+
+### UnsetPricingBreakdown
+`func (o *UsageEntry) UnsetPricingBreakdown()`
+
+UnsetPricingBreakdown ensures that no value is present for PricingBreakdown, not even an explicit nil
 ### GetPromptTokens
 
 `func (o *UsageEntry) GetPromptTokens() int32`
@@ -339,6 +597,126 @@ SetProvider sets Provider field to given value.
 `func (o *UsageEntry) UnsetProvider()`
 
 UnsetProvider ensures that no value is present for Provider, not even an explicit nil
+### GetRequestGroupId
+
+`func (o *UsageEntry) GetRequestGroupId() string`
+
+GetRequestGroupId returns the RequestGroupId field if non-nil, zero value otherwise.
+
+### GetRequestGroupIdOk
+
+`func (o *UsageEntry) GetRequestGroupIdOk() (*string, bool)`
+
+GetRequestGroupIdOk returns a tuple with the RequestGroupId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRequestGroupId
+
+`func (o *UsageEntry) SetRequestGroupId(v string)`
+
+SetRequestGroupId sets RequestGroupId field to given value.
+
+### HasRequestGroupId
+
+`func (o *UsageEntry) HasRequestGroupId() bool`
+
+HasRequestGroupId returns a boolean if a field has been set.
+
+### SetRequestGroupIdNil
+
+`func (o *UsageEntry) SetRequestGroupIdNil(b bool)`
+
+ SetRequestGroupIdNil sets the value for RequestGroupId to be an explicit nil
+
+### UnsetRequestGroupId
+`func (o *UsageEntry) UnsetRequestGroupId()`
+
+UnsetRequestGroupId ensures that no value is present for RequestGroupId, not even an explicit nil
+### GetSelectionReason
+
+`func (o *UsageEntry) GetSelectionReason() string`
+
+GetSelectionReason returns the SelectionReason field if non-nil, zero value otherwise.
+
+### GetSelectionReasonOk
+
+`func (o *UsageEntry) GetSelectionReasonOk() (*string, bool)`
+
+GetSelectionReasonOk returns a tuple with the SelectionReason field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSelectionReason
+
+`func (o *UsageEntry) SetSelectionReason(v string)`
+
+SetSelectionReason sets SelectionReason field to given value.
+
+### HasSelectionReason
+
+`func (o *UsageEntry) HasSelectionReason() bool`
+
+HasSelectionReason returns a boolean if a field has been set.
+
+### SetSelectionReasonNil
+
+`func (o *UsageEntry) SetSelectionReasonNil(b bool)`
+
+ SetSelectionReasonNil sets the value for SelectionReason to be an explicit nil
+
+### UnsetSelectionReason
+`func (o *UsageEntry) UnsetSelectionReason()`
+
+UnsetSelectionReason ensures that no value is present for SelectionReason, not even an explicit nil
+### GetSource
+
+`func (o *UsageEntry) GetSource() string`
+
+GetSource returns the Source field if non-nil, zero value otherwise.
+
+### GetSourceOk
+
+`func (o *UsageEntry) GetSourceOk() (*string, bool)`
+
+GetSourceOk returns a tuple with the Source field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSource
+
+`func (o *UsageEntry) SetSource(v string)`
+
+SetSource sets Source field to given value.
+
+
+### GetSourceLabel
+
+`func (o *UsageEntry) GetSourceLabel() string`
+
+GetSourceLabel returns the SourceLabel field if non-nil, zero value otherwise.
+
+### GetSourceLabelOk
+
+`func (o *UsageEntry) GetSourceLabelOk() (*string, bool)`
+
+GetSourceLabelOk returns a tuple with the SourceLabel field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSourceLabel
+
+`func (o *UsageEntry) SetSourceLabel(v string)`
+
+SetSourceLabel sets SourceLabel field to given value.
+
+
+### SetSourceLabelNil
+
+`func (o *UsageEntry) SetSourceLabelNil(b bool)`
+
+ SetSourceLabelNil sets the value for SourceLabel to be an explicit nil
+
+### UnsetSourceLabel
+`func (o *UsageEntry) UnsetSourceLabel()`
+
+UnsetSourceLabel ensures that no value is present for SourceLabel, not even an explicit nil
 ### GetStatus
 
 `func (o *UsageEntry) GetStatus() string`
@@ -359,6 +737,36 @@ and a boolean to check if the value has been set.
 SetStatus sets Status field to given value.
 
 
+### GetStatusCode
+
+`func (o *UsageEntry) GetStatusCode() int32`
+
+GetStatusCode returns the StatusCode field if non-nil, zero value otherwise.
+
+### GetStatusCodeOk
+
+`func (o *UsageEntry) GetStatusCodeOk() (*int32, bool)`
+
+GetStatusCodeOk returns a tuple with the StatusCode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatusCode
+
+`func (o *UsageEntry) SetStatusCode(v int32)`
+
+SetStatusCode sets StatusCode field to given value.
+
+
+### SetStatusCodeNil
+
+`func (o *UsageEntry) SetStatusCodeNil(b bool)`
+
+ SetStatusCodeNil sets the value for StatusCode to be an explicit nil
+
+### UnsetStatusCode
+`func (o *UsageEntry) UnsetStatusCode()`
+
+UnsetStatusCode ensures that no value is present for StatusCode, not even an explicit nil
 ### GetTimestamp
 
 `func (o *UsageEntry) GetTimestamp() string`

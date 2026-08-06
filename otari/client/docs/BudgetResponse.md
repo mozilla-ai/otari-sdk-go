@@ -8,13 +8,17 @@ Name | Type | Description | Notes
 **BudgetId** | **string** |  | 
 **CreatedAt** | **string** |  | 
 **MaxBudget** | **NullableFloat32** |  | 
+**Name** | **NullableString** |  | 
+**TotalReserved** | Pointer to **float32** |  | [optional] [default to 0.0]
+**TotalSpend** | Pointer to **float32** |  | [optional] [default to 0.0]
 **UpdatedAt** | **string** |  | 
+**UserCount** | Pointer to **int32** |  | [optional] [default to 0]
 
 ## Methods
 
 ### NewBudgetResponse
 
-`func NewBudgetResponse(budgetDurationSec NullableInt32, budgetId string, createdAt string, maxBudget NullableFloat32, updatedAt string, ) *BudgetResponse`
+`func NewBudgetResponse(budgetDurationSec NullableInt32, budgetId string, createdAt string, maxBudget NullableFloat32, name NullableString, updatedAt string, ) *BudgetResponse`
 
 NewBudgetResponse instantiates a new BudgetResponse object
 This constructor will assign default values to properties that have it defined,
@@ -129,6 +133,86 @@ SetMaxBudget sets MaxBudget field to given value.
 `func (o *BudgetResponse) UnsetMaxBudget()`
 
 UnsetMaxBudget ensures that no value is present for MaxBudget, not even an explicit nil
+### GetName
+
+`func (o *BudgetResponse) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *BudgetResponse) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *BudgetResponse) SetName(v string)`
+
+SetName sets Name field to given value.
+
+
+### SetNameNil
+
+`func (o *BudgetResponse) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *BudgetResponse) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
+### GetTotalReserved
+
+`func (o *BudgetResponse) GetTotalReserved() float32`
+
+GetTotalReserved returns the TotalReserved field if non-nil, zero value otherwise.
+
+### GetTotalReservedOk
+
+`func (o *BudgetResponse) GetTotalReservedOk() (*float32, bool)`
+
+GetTotalReservedOk returns a tuple with the TotalReserved field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTotalReserved
+
+`func (o *BudgetResponse) SetTotalReserved(v float32)`
+
+SetTotalReserved sets TotalReserved field to given value.
+
+### HasTotalReserved
+
+`func (o *BudgetResponse) HasTotalReserved() bool`
+
+HasTotalReserved returns a boolean if a field has been set.
+
+### GetTotalSpend
+
+`func (o *BudgetResponse) GetTotalSpend() float32`
+
+GetTotalSpend returns the TotalSpend field if non-nil, zero value otherwise.
+
+### GetTotalSpendOk
+
+`func (o *BudgetResponse) GetTotalSpendOk() (*float32, bool)`
+
+GetTotalSpendOk returns a tuple with the TotalSpend field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTotalSpend
+
+`func (o *BudgetResponse) SetTotalSpend(v float32)`
+
+SetTotalSpend sets TotalSpend field to given value.
+
+### HasTotalSpend
+
+`func (o *BudgetResponse) HasTotalSpend() bool`
+
+HasTotalSpend returns a boolean if a field has been set.
+
 ### GetUpdatedAt
 
 `func (o *BudgetResponse) GetUpdatedAt() string`
@@ -148,6 +232,31 @@ and a boolean to check if the value has been set.
 
 SetUpdatedAt sets UpdatedAt field to given value.
 
+
+### GetUserCount
+
+`func (o *BudgetResponse) GetUserCount() int32`
+
+GetUserCount returns the UserCount field if non-nil, zero value otherwise.
+
+### GetUserCountOk
+
+`func (o *BudgetResponse) GetUserCountOk() (*int32, bool)`
+
+GetUserCountOk returns a tuple with the UserCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserCount
+
+`func (o *BudgetResponse) SetUserCount(v int32)`
+
+SetUserCount sets UserCount field to given value.
+
+### HasUserCount
+
+`func (o *BudgetResponse) HasUserCount() bool`
+
+HasUserCount returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

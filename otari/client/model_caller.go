@@ -17,9 +17,9 @@ import (
 
 // Caller struct for Caller
 type Caller struct {
-	MRDirectCaller             *MRDirectCaller
-	MRServerToolCaller         *MRServerToolCaller
-	MRServerToolCaller20260120 *MRServerToolCaller20260120
+	MRBetaDirectCaller             *MRBetaDirectCaller
+	MRBetaServerToolCaller         *MRBetaServerToolCaller
+	MRBetaServerToolCaller20260120 *MRBetaServerToolCaller20260120
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
@@ -30,43 +30,43 @@ func (dst *Caller) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	// try to unmarshal JSON data into MRDirectCaller
-	err = json.Unmarshal(data, &dst.MRDirectCaller)
+	// try to unmarshal JSON data into MRBetaDirectCaller
+	err = json.Unmarshal(data, &dst.MRBetaDirectCaller)
 	if err == nil {
-		jsonMRDirectCaller, _ := json.Marshal(dst.MRDirectCaller)
-		if string(jsonMRDirectCaller) == "{}" { // empty struct
-			dst.MRDirectCaller = nil
+		jsonMRBetaDirectCaller, _ := json.Marshal(dst.MRBetaDirectCaller)
+		if string(jsonMRBetaDirectCaller) == "{}" { // empty struct
+			dst.MRBetaDirectCaller = nil
 		} else {
-			return nil // data stored in dst.MRDirectCaller, return on the first match
+			return nil // data stored in dst.MRBetaDirectCaller, return on the first match
 		}
 	} else {
-		dst.MRDirectCaller = nil
+		dst.MRBetaDirectCaller = nil
 	}
 
-	// try to unmarshal JSON data into MRServerToolCaller
-	err = json.Unmarshal(data, &dst.MRServerToolCaller)
+	// try to unmarshal JSON data into MRBetaServerToolCaller
+	err = json.Unmarshal(data, &dst.MRBetaServerToolCaller)
 	if err == nil {
-		jsonMRServerToolCaller, _ := json.Marshal(dst.MRServerToolCaller)
-		if string(jsonMRServerToolCaller) == "{}" { // empty struct
-			dst.MRServerToolCaller = nil
+		jsonMRBetaServerToolCaller, _ := json.Marshal(dst.MRBetaServerToolCaller)
+		if string(jsonMRBetaServerToolCaller) == "{}" { // empty struct
+			dst.MRBetaServerToolCaller = nil
 		} else {
-			return nil // data stored in dst.MRServerToolCaller, return on the first match
+			return nil // data stored in dst.MRBetaServerToolCaller, return on the first match
 		}
 	} else {
-		dst.MRServerToolCaller = nil
+		dst.MRBetaServerToolCaller = nil
 	}
 
-	// try to unmarshal JSON data into MRServerToolCaller20260120
-	err = json.Unmarshal(data, &dst.MRServerToolCaller20260120)
+	// try to unmarshal JSON data into MRBetaServerToolCaller20260120
+	err = json.Unmarshal(data, &dst.MRBetaServerToolCaller20260120)
 	if err == nil {
-		jsonMRServerToolCaller20260120, _ := json.Marshal(dst.MRServerToolCaller20260120)
-		if string(jsonMRServerToolCaller20260120) == "{}" { // empty struct
-			dst.MRServerToolCaller20260120 = nil
+		jsonMRBetaServerToolCaller20260120, _ := json.Marshal(dst.MRBetaServerToolCaller20260120)
+		if string(jsonMRBetaServerToolCaller20260120) == "{}" { // empty struct
+			dst.MRBetaServerToolCaller20260120 = nil
 		} else {
-			return nil // data stored in dst.MRServerToolCaller20260120, return on the first match
+			return nil // data stored in dst.MRBetaServerToolCaller20260120, return on the first match
 		}
 	} else {
-		dst.MRServerToolCaller20260120 = nil
+		dst.MRBetaServerToolCaller20260120 = nil
 	}
 
 	return fmt.Errorf("data failed to match schemas in anyOf(Caller)")
@@ -74,16 +74,16 @@ func (dst *Caller) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Caller) MarshalJSON() ([]byte, error) {
-	if src.MRDirectCaller != nil {
-		return json.Marshal(&src.MRDirectCaller)
+	if src.MRBetaDirectCaller != nil {
+		return json.Marshal(&src.MRBetaDirectCaller)
 	}
 
-	if src.MRServerToolCaller != nil {
-		return json.Marshal(&src.MRServerToolCaller)
+	if src.MRBetaServerToolCaller != nil {
+		return json.Marshal(&src.MRBetaServerToolCaller)
 	}
 
-	if src.MRServerToolCaller20260120 != nil {
-		return json.Marshal(&src.MRServerToolCaller20260120)
+	if src.MRBetaServerToolCaller20260120 != nil {
+		return json.Marshal(&src.MRBetaServerToolCaller20260120)
 	}
 
 	return nil, nil // no data in anyOf schemas

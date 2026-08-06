@@ -4,9 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**AllowedModels** | Pointer to **[]string** | Model allow-list: null &#x3D; any model, [] &#x3D; deny all, or canonical instance:model entries (with instance:* / instance:prefix* wildcards). | [optional] 
+**ExcludeFromBudget** | Pointer to **bool** | When true, requests on this key are logged with cost but never reserved, reconciled into the user&#39;s spend, or gated by budget. | [optional] [default to false]
 **ExpiresAt** | Pointer to **NullableTime** | Optional expiration timestamp | [optional] 
 **KeyName** | Pointer to **NullableString** | Optional name for the key | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** | Optional metadata | [optional] 
+**RejectUserMismatch** | Pointer to **NullableBool** | Per-key override of the deployment-wide reject_user_mismatch setting: null (default) inherits it, true always rejects a request naming a different &#39;user&#39;, false always accepts it. Spend binds to this key&#39;s own user either way. | [optional] 
 **UserId** | Pointer to **NullableString** | Optional user ID to associate with this key | [optional] 
 
 ## Methods
@@ -27,6 +30,66 @@ will change when the set of required properties is changed
 NewCreateKeyRequestWithDefaults instantiates a new CreateKeyRequest object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetAllowedModels
+
+`func (o *CreateKeyRequest) GetAllowedModels() []string`
+
+GetAllowedModels returns the AllowedModels field if non-nil, zero value otherwise.
+
+### GetAllowedModelsOk
+
+`func (o *CreateKeyRequest) GetAllowedModelsOk() (*[]string, bool)`
+
+GetAllowedModelsOk returns a tuple with the AllowedModels field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedModels
+
+`func (o *CreateKeyRequest) SetAllowedModels(v []string)`
+
+SetAllowedModels sets AllowedModels field to given value.
+
+### HasAllowedModels
+
+`func (o *CreateKeyRequest) HasAllowedModels() bool`
+
+HasAllowedModels returns a boolean if a field has been set.
+
+### SetAllowedModelsNil
+
+`func (o *CreateKeyRequest) SetAllowedModelsNil(b bool)`
+
+ SetAllowedModelsNil sets the value for AllowedModels to be an explicit nil
+
+### UnsetAllowedModels
+`func (o *CreateKeyRequest) UnsetAllowedModels()`
+
+UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetExcludeFromBudget
+
+`func (o *CreateKeyRequest) GetExcludeFromBudget() bool`
+
+GetExcludeFromBudget returns the ExcludeFromBudget field if non-nil, zero value otherwise.
+
+### GetExcludeFromBudgetOk
+
+`func (o *CreateKeyRequest) GetExcludeFromBudgetOk() (*bool, bool)`
+
+GetExcludeFromBudgetOk returns a tuple with the ExcludeFromBudget field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExcludeFromBudget
+
+`func (o *CreateKeyRequest) SetExcludeFromBudget(v bool)`
+
+SetExcludeFromBudget sets ExcludeFromBudget field to given value.
+
+### HasExcludeFromBudget
+
+`func (o *CreateKeyRequest) HasExcludeFromBudget() bool`
+
+HasExcludeFromBudget returns a boolean if a field has been set.
 
 ### GetExpiresAt
 
@@ -123,6 +186,41 @@ SetMetadata sets Metadata field to given value.
 
 HasMetadata returns a boolean if a field has been set.
 
+### GetRejectUserMismatch
+
+`func (o *CreateKeyRequest) GetRejectUserMismatch() bool`
+
+GetRejectUserMismatch returns the RejectUserMismatch field if non-nil, zero value otherwise.
+
+### GetRejectUserMismatchOk
+
+`func (o *CreateKeyRequest) GetRejectUserMismatchOk() (*bool, bool)`
+
+GetRejectUserMismatchOk returns a tuple with the RejectUserMismatch field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRejectUserMismatch
+
+`func (o *CreateKeyRequest) SetRejectUserMismatch(v bool)`
+
+SetRejectUserMismatch sets RejectUserMismatch field to given value.
+
+### HasRejectUserMismatch
+
+`func (o *CreateKeyRequest) HasRejectUserMismatch() bool`
+
+HasRejectUserMismatch returns a boolean if a field has been set.
+
+### SetRejectUserMismatchNil
+
+`func (o *CreateKeyRequest) SetRejectUserMismatchNil(b bool)`
+
+ SetRejectUserMismatchNil sets the value for RejectUserMismatch to be an explicit nil
+
+### UnsetRejectUserMismatch
+`func (o *CreateKeyRequest) UnsetRejectUserMismatch()`
+
+UnsetRejectUserMismatch ensures that no value is present for RejectUserMismatch, not even an explicit nil
 ### GetUserId
 
 `func (o *CreateKeyRequest) GetUserId() string`

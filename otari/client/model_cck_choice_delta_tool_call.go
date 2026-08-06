@@ -18,12 +18,13 @@ import (
 // checks if the CCKChoiceDeltaToolCall type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CCKChoiceDeltaToolCall{}
 
-// CCKChoiceDeltaToolCall struct for CCKChoiceDeltaToolCall
+// CCKChoiceDeltaToolCall Streaming counterpart of “ChatCompletionMessageFunctionToolCall“.  Adds the same “extra_content“ field so provider-specific tool-call metadata (e.g. Gemini's “thought_signature“) can be carried on streaming deltas, not just on the final non-streaming tool call.
 type CCKChoiceDeltaToolCall struct {
 	Index                int32                                  `json:"index"`
 	Id                   NullableString                         `json:"id,omitempty"`
 	Function             NullableCCKChoiceDeltaToolCallFunction `json:"function,omitempty"`
 	Type                 NullableString                         `json:"type,omitempty"`
+	ExtraContent         map[string]interface{}                 `json:"extra_content,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -200,6 +201,39 @@ func (o *CCKChoiceDeltaToolCall) UnsetType() {
 	o.Type.Unset()
 }
 
+// GetExtraContent returns the ExtraContent field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CCKChoiceDeltaToolCall) GetExtraContent() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.ExtraContent
+}
+
+// GetExtraContentOk returns a tuple with the ExtraContent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CCKChoiceDeltaToolCall) GetExtraContentOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.ExtraContent) {
+		return map[string]interface{}{}, false
+	}
+	return o.ExtraContent, true
+}
+
+// HasExtraContent returns a boolean if a field has been set.
+func (o *CCKChoiceDeltaToolCall) HasExtraContent() bool {
+	if o != nil && !IsNil(o.ExtraContent) {
+		return true
+	}
+
+	return false
+}
+
+// SetExtraContent gets a reference to the given map[string]interface{} and assigns it to the ExtraContent field.
+func (o *CCKChoiceDeltaToolCall) SetExtraContent(v map[string]interface{}) {
+	o.ExtraContent = v
+}
+
 func (o CCKChoiceDeltaToolCall) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -219,6 +253,9 @@ func (o CCKChoiceDeltaToolCall) ToMap() (map[string]interface{}, error) {
 	}
 	if o.Type.IsSet() {
 		toSerialize["type"] = o.Type.Get()
+	}
+	if o.ExtraContent != nil {
+		toSerialize["extra_content"] = o.ExtraContent
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -267,6 +304,7 @@ func (o *CCKChoiceDeltaToolCall) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "function")
 		delete(additionalProperties, "type")
+		delete(additionalProperties, "extra_content")
 		o.AdditionalProperties = additionalProperties
 	}
 

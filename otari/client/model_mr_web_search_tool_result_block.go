@@ -20,10 +20,10 @@ var _ MappedNullable = &MRWebSearchToolResultBlock{}
 
 // MRWebSearchToolResultBlock struct for MRWebSearchToolResultBlock
 type MRWebSearchToolResultBlock struct {
-	Caller               NullableCaller `json:"caller,omitempty"`
-	Content              Content8       `json:"content"`
-	ToolUseId            string         `json:"tool_use_id"`
-	Type                 string         `json:"type"`
+	Caller               NullableCaller1 `json:"caller,omitempty"`
+	Content              Content15       `json:"content"`
+	ToolUseId            string          `json:"tool_use_id"`
+	Type                 string          `json:"type"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -33,7 +33,7 @@ type _MRWebSearchToolResultBlock MRWebSearchToolResultBlock
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRWebSearchToolResultBlock(content Content8, toolUseId string, type_ string) *MRWebSearchToolResultBlock {
+func NewMRWebSearchToolResultBlock(content Content15, toolUseId string, type_ string) *MRWebSearchToolResultBlock {
 	this := MRWebSearchToolResultBlock{}
 	this.Content = content
 	this.ToolUseId = toolUseId
@@ -50,9 +50,9 @@ func NewMRWebSearchToolResultBlockWithDefaults() *MRWebSearchToolResultBlock {
 }
 
 // GetCaller returns the Caller field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *MRWebSearchToolResultBlock) GetCaller() Caller {
+func (o *MRWebSearchToolResultBlock) GetCaller() Caller1 {
 	if o == nil || IsNil(o.Caller.Get()) {
-		var ret Caller
+		var ret Caller1
 		return ret
 	}
 	return *o.Caller.Get()
@@ -61,7 +61,7 @@ func (o *MRWebSearchToolResultBlock) GetCaller() Caller {
 // GetCallerOk returns a tuple with the Caller field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *MRWebSearchToolResultBlock) GetCallerOk() (*Caller, bool) {
+func (o *MRWebSearchToolResultBlock) GetCallerOk() (*Caller1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -77,8 +77,8 @@ func (o *MRWebSearchToolResultBlock) HasCaller() bool {
 	return false
 }
 
-// SetCaller gets a reference to the given NullableCaller and assigns it to the Caller field.
-func (o *MRWebSearchToolResultBlock) SetCaller(v Caller) {
+// SetCaller gets a reference to the given NullableCaller1 and assigns it to the Caller field.
+func (o *MRWebSearchToolResultBlock) SetCaller(v Caller1) {
 	o.Caller.Set(&v)
 }
 
@@ -93,9 +93,9 @@ func (o *MRWebSearchToolResultBlock) UnsetCaller() {
 }
 
 // GetContent returns the Content field value
-func (o *MRWebSearchToolResultBlock) GetContent() Content8 {
+func (o *MRWebSearchToolResultBlock) GetContent() Content15 {
 	if o == nil {
-		var ret Content8
+		var ret Content15
 		return ret
 	}
 
@@ -104,7 +104,7 @@ func (o *MRWebSearchToolResultBlock) GetContent() Content8 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *MRWebSearchToolResultBlock) GetContentOk() (*Content8, bool) {
+func (o *MRWebSearchToolResultBlock) GetContentOk() (*Content15, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -112,7 +112,7 @@ func (o *MRWebSearchToolResultBlock) GetContentOk() (*Content8, bool) {
 }
 
 // SetContent sets field value
-func (o *MRWebSearchToolResultBlock) SetContent(v Content8) {
+func (o *MRWebSearchToolResultBlock) SetContent(v Content15) {
 	o.Content = v
 }
 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**Id** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
 **Results** | [**[]RRRerankResult**](RRRerankResult.md) | Results sorted by relevance_score descending | 
 **Meta** | Pointer to [**NullableRRRerankMeta**](RRRerankMeta.md) |  | [optional] 
 **Usage** | Pointer to [**NullableRRRerankUsage**](RRRerankUsage.md) |  | [optional] 

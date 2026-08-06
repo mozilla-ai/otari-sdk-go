@@ -21,7 +21,9 @@ var _ MappedNullable = &MessagesRequest{}
 
 // MessagesRequest Anthropic Messages API-compatible request.  The wire fields are derived from any-llm's “MessagesParams“ (see “_schema_derive“) so the schema cannot silently drop a param any-llm forwards. Gateway-internal fields (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) opt the request into gateway-managed MCP / sandbox / web_search / guardrails without changing the upstream wire shape. They're stripped before the request is forwarded.
 type MessagesRequest struct {
+	Betas             []string                 `json:"betas,omitempty"`
 	CacheControl      map[string]interface{}   `json:"cache_control,omitempty"`
+	ContextManagement map[string]interface{}   `json:"context_management,omitempty"`
 	Guardrails        []GuardrailConfig        `json:"guardrails,omitempty"`
 	MaxTokens         int32                    `json:"max_tokens"`
 	MaxToolIterations NullableInt32            `json:"max_tool_iterations,omitempty"`
@@ -30,6 +32,8 @@ type MessagesRequest struct {
 	Messages          []map[string]interface{} `json:"messages"`
 	Metadata          map[string]interface{}   `json:"metadata,omitempty"`
 	Model             string                   `json:"model"`
+	// An unsaved policy body to explain.
+	OutputFormat map[string]interface{} `json:"output_format,omitempty"`
 	// Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to.
 	SessionLabel  NullableString           `json:"session_label,omitempty"`
 	StopSequences []string                 `json:"stop_sequences,omitempty"`
@@ -70,6 +74,39 @@ func NewMessagesRequestWithDefaults() *MessagesRequest {
 	return &this
 }
 
+// GetBetas returns the Betas field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MessagesRequest) GetBetas() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+	return o.Betas
+}
+
+// GetBetasOk returns a tuple with the Betas field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MessagesRequest) GetBetasOk() ([]string, bool) {
+	if o == nil || IsNil(o.Betas) {
+		return nil, false
+	}
+	return o.Betas, true
+}
+
+// HasBetas returns a boolean if a field has been set.
+func (o *MessagesRequest) HasBetas() bool {
+	if o != nil && !IsNil(o.Betas) {
+		return true
+	}
+
+	return false
+}
+
+// SetBetas gets a reference to the given []string and assigns it to the Betas field.
+func (o *MessagesRequest) SetBetas(v []string) {
+	o.Betas = v
+}
+
 // GetCacheControl returns the CacheControl field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MessagesRequest) GetCacheControl() map[string]interface{} {
 	if o == nil {
@@ -101,6 +138,39 @@ func (o *MessagesRequest) HasCacheControl() bool {
 // SetCacheControl gets a reference to the given map[string]interface{} and assigns it to the CacheControl field.
 func (o *MessagesRequest) SetCacheControl(v map[string]interface{}) {
 	o.CacheControl = v
+}
+
+// GetContextManagement returns the ContextManagement field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MessagesRequest) GetContextManagement() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.ContextManagement
+}
+
+// GetContextManagementOk returns a tuple with the ContextManagement field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MessagesRequest) GetContextManagementOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.ContextManagement) {
+		return map[string]interface{}{}, false
+	}
+	return o.ContextManagement, true
+}
+
+// HasContextManagement returns a boolean if a field has been set.
+func (o *MessagesRequest) HasContextManagement() bool {
+	if o != nil && !IsNil(o.ContextManagement) {
+		return true
+	}
+
+	return false
+}
+
+// SetContextManagement gets a reference to the given map[string]interface{} and assigns it to the ContextManagement field.
+func (o *MessagesRequest) SetContextManagement(v map[string]interface{}) {
+	o.ContextManagement = v
 }
 
 // GetGuardrails returns the Guardrails field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -348,6 +418,39 @@ func (o *MessagesRequest) GetModelOk() (*string, bool) {
 // SetModel sets field value
 func (o *MessagesRequest) SetModel(v string) {
 	o.Model = v
+}
+
+// GetOutputFormat returns the OutputFormat field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MessagesRequest) GetOutputFormat() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.OutputFormat
+}
+
+// GetOutputFormatOk returns a tuple with the OutputFormat field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MessagesRequest) GetOutputFormatOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.OutputFormat) {
+		return map[string]interface{}{}, false
+	}
+	return o.OutputFormat, true
+}
+
+// HasOutputFormat returns a boolean if a field has been set.
+func (o *MessagesRequest) HasOutputFormat() bool {
+	if o != nil && !IsNil(o.OutputFormat) {
+		return true
+	}
+
+	return false
+}
+
+// SetOutputFormat gets a reference to the given map[string]interface{} and assigns it to the OutputFormat field.
+func (o *MessagesRequest) SetOutputFormat(v map[string]interface{}) {
+	o.OutputFormat = v
 }
 
 // GetSessionLabel returns the SessionLabel field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -782,8 +885,14 @@ func (o MessagesRequest) MarshalJSON() ([]byte, error) {
 
 func (o MessagesRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.Betas != nil {
+		toSerialize["betas"] = o.Betas
+	}
 	if o.CacheControl != nil {
 		toSerialize["cache_control"] = o.CacheControl
+	}
+	if o.ContextManagement != nil {
+		toSerialize["context_management"] = o.ContextManagement
 	}
 	if o.Guardrails != nil {
 		toSerialize["guardrails"] = o.Guardrails
@@ -803,6 +912,9 @@ func (o MessagesRequest) ToMap() (map[string]interface{}, error) {
 		toSerialize["metadata"] = o.Metadata
 	}
 	toSerialize["model"] = o.Model
+	if o.OutputFormat != nil {
+		toSerialize["output_format"] = o.OutputFormat
+	}
 	if o.SessionLabel.IsSet() {
 		toSerialize["session_label"] = o.SessionLabel.Get()
 	}

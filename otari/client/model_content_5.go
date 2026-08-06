@@ -17,65 +17,51 @@ import (
 
 // Content5 struct for Content5
 type Content5 struct {
-	MRTextEditorCodeExecutionCreateResultBlock     *MRTextEditorCodeExecutionCreateResultBlock
-	MRTextEditorCodeExecutionStrReplaceResultBlock *MRTextEditorCodeExecutionStrReplaceResultBlock
-	MRTextEditorCodeExecutionToolResultError       *MRTextEditorCodeExecutionToolResultError
-	MRTextEditorCodeExecutionViewResultBlock       *MRTextEditorCodeExecutionViewResultBlock
+	MRBetaCodeExecutionResultBlock          *MRBetaCodeExecutionResultBlock
+	MRBetaCodeExecutionToolResultError      *MRBetaCodeExecutionToolResultError
+	MRBetaEncryptedCodeExecutionResultBlock *MRBetaEncryptedCodeExecutionResultBlock
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *Content5) UnmarshalJSON(data []byte) error {
 	var err error
-	// try to unmarshal JSON data into MRTextEditorCodeExecutionCreateResultBlock
-	err = json.Unmarshal(data, &dst.MRTextEditorCodeExecutionCreateResultBlock)
+	// try to unmarshal JSON data into MRBetaCodeExecutionResultBlock
+	err = json.Unmarshal(data, &dst.MRBetaCodeExecutionResultBlock)
 	if err == nil {
-		jsonMRTextEditorCodeExecutionCreateResultBlock, _ := json.Marshal(dst.MRTextEditorCodeExecutionCreateResultBlock)
-		if string(jsonMRTextEditorCodeExecutionCreateResultBlock) == "{}" { // empty struct
-			dst.MRTextEditorCodeExecutionCreateResultBlock = nil
+		jsonMRBetaCodeExecutionResultBlock, _ := json.Marshal(dst.MRBetaCodeExecutionResultBlock)
+		if string(jsonMRBetaCodeExecutionResultBlock) == "{}" { // empty struct
+			dst.MRBetaCodeExecutionResultBlock = nil
 		} else {
-			return nil // data stored in dst.MRTextEditorCodeExecutionCreateResultBlock, return on the first match
+			return nil // data stored in dst.MRBetaCodeExecutionResultBlock, return on the first match
 		}
 	} else {
-		dst.MRTextEditorCodeExecutionCreateResultBlock = nil
+		dst.MRBetaCodeExecutionResultBlock = nil
 	}
 
-	// try to unmarshal JSON data into MRTextEditorCodeExecutionStrReplaceResultBlock
-	err = json.Unmarshal(data, &dst.MRTextEditorCodeExecutionStrReplaceResultBlock)
+	// try to unmarshal JSON data into MRBetaCodeExecutionToolResultError
+	err = json.Unmarshal(data, &dst.MRBetaCodeExecutionToolResultError)
 	if err == nil {
-		jsonMRTextEditorCodeExecutionStrReplaceResultBlock, _ := json.Marshal(dst.MRTextEditorCodeExecutionStrReplaceResultBlock)
-		if string(jsonMRTextEditorCodeExecutionStrReplaceResultBlock) == "{}" { // empty struct
-			dst.MRTextEditorCodeExecutionStrReplaceResultBlock = nil
+		jsonMRBetaCodeExecutionToolResultError, _ := json.Marshal(dst.MRBetaCodeExecutionToolResultError)
+		if string(jsonMRBetaCodeExecutionToolResultError) == "{}" { // empty struct
+			dst.MRBetaCodeExecutionToolResultError = nil
 		} else {
-			return nil // data stored in dst.MRTextEditorCodeExecutionStrReplaceResultBlock, return on the first match
+			return nil // data stored in dst.MRBetaCodeExecutionToolResultError, return on the first match
 		}
 	} else {
-		dst.MRTextEditorCodeExecutionStrReplaceResultBlock = nil
+		dst.MRBetaCodeExecutionToolResultError = nil
 	}
 
-	// try to unmarshal JSON data into MRTextEditorCodeExecutionToolResultError
-	err = json.Unmarshal(data, &dst.MRTextEditorCodeExecutionToolResultError)
+	// try to unmarshal JSON data into MRBetaEncryptedCodeExecutionResultBlock
+	err = json.Unmarshal(data, &dst.MRBetaEncryptedCodeExecutionResultBlock)
 	if err == nil {
-		jsonMRTextEditorCodeExecutionToolResultError, _ := json.Marshal(dst.MRTextEditorCodeExecutionToolResultError)
-		if string(jsonMRTextEditorCodeExecutionToolResultError) == "{}" { // empty struct
-			dst.MRTextEditorCodeExecutionToolResultError = nil
+		jsonMRBetaEncryptedCodeExecutionResultBlock, _ := json.Marshal(dst.MRBetaEncryptedCodeExecutionResultBlock)
+		if string(jsonMRBetaEncryptedCodeExecutionResultBlock) == "{}" { // empty struct
+			dst.MRBetaEncryptedCodeExecutionResultBlock = nil
 		} else {
-			return nil // data stored in dst.MRTextEditorCodeExecutionToolResultError, return on the first match
+			return nil // data stored in dst.MRBetaEncryptedCodeExecutionResultBlock, return on the first match
 		}
 	} else {
-		dst.MRTextEditorCodeExecutionToolResultError = nil
-	}
-
-	// try to unmarshal JSON data into MRTextEditorCodeExecutionViewResultBlock
-	err = json.Unmarshal(data, &dst.MRTextEditorCodeExecutionViewResultBlock)
-	if err == nil {
-		jsonMRTextEditorCodeExecutionViewResultBlock, _ := json.Marshal(dst.MRTextEditorCodeExecutionViewResultBlock)
-		if string(jsonMRTextEditorCodeExecutionViewResultBlock) == "{}" { // empty struct
-			dst.MRTextEditorCodeExecutionViewResultBlock = nil
-		} else {
-			return nil // data stored in dst.MRTextEditorCodeExecutionViewResultBlock, return on the first match
-		}
-	} else {
-		dst.MRTextEditorCodeExecutionViewResultBlock = nil
+		dst.MRBetaEncryptedCodeExecutionResultBlock = nil
 	}
 
 	return fmt.Errorf("data failed to match schemas in anyOf(Content5)")
@@ -83,20 +69,16 @@ func (dst *Content5) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Content5) MarshalJSON() ([]byte, error) {
-	if src.MRTextEditorCodeExecutionCreateResultBlock != nil {
-		return json.Marshal(&src.MRTextEditorCodeExecutionCreateResultBlock)
+	if src.MRBetaCodeExecutionResultBlock != nil {
+		return json.Marshal(&src.MRBetaCodeExecutionResultBlock)
 	}
 
-	if src.MRTextEditorCodeExecutionStrReplaceResultBlock != nil {
-		return json.Marshal(&src.MRTextEditorCodeExecutionStrReplaceResultBlock)
+	if src.MRBetaCodeExecutionToolResultError != nil {
+		return json.Marshal(&src.MRBetaCodeExecutionToolResultError)
 	}
 
-	if src.MRTextEditorCodeExecutionToolResultError != nil {
-		return json.Marshal(&src.MRTextEditorCodeExecutionToolResultError)
-	}
-
-	if src.MRTextEditorCodeExecutionViewResultBlock != nil {
-		return json.Marshal(&src.MRTextEditorCodeExecutionViewResultBlock)
+	if src.MRBetaEncryptedCodeExecutionResultBlock != nil {
+		return json.Marshal(&src.MRBetaEncryptedCodeExecutionResultBlock)
 	}
 
 	return nil, nil // no data in anyOf schemas

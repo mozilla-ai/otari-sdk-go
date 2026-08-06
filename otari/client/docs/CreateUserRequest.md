@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Alias** | Pointer to **NullableString** | Optional admin-facing alias | [optional] 
+**AllowedModels** | Pointer to **[]string** | Default model access-list this user&#39;s keys inherit; null &#x3D; unrestricted, [] &#x3D; deny all | [optional] 
 **Blocked** | Pointer to **bool** | Whether user is blocked | [optional] [default to false]
 **BudgetId** | Pointer to **NullableString** | Optional budget ID | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** | Optional metadata | [optional] 
@@ -64,6 +65,41 @@ HasAlias returns a boolean if a field has been set.
 `func (o *CreateUserRequest) UnsetAlias()`
 
 UnsetAlias ensures that no value is present for Alias, not even an explicit nil
+### GetAllowedModels
+
+`func (o *CreateUserRequest) GetAllowedModels() []string`
+
+GetAllowedModels returns the AllowedModels field if non-nil, zero value otherwise.
+
+### GetAllowedModelsOk
+
+`func (o *CreateUserRequest) GetAllowedModelsOk() (*[]string, bool)`
+
+GetAllowedModelsOk returns a tuple with the AllowedModels field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedModels
+
+`func (o *CreateUserRequest) SetAllowedModels(v []string)`
+
+SetAllowedModels sets AllowedModels field to given value.
+
+### HasAllowedModels
+
+`func (o *CreateUserRequest) HasAllowedModels() bool`
+
+HasAllowedModels returns a boolean if a field has been set.
+
+### SetAllowedModelsNil
+
+`func (o *CreateUserRequest) SetAllowedModelsNil(b bool)`
+
+ SetAllowedModelsNil sets the value for AllowedModels to be an explicit nil
+
+### UnsetAllowedModels
+`func (o *CreateUserRequest) UnsetAllowedModels()`
+
+UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
 ### GetBlocked
 
 `func (o *CreateUserRequest) GetBlocked() bool`

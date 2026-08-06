@@ -11,7 +11,8 @@ Name | Type | Description | Notes
 **Audio** | Pointer to [**NullableCCChatCompletionAudio**](CCChatCompletionAudio.md) |  | [optional] 
 **FunctionCall** | Pointer to [**NullableCCFunctionCall**](CCFunctionCall.md) |  | [optional] 
 **ToolCalls** | Pointer to [**[]CCChatCompletionMessageToolCallsInner**](CCChatCompletionMessageToolCallsInner.md) |  | [optional] 
-**Reasoning** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**Reasoning** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
+**ExtraContent** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
 
 ## Methods
 
@@ -297,6 +298,41 @@ HasReasoning returns a boolean if a field has been set.
 `func (o *CCChatCompletionMessage) UnsetReasoning()`
 
 UnsetReasoning ensures that no value is present for Reasoning, not even an explicit nil
+### GetExtraContent
+
+`func (o *CCChatCompletionMessage) GetExtraContent() map[string]interface{}`
+
+GetExtraContent returns the ExtraContent field if non-nil, zero value otherwise.
+
+### GetExtraContentOk
+
+`func (o *CCChatCompletionMessage) GetExtraContentOk() (*map[string]interface{}, bool)`
+
+GetExtraContentOk returns a tuple with the ExtraContent field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExtraContent
+
+`func (o *CCChatCompletionMessage) SetExtraContent(v map[string]interface{})`
+
+SetExtraContent sets ExtraContent field to given value.
+
+### HasExtraContent
+
+`func (o *CCChatCompletionMessage) HasExtraContent() bool`
+
+HasExtraContent returns a boolean if a field has been set.
+
+### SetExtraContentNil
+
+`func (o *CCChatCompletionMessage) SetExtraContentNil(b bool)`
+
+ SetExtraContentNil sets the value for ExtraContent to be an explicit nil
+
+### UnsetExtraContent
+`func (o *CCChatCompletionMessage) UnsetExtraContent()`
+
+UnsetExtraContent ensures that no value is present for ExtraContent, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

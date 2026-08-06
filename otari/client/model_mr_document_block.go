@@ -21,7 +21,7 @@ var _ MappedNullable = &MRDocumentBlock{}
 // MRDocumentBlock struct for MRDocumentBlock
 type MRDocumentBlock struct {
 	Citations            NullableMRCitationsConfig `json:"citations,omitempty"`
-	Source               Source                    `json:"source"`
+	Source               Source1                   `json:"source"`
 	Title                NullableString            `json:"title,omitempty"`
 	Type                 string                    `json:"type"`
 	AdditionalProperties map[string]interface{}
@@ -33,7 +33,7 @@ type _MRDocumentBlock MRDocumentBlock
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRDocumentBlock(source Source, type_ string) *MRDocumentBlock {
+func NewMRDocumentBlock(source Source1, type_ string) *MRDocumentBlock {
 	this := MRDocumentBlock{}
 	this.Source = source
 	this.Type = type_
@@ -92,9 +92,9 @@ func (o *MRDocumentBlock) UnsetCitations() {
 }
 
 // GetSource returns the Source field value
-func (o *MRDocumentBlock) GetSource() Source {
+func (o *MRDocumentBlock) GetSource() Source1 {
 	if o == nil {
-		var ret Source
+		var ret Source1
 		return ret
 	}
 
@@ -103,7 +103,7 @@ func (o *MRDocumentBlock) GetSource() Source {
 
 // GetSourceOk returns a tuple with the Source field value
 // and a boolean to check if the value has been set.
-func (o *MRDocumentBlock) GetSourceOk() (*Source, bool) {
+func (o *MRDocumentBlock) GetSourceOk() (*Source1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -111,7 +111,7 @@ func (o *MRDocumentBlock) GetSourceOk() (*Source, bool) {
 }
 
 // SetSource sets field value
-func (o *MRDocumentBlock) SetSource(v Source) {
+func (o *MRDocumentBlock) SetSource(v Source1) {
 	o.Source = v
 }
 

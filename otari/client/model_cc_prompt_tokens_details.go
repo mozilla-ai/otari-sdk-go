@@ -19,7 +19,8 @@ var _ MappedNullable = &CCPromptTokensDetails{}
 
 // CCPromptTokensDetails Breakdown of tokens used in the prompt.
 type CCPromptTokensDetails struct {
-	AudioTokens          NullableInt32 `json:"audio_tokens,omitempty"`
+	AudioTokens NullableInt32 `json:"audio_tokens,omitempty"`
+	// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status='error' unless 'status' is given explicitly
 	CachedTokens         NullableInt32 `json:"cached_tokens,omitempty"`
 	AdditionalProperties map[string]interface{}
 }

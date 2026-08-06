@@ -22,6 +22,7 @@ var _ MappedNullable = &UserResponse{}
 // UserResponse Response model for user information.
 type UserResponse struct {
 	Alias             NullableString         `json:"alias"`
+	AllowedModels     []string               `json:"allowed_models"`
 	Blocked           bool                   `json:"blocked"`
 	BudgetId          NullableString         `json:"budget_id"`
 	BudgetStartedAt   NullableString         `json:"budget_started_at"`
@@ -40,9 +41,10 @@ type _UserResponse UserResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUserResponse(alias NullableString, blocked bool, budgetId NullableString, budgetStartedAt NullableString, createdAt string, metadata map[string]interface{}, nextBudgetResetAt NullableString, reserved float32, spend float32, updatedAt string, userId string) *UserResponse {
+func NewUserResponse(alias NullableString, allowedModels []string, blocked bool, budgetId NullableString, budgetStartedAt NullableString, createdAt string, metadata map[string]interface{}, nextBudgetResetAt NullableString, reserved float32, spend float32, updatedAt string, userId string) *UserResponse {
 	this := UserResponse{}
 	this.Alias = alias
+	this.AllowedModels = allowedModels
 	this.Blocked = blocked
 	this.BudgetId = budgetId
 	this.BudgetStartedAt = budgetStartedAt
@@ -88,6 +90,32 @@ func (o *UserResponse) GetAliasOk() (*string, bool) {
 // SetAlias sets field value
 func (o *UserResponse) SetAlias(v string) {
 	o.Alias.Set(&v)
+}
+
+// GetAllowedModels returns the AllowedModels field value
+// If the value is explicit nil, the zero value for []string will be returned
+func (o *UserResponse) GetAllowedModels() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.AllowedModels
+}
+
+// GetAllowedModelsOk returns a tuple with the AllowedModels field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UserResponse) GetAllowedModelsOk() ([]string, bool) {
+	if o == nil || IsNil(o.AllowedModels) {
+		return nil, false
+	}
+	return o.AllowedModels, true
+}
+
+// SetAllowedModels sets field value
+func (o *UserResponse) SetAllowedModels(v []string) {
+	o.AllowedModels = v
 }
 
 // GetBlocked returns the Blocked field value
@@ -347,6 +375,9 @@ func (o UserResponse) MarshalJSON() ([]byte, error) {
 func (o UserResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["alias"] = o.Alias.Get()
+	if o.AllowedModels != nil {
+		toSerialize["allowed_models"] = o.AllowedModels
+	}
 	toSerialize["blocked"] = o.Blocked
 	toSerialize["budget_id"] = o.BudgetId.Get()
 	toSerialize["budget_started_at"] = o.BudgetStartedAt.Get()
@@ -366,6 +397,7 @@ func (o *UserResponse) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"alias",
+		"allowed_models",
 		"blocked",
 		"budget_id",
 		"budget_started_at",

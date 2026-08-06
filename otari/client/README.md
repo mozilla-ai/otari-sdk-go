@@ -71,8 +71,13 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AliasesAPI* | [**DeleteAliasV1AliasesNameDelete**](docs/AliasesAPI.md#deletealiasv1aliasesnamedelete) | **Delete** /v1/aliases/{name} | Delete Alias
+*AliasesAPI* | [**ListAliasesV1AliasesGet**](docs/AliasesAPI.md#listaliasesv1aliasesget) | **Get** /v1/aliases | List Aliases
+*AliasesAPI* | [**SetAliasV1AliasesPost**](docs/AliasesAPI.md#setaliasv1aliasespost) | **Post** /v1/aliases | Set Alias
 *AudioAPI* | [**CreateSpeechV1AudioSpeechPost**](docs/AudioAPI.md#createspeechv1audiospeechpost) | **Post** /v1/audio/speech | Create Speech
 *AudioAPI* | [**CreateTranscriptionV1AudioTranscriptionsPost**](docs/AudioAPI.md#createtranscriptionv1audiotranscriptionspost) | **Post** /v1/audio/transcriptions | Create Transcription
+*AuthAPI* | [**CreateSessionV1AuthSessionPost**](docs/AuthAPI.md#createsessionv1authsessionpost) | **Post** /v1/auth/session | Create Session
+*AuthAPI* | [**DeleteSessionV1AuthSessionDelete**](docs/AuthAPI.md#deletesessionv1authsessiondelete) | **Delete** /v1/auth/session | Delete Session
 *BatchesAPI* | [**CancelBatchV1BatchesBatchIdCancelPost**](docs/BatchesAPI.md#cancelbatchv1batchesbatchidcancelpost) | **Post** /v1/batches/{batch_id}/cancel | Cancel Batch
 *BatchesAPI* | [**CreateBatchV1BatchesPost**](docs/BatchesAPI.md#createbatchv1batchespost) | **Post** /v1/batches | Create Batch
 *BatchesAPI* | [**ListBatchesV1BatchesGet**](docs/BatchesAPI.md#listbatchesv1batchesget) | **Get** /v1/batches | List Batches
@@ -81,6 +86,7 @@ Class | Method | HTTP request | Description
 *BudgetsAPI* | [**CreateBudgetV1BudgetsPost**](docs/BudgetsAPI.md#createbudgetv1budgetspost) | **Post** /v1/budgets | Create Budget
 *BudgetsAPI* | [**DeleteBudgetV1BudgetsBudgetIdDelete**](docs/BudgetsAPI.md#deletebudgetv1budgetsbudgetiddelete) | **Delete** /v1/budgets/{budget_id} | Delete Budget
 *BudgetsAPI* | [**GetBudgetV1BudgetsBudgetIdGet**](docs/BudgetsAPI.md#getbudgetv1budgetsbudgetidget) | **Get** /v1/budgets/{budget_id} | Get Budget
+*BudgetsAPI* | [**ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet**](docs/BudgetsAPI.md#listbudgetresetlogsv1budgetsbudgetidresetlogsget) | **Get** /v1/budgets/{budget_id}/reset-logs | List Budget Reset Logs
 *BudgetsAPI* | [**ListBudgetsV1BudgetsGet**](docs/BudgetsAPI.md#listbudgetsv1budgetsget) | **Get** /v1/budgets | List Budgets
 *BudgetsAPI* | [**UpdateBudgetV1BudgetsBudgetIdPatch**](docs/BudgetsAPI.md#updatebudgetv1budgetsbudgetidpatch) | **Patch** /v1/budgets/{budget_id} | Update Budget
 *ChatAPI* | [**ChatCompletionsV1ChatCompletionsPost**](docs/ChatAPI.md#chatcompletionsv1chatcompletionspost) | **Post** /v1/chat/completions | Chat Completions
@@ -98,20 +104,58 @@ Class | Method | HTTP request | Description
 *KeysAPI* | [**DeleteKeyV1KeysKeyIdDelete**](docs/KeysAPI.md#deletekeyv1keyskeyiddelete) | **Delete** /v1/keys/{key_id} | Delete Key
 *KeysAPI* | [**GetKeyV1KeysKeyIdGet**](docs/KeysAPI.md#getkeyv1keyskeyidget) | **Get** /v1/keys/{key_id} | Get Key
 *KeysAPI* | [**ListKeysV1KeysGet**](docs/KeysAPI.md#listkeysv1keysget) | **Get** /v1/keys | List Keys
+*KeysAPI* | [**RotateKeyV1KeysKeyIdRotatePost**](docs/KeysAPI.md#rotatekeyv1keyskeyidrotatepost) | **Post** /v1/keys/{key_id}/rotate | Rotate Key
 *KeysAPI* | [**UpdateKeyV1KeysKeyIdPatch**](docs/KeysAPI.md#updatekeyv1keyskeyidpatch) | **Patch** /v1/keys/{key_id} | Update Key
 *MessagesAPI* | [**CountMessageTokensV1MessagesCountTokensPost**](docs/MessagesAPI.md#countmessagetokensv1messagescounttokenspost) | **Post** /v1/messages/count_tokens | Count Message Tokens
 *MessagesAPI* | [**CreateMessageV1MessagesPost**](docs/MessagesAPI.md#createmessagev1messagespost) | **Post** /v1/messages | Create Message
 *ModelsAPI* | [**GetModelV1ModelsModelIdGet**](docs/ModelsAPI.md#getmodelv1modelsmodelidget) | **Get** /v1/models/{model_id} | Get Model
+*ModelsAPI* | [**ListDiscoverableModelsV1ModelsDiscoverableGet**](docs/ModelsAPI.md#listdiscoverablemodelsv1modelsdiscoverableget) | **Get** /v1/models/discoverable | List Discoverable Models
+*ModelsAPI* | [**ListModelMetadataV1ModelsMetadataGet**](docs/ModelsAPI.md#listmodelmetadatav1modelsmetadataget) | **Get** /v1/models/metadata | List Model Metadata
 *ModelsAPI* | [**ListModelsV1ModelsGet**](docs/ModelsAPI.md#listmodelsv1modelsget) | **Get** /v1/models | List Models
 *ModerationsAPI* | [**CreateModerationV1ModerationsPost**](docs/ModerationsAPI.md#createmoderationv1moderationspost) | **Post** /v1/moderations | Create Moderation
+*OtelAPI* | [**ReceiveLogsV1LogsPost**](docs/OtelAPI.md#receivelogsv1logspost) | **Post** /v1/logs | Receive Logs
+*OtelAPI* | [**ReceiveTracesV1TracesPost**](docs/OtelAPI.md#receivetracesv1tracespost) | **Post** /v1/traces | Receive Traces
+*PricingAPI* | [**ConfirmPricingRefreshV1PricingRefreshConfirmPost**](docs/PricingAPI.md#confirmpricingrefreshv1pricingrefreshconfirmpost) | **Post** /v1/pricing/refresh/confirm | Confirm Pricing Refresh
 *PricingAPI* | [**DeletePricingV1PricingModelKeyDelete**](docs/PricingAPI.md#deletepricingv1pricingmodelkeydelete) | **Delete** /v1/pricing/{model_key} | Delete Pricing
 *PricingAPI* | [**GetPricingHistoryV1PricingModelKeyHistoryGet**](docs/PricingAPI.md#getpricinghistoryv1pricingmodelkeyhistoryget) | **Get** /v1/pricing/{model_key}/history | Get Pricing History
 *PricingAPI* | [**GetPricingV1PricingModelKeyGet**](docs/PricingAPI.md#getpricingv1pricingmodelkeyget) | **Get** /v1/pricing/{model_key} | Get Pricing
 *PricingAPI* | [**ListPricingV1PricingGet**](docs/PricingAPI.md#listpricingv1pricingget) | **Get** /v1/pricing | List Pricing
+*PricingAPI* | [**PreviewPricingRefreshV1PricingRefreshPost**](docs/PricingAPI.md#previewpricingrefreshv1pricingrefreshpost) | **Post** /v1/pricing/refresh | Preview Pricing Refresh
+*PricingAPI* | [**RejectPricingRefreshV1PricingRefreshRejectPost**](docs/PricingAPI.md#rejectpricingrefreshv1pricingrefreshrejectpost) | **Post** /v1/pricing/refresh/reject | Reject Pricing Refresh
 *PricingAPI* | [**SetPricingV1PricingPost**](docs/PricingAPI.md#setpricingv1pricingpost) | **Post** /v1/pricing | Set Pricing
+*ProvidersAPI* | [**CreateStoredProviderV1ProviderCredentialsPost**](docs/ProvidersAPI.md#createstoredproviderv1providercredentialspost) | **Post** /v1/provider-credentials | Create Stored Provider
+*ProvidersAPI* | [**DeleteStoredProviderV1ProviderCredentialsInstanceDelete**](docs/ProvidersAPI.md#deletestoredproviderv1providercredentialsinstancedelete) | **Delete** /v1/provider-credentials/{instance} | Delete Stored Provider
+*ProvidersAPI* | [**ListProvidersV1ProvidersGet**](docs/ProvidersAPI.md#listprovidersv1providersget) | **Get** /v1/providers | List Providers
+*ProvidersAPI* | [**ListStoredProvidersV1ProviderCredentialsGet**](docs/ProvidersAPI.md#liststoredprovidersv1providercredentialsget) | **Get** /v1/provider-credentials | List Stored Providers
+*ProvidersAPI* | [**ProviderCatalogDetailV1ProvidersCatalogProviderIdGet**](docs/ProvidersAPI.md#providercatalogdetailv1providerscatalogprovideridget) | **Get** /v1/providers/catalog/{provider_id} | Provider Catalog Detail
+*ProvidersAPI* | [**ProviderCatalogV1ProvidersCatalogGet**](docs/ProvidersAPI.md#providercatalogv1providerscatalogget) | **Get** /v1/providers/catalog | Provider Catalog
+*ProvidersAPI* | [**ProviderHealthV1ProvidersHealthGet**](docs/ProvidersAPI.md#providerhealthv1providershealthget) | **Get** /v1/providers/health | Provider Health
+*ProvidersAPI* | [**ReencryptStoredProviderKeysV1ProviderCredentialsReencryptPost**](docs/ProvidersAPI.md#reencryptstoredproviderkeysv1providercredentialsreencryptpost) | **Post** /v1/provider-credentials/reencrypt | Reencrypt Stored Provider Keys
+*ProvidersAPI* | [**TestProviderConnectionV1ProviderCredentialsTestPost**](docs/ProvidersAPI.md#testproviderconnectionv1providercredentialstestpost) | **Post** /v1/provider-credentials/test | Test Provider Connection
+*ProvidersAPI* | [**TestStoredProviderV1ProviderCredentialsInstanceTestPost**](docs/ProvidersAPI.md#teststoredproviderv1providercredentialsinstancetestpost) | **Post** /v1/provider-credentials/{instance}/test | Test Stored Provider
+*ProvidersAPI* | [**UpdateStoredProviderV1ProviderCredentialsInstancePatch**](docs/ProvidersAPI.md#updatestoredproviderv1providercredentialsinstancepatch) | **Patch** /v1/provider-credentials/{instance} | Update Stored Provider
 *RerankAPI* | [**CreateRerankV1RerankPost**](docs/RerankAPI.md#creatererankv1rerankpost) | **Post** /v1/rerank | Create Rerank
 *ResponsesAPI* | [**CreateResponseV1ResponsesPost**](docs/ResponsesAPI.md#createresponsev1responsespost) | **Post** /v1/responses | Create Response
+*RoutingAPI* | [**DeletePolicyV1RoutingPoliciesNameDelete**](docs/RoutingAPI.md#deletepolicyv1routingpoliciesnamedelete) | **Delete** /v1/routing/policies/{name} | Delete Policy
+*RoutingAPI* | [**ExplainPolicyV1RoutingPoliciesExplainPost**](docs/RoutingAPI.md#explainpolicyv1routingpoliciesexplainpost) | **Post** /v1/routing/policies/explain | Explain Policy
+*RoutingAPI* | [**ListPoliciesV1RoutingPoliciesGet**](docs/RoutingAPI.md#listpoliciesv1routingpoliciesget) | **Get** /v1/routing/policies | List Policies
+*RoutingAPI* | [**SetPolicyV1RoutingPoliciesPost**](docs/RoutingAPI.md#setpolicyv1routingpoliciespost) | **Post** /v1/routing/policies | Set Policy
+*SearchAPI* | [**CreateSearchForToolV1SearchSearchToolNamePost**](docs/SearchAPI.md#createsearchfortoolv1searchsearchtoolnamepost) | **Post** /v1/search/{search_tool_name} | Create Search For Tool
+*SearchAPI* | [**CreateSearchV1SearchPost**](docs/SearchAPI.md#createsearchv1searchpost) | **Post** /v1/search | Create Search
+*SettingsAPI* | [**GetSettingsV1SettingsGet**](docs/SettingsAPI.md#getsettingsv1settingsget) | **Get** /v1/settings | Get Settings
+*SettingsAPI* | [**RotateMasterKeyV1SettingsMasterKeyRotatePost**](docs/SettingsAPI.md#rotatemasterkeyv1settingsmasterkeyrotatepost) | **Post** /v1/settings/master-key/rotate | Rotate Master Key
+*SettingsAPI* | [**UpdateSettingsV1SettingsPatch**](docs/SettingsAPI.md#updatesettingsv1settingspatch) | **Patch** /v1/settings | Update Settings
+*ToolSettingsAPI* | [**GetToolSettingsV1ToolSettingsGet**](docs/ToolSettingsAPI.md#gettoolsettingsv1toolsettingsget) | **Get** /v1/tool-settings | Get Tool Settings
+*ToolSettingsAPI* | [**TestServiceV1ToolSettingsServiceTestPost**](docs/ToolSettingsAPI.md#testservicev1toolsettingsservicetestpost) | **Post** /v1/tool-settings/{service}/test | Test Service
+*ToolSettingsAPI* | [**UpdateToolSettingsV1ToolSettingsPatch**](docs/ToolSettingsAPI.md#updatetoolsettingsv1toolsettingspatch) | **Patch** /v1/tool-settings | Update Tool Settings
+*UsageAPI* | [**CountUsageV1UsageCountGet**](docs/UsageAPI.md#countusagev1usagecountget) | **Get** /v1/usage/count | Count Usage
+*UsageAPI* | [**DeleteUsageRowsV1UsageDelete**](docs/UsageAPI.md#deleteusagerowsv1usagedelete) | **Delete** /v1/usage | Delete Usage Rows
+*UsageAPI* | [**IngestExternalUsageV1UsageExternalEventsPost**](docs/UsageAPI.md#ingestexternalusagev1usageexternaleventspost) | **Post** /v1/usage/external-events | Ingest External Usage
 *UsageAPI* | [**ListUsageV1UsageGet**](docs/UsageAPI.md#listusagev1usageget) | **Get** /v1/usage | List Usage
+*UsageAPI* | [**SetUsagePriceRowsV1UsageSetPricePost**](docs/UsageAPI.md#setusagepricerowsv1usagesetpricepost) | **Post** /v1/usage/set-price | Set Usage Price Rows
+*UsageAPI* | [**UsageSeriesV1UsageSeriesGet**](docs/UsageAPI.md#usageseriesv1usageseriesget) | **Get** /v1/usage/series | Usage Series
+*UsageAPI* | [**UsageSummaryCsvV1UsageSummaryCsvGet**](docs/UsageAPI.md#usagesummarycsvv1usagesummarycsvget) | **Get** /v1/usage/summary.csv | Usage Summary Csv
+*UsageAPI* | [**UsageSummaryV1UsageSummaryGet**](docs/UsageAPI.md#usagesummaryv1usagesummaryget) | **Get** /v1/usage/summary | Usage Summary
 *UsersAPI* | [**CreateUserV1UsersPost**](docs/UsersAPI.md#createuserv1userspost) | **Post** /v1/users | Create User
 *UsersAPI* | [**DeleteUserV1UsersUserIdDelete**](docs/UsersAPI.md#deleteuserv1usersuseriddelete) | **Delete** /v1/users/{user_id} | Delete User
 *UsersAPI* | [**GetUserUsageV1UsersUserIdUsageGet**](docs/UsersAPI.md#getuserusagev1usersuseridusageget) | **Get** /v1/users/{user_id}/usage | Get User Usage
@@ -122,8 +166,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AliasRequest](docs/AliasRequest.md)
+ - [AliasResponse](docs/AliasResponse.md)
+ - [AppliedEditsInner](docs/AppliedEditsInner.md)
  - [AudioSpeechRequest](docs/AudioSpeechRequest.md)
  - [BatchRequestItem](docs/BatchRequestItem.md)
+ - [BudgetResetLogResponse](docs/BudgetResetLogResponse.md)
  - [BudgetResponse](docs/BudgetResponse.md)
  - [CCChatCompletionAudio](docs/CCChatCompletionAudio.md)
  - [CCChatCompletionMessage](docs/CCChatCompletionMessage.md)
@@ -152,13 +200,23 @@ Class | Method | HTTP request | Description
  - [CCPromptTokensDetails](docs/CCPromptTokensDetails.md)
  - [CCTopLogprob](docs/CCTopLogprob.md)
  - [Caller](docs/Caller.md)
+ - [Caller1](docs/Caller1.md)
+ - [CandidateResponse](docs/CandidateResponse.md)
  - [ChatCompletion](docs/ChatCompletion.md)
  - [ChatCompletionChunk](docs/ChatCompletionChunk.md)
  - [ChatCompletionRequest](docs/ChatCompletionRequest.md)
  - [ChatCompletionRequestToolsInner](docs/ChatCompletionRequestToolsInner.md)
  - [ChatMessageInput](docs/ChatMessageInput.md)
+ - [ConfigField](docs/ConfigField.md)
  - [Content](docs/Content.md)
  - [Content1](docs/Content1.md)
+ - [Content10](docs/Content10.md)
+ - [Content11](docs/Content11.md)
+ - [Content12](docs/Content12.md)
+ - [Content13](docs/Content13.md)
+ - [Content14](docs/Content14.md)
+ - [Content15](docs/Content15.md)
+ - [Content16Inner](docs/Content16Inner.md)
  - [Content2](docs/Content2.md)
  - [Content2AnyOfInner](docs/Content2AnyOfInner.md)
  - [Content3](docs/Content3.md)
@@ -167,7 +225,7 @@ Class | Method | HTTP request | Description
  - [Content6](docs/Content6.md)
  - [Content7](docs/Content7.md)
  - [Content8](docs/Content8.md)
- - [Content9Inner](docs/Content9Inner.md)
+ - [Content9](docs/Content9.md)
  - [ContentAnyOfInner](docs/ContentAnyOfInner.md)
  - [Conversation](docs/Conversation.md)
  - [CountTokensRequest](docs/CountTokensRequest.md)
@@ -177,10 +235,23 @@ Class | Method | HTTP request | Description
  - [CreateEmbeddingResponse](docs/CreateEmbeddingResponse.md)
  - [CreateKeyRequest](docs/CreateKeyRequest.md)
  - [CreateKeyResponse](docs/CreateKeyResponse.md)
+ - [CreateSessionRequest](docs/CreateSessionRequest.md)
+ - [CreateStoredProviderRequest](docs/CreateStoredProviderRequest.md)
  - [CreateUserRequest](docs/CreateUserRequest.md)
+ - [DiscoverableModel](docs/DiscoverableModel.md)
+ - [DiscoverableModelsResponse](docs/DiscoverableModelsResponse.md)
+ - [DiscoverableProvider](docs/DiscoverableProvider.md)
+ - [DroppedResponse](docs/DroppedResponse.md)
  - [EMBEmbedding](docs/EMBEmbedding.md)
  - [EMBUsage](docs/EMBUsage.md)
  - [EmbeddingRequest](docs/EmbeddingRequest.md)
+ - [ExplainRequest](docs/ExplainRequest.md)
+ - [ExplainResponse](docs/ExplainResponse.md)
+ - [ExternalEventsRequest](docs/ExternalEventsRequest.md)
+ - [ExternalIngestError](docs/ExternalIngestError.md)
+ - [ExternalIngestResult](docs/ExternalIngestResult.md)
+ - [ExternalUsageEvent](docs/ExternalUsageEvent.md)
+ - [GatewaySettings](docs/GatewaySettings.md)
  - [GuardrailConfig](docs/GuardrailConfig.md)
  - [HTTPValidationError](docs/HTTPValidationError.md)
  - [IMGImage](docs/IMGImage.md)
@@ -192,12 +263,71 @@ Class | Method | HTTP request | Description
  - [Input](docs/Input.md)
  - [Input1](docs/Input1.md)
  - [KeyInfo](docs/KeyInfo.md)
+ - [KnownProviderSchema](docs/KnownProviderSchema.md)
+ - [KnownProviderSummarySchema](docs/KnownProviderSummarySchema.md)
  - [LocationInner](docs/LocationInner.md)
+ - [MRAnthropicTypesThinkingBlockThinkingBlock](docs/MRAnthropicTypesThinkingBlockThinkingBlock.md)
+ - [MRAnyLlmTypesMessagesThinkingBlock](docs/MRAnyLlmTypesMessagesThinkingBlock.md)
  - [MRBase64PDFSource](docs/MRBase64PDFSource.md)
  - [MRBashCodeExecutionOutputBlock](docs/MRBashCodeExecutionOutputBlock.md)
  - [MRBashCodeExecutionResultBlock](docs/MRBashCodeExecutionResultBlock.md)
  - [MRBashCodeExecutionToolResultBlock](docs/MRBashCodeExecutionToolResultBlock.md)
  - [MRBashCodeExecutionToolResultError](docs/MRBashCodeExecutionToolResultError.md)
+ - [MRBetaBase64PDFSource](docs/MRBetaBase64PDFSource.md)
+ - [MRBetaBashCodeExecutionOutputBlock](docs/MRBetaBashCodeExecutionOutputBlock.md)
+ - [MRBetaBashCodeExecutionResultBlock](docs/MRBetaBashCodeExecutionResultBlock.md)
+ - [MRBetaBashCodeExecutionToolResultBlock](docs/MRBetaBashCodeExecutionToolResultBlock.md)
+ - [MRBetaBashCodeExecutionToolResultError](docs/MRBetaBashCodeExecutionToolResultError.md)
+ - [MRBetaCacheCreation](docs/MRBetaCacheCreation.md)
+ - [MRBetaCitationCharLocation](docs/MRBetaCitationCharLocation.md)
+ - [MRBetaCitationConfig](docs/MRBetaCitationConfig.md)
+ - [MRBetaCitationContentBlockLocation](docs/MRBetaCitationContentBlockLocation.md)
+ - [MRBetaCitationPageLocation](docs/MRBetaCitationPageLocation.md)
+ - [MRBetaCitationSearchResultLocation](docs/MRBetaCitationSearchResultLocation.md)
+ - [MRBetaCitationsWebSearchResultLocation](docs/MRBetaCitationsWebSearchResultLocation.md)
+ - [MRBetaClearThinking20251015EditResponse](docs/MRBetaClearThinking20251015EditResponse.md)
+ - [MRBetaClearToolUses20250919EditResponse](docs/MRBetaClearToolUses20250919EditResponse.md)
+ - [MRBetaCodeExecutionOutputBlock](docs/MRBetaCodeExecutionOutputBlock.md)
+ - [MRBetaCodeExecutionResultBlock](docs/MRBetaCodeExecutionResultBlock.md)
+ - [MRBetaCodeExecutionToolResultBlock](docs/MRBetaCodeExecutionToolResultBlock.md)
+ - [MRBetaCodeExecutionToolResultError](docs/MRBetaCodeExecutionToolResultError.md)
+ - [MRBetaCompactionBlock](docs/MRBetaCompactionBlock.md)
+ - [MRBetaCompactionIterationUsage](docs/MRBetaCompactionIterationUsage.md)
+ - [MRBetaContainer](docs/MRBetaContainer.md)
+ - [MRBetaContainerUploadBlock](docs/MRBetaContainerUploadBlock.md)
+ - [MRBetaContextManagementResponse](docs/MRBetaContextManagementResponse.md)
+ - [MRBetaDiagnosticsFallback](docs/MRBetaDiagnosticsFallback.md)
+ - [MRBetaDirectCaller](docs/MRBetaDirectCaller.md)
+ - [MRBetaDocumentBlock](docs/MRBetaDocumentBlock.md)
+ - [MRBetaEncryptedCodeExecutionResultBlock](docs/MRBetaEncryptedCodeExecutionResultBlock.md)
+ - [MRBetaMCPToolResultBlock](docs/MRBetaMCPToolResultBlock.md)
+ - [MRBetaMCPToolUseBlock](docs/MRBetaMCPToolUseBlock.md)
+ - [MRBetaMessageIterationUsage](docs/MRBetaMessageIterationUsage.md)
+ - [MRBetaPlainTextSource](docs/MRBetaPlainTextSource.md)
+ - [MRBetaRedactedThinkingBlock](docs/MRBetaRedactedThinkingBlock.md)
+ - [MRBetaServerToolCaller](docs/MRBetaServerToolCaller.md)
+ - [MRBetaServerToolCaller20260120](docs/MRBetaServerToolCaller20260120.md)
+ - [MRBetaServerToolUseBlock](docs/MRBetaServerToolUseBlock.md)
+ - [MRBetaSkill](docs/MRBetaSkill.md)
+ - [MRBetaTextBlock](docs/MRBetaTextBlock.md)
+ - [MRBetaTextBlockCitationsInner](docs/MRBetaTextBlockCitationsInner.md)
+ - [MRBetaTextEditorCodeExecutionCreateResultBlock](docs/MRBetaTextEditorCodeExecutionCreateResultBlock.md)
+ - [MRBetaTextEditorCodeExecutionStrReplaceResultBlock](docs/MRBetaTextEditorCodeExecutionStrReplaceResultBlock.md)
+ - [MRBetaTextEditorCodeExecutionToolResultBlock](docs/MRBetaTextEditorCodeExecutionToolResultBlock.md)
+ - [MRBetaTextEditorCodeExecutionToolResultError](docs/MRBetaTextEditorCodeExecutionToolResultError.md)
+ - [MRBetaTextEditorCodeExecutionViewResultBlock](docs/MRBetaTextEditorCodeExecutionViewResultBlock.md)
+ - [MRBetaThinkingBlock](docs/MRBetaThinkingBlock.md)
+ - [MRBetaToolReferenceBlock](docs/MRBetaToolReferenceBlock.md)
+ - [MRBetaToolSearchToolResultBlock](docs/MRBetaToolSearchToolResultBlock.md)
+ - [MRBetaToolSearchToolResultError](docs/MRBetaToolSearchToolResultError.md)
+ - [MRBetaToolSearchToolSearchResultBlock](docs/MRBetaToolSearchToolSearchResultBlock.md)
+ - [MRBetaToolUseBlock](docs/MRBetaToolUseBlock.md)
+ - [MRBetaWebFetchBlock](docs/MRBetaWebFetchBlock.md)
+ - [MRBetaWebFetchToolResultBlock](docs/MRBetaWebFetchToolResultBlock.md)
+ - [MRBetaWebFetchToolResultErrorBlock](docs/MRBetaWebFetchToolResultErrorBlock.md)
+ - [MRBetaWebSearchResultBlock](docs/MRBetaWebSearchResultBlock.md)
+ - [MRBetaWebSearchToolResultBlock](docs/MRBetaWebSearchToolResultBlock.md)
+ - [MRBetaWebSearchToolResultError](docs/MRBetaWebSearchToolResultError.md)
  - [MRCacheCreation](docs/MRCacheCreation.md)
  - [MRCitationCharLocation](docs/MRCitationCharLocation.md)
  - [MRCitationContentBlockLocation](docs/MRCitationContentBlockLocation.md)
@@ -209,11 +339,12 @@ Class | Method | HTTP request | Description
  - [MRCodeExecutionResultBlock](docs/MRCodeExecutionResultBlock.md)
  - [MRCodeExecutionToolResultBlock](docs/MRCodeExecutionToolResultBlock.md)
  - [MRCodeExecutionToolResultError](docs/MRCodeExecutionToolResultError.md)
- - [MRContainer](docs/MRContainer.md)
  - [MRContainerUploadBlock](docs/MRContainerUploadBlock.md)
  - [MRDirectCaller](docs/MRDirectCaller.md)
  - [MRDocumentBlock](docs/MRDocumentBlock.md)
  - [MREncryptedCodeExecutionResultBlock](docs/MREncryptedCodeExecutionResultBlock.md)
+ - [MRMessageUsage](docs/MRMessageUsage.md)
+ - [MRMessageUsageIterationsInner](docs/MRMessageUsageIterationsInner.md)
  - [MRPlainTextSource](docs/MRPlainTextSource.md)
  - [MRRedactedThinkingBlock](docs/MRRedactedThinkingBlock.md)
  - [MRRefusalStopDetails](docs/MRRefusalStopDetails.md)
@@ -228,13 +359,11 @@ Class | Method | HTTP request | Description
  - [MRTextEditorCodeExecutionToolResultBlock](docs/MRTextEditorCodeExecutionToolResultBlock.md)
  - [MRTextEditorCodeExecutionToolResultError](docs/MRTextEditorCodeExecutionToolResultError.md)
  - [MRTextEditorCodeExecutionViewResultBlock](docs/MRTextEditorCodeExecutionViewResultBlock.md)
- - [MRThinkingBlock](docs/MRThinkingBlock.md)
  - [MRToolReferenceBlock](docs/MRToolReferenceBlock.md)
  - [MRToolSearchToolResultBlock](docs/MRToolSearchToolResultBlock.md)
  - [MRToolSearchToolResultError](docs/MRToolSearchToolResultError.md)
  - [MRToolSearchToolSearchResultBlock](docs/MRToolSearchToolSearchResultBlock.md)
  - [MRToolUseBlock](docs/MRToolUseBlock.md)
- - [MRUsage](docs/MRUsage.md)
  - [MRWebFetchBlock](docs/MRWebFetchBlock.md)
  - [MRWebFetchToolResultBlock](docs/MRWebFetchToolResultBlock.md)
  - [MRWebFetchToolResultErrorBlock](docs/MRWebFetchToolResultErrorBlock.md)
@@ -266,32 +395,79 @@ Class | Method | HTTP request | Description
  - [MessagesRequest](docs/MessagesRequest.md)
  - [Model](docs/Model.md)
  - [ModelListResponse](docs/ModelListResponse.md)
+ - [ModelMetadata](docs/ModelMetadata.md)
+ - [ModelMetadataResponse](docs/ModelMetadataResponse.md)
  - [ModelObject](docs/ModelObject.md)
  - [ModelPricingInfo](docs/ModelPricingInfo.md)
  - [ModerationRequest](docs/ModerationRequest.md)
  - [ModerationResponse](docs/ModerationResponse.md)
  - [ModerationResult](docs/ModerationResult.md)
+ - [PolicyRequest](docs/PolicyRequest.md)
+ - [PolicyResponse](docs/PolicyResponse.md)
+ - [PricingRefreshChangeResponse](docs/PricingRefreshChangeResponse.md)
+ - [PricingRefreshConfirmationResponse](docs/PricingRefreshConfirmationResponse.md)
+ - [PricingRefreshPreviewResponse](docs/PricingRefreshPreviewResponse.md)
  - [PricingResponse](docs/PricingResponse.md)
+ - [PricingTier](docs/PricingTier.md)
+ - [PricingTiersInnerValue](docs/PricingTiersInnerValue.md)
+ - [ProviderCapabilitiesSchema](docs/ProviderCapabilitiesSchema.md)
+ - [ProviderHealthResponse](docs/ProviderHealthResponse.md)
+ - [ProviderHealthSchema](docs/ProviderHealthSchema.md)
+ - [ProviderInfoSchema](docs/ProviderInfoSchema.md)
+ - [ProvidersResponse](docs/ProvidersResponse.md)
  - [RRRerankMeta](docs/RRRerankMeta.md)
  - [RRRerankResult](docs/RRRerankResult.md)
  - [RRRerankUsage](docs/RRRerankUsage.md)
+ - [ReencryptProviderCredentialsResponse](docs/ReencryptProviderCredentialsResponse.md)
  - [RerankRequest](docs/RerankRequest.md)
  - [RerankResponse](docs/RerankResponse.md)
  - [ResponsesRequest](docs/ResponsesRequest.md)
+ - [RotateMasterKeyResponse](docs/RotateMasterKeyResponse.md)
+ - [SearchRequest](docs/SearchRequest.md)
+ - [SearchResponse](docs/SearchResponse.md)
+ - [SearchResultItem](docs/SearchResultItem.md)
+ - [SessionResponse](docs/SessionResponse.md)
  - [SetPricingRequest](docs/SetPricingRequest.md)
  - [Source](docs/Source.md)
+ - [Source1](docs/Source1.md)
  - [Stop](docs/Stop.md)
+ - [StoredProviderResponse](docs/StoredProviderResponse.md)
  - [System](docs/System.md)
+ - [TestProviderRequest](docs/TestProviderRequest.md)
+ - [TestProviderResponse](docs/TestProviderResponse.md)
+ - [TestServiceRequest](docs/TestServiceRequest.md)
+ - [TestServiceResponse](docs/TestServiceResponse.md)
  - [ToolCallsInner](docs/ToolCallsInner.md)
  - [ToolChoice](docs/ToolChoice.md)
  - [ToolChoice1](docs/ToolChoice1.md)
+ - [ToolSettingField](docs/ToolSettingField.md)
+ - [ToolSettingsResponse](docs/ToolSettingsResponse.md)
  - [UpdateBudgetRequest](docs/UpdateBudgetRequest.md)
  - [UpdateKeyRequest](docs/UpdateKeyRequest.md)
+ - [UpdateSettingsRequest](docs/UpdateSettingsRequest.md)
+ - [UpdateStoredProviderRequest](docs/UpdateStoredProviderRequest.md)
+ - [UpdateToolSettingsRequest](docs/UpdateToolSettingsRequest.md)
  - [UpdateUserRequest](docs/UpdateUserRequest.md)
+ - [UsageCount](docs/UsageCount.md)
+ - [UsageDeleteRequest](docs/UsageDeleteRequest.md)
+ - [UsageDeleteResult](docs/UsageDeleteResult.md)
  - [UsageEntry](docs/UsageEntry.md)
+ - [UsageEntryPricingBreakdownInnerValue](docs/UsageEntryPricingBreakdownInnerValue.md)
+ - [UsageErrorCodeRow](docs/UsageErrorCodeRow.md)
+ - [UsageGroupRow](docs/UsageGroupRow.md)
+ - [UsageGroupedSeries](docs/UsageGroupedSeries.md)
+ - [UsageGroupedSeriesPoint](docs/UsageGroupedSeriesPoint.md)
  - [UsageLogResponse](docs/UsageLogResponse.md)
+ - [UsageSeriesPoint](docs/UsageSeriesPoint.md)
+ - [UsageSetPriceRequest](docs/UsageSetPriceRequest.md)
+ - [UsageSetPriceResult](docs/UsageSetPriceResult.md)
+ - [UsageSummary](docs/UsageSummary.md)
+ - [UsageToolRow](docs/UsageToolRow.md)
+ - [UsageTotals](docs/UsageTotals.md)
  - [UserResponse](docs/UserResponse.md)
  - [ValidationError](docs/ValidationError.md)
+ - [Value](docs/Value.md)
+ - [Value1](docs/Value1.md)
 
 
 ## Documentation For Authorization
@@ -314,6 +490,27 @@ auth := context.WithValue(
 		client.ContextAPIKeys,
 		map[string]client.APIKey{
 			"ApiKeyAuth": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
+### XApiKeyAuth
+
+- **Type**: API key
+- **API key parameter name**: x-api-key
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: XApiKeyAuth and passed in as the auth context for each request.
+
+Example
+
+```go
+auth := context.WithValue(
+		context.Background(),
+		client.ContextAPIKeys,
+		map[string]client.APIKey{
+			"XApiKeyAuth": {Key: "API_KEY_STRING"},
 		},
 	)
 r, err := client.Service.Operation(auth, args)

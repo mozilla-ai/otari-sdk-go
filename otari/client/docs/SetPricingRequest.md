@@ -4,10 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**CacheReadPricePerMillion** | Pointer to **NullableFloat32** | Price per 1M cached-input tokens | [optional] 
+**CacheWrite1hPricePerMillion** | Pointer to **NullableFloat32** | Price per 1M Anthropic 1-hour cache-write tokens | [optional] 
+**CacheWritePricePerMillion** | Pointer to **NullableFloat32** | Price per 1M cache-write (creation) tokens | [optional] 
 **EffectiveAt** | Pointer to **NullableTime** | ISO 8601 datetime from which this price applies. Defaults to now if omitted. | [optional] 
 **InputPricePerMillion** | **float32** | Price per 1M input tokens | 
 **ModelKey** | **string** | Model identifier in format &#39;provider:model&#39; | 
 **OutputPricePerMillion** | **float32** | Price per 1M output tokens | 
+**PricingTiers** | Pointer to [**[]PricingTier**](PricingTier.md) | Whole-request context thresholds. Fields omitted by a tier inherit the base rate. | [optional] 
 
 ## Methods
 
@@ -28,6 +32,111 @@ NewSetPricingRequestWithDefaults instantiates a new SetPricingRequest object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetCacheReadPricePerMillion
+
+`func (o *SetPricingRequest) GetCacheReadPricePerMillion() float32`
+
+GetCacheReadPricePerMillion returns the CacheReadPricePerMillion field if non-nil, zero value otherwise.
+
+### GetCacheReadPricePerMillionOk
+
+`func (o *SetPricingRequest) GetCacheReadPricePerMillionOk() (*float32, bool)`
+
+GetCacheReadPricePerMillionOk returns a tuple with the CacheReadPricePerMillion field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCacheReadPricePerMillion
+
+`func (o *SetPricingRequest) SetCacheReadPricePerMillion(v float32)`
+
+SetCacheReadPricePerMillion sets CacheReadPricePerMillion field to given value.
+
+### HasCacheReadPricePerMillion
+
+`func (o *SetPricingRequest) HasCacheReadPricePerMillion() bool`
+
+HasCacheReadPricePerMillion returns a boolean if a field has been set.
+
+### SetCacheReadPricePerMillionNil
+
+`func (o *SetPricingRequest) SetCacheReadPricePerMillionNil(b bool)`
+
+ SetCacheReadPricePerMillionNil sets the value for CacheReadPricePerMillion to be an explicit nil
+
+### UnsetCacheReadPricePerMillion
+`func (o *SetPricingRequest) UnsetCacheReadPricePerMillion()`
+
+UnsetCacheReadPricePerMillion ensures that no value is present for CacheReadPricePerMillion, not even an explicit nil
+### GetCacheWrite1hPricePerMillion
+
+`func (o *SetPricingRequest) GetCacheWrite1hPricePerMillion() float32`
+
+GetCacheWrite1hPricePerMillion returns the CacheWrite1hPricePerMillion field if non-nil, zero value otherwise.
+
+### GetCacheWrite1hPricePerMillionOk
+
+`func (o *SetPricingRequest) GetCacheWrite1hPricePerMillionOk() (*float32, bool)`
+
+GetCacheWrite1hPricePerMillionOk returns a tuple with the CacheWrite1hPricePerMillion field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCacheWrite1hPricePerMillion
+
+`func (o *SetPricingRequest) SetCacheWrite1hPricePerMillion(v float32)`
+
+SetCacheWrite1hPricePerMillion sets CacheWrite1hPricePerMillion field to given value.
+
+### HasCacheWrite1hPricePerMillion
+
+`func (o *SetPricingRequest) HasCacheWrite1hPricePerMillion() bool`
+
+HasCacheWrite1hPricePerMillion returns a boolean if a field has been set.
+
+### SetCacheWrite1hPricePerMillionNil
+
+`func (o *SetPricingRequest) SetCacheWrite1hPricePerMillionNil(b bool)`
+
+ SetCacheWrite1hPricePerMillionNil sets the value for CacheWrite1hPricePerMillion to be an explicit nil
+
+### UnsetCacheWrite1hPricePerMillion
+`func (o *SetPricingRequest) UnsetCacheWrite1hPricePerMillion()`
+
+UnsetCacheWrite1hPricePerMillion ensures that no value is present for CacheWrite1hPricePerMillion, not even an explicit nil
+### GetCacheWritePricePerMillion
+
+`func (o *SetPricingRequest) GetCacheWritePricePerMillion() float32`
+
+GetCacheWritePricePerMillion returns the CacheWritePricePerMillion field if non-nil, zero value otherwise.
+
+### GetCacheWritePricePerMillionOk
+
+`func (o *SetPricingRequest) GetCacheWritePricePerMillionOk() (*float32, bool)`
+
+GetCacheWritePricePerMillionOk returns a tuple with the CacheWritePricePerMillion field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCacheWritePricePerMillion
+
+`func (o *SetPricingRequest) SetCacheWritePricePerMillion(v float32)`
+
+SetCacheWritePricePerMillion sets CacheWritePricePerMillion field to given value.
+
+### HasCacheWritePricePerMillion
+
+`func (o *SetPricingRequest) HasCacheWritePricePerMillion() bool`
+
+HasCacheWritePricePerMillion returns a boolean if a field has been set.
+
+### SetCacheWritePricePerMillionNil
+
+`func (o *SetPricingRequest) SetCacheWritePricePerMillionNil(b bool)`
+
+ SetCacheWritePricePerMillionNil sets the value for CacheWritePricePerMillion to be an explicit nil
+
+### UnsetCacheWritePricePerMillion
+`func (o *SetPricingRequest) UnsetCacheWritePricePerMillion()`
+
+UnsetCacheWritePricePerMillion ensures that no value is present for CacheWritePricePerMillion, not even an explicit nil
 ### GetEffectiveAt
 
 `func (o *SetPricingRequest) GetEffectiveAt() time.Time`
@@ -123,6 +232,41 @@ and a boolean to check if the value has been set.
 SetOutputPricePerMillion sets OutputPricePerMillion field to given value.
 
 
+### GetPricingTiers
+
+`func (o *SetPricingRequest) GetPricingTiers() []PricingTier`
+
+GetPricingTiers returns the PricingTiers field if non-nil, zero value otherwise.
+
+### GetPricingTiersOk
+
+`func (o *SetPricingRequest) GetPricingTiersOk() (*[]PricingTier, bool)`
+
+GetPricingTiersOk returns a tuple with the PricingTiers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPricingTiers
+
+`func (o *SetPricingRequest) SetPricingTiers(v []PricingTier)`
+
+SetPricingTiers sets PricingTiers field to given value.
+
+### HasPricingTiers
+
+`func (o *SetPricingRequest) HasPricingTiers() bool`
+
+HasPricingTiers returns a boolean if a field has been set.
+
+### SetPricingTiersNil
+
+`func (o *SetPricingRequest) SetPricingTiersNil(b bool)`
+
+ SetPricingTiersNil sets the value for PricingTiers to be an explicit nil
+
+### UnsetPricingTiers
+`func (o *SetPricingRequest) UnsetPricingTiers()`
+
+UnsetPricingTiers ensures that no value is present for PricingTiers, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

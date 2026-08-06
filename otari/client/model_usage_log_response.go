@@ -27,6 +27,7 @@ type UsageLogResponse struct {
 	Endpoint         string          `json:"endpoint"`
 	ErrorMessage     NullableString  `json:"error_message"`
 	Id               string          `json:"id"`
+	LatencyMs        NullableInt32   `json:"latency_ms"`
 	Model            string          `json:"model"`
 	PromptTokens     NullableInt32   `json:"prompt_tokens"`
 	Provider         NullableString  `json:"provider"`
@@ -42,7 +43,7 @@ type _UsageLogResponse UsageLogResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUsageLogResponse(apiKeyId NullableString, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString) *UsageLogResponse {
+func NewUsageLogResponse(apiKeyId NullableString, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString) *UsageLogResponse {
 	this := UsageLogResponse{}
 	this.ApiKeyId = apiKeyId
 	this.CompletionTokens = completionTokens
@@ -50,6 +51,7 @@ func NewUsageLogResponse(apiKeyId NullableString, completionTokens NullableInt32
 	this.Endpoint = endpoint
 	this.ErrorMessage = errorMessage
 	this.Id = id
+	this.LatencyMs = latencyMs
 	this.Model = model
 	this.PromptTokens = promptTokens
 	this.Provider = provider
@@ -218,6 +220,32 @@ func (o *UsageLogResponse) GetIdOk() (*string, bool) {
 // SetId sets field value
 func (o *UsageLogResponse) SetId(v string) {
 	o.Id = v
+}
+
+// GetLatencyMs returns the LatencyMs field value
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *UsageLogResponse) GetLatencyMs() int32 {
+	if o == nil || o.LatencyMs.Get() == nil {
+		var ret int32
+		return ret
+	}
+
+	return *o.LatencyMs.Get()
+}
+
+// GetLatencyMsOk returns a tuple with the LatencyMs field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageLogResponse) GetLatencyMsOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.LatencyMs.Get(), o.LatencyMs.IsSet()
+}
+
+// SetLatencyMs sets field value
+func (o *UsageLogResponse) SetLatencyMs(v int32) {
+	o.LatencyMs.Set(&v)
 }
 
 // GetModel returns the Model field value
@@ -412,6 +440,7 @@ func (o UsageLogResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["endpoint"] = o.Endpoint
 	toSerialize["error_message"] = o.ErrorMessage.Get()
 	toSerialize["id"] = o.Id
+	toSerialize["latency_ms"] = o.LatencyMs.Get()
 	toSerialize["model"] = o.Model
 	toSerialize["prompt_tokens"] = o.PromptTokens.Get()
 	toSerialize["provider"] = o.Provider.Get()
@@ -433,6 +462,7 @@ func (o *UsageLogResponse) UnmarshalJSON(data []byte) (err error) {
 		"endpoint",
 		"error_message",
 		"id",
+		"latency_ms",
 		"model",
 		"prompt_tokens",
 		"provider",

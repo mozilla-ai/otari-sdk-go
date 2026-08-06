@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **Id** | Pointer to **NullableString** |  | [optional] 
 **Function** | Pointer to [**NullableCCKChoiceDeltaToolCallFunction**](CCKChoiceDeltaToolCallFunction.md) |  | [optional] 
 **Type** | Pointer to **NullableString** |  | [optional] 
+**ExtraContent** | Pointer to **map[string]interface{}** |  | [optional] 
 
 ## Methods
 
@@ -153,6 +154,41 @@ HasType returns a boolean if a field has been set.
 `func (o *CCKChoiceDeltaToolCall) UnsetType()`
 
 UnsetType ensures that no value is present for Type, not even an explicit nil
+### GetExtraContent
+
+`func (o *CCKChoiceDeltaToolCall) GetExtraContent() map[string]interface{}`
+
+GetExtraContent returns the ExtraContent field if non-nil, zero value otherwise.
+
+### GetExtraContentOk
+
+`func (o *CCKChoiceDeltaToolCall) GetExtraContentOk() (*map[string]interface{}, bool)`
+
+GetExtraContentOk returns a tuple with the ExtraContent field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExtraContent
+
+`func (o *CCKChoiceDeltaToolCall) SetExtraContent(v map[string]interface{})`
+
+SetExtraContent sets ExtraContent field to given value.
+
+### HasExtraContent
+
+`func (o *CCKChoiceDeltaToolCall) HasExtraContent() bool`
+
+HasExtraContent returns a boolean if a field has been set.
+
+### SetExtraContentNil
+
+`func (o *CCKChoiceDeltaToolCall) SetExtraContentNil(b bool)`
+
+ SetExtraContentNil sets the value for ExtraContent to be an explicit nil
+
+### UnsetExtraContent
+`func (o *CCKChoiceDeltaToolCall) UnsetExtraContent()`
+
+UnsetExtraContent ensures that no value is present for ExtraContent, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

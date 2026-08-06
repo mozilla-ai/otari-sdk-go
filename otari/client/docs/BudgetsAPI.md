@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**CreateBudgetV1BudgetsPost**](BudgetsAPI.md#CreateBudgetV1BudgetsPost) | **Post** /v1/budgets | Create Budget
 [**DeleteBudgetV1BudgetsBudgetIdDelete**](BudgetsAPI.md#DeleteBudgetV1BudgetsBudgetIdDelete) | **Delete** /v1/budgets/{budget_id} | Delete Budget
 [**GetBudgetV1BudgetsBudgetIdGet**](BudgetsAPI.md#GetBudgetV1BudgetsBudgetIdGet) | **Get** /v1/budgets/{budget_id} | Get Budget
+[**ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet**](BudgetsAPI.md#ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet) | **Get** /v1/budgets/{budget_id}/reset-logs | List Budget Reset Logs
 [**ListBudgetsV1BudgetsGet**](BudgetsAPI.md#ListBudgetsV1BudgetsGet) | **Get** /v1/budgets | List Budgets
 [**UpdateBudgetV1BudgetsBudgetIdPatch**](BudgetsAPI.md#UpdateBudgetV1BudgetsBudgetIdPatch) | **Patch** /v1/budgets/{budget_id} | Update Budget
 
@@ -66,7 +67,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -134,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -204,7 +205,81 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet
+
+> []BudgetResetLogResponse ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet(ctx, budgetId).Skip(skip).Limit(limit).Execute()
+
+List Budget Reset Logs
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	budgetId := "budgetId_example" // string | 
+	skip := int32(56) // int32 |  (optional) (default to 0)
+	limit := int32(56) // int32 |  (optional) (default to 100)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BudgetsAPI.ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet(context.Background(), budgetId).Skip(skip).Limit(limit).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet`: []BudgetResetLogResponse
+	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**budgetId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListBudgetResetLogsV1BudgetsBudgetIdResetLogsGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **skip** | **int32** |  | [default to 0]
+ **limit** | **int32** |  | [default to 100]
+
+### Return type
+
+[**[]BudgetResetLogResponse**](BudgetResetLogResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -272,7 +347,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -344,7 +419,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 

@@ -21,7 +21,7 @@ var _ MappedNullable = &RerankResponse{}
 
 // RerankResponse Normalized rerank response, provider-agnostic.
 type RerankResponse struct {
-	// Filter models by provider name
+	// Delete the alias scoped to this user. Omit to delete the global alias of that name.
 	Id NullableString `json:"id,omitempty"`
 	// Results sorted by relevance_score descending
 	Results []RRRerankResult      `json:"results"`

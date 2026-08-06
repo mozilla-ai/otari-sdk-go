@@ -24,8 +24,9 @@ type CCKChoiceDelta struct {
 	Refusal      NullableString                     `json:"refusal,omitempty"`
 	Role         NullableString                     `json:"role,omitempty"`
 	ToolCalls    []CCKChoiceDeltaToolCall           `json:"tool_calls,omitempty"`
-	// Filter models by provider name
-	Reasoning            NullableString `json:"reasoning,omitempty"`
+	// Delete the alias scoped to this user. Omit to delete the global alias of that name.
+	Reasoning            NullableString         `json:"reasoning,omitempty"`
+	ExtraContent         map[string]interface{} `json:"extra_content,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -296,6 +297,39 @@ func (o *CCKChoiceDelta) UnsetReasoning() {
 	o.Reasoning.Unset()
 }
 
+// GetExtraContent returns the ExtraContent field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CCKChoiceDelta) GetExtraContent() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.ExtraContent
+}
+
+// GetExtraContentOk returns a tuple with the ExtraContent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CCKChoiceDelta) GetExtraContentOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.ExtraContent) {
+		return map[string]interface{}{}, false
+	}
+	return o.ExtraContent, true
+}
+
+// HasExtraContent returns a boolean if a field has been set.
+func (o *CCKChoiceDelta) HasExtraContent() bool {
+	if o != nil && !IsNil(o.ExtraContent) {
+		return true
+	}
+
+	return false
+}
+
+// SetExtraContent gets a reference to the given map[string]interface{} and assigns it to the ExtraContent field.
+func (o *CCKChoiceDelta) SetExtraContent(v map[string]interface{}) {
+	o.ExtraContent = v
+}
+
 func (o CCKChoiceDelta) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -323,6 +357,9 @@ func (o CCKChoiceDelta) ToMap() (map[string]interface{}, error) {
 	}
 	if o.Reasoning.IsSet() {
 		toSerialize["reasoning"] = o.Reasoning.Get()
+	}
+	if o.ExtraContent != nil {
+		toSerialize["extra_content"] = o.ExtraContent
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -352,6 +389,7 @@ func (o *CCKChoiceDelta) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "role")
 		delete(additionalProperties, "tool_calls")
 		delete(additionalProperties, "reasoning")
+		delete(additionalProperties, "extra_content")
 		o.AdditionalProperties = additionalProperties
 	}
 

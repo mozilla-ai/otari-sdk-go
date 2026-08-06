@@ -17,37 +17,37 @@ import (
 
 // Source struct for Source
 type Source struct {
-	MRBase64PDFSource *MRBase64PDFSource
-	MRPlainTextSource *MRPlainTextSource
+	MRBetaBase64PDFSource *MRBetaBase64PDFSource
+	MRBetaPlainTextSource *MRBetaPlainTextSource
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *Source) UnmarshalJSON(data []byte) error {
 	var err error
-	// try to unmarshal JSON data into MRBase64PDFSource
-	err = json.Unmarshal(data, &dst.MRBase64PDFSource)
+	// try to unmarshal JSON data into MRBetaBase64PDFSource
+	err = json.Unmarshal(data, &dst.MRBetaBase64PDFSource)
 	if err == nil {
-		jsonMRBase64PDFSource, _ := json.Marshal(dst.MRBase64PDFSource)
-		if string(jsonMRBase64PDFSource) == "{}" { // empty struct
-			dst.MRBase64PDFSource = nil
+		jsonMRBetaBase64PDFSource, _ := json.Marshal(dst.MRBetaBase64PDFSource)
+		if string(jsonMRBetaBase64PDFSource) == "{}" { // empty struct
+			dst.MRBetaBase64PDFSource = nil
 		} else {
-			return nil // data stored in dst.MRBase64PDFSource, return on the first match
+			return nil // data stored in dst.MRBetaBase64PDFSource, return on the first match
 		}
 	} else {
-		dst.MRBase64PDFSource = nil
+		dst.MRBetaBase64PDFSource = nil
 	}
 
-	// try to unmarshal JSON data into MRPlainTextSource
-	err = json.Unmarshal(data, &dst.MRPlainTextSource)
+	// try to unmarshal JSON data into MRBetaPlainTextSource
+	err = json.Unmarshal(data, &dst.MRBetaPlainTextSource)
 	if err == nil {
-		jsonMRPlainTextSource, _ := json.Marshal(dst.MRPlainTextSource)
-		if string(jsonMRPlainTextSource) == "{}" { // empty struct
-			dst.MRPlainTextSource = nil
+		jsonMRBetaPlainTextSource, _ := json.Marshal(dst.MRBetaPlainTextSource)
+		if string(jsonMRBetaPlainTextSource) == "{}" { // empty struct
+			dst.MRBetaPlainTextSource = nil
 		} else {
-			return nil // data stored in dst.MRPlainTextSource, return on the first match
+			return nil // data stored in dst.MRBetaPlainTextSource, return on the first match
 		}
 	} else {
-		dst.MRPlainTextSource = nil
+		dst.MRBetaPlainTextSource = nil
 	}
 
 	return fmt.Errorf("data failed to match schemas in anyOf(Source)")
@@ -55,12 +55,12 @@ func (dst *Source) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Source) MarshalJSON() ([]byte, error) {
-	if src.MRBase64PDFSource != nil {
-		return json.Marshal(&src.MRBase64PDFSource)
+	if src.MRBetaBase64PDFSource != nil {
+		return json.Marshal(&src.MRBetaBase64PDFSource)
 	}
 
-	if src.MRPlainTextSource != nil {
-		return json.Marshal(&src.MRPlainTextSource)
+	if src.MRBetaPlainTextSource != nil {
+		return json.Marshal(&src.MRBetaPlainTextSource)
 	}
 
 	return nil, nil // no data in anyOf schemas

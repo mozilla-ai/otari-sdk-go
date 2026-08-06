@@ -4,10 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**AllowedModels** | Pointer to **[]string** |  | [optional] 
+**ExcludeFromBudget** | Pointer to **NullableBool** |  | [optional] 
 **ExpiresAt** | Pointer to **NullableTime** |  | [optional] 
 **IsActive** | Pointer to **NullableBool** |  | [optional] 
 **KeyName** | Pointer to **NullableString** |  | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
+**RejectUserMismatch** | Pointer to **NullableBool** |  | [optional] 
 
 ## Methods
 
@@ -28,6 +31,76 @@ NewUpdateKeyRequestWithDefaults instantiates a new UpdateKeyRequest object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetAllowedModels
+
+`func (o *UpdateKeyRequest) GetAllowedModels() []string`
+
+GetAllowedModels returns the AllowedModels field if non-nil, zero value otherwise.
+
+### GetAllowedModelsOk
+
+`func (o *UpdateKeyRequest) GetAllowedModelsOk() (*[]string, bool)`
+
+GetAllowedModelsOk returns a tuple with the AllowedModels field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedModels
+
+`func (o *UpdateKeyRequest) SetAllowedModels(v []string)`
+
+SetAllowedModels sets AllowedModels field to given value.
+
+### HasAllowedModels
+
+`func (o *UpdateKeyRequest) HasAllowedModels() bool`
+
+HasAllowedModels returns a boolean if a field has been set.
+
+### SetAllowedModelsNil
+
+`func (o *UpdateKeyRequest) SetAllowedModelsNil(b bool)`
+
+ SetAllowedModelsNil sets the value for AllowedModels to be an explicit nil
+
+### UnsetAllowedModels
+`func (o *UpdateKeyRequest) UnsetAllowedModels()`
+
+UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetExcludeFromBudget
+
+`func (o *UpdateKeyRequest) GetExcludeFromBudget() bool`
+
+GetExcludeFromBudget returns the ExcludeFromBudget field if non-nil, zero value otherwise.
+
+### GetExcludeFromBudgetOk
+
+`func (o *UpdateKeyRequest) GetExcludeFromBudgetOk() (*bool, bool)`
+
+GetExcludeFromBudgetOk returns a tuple with the ExcludeFromBudget field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExcludeFromBudget
+
+`func (o *UpdateKeyRequest) SetExcludeFromBudget(v bool)`
+
+SetExcludeFromBudget sets ExcludeFromBudget field to given value.
+
+### HasExcludeFromBudget
+
+`func (o *UpdateKeyRequest) HasExcludeFromBudget() bool`
+
+HasExcludeFromBudget returns a boolean if a field has been set.
+
+### SetExcludeFromBudgetNil
+
+`func (o *UpdateKeyRequest) SetExcludeFromBudgetNil(b bool)`
+
+ SetExcludeFromBudgetNil sets the value for ExcludeFromBudget to be an explicit nil
+
+### UnsetExcludeFromBudget
+`func (o *UpdateKeyRequest) UnsetExcludeFromBudget()`
+
+UnsetExcludeFromBudget ensures that no value is present for ExcludeFromBudget, not even an explicit nil
 ### GetExpiresAt
 
 `func (o *UpdateKeyRequest) GetExpiresAt() time.Time`
@@ -168,6 +241,41 @@ HasMetadata returns a boolean if a field has been set.
 `func (o *UpdateKeyRequest) UnsetMetadata()`
 
 UnsetMetadata ensures that no value is present for Metadata, not even an explicit nil
+### GetRejectUserMismatch
+
+`func (o *UpdateKeyRequest) GetRejectUserMismatch() bool`
+
+GetRejectUserMismatch returns the RejectUserMismatch field if non-nil, zero value otherwise.
+
+### GetRejectUserMismatchOk
+
+`func (o *UpdateKeyRequest) GetRejectUserMismatchOk() (*bool, bool)`
+
+GetRejectUserMismatchOk returns a tuple with the RejectUserMismatch field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRejectUserMismatch
+
+`func (o *UpdateKeyRequest) SetRejectUserMismatch(v bool)`
+
+SetRejectUserMismatch sets RejectUserMismatch field to given value.
+
+### HasRejectUserMismatch
+
+`func (o *UpdateKeyRequest) HasRejectUserMismatch() bool`
+
+HasRejectUserMismatch returns a boolean if a field has been set.
+
+### SetRejectUserMismatchNil
+
+`func (o *UpdateKeyRequest) SetRejectUserMismatchNil(b bool)`
+
+ SetRejectUserMismatchNil sets the value for RejectUserMismatch to be an explicit nil
+
+### UnsetRejectUserMismatch
+`func (o *UpdateKeyRequest) UnsetRejectUserMismatch()`
+
+UnsetRejectUserMismatch ensures that no value is present for RejectUserMismatch, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

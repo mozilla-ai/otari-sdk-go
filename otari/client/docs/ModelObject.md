@@ -4,11 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**ContextWindow** | Pointer to **NullableInt32** |  | [optional] 
 **Created** | **int32** |  | 
 **Id** | **string** |  | 
 **Object** | Pointer to **string** |  | [optional] [default to "model"]
 **OwnedBy** | **string** |  | 
 **Pricing** | Pointer to [**NullableModelPricingInfo**](ModelPricingInfo.md) |  | [optional] 
+**PricingSource** | Pointer to **string** |  | [optional] [default to "none"]
 
 ## Methods
 
@@ -29,6 +31,41 @@ NewModelObjectWithDefaults instantiates a new ModelObject object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetContextWindow
+
+`func (o *ModelObject) GetContextWindow() int32`
+
+GetContextWindow returns the ContextWindow field if non-nil, zero value otherwise.
+
+### GetContextWindowOk
+
+`func (o *ModelObject) GetContextWindowOk() (*int32, bool)`
+
+GetContextWindowOk returns a tuple with the ContextWindow field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetContextWindow
+
+`func (o *ModelObject) SetContextWindow(v int32)`
+
+SetContextWindow sets ContextWindow field to given value.
+
+### HasContextWindow
+
+`func (o *ModelObject) HasContextWindow() bool`
+
+HasContextWindow returns a boolean if a field has been set.
+
+### SetContextWindowNil
+
+`func (o *ModelObject) SetContextWindowNil(b bool)`
+
+ SetContextWindowNil sets the value for ContextWindow to be an explicit nil
+
+### UnsetContextWindow
+`func (o *ModelObject) UnsetContextWindow()`
+
+UnsetContextWindow ensures that no value is present for ContextWindow, not even an explicit nil
 ### GetCreated
 
 `func (o *ModelObject) GetCreated() int32`
@@ -149,6 +186,31 @@ HasPricing returns a boolean if a field has been set.
 `func (o *ModelObject) UnsetPricing()`
 
 UnsetPricing ensures that no value is present for Pricing, not even an explicit nil
+### GetPricingSource
+
+`func (o *ModelObject) GetPricingSource() string`
+
+GetPricingSource returns the PricingSource field if non-nil, zero value otherwise.
+
+### GetPricingSourceOk
+
+`func (o *ModelObject) GetPricingSourceOk() (*string, bool)`
+
+GetPricingSourceOk returns a tuple with the PricingSource field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPricingSource
+
+`func (o *ModelObject) SetPricingSource(v string)`
+
+SetPricingSource sets PricingSource field to given value.
+
+### HasPricingSource
+
+`func (o *ModelObject) HasPricingSource() bool`
+
+HasPricingSource returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

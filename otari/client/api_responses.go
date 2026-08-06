@@ -42,12 +42,10 @@ CreateResponseV1ResponsesPost Create Response
 OpenAI-compatible Responses endpoint.
 
 Supports MCP tool-use loops, sandboxed code execution, and SearXNG
-web_search in both standalone mode and hybrid mode. Hybrid-mode
-requests resolve credentials via the platform service and (for
-non-tool-loop requests) get multi-attempt fallback across the resolved
-route. Tool-loop requests collapse to a single attempt — once
-“on_first_response“ lock-in plumbing lands across the codebase, a
-follow-up will enable pre-lock-in fallback for tool-loop requests too.
+web_search in both standalone mode and hybrid mode. Hybrid-mode requests
+resolve credentials via the platform service and get multi-attempt
+fallback across the resolved route, tool-loop requests included (fallback
+applies up to the pre-lock-in point, same as chat).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiCreateResponseV1ResponsesPostRequest
@@ -103,6 +101,20 @@ func (a *ResponsesAPIService) CreateResponseV1ResponsesPostExecute(r ApiCreateRe
 	}
 	// body params
 	localVarPostBody = r.responsesRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

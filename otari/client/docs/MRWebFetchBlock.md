@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Content** | [**MRDocumentBlock**](MRDocumentBlock.md) |  | 
-**RetrievedAt** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**RetrievedAt** | Pointer to **NullableString** |  | [optional] 
 **Type** | **string** |  | 
 **Url** | **string** |  | 
 

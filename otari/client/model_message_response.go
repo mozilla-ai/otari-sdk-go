@@ -21,16 +21,18 @@ var _ MappedNullable = &MessageResponse{}
 // MessageResponse struct for MessageResponse
 type MessageResponse struct {
 	Id          string                       `json:"id"`
-	Container   NullableMRContainer          `json:"container,omitempty"`
-	Content     []Content9Inner              `json:"content"`
+	Container   NullableMRBetaContainer      `json:"container,omitempty"`
+	Content     []Content16Inner             `json:"content"`
 	Model       Model                        `json:"model"`
 	Role        string                       `json:"role"`
 	StopDetails NullableMRRefusalStopDetails `json:"stop_details,omitempty"`
 	StopReason  NullableString               `json:"stop_reason,omitempty"`
-	// Filter models by provider name
-	StopSequence         NullableString `json:"stop_sequence,omitempty"`
-	Type                 string         `json:"type"`
-	Usage                MRUsage        `json:"usage"`
+	// Delete the alias scoped to this user. Omit to delete the global alias of that name.
+	StopSequence         NullableString                          `json:"stop_sequence,omitempty"`
+	Type                 string                                  `json:"type"`
+	Usage                MRMessageUsage                          `json:"usage"`
+	ContextManagement    NullableMRBetaContextManagementResponse `json:"context_management,omitempty"`
+	Diagnostics          NullableMRBetaDiagnosticsFallback       `json:"diagnostics,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -40,7 +42,7 @@ type _MessageResponse MessageResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMessageResponse(id string, content []Content9Inner, model Model, role string, type_ string, usage MRUsage) *MessageResponse {
+func NewMessageResponse(id string, content []Content16Inner, model Model, role string, type_ string, usage MRMessageUsage) *MessageResponse {
 	this := MessageResponse{}
 	this.Id = id
 	this.Content = content
@@ -84,9 +86,9 @@ func (o *MessageResponse) SetId(v string) {
 }
 
 // GetContainer returns the Container field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *MessageResponse) GetContainer() MRContainer {
+func (o *MessageResponse) GetContainer() MRBetaContainer {
 	if o == nil || IsNil(o.Container.Get()) {
-		var ret MRContainer
+		var ret MRBetaContainer
 		return ret
 	}
 	return *o.Container.Get()
@@ -95,7 +97,7 @@ func (o *MessageResponse) GetContainer() MRContainer {
 // GetContainerOk returns a tuple with the Container field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *MessageResponse) GetContainerOk() (*MRContainer, bool) {
+func (o *MessageResponse) GetContainerOk() (*MRBetaContainer, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -111,8 +113,8 @@ func (o *MessageResponse) HasContainer() bool {
 	return false
 }
 
-// SetContainer gets a reference to the given NullableMRContainer and assigns it to the Container field.
-func (o *MessageResponse) SetContainer(v MRContainer) {
+// SetContainer gets a reference to the given NullableMRBetaContainer and assigns it to the Container field.
+func (o *MessageResponse) SetContainer(v MRBetaContainer) {
 	o.Container.Set(&v)
 }
 
@@ -127,9 +129,9 @@ func (o *MessageResponse) UnsetContainer() {
 }
 
 // GetContent returns the Content field value
-func (o *MessageResponse) GetContent() []Content9Inner {
+func (o *MessageResponse) GetContent() []Content16Inner {
 	if o == nil {
-		var ret []Content9Inner
+		var ret []Content16Inner
 		return ret
 	}
 
@@ -138,7 +140,7 @@ func (o *MessageResponse) GetContent() []Content9Inner {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *MessageResponse) GetContentOk() ([]Content9Inner, bool) {
+func (o *MessageResponse) GetContentOk() ([]Content16Inner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -146,7 +148,7 @@ func (o *MessageResponse) GetContentOk() ([]Content9Inner, bool) {
 }
 
 // SetContent sets field value
-func (o *MessageResponse) SetContent(v []Content9Inner) {
+func (o *MessageResponse) SetContent(v []Content16Inner) {
 	o.Content = v
 }
 
@@ -352,9 +354,9 @@ func (o *MessageResponse) SetType(v string) {
 }
 
 // GetUsage returns the Usage field value
-func (o *MessageResponse) GetUsage() MRUsage {
+func (o *MessageResponse) GetUsage() MRMessageUsage {
 	if o == nil {
-		var ret MRUsage
+		var ret MRMessageUsage
 		return ret
 	}
 
@@ -363,7 +365,7 @@ func (o *MessageResponse) GetUsage() MRUsage {
 
 // GetUsageOk returns a tuple with the Usage field value
 // and a boolean to check if the value has been set.
-func (o *MessageResponse) GetUsageOk() (*MRUsage, bool) {
+func (o *MessageResponse) GetUsageOk() (*MRMessageUsage, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -371,8 +373,94 @@ func (o *MessageResponse) GetUsageOk() (*MRUsage, bool) {
 }
 
 // SetUsage sets field value
-func (o *MessageResponse) SetUsage(v MRUsage) {
+func (o *MessageResponse) SetUsage(v MRMessageUsage) {
 	o.Usage = v
+}
+
+// GetContextManagement returns the ContextManagement field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MessageResponse) GetContextManagement() MRBetaContextManagementResponse {
+	if o == nil || IsNil(o.ContextManagement.Get()) {
+		var ret MRBetaContextManagementResponse
+		return ret
+	}
+	return *o.ContextManagement.Get()
+}
+
+// GetContextManagementOk returns a tuple with the ContextManagement field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MessageResponse) GetContextManagementOk() (*MRBetaContextManagementResponse, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ContextManagement.Get(), o.ContextManagement.IsSet()
+}
+
+// HasContextManagement returns a boolean if a field has been set.
+func (o *MessageResponse) HasContextManagement() bool {
+	if o != nil && o.ContextManagement.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetContextManagement gets a reference to the given NullableMRBetaContextManagementResponse and assigns it to the ContextManagement field.
+func (o *MessageResponse) SetContextManagement(v MRBetaContextManagementResponse) {
+	o.ContextManagement.Set(&v)
+}
+
+// SetContextManagementNil sets the value for ContextManagement to be an explicit nil
+func (o *MessageResponse) SetContextManagementNil() {
+	o.ContextManagement.Set(nil)
+}
+
+// UnsetContextManagement ensures that no value is present for ContextManagement, not even an explicit nil
+func (o *MessageResponse) UnsetContextManagement() {
+	o.ContextManagement.Unset()
+}
+
+// GetDiagnostics returns the Diagnostics field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MessageResponse) GetDiagnostics() MRBetaDiagnosticsFallback {
+	if o == nil || IsNil(o.Diagnostics.Get()) {
+		var ret MRBetaDiagnosticsFallback
+		return ret
+	}
+	return *o.Diagnostics.Get()
+}
+
+// GetDiagnosticsOk returns a tuple with the Diagnostics field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MessageResponse) GetDiagnosticsOk() (*MRBetaDiagnosticsFallback, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Diagnostics.Get(), o.Diagnostics.IsSet()
+}
+
+// HasDiagnostics returns a boolean if a field has been set.
+func (o *MessageResponse) HasDiagnostics() bool {
+	if o != nil && o.Diagnostics.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetDiagnostics gets a reference to the given NullableMRBetaDiagnosticsFallback and assigns it to the Diagnostics field.
+func (o *MessageResponse) SetDiagnostics(v MRBetaDiagnosticsFallback) {
+	o.Diagnostics.Set(&v)
+}
+
+// SetDiagnosticsNil sets the value for Diagnostics to be an explicit nil
+func (o *MessageResponse) SetDiagnosticsNil() {
+	o.Diagnostics.Set(nil)
+}
+
+// UnsetDiagnostics ensures that no value is present for Diagnostics, not even an explicit nil
+func (o *MessageResponse) UnsetDiagnostics() {
+	o.Diagnostics.Unset()
 }
 
 func (o MessageResponse) MarshalJSON() ([]byte, error) {
@@ -403,6 +491,12 @@ func (o MessageResponse) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["type"] = o.Type
 	toSerialize["usage"] = o.Usage
+	if o.ContextManagement.IsSet() {
+		toSerialize["context_management"] = o.ContextManagement.Get()
+	}
+	if o.Diagnostics.IsSet() {
+		toSerialize["diagnostics"] = o.Diagnostics.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -461,6 +555,8 @@ func (o *MessageResponse) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "stop_sequence")
 		delete(additionalProperties, "type")
 		delete(additionalProperties, "usage")
+		delete(additionalProperties, "context_management")
+		delete(additionalProperties, "diagnostics")
 		o.AdditionalProperties = additionalProperties
 	}
 

@@ -19,13 +19,17 @@ import (
 // checks if the BudgetResponse type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &BudgetResponse{}
 
-// BudgetResponse Response model for budget information.
+// BudgetResponse Response model for budget information.  “max_budget“ is the per-user spending limit, and multiple users can share one budget, so the usage rollup is an aggregate over the users assigned to this budget: how many there are and their combined “spend“ / “reserved“. Assigning users to a budget is done through the users API (dashboard support lands with user management), so a fresh gateway reports zeros here.
 type BudgetResponse struct {
 	BudgetDurationSec NullableInt32   `json:"budget_duration_sec"`
 	BudgetId          string          `json:"budget_id"`
 	CreatedAt         string          `json:"created_at"`
 	MaxBudget         NullableFloat32 `json:"max_budget"`
+	Name              NullableString  `json:"name"`
+	TotalReserved     *float32        `json:"total_reserved,omitempty"`
+	TotalSpend        *float32        `json:"total_spend,omitempty"`
 	UpdatedAt         string          `json:"updated_at"`
+	UserCount         *int32          `json:"user_count,omitempty"`
 }
 
 type _BudgetResponse BudgetResponse
@@ -34,13 +38,20 @@ type _BudgetResponse BudgetResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewBudgetResponse(budgetDurationSec NullableInt32, budgetId string, createdAt string, maxBudget NullableFloat32, updatedAt string) *BudgetResponse {
+func NewBudgetResponse(budgetDurationSec NullableInt32, budgetId string, createdAt string, maxBudget NullableFloat32, name NullableString, updatedAt string) *BudgetResponse {
 	this := BudgetResponse{}
 	this.BudgetDurationSec = budgetDurationSec
 	this.BudgetId = budgetId
 	this.CreatedAt = createdAt
 	this.MaxBudget = maxBudget
+	this.Name = name
+	var totalReserved float32 = 0.0
+	this.TotalReserved = &totalReserved
+	var totalSpend float32 = 0.0
+	this.TotalSpend = &totalSpend
 	this.UpdatedAt = updatedAt
+	var userCount int32 = 0
+	this.UserCount = &userCount
 	return &this
 }
 
@@ -49,6 +60,12 @@ func NewBudgetResponse(budgetDurationSec NullableInt32, budgetId string, created
 // but it doesn't guarantee that properties required by API are set
 func NewBudgetResponseWithDefaults() *BudgetResponse {
 	this := BudgetResponse{}
+	var totalReserved float32 = 0.0
+	this.TotalReserved = &totalReserved
+	var totalSpend float32 = 0.0
+	this.TotalSpend = &totalSpend
+	var userCount int32 = 0
+	this.UserCount = &userCount
 	return &this
 }
 
@@ -152,6 +169,96 @@ func (o *BudgetResponse) SetMaxBudget(v float32) {
 	o.MaxBudget.Set(&v)
 }
 
+// GetName returns the Name field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *BudgetResponse) GetName() string {
+	if o == nil || o.Name.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.Name.Get()
+}
+
+// GetNameOk returns a tuple with the Name field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *BudgetResponse) GetNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Name.Get(), o.Name.IsSet()
+}
+
+// SetName sets field value
+func (o *BudgetResponse) SetName(v string) {
+	o.Name.Set(&v)
+}
+
+// GetTotalReserved returns the TotalReserved field value if set, zero value otherwise.
+func (o *BudgetResponse) GetTotalReserved() float32 {
+	if o == nil || IsNil(o.TotalReserved) {
+		var ret float32
+		return ret
+	}
+	return *o.TotalReserved
+}
+
+// GetTotalReservedOk returns a tuple with the TotalReserved field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BudgetResponse) GetTotalReservedOk() (*float32, bool) {
+	if o == nil || IsNil(o.TotalReserved) {
+		return nil, false
+	}
+	return o.TotalReserved, true
+}
+
+// HasTotalReserved returns a boolean if a field has been set.
+func (o *BudgetResponse) HasTotalReserved() bool {
+	if o != nil && !IsNil(o.TotalReserved) {
+		return true
+	}
+
+	return false
+}
+
+// SetTotalReserved gets a reference to the given float32 and assigns it to the TotalReserved field.
+func (o *BudgetResponse) SetTotalReserved(v float32) {
+	o.TotalReserved = &v
+}
+
+// GetTotalSpend returns the TotalSpend field value if set, zero value otherwise.
+func (o *BudgetResponse) GetTotalSpend() float32 {
+	if o == nil || IsNil(o.TotalSpend) {
+		var ret float32
+		return ret
+	}
+	return *o.TotalSpend
+}
+
+// GetTotalSpendOk returns a tuple with the TotalSpend field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BudgetResponse) GetTotalSpendOk() (*float32, bool) {
+	if o == nil || IsNil(o.TotalSpend) {
+		return nil, false
+	}
+	return o.TotalSpend, true
+}
+
+// HasTotalSpend returns a boolean if a field has been set.
+func (o *BudgetResponse) HasTotalSpend() bool {
+	if o != nil && !IsNil(o.TotalSpend) {
+		return true
+	}
+
+	return false
+}
+
+// SetTotalSpend gets a reference to the given float32 and assigns it to the TotalSpend field.
+func (o *BudgetResponse) SetTotalSpend(v float32) {
+	o.TotalSpend = &v
+}
+
 // GetUpdatedAt returns the UpdatedAt field value
 func (o *BudgetResponse) GetUpdatedAt() string {
 	if o == nil {
@@ -176,6 +283,38 @@ func (o *BudgetResponse) SetUpdatedAt(v string) {
 	o.UpdatedAt = v
 }
 
+// GetUserCount returns the UserCount field value if set, zero value otherwise.
+func (o *BudgetResponse) GetUserCount() int32 {
+	if o == nil || IsNil(o.UserCount) {
+		var ret int32
+		return ret
+	}
+	return *o.UserCount
+}
+
+// GetUserCountOk returns a tuple with the UserCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BudgetResponse) GetUserCountOk() (*int32, bool) {
+	if o == nil || IsNil(o.UserCount) {
+		return nil, false
+	}
+	return o.UserCount, true
+}
+
+// HasUserCount returns a boolean if a field has been set.
+func (o *BudgetResponse) HasUserCount() bool {
+	if o != nil && !IsNil(o.UserCount) {
+		return true
+	}
+
+	return false
+}
+
+// SetUserCount gets a reference to the given int32 and assigns it to the UserCount field.
+func (o *BudgetResponse) SetUserCount(v int32) {
+	o.UserCount = &v
+}
+
 func (o BudgetResponse) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -190,7 +329,17 @@ func (o BudgetResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["budget_id"] = o.BudgetId
 	toSerialize["created_at"] = o.CreatedAt
 	toSerialize["max_budget"] = o.MaxBudget.Get()
+	toSerialize["name"] = o.Name.Get()
+	if !IsNil(o.TotalReserved) {
+		toSerialize["total_reserved"] = o.TotalReserved
+	}
+	if !IsNil(o.TotalSpend) {
+		toSerialize["total_spend"] = o.TotalSpend
+	}
 	toSerialize["updated_at"] = o.UpdatedAt
+	if !IsNil(o.UserCount) {
+		toSerialize["user_count"] = o.UserCount
+	}
 	return toSerialize, nil
 }
 
@@ -203,6 +352,7 @@ func (o *BudgetResponse) UnmarshalJSON(data []byte) (err error) {
 		"budget_id",
 		"created_at",
 		"max_budget",
+		"name",
 		"updated_at",
 	}
 

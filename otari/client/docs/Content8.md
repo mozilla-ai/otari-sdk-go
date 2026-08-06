@@ -5,13 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ErrorCode** | **string** |  | 
+**ErrorMessage** | Pointer to **string** |  | [optional] 
 **Type** | **string** |  | 
+**ToolReferences** | [**[]MRBetaToolReferenceBlock**](MRBetaToolReferenceBlock.md) |  | 
 
 ## Methods
 
 ### NewContent8
 
-`func NewContent8(errorCode string, type_ string, ) *Content8`
+`func NewContent8(errorCode string, type_ string, toolReferences []MRBetaToolReferenceBlock, ) *Content8`
 
 NewContent8 instantiates a new Content8 object
 This constructor will assign default values to properties that have it defined,
@@ -46,6 +48,31 @@ and a boolean to check if the value has been set.
 SetErrorCode sets ErrorCode field to given value.
 
 
+### GetErrorMessage
+
+`func (o *Content8) GetErrorMessage() string`
+
+GetErrorMessage returns the ErrorMessage field if non-nil, zero value otherwise.
+
+### GetErrorMessageOk
+
+`func (o *Content8) GetErrorMessageOk() (*string, bool)`
+
+GetErrorMessageOk returns a tuple with the ErrorMessage field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetErrorMessage
+
+`func (o *Content8) SetErrorMessage(v string)`
+
+SetErrorMessage sets ErrorMessage field to given value.
+
+### HasErrorMessage
+
+`func (o *Content8) HasErrorMessage() bool`
+
+HasErrorMessage returns a boolean if a field has been set.
+
 ### GetType
 
 `func (o *Content8) GetType() string`
@@ -64,6 +91,26 @@ and a boolean to check if the value has been set.
 `func (o *Content8) SetType(v string)`
 
 SetType sets Type field to given value.
+
+
+### GetToolReferences
+
+`func (o *Content8) GetToolReferences() []MRBetaToolReferenceBlock`
+
+GetToolReferences returns the ToolReferences field if non-nil, zero value otherwise.
+
+### GetToolReferencesOk
+
+`func (o *Content8) GetToolReferencesOk() (*[]MRBetaToolReferenceBlock, bool)`
+
+GetToolReferencesOk returns a tuple with the ToolReferences field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetToolReferences
+
+`func (o *Content8) SetToolReferences(v []MRBetaToolReferenceBlock)`
+
+SetToolReferences sets ToolReferences field to given value.
 
 
 

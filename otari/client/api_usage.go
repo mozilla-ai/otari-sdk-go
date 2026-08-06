@@ -16,20 +16,650 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"reflect"
 	"time"
 )
 
 // UsageAPIService UsageAPI service
 type UsageAPIService service
 
+type ApiCountUsageV1UsageCountGetRequest struct {
+	ctx                context.Context
+	ApiService         *UsageAPIService
+	startDate          *time.Time
+	endDate            *time.Time
+	userId             *string
+	status             *string
+	statusCode         *int32
+	model              *string
+	endpoint           *string
+	provider           *string
+	source             *string
+	sourceLabel        *string
+	apiKeyId           *string
+	priced             *bool
+	tool               *string
+	countsTowardBudget *bool
+	requestGroupId     *[]string
+}
+
+// Return logs with timestamp &gt;&#x3D; start_date (ISO 8601 or Unix epoch seconds)
+func (r ApiCountUsageV1UsageCountGetRequest) StartDate(startDate time.Time) ApiCountUsageV1UsageCountGetRequest {
+	r.startDate = &startDate
+	return r
+}
+
+// Return logs with timestamp &lt; end_date (ISO 8601 or Unix epoch seconds)
+func (r ApiCountUsageV1UsageCountGetRequest) EndDate(endDate time.Time) ApiCountUsageV1UsageCountGetRequest {
+	r.endDate = &endDate
+	return r
+}
+
+// Filter to a single user
+func (r ApiCountUsageV1UsageCountGetRequest) UserId(userId string) ApiCountUsageV1UsageCountGetRequest {
+	r.userId = &userId
+	return r
+}
+
+// Filter to a single status: &#39;success&#39;, &#39;error&#39;, or &#39;absorbed&#39; (an attempt a routing policy recovered from, excluded from error_count and request_count)
+func (r ApiCountUsageV1UsageCountGetRequest) Status(status string) ApiCountUsageV1UsageCountGetRequest {
+	r.status = &status
+	return r
+}
+
+// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly
+func (r ApiCountUsageV1UsageCountGetRequest) StatusCode(statusCode int32) ApiCountUsageV1UsageCountGetRequest {
+	r.statusCode = &statusCode
+	return r
+}
+
+// Filter to a single model
+func (r ApiCountUsageV1UsageCountGetRequest) Model(model string) ApiCountUsageV1UsageCountGetRequest {
+	r.model = &model
+	return r
+}
+
+// Filter to a single endpoint (e.g. &#39;/v1/chat/completions&#39;)
+func (r ApiCountUsageV1UsageCountGetRequest) Endpoint(endpoint string) ApiCountUsageV1UsageCountGetRequest {
+	r.endpoint = &endpoint
+	return r
+}
+
+// Filter to a single provider (e.g. &#39;openai&#39;)
+func (r ApiCountUsageV1UsageCountGetRequest) Provider(provider string) ApiCountUsageV1UsageCountGetRequest {
+	r.provider = &provider
+	return r
+}
+
+// Filter to a single provenance source (e.g. &#39;gateway&#39; or &#39;claude_code&#39;)
+func (r ApiCountUsageV1UsageCountGetRequest) Source(source string) ApiCountUsageV1UsageCountGetRequest {
+	r.source = &source
+	return r
+}
+
+// Filter to a single session/project label (the source_label carried by imported usage)
+func (r ApiCountUsageV1UsageCountGetRequest) SourceLabel(sourceLabel string) ApiCountUsageV1UsageCountGetRequest {
+	r.sourceLabel = &sourceLabel
+	return r
+}
+
+// Filter to a single API key id
+func (r ApiCountUsageV1UsageCountGetRequest) ApiKeyId(apiKeyId string) ApiCountUsageV1UsageCountGetRequest {
+	r.apiKeyId = &apiKeyId
+	return r
+}
+
+// Filter by token-pricing state: true &#x3D; only rows whose model tokens were priced, false &#x3D; only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing.
+func (r ApiCountUsageV1UsageCountGetRequest) Priced(priced bool) ApiCountUsageV1UsageCountGetRequest {
+	r.priced = &priced
+	return r
+}
+
+// Filter to requests that ran a gateway-run tool. &#39;any&#39; matches any tool; a tool name (web_search, code_execution) matches that tool specifically.
+func (r ApiCountUsageV1UsageCountGetRequest) Tool(tool string) ApiCountUsageV1UsageCountGetRequest {
+	r.tool = &tool
+	return r
+}
+
+// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows that never touch a budget
+func (r ApiCountUsageV1UsageCountGetRequest) CountsTowardBudget(countsTowardBudget bool) ApiCountUsageV1UsageCountGetRequest {
+	r.countsTowardBudget = &countsTowardBudget
+	return r
+}
+
+// Filter to the rows of one or more request groups; repeatable (request_group_id&#x3D;a&amp;request_group_id&#x3D;b). A routed request writes one row per attempt, all sharing a request_group_id, so this returns a request&#39;s whole plan: its absorbed attempts and the attempt that served it. Ignore ordering by timestamp and read attempt_position to reconstruct the plan. At most 1000 ids per call.
+func (r ApiCountUsageV1UsageCountGetRequest) RequestGroupId(requestGroupId []string) ApiCountUsageV1UsageCountGetRequest {
+	r.requestGroupId = &requestGroupId
+	return r
+}
+
+func (r ApiCountUsageV1UsageCountGetRequest) Execute() (*UsageCount, *http.Response, error) {
+	return r.ApiService.CountUsageV1UsageCountGetExecute(r)
+}
+
+/*
+CountUsageV1UsageCountGet Count Usage
+
+Total number of usage logs matching the given filters.
+
+Serves the dashboard paginator's "N of M" total without changing the bare
+array contract of “GET /v1/usage“. Runs only when the client asks (a
+separate request), so the “COUNT(*)“ is not paid on every page load. With
+“counts_toward_budget=false“ it also backs the "select all N matching this
+filter" affordance for bulk delete / set-price, which touch imported rows only.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCountUsageV1UsageCountGetRequest
+*/
+func (a *UsageAPIService) CountUsageV1UsageCountGet(ctx context.Context) ApiCountUsageV1UsageCountGetRequest {
+	return ApiCountUsageV1UsageCountGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return UsageCount
+func (a *UsageAPIService) CountUsageV1UsageCountGetExecute(r ApiCountUsageV1UsageCountGetRequest) (*UsageCount, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *UsageCount
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.CountUsageV1UsageCountGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/usage/count"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.startDate != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "start_date", r.startDate, "form", "")
+	}
+	if r.endDate != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "end_date", r.endDate, "form", "")
+	}
+	if r.userId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+	}
+	if r.status != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
+	}
+	if r.statusCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
+	}
+	if r.model != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
+	}
+	if r.endpoint != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
+	}
+	if r.provider != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "provider", r.provider, "form", "")
+	}
+	if r.source != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "source", r.source, "form", "")
+	}
+	if r.sourceLabel != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
+	}
+	if r.apiKeyId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", r.apiKeyId, "form", "")
+	}
+	if r.priced != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")
+	}
+	if r.tool != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "tool", r.tool, "form", "")
+	}
+	if r.countsTowardBudget != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "counts_toward_budget", r.countsTowardBudget, "form", "")
+	}
+	if r.requestGroupId != nil {
+		t := *r.requestGroupId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "request_group_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "request_group_id", t, "form", "multi")
+		}
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDeleteUsageRowsV1UsageDeleteRequest struct {
+	ctx                context.Context
+	ApiService         *UsageAPIService
+	usageDeleteRequest *UsageDeleteRequest
+}
+
+func (r ApiDeleteUsageRowsV1UsageDeleteRequest) UsageDeleteRequest(usageDeleteRequest UsageDeleteRequest) ApiDeleteUsageRowsV1UsageDeleteRequest {
+	r.usageDeleteRequest = &usageDeleteRequest
+	return r
+}
+
+func (r ApiDeleteUsageRowsV1UsageDeleteRequest) Execute() (*UsageDeleteResult, *http.Response, error) {
+	return r.ApiService.DeleteUsageRowsV1UsageDeleteExecute(r)
+}
+
+/*
+DeleteUsageRowsV1UsageDelete Delete Usage Rows
+
+Delete imported usage rows by explicit ids or by filter (standalone).
+
+Target either the current selection (“ids“) or everything matching a filter
+(“by_filter: true“ plus optional “source“ / “model“ / “user_id“ /
+“status“ / date range / “priced“). Only imported rows
+(“counts_toward_budget = false“) are ever removed: enforced gateway rows and
+the spend ledger (“users.spend“) are untouched, so a delete can never desync a
+budget. Master-key only.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeleteUsageRowsV1UsageDeleteRequest
+*/
+func (a *UsageAPIService) DeleteUsageRowsV1UsageDelete(ctx context.Context) ApiDeleteUsageRowsV1UsageDeleteRequest {
+	return ApiDeleteUsageRowsV1UsageDeleteRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return UsageDeleteResult
+func (a *UsageAPIService) DeleteUsageRowsV1UsageDeleteExecute(r ApiDeleteUsageRowsV1UsageDeleteRequest) (*UsageDeleteResult, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *UsageDeleteResult
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.DeleteUsageRowsV1UsageDelete")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/usage"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.usageDeleteRequest == nil {
+		return localVarReturnValue, nil, reportError("usageDeleteRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.usageDeleteRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiIngestExternalUsageV1UsageExternalEventsPostRequest struct {
+	ctx                   context.Context
+	ApiService            *UsageAPIService
+	externalEventsRequest *ExternalEventsRequest
+}
+
+func (r ApiIngestExternalUsageV1UsageExternalEventsPostRequest) ExternalEventsRequest(externalEventsRequest ExternalEventsRequest) ApiIngestExternalUsageV1UsageExternalEventsPostRequest {
+	r.externalEventsRequest = &externalEventsRequest
+	return r
+}
+
+func (r ApiIngestExternalUsageV1UsageExternalEventsPostRequest) Execute() (*ExternalIngestResult, *http.Response, error) {
+	return r.ApiService.IngestExternalUsageV1UsageExternalEventsPostExecute(r)
+}
+
+/*
+IngestExternalUsageV1UsageExternalEventsPost Ingest External Usage
+
+Ingest a batch of externally-observed usage events (standalone).
+
+Authenticated with either an API key or the master key. Usage binds to the
+authenticated principal: an API key attributes to its own user (and stamps its
+id on the rows); the master key may name any user via “user_id“. Records
+subscription-backed usage (e.g. Claude Code) as usage-log rows tagged with their
+“source“, priced at the effective API rate for each event's timestamp.
+Imported usage is real cost, but never counts toward budgets or mutates
+“users.spend“ (it is retrospective, so it cannot be reserved). Idempotent by
+“(source, source_event_id)“. The payload is content-free; any
+prompt/completion/tool field is rejected (422), not stored.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIngestExternalUsageV1UsageExternalEventsPostRequest
+*/
+func (a *UsageAPIService) IngestExternalUsageV1UsageExternalEventsPost(ctx context.Context) ApiIngestExternalUsageV1UsageExternalEventsPostRequest {
+	return ApiIngestExternalUsageV1UsageExternalEventsPostRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return ExternalIngestResult
+func (a *UsageAPIService) IngestExternalUsageV1UsageExternalEventsPostExecute(r ApiIngestExternalUsageV1UsageExternalEventsPostRequest) (*ExternalIngestResult, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ExternalIngestResult
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.IngestExternalUsageV1UsageExternalEventsPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/usage/external-events"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.externalEventsRequest == nil {
+		return localVarReturnValue, nil, reportError("externalEventsRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.externalEventsRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiListUsageV1UsageGetRequest struct {
-	ctx        context.Context
-	ApiService *UsageAPIService
-	startDate  *time.Time
-	endDate    *time.Time
-	userId     *string
-	skip       *int32
-	limit      *int32
+	ctx                context.Context
+	ApiService         *UsageAPIService
+	startDate          *time.Time
+	endDate            *time.Time
+	userId             *string
+	status             *string
+	statusCode         *int32
+	model              *string
+	endpoint           *string
+	provider           *string
+	source             *string
+	sourceLabel        *string
+	apiKeyId           *string
+	priced             *bool
+	tool               *string
+	countsTowardBudget *bool
+	requestGroupId     *[]*string
+	skip               *int32
+	limit              *int32
 }
 
 // Return logs with timestamp &gt;&#x3D; start_date (ISO 8601 or Unix epoch seconds)
@@ -47,6 +677,78 @@ func (r ApiListUsageV1UsageGetRequest) EndDate(endDate time.Time) ApiListUsageV1
 // Filter to a single user
 func (r ApiListUsageV1UsageGetRequest) UserId(userId string) ApiListUsageV1UsageGetRequest {
 	r.userId = &userId
+	return r
+}
+
+// Filter to a single status: &#39;success&#39;, &#39;error&#39;, or &#39;absorbed&#39; (an attempt a routing policy recovered from, excluded from error_count and request_count)
+func (r ApiListUsageV1UsageGetRequest) Status(status string) ApiListUsageV1UsageGetRequest {
+	r.status = &status
+	return r
+}
+
+// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly
+func (r ApiListUsageV1UsageGetRequest) StatusCode(statusCode int32) ApiListUsageV1UsageGetRequest {
+	r.statusCode = &statusCode
+	return r
+}
+
+// Filter to a single model
+func (r ApiListUsageV1UsageGetRequest) Model(model string) ApiListUsageV1UsageGetRequest {
+	r.model = &model
+	return r
+}
+
+// Filter to a single endpoint (e.g. &#39;/v1/chat/completions&#39;)
+func (r ApiListUsageV1UsageGetRequest) Endpoint(endpoint string) ApiListUsageV1UsageGetRequest {
+	r.endpoint = &endpoint
+	return r
+}
+
+// Filter to a single provider (e.g. &#39;openai&#39;)
+func (r ApiListUsageV1UsageGetRequest) Provider(provider string) ApiListUsageV1UsageGetRequest {
+	r.provider = &provider
+	return r
+}
+
+// Filter to a single provenance source (e.g. &#39;gateway&#39; or &#39;claude_code&#39;)
+func (r ApiListUsageV1UsageGetRequest) Source(source string) ApiListUsageV1UsageGetRequest {
+	r.source = &source
+	return r
+}
+
+// Filter to a single session/project label (the source_label carried by imported usage)
+func (r ApiListUsageV1UsageGetRequest) SourceLabel(sourceLabel string) ApiListUsageV1UsageGetRequest {
+	r.sourceLabel = &sourceLabel
+	return r
+}
+
+// Filter to a single API key id
+func (r ApiListUsageV1UsageGetRequest) ApiKeyId(apiKeyId string) ApiListUsageV1UsageGetRequest {
+	r.apiKeyId = &apiKeyId
+	return r
+}
+
+// Filter by token-pricing state: true &#x3D; only rows whose model tokens were priced, false &#x3D; only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing.
+func (r ApiListUsageV1UsageGetRequest) Priced(priced bool) ApiListUsageV1UsageGetRequest {
+	r.priced = &priced
+	return r
+}
+
+// Filter to requests that ran a gateway-run tool. &#39;any&#39; matches any tool; a tool name (web_search, code_execution) matches that tool specifically.
+func (r ApiListUsageV1UsageGetRequest) Tool(tool string) ApiListUsageV1UsageGetRequest {
+	r.tool = &tool
+	return r
+}
+
+// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows that never touch a budget
+func (r ApiListUsageV1UsageGetRequest) CountsTowardBudget(countsTowardBudget bool) ApiListUsageV1UsageGetRequest {
+	r.countsTowardBudget = &countsTowardBudget
+	return r
+}
+
+// Filter to the rows of one or more request groups; repeatable (request_group_id&#x3D;a&amp;request_group_id&#x3D;b). A routed request writes one row per attempt, all sharing a request_group_id, so this returns a request&#39;s whole plan: its absorbed attempts and the attempt that served it. Ignore ordering by timestamp and read attempt_position to reconstruct the plan. At most 1000 ids per call.
+func (r ApiListUsageV1UsageGetRequest) RequestGroupId(requestGroupId []*string) ApiListUsageV1UsageGetRequest {
+	r.requestGroupId = &requestGroupId
 	return r
 }
 
@@ -69,8 +771,14 @@ ListUsageV1UsageGet List Usage
 
 List usage logs ordered by timestamp (most recent first).
 
-Supports optional filters for time range and user. Paginated via skip/limit.
-Timestamps accept either ISO 8601 strings or Unix epoch seconds (numeric).
+Supports optional filters for time range, user, status, failure status code,
+model, endpoint, provider, source, session (“source_label“), and request
+group (“request_group_id“, repeatable, which returns a routed request's
+whole attempt plan). Paginated via skip/limit. The return shape is a bare JSON array; external
+billing/analytics consumers depend on this, so the total row count for a
+paginated UI is served separately by “GET /v1/usage/count“ rather than
+wrapped in an envelope here. Timestamps accept either ISO 8601 strings or
+Unix epoch seconds (numeric).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListUsageV1UsageGetRequest
@@ -113,6 +821,50 @@ func (a *UsageAPIService) ListUsageV1UsageGetExecute(r ApiListUsageV1UsageGetReq
 	if r.userId != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
 	}
+	if r.status != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
+	}
+	if r.statusCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
+	}
+	if r.model != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
+	}
+	if r.endpoint != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
+	}
+	if r.provider != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "provider", r.provider, "form", "")
+	}
+	if r.source != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "source", r.source, "form", "")
+	}
+	if r.sourceLabel != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
+	}
+	if r.apiKeyId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", r.apiKeyId, "form", "")
+	}
+	if r.priced != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")
+	}
+	if r.tool != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "tool", r.tool, "form", "")
+	}
+	if r.countsTowardBudget != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "counts_toward_budget", r.countsTowardBudget, "form", "")
+	}
+	if r.requestGroupId != nil {
+		t := *r.requestGroupId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "request_group_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "request_group_id", t, "form", "multi")
+		}
+	}
 	if r.skip != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "skip", r.skip, "form", "")
 	} else {
@@ -143,6 +895,1099 @@ func (a *UsageAPIService) ListUsageV1UsageGetExecute(r ApiListUsageV1UsageGetReq
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSetUsagePriceRowsV1UsageSetPricePostRequest struct {
+	ctx                  context.Context
+	ApiService           *UsageAPIService
+	usageSetPriceRequest *UsageSetPriceRequest
+}
+
+func (r ApiSetUsagePriceRowsV1UsageSetPricePostRequest) UsageSetPriceRequest(usageSetPriceRequest UsageSetPriceRequest) ApiSetUsagePriceRowsV1UsageSetPricePostRequest {
+	r.usageSetPriceRequest = &usageSetPriceRequest
+	return r
+}
+
+func (r ApiSetUsagePriceRowsV1UsageSetPricePostRequest) Execute() (*UsageSetPriceResult, *http.Response, error) {
+	return r.ApiService.SetUsagePriceRowsV1UsageSetPricePostExecute(r)
+}
+
+/*
+SetUsagePriceRowsV1UsageSetPricePost Set Usage Price Rows
+
+Set the cost of imported usage rows from manual per-1M rates (standalone).
+
+Target either the current selection (“ids“) or everything matching a filter
+(“by_filter: true“). Cost / billing meters / pricing breakdown are recomputed
+from each row's own token counts at the supplied “input“ / “output“ /
+“cache_read“ / “cache_write“ per-1M rates (manual rates, not a recompute from
+configured pricing). Only imported rows (“counts_toward_budget = false“) are
+touched, so “users.spend“ is never affected. Master-key only.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSetUsagePriceRowsV1UsageSetPricePostRequest
+*/
+func (a *UsageAPIService) SetUsagePriceRowsV1UsageSetPricePost(ctx context.Context) ApiSetUsagePriceRowsV1UsageSetPricePostRequest {
+	return ApiSetUsagePriceRowsV1UsageSetPricePostRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return UsageSetPriceResult
+func (a *UsageAPIService) SetUsagePriceRowsV1UsageSetPricePostExecute(r ApiSetUsagePriceRowsV1UsageSetPricePostRequest) (*UsageSetPriceResult, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *UsageSetPriceResult
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.SetUsagePriceRowsV1UsageSetPricePost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/usage/set-price"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.usageSetPriceRequest == nil {
+		return localVarReturnValue, nil, reportError("usageSetPriceRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.usageSetPriceRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUsageSeriesV1UsageSeriesGetRequest struct {
+	ctx                context.Context
+	ApiService         *UsageAPIService
+	groupBy            *string
+	startDate          *time.Time
+	endDate            *time.Time
+	userId             *string
+	status             *string
+	statusCode         *int32
+	model              *string
+	endpoint           *string
+	provider           *string
+	source             *string
+	sourceLabel        *string
+	apiKeyId           *string
+	priced             *bool
+	tool               *string
+	countsTowardBudget *bool
+	bucket             *string
+}
+
+// Dimension to split the series by
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) GroupBy(groupBy string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.groupBy = &groupBy
+	return r
+}
+
+// Return logs with timestamp &gt;&#x3D; start_date (ISO 8601 or Unix epoch seconds)
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) StartDate(startDate time.Time) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.startDate = &startDate
+	return r
+}
+
+// Return logs with timestamp &lt; end_date (ISO 8601 or Unix epoch seconds)
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) EndDate(endDate time.Time) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.endDate = &endDate
+	return r
+}
+
+// Filter to a single user
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) UserId(userId string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.userId = &userId
+	return r
+}
+
+// Filter to a single status: &#39;success&#39;, &#39;error&#39;, or &#39;absorbed&#39; (an attempt a routing policy recovered from, excluded from error_count and request_count)
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) Status(status string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.status = &status
+	return r
+}
+
+// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) StatusCode(statusCode int32) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.statusCode = &statusCode
+	return r
+}
+
+// Filter to a single model
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) Model(model string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.model = &model
+	return r
+}
+
+// Filter to a single endpoint (e.g. &#39;/v1/chat/completions&#39;)
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) Endpoint(endpoint string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.endpoint = &endpoint
+	return r
+}
+
+// Filter to a single provider (e.g. &#39;openai&#39;)
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) Provider(provider string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.provider = &provider
+	return r
+}
+
+// Filter to a single provenance source (e.g. &#39;gateway&#39; or &#39;claude_code&#39;)
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) Source(source string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.source = &source
+	return r
+}
+
+// Filter to a single session/project label (the source_label carried by imported usage)
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) SourceLabel(sourceLabel string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.sourceLabel = &sourceLabel
+	return r
+}
+
+// Filter to a single API key id
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) ApiKeyId(apiKeyId string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.apiKeyId = &apiKeyId
+	return r
+}
+
+// Filter by token-pricing state: true &#x3D; only rows whose model tokens were priced, false &#x3D; only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing.
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) Priced(priced bool) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.priced = &priced
+	return r
+}
+
+// Filter to requests that ran a gateway-run tool. &#39;any&#39; matches any tool; a tool name (web_search, code_execution) matches that tool specifically.
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) Tool(tool string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.tool = &tool
+	return r
+}
+
+// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows that never touch a budget
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) CountsTowardBudget(countsTowardBudget bool) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.countsTowardBudget = &countsTowardBudget
+	return r
+}
+
+// Time-series granularity: &#39;hour&#39; or &#39;day&#39;
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) Bucket(bucket string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.bucket = &bucket
+	return r
+}
+
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) Execute() (*UsageGroupedSeries, *http.Response, error) {
+	return r.ApiService.UsageSeriesV1UsageSeriesGetExecute(r)
+}
+
+/*
+UsageSeriesV1UsageSeriesGet Usage Series
+
+Time series split by one dimension, for the dashboard's stacked charts.
+
+Same filters and window bounds as “/summary“ (kept in lockstep: the
+dashboard serializes one filter object for both, and a filter this endpoint
+silently ignored would make the stacked chart disagree with the tiles beside
+it). The window's top groups by spend are returned as their own series;
+everything past the top eight folds into a single “other“ series per
+bucket, so the stack always reconciles with the summary totals. Points are
+sparse (populated cells only); the bucket grid is bounded like “/summary“'s
+series, so an hourly bucket over a too-wide window is rejected rather than
+ballooning the payload.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUsageSeriesV1UsageSeriesGetRequest
+*/
+func (a *UsageAPIService) UsageSeriesV1UsageSeriesGet(ctx context.Context) ApiUsageSeriesV1UsageSeriesGetRequest {
+	return ApiUsageSeriesV1UsageSeriesGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return UsageGroupedSeries
+func (a *UsageAPIService) UsageSeriesV1UsageSeriesGetExecute(r ApiUsageSeriesV1UsageSeriesGetRequest) (*UsageGroupedSeries, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *UsageGroupedSeries
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.UsageSeriesV1UsageSeriesGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/usage/series"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.groupBy == nil {
+		return localVarReturnValue, nil, reportError("groupBy is required and must be specified")
+	}
+
+	parameterAddToHeaderOrQuery(localVarQueryParams, "group_by", r.groupBy, "form", "")
+	if r.startDate != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "start_date", r.startDate, "form", "")
+	}
+	if r.endDate != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "end_date", r.endDate, "form", "")
+	}
+	if r.userId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+	}
+	if r.status != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
+	}
+	if r.statusCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
+	}
+	if r.model != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
+	}
+	if r.endpoint != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
+	}
+	if r.provider != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "provider", r.provider, "form", "")
+	}
+	if r.source != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "source", r.source, "form", "")
+	}
+	if r.sourceLabel != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
+	}
+	if r.apiKeyId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", r.apiKeyId, "form", "")
+	}
+	if r.priced != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")
+	}
+	if r.tool != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "tool", r.tool, "form", "")
+	}
+	if r.countsTowardBudget != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "counts_toward_budget", r.countsTowardBudget, "form", "")
+	}
+	if r.bucket != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "bucket", r.bucket, "form", "")
+	} else {
+		var defaultValue string = "day"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "bucket", defaultValue, "form", "")
+		r.bucket = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest struct {
+	ctx                context.Context
+	ApiService         *UsageAPIService
+	startDate          *time.Time
+	endDate            *time.Time
+	userId             *string
+	status             *string
+	statusCode         *int32
+	model              *string
+	endpoint           *string
+	provider           *string
+	source             *string
+	sourceLabel        *string
+	apiKeyId           *string
+	priced             *bool
+	tool               *string
+	countsTowardBudget *bool
+}
+
+// Return logs with timestamp &gt;&#x3D; start_date (ISO 8601 or Unix epoch seconds)
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) StartDate(startDate time.Time) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.startDate = &startDate
+	return r
+}
+
+// Return logs with timestamp &lt; end_date (ISO 8601 or Unix epoch seconds)
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) EndDate(endDate time.Time) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.endDate = &endDate
+	return r
+}
+
+// Filter to a single user
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) UserId(userId string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.userId = &userId
+	return r
+}
+
+// Filter to a single status: &#39;success&#39;, &#39;error&#39;, or &#39;absorbed&#39; (an attempt a routing policy recovered from, excluded from error_count and request_count)
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Status(status string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.status = &status
+	return r
+}
+
+// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) StatusCode(statusCode int32) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.statusCode = &statusCode
+	return r
+}
+
+// Filter to a single model
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Model(model string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.model = &model
+	return r
+}
+
+// Filter to a single endpoint (e.g. &#39;/v1/chat/completions&#39;)
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Endpoint(endpoint string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.endpoint = &endpoint
+	return r
+}
+
+// Filter to a single provider (e.g. &#39;openai&#39;)
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Provider(provider string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.provider = &provider
+	return r
+}
+
+// Filter to a single provenance source (e.g. &#39;gateway&#39; or &#39;claude_code&#39;)
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Source(source string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.source = &source
+	return r
+}
+
+// Filter to a single session/project label (the source_label carried by imported usage)
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) SourceLabel(sourceLabel string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.sourceLabel = &sourceLabel
+	return r
+}
+
+// Filter to a single API key id
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) ApiKeyId(apiKeyId string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.apiKeyId = &apiKeyId
+	return r
+}
+
+// Filter by token-pricing state: true &#x3D; only rows whose model tokens were priced, false &#x3D; only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing.
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Priced(priced bool) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.priced = &priced
+	return r
+}
+
+// Filter to requests that ran a gateway-run tool. &#39;any&#39; matches any tool; a tool name (web_search, code_execution) matches that tool specifically.
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Tool(tool string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.tool = &tool
+	return r
+}
+
+// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows that never touch a budget
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) CountsTowardBudget(countsTowardBudget bool) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	r.countsTowardBudget = &countsTowardBudget
+	return r
+}
+
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Execute() (interface{}, *http.Response, error) {
+	return r.ApiService.UsageSummaryCsvV1UsageSummaryCsvGetExecute(r)
+}
+
+/*
+UsageSummaryCsvV1UsageSummaryCsvGet Usage Summary Csv
+
+Download every breakdown the summary reports, as one CSV.
+
+One row per (dimension, key): model, user, API key, source, session
+(“source_label“), endpoint, and provider. A dedicated route rather than a
+“format=csv“ flag on “/summary“ so that endpoint keeps a single JSON
+response model and a clean OpenAPI schema. The export is **uncapped** (no
+top-N fold): finance wants every row. “tokens“ is the billed total (fresh
+input, both cache buckets, and output), matching the dashboard's analytics.
+Kept separate from the bare-array “/v1/usage“ contract, which is untouched.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest
+*/
+func (a *UsageAPIService) UsageSummaryCsvV1UsageSummaryCsvGet(ctx context.Context) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+	return ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return interface{}
+func (a *UsageAPIService) UsageSummaryCsvV1UsageSummaryCsvGetExecute(r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) (interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.UsageSummaryCsvV1UsageSummaryCsvGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/usage/summary.csv"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.startDate != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "start_date", r.startDate, "form", "")
+	}
+	if r.endDate != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "end_date", r.endDate, "form", "")
+	}
+	if r.userId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+	}
+	if r.status != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
+	}
+	if r.statusCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
+	}
+	if r.model != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
+	}
+	if r.endpoint != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
+	}
+	if r.provider != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "provider", r.provider, "form", "")
+	}
+	if r.source != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "source", r.source, "form", "")
+	}
+	if r.sourceLabel != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
+	}
+	if r.apiKeyId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", r.apiKeyId, "form", "")
+	}
+	if r.priced != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")
+	}
+	if r.tool != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "tool", r.tool, "form", "")
+	}
+	if r.countsTowardBudget != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "counts_toward_budget", r.countsTowardBudget, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUsageSummaryV1UsageSummaryGetRequest struct {
+	ctx                context.Context
+	ApiService         *UsageAPIService
+	startDate          *time.Time
+	endDate            *time.Time
+	userId             *string
+	status             *string
+	statusCode         *int32
+	model              *string
+	endpoint           *string
+	provider           *string
+	source             *string
+	sourceLabel        *string
+	apiKeyId           *string
+	priced             *bool
+	tool               *string
+	countsTowardBudget *bool
+	bucket             *string
+	dimensions         *[]string
+}
+
+// Return logs with timestamp &gt;&#x3D; start_date (ISO 8601 or Unix epoch seconds)
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) StartDate(startDate time.Time) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.startDate = &startDate
+	return r
+}
+
+// Return logs with timestamp &lt; end_date (ISO 8601 or Unix epoch seconds)
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) EndDate(endDate time.Time) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.endDate = &endDate
+	return r
+}
+
+// Filter to a single user
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) UserId(userId string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.userId = &userId
+	return r
+}
+
+// Filter to a single status: &#39;success&#39;, &#39;error&#39;, or &#39;absorbed&#39; (an attempt a routing policy recovered from, excluded from error_count and request_count)
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Status(status string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.status = &status
+	return r
+}
+
+// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) StatusCode(statusCode int32) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.statusCode = &statusCode
+	return r
+}
+
+// Filter to a single model
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Model(model string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.model = &model
+	return r
+}
+
+// Filter to a single endpoint (e.g. &#39;/v1/chat/completions&#39;)
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Endpoint(endpoint string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.endpoint = &endpoint
+	return r
+}
+
+// Filter to a single provider (e.g. &#39;openai&#39;)
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Provider(provider string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.provider = &provider
+	return r
+}
+
+// Filter to a single provenance source (e.g. &#39;gateway&#39; or &#39;claude_code&#39;)
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Source(source string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.source = &source
+	return r
+}
+
+// Filter to a single session/project label (the source_label carried by imported usage)
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) SourceLabel(sourceLabel string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.sourceLabel = &sourceLabel
+	return r
+}
+
+// Filter to a single API key id
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) ApiKeyId(apiKeyId string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.apiKeyId = &apiKeyId
+	return r
+}
+
+// Filter by token-pricing state: true &#x3D; only rows whose model tokens were priced, false &#x3D; only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing.
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Priced(priced bool) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.priced = &priced
+	return r
+}
+
+// Filter to requests that ran a gateway-run tool. &#39;any&#39; matches any tool; a tool name (web_search, code_execution) matches that tool specifically.
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Tool(tool string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.tool = &tool
+	return r
+}
+
+// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows that never touch a budget
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) CountsTowardBudget(countsTowardBudget bool) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.countsTowardBudget = &countsTowardBudget
+	return r
+}
+
+// Time-series granularity: &#39;hour&#39; or &#39;day&#39;
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Bucket(bucket string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.bucket = &bucket
+	return r
+}
+
+// Which breakdowns to compute; repeatable (dimensions&#x3D;model&amp;dimensions&#x3D;user). Each value names the &#39;by_&lt;value&gt;&#39; response field it fills, except &#39;status_code&#39;, which fills the failure taxonomy in &#39;errors_by_status_code&#39;. Omit for every breakdown (the default); pass &#39;none&#39; for a totals-and-series-only response. Each dimension left out skips one GROUP BY scan, so a caller that reads only the tiles or the time series should say so. Fields that were not requested come back empty.
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Dimensions(dimensions []string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.dimensions = &dimensions
+	return r
+}
+
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Execute() (*UsageSummary, *http.Response, error) {
+	return r.ApiService.UsageSummaryV1UsageSummaryGetExecute(r)
+}
+
+/*
+UsageSummaryV1UsageSummaryGet Usage Summary
+
+Aggregate spend, tokens, and request volume for the dashboard Usage page.
+
+Range-bounded (default last 30 days, hard-capped): unlike the raw “/v1/usage“
+list, every aggregate is scoped to a bounded window so it stays served by the
+timestamp index. Returns grand totals, breakdowns by model / user / API key /
+source / session (“source_label“) / endpoint / provider (top rows plus a
+reconciling “other“ fold, billed token counts), the error taxonomy grouped
+by failure status code, and a UTC-bucketed time series carrying each bucket's
+error count and billed token composition (input incl. cache, cache read/write,
+output).
+
+Each breakdown is its own “GROUP BY“ pass, so a caller that reads only the
+totals or the series should narrow “dimensions“ rather than pay for all eight
+(the dashboard's tiles, timeline context, and model typeahead all do). Omitting
+the parameter keeps the full set.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUsageSummaryV1UsageSummaryGetRequest
+*/
+func (a *UsageAPIService) UsageSummaryV1UsageSummaryGet(ctx context.Context) ApiUsageSummaryV1UsageSummaryGetRequest {
+	return ApiUsageSummaryV1UsageSummaryGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return UsageSummary
+func (a *UsageAPIService) UsageSummaryV1UsageSummaryGetExecute(r ApiUsageSummaryV1UsageSummaryGetRequest) (*UsageSummary, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *UsageSummary
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.UsageSummaryV1UsageSummaryGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/usage/summary"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.startDate != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "start_date", r.startDate, "form", "")
+	}
+	if r.endDate != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "end_date", r.endDate, "form", "")
+	}
+	if r.userId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+	}
+	if r.status != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
+	}
+	if r.statusCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
+	}
+	if r.model != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
+	}
+	if r.endpoint != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
+	}
+	if r.provider != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "provider", r.provider, "form", "")
+	}
+	if r.source != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "source", r.source, "form", "")
+	}
+	if r.sourceLabel != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
+	}
+	if r.apiKeyId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", r.apiKeyId, "form", "")
+	}
+	if r.priced != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")
+	}
+	if r.tool != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "tool", r.tool, "form", "")
+	}
+	if r.countsTowardBudget != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "counts_toward_budget", r.countsTowardBudget, "form", "")
+	}
+	if r.bucket != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "bucket", r.bucket, "form", "")
+	} else {
+		var defaultValue string = "day"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "bucket", defaultValue, "form", "")
+		r.bucket = &defaultValue
+	}
+	if r.dimensions != nil {
+		t := *r.dimensions
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "dimensions", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "dimensions", t, "form", "multi")
+		}
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
 	}
 	if r.ctx != nil {
 		// API Key Authentication

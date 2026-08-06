@@ -44,7 +44,7 @@ OpenAI-compatible image generation endpoint.
 Authentication modes:
 - Master key + user field: Use specified user (must exist)
 - API key + user field: Use specified user (must exist)
-- API key without user field: Use virtual user created with API key
+- API key without user field: Use the shared "default" user
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiCreateImageV1ImagesGenerationsPostRequest
@@ -100,6 +100,20 @@ func (a *ImagesAPIService) CreateImageV1ImagesGenerationsPostExecute(r ApiCreate
 	}
 	// body params
 	localVarPostBody = r.imageGenerationRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

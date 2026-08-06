@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Arguments** | Pointer to **NullableString** | Filter models by provider name | [optional] 
-**Name** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**Arguments** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
+**Name** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
