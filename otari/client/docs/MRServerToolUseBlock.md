@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **string** |  | 
-**Caller** | Pointer to [**NullableCaller**](Caller.md) |  | [optional] 
+**Caller** | Pointer to [**NullableCaller1**](Caller1.md) |  | [optional] 
 **Input** | **map[string]interface{}** |  | 
 **Name** | **string** |  | 
 **Type** | **string** |  | 
@@ -51,20 +51,20 @@ SetId sets Id field to given value.
 
 ### GetCaller
 
-`func (o *MRServerToolUseBlock) GetCaller() Caller`
+`func (o *MRServerToolUseBlock) GetCaller() Caller1`
 
 GetCaller returns the Caller field if non-nil, zero value otherwise.
 
 ### GetCallerOk
 
-`func (o *MRServerToolUseBlock) GetCallerOk() (*Caller, bool)`
+`func (o *MRServerToolUseBlock) GetCallerOk() (*Caller1, bool)`
 
 GetCallerOk returns a tuple with the Caller field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCaller
 
-`func (o *MRServerToolUseBlock) SetCaller(v Caller)`
+`func (o *MRServerToolUseBlock) SetCaller(v Caller1)`
 
 SetCaller sets Caller field to given value.
 

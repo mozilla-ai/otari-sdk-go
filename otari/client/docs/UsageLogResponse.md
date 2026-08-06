@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **Endpoint** | **string** |  | 
 **ErrorMessage** | **NullableString** |  | 
 **Id** | **string** |  | 
+**LatencyMs** | **NullableInt32** |  | 
 **Model** | **string** |  | 
 **PromptTokens** | **NullableInt32** |  | 
 **Provider** | **NullableString** |  | 
@@ -22,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewUsageLogResponse
 
-`func NewUsageLogResponse(apiKeyId NullableString, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageLogResponse`
+`func NewUsageLogResponse(apiKeyId NullableString, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageLogResponse`
 
 NewUsageLogResponse instantiates a new UsageLogResponse object
 This constructor will assign default values to properties that have it defined,
@@ -197,6 +198,36 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
+### GetLatencyMs
+
+`func (o *UsageLogResponse) GetLatencyMs() int32`
+
+GetLatencyMs returns the LatencyMs field if non-nil, zero value otherwise.
+
+### GetLatencyMsOk
+
+`func (o *UsageLogResponse) GetLatencyMsOk() (*int32, bool)`
+
+GetLatencyMsOk returns a tuple with the LatencyMs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLatencyMs
+
+`func (o *UsageLogResponse) SetLatencyMs(v int32)`
+
+SetLatencyMs sets LatencyMs field to given value.
+
+
+### SetLatencyMsNil
+
+`func (o *UsageLogResponse) SetLatencyMsNil(b bool)`
+
+ SetLatencyMsNil sets the value for LatencyMs to be an explicit nil
+
+### UnsetLatencyMs
+`func (o *UsageLogResponse) UnsetLatencyMs()`
+
+UnsetLatencyMs ensures that no value is present for LatencyMs, not even an explicit nil
 ### GetModel
 
 `func (o *UsageLogResponse) GetModel() string`

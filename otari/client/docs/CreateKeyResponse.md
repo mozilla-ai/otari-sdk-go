@@ -4,20 +4,24 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**AllowedModels** | **[]string** |  | 
 **CreatedAt** | **string** |  | 
+**ExcludeFromBudget** | **bool** |  | 
 **ExpiresAt** | **NullableString** |  | 
 **Id** | **string** |  | 
 **IsActive** | **bool** |  | 
 **Key** | **string** |  | 
 **KeyName** | **NullableString** |  | 
+**KeyPrefix** | **NullableString** |  | 
 **Metadata** | **map[string]interface{}** |  | 
+**RejectUserMismatch** | **NullableBool** |  | 
 **UserId** | **NullableString** |  | 
 
 ## Methods
 
 ### NewCreateKeyResponse
 
-`func NewCreateKeyResponse(createdAt string, expiresAt NullableString, id string, isActive bool, key string, keyName NullableString, metadata map[string]interface{}, userId NullableString, ) *CreateKeyResponse`
+`func NewCreateKeyResponse(allowedModels []string, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, key string, keyName NullableString, keyPrefix NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, ) *CreateKeyResponse`
 
 NewCreateKeyResponse instantiates a new CreateKeyResponse object
 This constructor will assign default values to properties that have it defined,
@@ -32,6 +36,36 @@ NewCreateKeyResponseWithDefaults instantiates a new CreateKeyResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetAllowedModels
+
+`func (o *CreateKeyResponse) GetAllowedModels() []string`
+
+GetAllowedModels returns the AllowedModels field if non-nil, zero value otherwise.
+
+### GetAllowedModelsOk
+
+`func (o *CreateKeyResponse) GetAllowedModelsOk() (*[]string, bool)`
+
+GetAllowedModelsOk returns a tuple with the AllowedModels field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedModels
+
+`func (o *CreateKeyResponse) SetAllowedModels(v []string)`
+
+SetAllowedModels sets AllowedModels field to given value.
+
+
+### SetAllowedModelsNil
+
+`func (o *CreateKeyResponse) SetAllowedModelsNil(b bool)`
+
+ SetAllowedModelsNil sets the value for AllowedModels to be an explicit nil
+
+### UnsetAllowedModels
+`func (o *CreateKeyResponse) UnsetAllowedModels()`
+
+UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *CreateKeyResponse) GetCreatedAt() string`
@@ -50,6 +84,26 @@ and a boolean to check if the value has been set.
 `func (o *CreateKeyResponse) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
+
+
+### GetExcludeFromBudget
+
+`func (o *CreateKeyResponse) GetExcludeFromBudget() bool`
+
+GetExcludeFromBudget returns the ExcludeFromBudget field if non-nil, zero value otherwise.
+
+### GetExcludeFromBudgetOk
+
+`func (o *CreateKeyResponse) GetExcludeFromBudgetOk() (*bool, bool)`
+
+GetExcludeFromBudgetOk returns a tuple with the ExcludeFromBudget field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExcludeFromBudget
+
+`func (o *CreateKeyResponse) SetExcludeFromBudget(v bool)`
+
+SetExcludeFromBudget sets ExcludeFromBudget field to given value.
 
 
 ### GetExpiresAt
@@ -172,6 +226,36 @@ SetKeyName sets KeyName field to given value.
 `func (o *CreateKeyResponse) UnsetKeyName()`
 
 UnsetKeyName ensures that no value is present for KeyName, not even an explicit nil
+### GetKeyPrefix
+
+`func (o *CreateKeyResponse) GetKeyPrefix() string`
+
+GetKeyPrefix returns the KeyPrefix field if non-nil, zero value otherwise.
+
+### GetKeyPrefixOk
+
+`func (o *CreateKeyResponse) GetKeyPrefixOk() (*string, bool)`
+
+GetKeyPrefixOk returns a tuple with the KeyPrefix field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKeyPrefix
+
+`func (o *CreateKeyResponse) SetKeyPrefix(v string)`
+
+SetKeyPrefix sets KeyPrefix field to given value.
+
+
+### SetKeyPrefixNil
+
+`func (o *CreateKeyResponse) SetKeyPrefixNil(b bool)`
+
+ SetKeyPrefixNil sets the value for KeyPrefix to be an explicit nil
+
+### UnsetKeyPrefix
+`func (o *CreateKeyResponse) UnsetKeyPrefix()`
+
+UnsetKeyPrefix ensures that no value is present for KeyPrefix, not even an explicit nil
 ### GetMetadata
 
 `func (o *CreateKeyResponse) GetMetadata() map[string]interface{}`
@@ -192,6 +276,36 @@ and a boolean to check if the value has been set.
 SetMetadata sets Metadata field to given value.
 
 
+### GetRejectUserMismatch
+
+`func (o *CreateKeyResponse) GetRejectUserMismatch() bool`
+
+GetRejectUserMismatch returns the RejectUserMismatch field if non-nil, zero value otherwise.
+
+### GetRejectUserMismatchOk
+
+`func (o *CreateKeyResponse) GetRejectUserMismatchOk() (*bool, bool)`
+
+GetRejectUserMismatchOk returns a tuple with the RejectUserMismatch field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRejectUserMismatch
+
+`func (o *CreateKeyResponse) SetRejectUserMismatch(v bool)`
+
+SetRejectUserMismatch sets RejectUserMismatch field to given value.
+
+
+### SetRejectUserMismatchNil
+
+`func (o *CreateKeyResponse) SetRejectUserMismatchNil(b bool)`
+
+ SetRejectUserMismatchNil sets the value for RejectUserMismatch to be an explicit nil
+
+### UnsetRejectUserMismatch
+`func (o *CreateKeyResponse) UnsetRejectUserMismatch()`
+
+UnsetRejectUserMismatch ensures that no value is present for RejectUserMismatch, not even an explicit nil
 ### GetUserId
 
 `func (o *CreateKeyResponse) GetUserId() string`

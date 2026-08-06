@@ -20,11 +20,10 @@ var _ MappedNullable = &MRWebFetchBlock{}
 
 // MRWebFetchBlock struct for MRWebFetchBlock
 type MRWebFetchBlock struct {
-	Content MRDocumentBlock `json:"content"`
-	// Filter models by provider name
-	RetrievedAt          NullableString `json:"retrieved_at,omitempty"`
-	Type                 string         `json:"type"`
-	Url                  string         `json:"url"`
+	Content              MRDocumentBlock `json:"content"`
+	RetrievedAt          NullableString  `json:"retrieved_at,omitempty"`
+	Type                 string          `json:"type"`
+	Url                  string          `json:"url"`
 	AdditionalProperties map[string]interface{}
 }
 

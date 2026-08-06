@@ -23,6 +23,7 @@ var _ MappedNullable = &GuardrailConfig{}
 type GuardrailConfig struct {
 	Mode           *string                `json:"mode,omitempty"`
 	On             []string               `json:"on,omitempty"`
+	OnUnavailable  *string                `json:"on_unavailable,omitempty"`
 	Profile        string                 `json:"profile"`
 	Url            NullableString         `json:"url,omitempty"`
 	ValidateKwargs map[string]interface{} `json:"validate_kwargs,omitempty"`
@@ -38,6 +39,8 @@ func NewGuardrailConfig(profile string) *GuardrailConfig {
 	this := GuardrailConfig{}
 	var mode string = "monitor"
 	this.Mode = &mode
+	var onUnavailable string = "block"
+	this.OnUnavailable = &onUnavailable
 	this.Profile = profile
 	return &this
 }
@@ -49,6 +52,8 @@ func NewGuardrailConfigWithDefaults() *GuardrailConfig {
 	this := GuardrailConfig{}
 	var mode string = "monitor"
 	this.Mode = &mode
+	var onUnavailable string = "block"
+	this.OnUnavailable = &onUnavailable
 	return &this
 }
 
@@ -114,6 +119,38 @@ func (o *GuardrailConfig) HasOn() bool {
 // SetOn gets a reference to the given []string and assigns it to the On field.
 func (o *GuardrailConfig) SetOn(v []string) {
 	o.On = v
+}
+
+// GetOnUnavailable returns the OnUnavailable field value if set, zero value otherwise.
+func (o *GuardrailConfig) GetOnUnavailable() string {
+	if o == nil || IsNil(o.OnUnavailable) {
+		var ret string
+		return ret
+	}
+	return *o.OnUnavailable
+}
+
+// GetOnUnavailableOk returns a tuple with the OnUnavailable field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GuardrailConfig) GetOnUnavailableOk() (*string, bool) {
+	if o == nil || IsNil(o.OnUnavailable) {
+		return nil, false
+	}
+	return o.OnUnavailable, true
+}
+
+// HasOnUnavailable returns a boolean if a field has been set.
+func (o *GuardrailConfig) HasOnUnavailable() bool {
+	if o != nil && !IsNil(o.OnUnavailable) {
+		return true
+	}
+
+	return false
+}
+
+// SetOnUnavailable gets a reference to the given string and assigns it to the OnUnavailable field.
+func (o *GuardrailConfig) SetOnUnavailable(v string) {
+	o.OnUnavailable = &v
 }
 
 // GetProfile returns the Profile field value
@@ -230,6 +267,9 @@ func (o GuardrailConfig) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.On) {
 		toSerialize["on"] = o.On
+	}
+	if !IsNil(o.OnUnavailable) {
+		toSerialize["on_unavailable"] = o.OnUnavailable
 	}
 	toSerialize["profile"] = o.Profile
 	if o.Url.IsSet() {

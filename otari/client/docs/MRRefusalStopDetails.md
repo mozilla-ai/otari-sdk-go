@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Category** | Pointer to **NullableString** |  | [optional] 
-**Explanation** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**Explanation** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
 **Type** | **string** |  | 
 
 ## Methods

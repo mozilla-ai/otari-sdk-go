@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Mode** | Pointer to **string** |  | [optional] [default to "monitor"]
 **On** | Pointer to **[]string** |  | [optional] 
+**OnUnavailable** | Pointer to **string** |  | [optional] [default to "block"]
 **Profile** | **string** |  | 
 **Url** | Pointer to **NullableString** |  | [optional] 
 **ValidateKwargs** | Pointer to **map[string]interface{}** |  | [optional] 
@@ -78,6 +79,31 @@ SetOn sets On field to given value.
 `func (o *GuardrailConfig) HasOn() bool`
 
 HasOn returns a boolean if a field has been set.
+
+### GetOnUnavailable
+
+`func (o *GuardrailConfig) GetOnUnavailable() string`
+
+GetOnUnavailable returns the OnUnavailable field if non-nil, zero value otherwise.
+
+### GetOnUnavailableOk
+
+`func (o *GuardrailConfig) GetOnUnavailableOk() (*string, bool)`
+
+GetOnUnavailableOk returns a tuple with the OnUnavailable field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOnUnavailable
+
+`func (o *GuardrailConfig) SetOnUnavailable(v string)`
+
+SetOnUnavailable sets OnUnavailable field to given value.
+
+### HasOnUnavailable
+
+`func (o *GuardrailConfig) HasOnUnavailable() bool`
+
+HasOnUnavailable returns a boolean if a field has been set.
 
 ### GetProfile
 

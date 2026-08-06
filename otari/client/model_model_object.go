@@ -21,11 +21,13 @@ var _ MappedNullable = &ModelObject{}
 
 // ModelObject OpenAI-compatible model object.
 type ModelObject struct {
-	Created int32                    `json:"created"`
-	Id      string                   `json:"id"`
-	Object  *string                  `json:"object,omitempty"`
-	OwnedBy string                   `json:"owned_by"`
-	Pricing NullableModelPricingInfo `json:"pricing,omitempty"`
+	ContextWindow NullableInt32            `json:"context_window,omitempty"`
+	Created       int32                    `json:"created"`
+	Id            string                   `json:"id"`
+	Object        *string                  `json:"object,omitempty"`
+	OwnedBy       string                   `json:"owned_by"`
+	Pricing       NullableModelPricingInfo `json:"pricing,omitempty"`
+	PricingSource *string                  `json:"pricing_source,omitempty"`
 }
 
 type _ModelObject ModelObject
@@ -41,6 +43,8 @@ func NewModelObject(created int32, id string, ownedBy string) *ModelObject {
 	var object string = "model"
 	this.Object = &object
 	this.OwnedBy = ownedBy
+	var pricingSource string = "none"
+	this.PricingSource = &pricingSource
 	return &this
 }
 
@@ -51,7 +55,52 @@ func NewModelObjectWithDefaults() *ModelObject {
 	this := ModelObject{}
 	var object string = "model"
 	this.Object = &object
+	var pricingSource string = "none"
+	this.PricingSource = &pricingSource
 	return &this
+}
+
+// GetContextWindow returns the ContextWindow field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ModelObject) GetContextWindow() int32 {
+	if o == nil || IsNil(o.ContextWindow.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.ContextWindow.Get()
+}
+
+// GetContextWindowOk returns a tuple with the ContextWindow field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ModelObject) GetContextWindowOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ContextWindow.Get(), o.ContextWindow.IsSet()
+}
+
+// HasContextWindow returns a boolean if a field has been set.
+func (o *ModelObject) HasContextWindow() bool {
+	if o != nil && o.ContextWindow.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetContextWindow gets a reference to the given NullableInt32 and assigns it to the ContextWindow field.
+func (o *ModelObject) SetContextWindow(v int32) {
+	o.ContextWindow.Set(&v)
+}
+
+// SetContextWindowNil sets the value for ContextWindow to be an explicit nil
+func (o *ModelObject) SetContextWindowNil() {
+	o.ContextWindow.Set(nil)
+}
+
+// UnsetContextWindow ensures that no value is present for ContextWindow, not even an explicit nil
+func (o *ModelObject) UnsetContextWindow() {
+	o.ContextWindow.Unset()
 }
 
 // GetCreated returns the Created field value
@@ -201,6 +250,38 @@ func (o *ModelObject) UnsetPricing() {
 	o.Pricing.Unset()
 }
 
+// GetPricingSource returns the PricingSource field value if set, zero value otherwise.
+func (o *ModelObject) GetPricingSource() string {
+	if o == nil || IsNil(o.PricingSource) {
+		var ret string
+		return ret
+	}
+	return *o.PricingSource
+}
+
+// GetPricingSourceOk returns a tuple with the PricingSource field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModelObject) GetPricingSourceOk() (*string, bool) {
+	if o == nil || IsNil(o.PricingSource) {
+		return nil, false
+	}
+	return o.PricingSource, true
+}
+
+// HasPricingSource returns a boolean if a field has been set.
+func (o *ModelObject) HasPricingSource() bool {
+	if o != nil && !IsNil(o.PricingSource) {
+		return true
+	}
+
+	return false
+}
+
+// SetPricingSource gets a reference to the given string and assigns it to the PricingSource field.
+func (o *ModelObject) SetPricingSource(v string) {
+	o.PricingSource = &v
+}
+
 func (o ModelObject) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -211,6 +292,9 @@ func (o ModelObject) MarshalJSON() ([]byte, error) {
 
 func (o ModelObject) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.ContextWindow.IsSet() {
+		toSerialize["context_window"] = o.ContextWindow.Get()
+	}
 	toSerialize["created"] = o.Created
 	toSerialize["id"] = o.Id
 	if !IsNil(o.Object) {
@@ -219,6 +303,9 @@ func (o ModelObject) ToMap() (map[string]interface{}, error) {
 	toSerialize["owned_by"] = o.OwnedBy
 	if o.Pricing.IsSet() {
 		toSerialize["pricing"] = o.Pricing.Get()
+	}
+	if !IsNil(o.PricingSource) {
+		toSerialize["pricing_source"] = o.PricingSource
 	}
 	return toSerialize, nil
 }

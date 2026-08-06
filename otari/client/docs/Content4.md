@@ -6,17 +6,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ErrorCode** | **string** |  | 
 **Type** | **string** |  | 
-**Content** | [**[]MRCodeExecutionOutputBlock**](MRCodeExecutionOutputBlock.md) |  | 
+**Content** | [**[]MRBetaBashCodeExecutionOutputBlock**](MRBetaBashCodeExecutionOutputBlock.md) |  | 
 **ReturnCode** | **int32** |  | 
 **Stderr** | **string** |  | 
 **Stdout** | **string** |  | 
-**EncryptedStdout** | **string** |  | 
 
 ## Methods
 
 ### NewContent4
 
-`func NewContent4(errorCode string, type_ string, content []MRCodeExecutionOutputBlock, returnCode int32, stderr string, stdout string, encryptedStdout string, ) *Content4`
+`func NewContent4(errorCode string, type_ string, content []MRBetaBashCodeExecutionOutputBlock, returnCode int32, stderr string, stdout string, ) *Content4`
 
 NewContent4 instantiates a new Content4 object
 This constructor will assign default values to properties that have it defined,
@@ -73,20 +72,20 @@ SetType sets Type field to given value.
 
 ### GetContent
 
-`func (o *Content4) GetContent() []MRCodeExecutionOutputBlock`
+`func (o *Content4) GetContent() []MRBetaBashCodeExecutionOutputBlock`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *Content4) GetContentOk() (*[]MRCodeExecutionOutputBlock, bool)`
+`func (o *Content4) GetContentOk() (*[]MRBetaBashCodeExecutionOutputBlock, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *Content4) SetContent(v []MRCodeExecutionOutputBlock)`
+`func (o *Content4) SetContent(v []MRBetaBashCodeExecutionOutputBlock)`
 
 SetContent sets Content field to given value.
 
@@ -149,26 +148,6 @@ and a boolean to check if the value has been set.
 `func (o *Content4) SetStdout(v string)`
 
 SetStdout sets Stdout field to given value.
-
-
-### GetEncryptedStdout
-
-`func (o *Content4) GetEncryptedStdout() string`
-
-GetEncryptedStdout returns the EncryptedStdout field if non-nil, zero value otherwise.
-
-### GetEncryptedStdoutOk
-
-`func (o *Content4) GetEncryptedStdoutOk() (*string, bool)`
-
-GetEncryptedStdoutOk returns a tuple with the EncryptedStdout field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetEncryptedStdout
-
-`func (o *Content4) SetEncryptedStdout(v string)`
-
-SetEncryptedStdout sets EncryptedStdout field to given value.
 
 
 

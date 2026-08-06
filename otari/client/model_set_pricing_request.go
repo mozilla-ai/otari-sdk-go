@@ -20,8 +20,14 @@ import (
 // checks if the SetPricingRequest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &SetPricingRequest{}
 
-// SetPricingRequest Request model for setting model pricing.
+// SetPricingRequest Create a versioned per-model price, with optional cache and context tiers.
 type SetPricingRequest struct {
+	// Price per 1M cached-input tokens
+	CacheReadPricePerMillion NullableFloat32 `json:"cache_read_price_per_million,omitempty"`
+	// Price per 1M Anthropic 1-hour cache-write tokens
+	CacheWrite1hPricePerMillion NullableFloat32 `json:"cache_write_1h_price_per_million,omitempty"`
+	// Price per 1M cache-write (creation) tokens
+	CacheWritePricePerMillion NullableFloat32 `json:"cache_write_price_per_million,omitempty"`
 	// ISO 8601 datetime from which this price applies. Defaults to now if omitted.
 	EffectiveAt NullableTime `json:"effective_at,omitempty"`
 	// Price per 1M input tokens
@@ -30,6 +36,8 @@ type SetPricingRequest struct {
 	ModelKey string `json:"model_key"`
 	// Price per 1M output tokens
 	OutputPricePerMillion float32 `json:"output_price_per_million"`
+	// Whole-request context thresholds. Fields omitted by a tier inherit the base rate.
+	PricingTiers []PricingTier `json:"pricing_tiers,omitempty"`
 }
 
 type _SetPricingRequest SetPricingRequest
@@ -52,6 +60,135 @@ func NewSetPricingRequest(inputPricePerMillion float32, modelKey string, outputP
 func NewSetPricingRequestWithDefaults() *SetPricingRequest {
 	this := SetPricingRequest{}
 	return &this
+}
+
+// GetCacheReadPricePerMillion returns the CacheReadPricePerMillion field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *SetPricingRequest) GetCacheReadPricePerMillion() float32 {
+	if o == nil || IsNil(o.CacheReadPricePerMillion.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.CacheReadPricePerMillion.Get()
+}
+
+// GetCacheReadPricePerMillionOk returns a tuple with the CacheReadPricePerMillion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SetPricingRequest) GetCacheReadPricePerMillionOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CacheReadPricePerMillion.Get(), o.CacheReadPricePerMillion.IsSet()
+}
+
+// HasCacheReadPricePerMillion returns a boolean if a field has been set.
+func (o *SetPricingRequest) HasCacheReadPricePerMillion() bool {
+	if o != nil && o.CacheReadPricePerMillion.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetCacheReadPricePerMillion gets a reference to the given NullableFloat32 and assigns it to the CacheReadPricePerMillion field.
+func (o *SetPricingRequest) SetCacheReadPricePerMillion(v float32) {
+	o.CacheReadPricePerMillion.Set(&v)
+}
+
+// SetCacheReadPricePerMillionNil sets the value for CacheReadPricePerMillion to be an explicit nil
+func (o *SetPricingRequest) SetCacheReadPricePerMillionNil() {
+	o.CacheReadPricePerMillion.Set(nil)
+}
+
+// UnsetCacheReadPricePerMillion ensures that no value is present for CacheReadPricePerMillion, not even an explicit nil
+func (o *SetPricingRequest) UnsetCacheReadPricePerMillion() {
+	o.CacheReadPricePerMillion.Unset()
+}
+
+// GetCacheWrite1hPricePerMillion returns the CacheWrite1hPricePerMillion field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *SetPricingRequest) GetCacheWrite1hPricePerMillion() float32 {
+	if o == nil || IsNil(o.CacheWrite1hPricePerMillion.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.CacheWrite1hPricePerMillion.Get()
+}
+
+// GetCacheWrite1hPricePerMillionOk returns a tuple with the CacheWrite1hPricePerMillion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SetPricingRequest) GetCacheWrite1hPricePerMillionOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CacheWrite1hPricePerMillion.Get(), o.CacheWrite1hPricePerMillion.IsSet()
+}
+
+// HasCacheWrite1hPricePerMillion returns a boolean if a field has been set.
+func (o *SetPricingRequest) HasCacheWrite1hPricePerMillion() bool {
+	if o != nil && o.CacheWrite1hPricePerMillion.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetCacheWrite1hPricePerMillion gets a reference to the given NullableFloat32 and assigns it to the CacheWrite1hPricePerMillion field.
+func (o *SetPricingRequest) SetCacheWrite1hPricePerMillion(v float32) {
+	o.CacheWrite1hPricePerMillion.Set(&v)
+}
+
+// SetCacheWrite1hPricePerMillionNil sets the value for CacheWrite1hPricePerMillion to be an explicit nil
+func (o *SetPricingRequest) SetCacheWrite1hPricePerMillionNil() {
+	o.CacheWrite1hPricePerMillion.Set(nil)
+}
+
+// UnsetCacheWrite1hPricePerMillion ensures that no value is present for CacheWrite1hPricePerMillion, not even an explicit nil
+func (o *SetPricingRequest) UnsetCacheWrite1hPricePerMillion() {
+	o.CacheWrite1hPricePerMillion.Unset()
+}
+
+// GetCacheWritePricePerMillion returns the CacheWritePricePerMillion field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *SetPricingRequest) GetCacheWritePricePerMillion() float32 {
+	if o == nil || IsNil(o.CacheWritePricePerMillion.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.CacheWritePricePerMillion.Get()
+}
+
+// GetCacheWritePricePerMillionOk returns a tuple with the CacheWritePricePerMillion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SetPricingRequest) GetCacheWritePricePerMillionOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CacheWritePricePerMillion.Get(), o.CacheWritePricePerMillion.IsSet()
+}
+
+// HasCacheWritePricePerMillion returns a boolean if a field has been set.
+func (o *SetPricingRequest) HasCacheWritePricePerMillion() bool {
+	if o != nil && o.CacheWritePricePerMillion.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetCacheWritePricePerMillion gets a reference to the given NullableFloat32 and assigns it to the CacheWritePricePerMillion field.
+func (o *SetPricingRequest) SetCacheWritePricePerMillion(v float32) {
+	o.CacheWritePricePerMillion.Set(&v)
+}
+
+// SetCacheWritePricePerMillionNil sets the value for CacheWritePricePerMillion to be an explicit nil
+func (o *SetPricingRequest) SetCacheWritePricePerMillionNil() {
+	o.CacheWritePricePerMillion.Set(nil)
+}
+
+// UnsetCacheWritePricePerMillion ensures that no value is present for CacheWritePricePerMillion, not even an explicit nil
+func (o *SetPricingRequest) UnsetCacheWritePricePerMillion() {
+	o.CacheWritePricePerMillion.Unset()
 }
 
 // GetEffectiveAt returns the EffectiveAt field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -169,6 +306,39 @@ func (o *SetPricingRequest) SetOutputPricePerMillion(v float32) {
 	o.OutputPricePerMillion = v
 }
 
+// GetPricingTiers returns the PricingTiers field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *SetPricingRequest) GetPricingTiers() []PricingTier {
+	if o == nil {
+		var ret []PricingTier
+		return ret
+	}
+	return o.PricingTiers
+}
+
+// GetPricingTiersOk returns a tuple with the PricingTiers field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SetPricingRequest) GetPricingTiersOk() ([]PricingTier, bool) {
+	if o == nil || IsNil(o.PricingTiers) {
+		return nil, false
+	}
+	return o.PricingTiers, true
+}
+
+// HasPricingTiers returns a boolean if a field has been set.
+func (o *SetPricingRequest) HasPricingTiers() bool {
+	if o != nil && !IsNil(o.PricingTiers) {
+		return true
+	}
+
+	return false
+}
+
+// SetPricingTiers gets a reference to the given []PricingTier and assigns it to the PricingTiers field.
+func (o *SetPricingRequest) SetPricingTiers(v []PricingTier) {
+	o.PricingTiers = v
+}
+
 func (o SetPricingRequest) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -179,12 +349,24 @@ func (o SetPricingRequest) MarshalJSON() ([]byte, error) {
 
 func (o SetPricingRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.CacheReadPricePerMillion.IsSet() {
+		toSerialize["cache_read_price_per_million"] = o.CacheReadPricePerMillion.Get()
+	}
+	if o.CacheWrite1hPricePerMillion.IsSet() {
+		toSerialize["cache_write_1h_price_per_million"] = o.CacheWrite1hPricePerMillion.Get()
+	}
+	if o.CacheWritePricePerMillion.IsSet() {
+		toSerialize["cache_write_price_per_million"] = o.CacheWritePricePerMillion.Get()
+	}
 	if o.EffectiveAt.IsSet() {
 		toSerialize["effective_at"] = o.EffectiveAt.Get()
 	}
 	toSerialize["input_price_per_million"] = o.InputPricePerMillion
 	toSerialize["model_key"] = o.ModelKey
 	toSerialize["output_price_per_million"] = o.OutputPricePerMillion
+	if o.PricingTiers != nil {
+		toSerialize["pricing_tiers"] = o.PricingTiers
+	}
 	return toSerialize, nil
 }
 

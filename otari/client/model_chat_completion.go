@@ -26,7 +26,7 @@ type ChatCompletion struct {
 	Model       string         `json:"model"`
 	Object      string         `json:"object"`
 	ServiceTier NullableString `json:"service_tier,omitempty"`
-	// Filter models by provider name
+	// Delete the alias scoped to this user. Omit to delete the global alias of that name.
 	SystemFingerprint    NullableString            `json:"system_fingerprint,omitempty"`
 	Usage                NullableCCCompletionUsage `json:"usage,omitempty"`
 	AdditionalProperties map[string]interface{}

@@ -20,9 +20,9 @@ var _ MappedNullable = &MRToolSearchToolResultBlock{}
 
 // MRToolSearchToolResultBlock struct for MRToolSearchToolResultBlock
 type MRToolSearchToolResultBlock struct {
-	Content              Content6 `json:"content"`
-	ToolUseId            string   `json:"tool_use_id"`
-	Type                 string   `json:"type"`
+	Content              Content13 `json:"content"`
+	ToolUseId            string    `json:"tool_use_id"`
+	Type                 string    `json:"type"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -32,7 +32,7 @@ type _MRToolSearchToolResultBlock MRToolSearchToolResultBlock
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRToolSearchToolResultBlock(content Content6, toolUseId string, type_ string) *MRToolSearchToolResultBlock {
+func NewMRToolSearchToolResultBlock(content Content13, toolUseId string, type_ string) *MRToolSearchToolResultBlock {
 	this := MRToolSearchToolResultBlock{}
 	this.Content = content
 	this.ToolUseId = toolUseId
@@ -49,9 +49,9 @@ func NewMRToolSearchToolResultBlockWithDefaults() *MRToolSearchToolResultBlock {
 }
 
 // GetContent returns the Content field value
-func (o *MRToolSearchToolResultBlock) GetContent() Content6 {
+func (o *MRToolSearchToolResultBlock) GetContent() Content13 {
 	if o == nil {
-		var ret Content6
+		var ret Content13
 		return ret
 	}
 
@@ -60,7 +60,7 @@ func (o *MRToolSearchToolResultBlock) GetContent() Content6 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *MRToolSearchToolResultBlock) GetContentOk() (*Content6, bool) {
+func (o *MRToolSearchToolResultBlock) GetContentOk() (*Content13, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,7 +68,7 @@ func (o *MRToolSearchToolResultBlock) GetContentOk() (*Content6, bool) {
 }
 
 // SetContent sets field value
-func (o *MRToolSearchToolResultBlock) SetContent(v Content6) {
+func (o *MRToolSearchToolResultBlock) SetContent(v Content13) {
 	o.Content = v
 }
 

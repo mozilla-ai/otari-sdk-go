@@ -9,7 +9,8 @@ Name | Type | Description | Notes
 **Refusal** | Pointer to **NullableString** |  | [optional] 
 **Role** | Pointer to **NullableString** |  | [optional] 
 **ToolCalls** | Pointer to [**[]CCKChoiceDeltaToolCall**](CCKChoiceDeltaToolCall.md) |  | [optional] 
-**Reasoning** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**Reasoning** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
+**ExtraContent** | Pointer to **map[string]interface{}** |  | [optional] 
 
 ## Methods
 
@@ -240,6 +241,41 @@ HasReasoning returns a boolean if a field has been set.
 `func (o *CCKChoiceDelta) UnsetReasoning()`
 
 UnsetReasoning ensures that no value is present for Reasoning, not even an explicit nil
+### GetExtraContent
+
+`func (o *CCKChoiceDelta) GetExtraContent() map[string]interface{}`
+
+GetExtraContent returns the ExtraContent field if non-nil, zero value otherwise.
+
+### GetExtraContentOk
+
+`func (o *CCKChoiceDelta) GetExtraContentOk() (*map[string]interface{}, bool)`
+
+GetExtraContentOk returns a tuple with the ExtraContent field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExtraContent
+
+`func (o *CCKChoiceDelta) SetExtraContent(v map[string]interface{})`
+
+SetExtraContent sets ExtraContent field to given value.
+
+### HasExtraContent
+
+`func (o *CCKChoiceDelta) HasExtraContent() bool`
+
+HasExtraContent returns a boolean if a field has been set.
+
+### SetExtraContentNil
+
+`func (o *CCKChoiceDelta) SetExtraContentNil(b bool)`
+
+ SetExtraContentNil sets the value for ExtraContent to be an explicit nil
+
+### UnsetExtraContent
+`func (o *CCKChoiceDelta) UnsetExtraContent()`
+
+UnsetExtraContent ensures that no value is present for ExtraContent, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

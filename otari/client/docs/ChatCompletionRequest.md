@@ -24,7 +24,7 @@ Name | Type | Description | Notes
 **SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to. | [optional] 
 **Stop** | Pointer to [**NullableStop**](Stop.md) |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
-**StreamOptions** | Pointer to **map[string]interface{}** |  | [optional] 
+**StreamOptions** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
 **Temperature** | Pointer to **NullableFloat32** |  | [optional] 
 **ToolChoice** | Pointer to [**NullableToolChoice**](ToolChoice.md) |  | [optional] 
 **Tools** | Pointer to [**[]ChatCompletionRequestToolsInner**](ChatCompletionRequestToolsInner.md) |  | [optional] 

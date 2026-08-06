@@ -21,11 +21,12 @@ var _ MappedNullable = &ModerationResult{}
 
 // ModerationResult A single moderation decision, typically one per input item.
 type ModerationResult struct {
-	Categories                map[string]bool        `json:"categories,omitempty"`
-	CategoryAppliedInputTypes map[string][]string    `json:"category_applied_input_types,omitempty"`
-	CategoryScores            map[string]float32     `json:"category_scores,omitempty"`
-	Flagged                   bool                   `json:"flagged"`
-	ProviderRaw               map[string]interface{} `json:"provider_raw,omitempty"`
+	Categories                map[string]bool     `json:"categories,omitempty"`
+	CategoryAppliedInputTypes map[string][]string `json:"category_applied_input_types,omitempty"`
+	CategoryScores            map[string]float32  `json:"category_scores,omitempty"`
+	Flagged                   bool                `json:"flagged"`
+	// An unsaved policy body to explain.
+	ProviderRaw map[string]interface{} `json:"provider_raw,omitempty"`
 }
 
 type _ModerationResult ModerationResult

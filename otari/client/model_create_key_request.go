@@ -20,12 +20,18 @@ var _ MappedNullable = &CreateKeyRequest{}
 
 // CreateKeyRequest Request model for creating a new API key.
 type CreateKeyRequest struct {
+	// Model allow-list: null = any model, [] = deny all, or canonical instance:model entries (with instance:* / instance:prefix* wildcards).
+	AllowedModels []string `json:"allowed_models,omitempty"`
+	// When true, requests on this key are logged with cost but never reserved, reconciled into the user's spend, or gated by budget.
+	ExcludeFromBudget *bool `json:"exclude_from_budget,omitempty"`
 	// Optional expiration timestamp
 	ExpiresAt NullableTime `json:"expires_at,omitempty"`
 	// Optional name for the key
 	KeyName NullableString `json:"key_name,omitempty"`
 	// Optional metadata
 	Metadata map[string]interface{} `json:"metadata,omitempty"`
+	// Per-key override of the deployment-wide reject_user_mismatch setting: null (default) inherits it, true always rejects a request naming a different 'user', false always accepts it. Spend binds to this key's own user either way.
+	RejectUserMismatch NullableBool `json:"reject_user_mismatch,omitempty"`
 	// Optional user ID to associate with this key
 	UserId NullableString `json:"user_id,omitempty"`
 }
@@ -36,6 +42,8 @@ type CreateKeyRequest struct {
 // will change when the set of required properties is changed
 func NewCreateKeyRequest() *CreateKeyRequest {
 	this := CreateKeyRequest{}
+	var excludeFromBudget bool = false
+	this.ExcludeFromBudget = &excludeFromBudget
 	return &this
 }
 
@@ -44,7 +52,74 @@ func NewCreateKeyRequest() *CreateKeyRequest {
 // but it doesn't guarantee that properties required by API are set
 func NewCreateKeyRequestWithDefaults() *CreateKeyRequest {
 	this := CreateKeyRequest{}
+	var excludeFromBudget bool = false
+	this.ExcludeFromBudget = &excludeFromBudget
 	return &this
+}
+
+// GetAllowedModels returns the AllowedModels field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateKeyRequest) GetAllowedModels() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+	return o.AllowedModels
+}
+
+// GetAllowedModelsOk returns a tuple with the AllowedModels field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateKeyRequest) GetAllowedModelsOk() ([]string, bool) {
+	if o == nil || IsNil(o.AllowedModels) {
+		return nil, false
+	}
+	return o.AllowedModels, true
+}
+
+// HasAllowedModels returns a boolean if a field has been set.
+func (o *CreateKeyRequest) HasAllowedModels() bool {
+	if o != nil && !IsNil(o.AllowedModels) {
+		return true
+	}
+
+	return false
+}
+
+// SetAllowedModels gets a reference to the given []string and assigns it to the AllowedModels field.
+func (o *CreateKeyRequest) SetAllowedModels(v []string) {
+	o.AllowedModels = v
+}
+
+// GetExcludeFromBudget returns the ExcludeFromBudget field value if set, zero value otherwise.
+func (o *CreateKeyRequest) GetExcludeFromBudget() bool {
+	if o == nil || IsNil(o.ExcludeFromBudget) {
+		var ret bool
+		return ret
+	}
+	return *o.ExcludeFromBudget
+}
+
+// GetExcludeFromBudgetOk returns a tuple with the ExcludeFromBudget field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateKeyRequest) GetExcludeFromBudgetOk() (*bool, bool) {
+	if o == nil || IsNil(o.ExcludeFromBudget) {
+		return nil, false
+	}
+	return o.ExcludeFromBudget, true
+}
+
+// HasExcludeFromBudget returns a boolean if a field has been set.
+func (o *CreateKeyRequest) HasExcludeFromBudget() bool {
+	if o != nil && !IsNil(o.ExcludeFromBudget) {
+		return true
+	}
+
+	return false
+}
+
+// SetExcludeFromBudget gets a reference to the given bool and assigns it to the ExcludeFromBudget field.
+func (o *CreateKeyRequest) SetExcludeFromBudget(v bool) {
+	o.ExcludeFromBudget = &v
 }
 
 // GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -165,6 +240,49 @@ func (o *CreateKeyRequest) SetMetadata(v map[string]interface{}) {
 	o.Metadata = v
 }
 
+// GetRejectUserMismatch returns the RejectUserMismatch field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateKeyRequest) GetRejectUserMismatch() bool {
+	if o == nil || IsNil(o.RejectUserMismatch.Get()) {
+		var ret bool
+		return ret
+	}
+	return *o.RejectUserMismatch.Get()
+}
+
+// GetRejectUserMismatchOk returns a tuple with the RejectUserMismatch field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateKeyRequest) GetRejectUserMismatchOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RejectUserMismatch.Get(), o.RejectUserMismatch.IsSet()
+}
+
+// HasRejectUserMismatch returns a boolean if a field has been set.
+func (o *CreateKeyRequest) HasRejectUserMismatch() bool {
+	if o != nil && o.RejectUserMismatch.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRejectUserMismatch gets a reference to the given NullableBool and assigns it to the RejectUserMismatch field.
+func (o *CreateKeyRequest) SetRejectUserMismatch(v bool) {
+	o.RejectUserMismatch.Set(&v)
+}
+
+// SetRejectUserMismatchNil sets the value for RejectUserMismatch to be an explicit nil
+func (o *CreateKeyRequest) SetRejectUserMismatchNil() {
+	o.RejectUserMismatch.Set(nil)
+}
+
+// UnsetRejectUserMismatch ensures that no value is present for RejectUserMismatch, not even an explicit nil
+func (o *CreateKeyRequest) UnsetRejectUserMismatch() {
+	o.RejectUserMismatch.Unset()
+}
+
 // GetUserId returns the UserId field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *CreateKeyRequest) GetUserId() string {
 	if o == nil || IsNil(o.UserId.Get()) {
@@ -218,6 +336,12 @@ func (o CreateKeyRequest) MarshalJSON() ([]byte, error) {
 
 func (o CreateKeyRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.AllowedModels != nil {
+		toSerialize["allowed_models"] = o.AllowedModels
+	}
+	if !IsNil(o.ExcludeFromBudget) {
+		toSerialize["exclude_from_budget"] = o.ExcludeFromBudget
+	}
 	if o.ExpiresAt.IsSet() {
 		toSerialize["expires_at"] = o.ExpiresAt.Get()
 	}
@@ -226,6 +350,9 @@ func (o CreateKeyRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Metadata) {
 		toSerialize["metadata"] = o.Metadata
+	}
+	if o.RejectUserMismatch.IsSet() {
+		toSerialize["reject_user_mismatch"] = o.RejectUserMismatch.Get()
 	}
 	if o.UserId.IsSet() {
 		toSerialize["user_id"] = o.UserId.Get()

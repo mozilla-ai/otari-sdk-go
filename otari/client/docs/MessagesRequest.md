@@ -4,7 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Betas** | Pointer to **[]string** |  | [optional] 
 **CacheControl** | Pointer to **map[string]interface{}** |  | [optional] 
+**ContextManagement** | Pointer to **map[string]interface{}** |  | [optional] 
 **Guardrails** | Pointer to [**[]GuardrailConfig**](GuardrailConfig.md) |  | [optional] 
 **MaxTokens** | **int32** |  | 
 **MaxToolIterations** | Pointer to **NullableInt32** |  | [optional] 
@@ -13,6 +15,7 @@ Name | Type | Description | Notes
 **Messages** | **[]map[string]interface{}** |  | 
 **Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
 **Model** | **string** |  | 
+**OutputFormat** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
 **SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to. | [optional] 
 **StopSequences** | Pointer to **[]string** |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
@@ -44,6 +47,41 @@ NewMessagesRequestWithDefaults instantiates a new MessagesRequest object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetBetas
+
+`func (o *MessagesRequest) GetBetas() []string`
+
+GetBetas returns the Betas field if non-nil, zero value otherwise.
+
+### GetBetasOk
+
+`func (o *MessagesRequest) GetBetasOk() (*[]string, bool)`
+
+GetBetasOk returns a tuple with the Betas field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBetas
+
+`func (o *MessagesRequest) SetBetas(v []string)`
+
+SetBetas sets Betas field to given value.
+
+### HasBetas
+
+`func (o *MessagesRequest) HasBetas() bool`
+
+HasBetas returns a boolean if a field has been set.
+
+### SetBetasNil
+
+`func (o *MessagesRequest) SetBetasNil(b bool)`
+
+ SetBetasNil sets the value for Betas to be an explicit nil
+
+### UnsetBetas
+`func (o *MessagesRequest) UnsetBetas()`
+
+UnsetBetas ensures that no value is present for Betas, not even an explicit nil
 ### GetCacheControl
 
 `func (o *MessagesRequest) GetCacheControl() map[string]interface{}`
@@ -79,6 +117,41 @@ HasCacheControl returns a boolean if a field has been set.
 `func (o *MessagesRequest) UnsetCacheControl()`
 
 UnsetCacheControl ensures that no value is present for CacheControl, not even an explicit nil
+### GetContextManagement
+
+`func (o *MessagesRequest) GetContextManagement() map[string]interface{}`
+
+GetContextManagement returns the ContextManagement field if non-nil, zero value otherwise.
+
+### GetContextManagementOk
+
+`func (o *MessagesRequest) GetContextManagementOk() (*map[string]interface{}, bool)`
+
+GetContextManagementOk returns a tuple with the ContextManagement field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetContextManagement
+
+`func (o *MessagesRequest) SetContextManagement(v map[string]interface{})`
+
+SetContextManagement sets ContextManagement field to given value.
+
+### HasContextManagement
+
+`func (o *MessagesRequest) HasContextManagement() bool`
+
+HasContextManagement returns a boolean if a field has been set.
+
+### SetContextManagementNil
+
+`func (o *MessagesRequest) SetContextManagementNil(b bool)`
+
+ SetContextManagementNil sets the value for ContextManagement to be an explicit nil
+
+### UnsetContextManagement
+`func (o *MessagesRequest) UnsetContextManagement()`
+
+UnsetContextManagement ensures that no value is present for ContextManagement, not even an explicit nil
 ### GetGuardrails
 
 `func (o *MessagesRequest) GetGuardrails() []GuardrailConfig`
@@ -314,6 +387,41 @@ and a boolean to check if the value has been set.
 SetModel sets Model field to given value.
 
 
+### GetOutputFormat
+
+`func (o *MessagesRequest) GetOutputFormat() map[string]interface{}`
+
+GetOutputFormat returns the OutputFormat field if non-nil, zero value otherwise.
+
+### GetOutputFormatOk
+
+`func (o *MessagesRequest) GetOutputFormatOk() (*map[string]interface{}, bool)`
+
+GetOutputFormatOk returns a tuple with the OutputFormat field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOutputFormat
+
+`func (o *MessagesRequest) SetOutputFormat(v map[string]interface{})`
+
+SetOutputFormat sets OutputFormat field to given value.
+
+### HasOutputFormat
+
+`func (o *MessagesRequest) HasOutputFormat() bool`
+
+HasOutputFormat returns a boolean if a field has been set.
+
+### SetOutputFormatNil
+
+`func (o *MessagesRequest) SetOutputFormatNil(b bool)`
+
+ SetOutputFormatNil sets the value for OutputFormat to be an explicit nil
+
+### UnsetOutputFormat
+`func (o *MessagesRequest) UnsetOutputFormat()`
+
+UnsetOutputFormat ensures that no value is present for OutputFormat, not even an explicit nil
 ### GetSessionLabel
 
 `func (o *MessagesRequest) GetSessionLabel() string`

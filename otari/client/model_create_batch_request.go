@@ -25,6 +25,7 @@ type CreateBatchRequest struct {
 	Metadata         map[string]string  `json:"metadata,omitempty"`
 	Model            string             `json:"model"`
 	Requests         []BatchRequestItem `json:"requests"`
+	User             NullableString     `json:"user,omitempty"`
 }
 
 type _CreateBatchRequest CreateBatchRequest
@@ -165,6 +166,49 @@ func (o *CreateBatchRequest) SetRequests(v []BatchRequestItem) {
 	o.Requests = v
 }
 
+// GetUser returns the User field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateBatchRequest) GetUser() string {
+	if o == nil || IsNil(o.User.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.User.Get()
+}
+
+// GetUserOk returns a tuple with the User field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateBatchRequest) GetUserOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.User.Get(), o.User.IsSet()
+}
+
+// HasUser returns a boolean if a field has been set.
+func (o *CreateBatchRequest) HasUser() bool {
+	if o != nil && o.User.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetUser gets a reference to the given NullableString and assigns it to the User field.
+func (o *CreateBatchRequest) SetUser(v string) {
+	o.User.Set(&v)
+}
+
+// SetUserNil sets the value for User to be an explicit nil
+func (o *CreateBatchRequest) SetUserNil() {
+	o.User.Set(nil)
+}
+
+// UnsetUser ensures that no value is present for User, not even an explicit nil
+func (o *CreateBatchRequest) UnsetUser() {
+	o.User.Unset()
+}
+
 func (o CreateBatchRequest) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -183,6 +227,9 @@ func (o CreateBatchRequest) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["model"] = o.Model
 	toSerialize["requests"] = o.Requests
+	if o.User.IsSet() {
+		toSerialize["user"] = o.User.Get()
+	}
 	return toSerialize, nil
 }
 

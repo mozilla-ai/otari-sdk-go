@@ -21,7 +21,7 @@ var _ MappedNullable = &MRServerToolUseBlock{}
 // MRServerToolUseBlock struct for MRServerToolUseBlock
 type MRServerToolUseBlock struct {
 	Id                   string                 `json:"id"`
-	Caller               NullableCaller         `json:"caller,omitempty"`
+	Caller               NullableCaller1        `json:"caller,omitempty"`
 	Input                map[string]interface{} `json:"input"`
 	Name                 string                 `json:"name"`
 	Type                 string                 `json:"type"`
@@ -76,9 +76,9 @@ func (o *MRServerToolUseBlock) SetId(v string) {
 }
 
 // GetCaller returns the Caller field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *MRServerToolUseBlock) GetCaller() Caller {
+func (o *MRServerToolUseBlock) GetCaller() Caller1 {
 	if o == nil || IsNil(o.Caller.Get()) {
-		var ret Caller
+		var ret Caller1
 		return ret
 	}
 	return *o.Caller.Get()
@@ -87,7 +87,7 @@ func (o *MRServerToolUseBlock) GetCaller() Caller {
 // GetCallerOk returns a tuple with the Caller field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *MRServerToolUseBlock) GetCallerOk() (*Caller, bool) {
+func (o *MRServerToolUseBlock) GetCallerOk() (*Caller1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -103,8 +103,8 @@ func (o *MRServerToolUseBlock) HasCaller() bool {
 	return false
 }
 
-// SetCaller gets a reference to the given NullableCaller and assigns it to the Caller field.
-func (o *MRServerToolUseBlock) SetCaller(v Caller) {
+// SetCaller gets a reference to the given NullableCaller1 and assigns it to the Caller field.
+func (o *MRServerToolUseBlock) SetCaller(v Caller1) {
 	o.Caller.Set(&v)
 }
 

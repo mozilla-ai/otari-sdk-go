@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Background** | Pointer to **NullableBool** |  | [optional] 
+**ContextManagement** | Pointer to **[]map[string]interface{}** |  | [optional] 
 **Conversation** | Pointer to [**NullableConversation**](Conversation.md) |  | [optional] 
 **FrequencyPenalty** | Pointer to **NullableFloat32** |  | [optional] 
 **Guardrails** | Pointer to [**[]GuardrailConfig**](GuardrailConfig.md) |  | [optional] 
@@ -23,7 +24,7 @@ Name | Type | Description | Notes
 **PreviousResponseId** | Pointer to **NullableString** |  | [optional] 
 **PromptCacheKey** | Pointer to **NullableString** |  | [optional] 
 **PromptCacheRetention** | Pointer to **NullableString** |  | [optional] 
-**Reasoning** | Pointer to **map[string]interface{}** |  | [optional] 
+**Reasoning** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
 **ResponseFormat** | Pointer to **map[string]interface{}** |  | [optional] 
 **SafetyIdentifier** | Pointer to **NullableString** |  | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
@@ -95,6 +96,41 @@ HasBackground returns a boolean if a field has been set.
 `func (o *ResponsesRequest) UnsetBackground()`
 
 UnsetBackground ensures that no value is present for Background, not even an explicit nil
+### GetContextManagement
+
+`func (o *ResponsesRequest) GetContextManagement() []map[string]interface{}`
+
+GetContextManagement returns the ContextManagement field if non-nil, zero value otherwise.
+
+### GetContextManagementOk
+
+`func (o *ResponsesRequest) GetContextManagementOk() (*[]map[string]interface{}, bool)`
+
+GetContextManagementOk returns a tuple with the ContextManagement field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetContextManagement
+
+`func (o *ResponsesRequest) SetContextManagement(v []map[string]interface{})`
+
+SetContextManagement sets ContextManagement field to given value.
+
+### HasContextManagement
+
+`func (o *ResponsesRequest) HasContextManagement() bool`
+
+HasContextManagement returns a boolean if a field has been set.
+
+### SetContextManagementNil
+
+`func (o *ResponsesRequest) SetContextManagementNil(b bool)`
+
+ SetContextManagementNil sets the value for ContextManagement to be an explicit nil
+
+### UnsetContextManagement
+`func (o *ResponsesRequest) UnsetContextManagement()`
+
+UnsetContextManagement ensures that no value is present for ContextManagement, not even an explicit nil
 ### GetConversation
 
 `func (o *ResponsesRequest) GetConversation() Conversation`

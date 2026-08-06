@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Alias** | Pointer to **NullableString** |  | [optional] 
+**AllowedModels** | Pointer to **[]string** |  | [optional] 
 **Blocked** | Pointer to **NullableBool** |  | [optional] 
 **BudgetId** | Pointer to **NullableString** |  | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
@@ -63,6 +64,41 @@ HasAlias returns a boolean if a field has been set.
 `func (o *UpdateUserRequest) UnsetAlias()`
 
 UnsetAlias ensures that no value is present for Alias, not even an explicit nil
+### GetAllowedModels
+
+`func (o *UpdateUserRequest) GetAllowedModels() []string`
+
+GetAllowedModels returns the AllowedModels field if non-nil, zero value otherwise.
+
+### GetAllowedModelsOk
+
+`func (o *UpdateUserRequest) GetAllowedModelsOk() (*[]string, bool)`
+
+GetAllowedModelsOk returns a tuple with the AllowedModels field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedModels
+
+`func (o *UpdateUserRequest) SetAllowedModels(v []string)`
+
+SetAllowedModels sets AllowedModels field to given value.
+
+### HasAllowedModels
+
+`func (o *UpdateUserRequest) HasAllowedModels() bool`
+
+HasAllowedModels returns a boolean if a field has been set.
+
+### SetAllowedModelsNil
+
+`func (o *UpdateUserRequest) SetAllowedModelsNil(b bool)`
+
+ SetAllowedModelsNil sets the value for AllowedModels to be an explicit nil
+
+### UnsetAllowedModels
+`func (o *UpdateUserRequest) UnsetAllowedModels()`
+
+UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
 ### GetBlocked
 
 `func (o *UpdateUserRequest) GetBlocked() bool`

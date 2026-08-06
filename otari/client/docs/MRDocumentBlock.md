@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Citations** | Pointer to [**NullableMRCitationsConfig**](MRCitationsConfig.md) |  | [optional] 
-**Source** | [**Source**](Source.md) |  | 
+**Source** | [**Source1**](Source1.md) |  | 
 **Title** | Pointer to **NullableString** |  | [optional] 
 **Type** | **string** |  | 
 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMRDocumentBlock
 
-`func NewMRDocumentBlock(source Source, type_ string, ) *MRDocumentBlock`
+`func NewMRDocumentBlock(source Source1, type_ string, ) *MRDocumentBlock`
 
 NewMRDocumentBlock instantiates a new MRDocumentBlock object
 This constructor will assign default values to properties that have it defined,
@@ -65,20 +65,20 @@ HasCitations returns a boolean if a field has been set.
 UnsetCitations ensures that no value is present for Citations, not even an explicit nil
 ### GetSource
 
-`func (o *MRDocumentBlock) GetSource() Source`
+`func (o *MRDocumentBlock) GetSource() Source1`
 
 GetSource returns the Source field if non-nil, zero value otherwise.
 
 ### GetSourceOk
 
-`func (o *MRDocumentBlock) GetSourceOk() (*Source, bool)`
+`func (o *MRDocumentBlock) GetSourceOk() (*Source1, bool)`
 
 GetSourceOk returns a tuple with the Source field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSource
 
-`func (o *MRDocumentBlock) SetSource(v Source)`
+`func (o *MRDocumentBlock) SetSource(v Source1)`
 
 SetSource sets Source field to given value.
 

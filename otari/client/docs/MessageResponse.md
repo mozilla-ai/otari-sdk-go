@@ -5,21 +5,23 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **string** |  | 
-**Container** | Pointer to [**NullableMRContainer**](MRContainer.md) |  | [optional] 
-**Content** | [**[]Content9Inner**](Content9Inner.md) |  | 
+**Container** | Pointer to [**NullableMRBetaContainer**](MRBetaContainer.md) |  | [optional] 
+**Content** | [**[]Content16Inner**](Content16Inner.md) |  | 
 **Model** | [**Model**](Model.md) |  | 
 **Role** | **string** |  | 
 **StopDetails** | Pointer to [**NullableMRRefusalStopDetails**](MRRefusalStopDetails.md) |  | [optional] 
 **StopReason** | Pointer to **NullableString** |  | [optional] 
-**StopSequence** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**StopSequence** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
 **Type** | **string** |  | 
-**Usage** | [**MRUsage**](MRUsage.md) |  | 
+**Usage** | [**MRMessageUsage**](MRMessageUsage.md) |  | 
+**ContextManagement** | Pointer to [**NullableMRBetaContextManagementResponse**](MRBetaContextManagementResponse.md) |  | [optional] 
+**Diagnostics** | Pointer to [**NullableMRBetaDiagnosticsFallback**](MRBetaDiagnosticsFallback.md) |  | [optional] 
 
 ## Methods
 
 ### NewMessageResponse
 
-`func NewMessageResponse(id string, content []Content9Inner, model Model, role string, type_ string, usage MRUsage, ) *MessageResponse`
+`func NewMessageResponse(id string, content []Content16Inner, model Model, role string, type_ string, usage MRMessageUsage, ) *MessageResponse`
 
 NewMessageResponse instantiates a new MessageResponse object
 This constructor will assign default values to properties that have it defined,
@@ -56,20 +58,20 @@ SetId sets Id field to given value.
 
 ### GetContainer
 
-`func (o *MessageResponse) GetContainer() MRContainer`
+`func (o *MessageResponse) GetContainer() MRBetaContainer`
 
 GetContainer returns the Container field if non-nil, zero value otherwise.
 
 ### GetContainerOk
 
-`func (o *MessageResponse) GetContainerOk() (*MRContainer, bool)`
+`func (o *MessageResponse) GetContainerOk() (*MRBetaContainer, bool)`
 
 GetContainerOk returns a tuple with the Container field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContainer
 
-`func (o *MessageResponse) SetContainer(v MRContainer)`
+`func (o *MessageResponse) SetContainer(v MRBetaContainer)`
 
 SetContainer sets Container field to given value.
 
@@ -91,20 +93,20 @@ HasContainer returns a boolean if a field has been set.
 UnsetContainer ensures that no value is present for Container, not even an explicit nil
 ### GetContent
 
-`func (o *MessageResponse) GetContent() []Content9Inner`
+`func (o *MessageResponse) GetContent() []Content16Inner`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *MessageResponse) GetContentOk() (*[]Content9Inner, bool)`
+`func (o *MessageResponse) GetContentOk() (*[]Content16Inner, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *MessageResponse) SetContent(v []Content9Inner)`
+`func (o *MessageResponse) SetContent(v []Content16Inner)`
 
 SetContent sets Content field to given value.
 
@@ -276,24 +278,94 @@ SetType sets Type field to given value.
 
 ### GetUsage
 
-`func (o *MessageResponse) GetUsage() MRUsage`
+`func (o *MessageResponse) GetUsage() MRMessageUsage`
 
 GetUsage returns the Usage field if non-nil, zero value otherwise.
 
 ### GetUsageOk
 
-`func (o *MessageResponse) GetUsageOk() (*MRUsage, bool)`
+`func (o *MessageResponse) GetUsageOk() (*MRMessageUsage, bool)`
 
 GetUsageOk returns a tuple with the Usage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsage
 
-`func (o *MessageResponse) SetUsage(v MRUsage)`
+`func (o *MessageResponse) SetUsage(v MRMessageUsage)`
 
 SetUsage sets Usage field to given value.
 
 
+### GetContextManagement
+
+`func (o *MessageResponse) GetContextManagement() MRBetaContextManagementResponse`
+
+GetContextManagement returns the ContextManagement field if non-nil, zero value otherwise.
+
+### GetContextManagementOk
+
+`func (o *MessageResponse) GetContextManagementOk() (*MRBetaContextManagementResponse, bool)`
+
+GetContextManagementOk returns a tuple with the ContextManagement field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetContextManagement
+
+`func (o *MessageResponse) SetContextManagement(v MRBetaContextManagementResponse)`
+
+SetContextManagement sets ContextManagement field to given value.
+
+### HasContextManagement
+
+`func (o *MessageResponse) HasContextManagement() bool`
+
+HasContextManagement returns a boolean if a field has been set.
+
+### SetContextManagementNil
+
+`func (o *MessageResponse) SetContextManagementNil(b bool)`
+
+ SetContextManagementNil sets the value for ContextManagement to be an explicit nil
+
+### UnsetContextManagement
+`func (o *MessageResponse) UnsetContextManagement()`
+
+UnsetContextManagement ensures that no value is present for ContextManagement, not even an explicit nil
+### GetDiagnostics
+
+`func (o *MessageResponse) GetDiagnostics() MRBetaDiagnosticsFallback`
+
+GetDiagnostics returns the Diagnostics field if non-nil, zero value otherwise.
+
+### GetDiagnosticsOk
+
+`func (o *MessageResponse) GetDiagnosticsOk() (*MRBetaDiagnosticsFallback, bool)`
+
+GetDiagnosticsOk returns a tuple with the Diagnostics field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDiagnostics
+
+`func (o *MessageResponse) SetDiagnostics(v MRBetaDiagnosticsFallback)`
+
+SetDiagnostics sets Diagnostics field to given value.
+
+### HasDiagnostics
+
+`func (o *MessageResponse) HasDiagnostics() bool`
+
+HasDiagnostics returns a boolean if a field has been set.
+
+### SetDiagnosticsNil
+
+`func (o *MessageResponse) SetDiagnosticsNil(b bool)`
+
+ SetDiagnosticsNil sets the value for Diagnostics to be an explicit nil
+
+### UnsetDiagnostics
+`func (o *MessageResponse) UnsetDiagnostics()`
+
+UnsetDiagnostics ensures that no value is present for Diagnostics, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

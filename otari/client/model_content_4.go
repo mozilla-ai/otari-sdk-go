@@ -17,51 +17,37 @@ import (
 
 // Content4 struct for Content4
 type Content4 struct {
-	MRCodeExecutionResultBlock          *MRCodeExecutionResultBlock
-	MRCodeExecutionToolResultError      *MRCodeExecutionToolResultError
-	MREncryptedCodeExecutionResultBlock *MREncryptedCodeExecutionResultBlock
+	MRBetaBashCodeExecutionResultBlock     *MRBetaBashCodeExecutionResultBlock
+	MRBetaBashCodeExecutionToolResultError *MRBetaBashCodeExecutionToolResultError
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *Content4) UnmarshalJSON(data []byte) error {
 	var err error
-	// try to unmarshal JSON data into MRCodeExecutionResultBlock
-	err = json.Unmarshal(data, &dst.MRCodeExecutionResultBlock)
+	// try to unmarshal JSON data into MRBetaBashCodeExecutionResultBlock
+	err = json.Unmarshal(data, &dst.MRBetaBashCodeExecutionResultBlock)
 	if err == nil {
-		jsonMRCodeExecutionResultBlock, _ := json.Marshal(dst.MRCodeExecutionResultBlock)
-		if string(jsonMRCodeExecutionResultBlock) == "{}" { // empty struct
-			dst.MRCodeExecutionResultBlock = nil
+		jsonMRBetaBashCodeExecutionResultBlock, _ := json.Marshal(dst.MRBetaBashCodeExecutionResultBlock)
+		if string(jsonMRBetaBashCodeExecutionResultBlock) == "{}" { // empty struct
+			dst.MRBetaBashCodeExecutionResultBlock = nil
 		} else {
-			return nil // data stored in dst.MRCodeExecutionResultBlock, return on the first match
+			return nil // data stored in dst.MRBetaBashCodeExecutionResultBlock, return on the first match
 		}
 	} else {
-		dst.MRCodeExecutionResultBlock = nil
+		dst.MRBetaBashCodeExecutionResultBlock = nil
 	}
 
-	// try to unmarshal JSON data into MRCodeExecutionToolResultError
-	err = json.Unmarshal(data, &dst.MRCodeExecutionToolResultError)
+	// try to unmarshal JSON data into MRBetaBashCodeExecutionToolResultError
+	err = json.Unmarshal(data, &dst.MRBetaBashCodeExecutionToolResultError)
 	if err == nil {
-		jsonMRCodeExecutionToolResultError, _ := json.Marshal(dst.MRCodeExecutionToolResultError)
-		if string(jsonMRCodeExecutionToolResultError) == "{}" { // empty struct
-			dst.MRCodeExecutionToolResultError = nil
+		jsonMRBetaBashCodeExecutionToolResultError, _ := json.Marshal(dst.MRBetaBashCodeExecutionToolResultError)
+		if string(jsonMRBetaBashCodeExecutionToolResultError) == "{}" { // empty struct
+			dst.MRBetaBashCodeExecutionToolResultError = nil
 		} else {
-			return nil // data stored in dst.MRCodeExecutionToolResultError, return on the first match
+			return nil // data stored in dst.MRBetaBashCodeExecutionToolResultError, return on the first match
 		}
 	} else {
-		dst.MRCodeExecutionToolResultError = nil
-	}
-
-	// try to unmarshal JSON data into MREncryptedCodeExecutionResultBlock
-	err = json.Unmarshal(data, &dst.MREncryptedCodeExecutionResultBlock)
-	if err == nil {
-		jsonMREncryptedCodeExecutionResultBlock, _ := json.Marshal(dst.MREncryptedCodeExecutionResultBlock)
-		if string(jsonMREncryptedCodeExecutionResultBlock) == "{}" { // empty struct
-			dst.MREncryptedCodeExecutionResultBlock = nil
-		} else {
-			return nil // data stored in dst.MREncryptedCodeExecutionResultBlock, return on the first match
-		}
-	} else {
-		dst.MREncryptedCodeExecutionResultBlock = nil
+		dst.MRBetaBashCodeExecutionToolResultError = nil
 	}
 
 	return fmt.Errorf("data failed to match schemas in anyOf(Content4)")
@@ -69,16 +55,12 @@ func (dst *Content4) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Content4) MarshalJSON() ([]byte, error) {
-	if src.MRCodeExecutionResultBlock != nil {
-		return json.Marshal(&src.MRCodeExecutionResultBlock)
+	if src.MRBetaBashCodeExecutionResultBlock != nil {
+		return json.Marshal(&src.MRBetaBashCodeExecutionResultBlock)
 	}
 
-	if src.MRCodeExecutionToolResultError != nil {
-		return json.Marshal(&src.MRCodeExecutionToolResultError)
-	}
-
-	if src.MREncryptedCodeExecutionResultBlock != nil {
-		return json.Marshal(&src.MREncryptedCodeExecutionResultBlock)
+	if src.MRBetaBashCodeExecutionToolResultError != nil {
+		return json.Marshal(&src.MRBetaBashCodeExecutionToolResultError)
 	}
 
 	return nil, nil // no data in anyOf schemas

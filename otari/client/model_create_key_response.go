@@ -21,14 +21,18 @@ var _ MappedNullable = &CreateKeyResponse{}
 
 // CreateKeyResponse Response model for creating a new API key.
 type CreateKeyResponse struct {
-	CreatedAt string                 `json:"created_at"`
-	ExpiresAt NullableString         `json:"expires_at"`
-	Id        string                 `json:"id"`
-	IsActive  bool                   `json:"is_active"`
-	Key       string                 `json:"key"`
-	KeyName   NullableString         `json:"key_name"`
-	Metadata  map[string]interface{} `json:"metadata"`
-	UserId    NullableString         `json:"user_id"`
+	AllowedModels      []string               `json:"allowed_models"`
+	CreatedAt          string                 `json:"created_at"`
+	ExcludeFromBudget  bool                   `json:"exclude_from_budget"`
+	ExpiresAt          NullableString         `json:"expires_at"`
+	Id                 string                 `json:"id"`
+	IsActive           bool                   `json:"is_active"`
+	Key                string                 `json:"key"`
+	KeyName            NullableString         `json:"key_name"`
+	KeyPrefix          NullableString         `json:"key_prefix"`
+	Metadata           map[string]interface{} `json:"metadata"`
+	RejectUserMismatch NullableBool           `json:"reject_user_mismatch"`
+	UserId             NullableString         `json:"user_id"`
 }
 
 type _CreateKeyResponse CreateKeyResponse
@@ -37,15 +41,19 @@ type _CreateKeyResponse CreateKeyResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateKeyResponse(createdAt string, expiresAt NullableString, id string, isActive bool, key string, keyName NullableString, metadata map[string]interface{}, userId NullableString) *CreateKeyResponse {
+func NewCreateKeyResponse(allowedModels []string, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, key string, keyName NullableString, keyPrefix NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString) *CreateKeyResponse {
 	this := CreateKeyResponse{}
+	this.AllowedModels = allowedModels
 	this.CreatedAt = createdAt
+	this.ExcludeFromBudget = excludeFromBudget
 	this.ExpiresAt = expiresAt
 	this.Id = id
 	this.IsActive = isActive
 	this.Key = key
 	this.KeyName = keyName
+	this.KeyPrefix = keyPrefix
 	this.Metadata = metadata
+	this.RejectUserMismatch = rejectUserMismatch
 	this.UserId = userId
 	return &this
 }
@@ -56,6 +64,32 @@ func NewCreateKeyResponse(createdAt string, expiresAt NullableString, id string,
 func NewCreateKeyResponseWithDefaults() *CreateKeyResponse {
 	this := CreateKeyResponse{}
 	return &this
+}
+
+// GetAllowedModels returns the AllowedModels field value
+// If the value is explicit nil, the zero value for []string will be returned
+func (o *CreateKeyResponse) GetAllowedModels() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.AllowedModels
+}
+
+// GetAllowedModelsOk returns a tuple with the AllowedModels field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateKeyResponse) GetAllowedModelsOk() ([]string, bool) {
+	if o == nil || IsNil(o.AllowedModels) {
+		return nil, false
+	}
+	return o.AllowedModels, true
+}
+
+// SetAllowedModels sets field value
+func (o *CreateKeyResponse) SetAllowedModels(v []string) {
+	o.AllowedModels = v
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -80,6 +114,30 @@ func (o *CreateKeyResponse) GetCreatedAtOk() (*string, bool) {
 // SetCreatedAt sets field value
 func (o *CreateKeyResponse) SetCreatedAt(v string) {
 	o.CreatedAt = v
+}
+
+// GetExcludeFromBudget returns the ExcludeFromBudget field value
+func (o *CreateKeyResponse) GetExcludeFromBudget() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.ExcludeFromBudget
+}
+
+// GetExcludeFromBudgetOk returns a tuple with the ExcludeFromBudget field value
+// and a boolean to check if the value has been set.
+func (o *CreateKeyResponse) GetExcludeFromBudgetOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ExcludeFromBudget, true
+}
+
+// SetExcludeFromBudget sets field value
+func (o *CreateKeyResponse) SetExcludeFromBudget(v bool) {
+	o.ExcludeFromBudget = v
 }
 
 // GetExpiresAt returns the ExpiresAt field value
@@ -206,6 +264,32 @@ func (o *CreateKeyResponse) SetKeyName(v string) {
 	o.KeyName.Set(&v)
 }
 
+// GetKeyPrefix returns the KeyPrefix field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *CreateKeyResponse) GetKeyPrefix() string {
+	if o == nil || o.KeyPrefix.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.KeyPrefix.Get()
+}
+
+// GetKeyPrefixOk returns a tuple with the KeyPrefix field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateKeyResponse) GetKeyPrefixOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.KeyPrefix.Get(), o.KeyPrefix.IsSet()
+}
+
+// SetKeyPrefix sets field value
+func (o *CreateKeyResponse) SetKeyPrefix(v string) {
+	o.KeyPrefix.Set(&v)
+}
+
 // GetMetadata returns the Metadata field value
 func (o *CreateKeyResponse) GetMetadata() map[string]interface{} {
 	if o == nil {
@@ -228,6 +312,32 @@ func (o *CreateKeyResponse) GetMetadataOk() (map[string]interface{}, bool) {
 // SetMetadata sets field value
 func (o *CreateKeyResponse) SetMetadata(v map[string]interface{}) {
 	o.Metadata = v
+}
+
+// GetRejectUserMismatch returns the RejectUserMismatch field value
+// If the value is explicit nil, the zero value for bool will be returned
+func (o *CreateKeyResponse) GetRejectUserMismatch() bool {
+	if o == nil || o.RejectUserMismatch.Get() == nil {
+		var ret bool
+		return ret
+	}
+
+	return *o.RejectUserMismatch.Get()
+}
+
+// GetRejectUserMismatchOk returns a tuple with the RejectUserMismatch field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateKeyResponse) GetRejectUserMismatchOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RejectUserMismatch.Get(), o.RejectUserMismatch.IsSet()
+}
+
+// SetRejectUserMismatch sets field value
+func (o *CreateKeyResponse) SetRejectUserMismatch(v bool) {
+	o.RejectUserMismatch.Set(&v)
 }
 
 // GetUserId returns the UserId field value
@@ -266,13 +376,19 @@ func (o CreateKeyResponse) MarshalJSON() ([]byte, error) {
 
 func (o CreateKeyResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.AllowedModels != nil {
+		toSerialize["allowed_models"] = o.AllowedModels
+	}
 	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["exclude_from_budget"] = o.ExcludeFromBudget
 	toSerialize["expires_at"] = o.ExpiresAt.Get()
 	toSerialize["id"] = o.Id
 	toSerialize["is_active"] = o.IsActive
 	toSerialize["key"] = o.Key
 	toSerialize["key_name"] = o.KeyName.Get()
+	toSerialize["key_prefix"] = o.KeyPrefix.Get()
 	toSerialize["metadata"] = o.Metadata
+	toSerialize["reject_user_mismatch"] = o.RejectUserMismatch.Get()
 	toSerialize["user_id"] = o.UserId.Get()
 	return toSerialize, nil
 }
@@ -282,13 +398,17 @@ func (o *CreateKeyResponse) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"allowed_models",
 		"created_at",
+		"exclude_from_budget",
 		"expires_at",
 		"id",
 		"is_active",
 		"key",
 		"key_name",
+		"key_prefix",
 		"metadata",
+		"reject_user_mismatch",
 		"user_id",
 	}
 

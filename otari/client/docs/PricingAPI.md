@@ -4,12 +4,76 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**ConfirmPricingRefreshV1PricingRefreshConfirmPost**](PricingAPI.md#ConfirmPricingRefreshV1PricingRefreshConfirmPost) | **Post** /v1/pricing/refresh/confirm | Confirm Pricing Refresh
 [**DeletePricingV1PricingModelKeyDelete**](PricingAPI.md#DeletePricingV1PricingModelKeyDelete) | **Delete** /v1/pricing/{model_key} | Delete Pricing
 [**GetPricingHistoryV1PricingModelKeyHistoryGet**](PricingAPI.md#GetPricingHistoryV1PricingModelKeyHistoryGet) | **Get** /v1/pricing/{model_key}/history | Get Pricing History
 [**GetPricingV1PricingModelKeyGet**](PricingAPI.md#GetPricingV1PricingModelKeyGet) | **Get** /v1/pricing/{model_key} | Get Pricing
 [**ListPricingV1PricingGet**](PricingAPI.md#ListPricingV1PricingGet) | **Get** /v1/pricing | List Pricing
+[**PreviewPricingRefreshV1PricingRefreshPost**](PricingAPI.md#PreviewPricingRefreshV1PricingRefreshPost) | **Post** /v1/pricing/refresh | Preview Pricing Refresh
+[**RejectPricingRefreshV1PricingRefreshRejectPost**](PricingAPI.md#RejectPricingRefreshV1PricingRefreshRejectPost) | **Post** /v1/pricing/refresh/reject | Reject Pricing Refresh
 [**SetPricingV1PricingPost**](PricingAPI.md#SetPricingV1PricingPost) | **Post** /v1/pricing | Set Pricing
 
+
+
+## ConfirmPricingRefreshV1PricingRefreshConfirmPost
+
+> PricingRefreshConfirmationResponse ConfirmPricingRefreshV1PricingRefreshConfirmPost(ctx).Execute()
+
+Confirm Pricing Refresh
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PricingAPI.ConfirmPricingRefreshV1PricingRefreshConfirmPost(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.ConfirmPricingRefreshV1PricingRefreshConfirmPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ConfirmPricingRefreshV1PricingRefreshConfirmPost`: PricingRefreshConfirmationResponse
+	fmt.Fprintf(os.Stdout, "Response from `PricingAPI.ConfirmPricingRefreshV1PricingRefreshConfirmPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiConfirmPricingRefreshV1PricingRefreshConfirmPostRequest struct via the builder pattern
+
+
+### Return type
+
+[**PricingRefreshConfirmationResponse**](PricingRefreshConfirmationResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## DeletePricingV1PricingModelKeyDelete
@@ -71,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -141,7 +205,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -214,7 +278,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -282,12 +346,132 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PreviewPricingRefreshV1PricingRefreshPost
+
+> PricingRefreshPreviewResponse PreviewPricingRefreshV1PricingRefreshPost(ctx).Execute()
+
+Preview Pricing Refresh
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PricingAPI.PreviewPricingRefreshV1PricingRefreshPost(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.PreviewPricingRefreshV1PricingRefreshPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PreviewPricingRefreshV1PricingRefreshPost`: PricingRefreshPreviewResponse
+	fmt.Fprintf(os.Stdout, "Response from `PricingAPI.PreviewPricingRefreshV1PricingRefreshPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPreviewPricingRefreshV1PricingRefreshPostRequest struct via the builder pattern
+
+
+### Return type
+
+[**PricingRefreshPreviewResponse**](PricingRefreshPreviewResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RejectPricingRefreshV1PricingRefreshRejectPost
+
+> RejectPricingRefreshV1PricingRefreshRejectPost(ctx).Execute()
+
+Reject Pricing Refresh
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.PricingAPI.RejectPricingRefreshV1PricingRefreshRejectPost(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.RejectPricingRefreshV1PricingRefreshRejectPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRejectPricingRefreshV1PricingRefreshRejectPostRequest struct via the builder pattern
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -348,7 +532,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 

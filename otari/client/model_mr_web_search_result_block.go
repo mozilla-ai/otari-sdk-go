@@ -20,8 +20,7 @@ var _ MappedNullable = &MRWebSearchResultBlock{}
 
 // MRWebSearchResultBlock struct for MRWebSearchResultBlock
 type MRWebSearchResultBlock struct {
-	EncryptedContent string `json:"encrypted_content"`
-	// Filter models by provider name
+	EncryptedContent     string         `json:"encrypted_content"`
 	PageAge              NullableString `json:"page_age,omitempty"`
 	Title                string         `json:"title"`
 	Type                 string         `json:"type"`

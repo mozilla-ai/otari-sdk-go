@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **Model** | **string** |  | 
 **Object** | **string** |  | 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
-**SystemFingerprint** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**SystemFingerprint** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
 **Usage** | Pointer to [**NullableCCCompletionUsage**](CCCompletionUsage.md) |  | [optional] 
 
 ## Methods

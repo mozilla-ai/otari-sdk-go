@@ -48,7 +48,11 @@ type APIClient struct {
 
 	// API Services
 
+	AliasesAPI *AliasesAPIService
+
 	AudioAPI *AudioAPIService
+
+	AuthAPI *AuthAPIService
 
 	BatchesAPI *BatchesAPIService
 
@@ -72,11 +76,23 @@ type APIClient struct {
 
 	ModerationsAPI *ModerationsAPIService
 
+	OtelAPI *OtelAPIService
+
 	PricingAPI *PricingAPIService
+
+	ProvidersAPI *ProvidersAPIService
 
 	RerankAPI *RerankAPIService
 
 	ResponsesAPI *ResponsesAPIService
+
+	RoutingAPI *RoutingAPIService
+
+	SearchAPI *SearchAPIService
+
+	SettingsAPI *SettingsAPIService
+
+	ToolSettingsAPI *ToolSettingsAPIService
 
 	UsageAPI *UsageAPIService
 
@@ -99,7 +115,9 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
+	c.AliasesAPI = (*AliasesAPIService)(&c.common)
 	c.AudioAPI = (*AudioAPIService)(&c.common)
+	c.AuthAPI = (*AuthAPIService)(&c.common)
 	c.BatchesAPI = (*BatchesAPIService)(&c.common)
 	c.BudgetsAPI = (*BudgetsAPIService)(&c.common)
 	c.ChatAPI = (*ChatAPIService)(&c.common)
@@ -111,9 +129,15 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.MessagesAPI = (*MessagesAPIService)(&c.common)
 	c.ModelsAPI = (*ModelsAPIService)(&c.common)
 	c.ModerationsAPI = (*ModerationsAPIService)(&c.common)
+	c.OtelAPI = (*OtelAPIService)(&c.common)
 	c.PricingAPI = (*PricingAPIService)(&c.common)
+	c.ProvidersAPI = (*ProvidersAPIService)(&c.common)
 	c.RerankAPI = (*RerankAPIService)(&c.common)
 	c.ResponsesAPI = (*ResponsesAPIService)(&c.common)
+	c.RoutingAPI = (*RoutingAPIService)(&c.common)
+	c.SearchAPI = (*SearchAPIService)(&c.common)
+	c.SettingsAPI = (*SettingsAPIService)(&c.common)
+	c.ToolSettingsAPI = (*ToolSettingsAPIService)(&c.common)
 	c.UsageAPI = (*UsageAPIService)(&c.common)
 	c.UsersAPI = (*UsersAPIService)(&c.common)
 

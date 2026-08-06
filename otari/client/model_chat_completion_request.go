@@ -39,9 +39,10 @@ type ChatCompletionRequest struct {
 	ResponseFormat      map[string]interface{} `json:"response_format,omitempty"`
 	Seed                NullableInt32          `json:"seed,omitempty"`
 	// Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to.
-	SessionLabel  NullableString                    `json:"session_label,omitempty"`
-	Stop          NullableStop                      `json:"stop,omitempty"`
-	Stream        *bool                             `json:"stream,omitempty"`
+	SessionLabel NullableString `json:"session_label,omitempty"`
+	Stop         NullableStop   `json:"stop,omitempty"`
+	Stream       *bool          `json:"stream,omitempty"`
+	// An unsaved policy body to explain.
 	StreamOptions map[string]interface{}            `json:"stream_options,omitempty"`
 	Temperature   NullableFloat32                   `json:"temperature,omitempty"`
 	ToolChoice    NullableToolChoice                `json:"tool_choice,omitempty"`

@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**DeleteKeyV1KeysKeyIdDelete**](KeysAPI.md#DeleteKeyV1KeysKeyIdDelete) | **Delete** /v1/keys/{key_id} | Delete Key
 [**GetKeyV1KeysKeyIdGet**](KeysAPI.md#GetKeyV1KeysKeyIdGet) | **Get** /v1/keys/{key_id} | Get Key
 [**ListKeysV1KeysGet**](KeysAPI.md#ListKeysV1KeysGet) | **Get** /v1/keys | List Keys
+[**RotateKeyV1KeysKeyIdRotatePost**](KeysAPI.md#RotateKeyV1KeysKeyIdRotatePost) | **Post** /v1/keys/{key_id}/rotate | Rotate Key
 [**UpdateKeyV1KeysKeyIdPatch**](KeysAPI.md#UpdateKeyV1KeysKeyIdPatch) | **Patch** /v1/keys/{key_id} | Update Key
 
 
@@ -66,7 +67,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -134,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -204,7 +205,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -272,7 +273,77 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RotateKeyV1KeysKeyIdRotatePost
+
+> CreateKeyResponse RotateKeyV1KeysKeyIdRotatePost(ctx, keyId).Execute()
+
+Rotate Key
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "keyId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.KeysAPI.RotateKeyV1KeysKeyIdRotatePost(context.Background(), keyId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.RotateKeyV1KeysKeyIdRotatePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RotateKeyV1KeysKeyIdRotatePost`: CreateKeyResponse
+	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.RotateKeyV1KeysKeyIdRotatePost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRotateKeyV1KeysKeyIdRotatePostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**CreateKeyResponse**](CreateKeyResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -344,7 +415,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyAuth](../README.md#ApiKeyAuth)
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 

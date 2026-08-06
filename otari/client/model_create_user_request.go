@@ -23,6 +23,8 @@ var _ MappedNullable = &CreateUserRequest{}
 type CreateUserRequest struct {
 	// Optional admin-facing alias
 	Alias NullableString `json:"alias,omitempty"`
+	// Default model access-list this user's keys inherit; null = unrestricted, [] = deny all
+	AllowedModels []string `json:"allowed_models,omitempty"`
 	// Whether user is blocked
 	Blocked *bool `json:"blocked,omitempty"`
 	// Optional budget ID
@@ -98,6 +100,39 @@ func (o *CreateUserRequest) SetAliasNil() {
 // UnsetAlias ensures that no value is present for Alias, not even an explicit nil
 func (o *CreateUserRequest) UnsetAlias() {
 	o.Alias.Unset()
+}
+
+// GetAllowedModels returns the AllowedModels field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateUserRequest) GetAllowedModels() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+	return o.AllowedModels
+}
+
+// GetAllowedModelsOk returns a tuple with the AllowedModels field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateUserRequest) GetAllowedModelsOk() ([]string, bool) {
+	if o == nil || IsNil(o.AllowedModels) {
+		return nil, false
+	}
+	return o.AllowedModels, true
+}
+
+// HasAllowedModels returns a boolean if a field has been set.
+func (o *CreateUserRequest) HasAllowedModels() bool {
+	if o != nil && !IsNil(o.AllowedModels) {
+		return true
+	}
+
+	return false
+}
+
+// SetAllowedModels gets a reference to the given []string and assigns it to the AllowedModels field.
+func (o *CreateUserRequest) SetAllowedModels(v []string) {
+	o.AllowedModels = v
 }
 
 // GetBlocked returns the Blocked field value if set, zero value otherwise.
@@ -243,6 +278,9 @@ func (o CreateUserRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Alias.IsSet() {
 		toSerialize["alias"] = o.Alias.Get()
+	}
+	if o.AllowedModels != nil {
+		toSerialize["allowed_models"] = o.AllowedModels
 	}
 	if !IsNil(o.Blocked) {
 		toSerialize["blocked"] = o.Blocked

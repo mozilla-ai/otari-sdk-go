@@ -19,9 +19,12 @@ var _ MappedNullable = &CCCompletionTokensDetails{}
 
 // CCCompletionTokensDetails Breakdown of tokens used in a completion.
 type CCCompletionTokensDetails struct {
+	// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status='error' unless 'status' is given explicitly
 	AcceptedPredictionTokens NullableInt32 `json:"accepted_prediction_tokens,omitempty"`
 	AudioTokens              NullableInt32 `json:"audio_tokens,omitempty"`
-	ReasoningTokens          NullableInt32 `json:"reasoning_tokens,omitempty"`
+	// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status='error' unless 'status' is given explicitly
+	ReasoningTokens NullableInt32 `json:"reasoning_tokens,omitempty"`
+	// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status='error' unless 'status' is given explicitly
 	RejectedPredictionTokens NullableInt32 `json:"rejected_prediction_tokens,omitempty"`
 	AdditionalProperties     map[string]interface{}
 }

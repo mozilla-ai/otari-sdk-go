@@ -21,21 +21,35 @@ var _ MappedNullable = &UsageEntry{}
 
 // UsageEntry A single usage log entry.
 type UsageEntry struct {
-	ApiKeyId         NullableString  `json:"api_key_id"`
-	CacheReadTokens  NullableInt32   `json:"cache_read_tokens"`
-	CacheWriteTokens NullableInt32   `json:"cache_write_tokens"`
-	CompletionTokens NullableInt32   `json:"completion_tokens"`
-	Cost             NullableFloat32 `json:"cost"`
-	Endpoint         string          `json:"endpoint"`
-	ErrorMessage     NullableString  `json:"error_message"`
-	Id               string          `json:"id"`
-	Model            string          `json:"model"`
-	PromptTokens     NullableInt32   `json:"prompt_tokens"`
-	Provider         NullableString  `json:"provider"`
-	Status           string          `json:"status"`
-	Timestamp        string          `json:"timestamp"`
-	TotalTokens      NullableInt32   `json:"total_tokens"`
-	UserId           NullableString  `json:"user_id"`
+	ApiKeyId        NullableString `json:"api_key_id"`
+	AttemptCount    NullableInt32  `json:"attempt_count,omitempty"`
+	AttemptPosition NullableInt32  `json:"attempt_position,omitempty"`
+	// An unsaved policy body to explain.
+	BillingMeters      map[string]interface{}                            `json:"billing_meters"`
+	CacheReadTokens    NullableInt32                                     `json:"cache_read_tokens"`
+	CacheWrite1hTokens NullableInt32                                     `json:"cache_write_1h_tokens"`
+	CacheWriteTokens   NullableInt32                                     `json:"cache_write_tokens"`
+	CompletionTokens   NullableInt32                                     `json:"completion_tokens"`
+	Cost               NullableFloat32                                   `json:"cost"`
+	CountsTowardBudget bool                                              `json:"counts_toward_budget"`
+	Endpoint           string                                            `json:"endpoint"`
+	ErrorMessage       NullableString                                    `json:"error_message"`
+	Id                 string                                            `json:"id"`
+	LatencyMs          NullableInt32                                     `json:"latency_ms"`
+	Model              string                                            `json:"model"`
+	PolicyName         NullableString                                    `json:"policy_name,omitempty"`
+	PricingBreakdown   []map[string]UsageEntryPricingBreakdownInnerValue `json:"pricing_breakdown"`
+	PromptTokens       NullableInt32                                     `json:"prompt_tokens"`
+	Provider           NullableString                                    `json:"provider"`
+	RequestGroupId     NullableString                                    `json:"request_group_id,omitempty"`
+	SelectionReason    NullableString                                    `json:"selection_reason,omitempty"`
+	Source             string                                            `json:"source"`
+	SourceLabel        NullableString                                    `json:"source_label"`
+	Status             string                                            `json:"status"`
+	StatusCode         NullableInt32                                     `json:"status_code"`
+	Timestamp          string                                            `json:"timestamp"`
+	TotalTokens        NullableInt32                                     `json:"total_tokens"`
+	UserId             NullableString                                    `json:"user_id"`
 }
 
 type _UsageEntry UsageEntry
@@ -44,20 +58,28 @@ type _UsageEntry UsageEntry
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUsageEntry(apiKeyId NullableString, cacheReadTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString) *UsageEntry {
+func NewUsageEntry(apiKeyId NullableString, billingMeters map[string]interface{}, cacheReadTokens NullableInt32, cacheWrite1hTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, countsTowardBudget bool, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, pricingBreakdown []map[string]UsageEntryPricingBreakdownInnerValue, promptTokens NullableInt32, provider NullableString, source string, sourceLabel NullableString, status string, statusCode NullableInt32, timestamp string, totalTokens NullableInt32, userId NullableString) *UsageEntry {
 	this := UsageEntry{}
 	this.ApiKeyId = apiKeyId
+	this.BillingMeters = billingMeters
 	this.CacheReadTokens = cacheReadTokens
+	this.CacheWrite1hTokens = cacheWrite1hTokens
 	this.CacheWriteTokens = cacheWriteTokens
 	this.CompletionTokens = completionTokens
 	this.Cost = cost
+	this.CountsTowardBudget = countsTowardBudget
 	this.Endpoint = endpoint
 	this.ErrorMessage = errorMessage
 	this.Id = id
+	this.LatencyMs = latencyMs
 	this.Model = model
+	this.PricingBreakdown = pricingBreakdown
 	this.PromptTokens = promptTokens
 	this.Provider = provider
+	this.Source = source
+	this.SourceLabel = sourceLabel
 	this.Status = status
+	this.StatusCode = statusCode
 	this.Timestamp = timestamp
 	this.TotalTokens = totalTokens
 	this.UserId = userId
@@ -98,6 +120,118 @@ func (o *UsageEntry) SetApiKeyId(v string) {
 	o.ApiKeyId.Set(&v)
 }
 
+// GetAttemptCount returns the AttemptCount field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UsageEntry) GetAttemptCount() int32 {
+	if o == nil || IsNil(o.AttemptCount.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.AttemptCount.Get()
+}
+
+// GetAttemptCountOk returns a tuple with the AttemptCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetAttemptCountOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.AttemptCount.Get(), o.AttemptCount.IsSet()
+}
+
+// HasAttemptCount returns a boolean if a field has been set.
+func (o *UsageEntry) HasAttemptCount() bool {
+	if o != nil && o.AttemptCount.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetAttemptCount gets a reference to the given NullableInt32 and assigns it to the AttemptCount field.
+func (o *UsageEntry) SetAttemptCount(v int32) {
+	o.AttemptCount.Set(&v)
+}
+
+// SetAttemptCountNil sets the value for AttemptCount to be an explicit nil
+func (o *UsageEntry) SetAttemptCountNil() {
+	o.AttemptCount.Set(nil)
+}
+
+// UnsetAttemptCount ensures that no value is present for AttemptCount, not even an explicit nil
+func (o *UsageEntry) UnsetAttemptCount() {
+	o.AttemptCount.Unset()
+}
+
+// GetAttemptPosition returns the AttemptPosition field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UsageEntry) GetAttemptPosition() int32 {
+	if o == nil || IsNil(o.AttemptPosition.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.AttemptPosition.Get()
+}
+
+// GetAttemptPositionOk returns a tuple with the AttemptPosition field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetAttemptPositionOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.AttemptPosition.Get(), o.AttemptPosition.IsSet()
+}
+
+// HasAttemptPosition returns a boolean if a field has been set.
+func (o *UsageEntry) HasAttemptPosition() bool {
+	if o != nil && o.AttemptPosition.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetAttemptPosition gets a reference to the given NullableInt32 and assigns it to the AttemptPosition field.
+func (o *UsageEntry) SetAttemptPosition(v int32) {
+	o.AttemptPosition.Set(&v)
+}
+
+// SetAttemptPositionNil sets the value for AttemptPosition to be an explicit nil
+func (o *UsageEntry) SetAttemptPositionNil() {
+	o.AttemptPosition.Set(nil)
+}
+
+// UnsetAttemptPosition ensures that no value is present for AttemptPosition, not even an explicit nil
+func (o *UsageEntry) UnsetAttemptPosition() {
+	o.AttemptPosition.Unset()
+}
+
+// GetBillingMeters returns the BillingMeters field value
+// If the value is explicit nil, the zero value for map[string]interface{} will be returned
+func (o *UsageEntry) GetBillingMeters() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+
+	return o.BillingMeters
+}
+
+// GetBillingMetersOk returns a tuple with the BillingMeters field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetBillingMetersOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.BillingMeters) {
+		return map[string]interface{}{}, false
+	}
+	return o.BillingMeters, true
+}
+
+// SetBillingMeters sets field value
+func (o *UsageEntry) SetBillingMeters(v map[string]interface{}) {
+	o.BillingMeters = v
+}
+
 // GetCacheReadTokens returns the CacheReadTokens field value
 // If the value is explicit nil, the zero value for int32 will be returned
 func (o *UsageEntry) GetCacheReadTokens() int32 {
@@ -122,6 +256,32 @@ func (o *UsageEntry) GetCacheReadTokensOk() (*int32, bool) {
 // SetCacheReadTokens sets field value
 func (o *UsageEntry) SetCacheReadTokens(v int32) {
 	o.CacheReadTokens.Set(&v)
+}
+
+// GetCacheWrite1hTokens returns the CacheWrite1hTokens field value
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *UsageEntry) GetCacheWrite1hTokens() int32 {
+	if o == nil || o.CacheWrite1hTokens.Get() == nil {
+		var ret int32
+		return ret
+	}
+
+	return *o.CacheWrite1hTokens.Get()
+}
+
+// GetCacheWrite1hTokensOk returns a tuple with the CacheWrite1hTokens field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetCacheWrite1hTokensOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CacheWrite1hTokens.Get(), o.CacheWrite1hTokens.IsSet()
+}
+
+// SetCacheWrite1hTokens sets field value
+func (o *UsageEntry) SetCacheWrite1hTokens(v int32) {
+	o.CacheWrite1hTokens.Set(&v)
 }
 
 // GetCacheWriteTokens returns the CacheWriteTokens field value
@@ -202,6 +362,30 @@ func (o *UsageEntry) SetCost(v float32) {
 	o.Cost.Set(&v)
 }
 
+// GetCountsTowardBudget returns the CountsTowardBudget field value
+func (o *UsageEntry) GetCountsTowardBudget() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.CountsTowardBudget
+}
+
+// GetCountsTowardBudgetOk returns a tuple with the CountsTowardBudget field value
+// and a boolean to check if the value has been set.
+func (o *UsageEntry) GetCountsTowardBudgetOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.CountsTowardBudget, true
+}
+
+// SetCountsTowardBudget sets field value
+func (o *UsageEntry) SetCountsTowardBudget(v bool) {
+	o.CountsTowardBudget = v
+}
+
 // GetEndpoint returns the Endpoint field value
 func (o *UsageEntry) GetEndpoint() string {
 	if o == nil {
@@ -276,6 +460,32 @@ func (o *UsageEntry) SetId(v string) {
 	o.Id = v
 }
 
+// GetLatencyMs returns the LatencyMs field value
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *UsageEntry) GetLatencyMs() int32 {
+	if o == nil || o.LatencyMs.Get() == nil {
+		var ret int32
+		return ret
+	}
+
+	return *o.LatencyMs.Get()
+}
+
+// GetLatencyMsOk returns a tuple with the LatencyMs field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetLatencyMsOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.LatencyMs.Get(), o.LatencyMs.IsSet()
+}
+
+// SetLatencyMs sets field value
+func (o *UsageEntry) SetLatencyMs(v int32) {
+	o.LatencyMs.Set(&v)
+}
+
 // GetModel returns the Model field value
 func (o *UsageEntry) GetModel() string {
 	if o == nil {
@@ -298,6 +508,75 @@ func (o *UsageEntry) GetModelOk() (*string, bool) {
 // SetModel sets field value
 func (o *UsageEntry) SetModel(v string) {
 	o.Model = v
+}
+
+// GetPolicyName returns the PolicyName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UsageEntry) GetPolicyName() string {
+	if o == nil || IsNil(o.PolicyName.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.PolicyName.Get()
+}
+
+// GetPolicyNameOk returns a tuple with the PolicyName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetPolicyNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PolicyName.Get(), o.PolicyName.IsSet()
+}
+
+// HasPolicyName returns a boolean if a field has been set.
+func (o *UsageEntry) HasPolicyName() bool {
+	if o != nil && o.PolicyName.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetPolicyName gets a reference to the given NullableString and assigns it to the PolicyName field.
+func (o *UsageEntry) SetPolicyName(v string) {
+	o.PolicyName.Set(&v)
+}
+
+// SetPolicyNameNil sets the value for PolicyName to be an explicit nil
+func (o *UsageEntry) SetPolicyNameNil() {
+	o.PolicyName.Set(nil)
+}
+
+// UnsetPolicyName ensures that no value is present for PolicyName, not even an explicit nil
+func (o *UsageEntry) UnsetPolicyName() {
+	o.PolicyName.Unset()
+}
+
+// GetPricingBreakdown returns the PricingBreakdown field value
+// If the value is explicit nil, the zero value for []map[string]UsageEntryPricingBreakdownInnerValue will be returned
+func (o *UsageEntry) GetPricingBreakdown() []map[string]UsageEntryPricingBreakdownInnerValue {
+	if o == nil {
+		var ret []map[string]UsageEntryPricingBreakdownInnerValue
+		return ret
+	}
+
+	return o.PricingBreakdown
+}
+
+// GetPricingBreakdownOk returns a tuple with the PricingBreakdown field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetPricingBreakdownOk() ([]map[string]UsageEntryPricingBreakdownInnerValue, bool) {
+	if o == nil || IsNil(o.PricingBreakdown) {
+		return nil, false
+	}
+	return o.PricingBreakdown, true
+}
+
+// SetPricingBreakdown sets field value
+func (o *UsageEntry) SetPricingBreakdown(v []map[string]UsageEntryPricingBreakdownInnerValue) {
+	o.PricingBreakdown = v
 }
 
 // GetPromptTokens returns the PromptTokens field value
@@ -352,6 +631,142 @@ func (o *UsageEntry) SetProvider(v string) {
 	o.Provider.Set(&v)
 }
 
+// GetRequestGroupId returns the RequestGroupId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UsageEntry) GetRequestGroupId() string {
+	if o == nil || IsNil(o.RequestGroupId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.RequestGroupId.Get()
+}
+
+// GetRequestGroupIdOk returns a tuple with the RequestGroupId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetRequestGroupIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RequestGroupId.Get(), o.RequestGroupId.IsSet()
+}
+
+// HasRequestGroupId returns a boolean if a field has been set.
+func (o *UsageEntry) HasRequestGroupId() bool {
+	if o != nil && o.RequestGroupId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRequestGroupId gets a reference to the given NullableString and assigns it to the RequestGroupId field.
+func (o *UsageEntry) SetRequestGroupId(v string) {
+	o.RequestGroupId.Set(&v)
+}
+
+// SetRequestGroupIdNil sets the value for RequestGroupId to be an explicit nil
+func (o *UsageEntry) SetRequestGroupIdNil() {
+	o.RequestGroupId.Set(nil)
+}
+
+// UnsetRequestGroupId ensures that no value is present for RequestGroupId, not even an explicit nil
+func (o *UsageEntry) UnsetRequestGroupId() {
+	o.RequestGroupId.Unset()
+}
+
+// GetSelectionReason returns the SelectionReason field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UsageEntry) GetSelectionReason() string {
+	if o == nil || IsNil(o.SelectionReason.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.SelectionReason.Get()
+}
+
+// GetSelectionReasonOk returns a tuple with the SelectionReason field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetSelectionReasonOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SelectionReason.Get(), o.SelectionReason.IsSet()
+}
+
+// HasSelectionReason returns a boolean if a field has been set.
+func (o *UsageEntry) HasSelectionReason() bool {
+	if o != nil && o.SelectionReason.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSelectionReason gets a reference to the given NullableString and assigns it to the SelectionReason field.
+func (o *UsageEntry) SetSelectionReason(v string) {
+	o.SelectionReason.Set(&v)
+}
+
+// SetSelectionReasonNil sets the value for SelectionReason to be an explicit nil
+func (o *UsageEntry) SetSelectionReasonNil() {
+	o.SelectionReason.Set(nil)
+}
+
+// UnsetSelectionReason ensures that no value is present for SelectionReason, not even an explicit nil
+func (o *UsageEntry) UnsetSelectionReason() {
+	o.SelectionReason.Unset()
+}
+
+// GetSource returns the Source field value
+func (o *UsageEntry) GetSource() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Source
+}
+
+// GetSourceOk returns a tuple with the Source field value
+// and a boolean to check if the value has been set.
+func (o *UsageEntry) GetSourceOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Source, true
+}
+
+// SetSource sets field value
+func (o *UsageEntry) SetSource(v string) {
+	o.Source = v
+}
+
+// GetSourceLabel returns the SourceLabel field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *UsageEntry) GetSourceLabel() string {
+	if o == nil || o.SourceLabel.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.SourceLabel.Get()
+}
+
+// GetSourceLabelOk returns a tuple with the SourceLabel field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetSourceLabelOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SourceLabel.Get(), o.SourceLabel.IsSet()
+}
+
+// SetSourceLabel sets field value
+func (o *UsageEntry) SetSourceLabel(v string) {
+	o.SourceLabel.Set(&v)
+}
+
 // GetStatus returns the Status field value
 func (o *UsageEntry) GetStatus() string {
 	if o == nil {
@@ -374,6 +789,32 @@ func (o *UsageEntry) GetStatusOk() (*string, bool) {
 // SetStatus sets field value
 func (o *UsageEntry) SetStatus(v string) {
 	o.Status = v
+}
+
+// GetStatusCode returns the StatusCode field value
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *UsageEntry) GetStatusCode() int32 {
+	if o == nil || o.StatusCode.Get() == nil {
+		var ret int32
+		return ret
+	}
+
+	return *o.StatusCode.Get()
+}
+
+// GetStatusCodeOk returns a tuple with the StatusCode field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetStatusCodeOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.StatusCode.Get(), o.StatusCode.IsSet()
+}
+
+// SetStatusCode sets field value
+func (o *UsageEntry) SetStatusCode(v int32) {
+	o.StatusCode.Set(&v)
 }
 
 // GetTimestamp returns the Timestamp field value
@@ -463,17 +904,44 @@ func (o UsageEntry) MarshalJSON() ([]byte, error) {
 func (o UsageEntry) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["api_key_id"] = o.ApiKeyId.Get()
+	if o.AttemptCount.IsSet() {
+		toSerialize["attempt_count"] = o.AttemptCount.Get()
+	}
+	if o.AttemptPosition.IsSet() {
+		toSerialize["attempt_position"] = o.AttemptPosition.Get()
+	}
+	if o.BillingMeters != nil {
+		toSerialize["billing_meters"] = o.BillingMeters
+	}
 	toSerialize["cache_read_tokens"] = o.CacheReadTokens.Get()
+	toSerialize["cache_write_1h_tokens"] = o.CacheWrite1hTokens.Get()
 	toSerialize["cache_write_tokens"] = o.CacheWriteTokens.Get()
 	toSerialize["completion_tokens"] = o.CompletionTokens.Get()
 	toSerialize["cost"] = o.Cost.Get()
+	toSerialize["counts_toward_budget"] = o.CountsTowardBudget
 	toSerialize["endpoint"] = o.Endpoint
 	toSerialize["error_message"] = o.ErrorMessage.Get()
 	toSerialize["id"] = o.Id
+	toSerialize["latency_ms"] = o.LatencyMs.Get()
 	toSerialize["model"] = o.Model
+	if o.PolicyName.IsSet() {
+		toSerialize["policy_name"] = o.PolicyName.Get()
+	}
+	if o.PricingBreakdown != nil {
+		toSerialize["pricing_breakdown"] = o.PricingBreakdown
+	}
 	toSerialize["prompt_tokens"] = o.PromptTokens.Get()
 	toSerialize["provider"] = o.Provider.Get()
+	if o.RequestGroupId.IsSet() {
+		toSerialize["request_group_id"] = o.RequestGroupId.Get()
+	}
+	if o.SelectionReason.IsSet() {
+		toSerialize["selection_reason"] = o.SelectionReason.Get()
+	}
+	toSerialize["source"] = o.Source
+	toSerialize["source_label"] = o.SourceLabel.Get()
 	toSerialize["status"] = o.Status
+	toSerialize["status_code"] = o.StatusCode.Get()
 	toSerialize["timestamp"] = o.Timestamp
 	toSerialize["total_tokens"] = o.TotalTokens.Get()
 	toSerialize["user_id"] = o.UserId.Get()
@@ -486,17 +954,25 @@ func (o *UsageEntry) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"api_key_id",
+		"billing_meters",
 		"cache_read_tokens",
+		"cache_write_1h_tokens",
 		"cache_write_tokens",
 		"completion_tokens",
 		"cost",
+		"counts_toward_budget",
 		"endpoint",
 		"error_message",
 		"id",
+		"latency_ms",
 		"model",
+		"pricing_breakdown",
 		"prompt_tokens",
 		"provider",
+		"source",
+		"source_label",
 		"status",
+		"status_code",
 		"timestamp",
 		"total_tokens",
 		"user_id",

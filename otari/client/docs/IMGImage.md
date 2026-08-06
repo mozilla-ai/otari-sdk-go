@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**B64Json** | Pointer to **NullableString** | Filter models by provider name | [optional] 
-**RevisedPrompt** | Pointer to **NullableString** | Filter models by provider name | [optional] 
-**Url** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**B64Json** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
+**RevisedPrompt** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
+**Url** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
 
 ## Methods
 

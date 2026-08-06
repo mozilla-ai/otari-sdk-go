@@ -4,13 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CacheControl** | Pointer to **map[string]interface{}** |  | [optional] 
+**Betas** | Pointer to **[]string** |  | [optional] 
+**CacheControl** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**ContextManagement** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
 **Messages** | **[]map[string]interface{}** |  | 
-**Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
+**Metadata** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
 **Model** | **string** |  | 
 **System** | Pointer to [**NullableSystem**](System.md) |  | [optional] 
-**Thinking** | Pointer to **map[string]interface{}** |  | [optional] 
-**ToolChoice** | Pointer to **map[string]interface{}** |  | [optional] 
+**Thinking** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**ToolChoice** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
 **Tools** | Pointer to **[]map[string]interface{}** |  | [optional] 
 
 ## Methods
@@ -32,6 +34,41 @@ NewCountTokensRequestWithDefaults instantiates a new CountTokensRequest object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetBetas
+
+`func (o *CountTokensRequest) GetBetas() []string`
+
+GetBetas returns the Betas field if non-nil, zero value otherwise.
+
+### GetBetasOk
+
+`func (o *CountTokensRequest) GetBetasOk() (*[]string, bool)`
+
+GetBetasOk returns a tuple with the Betas field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBetas
+
+`func (o *CountTokensRequest) SetBetas(v []string)`
+
+SetBetas sets Betas field to given value.
+
+### HasBetas
+
+`func (o *CountTokensRequest) HasBetas() bool`
+
+HasBetas returns a boolean if a field has been set.
+
+### SetBetasNil
+
+`func (o *CountTokensRequest) SetBetasNil(b bool)`
+
+ SetBetasNil sets the value for Betas to be an explicit nil
+
+### UnsetBetas
+`func (o *CountTokensRequest) UnsetBetas()`
+
+UnsetBetas ensures that no value is present for Betas, not even an explicit nil
 ### GetCacheControl
 
 `func (o *CountTokensRequest) GetCacheControl() map[string]interface{}`
@@ -67,6 +104,41 @@ HasCacheControl returns a boolean if a field has been set.
 `func (o *CountTokensRequest) UnsetCacheControl()`
 
 UnsetCacheControl ensures that no value is present for CacheControl, not even an explicit nil
+### GetContextManagement
+
+`func (o *CountTokensRequest) GetContextManagement() map[string]interface{}`
+
+GetContextManagement returns the ContextManagement field if non-nil, zero value otherwise.
+
+### GetContextManagementOk
+
+`func (o *CountTokensRequest) GetContextManagementOk() (*map[string]interface{}, bool)`
+
+GetContextManagementOk returns a tuple with the ContextManagement field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetContextManagement
+
+`func (o *CountTokensRequest) SetContextManagement(v map[string]interface{})`
+
+SetContextManagement sets ContextManagement field to given value.
+
+### HasContextManagement
+
+`func (o *CountTokensRequest) HasContextManagement() bool`
+
+HasContextManagement returns a boolean if a field has been set.
+
+### SetContextManagementNil
+
+`func (o *CountTokensRequest) SetContextManagementNil(b bool)`
+
+ SetContextManagementNil sets the value for ContextManagement to be an explicit nil
+
+### UnsetContextManagement
+`func (o *CountTokensRequest) UnsetContextManagement()`
+
+UnsetContextManagement ensures that no value is present for ContextManagement, not even an explicit nil
 ### GetMessages
 
 `func (o *CountTokensRequest) GetMessages() []*map[string]interface{}`

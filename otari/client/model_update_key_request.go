@@ -20,10 +20,13 @@ var _ MappedNullable = &UpdateKeyRequest{}
 
 // UpdateKeyRequest Request model for updating a key.
 type UpdateKeyRequest struct {
-	ExpiresAt NullableTime           `json:"expires_at,omitempty"`
-	IsActive  NullableBool           `json:"is_active,omitempty"`
-	KeyName   NullableString         `json:"key_name,omitempty"`
-	Metadata  map[string]interface{} `json:"metadata,omitempty"`
+	AllowedModels      []string               `json:"allowed_models,omitempty"`
+	ExcludeFromBudget  NullableBool           `json:"exclude_from_budget,omitempty"`
+	ExpiresAt          NullableTime           `json:"expires_at,omitempty"`
+	IsActive           NullableBool           `json:"is_active,omitempty"`
+	KeyName            NullableString         `json:"key_name,omitempty"`
+	Metadata           map[string]interface{} `json:"metadata,omitempty"`
+	RejectUserMismatch NullableBool           `json:"reject_user_mismatch,omitempty"`
 }
 
 // NewUpdateKeyRequest instantiates a new UpdateKeyRequest object
@@ -41,6 +44,82 @@ func NewUpdateKeyRequest() *UpdateKeyRequest {
 func NewUpdateKeyRequestWithDefaults() *UpdateKeyRequest {
 	this := UpdateKeyRequest{}
 	return &this
+}
+
+// GetAllowedModels returns the AllowedModels field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UpdateKeyRequest) GetAllowedModels() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+	return o.AllowedModels
+}
+
+// GetAllowedModelsOk returns a tuple with the AllowedModels field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UpdateKeyRequest) GetAllowedModelsOk() ([]string, bool) {
+	if o == nil || IsNil(o.AllowedModels) {
+		return nil, false
+	}
+	return o.AllowedModels, true
+}
+
+// HasAllowedModels returns a boolean if a field has been set.
+func (o *UpdateKeyRequest) HasAllowedModels() bool {
+	if o != nil && !IsNil(o.AllowedModels) {
+		return true
+	}
+
+	return false
+}
+
+// SetAllowedModels gets a reference to the given []string and assigns it to the AllowedModels field.
+func (o *UpdateKeyRequest) SetAllowedModels(v []string) {
+	o.AllowedModels = v
+}
+
+// GetExcludeFromBudget returns the ExcludeFromBudget field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UpdateKeyRequest) GetExcludeFromBudget() bool {
+	if o == nil || IsNil(o.ExcludeFromBudget.Get()) {
+		var ret bool
+		return ret
+	}
+	return *o.ExcludeFromBudget.Get()
+}
+
+// GetExcludeFromBudgetOk returns a tuple with the ExcludeFromBudget field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UpdateKeyRequest) GetExcludeFromBudgetOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ExcludeFromBudget.Get(), o.ExcludeFromBudget.IsSet()
+}
+
+// HasExcludeFromBudget returns a boolean if a field has been set.
+func (o *UpdateKeyRequest) HasExcludeFromBudget() bool {
+	if o != nil && o.ExcludeFromBudget.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetExcludeFromBudget gets a reference to the given NullableBool and assigns it to the ExcludeFromBudget field.
+func (o *UpdateKeyRequest) SetExcludeFromBudget(v bool) {
+	o.ExcludeFromBudget.Set(&v)
+}
+
+// SetExcludeFromBudgetNil sets the value for ExcludeFromBudget to be an explicit nil
+func (o *UpdateKeyRequest) SetExcludeFromBudgetNil() {
+	o.ExcludeFromBudget.Set(nil)
+}
+
+// UnsetExcludeFromBudget ensures that no value is present for ExcludeFromBudget, not even an explicit nil
+func (o *UpdateKeyRequest) UnsetExcludeFromBudget() {
+	o.ExcludeFromBudget.Unset()
 }
 
 // GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -205,6 +284,49 @@ func (o *UpdateKeyRequest) SetMetadata(v map[string]interface{}) {
 	o.Metadata = v
 }
 
+// GetRejectUserMismatch returns the RejectUserMismatch field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UpdateKeyRequest) GetRejectUserMismatch() bool {
+	if o == nil || IsNil(o.RejectUserMismatch.Get()) {
+		var ret bool
+		return ret
+	}
+	return *o.RejectUserMismatch.Get()
+}
+
+// GetRejectUserMismatchOk returns a tuple with the RejectUserMismatch field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UpdateKeyRequest) GetRejectUserMismatchOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RejectUserMismatch.Get(), o.RejectUserMismatch.IsSet()
+}
+
+// HasRejectUserMismatch returns a boolean if a field has been set.
+func (o *UpdateKeyRequest) HasRejectUserMismatch() bool {
+	if o != nil && o.RejectUserMismatch.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRejectUserMismatch gets a reference to the given NullableBool and assigns it to the RejectUserMismatch field.
+func (o *UpdateKeyRequest) SetRejectUserMismatch(v bool) {
+	o.RejectUserMismatch.Set(&v)
+}
+
+// SetRejectUserMismatchNil sets the value for RejectUserMismatch to be an explicit nil
+func (o *UpdateKeyRequest) SetRejectUserMismatchNil() {
+	o.RejectUserMismatch.Set(nil)
+}
+
+// UnsetRejectUserMismatch ensures that no value is present for RejectUserMismatch, not even an explicit nil
+func (o *UpdateKeyRequest) UnsetRejectUserMismatch() {
+	o.RejectUserMismatch.Unset()
+}
+
 func (o UpdateKeyRequest) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -215,6 +337,12 @@ func (o UpdateKeyRequest) MarshalJSON() ([]byte, error) {
 
 func (o UpdateKeyRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.AllowedModels != nil {
+		toSerialize["allowed_models"] = o.AllowedModels
+	}
+	if o.ExcludeFromBudget.IsSet() {
+		toSerialize["exclude_from_budget"] = o.ExcludeFromBudget.Get()
+	}
 	if o.ExpiresAt.IsSet() {
 		toSerialize["expires_at"] = o.ExpiresAt.Get()
 	}
@@ -226,6 +354,9 @@ func (o UpdateKeyRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if o.Metadata != nil {
 		toSerialize["metadata"] = o.Metadata
+	}
+	if o.RejectUserMismatch.IsSet() {
+		toSerialize["reject_user_mismatch"] = o.RejectUserMismatch.Get()
 	}
 	return toSerialize, nil
 }

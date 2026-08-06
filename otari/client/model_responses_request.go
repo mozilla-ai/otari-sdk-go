@@ -20,29 +20,31 @@ var _ MappedNullable = &ResponsesRequest{}
 
 // ResponsesRequest OpenAI Responses API-compatible request.  The wire fields are derived from any-llm's “ResponsesParams“ (see “_schema_derive“) so the schema cannot silently drop a param any-llm forwards. Gateway-internal fields (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) opt the request into gateway-managed MCP / sandbox / web_search / guardrails without changing the upstream wire shape. They're stripped before the request is forwarded.
 type ResponsesRequest struct {
-	Background           NullableBool           `json:"background,omitempty"`
-	Conversation         NullableConversation   `json:"conversation,omitempty"`
-	FrequencyPenalty     NullableFloat32        `json:"frequency_penalty,omitempty"`
-	Guardrails           []GuardrailConfig      `json:"guardrails,omitempty"`
-	Include              []string               `json:"include,omitempty"`
-	Input                interface{}            `json:"input"`
-	Instructions         NullableString         `json:"instructions,omitempty"`
-	MaxOutputTokens      NullableInt32          `json:"max_output_tokens,omitempty"`
-	MaxToolCalls         NullableInt32          `json:"max_tool_calls,omitempty"`
-	MaxToolIterations    NullableInt32          `json:"max_tool_iterations,omitempty"`
-	McpServerIds         []string               `json:"mcp_server_ids,omitempty"`
-	McpServers           []McpServerConfig      `json:"mcp_servers,omitempty"`
-	Metadata             map[string]string      `json:"metadata,omitempty"`
-	Model                string                 `json:"model"`
-	ParallelToolCalls    NullableBool           `json:"parallel_tool_calls,omitempty"`
-	PresencePenalty      NullableFloat32        `json:"presence_penalty,omitempty"`
-	PreviousResponseId   NullableString         `json:"previous_response_id,omitempty"`
-	PromptCacheKey       NullableString         `json:"prompt_cache_key,omitempty"`
-	PromptCacheRetention NullableString         `json:"prompt_cache_retention,omitempty"`
-	Reasoning            map[string]interface{} `json:"reasoning,omitempty"`
-	ResponseFormat       map[string]interface{} `json:"response_format,omitempty"`
-	SafetyIdentifier     NullableString         `json:"safety_identifier,omitempty"`
-	ServiceTier          NullableString         `json:"service_tier,omitempty"`
+	Background           NullableBool             `json:"background,omitempty"`
+	ContextManagement    []map[string]interface{} `json:"context_management,omitempty"`
+	Conversation         NullableConversation     `json:"conversation,omitempty"`
+	FrequencyPenalty     NullableFloat32          `json:"frequency_penalty,omitempty"`
+	Guardrails           []GuardrailConfig        `json:"guardrails,omitempty"`
+	Include              []string                 `json:"include,omitempty"`
+	Input                interface{}              `json:"input"`
+	Instructions         NullableString           `json:"instructions,omitempty"`
+	MaxOutputTokens      NullableInt32            `json:"max_output_tokens,omitempty"`
+	MaxToolCalls         NullableInt32            `json:"max_tool_calls,omitempty"`
+	MaxToolIterations    NullableInt32            `json:"max_tool_iterations,omitempty"`
+	McpServerIds         []string                 `json:"mcp_server_ids,omitempty"`
+	McpServers           []McpServerConfig        `json:"mcp_servers,omitempty"`
+	Metadata             map[string]string        `json:"metadata,omitempty"`
+	Model                string                   `json:"model"`
+	ParallelToolCalls    NullableBool             `json:"parallel_tool_calls,omitempty"`
+	PresencePenalty      NullableFloat32          `json:"presence_penalty,omitempty"`
+	PreviousResponseId   NullableString           `json:"previous_response_id,omitempty"`
+	PromptCacheKey       NullableString           `json:"prompt_cache_key,omitempty"`
+	PromptCacheRetention NullableString           `json:"prompt_cache_retention,omitempty"`
+	// An unsaved policy body to explain.
+	Reasoning        map[string]interface{} `json:"reasoning,omitempty"`
+	ResponseFormat   map[string]interface{} `json:"response_format,omitempty"`
+	SafetyIdentifier NullableString         `json:"safety_identifier,omitempty"`
+	ServiceTier      NullableString         `json:"service_tier,omitempty"`
 	// Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to.
 	SessionLabel         NullableString           `json:"session_label,omitempty"`
 	Store                NullableBool             `json:"store,omitempty"`
@@ -126,6 +128,39 @@ func (o *ResponsesRequest) SetBackgroundNil() {
 // UnsetBackground ensures that no value is present for Background, not even an explicit nil
 func (o *ResponsesRequest) UnsetBackground() {
 	o.Background.Unset()
+}
+
+// GetContextManagement returns the ContextManagement field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ResponsesRequest) GetContextManagement() []map[string]interface{} {
+	if o == nil {
+		var ret []map[string]interface{}
+		return ret
+	}
+	return o.ContextManagement
+}
+
+// GetContextManagementOk returns a tuple with the ContextManagement field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ResponsesRequest) GetContextManagementOk() ([]map[string]interface{}, bool) {
+	if o == nil || IsNil(o.ContextManagement) {
+		return nil, false
+	}
+	return o.ContextManagement, true
+}
+
+// HasContextManagement returns a boolean if a field has been set.
+func (o *ResponsesRequest) HasContextManagement() bool {
+	if o != nil && !IsNil(o.ContextManagement) {
+		return true
+	}
+
+	return false
+}
+
+// SetContextManagement gets a reference to the given []map[string]interface{} and assigns it to the ContextManagement field.
+func (o *ResponsesRequest) SetContextManagement(v []map[string]interface{}) {
+	o.ContextManagement = v
 }
 
 // GetConversation returns the Conversation field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -1499,6 +1534,9 @@ func (o ResponsesRequest) ToMap() (map[string]interface{}, error) {
 	if o.Background.IsSet() {
 		toSerialize["background"] = o.Background.Get()
 	}
+	if o.ContextManagement != nil {
+		toSerialize["context_management"] = o.ContextManagement
+	}
 	if o.Conversation.IsSet() {
 		toSerialize["conversation"] = o.Conversation.Get()
 	}
@@ -1647,6 +1685,7 @@ func (o *ResponsesRequest) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "background")
+		delete(additionalProperties, "context_management")
 		delete(additionalProperties, "conversation")
 		delete(additionalProperties, "frequency_penalty")
 		delete(additionalProperties, "guardrails")

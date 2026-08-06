@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EncryptedContent** | **string** |  | 
-**PageAge** | Pointer to **NullableString** | Filter models by provider name | [optional] 
+**PageAge** | Pointer to **NullableString** |  | [optional] 
 **Title** | **string** |  | 
 **Type** | **string** |  | 
 **Url** | **string** |  | 

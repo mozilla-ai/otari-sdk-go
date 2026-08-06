@@ -19,16 +19,23 @@ import (
 // checks if the CountTokensRequest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CountTokensRequest{}
 
-// CountTokensRequest Anthropic “/v1/messages/count_tokens“ request.  A subset of :class:`MessagesRequest`: the input fields that affect the token count, minus “max_tokens“ and the streaming/sampling controls, since the endpoint only counts input tokens. Clients such as Claude Code call this on every turn to keep their prompt within the model's context window.
+// CountTokensRequest Anthropic “/v1/messages/count_tokens“ request.  A subset of :class:`MessagesRequest`: the input fields that affect the token count, minus “max_tokens“ and the streaming/sampling controls, since the endpoint only counts input tokens. “context_management“ and “betas“ are accepted for wire compatibility, but the local estimate does not apply provider-side context edits. Clients such as Claude Code call this on every turn to keep their prompt within the model's context window.
 type CountTokensRequest struct {
-	CacheControl map[string]interface{}    `json:"cache_control,omitempty"`
-	Messages     []*map[string]interface{} `json:"messages"`
-	Metadata     map[string]interface{}    `json:"metadata,omitempty"`
-	Model        string                    `json:"model"`
-	System       NullableSystem            `json:"system,omitempty"`
-	Thinking     map[string]interface{}    `json:"thinking,omitempty"`
-	ToolChoice   map[string]interface{}    `json:"tool_choice,omitempty"`
-	Tools        []map[string]interface{}  `json:"tools,omitempty"`
+	Betas []string `json:"betas,omitempty"`
+	// An unsaved policy body to explain.
+	CacheControl map[string]interface{} `json:"cache_control,omitempty"`
+	// An unsaved policy body to explain.
+	ContextManagement map[string]interface{}    `json:"context_management,omitempty"`
+	Messages          []*map[string]interface{} `json:"messages"`
+	// An unsaved policy body to explain.
+	Metadata map[string]interface{} `json:"metadata,omitempty"`
+	Model    string                 `json:"model"`
+	System   NullableSystem         `json:"system,omitempty"`
+	// An unsaved policy body to explain.
+	Thinking map[string]interface{} `json:"thinking,omitempty"`
+	// An unsaved policy body to explain.
+	ToolChoice map[string]interface{}   `json:"tool_choice,omitempty"`
+	Tools      []map[string]interface{} `json:"tools,omitempty"`
 }
 
 type _CountTokensRequest CountTokensRequest
@@ -50,6 +57,39 @@ func NewCountTokensRequest(messages []*map[string]interface{}, model string) *Co
 func NewCountTokensRequestWithDefaults() *CountTokensRequest {
 	this := CountTokensRequest{}
 	return &this
+}
+
+// GetBetas returns the Betas field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CountTokensRequest) GetBetas() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+	return o.Betas
+}
+
+// GetBetasOk returns a tuple with the Betas field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CountTokensRequest) GetBetasOk() ([]string, bool) {
+	if o == nil || IsNil(o.Betas) {
+		return nil, false
+	}
+	return o.Betas, true
+}
+
+// HasBetas returns a boolean if a field has been set.
+func (o *CountTokensRequest) HasBetas() bool {
+	if o != nil && !IsNil(o.Betas) {
+		return true
+	}
+
+	return false
+}
+
+// SetBetas gets a reference to the given []string and assigns it to the Betas field.
+func (o *CountTokensRequest) SetBetas(v []string) {
+	o.Betas = v
 }
 
 // GetCacheControl returns the CacheControl field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -83,6 +123,39 @@ func (o *CountTokensRequest) HasCacheControl() bool {
 // SetCacheControl gets a reference to the given map[string]interface{} and assigns it to the CacheControl field.
 func (o *CountTokensRequest) SetCacheControl(v map[string]interface{}) {
 	o.CacheControl = v
+}
+
+// GetContextManagement returns the ContextManagement field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CountTokensRequest) GetContextManagement() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.ContextManagement
+}
+
+// GetContextManagementOk returns a tuple with the ContextManagement field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CountTokensRequest) GetContextManagementOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.ContextManagement) {
+		return map[string]interface{}{}, false
+	}
+	return o.ContextManagement, true
+}
+
+// HasContextManagement returns a boolean if a field has been set.
+func (o *CountTokensRequest) HasContextManagement() bool {
+	if o != nil && !IsNil(o.ContextManagement) {
+		return true
+	}
+
+	return false
+}
+
+// SetContextManagement gets a reference to the given map[string]interface{} and assigns it to the ContextManagement field.
+func (o *CountTokensRequest) SetContextManagement(v map[string]interface{}) {
+	o.ContextManagement = v
 }
 
 // GetMessages returns the Messages field value
@@ -318,8 +391,14 @@ func (o CountTokensRequest) MarshalJSON() ([]byte, error) {
 
 func (o CountTokensRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.Betas != nil {
+		toSerialize["betas"] = o.Betas
+	}
 	if o.CacheControl != nil {
 		toSerialize["cache_control"] = o.CacheControl
+	}
+	if o.ContextManagement != nil {
+		toSerialize["context_management"] = o.ContextManagement
 	}
 	toSerialize["messages"] = o.Messages
 	if o.Metadata != nil {
