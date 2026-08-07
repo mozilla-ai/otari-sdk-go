@@ -231,7 +231,10 @@ func (r UsageResource) List(ctx context.Context, startDate, endDate *time.Time, 
 		req = req.EndDate(*endDate)
 	}
 	if userID != nil {
-		req = req.UserId(*userID)
+		// UserId is repeatable upstream (user_id=a&user_id=b, max 50). This alias
+		// keeps its single-user signature and wraps; multi-user filtering is
+		// reachable through the generated client.
+		req = req.UserId([]*string{userID})
 	}
 	if skip != nil {
 		req = req.Skip(*skip)

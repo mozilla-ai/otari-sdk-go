@@ -15,14 +15,14 @@ import (
 	"fmt"
 )
 
-// Model struct for Model
-type Model struct {
+// ApiKeyId struct for ApiKeyId
+type ApiKeyId struct {
 	ArrayOfString *[]string
 	String        *string
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
-func (dst *Model) UnmarshalJSON(data []byte) error {
+func (dst *ApiKeyId) UnmarshalJSON(data []byte) error {
 	var err error
 	// this object is nullable so check if the payload is null or empty string
 	if string(data) == "" || string(data) == "{}" {
@@ -55,11 +55,11 @@ func (dst *Model) UnmarshalJSON(data []byte) error {
 		dst.String = nil
 	}
 
-	return fmt.Errorf("data failed to match schemas in anyOf(Model)")
+	return fmt.Errorf("data failed to match schemas in anyOf(ApiKeyId)")
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src Model) MarshalJSON() ([]byte, error) {
+func (src ApiKeyId) MarshalJSON() ([]byte, error) {
 	if src.ArrayOfString != nil {
 		return json.Marshal(&src.ArrayOfString)
 	}
@@ -71,38 +71,38 @@ func (src Model) MarshalJSON() ([]byte, error) {
 	return nil, nil // no data in anyOf schemas
 }
 
-type NullableModel struct {
-	value *Model
+type NullableApiKeyId struct {
+	value *ApiKeyId
 	isSet bool
 }
 
-func (v NullableModel) Get() *Model {
+func (v NullableApiKeyId) Get() *ApiKeyId {
 	return v.value
 }
 
-func (v *NullableModel) Set(val *Model) {
+func (v *NullableApiKeyId) Set(val *ApiKeyId) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableModel) IsSet() bool {
+func (v NullableApiKeyId) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableModel) Unset() {
+func (v *NullableApiKeyId) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableModel(val *Model) *NullableModel {
-	return &NullableModel{value: val, isSet: true}
+func NewNullableApiKeyId(val *ApiKeyId) *NullableApiKeyId {
+	return &NullableApiKeyId{value: val, isSet: true}
 }
 
-func (v NullableModel) MarshalJSON() ([]byte, error) {
+func (v NullableApiKeyId) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableModel) UnmarshalJSON(src []byte) error {
+func (v *NullableApiKeyId) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

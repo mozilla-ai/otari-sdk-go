@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **Container** | Pointer to [**NullableMRBetaContainer**](MRBetaContainer.md) |  | [optional] 
 **Content** | [**[]Content16Inner**](Content16Inner.md) |  | 
-**Model** | [**Model**](Model.md) |  | 
+**Model** | [**Model1**](Model1.md) |  | 
 **Role** | **string** |  | 
 **StopDetails** | Pointer to [**NullableMRRefusalStopDetails**](MRRefusalStopDetails.md) |  | [optional] 
 **StopReason** | Pointer to **NullableString** |  | [optional] 
@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 
 ### NewMessageResponse
 
-`func NewMessageResponse(id string, content []Content16Inner, model Model, role string, type_ string, usage MRMessageUsage, ) *MessageResponse`
+`func NewMessageResponse(id string, content []Content16Inner, model Model1, role string, type_ string, usage MRMessageUsage, ) *MessageResponse`
 
 NewMessageResponse instantiates a new MessageResponse object
 This constructor will assign default values to properties that have it defined,
@@ -113,20 +113,20 @@ SetContent sets Content field to given value.
 
 ### GetModel
 
-`func (o *MessageResponse) GetModel() Model`
+`func (o *MessageResponse) GetModel() Model1`
 
 GetModel returns the Model field if non-nil, zero value otherwise.
 
 ### GetModelOk
 
-`func (o *MessageResponse) GetModelOk() (*Model, bool)`
+`func (o *MessageResponse) GetModelOk() (*Model1, bool)`
 
 GetModelOk returns a tuple with the Model field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetModel
 
-`func (o *MessageResponse) SetModel(v Model)`
+`func (o *MessageResponse) SetModel(v Model1)`
 
 SetModel sets Model field to given value.
 

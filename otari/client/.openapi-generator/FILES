@@ -26,6 +26,7 @@ api_routing.go
 api_search.go
 api_settings.go
 api_tool_settings.go
+api_tools.go
 api_usage.go
 api_users.go
 client.go
@@ -33,6 +34,7 @@ configuration.go
 docs/AliasRequest.md
 docs/AliasResponse.md
 docs/AliasesAPI.md
+docs/ApiKeyId.md
 docs/AppliedEditsInner.md
 docs/AudioAPI.md
 docs/AudioSpeechRequest.md
@@ -265,11 +267,13 @@ docs/MSGFunction.md
 docs/MSGFunctionCall.md
 docs/MSGImageURL.md
 docs/MSGInputAudio.md
+docs/ManagedTool.md
 docs/McpServerConfig.md
 docs/MessageResponse.md
 docs/MessagesAPI.md
 docs/MessagesRequest.md
 docs/Model.md
+docs/Model1.md
 docs/ModelListResponse.md
 docs/ModelMetadata.md
 docs/ModelMetadataResponse.md
@@ -329,6 +333,8 @@ docs/ToolChoice1.md
 docs/ToolSettingField.md
 docs/ToolSettingsAPI.md
 docs/ToolSettingsResponse.md
+docs/ToolsAPI.md
+docs/ToolsResponse.md
 docs/UpdateBudgetRequest.md
 docs/UpdateKeyRequest.md
 docs/UpdateSettingsRequest.md
@@ -352,6 +358,7 @@ docs/UsageSetPriceResult.md
 docs/UsageSummary.md
 docs/UsageToolRow.md
 docs/UsageTotals.md
+docs/UserId.md
 docs/UserResponse.md
 docs/UsersAPI.md
 docs/ValidationError.md
@@ -360,6 +367,7 @@ docs/Value1.md
 git_push.sh
 model_alias_request.go
 model_alias_response.go
+model_api_key_id.go
 model_applied_edits_inner.go
 model_audio_speech_request.go
 model_batch_request_item.go
@@ -458,10 +466,12 @@ model_key_info.go
 model_known_provider_schema.go
 model_known_provider_summary_schema.go
 model_location_inner.go
+model_managed_tool.go
 model_mcp_server_config.go
 model_message_response.go
 model_messages_request.go
 model_model.go
+model_model_1.go
 model_model_list_response.go
 model_model_metadata.go
 model_model_metadata_response.go
@@ -634,6 +644,7 @@ model_tool_choice.go
 model_tool_choice_1.go
 model_tool_setting_field.go
 model_tool_settings_response.go
+model_tools_response.go
 model_update_budget_request.go
 model_update_key_request.go
 model_update_settings_request.go
@@ -656,6 +667,7 @@ model_usage_set_price_result.go
 model_usage_summary.go
 model_usage_tool_row.go
 model_usage_totals.go
+model_user_id.go
 model_user_response.go
 model_validation_error.go
 model_value.go
@@ -684,6 +696,7 @@ test/api_routing_test.go
 test/api_search_test.go
 test/api_settings_test.go
 test/api_tool_settings_test.go
+test/api_tools_test.go
 test/api_usage_test.go
 test/api_users_test.go
 utils.go

@@ -94,6 +94,8 @@ type APIClient struct {
 
 	ToolSettingsAPI *ToolSettingsAPIService
 
+	ToolsAPI *ToolsAPIService
+
 	UsageAPI *UsageAPIService
 
 	UsersAPI *UsersAPIService
@@ -138,6 +140,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.SearchAPI = (*SearchAPIService)(&c.common)
 	c.SettingsAPI = (*SettingsAPIService)(&c.common)
 	c.ToolSettingsAPI = (*ToolSettingsAPIService)(&c.common)
+	c.ToolsAPI = (*ToolsAPIService)(&c.common)
 	c.UsageAPI = (*UsageAPIService)(&c.common)
 	c.UsersAPI = (*UsersAPIService)(&c.common)
 

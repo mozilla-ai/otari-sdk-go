@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **SandboxUrl** | Pointer to **NullableString** |  | [optional] 
 **WebSearchEngines** | Pointer to **NullableString** |  | [optional] 
 **WebSearchExtract** | Pointer to **NullableBool** |  | [optional] 
+**WebSearchIntercept** | Pointer to **NullableBool** |  | [optional] 
 **WebSearchMaxResults** | Pointer to **NullableInt32** |  | [optional] 
 **WebSearchPurposeHint** | Pointer to **NullableString** |  | [optional] 
 **WebSearchUrl** | Pointer to **NullableString** |  | [optional] 
@@ -207,6 +208,41 @@ HasWebSearchExtract returns a boolean if a field has been set.
 `func (o *UpdateToolSettingsRequest) UnsetWebSearchExtract()`
 
 UnsetWebSearchExtract ensures that no value is present for WebSearchExtract, not even an explicit nil
+### GetWebSearchIntercept
+
+`func (o *UpdateToolSettingsRequest) GetWebSearchIntercept() bool`
+
+GetWebSearchIntercept returns the WebSearchIntercept field if non-nil, zero value otherwise.
+
+### GetWebSearchInterceptOk
+
+`func (o *UpdateToolSettingsRequest) GetWebSearchInterceptOk() (*bool, bool)`
+
+GetWebSearchInterceptOk returns a tuple with the WebSearchIntercept field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWebSearchIntercept
+
+`func (o *UpdateToolSettingsRequest) SetWebSearchIntercept(v bool)`
+
+SetWebSearchIntercept sets WebSearchIntercept field to given value.
+
+### HasWebSearchIntercept
+
+`func (o *UpdateToolSettingsRequest) HasWebSearchIntercept() bool`
+
+HasWebSearchIntercept returns a boolean if a field has been set.
+
+### SetWebSearchInterceptNil
+
+`func (o *UpdateToolSettingsRequest) SetWebSearchInterceptNil(b bool)`
+
+ SetWebSearchInterceptNil sets the value for WebSearchIntercept to be an explicit nil
+
+### UnsetWebSearchIntercept
+`func (o *UpdateToolSettingsRequest) UnsetWebSearchIntercept()`
+
+UnsetWebSearchIntercept ensures that no value is present for WebSearchIntercept, not even an explicit nil
 ### GetWebSearchMaxResults
 
 `func (o *UpdateToolSettingsRequest) GetWebSearchMaxResults() int32`

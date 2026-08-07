@@ -24,6 +24,7 @@ type UpdateToolSettingsRequest struct {
 	SandboxUrl           NullableString `json:"sandbox_url,omitempty"`
 	WebSearchEngines     NullableString `json:"web_search_engines,omitempty"`
 	WebSearchExtract     NullableBool   `json:"web_search_extract,omitempty"`
+	WebSearchIntercept   NullableBool   `json:"web_search_intercept,omitempty"`
 	WebSearchMaxResults  NullableInt32  `json:"web_search_max_results,omitempty"`
 	WebSearchPurposeHint NullableString `json:"web_search_purpose_hint,omitempty"`
 	WebSearchUrl         NullableString `json:"web_search_url,omitempty"`
@@ -261,6 +262,49 @@ func (o *UpdateToolSettingsRequest) UnsetWebSearchExtract() {
 	o.WebSearchExtract.Unset()
 }
 
+// GetWebSearchIntercept returns the WebSearchIntercept field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UpdateToolSettingsRequest) GetWebSearchIntercept() bool {
+	if o == nil || IsNil(o.WebSearchIntercept.Get()) {
+		var ret bool
+		return ret
+	}
+	return *o.WebSearchIntercept.Get()
+}
+
+// GetWebSearchInterceptOk returns a tuple with the WebSearchIntercept field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UpdateToolSettingsRequest) GetWebSearchInterceptOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.WebSearchIntercept.Get(), o.WebSearchIntercept.IsSet()
+}
+
+// HasWebSearchIntercept returns a boolean if a field has been set.
+func (o *UpdateToolSettingsRequest) HasWebSearchIntercept() bool {
+	if o != nil && o.WebSearchIntercept.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetWebSearchIntercept gets a reference to the given NullableBool and assigns it to the WebSearchIntercept field.
+func (o *UpdateToolSettingsRequest) SetWebSearchIntercept(v bool) {
+	o.WebSearchIntercept.Set(&v)
+}
+
+// SetWebSearchInterceptNil sets the value for WebSearchIntercept to be an explicit nil
+func (o *UpdateToolSettingsRequest) SetWebSearchInterceptNil() {
+	o.WebSearchIntercept.Set(nil)
+}
+
+// UnsetWebSearchIntercept ensures that no value is present for WebSearchIntercept, not even an explicit nil
+func (o *UpdateToolSettingsRequest) UnsetWebSearchIntercept() {
+	o.WebSearchIntercept.Unset()
+}
+
 // GetWebSearchMaxResults returns the WebSearchMaxResults field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UpdateToolSettingsRequest) GetWebSearchMaxResults() int32 {
 	if o == nil || IsNil(o.WebSearchMaxResults.Get()) {
@@ -414,6 +458,9 @@ func (o UpdateToolSettingsRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if o.WebSearchExtract.IsSet() {
 		toSerialize["web_search_extract"] = o.WebSearchExtract.Get()
+	}
+	if o.WebSearchIntercept.IsSet() {
+		toSerialize["web_search_intercept"] = o.WebSearchIntercept.Get()
 	}
 	if o.WebSearchMaxResults.IsSet() {
 		toSerialize["web_search_max_results"] = o.WebSearchMaxResults.Get()

@@ -2615,6 +2615,27 @@ paths:
       summary: Test Service
       tags:
       - tool-settings
+  /v1/tools:
+    get:
+      description: |-
+        List the tools Otari runs itself, with the declaration forms it accepts.
+
+        Every other `tools[]` entry, including provider-native keywords not listed
+        here, is forwarded to the upstream provider untouched.
+      operationId: list_tools_v1_tools_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToolsResponse"
+          description: Successful Response
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: List Tools
+      tags:
+      - tools
   /v1/traces:
     post:
       description: Ingest LLM usage from OTLP spans (GenAI semantic conventions).
@@ -2706,16 +2727,23 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter to a single user
+      - description: Filter to one or more users; repeatable (user_id=a&user_id=b).
+          Several values match any of them. At most 50 per call.
         explode: true
         in: query
         name: user_id
         required: false
         schema:
-          description: Delete the alias scoped to this user. Omit to delete the global
-            alias of that name.
+          description: Filter to one or more users; repeatable (user_id=a&user_id=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            description: Delete the alias scoped to this user. Omit to delete the
+              global alias of that name.
+            nullable: true
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: "Filter to a single status: 'success', 'error', or 'absorbed'\
           \ (an attempt a routing policy recovered from, excluded from error_count\
@@ -2746,16 +2774,20 @@ paths:
           nullable: true
           type: integer
         style: form
-      - description: Filter to a single model
+      - description: Filter to one or more models; repeatable (model=a&model=b). Several
+          values match any of them. At most 50 per call.
         explode: true
         in: query
         name: model
         required: false
         schema:
-          description: Delete the alias scoped to this user. Omit to delete the global
-            alias of that name.
+          description: Filter to one or more models; repeatable (model=a&model=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: Filter to a single endpoint (e.g. '/v1/chat/completions')
         explode: true
@@ -2802,16 +2834,20 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter to a single API key id
+      - description: Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b).
+          Several values match any of them. At most 50 per call.
         explode: true
         in: query
         name: api_key_id
         required: false
         schema:
-          description: Delete the alias scoped to this user. Omit to delete the global
-            alias of that name.
+          description: Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: "Filter by token-pricing state: true = only rows whose model\
           \ tokens were priced, false = only rows that still need pricing (no cost\
@@ -2970,15 +3006,20 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter to a single user
+      - description: Filter to one or more users; repeatable (user_id=a&user_id=b).
+          Several values match any of them. At most 50 per call.
         explode: true
         in: query
         name: user_id
         required: false
         schema:
-          description: Filter to a single user
+          description: Filter to one or more users; repeatable (user_id=a&user_id=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: "Filter to a single status: 'success', 'error', or 'absorbed'\
           \ (an attempt a routing policy recovered from, excluded from error_count\
@@ -3010,15 +3051,20 @@ paths:
           nullable: true
           type: integer
         style: form
-      - description: Filter to a single model
+      - description: Filter to one or more models; repeatable (model=a&model=b). Several
+          values match any of them. At most 50 per call.
         explode: true
         in: query
         name: model
         required: false
         schema:
-          description: Filter to a single model
+          description: Filter to one or more models; repeatable (model=a&model=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: Filter to a single endpoint (e.g. '/v1/chat/completions')
         explode: true
@@ -3062,15 +3108,20 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter to a single API key id
+      - description: Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b).
+          Several values match any of them. At most 50 per call.
         explode: true
         in: query
         name: api_key_id
         required: false
         schema:
-          description: Filter to a single API key id
+          description: Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: "Filter by token-pricing state: true = only rows whose model\
           \ tokens were priced, false = only rows that still need pricing (no cost\
@@ -3258,15 +3309,20 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter to a single user
+      - description: Filter to one or more users; repeatable (user_id=a&user_id=b).
+          Several values match any of them. At most 50 per call.
         explode: true
         in: query
         name: user_id
         required: false
         schema:
-          description: Filter to a single user
+          description: Filter to one or more users; repeatable (user_id=a&user_id=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: "Filter to a single status: 'success', 'error', or 'absorbed'\
           \ (an attempt a routing policy recovered from, excluded from error_count\
@@ -3298,15 +3354,20 @@ paths:
           nullable: true
           type: integer
         style: form
-      - description: Filter to a single model
+      - description: Filter to one or more models; repeatable (model=a&model=b). Several
+          values match any of them. At most 50 per call.
         explode: true
         in: query
         name: model
         required: false
         schema:
-          description: Filter to a single model
+          description: Filter to one or more models; repeatable (model=a&model=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: Filter to a single endpoint (e.g. '/v1/chat/completions')
         explode: true
@@ -3350,15 +3411,20 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter to a single API key id
+      - description: Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b).
+          Several values match any of them. At most 50 per call.
         explode: true
         in: query
         name: api_key_id
         required: false
         schema:
-          description: Filter to a single API key id
+          description: Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: "Filter by token-pricing state: true = only rows whose model\
           \ tokens were priced, false = only rows that still need pricing (no cost\
@@ -3495,6 +3561,9 @@ paths:
         totals or the series should narrow ``dimensions`` rather than pay for all eight
         (the dashboard's tiles, timeline context, and model typeahead all do). Omitting
         the parameter keeps the full set.
+
+        ``model``, ``user_id``, and ``api_key_id`` are repeatable: several values match
+        any of them, so one chart can compare a handful of models, users, or keys.
       operationId: usage_summary_v1_usage_summary_get
       parameters:
       - description: Return logs with timestamp >= start_date (ISO 8601 or Unix epoch
@@ -3523,15 +3592,20 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter to a single user
+      - description: Filter to one or more users; repeatable (user_id=a&user_id=b).
+          Several values match any of them. At most 50 per call.
         explode: true
         in: query
         name: user_id
         required: false
         schema:
-          description: Filter to a single user
+          description: Filter to one or more users; repeatable (user_id=a&user_id=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: "Filter to a single status: 'success', 'error', or 'absorbed'\
           \ (an attempt a routing policy recovered from, excluded from error_count\
@@ -3563,15 +3637,20 @@ paths:
           nullable: true
           type: integer
         style: form
-      - description: Filter to a single model
+      - description: Filter to one or more models; repeatable (model=a&model=b). Several
+          values match any of them. At most 50 per call.
         explode: true
         in: query
         name: model
         required: false
         schema:
-          description: Filter to a single model
+          description: Filter to one or more models; repeatable (model=a&model=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: Filter to a single endpoint (e.g. '/v1/chat/completions')
         explode: true
@@ -3615,15 +3694,20 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter to a single API key id
+      - description: Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b).
+          Several values match any of them. At most 50 per call.
         explode: true
         in: query
         name: api_key_id
         required: false
         schema:
-          description: Filter to a single API key id
+          description: Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: "Filter by token-pricing state: true = only rows whose model\
           \ tokens were priced, false = only rows that still need pricing (no cost\
@@ -3780,15 +3864,20 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter to a single user
+      - description: Filter to one or more users; repeatable (user_id=a&user_id=b).
+          Several values match any of them. At most 50 per call.
         explode: true
         in: query
         name: user_id
         required: false
         schema:
-          description: Filter to a single user
+          description: Filter to one or more users; repeatable (user_id=a&user_id=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: "Filter to a single status: 'success', 'error', or 'absorbed'\
           \ (an attempt a routing policy recovered from, excluded from error_count\
@@ -3820,15 +3909,20 @@ paths:
           nullable: true
           type: integer
         style: form
-      - description: Filter to a single model
+      - description: Filter to one or more models; repeatable (model=a&model=b). Several
+          values match any of them. At most 50 per call.
         explode: true
         in: query
         name: model
         required: false
         schema:
-          description: Filter to a single model
+          description: Filter to one or more models; repeatable (model=a&model=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: Filter to a single endpoint (e.g. '/v1/chat/completions')
         explode: true
@@ -3872,15 +3966,20 @@ paths:
           nullable: true
           type: string
         style: form
-      - description: Filter to a single API key id
+      - description: Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b).
+          Several values match any of them. At most 50 per call.
         explode: true
         in: query
         name: api_key_id
         required: false
         schema:
-          description: Filter to a single API key id
+          description: Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b).
+            Several values match any of them. At most 50 per call.
+          items:
+            type: string
+          maxItems: 50
           nullable: true
-          type: string
+          type: array
         style: form
       - description: "Filter by token-pricing state: true = only rows whose model\
           \ tokens were priced, false = only rows that still need pricing (no cost\
@@ -6005,6 +6104,67 @@ components:
       - id
       - name
       title: KnownProviderSummarySchema
+    ManagedTool:
+      description: One tool the gateway can run itself.
+      example:
+        accepted_types:
+        - accepted_types
+        - accepted_types
+        input_schema:
+          key: ""
+        available: true
+        description: description
+        id: id
+        example:
+          key: ""
+        object: tool
+      properties:
+        accepted_types:
+          description: "Every `tools[].type` this deployment currently routes to the\
+            \ tool. Always includes the canonical `otari_*` type; for web search it\
+            \ also includes the provider-named keywords when interception is enabled."
+          items:
+            type: string
+          title: Accepted Types
+          type: array
+        available:
+          description: Whether this deployment has a backend configured for the tool.
+            A request declaring an unavailable tool is rejected with 400.
+          title: Available
+          type: boolean
+        description:
+          description: "What the tool does, as the model is told."
+          title: Description
+          type: string
+        example:
+          additionalProperties: true
+          description: "A ready-to-use `tools[]` entry."
+          title: Example
+          type: object
+        id:
+          description: "The canonical tool type to put in `tools[]`."
+          title: Id
+          type: string
+        input_schema:
+          additionalProperties: true
+          description: "JSON Schema for the arguments the model supplies, as the model\
+            \ sees it."
+          title: Input Schema
+          type: object
+        object:
+          default: tool
+          enum:
+          - tool
+          title: Object
+          type: string
+      required:
+      - accepted_types
+      - available
+      - description
+      - example
+      - id
+      - input_schema
+      title: ManagedTool
     McpServerConfig:
       description: |-
         Inline MCP server configuration accepted on the chat completions request.
@@ -7866,6 +8026,48 @@ components:
       required:
       - fields
       title: ToolSettingsResponse
+    ToolsResponse:
+      description: The gateway-run tools this deployment exposes.
+      example:
+        data:
+        - accepted_types:
+          - accepted_types
+          - accepted_types
+          input_schema:
+            key: ""
+          available: true
+          description: description
+          id: id
+          example:
+            key: ""
+          object: tool
+        - accepted_types:
+          - accepted_types
+          - accepted_types
+          input_schema:
+            key: ""
+          available: true
+          description: description
+          id: id
+          example:
+            key: ""
+          object: tool
+        object: list
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/ManagedTool"
+          title: Data
+          type: array
+        object:
+          default: list
+          enum:
+          - list
+          title: Object
+          type: string
+      required:
+      - data
+      title: ToolsResponse
     UpdateBudgetRequest:
       description: Request model for updating a budget.
       example:
@@ -8065,6 +8267,9 @@ components:
         web_search_extract:
           nullable: true
           type: boolean
+        web_search_intercept:
+          nullable: true
+          type: boolean
         web_search_max_results:
           minimum: 1.0
           nullable: true
@@ -8124,11 +8329,11 @@ components:
         end_date: 2000-01-23T04:56:07.000+00:00
         source: source
         priced: true
-        api_key_id: api_key_id
+        api_key_id: Api_Key_Id
         tool: tool
         endpoint: endpoint
         provider: provider
-        user_id: user_id
+        user_id: User_Id
         source_label: source_label
         by_filter: false
         ids:
@@ -8137,13 +8342,12 @@ components:
         - ids
         - ids
         - ids
-        model: model
+        model: Model
         start_date: 2000-01-23T04:56:07.000+00:00
         status: status
       properties:
         api_key_id:
-          nullable: true
-          type: string
+          $ref: "#/components/schemas/Api_Key_Id"
         by_filter:
           default: false
           title: By Filter
@@ -8162,8 +8366,7 @@ components:
           nullable: true
           type: array
         model:
-          nullable: true
-          type: string
+          $ref: "#/components/schemas/Model"
         priced:
           nullable: true
           type: boolean
@@ -8187,8 +8390,7 @@ components:
           nullable: true
           type: string
         user_id:
-          nullable: true
-          type: string
+          $ref: "#/components/schemas/User_Id"
       title: UsageDeleteRequest
     UsageDeleteResult:
       description: How many imported rows the delete removed.
@@ -8689,12 +8891,12 @@ components:
         source: source
         output_price_per_million: 0.5962133916683182
         priced: true
-        api_key_id: api_key_id
+        api_key_id: Api_Key_Id
         tool: tool
         cache_write_price_per_million: 0.6027456183070403
         endpoint: endpoint
         provider: provider
-        user_id: user_id
+        user_id: User_Id
         source_label: source_label
         by_filter: false
         ids:
@@ -8703,14 +8905,13 @@ components:
         - ids
         - ids
         - ids
-        model: model
+        model: Model
         cache_read_price_per_million: 0.08008281904610115
         start_date: 2000-01-23T04:56:07.000+00:00
         status: status
       properties:
         api_key_id:
-          nullable: true
-          type: string
+          $ref: "#/components/schemas/Api_Key_Id"
         by_filter:
           default: false
           title: By Filter
@@ -8741,8 +8942,7 @@ components:
           title: Input Price Per Million
           type: number
         model:
-          nullable: true
-          type: string
+          $ref: "#/components/schemas/Model"
         output_price_per_million:
           minimum: 0.0
           title: Output Price Per Million
@@ -8770,8 +8970,7 @@ components:
           nullable: true
           type: string
         user_id:
-          nullable: true
-          type: string
+          $ref: "#/components/schemas/User_Id"
       required:
       - input_price_per_million
       - output_price_per_million
@@ -12626,7 +12825,7 @@ components:
           title: Content
           type: array
         model:
-          $ref: "#/components/schemas/Model"
+          $ref: "#/components/schemas/Model_1"
         role:
           enum:
           - assistant
@@ -13070,6 +13269,33 @@ components:
       - type: string
       nullable: true
       title: Value
+    Api_Key_Id:
+      anyOf:
+      - type: string
+      - items:
+          type: string
+        maxItems: 50
+        type: array
+      nullable: true
+      title: Api Key Id
+    Model:
+      anyOf:
+      - type: string
+      - items:
+          type: string
+        maxItems: 50
+        type: array
+      nullable: true
+      title: Model
+    User_Id:
+      anyOf:
+      - type: string
+      - items:
+          type: string
+        maxItems: 50
+        type: array
+      nullable: true
+      title: User Id
     UsageEntry_pricing_breakdown_inner_value:
       anyOf:
       - type: number
@@ -13272,7 +13498,7 @@ components:
       - $ref: "#/components/schemas/MR_BetaMCPToolResultBlock"
       - $ref: "#/components/schemas/MR_BetaContainerUploadBlock"
       - $ref: "#/components/schemas/MR_BetaCompactionBlock"
-    Model:
+    Model_1:
       anyOf:
       - enum:
         - claude-opus-4-6

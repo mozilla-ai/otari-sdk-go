@@ -22,24 +22,24 @@ var _ MappedNullable = &UsageSetPriceRequest{}
 
 // UsageSetPriceRequest Selection of imported usage rows plus the manual per-1M rates to price them at.  “input“ and “output“ are required (every row is charged for them); the cache rates are optional and, when omitted, those tokens fold into the fresh-input charge exactly as an unpriced cache rate does in normal metered pricing.
 type UsageSetPriceRequest struct {
-	ApiKeyId                  NullableString  `json:"api_key_id,omitempty"`
-	ByFilter                  *bool           `json:"by_filter,omitempty"`
-	CacheReadPricePerMillion  NullableFloat32 `json:"cache_read_price_per_million,omitempty"`
-	CacheWritePricePerMillion NullableFloat32 `json:"cache_write_price_per_million,omitempty"`
-	EndDate                   NullableTime    `json:"end_date,omitempty"`
-	Endpoint                  NullableString  `json:"endpoint,omitempty"`
-	Ids                       []string        `json:"ids,omitempty"`
-	InputPricePerMillion      float32         `json:"input_price_per_million"`
-	Model                     NullableString  `json:"model,omitempty"`
-	OutputPricePerMillion     float32         `json:"output_price_per_million"`
-	Priced                    NullableBool    `json:"priced,omitempty"`
-	Provider                  NullableString  `json:"provider,omitempty"`
-	Source                    NullableString  `json:"source,omitempty"`
-	SourceLabel               NullableString  `json:"source_label,omitempty"`
-	StartDate                 NullableTime    `json:"start_date,omitempty"`
-	Status                    NullableString  `json:"status,omitempty"`
-	Tool                      NullableString  `json:"tool,omitempty"`
-	UserId                    NullableString  `json:"user_id,omitempty"`
+	ApiKeyId                  NullableApiKeyId `json:"api_key_id,omitempty"`
+	ByFilter                  *bool            `json:"by_filter,omitempty"`
+	CacheReadPricePerMillion  NullableFloat32  `json:"cache_read_price_per_million,omitempty"`
+	CacheWritePricePerMillion NullableFloat32  `json:"cache_write_price_per_million,omitempty"`
+	EndDate                   NullableTime     `json:"end_date,omitempty"`
+	Endpoint                  NullableString   `json:"endpoint,omitempty"`
+	Ids                       []string         `json:"ids,omitempty"`
+	InputPricePerMillion      float32          `json:"input_price_per_million"`
+	Model                     NullableModel    `json:"model,omitempty"`
+	OutputPricePerMillion     float32          `json:"output_price_per_million"`
+	Priced                    NullableBool     `json:"priced,omitempty"`
+	Provider                  NullableString   `json:"provider,omitempty"`
+	Source                    NullableString   `json:"source,omitempty"`
+	SourceLabel               NullableString   `json:"source_label,omitempty"`
+	StartDate                 NullableTime     `json:"start_date,omitempty"`
+	Status                    NullableString   `json:"status,omitempty"`
+	Tool                      NullableString   `json:"tool,omitempty"`
+	UserId                    NullableUserId   `json:"user_id,omitempty"`
 }
 
 type _UsageSetPriceRequest UsageSetPriceRequest
@@ -68,9 +68,9 @@ func NewUsageSetPriceRequestWithDefaults() *UsageSetPriceRequest {
 }
 
 // GetApiKeyId returns the ApiKeyId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *UsageSetPriceRequest) GetApiKeyId() string {
+func (o *UsageSetPriceRequest) GetApiKeyId() ApiKeyId {
 	if o == nil || IsNil(o.ApiKeyId.Get()) {
-		var ret string
+		var ret ApiKeyId
 		return ret
 	}
 	return *o.ApiKeyId.Get()
@@ -79,7 +79,7 @@ func (o *UsageSetPriceRequest) GetApiKeyId() string {
 // GetApiKeyIdOk returns a tuple with the ApiKeyId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UsageSetPriceRequest) GetApiKeyIdOk() (*string, bool) {
+func (o *UsageSetPriceRequest) GetApiKeyIdOk() (*ApiKeyId, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -95,8 +95,8 @@ func (o *UsageSetPriceRequest) HasApiKeyId() bool {
 	return false
 }
 
-// SetApiKeyId gets a reference to the given NullableString and assigns it to the ApiKeyId field.
-func (o *UsageSetPriceRequest) SetApiKeyId(v string) {
+// SetApiKeyId gets a reference to the given NullableApiKeyId and assigns it to the ApiKeyId field.
+func (o *UsageSetPriceRequest) SetApiKeyId(v ApiKeyId) {
 	o.ApiKeyId.Set(&v)
 }
 
@@ -372,9 +372,9 @@ func (o *UsageSetPriceRequest) SetInputPricePerMillion(v float32) {
 }
 
 // GetModel returns the Model field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *UsageSetPriceRequest) GetModel() string {
+func (o *UsageSetPriceRequest) GetModel() Model {
 	if o == nil || IsNil(o.Model.Get()) {
-		var ret string
+		var ret Model
 		return ret
 	}
 	return *o.Model.Get()
@@ -383,7 +383,7 @@ func (o *UsageSetPriceRequest) GetModel() string {
 // GetModelOk returns a tuple with the Model field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UsageSetPriceRequest) GetModelOk() (*string, bool) {
+func (o *UsageSetPriceRequest) GetModelOk() (*Model, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -399,8 +399,8 @@ func (o *UsageSetPriceRequest) HasModel() bool {
 	return false
 }
 
-// SetModel gets a reference to the given NullableString and assigns it to the Model field.
-func (o *UsageSetPriceRequest) SetModel(v string) {
+// SetModel gets a reference to the given NullableModel and assigns it to the Model field.
+func (o *UsageSetPriceRequest) SetModel(v Model) {
 	o.Model.Set(&v)
 }
 
@@ -740,9 +740,9 @@ func (o *UsageSetPriceRequest) UnsetTool() {
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *UsageSetPriceRequest) GetUserId() string {
+func (o *UsageSetPriceRequest) GetUserId() UserId {
 	if o == nil || IsNil(o.UserId.Get()) {
-		var ret string
+		var ret UserId
 		return ret
 	}
 	return *o.UserId.Get()
@@ -751,7 +751,7 @@ func (o *UsageSetPriceRequest) GetUserId() string {
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UsageSetPriceRequest) GetUserIdOk() (*string, bool) {
+func (o *UsageSetPriceRequest) GetUserIdOk() (*UserId, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -767,8 +767,8 @@ func (o *UsageSetPriceRequest) HasUserId() bool {
 	return false
 }
 
-// SetUserId gets a reference to the given NullableString and assigns it to the UserId field.
-func (o *UsageSetPriceRequest) SetUserId(v string) {
+// SetUserId gets a reference to the given NullableUserId and assigns it to the UserId field.
+func (o *UsageSetPriceRequest) SetUserId(v UserId) {
 	o.UserId.Set(&v)
 }
 
