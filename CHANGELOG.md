@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1](https://github.com/mozilla-ai/otari-sdk-go/compare/otari-sdk-go-v0.2.0...otari-sdk-go-v0.2.1) (2026-08-07)
+
+
+### Bug Fixes
+
+* **ci:** make the endpoint-coverage check offline and deterministic ([#26](https://github.com/mozilla-ai/otari-sdk-go/issues/26)) ([864abd7](https://github.com/mozilla-ai/otari-sdk-go/commit/864abd7a5d9823624ac5ae2787950b04bdedbb33))
+* **control-plane:** map generated errors to typed SDK errors ([#20](https://github.com/mozilla-ai/otari-sdk-go/issues/20)) ([a9de4a6](https://github.com/mozilla-ai/otari-sdk-go/commit/a9de4a67da60101b9b89db8fce57d96a2b4de82d))
+
 ## [0.2.0](https://github.com/mozilla-ai/otari-sdk-go/compare/otari-sdk-go-v0.1.1...otari-sdk-go-v0.2.0) (2026-06-16)
 
 
