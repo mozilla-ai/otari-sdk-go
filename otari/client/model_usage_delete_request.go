@@ -20,20 +20,20 @@ var _ MappedNullable = &UsageDeleteRequest{}
 
 // UsageDeleteRequest Selection of imported usage rows to delete.
 type UsageDeleteRequest struct {
-	ApiKeyId    NullableString `json:"api_key_id,omitempty"`
-	ByFilter    *bool          `json:"by_filter,omitempty"`
-	EndDate     NullableTime   `json:"end_date,omitempty"`
-	Endpoint    NullableString `json:"endpoint,omitempty"`
-	Ids         []string       `json:"ids,omitempty"`
-	Model       NullableString `json:"model,omitempty"`
-	Priced      NullableBool   `json:"priced,omitempty"`
-	Provider    NullableString `json:"provider,omitempty"`
-	Source      NullableString `json:"source,omitempty"`
-	SourceLabel NullableString `json:"source_label,omitempty"`
-	StartDate   NullableTime   `json:"start_date,omitempty"`
-	Status      NullableString `json:"status,omitempty"`
-	Tool        NullableString `json:"tool,omitempty"`
-	UserId      NullableString `json:"user_id,omitempty"`
+	ApiKeyId    NullableApiKeyId `json:"api_key_id,omitempty"`
+	ByFilter    *bool            `json:"by_filter,omitempty"`
+	EndDate     NullableTime     `json:"end_date,omitempty"`
+	Endpoint    NullableString   `json:"endpoint,omitempty"`
+	Ids         []string         `json:"ids,omitempty"`
+	Model       NullableModel    `json:"model,omitempty"`
+	Priced      NullableBool     `json:"priced,omitempty"`
+	Provider    NullableString   `json:"provider,omitempty"`
+	Source      NullableString   `json:"source,omitempty"`
+	SourceLabel NullableString   `json:"source_label,omitempty"`
+	StartDate   NullableTime     `json:"start_date,omitempty"`
+	Status      NullableString   `json:"status,omitempty"`
+	Tool        NullableString   `json:"tool,omitempty"`
+	UserId      NullableUserId   `json:"user_id,omitempty"`
 }
 
 // NewUsageDeleteRequest instantiates a new UsageDeleteRequest object
@@ -58,9 +58,9 @@ func NewUsageDeleteRequestWithDefaults() *UsageDeleteRequest {
 }
 
 // GetApiKeyId returns the ApiKeyId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *UsageDeleteRequest) GetApiKeyId() string {
+func (o *UsageDeleteRequest) GetApiKeyId() ApiKeyId {
 	if o == nil || IsNil(o.ApiKeyId.Get()) {
-		var ret string
+		var ret ApiKeyId
 		return ret
 	}
 	return *o.ApiKeyId.Get()
@@ -69,7 +69,7 @@ func (o *UsageDeleteRequest) GetApiKeyId() string {
 // GetApiKeyIdOk returns a tuple with the ApiKeyId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UsageDeleteRequest) GetApiKeyIdOk() (*string, bool) {
+func (o *UsageDeleteRequest) GetApiKeyIdOk() (*ApiKeyId, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -85,8 +85,8 @@ func (o *UsageDeleteRequest) HasApiKeyId() bool {
 	return false
 }
 
-// SetApiKeyId gets a reference to the given NullableString and assigns it to the ApiKeyId field.
-func (o *UsageDeleteRequest) SetApiKeyId(v string) {
+// SetApiKeyId gets a reference to the given NullableApiKeyId and assigns it to the ApiKeyId field.
+func (o *UsageDeleteRequest) SetApiKeyId(v ApiKeyId) {
 	o.ApiKeyId.Set(&v)
 }
 
@@ -252,9 +252,9 @@ func (o *UsageDeleteRequest) SetIds(v []string) {
 }
 
 // GetModel returns the Model field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *UsageDeleteRequest) GetModel() string {
+func (o *UsageDeleteRequest) GetModel() Model {
 	if o == nil || IsNil(o.Model.Get()) {
-		var ret string
+		var ret Model
 		return ret
 	}
 	return *o.Model.Get()
@@ -263,7 +263,7 @@ func (o *UsageDeleteRequest) GetModel() string {
 // GetModelOk returns a tuple with the Model field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UsageDeleteRequest) GetModelOk() (*string, bool) {
+func (o *UsageDeleteRequest) GetModelOk() (*Model, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -279,8 +279,8 @@ func (o *UsageDeleteRequest) HasModel() bool {
 	return false
 }
 
-// SetModel gets a reference to the given NullableString and assigns it to the Model field.
-func (o *UsageDeleteRequest) SetModel(v string) {
+// SetModel gets a reference to the given NullableModel and assigns it to the Model field.
+func (o *UsageDeleteRequest) SetModel(v Model) {
 	o.Model.Set(&v)
 }
 
@@ -596,9 +596,9 @@ func (o *UsageDeleteRequest) UnsetTool() {
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *UsageDeleteRequest) GetUserId() string {
+func (o *UsageDeleteRequest) GetUserId() UserId {
 	if o == nil || IsNil(o.UserId.Get()) {
-		var ret string
+		var ret UserId
 		return ret
 	}
 	return *o.UserId.Get()
@@ -607,7 +607,7 @@ func (o *UsageDeleteRequest) GetUserId() string {
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UsageDeleteRequest) GetUserIdOk() (*string, bool) {
+func (o *UsageDeleteRequest) GetUserIdOk() (*UserId, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -623,8 +623,8 @@ func (o *UsageDeleteRequest) HasUserId() bool {
 	return false
 }
 
-// SetUserId gets a reference to the given NullableString and assigns it to the UserId field.
-func (o *UsageDeleteRequest) SetUserId(v string) {
+// SetUserId gets a reference to the given NullableUserId and assigns it to the UserId field.
+func (o *UsageDeleteRequest) SetUserId(v UserId) {
 	o.UserId.Set(&v)
 }
 

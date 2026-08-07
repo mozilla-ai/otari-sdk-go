@@ -28,15 +28,15 @@ type ApiCountUsageV1UsageCountGetRequest struct {
 	ApiService         *UsageAPIService
 	startDate          *time.Time
 	endDate            *time.Time
-	userId             *string
+	userId             *[]string
 	status             *string
 	statusCode         *int32
-	model              *string
+	model              *[]string
 	endpoint           *string
 	provider           *string
 	source             *string
 	sourceLabel        *string
-	apiKeyId           *string
+	apiKeyId           *[]string
 	priced             *bool
 	tool               *string
 	countsTowardBudget *bool
@@ -55,8 +55,8 @@ func (r ApiCountUsageV1UsageCountGetRequest) EndDate(endDate time.Time) ApiCount
 	return r
 }
 
-// Filter to a single user
-func (r ApiCountUsageV1UsageCountGetRequest) UserId(userId string) ApiCountUsageV1UsageCountGetRequest {
+// Filter to one or more users; repeatable (user_id&#x3D;a&amp;user_id&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiCountUsageV1UsageCountGetRequest) UserId(userId []string) ApiCountUsageV1UsageCountGetRequest {
 	r.userId = &userId
 	return r
 }
@@ -73,8 +73,8 @@ func (r ApiCountUsageV1UsageCountGetRequest) StatusCode(statusCode int32) ApiCou
 	return r
 }
 
-// Filter to a single model
-func (r ApiCountUsageV1UsageCountGetRequest) Model(model string) ApiCountUsageV1UsageCountGetRequest {
+// Filter to one or more models; repeatable (model&#x3D;a&amp;model&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiCountUsageV1UsageCountGetRequest) Model(model []string) ApiCountUsageV1UsageCountGetRequest {
 	r.model = &model
 	return r
 }
@@ -103,8 +103,8 @@ func (r ApiCountUsageV1UsageCountGetRequest) SourceLabel(sourceLabel string) Api
 	return r
 }
 
-// Filter to a single API key id
-func (r ApiCountUsageV1UsageCountGetRequest) ApiKeyId(apiKeyId string) ApiCountUsageV1UsageCountGetRequest {
+// Filter to one or more API key ids; repeatable (api_key_id&#x3D;a&amp;api_key_id&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiCountUsageV1UsageCountGetRequest) ApiKeyId(apiKeyId []string) ApiCountUsageV1UsageCountGetRequest {
 	r.apiKeyId = &apiKeyId
 	return r
 }
@@ -187,7 +187,15 @@ func (a *UsageAPIService) CountUsageV1UsageCountGetExecute(r ApiCountUsageV1Usag
 		parameterAddToHeaderOrQuery(localVarQueryParams, "end_date", r.endDate, "form", "")
 	}
 	if r.userId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+		t := *r.userId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", t, "form", "multi")
+		}
 	}
 	if r.status != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
@@ -196,7 +204,15 @@ func (a *UsageAPIService) CountUsageV1UsageCountGetExecute(r ApiCountUsageV1Usag
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
 	}
 	if r.model != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
+		t := *r.model
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "model", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "model", t, "form", "multi")
+		}
 	}
 	if r.endpoint != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
@@ -211,7 +227,15 @@ func (a *UsageAPIService) CountUsageV1UsageCountGetExecute(r ApiCountUsageV1Usag
 		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
 	}
 	if r.apiKeyId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", r.apiKeyId, "form", "")
+		t := *r.apiKeyId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", t, "form", "multi")
+		}
 	}
 	if r.priced != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")
@@ -645,15 +669,15 @@ type ApiListUsageV1UsageGetRequest struct {
 	ApiService         *UsageAPIService
 	startDate          *time.Time
 	endDate            *time.Time
-	userId             *string
+	userId             *[]*string
 	status             *string
 	statusCode         *int32
-	model              *string
+	model              *[]string
 	endpoint           *string
 	provider           *string
 	source             *string
 	sourceLabel        *string
-	apiKeyId           *string
+	apiKeyId           *[]string
 	priced             *bool
 	tool               *string
 	countsTowardBudget *bool
@@ -674,8 +698,8 @@ func (r ApiListUsageV1UsageGetRequest) EndDate(endDate time.Time) ApiListUsageV1
 	return r
 }
 
-// Filter to a single user
-func (r ApiListUsageV1UsageGetRequest) UserId(userId string) ApiListUsageV1UsageGetRequest {
+// Filter to one or more users; repeatable (user_id&#x3D;a&amp;user_id&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiListUsageV1UsageGetRequest) UserId(userId []*string) ApiListUsageV1UsageGetRequest {
 	r.userId = &userId
 	return r
 }
@@ -692,8 +716,8 @@ func (r ApiListUsageV1UsageGetRequest) StatusCode(statusCode int32) ApiListUsage
 	return r
 }
 
-// Filter to a single model
-func (r ApiListUsageV1UsageGetRequest) Model(model string) ApiListUsageV1UsageGetRequest {
+// Filter to one or more models; repeatable (model&#x3D;a&amp;model&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiListUsageV1UsageGetRequest) Model(model []string) ApiListUsageV1UsageGetRequest {
 	r.model = &model
 	return r
 }
@@ -722,8 +746,8 @@ func (r ApiListUsageV1UsageGetRequest) SourceLabel(sourceLabel string) ApiListUs
 	return r
 }
 
-// Filter to a single API key id
-func (r ApiListUsageV1UsageGetRequest) ApiKeyId(apiKeyId string) ApiListUsageV1UsageGetRequest {
+// Filter to one or more API key ids; repeatable (api_key_id&#x3D;a&amp;api_key_id&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiListUsageV1UsageGetRequest) ApiKeyId(apiKeyId []string) ApiListUsageV1UsageGetRequest {
 	r.apiKeyId = &apiKeyId
 	return r
 }
@@ -819,7 +843,15 @@ func (a *UsageAPIService) ListUsageV1UsageGetExecute(r ApiListUsageV1UsageGetReq
 		parameterAddToHeaderOrQuery(localVarQueryParams, "end_date", r.endDate, "form", "")
 	}
 	if r.userId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+		t := *r.userId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", t, "form", "multi")
+		}
 	}
 	if r.status != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
@@ -828,7 +860,15 @@ func (a *UsageAPIService) ListUsageV1UsageGetExecute(r ApiListUsageV1UsageGetReq
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
 	}
 	if r.model != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
+		t := *r.model
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "model", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "model", t, "form", "multi")
+		}
 	}
 	if r.endpoint != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
@@ -843,7 +883,15 @@ func (a *UsageAPIService) ListUsageV1UsageGetExecute(r ApiListUsageV1UsageGetReq
 		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
 	}
 	if r.apiKeyId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", r.apiKeyId, "form", "")
+		t := *r.apiKeyId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", t, "form", "multi")
+		}
 	}
 	if r.priced != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")
@@ -1133,15 +1181,15 @@ type ApiUsageSeriesV1UsageSeriesGetRequest struct {
 	groupBy            *string
 	startDate          *time.Time
 	endDate            *time.Time
-	userId             *string
+	userId             *[]string
 	status             *string
 	statusCode         *int32
-	model              *string
+	model              *[]string
 	endpoint           *string
 	provider           *string
 	source             *string
 	sourceLabel        *string
-	apiKeyId           *string
+	apiKeyId           *[]string
 	priced             *bool
 	tool               *string
 	countsTowardBudget *bool
@@ -1166,8 +1214,8 @@ func (r ApiUsageSeriesV1UsageSeriesGetRequest) EndDate(endDate time.Time) ApiUsa
 	return r
 }
 
-// Filter to a single user
-func (r ApiUsageSeriesV1UsageSeriesGetRequest) UserId(userId string) ApiUsageSeriesV1UsageSeriesGetRequest {
+// Filter to one or more users; repeatable (user_id&#x3D;a&amp;user_id&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) UserId(userId []string) ApiUsageSeriesV1UsageSeriesGetRequest {
 	r.userId = &userId
 	return r
 }
@@ -1184,8 +1232,8 @@ func (r ApiUsageSeriesV1UsageSeriesGetRequest) StatusCode(statusCode int32) ApiU
 	return r
 }
 
-// Filter to a single model
-func (r ApiUsageSeriesV1UsageSeriesGetRequest) Model(model string) ApiUsageSeriesV1UsageSeriesGetRequest {
+// Filter to one or more models; repeatable (model&#x3D;a&amp;model&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) Model(model []string) ApiUsageSeriesV1UsageSeriesGetRequest {
 	r.model = &model
 	return r
 }
@@ -1214,8 +1262,8 @@ func (r ApiUsageSeriesV1UsageSeriesGetRequest) SourceLabel(sourceLabel string) A
 	return r
 }
 
-// Filter to a single API key id
-func (r ApiUsageSeriesV1UsageSeriesGetRequest) ApiKeyId(apiKeyId string) ApiUsageSeriesV1UsageSeriesGetRequest {
+// Filter to one or more API key ids; repeatable (api_key_id&#x3D;a&amp;api_key_id&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) ApiKeyId(apiKeyId []string) ApiUsageSeriesV1UsageSeriesGetRequest {
 	r.apiKeyId = &apiKeyId
 	return r
 }
@@ -1306,7 +1354,15 @@ func (a *UsageAPIService) UsageSeriesV1UsageSeriesGetExecute(r ApiUsageSeriesV1U
 		parameterAddToHeaderOrQuery(localVarQueryParams, "end_date", r.endDate, "form", "")
 	}
 	if r.userId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+		t := *r.userId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", t, "form", "multi")
+		}
 	}
 	if r.status != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
@@ -1315,7 +1371,15 @@ func (a *UsageAPIService) UsageSeriesV1UsageSeriesGetExecute(r ApiUsageSeriesV1U
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
 	}
 	if r.model != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
+		t := *r.model
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "model", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "model", t, "form", "multi")
+		}
 	}
 	if r.endpoint != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
@@ -1330,7 +1394,15 @@ func (a *UsageAPIService) UsageSeriesV1UsageSeriesGetExecute(r ApiUsageSeriesV1U
 		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
 	}
 	if r.apiKeyId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", r.apiKeyId, "form", "")
+		t := *r.apiKeyId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", t, "form", "multi")
+		}
 	}
 	if r.priced != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")
@@ -1445,15 +1517,15 @@ type ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest struct {
 	ApiService         *UsageAPIService
 	startDate          *time.Time
 	endDate            *time.Time
-	userId             *string
+	userId             *[]string
 	status             *string
 	statusCode         *int32
-	model              *string
+	model              *[]string
 	endpoint           *string
 	provider           *string
 	source             *string
 	sourceLabel        *string
-	apiKeyId           *string
+	apiKeyId           *[]string
 	priced             *bool
 	tool               *string
 	countsTowardBudget *bool
@@ -1471,8 +1543,8 @@ func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) EndDate(endDate time.Time
 	return r
 }
 
-// Filter to a single user
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) UserId(userId string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+// Filter to one or more users; repeatable (user_id&#x3D;a&amp;user_id&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) UserId(userId []string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
 	r.userId = &userId
 	return r
 }
@@ -1489,8 +1561,8 @@ func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) StatusCode(statusCode int
 	return r
 }
 
-// Filter to a single model
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Model(model string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+// Filter to one or more models; repeatable (model&#x3D;a&amp;model&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Model(model []string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
 	r.model = &model
 	return r
 }
@@ -1519,8 +1591,8 @@ func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) SourceLabel(sourceLabel s
 	return r
 }
 
-// Filter to a single API key id
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) ApiKeyId(apiKeyId string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
+// Filter to one or more API key ids; repeatable (api_key_id&#x3D;a&amp;api_key_id&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) ApiKeyId(apiKeyId []string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
 	r.apiKeyId = &apiKeyId
 	return r
 }
@@ -1599,7 +1671,15 @@ func (a *UsageAPIService) UsageSummaryCsvV1UsageSummaryCsvGetExecute(r ApiUsageS
 		parameterAddToHeaderOrQuery(localVarQueryParams, "end_date", r.endDate, "form", "")
 	}
 	if r.userId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+		t := *r.userId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", t, "form", "multi")
+		}
 	}
 	if r.status != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
@@ -1608,7 +1688,15 @@ func (a *UsageAPIService) UsageSummaryCsvV1UsageSummaryCsvGetExecute(r ApiUsageS
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
 	}
 	if r.model != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
+		t := *r.model
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "model", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "model", t, "form", "multi")
+		}
 	}
 	if r.endpoint != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
@@ -1623,7 +1711,15 @@ func (a *UsageAPIService) UsageSummaryCsvV1UsageSummaryCsvGetExecute(r ApiUsageS
 		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
 	}
 	if r.apiKeyId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", r.apiKeyId, "form", "")
+		t := *r.apiKeyId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", t, "form", "multi")
+		}
 	}
 	if r.priced != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")
@@ -1731,15 +1827,15 @@ type ApiUsageSummaryV1UsageSummaryGetRequest struct {
 	ApiService         *UsageAPIService
 	startDate          *time.Time
 	endDate            *time.Time
-	userId             *string
+	userId             *[]string
 	status             *string
 	statusCode         *int32
-	model              *string
+	model              *[]string
 	endpoint           *string
 	provider           *string
 	source             *string
 	sourceLabel        *string
-	apiKeyId           *string
+	apiKeyId           *[]string
 	priced             *bool
 	tool               *string
 	countsTowardBudget *bool
@@ -1759,8 +1855,8 @@ func (r ApiUsageSummaryV1UsageSummaryGetRequest) EndDate(endDate time.Time) ApiU
 	return r
 }
 
-// Filter to a single user
-func (r ApiUsageSummaryV1UsageSummaryGetRequest) UserId(userId string) ApiUsageSummaryV1UsageSummaryGetRequest {
+// Filter to one or more users; repeatable (user_id&#x3D;a&amp;user_id&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) UserId(userId []string) ApiUsageSummaryV1UsageSummaryGetRequest {
 	r.userId = &userId
 	return r
 }
@@ -1777,8 +1873,8 @@ func (r ApiUsageSummaryV1UsageSummaryGetRequest) StatusCode(statusCode int32) Ap
 	return r
 }
 
-// Filter to a single model
-func (r ApiUsageSummaryV1UsageSummaryGetRequest) Model(model string) ApiUsageSummaryV1UsageSummaryGetRequest {
+// Filter to one or more models; repeatable (model&#x3D;a&amp;model&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) Model(model []string) ApiUsageSummaryV1UsageSummaryGetRequest {
 	r.model = &model
 	return r
 }
@@ -1807,8 +1903,8 @@ func (r ApiUsageSummaryV1UsageSummaryGetRequest) SourceLabel(sourceLabel string)
 	return r
 }
 
-// Filter to a single API key id
-func (r ApiUsageSummaryV1UsageSummaryGetRequest) ApiKeyId(apiKeyId string) ApiUsageSummaryV1UsageSummaryGetRequest {
+// Filter to one or more API key ids; repeatable (api_key_id&#x3D;a&amp;api_key_id&#x3D;b). Several values match any of them. At most 50 per call.
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) ApiKeyId(apiKeyId []string) ApiUsageSummaryV1UsageSummaryGetRequest {
 	r.apiKeyId = &apiKeyId
 	return r
 }
@@ -1866,6 +1962,9 @@ totals or the series should narrow “dimensions“ rather than pay for all eigh
 (the dashboard's tiles, timeline context, and model typeahead all do). Omitting
 the parameter keeps the full set.
 
+“model“, “user_id“, and “api_key_id“ are repeatable: several values match
+any of them, so one chart can compare a handful of models, users, or keys.
+
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiUsageSummaryV1UsageSummaryGetRequest
 */
@@ -1905,7 +2004,15 @@ func (a *UsageAPIService) UsageSummaryV1UsageSummaryGetExecute(r ApiUsageSummary
 		parameterAddToHeaderOrQuery(localVarQueryParams, "end_date", r.endDate, "form", "")
 	}
 	if r.userId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+		t := *r.userId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", t, "form", "multi")
+		}
 	}
 	if r.status != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
@@ -1914,7 +2021,15 @@ func (a *UsageAPIService) UsageSummaryV1UsageSummaryGetExecute(r ApiUsageSummary
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
 	}
 	if r.model != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
+		t := *r.model
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "model", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "model", t, "form", "multi")
+		}
 	}
 	if r.endpoint != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
@@ -1929,7 +2044,15 @@ func (a *UsageAPIService) UsageSummaryV1UsageSummaryGetExecute(r ApiUsageSummary
 		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
 	}
 	if r.apiKeyId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", r.apiKeyId, "form", "")
+		t := *r.apiKeyId
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", t, "form", "multi")
+		}
 	}
 	if r.priced != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")

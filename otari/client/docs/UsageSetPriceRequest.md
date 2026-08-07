@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ApiKeyId** | Pointer to **NullableString** |  | [optional] 
+**ApiKeyId** | Pointer to [**NullableApiKeyId**](ApiKeyId.md) |  | [optional] 
 **ByFilter** | Pointer to **bool** |  | [optional] [default to false]
 **CacheReadPricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
 **CacheWritePricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **Endpoint** | Pointer to **NullableString** |  | [optional] 
 **Ids** | Pointer to **[]string** |  | [optional] 
 **InputPricePerMillion** | **float32** |  | 
-**Model** | Pointer to **NullableString** |  | [optional] 
+**Model** | Pointer to [**NullableModel**](Model.md) |  | [optional] 
 **OutputPricePerMillion** | **float32** |  | 
 **Priced** | Pointer to **NullableBool** |  | [optional] 
 **Provider** | Pointer to **NullableString** |  | [optional] 
@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 **StartDate** | Pointer to **NullableTime** |  | [optional] 
 **Status** | Pointer to **NullableString** |  | [optional] 
 **Tool** | Pointer to **NullableString** |  | [optional] 
-**UserId** | Pointer to **NullableString** |  | [optional] 
+**UserId** | Pointer to [**NullableUserId**](UserId.md) |  | [optional] 
 
 ## Methods
 
@@ -44,20 +44,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetApiKeyId
 
-`func (o *UsageSetPriceRequest) GetApiKeyId() string`
+`func (o *UsageSetPriceRequest) GetApiKeyId() ApiKeyId`
 
 GetApiKeyId returns the ApiKeyId field if non-nil, zero value otherwise.
 
 ### GetApiKeyIdOk
 
-`func (o *UsageSetPriceRequest) GetApiKeyIdOk() (*string, bool)`
+`func (o *UsageSetPriceRequest) GetApiKeyIdOk() (*ApiKeyId, bool)`
 
 GetApiKeyIdOk returns a tuple with the ApiKeyId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetApiKeyId
 
-`func (o *UsageSetPriceRequest) SetApiKeyId(v string)`
+`func (o *UsageSetPriceRequest) SetApiKeyId(v ApiKeyId)`
 
 SetApiKeyId sets ApiKeyId field to given value.
 
@@ -299,20 +299,20 @@ SetInputPricePerMillion sets InputPricePerMillion field to given value.
 
 ### GetModel
 
-`func (o *UsageSetPriceRequest) GetModel() string`
+`func (o *UsageSetPriceRequest) GetModel() Model`
 
 GetModel returns the Model field if non-nil, zero value otherwise.
 
 ### GetModelOk
 
-`func (o *UsageSetPriceRequest) GetModelOk() (*string, bool)`
+`func (o *UsageSetPriceRequest) GetModelOk() (*Model, bool)`
 
 GetModelOk returns a tuple with the Model field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetModel
 
-`func (o *UsageSetPriceRequest) SetModel(v string)`
+`func (o *UsageSetPriceRequest) SetModel(v Model)`
 
 SetModel sets Model field to given value.
 
@@ -599,20 +599,20 @@ HasTool returns a boolean if a field has been set.
 UnsetTool ensures that no value is present for Tool, not even an explicit nil
 ### GetUserId
 
-`func (o *UsageSetPriceRequest) GetUserId() string`
+`func (o *UsageSetPriceRequest) GetUserId() UserId`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *UsageSetPriceRequest) GetUserIdOk() (*string, bool)`
+`func (o *UsageSetPriceRequest) GetUserIdOk() (*UserId, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *UsageSetPriceRequest) SetUserId(v string)`
+`func (o *UsageSetPriceRequest) SetUserId(v UserId)`
 
 SetUserId sets UserId field to given value.
 

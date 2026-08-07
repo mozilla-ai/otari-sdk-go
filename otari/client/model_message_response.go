@@ -23,7 +23,7 @@ type MessageResponse struct {
 	Id          string                       `json:"id"`
 	Container   NullableMRBetaContainer      `json:"container,omitempty"`
 	Content     []Content16Inner             `json:"content"`
-	Model       Model                        `json:"model"`
+	Model       Model1                       `json:"model"`
 	Role        string                       `json:"role"`
 	StopDetails NullableMRRefusalStopDetails `json:"stop_details,omitempty"`
 	StopReason  NullableString               `json:"stop_reason,omitempty"`
@@ -42,7 +42,7 @@ type _MessageResponse MessageResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMessageResponse(id string, content []Content16Inner, model Model, role string, type_ string, usage MRMessageUsage) *MessageResponse {
+func NewMessageResponse(id string, content []Content16Inner, model Model1, role string, type_ string, usage MRMessageUsage) *MessageResponse {
 	this := MessageResponse{}
 	this.Id = id
 	this.Content = content
@@ -153,9 +153,9 @@ func (o *MessageResponse) SetContent(v []Content16Inner) {
 }
 
 // GetModel returns the Model field value
-func (o *MessageResponse) GetModel() Model {
+func (o *MessageResponse) GetModel() Model1 {
 	if o == nil {
-		var ret Model
+		var ret Model1
 		return ret
 	}
 
@@ -164,7 +164,7 @@ func (o *MessageResponse) GetModel() Model {
 
 // GetModelOk returns a tuple with the Model field value
 // and a boolean to check if the value has been set.
-func (o *MessageResponse) GetModelOk() (*Model, bool) {
+func (o *MessageResponse) GetModelOk() (*Model1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -172,7 +172,7 @@ func (o *MessageResponse) GetModelOk() (*Model, bool) {
 }
 
 // SetModel sets field value
-func (o *MessageResponse) SetModel(v Model) {
+func (o *MessageResponse) SetModel(v Model1) {
 	o.Model = v
 }
 

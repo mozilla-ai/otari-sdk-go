@@ -148,6 +148,7 @@ Class | Method | HTTP request | Description
 *ToolSettingsAPI* | [**GetToolSettingsV1ToolSettingsGet**](docs/ToolSettingsAPI.md#gettoolsettingsv1toolsettingsget) | **Get** /v1/tool-settings | Get Tool Settings
 *ToolSettingsAPI* | [**TestServiceV1ToolSettingsServiceTestPost**](docs/ToolSettingsAPI.md#testservicev1toolsettingsservicetestpost) | **Post** /v1/tool-settings/{service}/test | Test Service
 *ToolSettingsAPI* | [**UpdateToolSettingsV1ToolSettingsPatch**](docs/ToolSettingsAPI.md#updatetoolsettingsv1toolsettingspatch) | **Patch** /v1/tool-settings | Update Tool Settings
+*ToolsAPI* | [**ListToolsV1ToolsGet**](docs/ToolsAPI.md#listtoolsv1toolsget) | **Get** /v1/tools | List Tools
 *UsageAPI* | [**CountUsageV1UsageCountGet**](docs/UsageAPI.md#countusagev1usagecountget) | **Get** /v1/usage/count | Count Usage
 *UsageAPI* | [**DeleteUsageRowsV1UsageDelete**](docs/UsageAPI.md#deleteusagerowsv1usagedelete) | **Delete** /v1/usage | Delete Usage Rows
 *UsageAPI* | [**IngestExternalUsageV1UsageExternalEventsPost**](docs/UsageAPI.md#ingestexternalusagev1usageexternaleventspost) | **Post** /v1/usage/external-events | Ingest External Usage
@@ -168,6 +169,7 @@ Class | Method | HTTP request | Description
 
  - [AliasRequest](docs/AliasRequest.md)
  - [AliasResponse](docs/AliasResponse.md)
+ - [ApiKeyId](docs/ApiKeyId.md)
  - [AppliedEditsInner](docs/AppliedEditsInner.md)
  - [AudioSpeechRequest](docs/AudioSpeechRequest.md)
  - [BatchRequestItem](docs/BatchRequestItem.md)
@@ -390,10 +392,12 @@ Class | Method | HTTP request | Description
  - [MSGFunctionCall](docs/MSGFunctionCall.md)
  - [MSGImageURL](docs/MSGImageURL.md)
  - [MSGInputAudio](docs/MSGInputAudio.md)
+ - [ManagedTool](docs/ManagedTool.md)
  - [McpServerConfig](docs/McpServerConfig.md)
  - [MessageResponse](docs/MessageResponse.md)
  - [MessagesRequest](docs/MessagesRequest.md)
  - [Model](docs/Model.md)
+ - [Model1](docs/Model1.md)
  - [ModelListResponse](docs/ModelListResponse.md)
  - [ModelMetadata](docs/ModelMetadata.md)
  - [ModelMetadataResponse](docs/ModelMetadataResponse.md)
@@ -442,6 +446,7 @@ Class | Method | HTTP request | Description
  - [ToolChoice1](docs/ToolChoice1.md)
  - [ToolSettingField](docs/ToolSettingField.md)
  - [ToolSettingsResponse](docs/ToolSettingsResponse.md)
+ - [ToolsResponse](docs/ToolsResponse.md)
  - [UpdateBudgetRequest](docs/UpdateBudgetRequest.md)
  - [UpdateKeyRequest](docs/UpdateKeyRequest.md)
  - [UpdateSettingsRequest](docs/UpdateSettingsRequest.md)
@@ -464,6 +469,7 @@ Class | Method | HTTP request | Description
  - [UsageSummary](docs/UsageSummary.md)
  - [UsageToolRow](docs/UsageToolRow.md)
  - [UsageTotals](docs/UsageTotals.md)
+ - [UserId](docs/UserId.md)
  - [UserResponse](docs/UserResponse.md)
  - [ValidationError](docs/ValidationError.md)
  - [Value](docs/Value.md)

@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ApiKeyId** | Pointer to **NullableString** |  | [optional] 
+**ApiKeyId** | Pointer to [**NullableApiKeyId**](ApiKeyId.md) |  | [optional] 
 **ByFilter** | Pointer to **bool** |  | [optional] [default to false]
 **EndDate** | Pointer to **NullableTime** |  | [optional] 
 **Endpoint** | Pointer to **NullableString** |  | [optional] 
 **Ids** | Pointer to **[]string** |  | [optional] 
-**Model** | Pointer to **NullableString** |  | [optional] 
+**Model** | Pointer to [**NullableModel**](Model.md) |  | [optional] 
 **Priced** | Pointer to **NullableBool** |  | [optional] 
 **Provider** | Pointer to **NullableString** |  | [optional] 
 **Source** | Pointer to **NullableString** |  | [optional] 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **StartDate** | Pointer to **NullableTime** |  | [optional] 
 **Status** | Pointer to **NullableString** |  | [optional] 
 **Tool** | Pointer to **NullableString** |  | [optional] 
-**UserId** | Pointer to **NullableString** |  | [optional] 
+**UserId** | Pointer to [**NullableUserId**](UserId.md) |  | [optional] 
 
 ## Methods
 
@@ -40,20 +40,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetApiKeyId
 
-`func (o *UsageDeleteRequest) GetApiKeyId() string`
+`func (o *UsageDeleteRequest) GetApiKeyId() ApiKeyId`
 
 GetApiKeyId returns the ApiKeyId field if non-nil, zero value otherwise.
 
 ### GetApiKeyIdOk
 
-`func (o *UsageDeleteRequest) GetApiKeyIdOk() (*string, bool)`
+`func (o *UsageDeleteRequest) GetApiKeyIdOk() (*ApiKeyId, bool)`
 
 GetApiKeyIdOk returns a tuple with the ApiKeyId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetApiKeyId
 
-`func (o *UsageDeleteRequest) SetApiKeyId(v string)`
+`func (o *UsageDeleteRequest) SetApiKeyId(v ApiKeyId)`
 
 SetApiKeyId sets ApiKeyId field to given value.
 
@@ -205,20 +205,20 @@ HasIds returns a boolean if a field has been set.
 UnsetIds ensures that no value is present for Ids, not even an explicit nil
 ### GetModel
 
-`func (o *UsageDeleteRequest) GetModel() string`
+`func (o *UsageDeleteRequest) GetModel() Model`
 
 GetModel returns the Model field if non-nil, zero value otherwise.
 
 ### GetModelOk
 
-`func (o *UsageDeleteRequest) GetModelOk() (*string, bool)`
+`func (o *UsageDeleteRequest) GetModelOk() (*Model, bool)`
 
 GetModelOk returns a tuple with the Model field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetModel
 
-`func (o *UsageDeleteRequest) SetModel(v string)`
+`func (o *UsageDeleteRequest) SetModel(v Model)`
 
 SetModel sets Model field to given value.
 
@@ -485,20 +485,20 @@ HasTool returns a boolean if a field has been set.
 UnsetTool ensures that no value is present for Tool, not even an explicit nil
 ### GetUserId
 
-`func (o *UsageDeleteRequest) GetUserId() string`
+`func (o *UsageDeleteRequest) GetUserId() UserId`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *UsageDeleteRequest) GetUserIdOk() (*string, bool)`
+`func (o *UsageDeleteRequest) GetUserIdOk() (*UserId, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *UsageDeleteRequest) SetUserId(v string)`
+`func (o *UsageDeleteRequest) SetUserId(v UserId)`
 
 SetUserId sets UserId field to given value.
 
