@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**CheckedAt** | Pointer to **NullableString** | When this instance was last dialed, ISO 8601. Null when it has not been checked yet, which is what the first read after a restart sees while the background refresh runs. | [optional] 
 **DiscoveryUnsupported** | Pointer to **bool** | True when discovery failed only because this backend serves no model-listing endpoint. The provider may still handle requests for models declared in config. | [optional] [default to false]
 **Error** | Pointer to **NullableString** | Why discovery failed. Null when &#x60;ok&#x60; is true. | [optional] 
 **Models** | [**[]DiscoverableModel**](DiscoverableModel.md) |  | 
@@ -29,6 +30,41 @@ NewDiscoverableProviderWithDefaults instantiates a new DiscoverableProvider obje
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetCheckedAt
+
+`func (o *DiscoverableProvider) GetCheckedAt() string`
+
+GetCheckedAt returns the CheckedAt field if non-nil, zero value otherwise.
+
+### GetCheckedAtOk
+
+`func (o *DiscoverableProvider) GetCheckedAtOk() (*string, bool)`
+
+GetCheckedAtOk returns a tuple with the CheckedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCheckedAt
+
+`func (o *DiscoverableProvider) SetCheckedAt(v string)`
+
+SetCheckedAt sets CheckedAt field to given value.
+
+### HasCheckedAt
+
+`func (o *DiscoverableProvider) HasCheckedAt() bool`
+
+HasCheckedAt returns a boolean if a field has been set.
+
+### SetCheckedAtNil
+
+`func (o *DiscoverableProvider) SetCheckedAtNil(b bool)`
+
+ SetCheckedAtNil sets the value for CheckedAt to be an explicit nil
+
+### UnsetCheckedAt
+`func (o *DiscoverableProvider) UnsetCheckedAt()`
+
+UnsetCheckedAt ensures that no value is present for CheckedAt, not even an explicit nil
 ### GetDiscoveryUnsupported
 
 `func (o *DiscoverableProvider) GetDiscoveryUnsupported() bool`

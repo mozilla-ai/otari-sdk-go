@@ -20,7 +20,7 @@ var _ MappedNullable = &MRToolSearchToolResultBlock{}
 
 // MRToolSearchToolResultBlock struct for MRToolSearchToolResultBlock
 type MRToolSearchToolResultBlock struct {
-	Content              Content13 `json:"content"`
+	Content              Content14 `json:"content"`
 	ToolUseId            string    `json:"tool_use_id"`
 	Type                 string    `json:"type"`
 	AdditionalProperties map[string]interface{}
@@ -32,7 +32,7 @@ type _MRToolSearchToolResultBlock MRToolSearchToolResultBlock
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRToolSearchToolResultBlock(content Content13, toolUseId string, type_ string) *MRToolSearchToolResultBlock {
+func NewMRToolSearchToolResultBlock(content Content14, toolUseId string, type_ string) *MRToolSearchToolResultBlock {
 	this := MRToolSearchToolResultBlock{}
 	this.Content = content
 	this.ToolUseId = toolUseId
@@ -49,9 +49,9 @@ func NewMRToolSearchToolResultBlockWithDefaults() *MRToolSearchToolResultBlock {
 }
 
 // GetContent returns the Content field value
-func (o *MRToolSearchToolResultBlock) GetContent() Content13 {
+func (o *MRToolSearchToolResultBlock) GetContent() Content14 {
 	if o == nil {
-		var ret Content13
+		var ret Content14
 		return ret
 	}
 
@@ -60,7 +60,7 @@ func (o *MRToolSearchToolResultBlock) GetContent() Content13 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *MRToolSearchToolResultBlock) GetContentOk() (*Content13, bool) {
+func (o *MRToolSearchToolResultBlock) GetContentOk() (*Content14, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,7 +68,7 @@ func (o *MRToolSearchToolResultBlock) GetContentOk() (*Content13, bool) {
 }
 
 // SetContent sets field value
-func (o *MRToolSearchToolResultBlock) SetContent(v Content13) {
+func (o *MRToolSearchToolResultBlock) SetContent(v Content14) {
 	o.Content = v
 }
 

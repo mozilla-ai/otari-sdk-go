@@ -300,7 +300,7 @@ Name | Type | Description  | Notes
 
 ## ListFilesV1FilesGet
 
-> map[string]interface{} ListFilesV1FilesGet(ctx).User(user).Purpose(purpose).Execute()
+> map[string]interface{} ListFilesV1FilesGet(ctx).User(user).Purpose(purpose).WorkspaceId(workspaceId).Execute()
 
 List Files
 
@@ -321,10 +321,11 @@ import (
 func main() {
 	user := "user_example" // string |  (optional)
 	purpose := "purpose_example" // string |  (optional)
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FilesAPI.ListFilesV1FilesGet(context.Background()).User(user).Purpose(purpose).Execute()
+	resp, r, err := apiClient.FilesAPI.ListFilesV1FilesGet(context.Background()).User(user).Purpose(purpose).WorkspaceId(workspaceId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.ListFilesV1FilesGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -347,6 +348,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user** | **string** |  | 
  **purpose** | **string** |  | 
+ **workspaceId** | **string** |  | 
 
 ### Return type
 

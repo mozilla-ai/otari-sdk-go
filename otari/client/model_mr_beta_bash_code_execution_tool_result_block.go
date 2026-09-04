@@ -20,7 +20,7 @@ var _ MappedNullable = &MRBetaBashCodeExecutionToolResultBlock{}
 
 // MRBetaBashCodeExecutionToolResultBlock struct for MRBetaBashCodeExecutionToolResultBlock
 type MRBetaBashCodeExecutionToolResultBlock struct {
-	Content              Content4 `json:"content"`
+	Content              Content5 `json:"content"`
 	ToolUseId            string   `json:"tool_use_id"`
 	Type                 string   `json:"type"`
 	AdditionalProperties map[string]interface{}
@@ -32,7 +32,7 @@ type _MRBetaBashCodeExecutionToolResultBlock MRBetaBashCodeExecutionToolResultBl
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRBetaBashCodeExecutionToolResultBlock(content Content4, toolUseId string, type_ string) *MRBetaBashCodeExecutionToolResultBlock {
+func NewMRBetaBashCodeExecutionToolResultBlock(content Content5, toolUseId string, type_ string) *MRBetaBashCodeExecutionToolResultBlock {
 	this := MRBetaBashCodeExecutionToolResultBlock{}
 	this.Content = content
 	this.ToolUseId = toolUseId
@@ -49,9 +49,9 @@ func NewMRBetaBashCodeExecutionToolResultBlockWithDefaults() *MRBetaBashCodeExec
 }
 
 // GetContent returns the Content field value
-func (o *MRBetaBashCodeExecutionToolResultBlock) GetContent() Content4 {
+func (o *MRBetaBashCodeExecutionToolResultBlock) GetContent() Content5 {
 	if o == nil {
-		var ret Content4
+		var ret Content5
 		return ret
 	}
 
@@ -60,7 +60,7 @@ func (o *MRBetaBashCodeExecutionToolResultBlock) GetContent() Content4 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *MRBetaBashCodeExecutionToolResultBlock) GetContentOk() (*Content4, bool) {
+func (o *MRBetaBashCodeExecutionToolResultBlock) GetContentOk() (*Content5, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,7 +68,7 @@ func (o *MRBetaBashCodeExecutionToolResultBlock) GetContentOk() (*Content4, bool
 }
 
 // SetContent sets field value
-func (o *MRBetaBashCodeExecutionToolResultBlock) SetContent(v Content4) {
+func (o *MRBetaBashCodeExecutionToolResultBlock) SetContent(v Content5) {
 	o.Content = v
 }
 

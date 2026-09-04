@@ -25,6 +25,7 @@ type MRBetaToolUseBlock struct {
 	Name                 string                 `json:"name"`
 	Type                 string                 `json:"type"`
 	Caller               NullableCaller         `json:"caller,omitempty"`
+	ToolsetName          NullableString         `json:"toolset_name,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -190,6 +191,49 @@ func (o *MRBetaToolUseBlock) UnsetCaller() {
 	o.Caller.Unset()
 }
 
+// GetToolsetName returns the ToolsetName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MRBetaToolUseBlock) GetToolsetName() string {
+	if o == nil || IsNil(o.ToolsetName.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.ToolsetName.Get()
+}
+
+// GetToolsetNameOk returns a tuple with the ToolsetName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MRBetaToolUseBlock) GetToolsetNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ToolsetName.Get(), o.ToolsetName.IsSet()
+}
+
+// HasToolsetName returns a boolean if a field has been set.
+func (o *MRBetaToolUseBlock) HasToolsetName() bool {
+	if o != nil && o.ToolsetName.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetToolsetName gets a reference to the given NullableString and assigns it to the ToolsetName field.
+func (o *MRBetaToolUseBlock) SetToolsetName(v string) {
+	o.ToolsetName.Set(&v)
+}
+
+// SetToolsetNameNil sets the value for ToolsetName to be an explicit nil
+func (o *MRBetaToolUseBlock) SetToolsetNameNil() {
+	o.ToolsetName.Set(nil)
+}
+
+// UnsetToolsetName ensures that no value is present for ToolsetName, not even an explicit nil
+func (o *MRBetaToolUseBlock) UnsetToolsetName() {
+	o.ToolsetName.Unset()
+}
+
 func (o MRBetaToolUseBlock) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -206,6 +250,9 @@ func (o MRBetaToolUseBlock) ToMap() (map[string]interface{}, error) {
 	toSerialize["type"] = o.Type
 	if o.Caller.IsSet() {
 		toSerialize["caller"] = o.Caller.Get()
+	}
+	if o.ToolsetName.IsSet() {
+		toSerialize["toolset_name"] = o.ToolsetName.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -258,6 +305,7 @@ func (o *MRBetaToolUseBlock) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "type")
 		delete(additionalProperties, "caller")
+		delete(additionalProperties, "toolset_name")
 		o.AdditionalProperties = additionalProperties
 	}
 

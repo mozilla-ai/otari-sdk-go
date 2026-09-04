@@ -24,6 +24,7 @@ type MRBetaMessageIterationUsage struct {
 	CacheCreationInputTokens int32                       `json:"cache_creation_input_tokens"`
 	CacheReadInputTokens     int32                       `json:"cache_read_input_tokens"`
 	InputTokens              int32                       `json:"input_tokens"`
+	Model                    Model1                      `json:"model"`
 	OutputTokens             int32                       `json:"output_tokens"`
 	Type                     string                      `json:"type"`
 	AdditionalProperties     map[string]interface{}
@@ -35,11 +36,12 @@ type _MRBetaMessageIterationUsage MRBetaMessageIterationUsage
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRBetaMessageIterationUsage(cacheCreationInputTokens int32, cacheReadInputTokens int32, inputTokens int32, outputTokens int32, type_ string) *MRBetaMessageIterationUsage {
+func NewMRBetaMessageIterationUsage(cacheCreationInputTokens int32, cacheReadInputTokens int32, inputTokens int32, model Model1, outputTokens int32, type_ string) *MRBetaMessageIterationUsage {
 	this := MRBetaMessageIterationUsage{}
 	this.CacheCreationInputTokens = cacheCreationInputTokens
 	this.CacheReadInputTokens = cacheReadInputTokens
 	this.InputTokens = inputTokens
+	this.Model = model
 	this.OutputTokens = outputTokens
 	this.Type = type_
 	return &this
@@ -168,6 +170,30 @@ func (o *MRBetaMessageIterationUsage) SetInputTokens(v int32) {
 	o.InputTokens = v
 }
 
+// GetModel returns the Model field value
+func (o *MRBetaMessageIterationUsage) GetModel() Model1 {
+	if o == nil {
+		var ret Model1
+		return ret
+	}
+
+	return o.Model
+}
+
+// GetModelOk returns a tuple with the Model field value
+// and a boolean to check if the value has been set.
+func (o *MRBetaMessageIterationUsage) GetModelOk() (*Model1, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Model, true
+}
+
+// SetModel sets field value
+func (o *MRBetaMessageIterationUsage) SetModel(v Model1) {
+	o.Model = v
+}
+
 // GetOutputTokens returns the OutputTokens field value
 func (o *MRBetaMessageIterationUsage) GetOutputTokens() int32 {
 	if o == nil {
@@ -232,6 +258,7 @@ func (o MRBetaMessageIterationUsage) ToMap() (map[string]interface{}, error) {
 	toSerialize["cache_creation_input_tokens"] = o.CacheCreationInputTokens
 	toSerialize["cache_read_input_tokens"] = o.CacheReadInputTokens
 	toSerialize["input_tokens"] = o.InputTokens
+	toSerialize["model"] = o.Model
 	toSerialize["output_tokens"] = o.OutputTokens
 	toSerialize["type"] = o.Type
 
@@ -250,6 +277,7 @@ func (o *MRBetaMessageIterationUsage) UnmarshalJSON(data []byte) (err error) {
 		"cache_creation_input_tokens",
 		"cache_read_input_tokens",
 		"input_tokens",
+		"model",
 		"output_tokens",
 		"type",
 	}
@@ -285,6 +313,7 @@ func (o *MRBetaMessageIterationUsage) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "cache_creation_input_tokens")
 		delete(additionalProperties, "cache_read_input_tokens")
 		delete(additionalProperties, "input_tokens")
+		delete(additionalProperties, "model")
 		delete(additionalProperties, "output_tokens")
 		delete(additionalProperties, "type")
 		o.AdditionalProperties = additionalProperties

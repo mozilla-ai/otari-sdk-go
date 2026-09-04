@@ -21,6 +21,7 @@ var _ MappedNullable = &UpdateToolSettingsRequest{}
 type UpdateToolSettingsRequest struct {
 	GuardrailsUrl        NullableString `json:"guardrails_url,omitempty"`
 	SandboxPurposeHint   NullableString `json:"sandbox_purpose_hint,omitempty"`
+	SandboxSessionImage  NullableString `json:"sandbox_session_image,omitempty"`
 	SandboxUrl           NullableString `json:"sandbox_url,omitempty"`
 	WebSearchEngines     NullableString `json:"web_search_engines,omitempty"`
 	WebSearchExtract     NullableBool   `json:"web_search_extract,omitempty"`
@@ -131,6 +132,49 @@ func (o *UpdateToolSettingsRequest) SetSandboxPurposeHintNil() {
 // UnsetSandboxPurposeHint ensures that no value is present for SandboxPurposeHint, not even an explicit nil
 func (o *UpdateToolSettingsRequest) UnsetSandboxPurposeHint() {
 	o.SandboxPurposeHint.Unset()
+}
+
+// GetSandboxSessionImage returns the SandboxSessionImage field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UpdateToolSettingsRequest) GetSandboxSessionImage() string {
+	if o == nil || IsNil(o.SandboxSessionImage.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.SandboxSessionImage.Get()
+}
+
+// GetSandboxSessionImageOk returns a tuple with the SandboxSessionImage field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UpdateToolSettingsRequest) GetSandboxSessionImageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SandboxSessionImage.Get(), o.SandboxSessionImage.IsSet()
+}
+
+// HasSandboxSessionImage returns a boolean if a field has been set.
+func (o *UpdateToolSettingsRequest) HasSandboxSessionImage() bool {
+	if o != nil && o.SandboxSessionImage.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSandboxSessionImage gets a reference to the given NullableString and assigns it to the SandboxSessionImage field.
+func (o *UpdateToolSettingsRequest) SetSandboxSessionImage(v string) {
+	o.SandboxSessionImage.Set(&v)
+}
+
+// SetSandboxSessionImageNil sets the value for SandboxSessionImage to be an explicit nil
+func (o *UpdateToolSettingsRequest) SetSandboxSessionImageNil() {
+	o.SandboxSessionImage.Set(nil)
+}
+
+// UnsetSandboxSessionImage ensures that no value is present for SandboxSessionImage, not even an explicit nil
+func (o *UpdateToolSettingsRequest) UnsetSandboxSessionImage() {
+	o.SandboxSessionImage.Unset()
 }
 
 // GetSandboxUrl returns the SandboxUrl field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -449,6 +493,9 @@ func (o UpdateToolSettingsRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if o.SandboxPurposeHint.IsSet() {
 		toSerialize["sandbox_purpose_hint"] = o.SandboxPurposeHint.Get()
+	}
+	if o.SandboxSessionImage.IsSet() {
+		toSerialize["sandbox_session_image"] = o.SandboxSessionImage.Get()
 	}
 	if o.SandboxUrl.IsSet() {
 		toSerialize["sandbox_url"] = o.SandboxUrl.Get()

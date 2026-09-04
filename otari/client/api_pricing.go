@@ -1013,8 +1013,9 @@ SetPricingV1PricingPost Set Pricing
 
 Set or update pricing for a model.
 
-Rejects an alias: pricing, budgets, and usage all key on the resolved
-target, so a row stored under an alias name would never be read.
+Rejects an alias or a routing policy: pricing, budgets, and usage all key on
+the model a request resolves to, so a row stored under either name would
+never be read.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiSetPricingV1PricingPostRequest

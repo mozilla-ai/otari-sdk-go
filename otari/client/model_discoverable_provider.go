@@ -21,6 +21,8 @@ var _ MappedNullable = &DiscoverableProvider{}
 
 // DiscoverableProvider One provider instance's discovery result.
 type DiscoverableProvider struct {
+	// When this instance was last dialed, ISO 8601. Null when it has not been checked yet, which is what the first read after a restart sees while the background refresh runs.
+	CheckedAt NullableString `json:"checked_at,omitempty"`
 	// True when discovery failed only because this backend serves no model-listing endpoint. The provider may still handle requests for models declared in config.
 	DiscoveryUnsupported *bool `json:"discovery_unsupported,omitempty"`
 	// Why discovery failed. Null when `ok` is true.
@@ -55,6 +57,49 @@ func NewDiscoverableProviderWithDefaults() *DiscoverableProvider {
 	var discoveryUnsupported bool = false
 	this.DiscoveryUnsupported = &discoveryUnsupported
 	return &this
+}
+
+// GetCheckedAt returns the CheckedAt field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DiscoverableProvider) GetCheckedAt() string {
+	if o == nil || IsNil(o.CheckedAt.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.CheckedAt.Get()
+}
+
+// GetCheckedAtOk returns a tuple with the CheckedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *DiscoverableProvider) GetCheckedAtOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CheckedAt.Get(), o.CheckedAt.IsSet()
+}
+
+// HasCheckedAt returns a boolean if a field has been set.
+func (o *DiscoverableProvider) HasCheckedAt() bool {
+	if o != nil && o.CheckedAt.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetCheckedAt gets a reference to the given NullableString and assigns it to the CheckedAt field.
+func (o *DiscoverableProvider) SetCheckedAt(v string) {
+	o.CheckedAt.Set(&v)
+}
+
+// SetCheckedAtNil sets the value for CheckedAt to be an explicit nil
+func (o *DiscoverableProvider) SetCheckedAtNil() {
+	o.CheckedAt.Set(nil)
+}
+
+// UnsetCheckedAt ensures that no value is present for CheckedAt, not even an explicit nil
+func (o *DiscoverableProvider) UnsetCheckedAt() {
+	o.CheckedAt.Unset()
 }
 
 // GetDiscoveryUnsupported returns the DiscoveryUnsupported field value if set, zero value otherwise.
@@ -214,6 +259,9 @@ func (o DiscoverableProvider) MarshalJSON() ([]byte, error) {
 
 func (o DiscoverableProvider) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.CheckedAt.IsSet() {
+		toSerialize["checked_at"] = o.CheckedAt.Get()
+	}
 	if !IsNil(o.DiscoveryUnsupported) {
 		toSerialize["discovery_unsupported"] = o.DiscoveryUnsupported
 	}

@@ -17,37 +17,65 @@ import (
 
 // Content13 struct for Content13
 type Content13 struct {
-	MRToolSearchToolResultError       *MRToolSearchToolResultError
-	MRToolSearchToolSearchResultBlock *MRToolSearchToolSearchResultBlock
+	MRTextEditorCodeExecutionCreateResultBlock     *MRTextEditorCodeExecutionCreateResultBlock
+	MRTextEditorCodeExecutionStrReplaceResultBlock *MRTextEditorCodeExecutionStrReplaceResultBlock
+	MRTextEditorCodeExecutionToolResultError       *MRTextEditorCodeExecutionToolResultError
+	MRTextEditorCodeExecutionViewResultBlock       *MRTextEditorCodeExecutionViewResultBlock
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *Content13) UnmarshalJSON(data []byte) error {
 	var err error
-	// try to unmarshal JSON data into MRToolSearchToolResultError
-	err = json.Unmarshal(data, &dst.MRToolSearchToolResultError)
+	// try to unmarshal JSON data into MRTextEditorCodeExecutionCreateResultBlock
+	err = json.Unmarshal(data, &dst.MRTextEditorCodeExecutionCreateResultBlock)
 	if err == nil {
-		jsonMRToolSearchToolResultError, _ := json.Marshal(dst.MRToolSearchToolResultError)
-		if string(jsonMRToolSearchToolResultError) == "{}" { // empty struct
-			dst.MRToolSearchToolResultError = nil
+		jsonMRTextEditorCodeExecutionCreateResultBlock, _ := json.Marshal(dst.MRTextEditorCodeExecutionCreateResultBlock)
+		if string(jsonMRTextEditorCodeExecutionCreateResultBlock) == "{}" { // empty struct
+			dst.MRTextEditorCodeExecutionCreateResultBlock = nil
 		} else {
-			return nil // data stored in dst.MRToolSearchToolResultError, return on the first match
+			return nil // data stored in dst.MRTextEditorCodeExecutionCreateResultBlock, return on the first match
 		}
 	} else {
-		dst.MRToolSearchToolResultError = nil
+		dst.MRTextEditorCodeExecutionCreateResultBlock = nil
 	}
 
-	// try to unmarshal JSON data into MRToolSearchToolSearchResultBlock
-	err = json.Unmarshal(data, &dst.MRToolSearchToolSearchResultBlock)
+	// try to unmarshal JSON data into MRTextEditorCodeExecutionStrReplaceResultBlock
+	err = json.Unmarshal(data, &dst.MRTextEditorCodeExecutionStrReplaceResultBlock)
 	if err == nil {
-		jsonMRToolSearchToolSearchResultBlock, _ := json.Marshal(dst.MRToolSearchToolSearchResultBlock)
-		if string(jsonMRToolSearchToolSearchResultBlock) == "{}" { // empty struct
-			dst.MRToolSearchToolSearchResultBlock = nil
+		jsonMRTextEditorCodeExecutionStrReplaceResultBlock, _ := json.Marshal(dst.MRTextEditorCodeExecutionStrReplaceResultBlock)
+		if string(jsonMRTextEditorCodeExecutionStrReplaceResultBlock) == "{}" { // empty struct
+			dst.MRTextEditorCodeExecutionStrReplaceResultBlock = nil
 		} else {
-			return nil // data stored in dst.MRToolSearchToolSearchResultBlock, return on the first match
+			return nil // data stored in dst.MRTextEditorCodeExecutionStrReplaceResultBlock, return on the first match
 		}
 	} else {
-		dst.MRToolSearchToolSearchResultBlock = nil
+		dst.MRTextEditorCodeExecutionStrReplaceResultBlock = nil
+	}
+
+	// try to unmarshal JSON data into MRTextEditorCodeExecutionToolResultError
+	err = json.Unmarshal(data, &dst.MRTextEditorCodeExecutionToolResultError)
+	if err == nil {
+		jsonMRTextEditorCodeExecutionToolResultError, _ := json.Marshal(dst.MRTextEditorCodeExecutionToolResultError)
+		if string(jsonMRTextEditorCodeExecutionToolResultError) == "{}" { // empty struct
+			dst.MRTextEditorCodeExecutionToolResultError = nil
+		} else {
+			return nil // data stored in dst.MRTextEditorCodeExecutionToolResultError, return on the first match
+		}
+	} else {
+		dst.MRTextEditorCodeExecutionToolResultError = nil
+	}
+
+	// try to unmarshal JSON data into MRTextEditorCodeExecutionViewResultBlock
+	err = json.Unmarshal(data, &dst.MRTextEditorCodeExecutionViewResultBlock)
+	if err == nil {
+		jsonMRTextEditorCodeExecutionViewResultBlock, _ := json.Marshal(dst.MRTextEditorCodeExecutionViewResultBlock)
+		if string(jsonMRTextEditorCodeExecutionViewResultBlock) == "{}" { // empty struct
+			dst.MRTextEditorCodeExecutionViewResultBlock = nil
+		} else {
+			return nil // data stored in dst.MRTextEditorCodeExecutionViewResultBlock, return on the first match
+		}
+	} else {
+		dst.MRTextEditorCodeExecutionViewResultBlock = nil
 	}
 
 	return fmt.Errorf("data failed to match schemas in anyOf(Content13)")
@@ -55,12 +83,20 @@ func (dst *Content13) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Content13) MarshalJSON() ([]byte, error) {
-	if src.MRToolSearchToolResultError != nil {
-		return json.Marshal(&src.MRToolSearchToolResultError)
+	if src.MRTextEditorCodeExecutionCreateResultBlock != nil {
+		return json.Marshal(&src.MRTextEditorCodeExecutionCreateResultBlock)
 	}
 
-	if src.MRToolSearchToolSearchResultBlock != nil {
-		return json.Marshal(&src.MRToolSearchToolSearchResultBlock)
+	if src.MRTextEditorCodeExecutionStrReplaceResultBlock != nil {
+		return json.Marshal(&src.MRTextEditorCodeExecutionStrReplaceResultBlock)
+	}
+
+	if src.MRTextEditorCodeExecutionToolResultError != nil {
+		return json.Marshal(&src.MRTextEditorCodeExecutionToolResultError)
+	}
+
+	if src.MRTextEditorCodeExecutionViewResultBlock != nil {
+		return json.Marshal(&src.MRTextEditorCodeExecutionViewResultBlock)
 	}
 
 	return nil, nil // no data in anyOf schemas

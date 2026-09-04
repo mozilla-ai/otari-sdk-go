@@ -20,7 +20,7 @@ var _ MappedNullable = &MRBetaMCPToolResultBlock{}
 
 // MRBetaMCPToolResultBlock struct for MRBetaMCPToolResultBlock
 type MRBetaMCPToolResultBlock struct {
-	Content              Content6 `json:"content"`
+	Content              Content7 `json:"content"`
 	IsError              bool     `json:"is_error"`
 	ToolUseId            string   `json:"tool_use_id"`
 	Type                 string   `json:"type"`
@@ -33,7 +33,7 @@ type _MRBetaMCPToolResultBlock MRBetaMCPToolResultBlock
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRBetaMCPToolResultBlock(content Content6, isError bool, toolUseId string, type_ string) *MRBetaMCPToolResultBlock {
+func NewMRBetaMCPToolResultBlock(content Content7, isError bool, toolUseId string, type_ string) *MRBetaMCPToolResultBlock {
 	this := MRBetaMCPToolResultBlock{}
 	this.Content = content
 	this.IsError = isError
@@ -51,9 +51,9 @@ func NewMRBetaMCPToolResultBlockWithDefaults() *MRBetaMCPToolResultBlock {
 }
 
 // GetContent returns the Content field value
-func (o *MRBetaMCPToolResultBlock) GetContent() Content6 {
+func (o *MRBetaMCPToolResultBlock) GetContent() Content7 {
 	if o == nil {
-		var ret Content6
+		var ret Content7
 		return ret
 	}
 
@@ -62,7 +62,7 @@ func (o *MRBetaMCPToolResultBlock) GetContent() Content6 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *MRBetaMCPToolResultBlock) GetContentOk() (*Content6, bool) {
+func (o *MRBetaMCPToolResultBlock) GetContentOk() (*Content7, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -70,7 +70,7 @@ func (o *MRBetaMCPToolResultBlock) GetContentOk() (*Content6, bool) {
 }
 
 // SetContent sets field value
-func (o *MRBetaMCPToolResultBlock) SetContent(v Content6) {
+func (o *MRBetaMCPToolResultBlock) SetContent(v Content7) {
 	o.Content = v
 }
 

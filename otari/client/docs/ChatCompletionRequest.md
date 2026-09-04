@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Guardrails** | Pointer to [**[]GuardrailConfig**](GuardrailConfig.md) |  | [optional] 
 **LogitBias** | Pointer to **map[string]float32** |  | [optional] 
 **Logprobs** | Pointer to **NullableBool** |  | [optional] 
-**MaxCompletionTokens** | Pointer to **NullableInt32** |  | [optional] 
+**MaxCompletionTokens** | Pointer to **NullableInt32** | Upper bound on generated tokens. OpenAI&#39;s current name for the cap &#x60;max_tokens&#x60; used to carry; either field is accepted, and this one wins when a request sends both. | [optional] 
 **MaxTokens** | Pointer to **NullableInt32** |  | [optional] 
 **MaxToolIterations** | Pointer to **NullableInt32** |  | [optional] 
 **McpServerIds** | Pointer to **[]string** |  | [optional] 
@@ -18,13 +18,15 @@ Name | Type | Description | Notes
 **N** | Pointer to **NullableInt32** |  | [optional] 
 **ParallelToolCalls** | Pointer to **NullableBool** |  | [optional] 
 **PresencePenalty** | Pointer to **NullableFloat32** |  | [optional] 
+**PromptCacheKey** | Pointer to **NullableString** |  | [optional] 
 **ReasoningEffort** | Pointer to **NullableString** |  | [optional] 
 **ResponseFormat** | Pointer to **map[string]interface{}** |  | [optional] 
 **Seed** | Pointer to **NullableInt32** |  | [optional] 
+**ServiceTier** | Pointer to **NullableString** |  | [optional] 
 **SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to. | [optional] 
 **Stop** | Pointer to [**NullableStop**](Stop.md) |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
-**StreamOptions** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**StreamOptions** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
 **Temperature** | Pointer to **NullableFloat32** |  | [optional] 
 **ToolChoice** | Pointer to [**NullableToolChoice**](ToolChoice.md) |  | [optional] 
 **Tools** | Pointer to [**[]ChatCompletionRequestToolsInner**](ChatCompletionRequestToolsInner.md) |  | [optional] 
@@ -512,6 +514,41 @@ HasPresencePenalty returns a boolean if a field has been set.
 `func (o *ChatCompletionRequest) UnsetPresencePenalty()`
 
 UnsetPresencePenalty ensures that no value is present for PresencePenalty, not even an explicit nil
+### GetPromptCacheKey
+
+`func (o *ChatCompletionRequest) GetPromptCacheKey() string`
+
+GetPromptCacheKey returns the PromptCacheKey field if non-nil, zero value otherwise.
+
+### GetPromptCacheKeyOk
+
+`func (o *ChatCompletionRequest) GetPromptCacheKeyOk() (*string, bool)`
+
+GetPromptCacheKeyOk returns a tuple with the PromptCacheKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPromptCacheKey
+
+`func (o *ChatCompletionRequest) SetPromptCacheKey(v string)`
+
+SetPromptCacheKey sets PromptCacheKey field to given value.
+
+### HasPromptCacheKey
+
+`func (o *ChatCompletionRequest) HasPromptCacheKey() bool`
+
+HasPromptCacheKey returns a boolean if a field has been set.
+
+### SetPromptCacheKeyNil
+
+`func (o *ChatCompletionRequest) SetPromptCacheKeyNil(b bool)`
+
+ SetPromptCacheKeyNil sets the value for PromptCacheKey to be an explicit nil
+
+### UnsetPromptCacheKey
+`func (o *ChatCompletionRequest) UnsetPromptCacheKey()`
+
+UnsetPromptCacheKey ensures that no value is present for PromptCacheKey, not even an explicit nil
 ### GetReasoningEffort
 
 `func (o *ChatCompletionRequest) GetReasoningEffort() string`
@@ -617,6 +654,41 @@ HasSeed returns a boolean if a field has been set.
 `func (o *ChatCompletionRequest) UnsetSeed()`
 
 UnsetSeed ensures that no value is present for Seed, not even an explicit nil
+### GetServiceTier
+
+`func (o *ChatCompletionRequest) GetServiceTier() string`
+
+GetServiceTier returns the ServiceTier field if non-nil, zero value otherwise.
+
+### GetServiceTierOk
+
+`func (o *ChatCompletionRequest) GetServiceTierOk() (*string, bool)`
+
+GetServiceTierOk returns a tuple with the ServiceTier field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetServiceTier
+
+`func (o *ChatCompletionRequest) SetServiceTier(v string)`
+
+SetServiceTier sets ServiceTier field to given value.
+
+### HasServiceTier
+
+`func (o *ChatCompletionRequest) HasServiceTier() bool`
+
+HasServiceTier returns a boolean if a field has been set.
+
+### SetServiceTierNil
+
+`func (o *ChatCompletionRequest) SetServiceTierNil(b bool)`
+
+ SetServiceTierNil sets the value for ServiceTier to be an explicit nil
+
+### UnsetServiceTier
+`func (o *ChatCompletionRequest) UnsetServiceTier()`
+
+UnsetServiceTier ensures that no value is present for ServiceTier, not even an explicit nil
 ### GetSessionLabel
 
 `func (o *ChatCompletionRequest) GetSessionLabel() string`

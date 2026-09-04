@@ -18,11 +18,12 @@ import (
 // checks if the CCChatCompletionMessageFunctionToolCall type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CCChatCompletionMessageFunctionToolCall{}
 
-// CCChatCompletionMessageFunctionToolCall A call to a function tool created by the model.
+// CCChatCompletionMessageFunctionToolCall Extended tool call type that includes extra_content for provider-specific data.  The extra_content field is used to store provider-specific metadata that needs to be preserved across multi-turn conversations. For example, Gemini 3 models require thought_signature to be passed back with function calls.  Example extra_content structure for Gemini:     {\"google\": {\"thought_signature\": \"<base64-encoded-signature>\"}}
 type CCChatCompletionMessageFunctionToolCall struct {
-	Id                   string     `json:"id"`
-	Function             CCFunction `json:"function"`
-	Type                 string     `json:"type"`
+	Id                   string                 `json:"id"`
+	Function             CCFunction             `json:"function"`
+	Type                 string                 `json:"type"`
+	ExtraContent         map[string]interface{} `json:"extra_content,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -120,6 +121,39 @@ func (o *CCChatCompletionMessageFunctionToolCall) SetType(v string) {
 	o.Type = v
 }
 
+// GetExtraContent returns the ExtraContent field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CCChatCompletionMessageFunctionToolCall) GetExtraContent() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.ExtraContent
+}
+
+// GetExtraContentOk returns a tuple with the ExtraContent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CCChatCompletionMessageFunctionToolCall) GetExtraContentOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.ExtraContent) {
+		return map[string]interface{}{}, false
+	}
+	return o.ExtraContent, true
+}
+
+// HasExtraContent returns a boolean if a field has been set.
+func (o *CCChatCompletionMessageFunctionToolCall) HasExtraContent() bool {
+	if o != nil && !IsNil(o.ExtraContent) {
+		return true
+	}
+
+	return false
+}
+
+// SetExtraContent gets a reference to the given map[string]interface{} and assigns it to the ExtraContent field.
+func (o *CCChatCompletionMessageFunctionToolCall) SetExtraContent(v map[string]interface{}) {
+	o.ExtraContent = v
+}
+
 func (o CCChatCompletionMessageFunctionToolCall) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -133,6 +167,9 @@ func (o CCChatCompletionMessageFunctionToolCall) ToMap() (map[string]interface{}
 	toSerialize["id"] = o.Id
 	toSerialize["function"] = o.Function
 	toSerialize["type"] = o.Type
+	if o.ExtraContent != nil {
+		toSerialize["extra_content"] = o.ExtraContent
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -181,6 +218,7 @@ func (o *CCChatCompletionMessageFunctionToolCall) UnmarshalJSON(data []byte) (er
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "function")
 		delete(additionalProperties, "type")
+		delete(additionalProperties, "extra_content")
 		o.AdditionalProperties = additionalProperties
 	}
 

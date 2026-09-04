@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Content** | [**Content10**](Content10.md) |  | 
+**Content** | [**Content11**](Content11.md) |  | 
 **ToolUseId** | **string** |  | 
 **Type** | **string** |  | 
 **Caller** | Pointer to [**NullableCaller**](Caller.md) |  | [optional] 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMRBetaWebSearchToolResultBlock
 
-`func NewMRBetaWebSearchToolResultBlock(content Content10, toolUseId string, type_ string, ) *MRBetaWebSearchToolResultBlock`
+`func NewMRBetaWebSearchToolResultBlock(content Content11, toolUseId string, type_ string, ) *MRBetaWebSearchToolResultBlock`
 
 NewMRBetaWebSearchToolResultBlock instantiates a new MRBetaWebSearchToolResultBlock object
 This constructor will assign default values to properties that have it defined,
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetContent
 
-`func (o *MRBetaWebSearchToolResultBlock) GetContent() Content10`
+`func (o *MRBetaWebSearchToolResultBlock) GetContent() Content11`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *MRBetaWebSearchToolResultBlock) GetContentOk() (*Content10, bool)`
+`func (o *MRBetaWebSearchToolResultBlock) GetContentOk() (*Content11, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *MRBetaWebSearchToolResultBlock) SetContent(v Content10)`
+`func (o *MRBetaWebSearchToolResultBlock) SetContent(v Content11)`
 
 SetContent sets Content field to given value.
 

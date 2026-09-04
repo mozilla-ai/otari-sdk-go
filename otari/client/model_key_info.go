@@ -21,18 +21,20 @@ var _ MappedNullable = &KeyInfo{}
 
 // KeyInfo Response model for key information.
 type KeyInfo struct {
-	AllowedModels      []string               `json:"allowed_models"`
-	CreatedAt          string                 `json:"created_at"`
-	ExcludeFromBudget  bool                   `json:"exclude_from_budget"`
-	ExpiresAt          NullableString         `json:"expires_at"`
-	Id                 string                 `json:"id"`
-	IsActive           bool                   `json:"is_active"`
-	KeyName            NullableString         `json:"key_name"`
-	KeyPrefix          NullableString         `json:"key_prefix"`
-	LastUsedAt         NullableString         `json:"last_used_at"`
-	Metadata           map[string]interface{} `json:"metadata"`
-	RejectUserMismatch NullableBool           `json:"reject_user_mismatch"`
-	UserId             NullableString         `json:"user_id"`
+	AllowedModels         []string               `json:"allowed_models"`
+	CaptureAgentTelemetry NullableBool           `json:"capture_agent_telemetry"`
+	CreatedAt             string                 `json:"created_at"`
+	ExcludeFromBudget     bool                   `json:"exclude_from_budget"`
+	ExpiresAt             NullableString         `json:"expires_at"`
+	Id                    string                 `json:"id"`
+	IsActive              bool                   `json:"is_active"`
+	KeyName               NullableString         `json:"key_name"`
+	KeyPrefix             NullableString         `json:"key_prefix"`
+	LastUsedAt            NullableString         `json:"last_used_at"`
+	Metadata              map[string]interface{} `json:"metadata"`
+	RejectUserMismatch    NullableBool           `json:"reject_user_mismatch"`
+	UserId                NullableString         `json:"user_id"`
+	WorkspaceId           string                 `json:"workspace_id"`
 }
 
 type _KeyInfo KeyInfo
@@ -41,9 +43,10 @@ type _KeyInfo KeyInfo
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewKeyInfo(allowedModels []string, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, keyName NullableString, keyPrefix NullableString, lastUsedAt NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString) *KeyInfo {
+func NewKeyInfo(allowedModels []string, captureAgentTelemetry NullableBool, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, keyName NullableString, keyPrefix NullableString, lastUsedAt NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, workspaceId string) *KeyInfo {
 	this := KeyInfo{}
 	this.AllowedModels = allowedModels
+	this.CaptureAgentTelemetry = captureAgentTelemetry
 	this.CreatedAt = createdAt
 	this.ExcludeFromBudget = excludeFromBudget
 	this.ExpiresAt = expiresAt
@@ -55,6 +58,7 @@ func NewKeyInfo(allowedModels []string, createdAt string, excludeFromBudget bool
 	this.Metadata = metadata
 	this.RejectUserMismatch = rejectUserMismatch
 	this.UserId = userId
+	this.WorkspaceId = workspaceId
 	return &this
 }
 
@@ -90,6 +94,32 @@ func (o *KeyInfo) GetAllowedModelsOk() ([]string, bool) {
 // SetAllowedModels sets field value
 func (o *KeyInfo) SetAllowedModels(v []string) {
 	o.AllowedModels = v
+}
+
+// GetCaptureAgentTelemetry returns the CaptureAgentTelemetry field value
+// If the value is explicit nil, the zero value for bool will be returned
+func (o *KeyInfo) GetCaptureAgentTelemetry() bool {
+	if o == nil || o.CaptureAgentTelemetry.Get() == nil {
+		var ret bool
+		return ret
+	}
+
+	return *o.CaptureAgentTelemetry.Get()
+}
+
+// GetCaptureAgentTelemetryOk returns a tuple with the CaptureAgentTelemetry field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *KeyInfo) GetCaptureAgentTelemetryOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CaptureAgentTelemetry.Get(), o.CaptureAgentTelemetry.IsSet()
+}
+
+// SetCaptureAgentTelemetry sets field value
+func (o *KeyInfo) SetCaptureAgentTelemetry(v bool) {
+	o.CaptureAgentTelemetry.Set(&v)
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -368,6 +398,30 @@ func (o *KeyInfo) SetUserId(v string) {
 	o.UserId.Set(&v)
 }
 
+// GetWorkspaceId returns the WorkspaceId field value
+func (o *KeyInfo) GetWorkspaceId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WorkspaceId
+}
+
+// GetWorkspaceIdOk returns a tuple with the WorkspaceId field value
+// and a boolean to check if the value has been set.
+func (o *KeyInfo) GetWorkspaceIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WorkspaceId, true
+}
+
+// SetWorkspaceId sets field value
+func (o *KeyInfo) SetWorkspaceId(v string) {
+	o.WorkspaceId = v
+}
+
 func (o KeyInfo) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -381,6 +435,7 @@ func (o KeyInfo) ToMap() (map[string]interface{}, error) {
 	if o.AllowedModels != nil {
 		toSerialize["allowed_models"] = o.AllowedModels
 	}
+	toSerialize["capture_agent_telemetry"] = o.CaptureAgentTelemetry.Get()
 	toSerialize["created_at"] = o.CreatedAt
 	toSerialize["exclude_from_budget"] = o.ExcludeFromBudget
 	toSerialize["expires_at"] = o.ExpiresAt.Get()
@@ -392,6 +447,7 @@ func (o KeyInfo) ToMap() (map[string]interface{}, error) {
 	toSerialize["metadata"] = o.Metadata
 	toSerialize["reject_user_mismatch"] = o.RejectUserMismatch.Get()
 	toSerialize["user_id"] = o.UserId.Get()
+	toSerialize["workspace_id"] = o.WorkspaceId
 	return toSerialize, nil
 }
 
@@ -401,6 +457,7 @@ func (o *KeyInfo) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"allowed_models",
+		"capture_agent_telemetry",
 		"created_at",
 		"exclude_from_budget",
 		"expires_at",
@@ -412,6 +469,7 @@ func (o *KeyInfo) UnmarshalJSON(data []byte) (err error) {
 		"metadata",
 		"reject_user_mismatch",
 		"user_id",
+		"workspace_id",
 	}
 
 	allProperties := make(map[string]interface{})

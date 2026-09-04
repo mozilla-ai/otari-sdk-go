@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **GuardrailsUrl** | Pointer to **NullableString** |  | [optional] 
 **SandboxPurposeHint** | Pointer to **NullableString** |  | [optional] 
+**SandboxSessionImage** | Pointer to **NullableString** |  | [optional] 
 **SandboxUrl** | Pointer to **NullableString** |  | [optional] 
 **WebSearchEngines** | Pointer to **NullableString** |  | [optional] 
 **WebSearchExtract** | Pointer to **NullableBool** |  | [optional] 
@@ -103,6 +104,41 @@ HasSandboxPurposeHint returns a boolean if a field has been set.
 `func (o *UpdateToolSettingsRequest) UnsetSandboxPurposeHint()`
 
 UnsetSandboxPurposeHint ensures that no value is present for SandboxPurposeHint, not even an explicit nil
+### GetSandboxSessionImage
+
+`func (o *UpdateToolSettingsRequest) GetSandboxSessionImage() string`
+
+GetSandboxSessionImage returns the SandboxSessionImage field if non-nil, zero value otherwise.
+
+### GetSandboxSessionImageOk
+
+`func (o *UpdateToolSettingsRequest) GetSandboxSessionImageOk() (*string, bool)`
+
+GetSandboxSessionImageOk returns a tuple with the SandboxSessionImage field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSandboxSessionImage
+
+`func (o *UpdateToolSettingsRequest) SetSandboxSessionImage(v string)`
+
+SetSandboxSessionImage sets SandboxSessionImage field to given value.
+
+### HasSandboxSessionImage
+
+`func (o *UpdateToolSettingsRequest) HasSandboxSessionImage() bool`
+
+HasSandboxSessionImage returns a boolean if a field has been set.
+
+### SetSandboxSessionImageNil
+
+`func (o *UpdateToolSettingsRequest) SetSandboxSessionImageNil(b bool)`
+
+ SetSandboxSessionImageNil sets the value for SandboxSessionImage to be an explicit nil
+
+### UnsetSandboxSessionImage
+`func (o *UpdateToolSettingsRequest) UnsetSandboxSessionImage()`
+
+UnsetSandboxSessionImage ensures that no value is present for SandboxSessionImage, not even an explicit nil
 ### GetSandboxUrl
 
 `func (o *UpdateToolSettingsRequest) GetSandboxUrl() string`

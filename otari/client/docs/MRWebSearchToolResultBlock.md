@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Caller** | Pointer to [**NullableCaller1**](Caller1.md) |  | [optional] 
-**Content** | [**Content15**](Content15.md) |  | 
+**Content** | [**Content16**](Content16.md) |  | 
 **ToolUseId** | **string** |  | 
 **Type** | **string** |  | 
 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMRWebSearchToolResultBlock
 
-`func NewMRWebSearchToolResultBlock(content Content15, toolUseId string, type_ string, ) *MRWebSearchToolResultBlock`
+`func NewMRWebSearchToolResultBlock(content Content16, toolUseId string, type_ string, ) *MRWebSearchToolResultBlock`
 
 NewMRWebSearchToolResultBlock instantiates a new MRWebSearchToolResultBlock object
 This constructor will assign default values to properties that have it defined,
@@ -65,20 +65,20 @@ HasCaller returns a boolean if a field has been set.
 UnsetCaller ensures that no value is present for Caller, not even an explicit nil
 ### GetContent
 
-`func (o *MRWebSearchToolResultBlock) GetContent() Content15`
+`func (o *MRWebSearchToolResultBlock) GetContent() Content16`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *MRWebSearchToolResultBlock) GetContentOk() (*Content15, bool)`
+`func (o *MRWebSearchToolResultBlock) GetContentOk() (*Content16, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *MRWebSearchToolResultBlock) SetContent(v Content15)`
+`func (o *MRWebSearchToolResultBlock) SetContent(v Content16)`
 
 SetContent sets Content field to given value.
 

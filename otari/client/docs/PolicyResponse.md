@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **Spec** | **map[string]interface{}** |  | 
 **UpdatedAt** | Pointer to **NullableString** |  | [optional] 
 **UserId** | Pointer to **NullableString** |  | [optional] 
+**WorkspaceId** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -221,6 +222,41 @@ HasUserId returns a boolean if a field has been set.
 `func (o *PolicyResponse) UnsetUserId()`
 
 UnsetUserId ensures that no value is present for UserId, not even an explicit nil
+### GetWorkspaceId
+
+`func (o *PolicyResponse) GetWorkspaceId() string`
+
+GetWorkspaceId returns the WorkspaceId field if non-nil, zero value otherwise.
+
+### GetWorkspaceIdOk
+
+`func (o *PolicyResponse) GetWorkspaceIdOk() (*string, bool)`
+
+GetWorkspaceIdOk returns a tuple with the WorkspaceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkspaceId
+
+`func (o *PolicyResponse) SetWorkspaceId(v string)`
+
+SetWorkspaceId sets WorkspaceId field to given value.
+
+### HasWorkspaceId
+
+`func (o *PolicyResponse) HasWorkspaceId() bool`
+
+HasWorkspaceId returns a boolean if a field has been set.
+
+### SetWorkspaceIdNil
+
+`func (o *PolicyResponse) SetWorkspaceIdNil(b bool)`
+
+ SetWorkspaceIdNil sets the value for WorkspaceId to be an explicit nil
+
+### UnsetWorkspaceId
+`func (o *PolicyResponse) UnsetWorkspaceId()`
+
+UnsetWorkspaceId ensures that no value is present for WorkspaceId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

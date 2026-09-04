@@ -22,6 +22,8 @@ var _ MappedNullable = &CreateKeyRequest{}
 type CreateKeyRequest struct {
 	// Model allow-list: null = any model, [] = deny all, or canonical instance:model entries (with instance:* / instance:prefix* wildcards).
 	AllowedModels []string `json:"allowed_models,omitempty"`
+	// Per-key override of the deployment-wide capture_agent_telemetry setting: null (default) inherits it, true always stores this key's coding-agent telemetry, false always discards it. Covers both behavioral events (tool_result, tool_decision, user_prompt, api_error) from POST /v1/logs and outcome-metric data points (lines of code, commits, pull requests, active time) from POST /v1/metrics. Usage capture and billing are unaffected either way.
+	CaptureAgentTelemetry NullableBool `json:"capture_agent_telemetry,omitempty"`
 	// When true, requests on this key are logged with cost but never reserved, reconciled into the user's spend, or gated by budget.
 	ExcludeFromBudget *bool `json:"exclude_from_budget,omitempty"`
 	// Optional expiration timestamp
@@ -34,6 +36,8 @@ type CreateKeyRequest struct {
 	RejectUserMismatch NullableBool `json:"reject_user_mismatch,omitempty"`
 	// Optional user ID to associate with this key
 	UserId NullableString `json:"user_id,omitempty"`
+	// Workspace this key belongs to, which must be one in the caller's organization. Omitted means that organization's default workspace. A key belongs to exactly one workspace: requests on it are scoped and billed there, so the workspace is read off the key rather than off a request header.
+	WorkspaceId NullableString `json:"workspace_id,omitempty"`
 }
 
 // NewCreateKeyRequest instantiates a new CreateKeyRequest object
@@ -88,6 +92,49 @@ func (o *CreateKeyRequest) HasAllowedModels() bool {
 // SetAllowedModels gets a reference to the given []string and assigns it to the AllowedModels field.
 func (o *CreateKeyRequest) SetAllowedModels(v []string) {
 	o.AllowedModels = v
+}
+
+// GetCaptureAgentTelemetry returns the CaptureAgentTelemetry field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateKeyRequest) GetCaptureAgentTelemetry() bool {
+	if o == nil || IsNil(o.CaptureAgentTelemetry.Get()) {
+		var ret bool
+		return ret
+	}
+	return *o.CaptureAgentTelemetry.Get()
+}
+
+// GetCaptureAgentTelemetryOk returns a tuple with the CaptureAgentTelemetry field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateKeyRequest) GetCaptureAgentTelemetryOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CaptureAgentTelemetry.Get(), o.CaptureAgentTelemetry.IsSet()
+}
+
+// HasCaptureAgentTelemetry returns a boolean if a field has been set.
+func (o *CreateKeyRequest) HasCaptureAgentTelemetry() bool {
+	if o != nil && o.CaptureAgentTelemetry.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetCaptureAgentTelemetry gets a reference to the given NullableBool and assigns it to the CaptureAgentTelemetry field.
+func (o *CreateKeyRequest) SetCaptureAgentTelemetry(v bool) {
+	o.CaptureAgentTelemetry.Set(&v)
+}
+
+// SetCaptureAgentTelemetryNil sets the value for CaptureAgentTelemetry to be an explicit nil
+func (o *CreateKeyRequest) SetCaptureAgentTelemetryNil() {
+	o.CaptureAgentTelemetry.Set(nil)
+}
+
+// UnsetCaptureAgentTelemetry ensures that no value is present for CaptureAgentTelemetry, not even an explicit nil
+func (o *CreateKeyRequest) UnsetCaptureAgentTelemetry() {
+	o.CaptureAgentTelemetry.Unset()
 }
 
 // GetExcludeFromBudget returns the ExcludeFromBudget field value if set, zero value otherwise.
@@ -326,6 +373,49 @@ func (o *CreateKeyRequest) UnsetUserId() {
 	o.UserId.Unset()
 }
 
+// GetWorkspaceId returns the WorkspaceId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateKeyRequest) GetWorkspaceId() string {
+	if o == nil || IsNil(o.WorkspaceId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.WorkspaceId.Get()
+}
+
+// GetWorkspaceIdOk returns a tuple with the WorkspaceId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateKeyRequest) GetWorkspaceIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.WorkspaceId.Get(), o.WorkspaceId.IsSet()
+}
+
+// HasWorkspaceId returns a boolean if a field has been set.
+func (o *CreateKeyRequest) HasWorkspaceId() bool {
+	if o != nil && o.WorkspaceId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetWorkspaceId gets a reference to the given NullableString and assigns it to the WorkspaceId field.
+func (o *CreateKeyRequest) SetWorkspaceId(v string) {
+	o.WorkspaceId.Set(&v)
+}
+
+// SetWorkspaceIdNil sets the value for WorkspaceId to be an explicit nil
+func (o *CreateKeyRequest) SetWorkspaceIdNil() {
+	o.WorkspaceId.Set(nil)
+}
+
+// UnsetWorkspaceId ensures that no value is present for WorkspaceId, not even an explicit nil
+func (o *CreateKeyRequest) UnsetWorkspaceId() {
+	o.WorkspaceId.Unset()
+}
+
 func (o CreateKeyRequest) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -338,6 +428,9 @@ func (o CreateKeyRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.AllowedModels != nil {
 		toSerialize["allowed_models"] = o.AllowedModels
+	}
+	if o.CaptureAgentTelemetry.IsSet() {
+		toSerialize["capture_agent_telemetry"] = o.CaptureAgentTelemetry.Get()
 	}
 	if !IsNil(o.ExcludeFromBudget) {
 		toSerialize["exclude_from_budget"] = o.ExcludeFromBudget
@@ -356,6 +449,9 @@ func (o CreateKeyRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if o.UserId.IsSet() {
 		toSerialize["user_id"] = o.UserId.Get()
+	}
+	if o.WorkspaceId.IsSet() {
+		toSerialize["workspace_id"] = o.WorkspaceId.Get()
 	}
 	return toSerialize, nil
 }

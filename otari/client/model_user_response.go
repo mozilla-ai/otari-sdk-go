@@ -27,9 +27,13 @@ type UserResponse struct {
 	BudgetId          NullableString         `json:"budget_id"`
 	BudgetStartedAt   NullableString         `json:"budget_started_at"`
 	CreatedAt         string                 `json:"created_at"`
+	CurrentRequests   int32                  `json:"current_requests"`
+	CurrentTokens     int32                  `json:"current_tokens"`
 	Metadata          map[string]interface{} `json:"metadata"`
 	NextBudgetResetAt NullableString         `json:"next_budget_reset_at"`
 	Reserved          float32                `json:"reserved"`
+	ReservedRequests  int32                  `json:"reserved_requests"`
+	ReservedTokens    int32                  `json:"reserved_tokens"`
 	Spend             float32                `json:"spend"`
 	UpdatedAt         string                 `json:"updated_at"`
 	UserId            string                 `json:"user_id"`
@@ -41,7 +45,7 @@ type _UserResponse UserResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUserResponse(alias NullableString, allowedModels []string, blocked bool, budgetId NullableString, budgetStartedAt NullableString, createdAt string, metadata map[string]interface{}, nextBudgetResetAt NullableString, reserved float32, spend float32, updatedAt string, userId string) *UserResponse {
+func NewUserResponse(alias NullableString, allowedModels []string, blocked bool, budgetId NullableString, budgetStartedAt NullableString, createdAt string, currentRequests int32, currentTokens int32, metadata map[string]interface{}, nextBudgetResetAt NullableString, reserved float32, reservedRequests int32, reservedTokens int32, spend float32, updatedAt string, userId string) *UserResponse {
 	this := UserResponse{}
 	this.Alias = alias
 	this.AllowedModels = allowedModels
@@ -49,9 +53,13 @@ func NewUserResponse(alias NullableString, allowedModels []string, blocked bool,
 	this.BudgetId = budgetId
 	this.BudgetStartedAt = budgetStartedAt
 	this.CreatedAt = createdAt
+	this.CurrentRequests = currentRequests
+	this.CurrentTokens = currentTokens
 	this.Metadata = metadata
 	this.NextBudgetResetAt = nextBudgetResetAt
 	this.Reserved = reserved
+	this.ReservedRequests = reservedRequests
+	this.ReservedTokens = reservedTokens
 	this.Spend = spend
 	this.UpdatedAt = updatedAt
 	this.UserId = userId
@@ -218,6 +226,54 @@ func (o *UserResponse) SetCreatedAt(v string) {
 	o.CreatedAt = v
 }
 
+// GetCurrentRequests returns the CurrentRequests field value
+func (o *UserResponse) GetCurrentRequests() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.CurrentRequests
+}
+
+// GetCurrentRequestsOk returns a tuple with the CurrentRequests field value
+// and a boolean to check if the value has been set.
+func (o *UserResponse) GetCurrentRequestsOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.CurrentRequests, true
+}
+
+// SetCurrentRequests sets field value
+func (o *UserResponse) SetCurrentRequests(v int32) {
+	o.CurrentRequests = v
+}
+
+// GetCurrentTokens returns the CurrentTokens field value
+func (o *UserResponse) GetCurrentTokens() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.CurrentTokens
+}
+
+// GetCurrentTokensOk returns a tuple with the CurrentTokens field value
+// and a boolean to check if the value has been set.
+func (o *UserResponse) GetCurrentTokensOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.CurrentTokens, true
+}
+
+// SetCurrentTokens sets field value
+func (o *UserResponse) SetCurrentTokens(v int32) {
+	o.CurrentTokens = v
+}
+
 // GetMetadata returns the Metadata field value
 func (o *UserResponse) GetMetadata() map[string]interface{} {
 	if o == nil {
@@ -290,6 +346,54 @@ func (o *UserResponse) GetReservedOk() (*float32, bool) {
 // SetReserved sets field value
 func (o *UserResponse) SetReserved(v float32) {
 	o.Reserved = v
+}
+
+// GetReservedRequests returns the ReservedRequests field value
+func (o *UserResponse) GetReservedRequests() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.ReservedRequests
+}
+
+// GetReservedRequestsOk returns a tuple with the ReservedRequests field value
+// and a boolean to check if the value has been set.
+func (o *UserResponse) GetReservedRequestsOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ReservedRequests, true
+}
+
+// SetReservedRequests sets field value
+func (o *UserResponse) SetReservedRequests(v int32) {
+	o.ReservedRequests = v
+}
+
+// GetReservedTokens returns the ReservedTokens field value
+func (o *UserResponse) GetReservedTokens() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.ReservedTokens
+}
+
+// GetReservedTokensOk returns a tuple with the ReservedTokens field value
+// and a boolean to check if the value has been set.
+func (o *UserResponse) GetReservedTokensOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ReservedTokens, true
+}
+
+// SetReservedTokens sets field value
+func (o *UserResponse) SetReservedTokens(v int32) {
+	o.ReservedTokens = v
 }
 
 // GetSpend returns the Spend field value
@@ -382,9 +486,13 @@ func (o UserResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["budget_id"] = o.BudgetId.Get()
 	toSerialize["budget_started_at"] = o.BudgetStartedAt.Get()
 	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["current_requests"] = o.CurrentRequests
+	toSerialize["current_tokens"] = o.CurrentTokens
 	toSerialize["metadata"] = o.Metadata
 	toSerialize["next_budget_reset_at"] = o.NextBudgetResetAt.Get()
 	toSerialize["reserved"] = o.Reserved
+	toSerialize["reserved_requests"] = o.ReservedRequests
+	toSerialize["reserved_tokens"] = o.ReservedTokens
 	toSerialize["spend"] = o.Spend
 	toSerialize["updated_at"] = o.UpdatedAt
 	toSerialize["user_id"] = o.UserId
@@ -402,9 +510,13 @@ func (o *UserResponse) UnmarshalJSON(data []byte) (err error) {
 		"budget_id",
 		"budget_started_at",
 		"created_at",
+		"current_requests",
+		"current_tokens",
 		"metadata",
 		"next_budget_reset_at",
 		"reserved",
+		"reserved_requests",
+		"reserved_tokens",
 		"spend",
 		"updated_at",
 		"user_id",

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
+**Id** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Results** | [**[]RRRerankResult**](RRRerankResult.md) | Results sorted by relevance_score descending | 
 **Meta** | Pointer to [**NullableRRRerankMeta**](RRRerankMeta.md) |  | [optional] 
 **Usage** | Pointer to [**NullableRRRerankUsage**](RRRerankUsage.md) |  | [optional] 

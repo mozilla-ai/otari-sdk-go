@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | **[]string** |  | 
+**CaptureAgentTelemetry** | **NullableBool** |  | 
 **CreatedAt** | **string** |  | 
 **ExcludeFromBudget** | **bool** |  | 
 **ExpiresAt** | **NullableString** |  | 
@@ -21,7 +22,7 @@ Name | Type | Description | Notes
 
 ### NewCreateKeyResponse
 
-`func NewCreateKeyResponse(allowedModels []string, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, key string, keyName NullableString, keyPrefix NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, ) *CreateKeyResponse`
+`func NewCreateKeyResponse(allowedModels []string, captureAgentTelemetry NullableBool, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, key string, keyName NullableString, keyPrefix NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, ) *CreateKeyResponse`
 
 NewCreateKeyResponse instantiates a new CreateKeyResponse object
 This constructor will assign default values to properties that have it defined,
@@ -66,6 +67,36 @@ SetAllowedModels sets AllowedModels field to given value.
 `func (o *CreateKeyResponse) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetCaptureAgentTelemetry
+
+`func (o *CreateKeyResponse) GetCaptureAgentTelemetry() bool`
+
+GetCaptureAgentTelemetry returns the CaptureAgentTelemetry field if non-nil, zero value otherwise.
+
+### GetCaptureAgentTelemetryOk
+
+`func (o *CreateKeyResponse) GetCaptureAgentTelemetryOk() (*bool, bool)`
+
+GetCaptureAgentTelemetryOk returns a tuple with the CaptureAgentTelemetry field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCaptureAgentTelemetry
+
+`func (o *CreateKeyResponse) SetCaptureAgentTelemetry(v bool)`
+
+SetCaptureAgentTelemetry sets CaptureAgentTelemetry field to given value.
+
+
+### SetCaptureAgentTelemetryNil
+
+`func (o *CreateKeyResponse) SetCaptureAgentTelemetryNil(b bool)`
+
+ SetCaptureAgentTelemetryNil sets the value for CaptureAgentTelemetry to be an explicit nil
+
+### UnsetCaptureAgentTelemetry
+`func (o *CreateKeyResponse) UnsetCaptureAgentTelemetry()`
+
+UnsetCaptureAgentTelemetry ensures that no value is present for CaptureAgentTelemetry, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *CreateKeyResponse) GetCreatedAt() string`

@@ -83,7 +83,7 @@ Name | Type | Description  | Notes
 
 ## ListDiscoverableModelsV1ModelsDiscoverableGet
 
-> DiscoverableModelsResponse ListDiscoverableModelsV1ModelsDiscoverableGet(ctx).Execute()
+> DiscoverableModelsResponse ListDiscoverableModelsV1ModelsDiscoverableGet(ctx).Refresh(refresh).Execute()
 
 List Discoverable Models
 
@@ -102,10 +102,11 @@ import (
 )
 
 func main() {
+	refresh := true // bool | Re-dial every provider instead of answering from the discovery cache. (optional) (default to false)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ModelsAPI.ListDiscoverableModelsV1ModelsDiscoverableGet(context.Background()).Execute()
+	resp, r, err := apiClient.ModelsAPI.ListDiscoverableModelsV1ModelsDiscoverableGet(context.Background()).Refresh(refresh).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ModelsAPI.ListDiscoverableModelsV1ModelsDiscoverableGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -117,12 +118,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiListDiscoverableModelsV1ModelsDiscoverableGetRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **refresh** | **bool** | Re-dial every provider instead of answering from the discovery cache. | [default to false]
 
 ### Return type
 

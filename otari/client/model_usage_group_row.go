@@ -24,6 +24,7 @@ type UsageGroupRow struct {
 	Cost     float32        `json:"cost"`
 	IsOther  *bool          `json:"is_other,omitempty"`
 	Key      NullableString `json:"key"`
+	Label    NullableString `json:"label,omitempty"`
 	Requests int32          `json:"requests"`
 	Tokens   int32          `json:"tokens"`
 }
@@ -137,6 +138,49 @@ func (o *UsageGroupRow) SetKey(v string) {
 	o.Key.Set(&v)
 }
 
+// GetLabel returns the Label field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UsageGroupRow) GetLabel() string {
+	if o == nil || IsNil(o.Label.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.Label.Get()
+}
+
+// GetLabelOk returns a tuple with the Label field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageGroupRow) GetLabelOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Label.Get(), o.Label.IsSet()
+}
+
+// HasLabel returns a boolean if a field has been set.
+func (o *UsageGroupRow) HasLabel() bool {
+	if o != nil && o.Label.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLabel gets a reference to the given NullableString and assigns it to the Label field.
+func (o *UsageGroupRow) SetLabel(v string) {
+	o.Label.Set(&v)
+}
+
+// SetLabelNil sets the value for Label to be an explicit nil
+func (o *UsageGroupRow) SetLabelNil() {
+	o.Label.Set(nil)
+}
+
+// UnsetLabel ensures that no value is present for Label, not even an explicit nil
+func (o *UsageGroupRow) UnsetLabel() {
+	o.Label.Unset()
+}
+
 // GetRequests returns the Requests field value
 func (o *UsageGroupRow) GetRequests() int32 {
 	if o == nil {
@@ -200,6 +244,9 @@ func (o UsageGroupRow) ToMap() (map[string]interface{}, error) {
 		toSerialize["is_other"] = o.IsOther
 	}
 	toSerialize["key"] = o.Key.Get()
+	if o.Label.IsSet() {
+		toSerialize["label"] = o.Label.Get()
+	}
 	toSerialize["requests"] = o.Requests
 	toSerialize["tokens"] = o.Tokens
 	return toSerialize, nil

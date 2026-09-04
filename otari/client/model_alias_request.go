@@ -25,8 +25,10 @@ type AliasRequest struct {
 	Name string `json:"name"`
 	// Selector the alias resolves to, as 'provider:model' or 'instance:model'.
 	Target string `json:"target"`
-	// User this alias belongs to. Omit for a global alias every caller sees. A user-scoped alias resolves only for that user and shadows a global one of the same name.
+	// User this alias belongs to. Omit for an alias every caller in the workspace sees. A user-scoped alias resolves only for that user and shadows the workspace-wide one of the same name.
 	UserId NullableString `json:"user_id,omitempty"`
+	// Workspace this alias belongs to. Omit for the deployment's default workspace. The alias resolves only for requests in that workspace, so two workspaces can each point the same name at a different model.
+	WorkspaceId NullableString `json:"workspace_id,omitempty"`
 }
 
 type _AliasRequest AliasRequest
@@ -141,6 +143,49 @@ func (o *AliasRequest) UnsetUserId() {
 	o.UserId.Unset()
 }
 
+// GetWorkspaceId returns the WorkspaceId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *AliasRequest) GetWorkspaceId() string {
+	if o == nil || IsNil(o.WorkspaceId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.WorkspaceId.Get()
+}
+
+// GetWorkspaceIdOk returns a tuple with the WorkspaceId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *AliasRequest) GetWorkspaceIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.WorkspaceId.Get(), o.WorkspaceId.IsSet()
+}
+
+// HasWorkspaceId returns a boolean if a field has been set.
+func (o *AliasRequest) HasWorkspaceId() bool {
+	if o != nil && o.WorkspaceId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetWorkspaceId gets a reference to the given NullableString and assigns it to the WorkspaceId field.
+func (o *AliasRequest) SetWorkspaceId(v string) {
+	o.WorkspaceId.Set(&v)
+}
+
+// SetWorkspaceIdNil sets the value for WorkspaceId to be an explicit nil
+func (o *AliasRequest) SetWorkspaceIdNil() {
+	o.WorkspaceId.Set(nil)
+}
+
+// UnsetWorkspaceId ensures that no value is present for WorkspaceId, not even an explicit nil
+func (o *AliasRequest) UnsetWorkspaceId() {
+	o.WorkspaceId.Unset()
+}
+
 func (o AliasRequest) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -155,6 +200,9 @@ func (o AliasRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize["target"] = o.Target
 	if o.UserId.IsSet() {
 		toSerialize["user_id"] = o.UserId.Get()
+	}
+	if o.WorkspaceId.IsSet() {
+		toSerialize["workspace_id"] = o.WorkspaceId.Get()
 	}
 	return toSerialize, nil
 }

@@ -21,18 +21,19 @@ var _ MappedNullable = &CreateKeyResponse{}
 
 // CreateKeyResponse Response model for creating a new API key.
 type CreateKeyResponse struct {
-	AllowedModels      []string               `json:"allowed_models"`
-	CreatedAt          string                 `json:"created_at"`
-	ExcludeFromBudget  bool                   `json:"exclude_from_budget"`
-	ExpiresAt          NullableString         `json:"expires_at"`
-	Id                 string                 `json:"id"`
-	IsActive           bool                   `json:"is_active"`
-	Key                string                 `json:"key"`
-	KeyName            NullableString         `json:"key_name"`
-	KeyPrefix          NullableString         `json:"key_prefix"`
-	Metadata           map[string]interface{} `json:"metadata"`
-	RejectUserMismatch NullableBool           `json:"reject_user_mismatch"`
-	UserId             NullableString         `json:"user_id"`
+	AllowedModels         []string               `json:"allowed_models"`
+	CaptureAgentTelemetry NullableBool           `json:"capture_agent_telemetry"`
+	CreatedAt             string                 `json:"created_at"`
+	ExcludeFromBudget     bool                   `json:"exclude_from_budget"`
+	ExpiresAt             NullableString         `json:"expires_at"`
+	Id                    string                 `json:"id"`
+	IsActive              bool                   `json:"is_active"`
+	Key                   string                 `json:"key"`
+	KeyName               NullableString         `json:"key_name"`
+	KeyPrefix             NullableString         `json:"key_prefix"`
+	Metadata              map[string]interface{} `json:"metadata"`
+	RejectUserMismatch    NullableBool           `json:"reject_user_mismatch"`
+	UserId                NullableString         `json:"user_id"`
 }
 
 type _CreateKeyResponse CreateKeyResponse
@@ -41,9 +42,10 @@ type _CreateKeyResponse CreateKeyResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateKeyResponse(allowedModels []string, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, key string, keyName NullableString, keyPrefix NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString) *CreateKeyResponse {
+func NewCreateKeyResponse(allowedModels []string, captureAgentTelemetry NullableBool, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, key string, keyName NullableString, keyPrefix NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString) *CreateKeyResponse {
 	this := CreateKeyResponse{}
 	this.AllowedModels = allowedModels
+	this.CaptureAgentTelemetry = captureAgentTelemetry
 	this.CreatedAt = createdAt
 	this.ExcludeFromBudget = excludeFromBudget
 	this.ExpiresAt = expiresAt
@@ -90,6 +92,32 @@ func (o *CreateKeyResponse) GetAllowedModelsOk() ([]string, bool) {
 // SetAllowedModels sets field value
 func (o *CreateKeyResponse) SetAllowedModels(v []string) {
 	o.AllowedModels = v
+}
+
+// GetCaptureAgentTelemetry returns the CaptureAgentTelemetry field value
+// If the value is explicit nil, the zero value for bool will be returned
+func (o *CreateKeyResponse) GetCaptureAgentTelemetry() bool {
+	if o == nil || o.CaptureAgentTelemetry.Get() == nil {
+		var ret bool
+		return ret
+	}
+
+	return *o.CaptureAgentTelemetry.Get()
+}
+
+// GetCaptureAgentTelemetryOk returns a tuple with the CaptureAgentTelemetry field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateKeyResponse) GetCaptureAgentTelemetryOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CaptureAgentTelemetry.Get(), o.CaptureAgentTelemetry.IsSet()
+}
+
+// SetCaptureAgentTelemetry sets field value
+func (o *CreateKeyResponse) SetCaptureAgentTelemetry(v bool) {
+	o.CaptureAgentTelemetry.Set(&v)
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -379,6 +407,7 @@ func (o CreateKeyResponse) ToMap() (map[string]interface{}, error) {
 	if o.AllowedModels != nil {
 		toSerialize["allowed_models"] = o.AllowedModels
 	}
+	toSerialize["capture_agent_telemetry"] = o.CaptureAgentTelemetry.Get()
 	toSerialize["created_at"] = o.CreatedAt
 	toSerialize["exclude_from_budget"] = o.ExcludeFromBudget
 	toSerialize["expires_at"] = o.ExpiresAt.Get()
@@ -399,6 +428,7 @@ func (o *CreateKeyResponse) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"allowed_models",
+		"capture_agent_telemetry",
 		"created_at",
 		"exclude_from_budget",
 		"expires_at",

@@ -219,7 +219,7 @@ Name | Type | Description  | Notes
 
 ## ListKeysV1KeysGet
 
-> []KeyInfo ListKeysV1KeysGet(ctx).Skip(skip).Limit(limit).Execute()
+> []KeyInfo ListKeysV1KeysGet(ctx).Skip(skip).Limit(limit).WorkspaceId(workspaceId).Execute()
 
 List Keys
 
@@ -240,10 +240,11 @@ import (
 func main() {
 	skip := int32(56) // int32 |  (optional) (default to 0)
 	limit := int32(56) // int32 |  (optional) (default to 100)
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only keys in this workspace. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.KeysAPI.ListKeysV1KeysGet(context.Background()).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.KeysAPI.ListKeysV1KeysGet(context.Background()).Skip(skip).Limit(limit).WorkspaceId(workspaceId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.ListKeysV1KeysGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -266,6 +267,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **skip** | **int32** |  | [default to 0]
  **limit** | **int32** |  | [default to 100]
+ **workspaceId** | **string** | Only keys in this workspace. | 
 
 ### Return type
 

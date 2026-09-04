@@ -19,12 +19,13 @@ import (
 // checks if the ChatCompletionRequest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ChatCompletionRequest{}
 
-// ChatCompletionRequest OpenAI-compatible chat completion request.  The completion-param fields are derived from any-llm's “CompletionParams“ (see “_schema_derive“) so the schema cannot silently drop a param any-llm forwards. Fields below either tighten a derived field (“messages“, “response_format“) or add gateway-internal behavior (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) that is stripped before the request is forwarded upstream.
+// ChatCompletionRequest OpenAI-compatible chat completion request.  The completion-param fields are derived from any-llm's “CompletionParams“ (see “_schema_derive“) so the schema cannot silently drop a param any-llm forwards. Fields below either tighten a derived field (“messages“, “response_format“), declare an OpenAI wire param “CompletionParams“ does not model (“service_tier“, forwarded as an any-llm “**kwargs“ param), add gateway-internal behavior (“mcp_servers“, “mcp_server_ids“, “guardrails“, “tools_header“, “max_tool_iterations“) that is stripped before the request is forwarded upstream, or restate a derived field unchanged to document it (“max_completion_tokens“), which is only worth doing where the wire contract is not guessable from the field itself.
 type ChatCompletionRequest struct {
-	FrequencyPenalty    NullableFloat32        `json:"frequency_penalty,omitempty"`
-	Guardrails          []GuardrailConfig      `json:"guardrails,omitempty"`
-	LogitBias           map[string]float32     `json:"logit_bias,omitempty"`
-	Logprobs            NullableBool           `json:"logprobs,omitempty"`
+	FrequencyPenalty NullableFloat32    `json:"frequency_penalty,omitempty"`
+	Guardrails       []GuardrailConfig  `json:"guardrails,omitempty"`
+	LogitBias        map[string]float32 `json:"logit_bias,omitempty"`
+	Logprobs         NullableBool       `json:"logprobs,omitempty"`
+	// Upper bound on generated tokens. OpenAI's current name for the cap `max_tokens` used to carry; either field is accepted, and this one wins when a request sends both.
 	MaxCompletionTokens NullableInt32          `json:"max_completion_tokens,omitempty"`
 	MaxTokens           NullableInt32          `json:"max_tokens,omitempty"`
 	MaxToolIterations   NullableInt32          `json:"max_tool_iterations,omitempty"`
@@ -35,14 +36,16 @@ type ChatCompletionRequest struct {
 	N                   NullableInt32          `json:"n,omitempty"`
 	ParallelToolCalls   NullableBool           `json:"parallel_tool_calls,omitempty"`
 	PresencePenalty     NullableFloat32        `json:"presence_penalty,omitempty"`
+	PromptCacheKey      NullableString         `json:"prompt_cache_key,omitempty"`
 	ReasoningEffort     NullableString         `json:"reasoning_effort,omitempty"`
 	ResponseFormat      map[string]interface{} `json:"response_format,omitempty"`
 	Seed                NullableInt32          `json:"seed,omitempty"`
+	ServiceTier         NullableString         `json:"service_tier,omitempty"`
 	// Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to.
 	SessionLabel NullableString `json:"session_label,omitempty"`
 	Stop         NullableStop   `json:"stop,omitempty"`
 	Stream       *bool          `json:"stream,omitempty"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	StreamOptions map[string]interface{}            `json:"stream_options,omitempty"`
 	Temperature   NullableFloat32                   `json:"temperature,omitempty"`
 	ToolChoice    NullableToolChoice                `json:"tool_choice,omitempty"`
@@ -603,6 +606,49 @@ func (o *ChatCompletionRequest) UnsetPresencePenalty() {
 	o.PresencePenalty.Unset()
 }
 
+// GetPromptCacheKey returns the PromptCacheKey field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ChatCompletionRequest) GetPromptCacheKey() string {
+	if o == nil || IsNil(o.PromptCacheKey.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.PromptCacheKey.Get()
+}
+
+// GetPromptCacheKeyOk returns a tuple with the PromptCacheKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ChatCompletionRequest) GetPromptCacheKeyOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PromptCacheKey.Get(), o.PromptCacheKey.IsSet()
+}
+
+// HasPromptCacheKey returns a boolean if a field has been set.
+func (o *ChatCompletionRequest) HasPromptCacheKey() bool {
+	if o != nil && o.PromptCacheKey.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetPromptCacheKey gets a reference to the given NullableString and assigns it to the PromptCacheKey field.
+func (o *ChatCompletionRequest) SetPromptCacheKey(v string) {
+	o.PromptCacheKey.Set(&v)
+}
+
+// SetPromptCacheKeyNil sets the value for PromptCacheKey to be an explicit nil
+func (o *ChatCompletionRequest) SetPromptCacheKeyNil() {
+	o.PromptCacheKey.Set(nil)
+}
+
+// UnsetPromptCacheKey ensures that no value is present for PromptCacheKey, not even an explicit nil
+func (o *ChatCompletionRequest) UnsetPromptCacheKey() {
+	o.PromptCacheKey.Unset()
+}
+
 // GetReasoningEffort returns the ReasoningEffort field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ChatCompletionRequest) GetReasoningEffort() string {
 	if o == nil || IsNil(o.ReasoningEffort.Get()) {
@@ -720,6 +766,49 @@ func (o *ChatCompletionRequest) SetSeedNil() {
 // UnsetSeed ensures that no value is present for Seed, not even an explicit nil
 func (o *ChatCompletionRequest) UnsetSeed() {
 	o.Seed.Unset()
+}
+
+// GetServiceTier returns the ServiceTier field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ChatCompletionRequest) GetServiceTier() string {
+	if o == nil || IsNil(o.ServiceTier.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.ServiceTier.Get()
+}
+
+// GetServiceTierOk returns a tuple with the ServiceTier field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ChatCompletionRequest) GetServiceTierOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ServiceTier.Get(), o.ServiceTier.IsSet()
+}
+
+// HasServiceTier returns a boolean if a field has been set.
+func (o *ChatCompletionRequest) HasServiceTier() bool {
+	if o != nil && o.ServiceTier.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetServiceTier gets a reference to the given NullableString and assigns it to the ServiceTier field.
+func (o *ChatCompletionRequest) SetServiceTier(v string) {
+	o.ServiceTier.Set(&v)
+}
+
+// SetServiceTierNil sets the value for ServiceTier to be an explicit nil
+func (o *ChatCompletionRequest) SetServiceTierNil() {
+	o.ServiceTier.Set(nil)
+}
+
+// UnsetServiceTier ensures that no value is present for ServiceTier, not even an explicit nil
+func (o *ChatCompletionRequest) UnsetServiceTier() {
+	o.ServiceTier.Unset()
 }
 
 // GetSessionLabel returns the SessionLabel field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -1212,6 +1301,9 @@ func (o ChatCompletionRequest) ToMap() (map[string]interface{}, error) {
 	if o.PresencePenalty.IsSet() {
 		toSerialize["presence_penalty"] = o.PresencePenalty.Get()
 	}
+	if o.PromptCacheKey.IsSet() {
+		toSerialize["prompt_cache_key"] = o.PromptCacheKey.Get()
+	}
 	if o.ReasoningEffort.IsSet() {
 		toSerialize["reasoning_effort"] = o.ReasoningEffort.Get()
 	}
@@ -1220,6 +1312,9 @@ func (o ChatCompletionRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if o.Seed.IsSet() {
 		toSerialize["seed"] = o.Seed.Get()
+	}
+	if o.ServiceTier.IsSet() {
+		toSerialize["service_tier"] = o.ServiceTier.Get()
 	}
 	if o.SessionLabel.IsSet() {
 		toSerialize["session_label"] = o.SessionLabel.Get()

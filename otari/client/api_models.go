@@ -167,6 +167,13 @@ func (a *ModelsAPIService) GetModelV1ModelsModelIdGetExecute(r ApiGetModelV1Mode
 type ApiListDiscoverableModelsV1ModelsDiscoverableGetRequest struct {
 	ctx        context.Context
 	ApiService *ModelsAPIService
+	refresh    *bool
+}
+
+// Re-dial every provider instead of answering from the discovery cache.
+func (r ApiListDiscoverableModelsV1ModelsDiscoverableGetRequest) Refresh(refresh bool) ApiListDiscoverableModelsV1ModelsDiscoverableGetRequest {
+	r.refresh = &refresh
+	return r
 }
 
 func (r ApiListDiscoverableModelsV1ModelsDiscoverableGetRequest) Execute() (*DiscoverableModelsResponse, *http.Response, error) {
@@ -181,8 +188,13 @@ List every model the configured provider credentials can reach.
 Operator-facing counterpart to GET /v1/models, which serves a curated catalog
 to API callers. This reports each provider separately and keeps its error, so
 a provider with a bad key is distinguishable from one with no models. It is
-master-key gated because a provider error message describes the gateway's own
+operator-gated because a provider error message describes the gateway's own
 configuration.
+
+Answers from the discovery cache, which a background refresher keeps warm, so
+the call does not wait on a slow or unreachable provider. Each provider
+carries the “checked_at“ its result was produced at; a null one has not been
+dialed yet. Pass “refresh=true“ to force a live re-dial of every provider.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListDiscoverableModelsV1ModelsDiscoverableGetRequest
@@ -216,6 +228,13 @@ func (a *ModelsAPIService) ListDiscoverableModelsV1ModelsDiscoverableGetExecute(
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.refresh != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "refresh", r.refresh, "form", "")
+	} else {
+		var defaultValue bool = false
+		parameterAddToHeaderOrQuery(localVarQueryParams, "refresh", defaultValue, "form", "")
+		r.refresh = &defaultValue
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -283,6 +302,16 @@ func (a *ModelsAPIService) ListDiscoverableModelsV1ModelsDiscoverableGetExecute(
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -316,7 +345,10 @@ Covers every model models.dev lists under a configured provider, keyed by the
 “instance:model“ selector the dashboard uses. “available“ is false when
 enrichment is disabled (“models_dev_metadata“) or models.dev could not be
 reached; the response is then empty and the UI falls back to bundled data.
-Master-key gated: it describes the gateway's configured providers.
+Operator-gated: it describes the gateway's configured providers.
+
+Answers from the cached catalog, kept warm by a background refresher, so the
+dashboard never waits on the models.dev fetch timeout.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListModelMetadataV1ModelsMetadataGetRequest

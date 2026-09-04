@@ -11,29 +11,28 @@ API version: 0.0.0-dev
 package client
 
 import (
-	"bytes"
 	"encoding/json"
-	"fmt"
 )
 
 // checks if the CreateSessionRequest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CreateSessionRequest{}
 
-// CreateSessionRequest Sign in to the dashboard by proving possession of the master key.
+// CreateSessionRequest Sign in to the dashboard with exactly one credential.  A flat body with an optional field per credential, rather than a tagged union: it is one extra key on the wire, it generates a client type a hand-written form can fill in, and the validator below makes the two forms exclusive anyway.  The example carries one credential, because a generated example is a body somebody will post: the schema alone would produce every field at once, which is the one shape the validator below refuses.
 type CreateSessionRequest struct {
-	// The gateway master key; verified once and never stored by the browser.
-	MasterKey string `json:"master_key"`
+	// The identity's sign-in address.
+	Email NullableString `json:"email,omitempty"`
+	// The gateway master key; verified once and never stored by the browser. Accepted only while the operator identity has no password, which is to say while nobody has claimed this deployment (see GET /v1/bootstrap).
+	MasterKey NullableString `json:"master_key,omitempty"`
+	// The identity's password.
+	Password NullableString `json:"password,omitempty"`
 }
-
-type _CreateSessionRequest CreateSessionRequest
 
 // NewCreateSessionRequest instantiates a new CreateSessionRequest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateSessionRequest(masterKey string) *CreateSessionRequest {
+func NewCreateSessionRequest() *CreateSessionRequest {
 	this := CreateSessionRequest{}
-	this.MasterKey = masterKey
 	return &this
 }
 
@@ -45,28 +44,133 @@ func NewCreateSessionRequestWithDefaults() *CreateSessionRequest {
 	return &this
 }
 
-// GetMasterKey returns the MasterKey field value
-func (o *CreateSessionRequest) GetMasterKey() string {
-	if o == nil {
+// GetEmail returns the Email field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateSessionRequest) GetEmail() string {
+	if o == nil || IsNil(o.Email.Get()) {
 		var ret string
 		return ret
 	}
-
-	return o.MasterKey
+	return *o.Email.Get()
 }
 
-// GetMasterKeyOk returns a tuple with the MasterKey field value
+// GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateSessionRequest) GetEmailOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Email.Get(), o.Email.IsSet()
+}
+
+// HasEmail returns a boolean if a field has been set.
+func (o *CreateSessionRequest) HasEmail() bool {
+	if o != nil && o.Email.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetEmail gets a reference to the given NullableString and assigns it to the Email field.
+func (o *CreateSessionRequest) SetEmail(v string) {
+	o.Email.Set(&v)
+}
+
+// SetEmailNil sets the value for Email to be an explicit nil
+func (o *CreateSessionRequest) SetEmailNil() {
+	o.Email.Set(nil)
+}
+
+// UnsetEmail ensures that no value is present for Email, not even an explicit nil
+func (o *CreateSessionRequest) UnsetEmail() {
+	o.Email.Unset()
+}
+
+// GetMasterKey returns the MasterKey field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateSessionRequest) GetMasterKey() string {
+	if o == nil || IsNil(o.MasterKey.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.MasterKey.Get()
+}
+
+// GetMasterKeyOk returns a tuple with the MasterKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *CreateSessionRequest) GetMasterKeyOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.MasterKey, true
+	return o.MasterKey.Get(), o.MasterKey.IsSet()
 }
 
-// SetMasterKey sets field value
+// HasMasterKey returns a boolean if a field has been set.
+func (o *CreateSessionRequest) HasMasterKey() bool {
+	if o != nil && o.MasterKey.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetMasterKey gets a reference to the given NullableString and assigns it to the MasterKey field.
 func (o *CreateSessionRequest) SetMasterKey(v string) {
-	o.MasterKey = v
+	o.MasterKey.Set(&v)
+}
+
+// SetMasterKeyNil sets the value for MasterKey to be an explicit nil
+func (o *CreateSessionRequest) SetMasterKeyNil() {
+	o.MasterKey.Set(nil)
+}
+
+// UnsetMasterKey ensures that no value is present for MasterKey, not even an explicit nil
+func (o *CreateSessionRequest) UnsetMasterKey() {
+	o.MasterKey.Unset()
+}
+
+// GetPassword returns the Password field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateSessionRequest) GetPassword() string {
+	if o == nil || IsNil(o.Password.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.Password.Get()
+}
+
+// GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateSessionRequest) GetPasswordOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Password.Get(), o.Password.IsSet()
+}
+
+// HasPassword returns a boolean if a field has been set.
+func (o *CreateSessionRequest) HasPassword() bool {
+	if o != nil && o.Password.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetPassword gets a reference to the given NullableString and assigns it to the Password field.
+func (o *CreateSessionRequest) SetPassword(v string) {
+	o.Password.Set(&v)
+}
+
+// SetPasswordNil sets the value for Password to be an explicit nil
+func (o *CreateSessionRequest) SetPasswordNil() {
+	o.Password.Set(nil)
+}
+
+// UnsetPassword ensures that no value is present for Password, not even an explicit nil
+func (o *CreateSessionRequest) UnsetPassword() {
+	o.Password.Unset()
 }
 
 func (o CreateSessionRequest) MarshalJSON() ([]byte, error) {
@@ -79,45 +183,16 @@ func (o CreateSessionRequest) MarshalJSON() ([]byte, error) {
 
 func (o CreateSessionRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["master_key"] = o.MasterKey
+	if o.Email.IsSet() {
+		toSerialize["email"] = o.Email.Get()
+	}
+	if o.MasterKey.IsSet() {
+		toSerialize["master_key"] = o.MasterKey.Get()
+	}
+	if o.Password.IsSet() {
+		toSerialize["password"] = o.Password.Get()
+	}
 	return toSerialize, nil
-}
-
-func (o *CreateSessionRequest) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"master_key",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err
-	}
-
-	for _, requiredProperty := range requiredProperties {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
-	varCreateSessionRequest := _CreateSessionRequest{}
-
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateSessionRequest)
-
-	if err != nil {
-		return err
-	}
-
-	*o = CreateSessionRequest(varCreateSessionRequest)
-
-	return err
 }
 
 type NullableCreateSessionRequest struct {

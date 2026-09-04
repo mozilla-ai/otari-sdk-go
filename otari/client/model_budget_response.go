@@ -19,13 +19,17 @@ import (
 // checks if the BudgetResponse type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &BudgetResponse{}
 
-// BudgetResponse Response model for budget information.  “max_budget“ is the per-user spending limit, and multiple users can share one budget, so the usage rollup is an aggregate over the users assigned to this budget: how many there are and their combined “spend“ / “reserved“. Assigning users to a budget is done through the users API (dashboard support lands with user management), so a fresh gateway reports zeros here.
+// BudgetResponse Response model for budget information.  “max_budget“, “token_limit“ and “request_limit“ are the per-user ceilings, each independent and each unlimited when null, and multiple users can share one budget, so the usage rollup is an aggregate over the users assigned to this budget: how many there are and their combined “spend“ / “reserved“. Assigning users to a budget is done through the users API (dashboard support lands with user management), so a fresh gateway reports zeros here.
 type BudgetResponse struct {
 	BudgetDurationSec NullableInt32   `json:"budget_duration_sec"`
 	BudgetId          string          `json:"budget_id"`
 	CreatedAt         string          `json:"created_at"`
 	MaxBudget         NullableFloat32 `json:"max_budget"`
 	Name              NullableString  `json:"name"`
+	OrganizationId    NullableString  `json:"organization_id"`
+	RequestLimit      NullableInt32   `json:"request_limit"`
+	ResetAlignment    NullableString  `json:"reset_alignment"`
+	TokenLimit        NullableInt32   `json:"token_limit"`
 	TotalReserved     *float32        `json:"total_reserved,omitempty"`
 	TotalSpend        *float32        `json:"total_spend,omitempty"`
 	UpdatedAt         string          `json:"updated_at"`
@@ -38,13 +42,17 @@ type _BudgetResponse BudgetResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewBudgetResponse(budgetDurationSec NullableInt32, budgetId string, createdAt string, maxBudget NullableFloat32, name NullableString, updatedAt string) *BudgetResponse {
+func NewBudgetResponse(budgetDurationSec NullableInt32, budgetId string, createdAt string, maxBudget NullableFloat32, name NullableString, organizationId NullableString, requestLimit NullableInt32, resetAlignment NullableString, tokenLimit NullableInt32, updatedAt string) *BudgetResponse {
 	this := BudgetResponse{}
 	this.BudgetDurationSec = budgetDurationSec
 	this.BudgetId = budgetId
 	this.CreatedAt = createdAt
 	this.MaxBudget = maxBudget
 	this.Name = name
+	this.OrganizationId = organizationId
+	this.RequestLimit = requestLimit
+	this.ResetAlignment = resetAlignment
+	this.TokenLimit = tokenLimit
 	var totalReserved float32 = 0.0
 	this.TotalReserved = &totalReserved
 	var totalSpend float32 = 0.0
@@ -195,6 +203,110 @@ func (o *BudgetResponse) SetName(v string) {
 	o.Name.Set(&v)
 }
 
+// GetOrganizationId returns the OrganizationId field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *BudgetResponse) GetOrganizationId() string {
+	if o == nil || o.OrganizationId.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.OrganizationId.Get()
+}
+
+// GetOrganizationIdOk returns a tuple with the OrganizationId field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *BudgetResponse) GetOrganizationIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.OrganizationId.Get(), o.OrganizationId.IsSet()
+}
+
+// SetOrganizationId sets field value
+func (o *BudgetResponse) SetOrganizationId(v string) {
+	o.OrganizationId.Set(&v)
+}
+
+// GetRequestLimit returns the RequestLimit field value
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *BudgetResponse) GetRequestLimit() int32 {
+	if o == nil || o.RequestLimit.Get() == nil {
+		var ret int32
+		return ret
+	}
+
+	return *o.RequestLimit.Get()
+}
+
+// GetRequestLimitOk returns a tuple with the RequestLimit field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *BudgetResponse) GetRequestLimitOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RequestLimit.Get(), o.RequestLimit.IsSet()
+}
+
+// SetRequestLimit sets field value
+func (o *BudgetResponse) SetRequestLimit(v int32) {
+	o.RequestLimit.Set(&v)
+}
+
+// GetResetAlignment returns the ResetAlignment field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *BudgetResponse) GetResetAlignment() string {
+	if o == nil || o.ResetAlignment.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ResetAlignment.Get()
+}
+
+// GetResetAlignmentOk returns a tuple with the ResetAlignment field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *BudgetResponse) GetResetAlignmentOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ResetAlignment.Get(), o.ResetAlignment.IsSet()
+}
+
+// SetResetAlignment sets field value
+func (o *BudgetResponse) SetResetAlignment(v string) {
+	o.ResetAlignment.Set(&v)
+}
+
+// GetTokenLimit returns the TokenLimit field value
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *BudgetResponse) GetTokenLimit() int32 {
+	if o == nil || o.TokenLimit.Get() == nil {
+		var ret int32
+		return ret
+	}
+
+	return *o.TokenLimit.Get()
+}
+
+// GetTokenLimitOk returns a tuple with the TokenLimit field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *BudgetResponse) GetTokenLimitOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.TokenLimit.Get(), o.TokenLimit.IsSet()
+}
+
+// SetTokenLimit sets field value
+func (o *BudgetResponse) SetTokenLimit(v int32) {
+	o.TokenLimit.Set(&v)
+}
+
 // GetTotalReserved returns the TotalReserved field value if set, zero value otherwise.
 func (o *BudgetResponse) GetTotalReserved() float32 {
 	if o == nil || IsNil(o.TotalReserved) {
@@ -330,6 +442,10 @@ func (o BudgetResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["created_at"] = o.CreatedAt
 	toSerialize["max_budget"] = o.MaxBudget.Get()
 	toSerialize["name"] = o.Name.Get()
+	toSerialize["organization_id"] = o.OrganizationId.Get()
+	toSerialize["request_limit"] = o.RequestLimit.Get()
+	toSerialize["reset_alignment"] = o.ResetAlignment.Get()
+	toSerialize["token_limit"] = o.TokenLimit.Get()
 	if !IsNil(o.TotalReserved) {
 		toSerialize["total_reserved"] = o.TotalReserved
 	}
@@ -353,6 +469,10 @@ func (o *BudgetResponse) UnmarshalJSON(data []byte) (err error) {
 		"created_at",
 		"max_budget",
 		"name",
+		"organization_id",
+		"request_limit",
+		"reset_alignment",
+		"token_limit",
 		"updated_at",
 	}
 

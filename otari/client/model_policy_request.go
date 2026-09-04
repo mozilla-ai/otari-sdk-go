@@ -23,10 +23,14 @@ var _ MappedNullable = &PolicyRequest{}
 type PolicyRequest struct {
 	// Model name callers send, e.g. 'fast'.
 	Name string `json:"name"`
+	// Current name of the policy to rename, in the same scope, meaning the same workspace and the same user. A rename never moves a policy between them. The stored row keeps its id and created_at and takes `name` and `spec`. Sending it asserts that policy exists, so a name with no stored row is a 404 rather than a create, even when it equals `name`. Omit to create or update the policy named `name`. Renaming changes what callers must send as `model`; usage already recorded keeps the old name.
+	RenameFrom NullableString `json:"rename_from,omitempty"`
 	// The policy body: select (with exactly one `default` entry, last), optional on_failure and guardrails. Same schema as a `routing.policies` entry in config.yml, and closed to unknown keys, so a typo is a 400 rather than a silently ignored setting.
 	Spec map[string]interface{} `json:"spec"`
-	// User this policy belongs to. Omit for a global policy every caller sees. A user-scoped policy resolves only for that user and shadows a global one of the same name.
+	// User this policy belongs to. Omit for a policy every caller in the workspace sees. A user-scoped policy resolves only for that user and shadows the workspace-wide one of the same name.
 	UserId NullableString `json:"user_id,omitempty"`
+	// Workspace this policy belongs to. Omit for the deployment's default workspace. The policy resolves only for requests in that workspace, so two workspaces can each define their own 'fast'.
+	WorkspaceId NullableString `json:"workspace_id,omitempty"`
 }
 
 type _PolicyRequest PolicyRequest
@@ -72,6 +76,49 @@ func (o *PolicyRequest) GetNameOk() (*string, bool) {
 // SetName sets field value
 func (o *PolicyRequest) SetName(v string) {
 	o.Name = v
+}
+
+// GetRenameFrom returns the RenameFrom field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *PolicyRequest) GetRenameFrom() string {
+	if o == nil || IsNil(o.RenameFrom.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.RenameFrom.Get()
+}
+
+// GetRenameFromOk returns a tuple with the RenameFrom field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *PolicyRequest) GetRenameFromOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RenameFrom.Get(), o.RenameFrom.IsSet()
+}
+
+// HasRenameFrom returns a boolean if a field has been set.
+func (o *PolicyRequest) HasRenameFrom() bool {
+	if o != nil && o.RenameFrom.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRenameFrom gets a reference to the given NullableString and assigns it to the RenameFrom field.
+func (o *PolicyRequest) SetRenameFrom(v string) {
+	o.RenameFrom.Set(&v)
+}
+
+// SetRenameFromNil sets the value for RenameFrom to be an explicit nil
+func (o *PolicyRequest) SetRenameFromNil() {
+	o.RenameFrom.Set(nil)
+}
+
+// UnsetRenameFrom ensures that no value is present for RenameFrom, not even an explicit nil
+func (o *PolicyRequest) UnsetRenameFrom() {
+	o.RenameFrom.Unset()
 }
 
 // GetSpec returns the Spec field value
@@ -141,6 +188,49 @@ func (o *PolicyRequest) UnsetUserId() {
 	o.UserId.Unset()
 }
 
+// GetWorkspaceId returns the WorkspaceId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *PolicyRequest) GetWorkspaceId() string {
+	if o == nil || IsNil(o.WorkspaceId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.WorkspaceId.Get()
+}
+
+// GetWorkspaceIdOk returns a tuple with the WorkspaceId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *PolicyRequest) GetWorkspaceIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.WorkspaceId.Get(), o.WorkspaceId.IsSet()
+}
+
+// HasWorkspaceId returns a boolean if a field has been set.
+func (o *PolicyRequest) HasWorkspaceId() bool {
+	if o != nil && o.WorkspaceId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetWorkspaceId gets a reference to the given NullableString and assigns it to the WorkspaceId field.
+func (o *PolicyRequest) SetWorkspaceId(v string) {
+	o.WorkspaceId.Set(&v)
+}
+
+// SetWorkspaceIdNil sets the value for WorkspaceId to be an explicit nil
+func (o *PolicyRequest) SetWorkspaceIdNil() {
+	o.WorkspaceId.Set(nil)
+}
+
+// UnsetWorkspaceId ensures that no value is present for WorkspaceId, not even an explicit nil
+func (o *PolicyRequest) UnsetWorkspaceId() {
+	o.WorkspaceId.Unset()
+}
+
 func (o PolicyRequest) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -152,9 +242,15 @@ func (o PolicyRequest) MarshalJSON() ([]byte, error) {
 func (o PolicyRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
+	if o.RenameFrom.IsSet() {
+		toSerialize["rename_from"] = o.RenameFrom.Get()
+	}
 	toSerialize["spec"] = o.Spec
 	if o.UserId.IsSet() {
 		toSerialize["user_id"] = o.UserId.Get()
+	}
+	if o.WorkspaceId.IsSet() {
+		toSerialize["workspace_id"] = o.WorkspaceId.Get()
 	}
 	return toSerialize, nil
 }

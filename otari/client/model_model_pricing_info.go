@@ -21,12 +21,12 @@ var _ MappedNullable = &ModelPricingInfo{}
 
 // ModelPricingInfo Pricing information for a model.
 type ModelPricingInfo struct {
-	CacheReadPricePerMillion    NullableFloat32                     `json:"cache_read_price_per_million,omitempty"`
-	CacheWrite1hPricePerMillion NullableFloat32                     `json:"cache_write_1h_price_per_million,omitempty"`
-	CacheWritePricePerMillion   NullableFloat32                     `json:"cache_write_price_per_million,omitempty"`
-	InputPricePerMillion        float32                             `json:"input_price_per_million"`
-	OutputPricePerMillion       float32                             `json:"output_price_per_million"`
-	PricingTiers                []map[string]PricingTiersInnerValue `json:"pricing_tiers,omitempty"`
+	CacheReadPricePerMillion    NullableFloat32     `json:"cache_read_price_per_million,omitempty"`
+	CacheWrite1hPricePerMillion NullableFloat32     `json:"cache_write_1h_price_per_million,omitempty"`
+	CacheWritePricePerMillion   NullableFloat32     `json:"cache_write_price_per_million,omitempty"`
+	InputPricePerMillion        float32             `json:"input_price_per_million"`
+	OutputPricePerMillion       float32             `json:"output_price_per_million"`
+	PricingTiers                []PricingTiersInner `json:"pricing_tiers,omitempty"`
 }
 
 type _ModelPricingInfo ModelPricingInfo
@@ -228,9 +228,9 @@ func (o *ModelPricingInfo) SetOutputPricePerMillion(v float32) {
 }
 
 // GetPricingTiers returns the PricingTiers field value if set, zero value otherwise.
-func (o *ModelPricingInfo) GetPricingTiers() []map[string]PricingTiersInnerValue {
+func (o *ModelPricingInfo) GetPricingTiers() []PricingTiersInner {
 	if o == nil || IsNil(o.PricingTiers) {
-		var ret []map[string]PricingTiersInnerValue
+		var ret []PricingTiersInner
 		return ret
 	}
 	return o.PricingTiers
@@ -238,7 +238,7 @@ func (o *ModelPricingInfo) GetPricingTiers() []map[string]PricingTiersInnerValue
 
 // GetPricingTiersOk returns a tuple with the PricingTiers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModelPricingInfo) GetPricingTiersOk() ([]map[string]PricingTiersInnerValue, bool) {
+func (o *ModelPricingInfo) GetPricingTiersOk() ([]PricingTiersInner, bool) {
 	if o == nil || IsNil(o.PricingTiers) {
 		return nil, false
 	}
@@ -254,8 +254,8 @@ func (o *ModelPricingInfo) HasPricingTiers() bool {
 	return false
 }
 
-// SetPricingTiers gets a reference to the given []map[string]PricingTiersInnerValue and assigns it to the PricingTiers field.
-func (o *ModelPricingInfo) SetPricingTiers(v []map[string]PricingTiersInnerValue) {
+// SetPricingTiers gets a reference to the given []PricingTiersInner and assigns it to the PricingTiers field.
+func (o *ModelPricingInfo) SetPricingTiers(v []PricingTiersInner) {
 	o.PricingTiers = v
 }
 

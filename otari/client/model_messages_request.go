@@ -23,6 +23,7 @@ var _ MappedNullable = &MessagesRequest{}
 type MessagesRequest struct {
 	Betas             []string                 `json:"betas,omitempty"`
 	CacheControl      map[string]interface{}   `json:"cache_control,omitempty"`
+	Container         NullableString           `json:"container,omitempty"`
 	ContextManagement map[string]interface{}   `json:"context_management,omitempty"`
 	Guardrails        []GuardrailConfig        `json:"guardrails,omitempty"`
 	MaxTokens         int32                    `json:"max_tokens"`
@@ -32,8 +33,10 @@ type MessagesRequest struct {
 	Messages          []map[string]interface{} `json:"messages"`
 	Metadata          map[string]interface{}   `json:"metadata,omitempty"`
 	Model             string                   `json:"model"`
-	// An unsaved policy body to explain.
-	OutputFormat map[string]interface{} `json:"output_format,omitempty"`
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
+	OutputFormat   map[string]interface{} `json:"output_format,omitempty"`
+	PromptCacheKey NullableString         `json:"prompt_cache_key,omitempty"`
+	ServiceTier    NullableString         `json:"service_tier,omitempty"`
 	// Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to.
 	SessionLabel  NullableString           `json:"session_label,omitempty"`
 	StopSequences []string                 `json:"stop_sequences,omitempty"`
@@ -138,6 +141,49 @@ func (o *MessagesRequest) HasCacheControl() bool {
 // SetCacheControl gets a reference to the given map[string]interface{} and assigns it to the CacheControl field.
 func (o *MessagesRequest) SetCacheControl(v map[string]interface{}) {
 	o.CacheControl = v
+}
+
+// GetContainer returns the Container field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MessagesRequest) GetContainer() string {
+	if o == nil || IsNil(o.Container.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.Container.Get()
+}
+
+// GetContainerOk returns a tuple with the Container field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MessagesRequest) GetContainerOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Container.Get(), o.Container.IsSet()
+}
+
+// HasContainer returns a boolean if a field has been set.
+func (o *MessagesRequest) HasContainer() bool {
+	if o != nil && o.Container.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetContainer gets a reference to the given NullableString and assigns it to the Container field.
+func (o *MessagesRequest) SetContainer(v string) {
+	o.Container.Set(&v)
+}
+
+// SetContainerNil sets the value for Container to be an explicit nil
+func (o *MessagesRequest) SetContainerNil() {
+	o.Container.Set(nil)
+}
+
+// UnsetContainer ensures that no value is present for Container, not even an explicit nil
+func (o *MessagesRequest) UnsetContainer() {
+	o.Container.Unset()
 }
 
 // GetContextManagement returns the ContextManagement field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -451,6 +497,92 @@ func (o *MessagesRequest) HasOutputFormat() bool {
 // SetOutputFormat gets a reference to the given map[string]interface{} and assigns it to the OutputFormat field.
 func (o *MessagesRequest) SetOutputFormat(v map[string]interface{}) {
 	o.OutputFormat = v
+}
+
+// GetPromptCacheKey returns the PromptCacheKey field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MessagesRequest) GetPromptCacheKey() string {
+	if o == nil || IsNil(o.PromptCacheKey.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.PromptCacheKey.Get()
+}
+
+// GetPromptCacheKeyOk returns a tuple with the PromptCacheKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MessagesRequest) GetPromptCacheKeyOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PromptCacheKey.Get(), o.PromptCacheKey.IsSet()
+}
+
+// HasPromptCacheKey returns a boolean if a field has been set.
+func (o *MessagesRequest) HasPromptCacheKey() bool {
+	if o != nil && o.PromptCacheKey.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetPromptCacheKey gets a reference to the given NullableString and assigns it to the PromptCacheKey field.
+func (o *MessagesRequest) SetPromptCacheKey(v string) {
+	o.PromptCacheKey.Set(&v)
+}
+
+// SetPromptCacheKeyNil sets the value for PromptCacheKey to be an explicit nil
+func (o *MessagesRequest) SetPromptCacheKeyNil() {
+	o.PromptCacheKey.Set(nil)
+}
+
+// UnsetPromptCacheKey ensures that no value is present for PromptCacheKey, not even an explicit nil
+func (o *MessagesRequest) UnsetPromptCacheKey() {
+	o.PromptCacheKey.Unset()
+}
+
+// GetServiceTier returns the ServiceTier field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MessagesRequest) GetServiceTier() string {
+	if o == nil || IsNil(o.ServiceTier.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.ServiceTier.Get()
+}
+
+// GetServiceTierOk returns a tuple with the ServiceTier field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MessagesRequest) GetServiceTierOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ServiceTier.Get(), o.ServiceTier.IsSet()
+}
+
+// HasServiceTier returns a boolean if a field has been set.
+func (o *MessagesRequest) HasServiceTier() bool {
+	if o != nil && o.ServiceTier.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetServiceTier gets a reference to the given NullableString and assigns it to the ServiceTier field.
+func (o *MessagesRequest) SetServiceTier(v string) {
+	o.ServiceTier.Set(&v)
+}
+
+// SetServiceTierNil sets the value for ServiceTier to be an explicit nil
+func (o *MessagesRequest) SetServiceTierNil() {
+	o.ServiceTier.Set(nil)
+}
+
+// UnsetServiceTier ensures that no value is present for ServiceTier, not even an explicit nil
+func (o *MessagesRequest) UnsetServiceTier() {
+	o.ServiceTier.Unset()
 }
 
 // GetSessionLabel returns the SessionLabel field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -891,6 +1023,9 @@ func (o MessagesRequest) ToMap() (map[string]interface{}, error) {
 	if o.CacheControl != nil {
 		toSerialize["cache_control"] = o.CacheControl
 	}
+	if o.Container.IsSet() {
+		toSerialize["container"] = o.Container.Get()
+	}
 	if o.ContextManagement != nil {
 		toSerialize["context_management"] = o.ContextManagement
 	}
@@ -914,6 +1049,12 @@ func (o MessagesRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize["model"] = o.Model
 	if o.OutputFormat != nil {
 		toSerialize["output_format"] = o.OutputFormat
+	}
+	if o.PromptCacheKey.IsSet() {
+		toSerialize["prompt_cache_key"] = o.PromptCacheKey.Get()
+	}
+	if o.ServiceTier.IsSet() {
+		toSerialize["service_tier"] = o.ServiceTier.Get()
 	}
 	if o.SessionLabel.IsSet() {
 		toSerialize["session_label"] = o.SessionLabel.Get()

@@ -21,35 +21,37 @@ var _ MappedNullable = &UsageEntry{}
 
 // UsageEntry A single usage log entry.
 type UsageEntry struct {
-	ApiKeyId        NullableString `json:"api_key_id"`
-	AttemptCount    NullableInt32  `json:"attempt_count,omitempty"`
-	AttemptPosition NullableInt32  `json:"attempt_position,omitempty"`
-	// An unsaved policy body to explain.
-	BillingMeters      map[string]interface{}                            `json:"billing_meters"`
-	CacheReadTokens    NullableInt32                                     `json:"cache_read_tokens"`
-	CacheWrite1hTokens NullableInt32                                     `json:"cache_write_1h_tokens"`
-	CacheWriteTokens   NullableInt32                                     `json:"cache_write_tokens"`
-	CompletionTokens   NullableInt32                                     `json:"completion_tokens"`
-	Cost               NullableFloat32                                   `json:"cost"`
-	CountsTowardBudget bool                                              `json:"counts_toward_budget"`
-	Endpoint           string                                            `json:"endpoint"`
-	ErrorMessage       NullableString                                    `json:"error_message"`
-	Id                 string                                            `json:"id"`
-	LatencyMs          NullableInt32                                     `json:"latency_ms"`
-	Model              string                                            `json:"model"`
-	PolicyName         NullableString                                    `json:"policy_name,omitempty"`
-	PricingBreakdown   []map[string]UsageEntryPricingBreakdownInnerValue `json:"pricing_breakdown"`
-	PromptTokens       NullableInt32                                     `json:"prompt_tokens"`
-	Provider           NullableString                                    `json:"provider"`
-	RequestGroupId     NullableString                                    `json:"request_group_id,omitempty"`
-	SelectionReason    NullableString                                    `json:"selection_reason,omitempty"`
-	Source             string                                            `json:"source"`
-	SourceLabel        NullableString                                    `json:"source_label"`
-	Status             string                                            `json:"status"`
-	StatusCode         NullableInt32                                     `json:"status_code"`
-	Timestamp          string                                            `json:"timestamp"`
-	TotalTokens        NullableInt32                                     `json:"total_tokens"`
-	UserId             NullableString                                    `json:"user_id"`
+	ApiKeyId           NullableString                    `json:"api_key_id"`
+	ApiKeyName         NullableString                    `json:"api_key_name,omitempty"`
+	AttemptCount       NullableInt32                     `json:"attempt_count,omitempty"`
+	AttemptPosition    NullableInt32                     `json:"attempt_position,omitempty"`
+	BillingMeters      NullableBillingMeters             `json:"billing_meters"`
+	BulkEditable       bool                              `json:"bulk_editable"`
+	CacheReadTokens    NullableInt32                     `json:"cache_read_tokens"`
+	CacheWrite1hTokens NullableInt32                     `json:"cache_write_1h_tokens"`
+	CacheWriteTokens   NullableInt32                     `json:"cache_write_tokens"`
+	CompletionTokens   NullableInt32                     `json:"completion_tokens"`
+	Cost               NullableFloat32                   `json:"cost"`
+	CountsTowardBudget bool                              `json:"counts_toward_budget"`
+	Endpoint           string                            `json:"endpoint"`
+	ErrorMessage       NullableString                    `json:"error_message"`
+	Id                 string                            `json:"id"`
+	LatencyMs          NullableInt32                     `json:"latency_ms"`
+	Model              string                            `json:"model"`
+	PolicyName         NullableString                    `json:"policy_name,omitempty"`
+	PricingBreakdown   []UsageEntryPricingBreakdownInner `json:"pricing_breakdown"`
+	PromptTokens       NullableInt32                     `json:"prompt_tokens"`
+	Provider           NullableString                    `json:"provider"`
+	RequestGroupId     NullableString                    `json:"request_group_id,omitempty"`
+	SelectionReason    NullableString                    `json:"selection_reason,omitempty"`
+	Source             string                            `json:"source"`
+	SourceLabel        NullableString                    `json:"source_label"`
+	Status             string                            `json:"status"`
+	StatusCode         NullableInt32                     `json:"status_code"`
+	Timestamp          string                            `json:"timestamp"`
+	TotalTokens        NullableInt32                     `json:"total_tokens"`
+	UserAlias          NullableString                    `json:"user_alias,omitempty"`
+	UserId             NullableString                    `json:"user_id"`
 }
 
 type _UsageEntry UsageEntry
@@ -58,10 +60,11 @@ type _UsageEntry UsageEntry
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUsageEntry(apiKeyId NullableString, billingMeters map[string]interface{}, cacheReadTokens NullableInt32, cacheWrite1hTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, countsTowardBudget bool, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, pricingBreakdown []map[string]UsageEntryPricingBreakdownInnerValue, promptTokens NullableInt32, provider NullableString, source string, sourceLabel NullableString, status string, statusCode NullableInt32, timestamp string, totalTokens NullableInt32, userId NullableString) *UsageEntry {
+func NewUsageEntry(apiKeyId NullableString, billingMeters NullableBillingMeters, bulkEditable bool, cacheReadTokens NullableInt32, cacheWrite1hTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, countsTowardBudget bool, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, pricingBreakdown []UsageEntryPricingBreakdownInner, promptTokens NullableInt32, provider NullableString, source string, sourceLabel NullableString, status string, statusCode NullableInt32, timestamp string, totalTokens NullableInt32, userId NullableString) *UsageEntry {
 	this := UsageEntry{}
 	this.ApiKeyId = apiKeyId
 	this.BillingMeters = billingMeters
+	this.BulkEditable = bulkEditable
 	this.CacheReadTokens = cacheReadTokens
 	this.CacheWrite1hTokens = cacheWrite1hTokens
 	this.CacheWriteTokens = cacheWriteTokens
@@ -118,6 +121,49 @@ func (o *UsageEntry) GetApiKeyIdOk() (*string, bool) {
 // SetApiKeyId sets field value
 func (o *UsageEntry) SetApiKeyId(v string) {
 	o.ApiKeyId.Set(&v)
+}
+
+// GetApiKeyName returns the ApiKeyName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UsageEntry) GetApiKeyName() string {
+	if o == nil || IsNil(o.ApiKeyName.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.ApiKeyName.Get()
+}
+
+// GetApiKeyNameOk returns a tuple with the ApiKeyName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetApiKeyNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ApiKeyName.Get(), o.ApiKeyName.IsSet()
+}
+
+// HasApiKeyName returns a boolean if a field has been set.
+func (o *UsageEntry) HasApiKeyName() bool {
+	if o != nil && o.ApiKeyName.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetApiKeyName gets a reference to the given NullableString and assigns it to the ApiKeyName field.
+func (o *UsageEntry) SetApiKeyName(v string) {
+	o.ApiKeyName.Set(&v)
+}
+
+// SetApiKeyNameNil sets the value for ApiKeyName to be an explicit nil
+func (o *UsageEntry) SetApiKeyNameNil() {
+	o.ApiKeyName.Set(nil)
+}
+
+// UnsetApiKeyName ensures that no value is present for ApiKeyName, not even an explicit nil
+func (o *UsageEntry) UnsetApiKeyName() {
+	o.ApiKeyName.Unset()
 }
 
 // GetAttemptCount returns the AttemptCount field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -207,29 +253,53 @@ func (o *UsageEntry) UnsetAttemptPosition() {
 }
 
 // GetBillingMeters returns the BillingMeters field value
-// If the value is explicit nil, the zero value for map[string]interface{} will be returned
-func (o *UsageEntry) GetBillingMeters() map[string]interface{} {
-	if o == nil {
-		var ret map[string]interface{}
+// If the value is explicit nil, the zero value for BillingMeters will be returned
+func (o *UsageEntry) GetBillingMeters() BillingMeters {
+	if o == nil || o.BillingMeters.Get() == nil {
+		var ret BillingMeters
 		return ret
 	}
 
-	return o.BillingMeters
+	return *o.BillingMeters.Get()
 }
 
 // GetBillingMetersOk returns a tuple with the BillingMeters field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UsageEntry) GetBillingMetersOk() (map[string]interface{}, bool) {
-	if o == nil || IsNil(o.BillingMeters) {
-		return map[string]interface{}{}, false
+func (o *UsageEntry) GetBillingMetersOk() (*BillingMeters, bool) {
+	if o == nil {
+		return nil, false
 	}
-	return o.BillingMeters, true
+	return o.BillingMeters.Get(), o.BillingMeters.IsSet()
 }
 
 // SetBillingMeters sets field value
-func (o *UsageEntry) SetBillingMeters(v map[string]interface{}) {
-	o.BillingMeters = v
+func (o *UsageEntry) SetBillingMeters(v BillingMeters) {
+	o.BillingMeters.Set(&v)
+}
+
+// GetBulkEditable returns the BulkEditable field value
+func (o *UsageEntry) GetBulkEditable() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.BulkEditable
+}
+
+// GetBulkEditableOk returns a tuple with the BulkEditable field value
+// and a boolean to check if the value has been set.
+func (o *UsageEntry) GetBulkEditableOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.BulkEditable, true
+}
+
+// SetBulkEditable sets field value
+func (o *UsageEntry) SetBulkEditable(v bool) {
+	o.BulkEditable = v
 }
 
 // GetCacheReadTokens returns the CacheReadTokens field value
@@ -554,10 +624,10 @@ func (o *UsageEntry) UnsetPolicyName() {
 }
 
 // GetPricingBreakdown returns the PricingBreakdown field value
-// If the value is explicit nil, the zero value for []map[string]UsageEntryPricingBreakdownInnerValue will be returned
-func (o *UsageEntry) GetPricingBreakdown() []map[string]UsageEntryPricingBreakdownInnerValue {
+// If the value is explicit nil, the zero value for []UsageEntryPricingBreakdownInner will be returned
+func (o *UsageEntry) GetPricingBreakdown() []UsageEntryPricingBreakdownInner {
 	if o == nil {
-		var ret []map[string]UsageEntryPricingBreakdownInnerValue
+		var ret []UsageEntryPricingBreakdownInner
 		return ret
 	}
 
@@ -567,7 +637,7 @@ func (o *UsageEntry) GetPricingBreakdown() []map[string]UsageEntryPricingBreakdo
 // GetPricingBreakdownOk returns a tuple with the PricingBreakdown field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UsageEntry) GetPricingBreakdownOk() ([]map[string]UsageEntryPricingBreakdownInnerValue, bool) {
+func (o *UsageEntry) GetPricingBreakdownOk() ([]UsageEntryPricingBreakdownInner, bool) {
 	if o == nil || IsNil(o.PricingBreakdown) {
 		return nil, false
 	}
@@ -575,7 +645,7 @@ func (o *UsageEntry) GetPricingBreakdownOk() ([]map[string]UsageEntryPricingBrea
 }
 
 // SetPricingBreakdown sets field value
-func (o *UsageEntry) SetPricingBreakdown(v []map[string]UsageEntryPricingBreakdownInnerValue) {
+func (o *UsageEntry) SetPricingBreakdown(v []UsageEntryPricingBreakdownInner) {
 	o.PricingBreakdown = v
 }
 
@@ -867,6 +937,49 @@ func (o *UsageEntry) SetTotalTokens(v int32) {
 	o.TotalTokens.Set(&v)
 }
 
+// GetUserAlias returns the UserAlias field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UsageEntry) GetUserAlias() string {
+	if o == nil || IsNil(o.UserAlias.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.UserAlias.Get()
+}
+
+// GetUserAliasOk returns a tuple with the UserAlias field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UsageEntry) GetUserAliasOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.UserAlias.Get(), o.UserAlias.IsSet()
+}
+
+// HasUserAlias returns a boolean if a field has been set.
+func (o *UsageEntry) HasUserAlias() bool {
+	if o != nil && o.UserAlias.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetUserAlias gets a reference to the given NullableString and assigns it to the UserAlias field.
+func (o *UsageEntry) SetUserAlias(v string) {
+	o.UserAlias.Set(&v)
+}
+
+// SetUserAliasNil sets the value for UserAlias to be an explicit nil
+func (o *UsageEntry) SetUserAliasNil() {
+	o.UserAlias.Set(nil)
+}
+
+// UnsetUserAlias ensures that no value is present for UserAlias, not even an explicit nil
+func (o *UsageEntry) UnsetUserAlias() {
+	o.UserAlias.Unset()
+}
+
 // GetUserId returns the UserId field value
 // If the value is explicit nil, the zero value for string will be returned
 func (o *UsageEntry) GetUserId() string {
@@ -904,15 +1017,17 @@ func (o UsageEntry) MarshalJSON() ([]byte, error) {
 func (o UsageEntry) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["api_key_id"] = o.ApiKeyId.Get()
+	if o.ApiKeyName.IsSet() {
+		toSerialize["api_key_name"] = o.ApiKeyName.Get()
+	}
 	if o.AttemptCount.IsSet() {
 		toSerialize["attempt_count"] = o.AttemptCount.Get()
 	}
 	if o.AttemptPosition.IsSet() {
 		toSerialize["attempt_position"] = o.AttemptPosition.Get()
 	}
-	if o.BillingMeters != nil {
-		toSerialize["billing_meters"] = o.BillingMeters
-	}
+	toSerialize["billing_meters"] = o.BillingMeters.Get()
+	toSerialize["bulk_editable"] = o.BulkEditable
 	toSerialize["cache_read_tokens"] = o.CacheReadTokens.Get()
 	toSerialize["cache_write_1h_tokens"] = o.CacheWrite1hTokens.Get()
 	toSerialize["cache_write_tokens"] = o.CacheWriteTokens.Get()
@@ -944,6 +1059,9 @@ func (o UsageEntry) ToMap() (map[string]interface{}, error) {
 	toSerialize["status_code"] = o.StatusCode.Get()
 	toSerialize["timestamp"] = o.Timestamp
 	toSerialize["total_tokens"] = o.TotalTokens.Get()
+	if o.UserAlias.IsSet() {
+		toSerialize["user_alias"] = o.UserAlias.Get()
+	}
 	toSerialize["user_id"] = o.UserId.Get()
 	return toSerialize, nil
 }
@@ -955,6 +1073,7 @@ func (o *UsageEntry) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"api_key_id",
 		"billing_meters",
+		"bulk_editable",
 		"cache_read_tokens",
 		"cache_write_1h_tokens",
 		"cache_write_tokens",

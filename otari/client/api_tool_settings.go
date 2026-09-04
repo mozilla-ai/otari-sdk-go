@@ -36,6 +36,12 @@ GetToolSettingsV1ToolSettingsGet Get Tool Settings
 
 Return the effective tool/guardrail settings for the dashboard.
 
+Authentication only on the router: the role decides *how much* rather than
+whether, so this is not the deployment-wide gate “require_deployment_operator“
+names. A header master key is the deployment credential and reads everything;
+a session reads everything only while it operates the deployment, and
+otherwise gets the fields without the service endpoints in them.
+
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiGetToolSettingsV1ToolSettingsGetRequest
 */
@@ -330,7 +336,7 @@ UpdateToolSettingsV1ToolSettingsPatch Update Tool Settings
 Persist and apply tool/guardrail setting changes.
 
 Uses “model_fields_set“ so an explicit “null“ clears a field while an
-omitted field is left unchanged. Master-key gated and standalone-only.
+omitted field is left unchanged. Operator-gated and standalone-only.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiUpdateToolSettingsV1ToolSettingsPatchRequest

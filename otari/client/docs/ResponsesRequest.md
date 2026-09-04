@@ -24,7 +24,7 @@ Name | Type | Description | Notes
 **PreviousResponseId** | Pointer to **NullableString** |  | [optional] 
 **PromptCacheKey** | Pointer to **NullableString** |  | [optional] 
 **PromptCacheRetention** | Pointer to **NullableString** |  | [optional] 
-**Reasoning** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**Reasoning** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
 **ResponseFormat** | Pointer to **map[string]interface{}** |  | [optional] 
 **SafetyIdentifier** | Pointer to **NullableString** |  | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 

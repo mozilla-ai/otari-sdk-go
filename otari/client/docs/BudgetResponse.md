@@ -9,6 +9,10 @@ Name | Type | Description | Notes
 **CreatedAt** | **string** |  | 
 **MaxBudget** | **NullableFloat32** |  | 
 **Name** | **NullableString** |  | 
+**OrganizationId** | **NullableString** |  | 
+**RequestLimit** | **NullableInt32** |  | 
+**ResetAlignment** | **NullableString** |  | 
+**TokenLimit** | **NullableInt32** |  | 
 **TotalReserved** | Pointer to **float32** |  | [optional] [default to 0.0]
 **TotalSpend** | Pointer to **float32** |  | [optional] [default to 0.0]
 **UpdatedAt** | **string** |  | 
@@ -18,7 +22,7 @@ Name | Type | Description | Notes
 
 ### NewBudgetResponse
 
-`func NewBudgetResponse(budgetDurationSec NullableInt32, budgetId string, createdAt string, maxBudget NullableFloat32, name NullableString, updatedAt string, ) *BudgetResponse`
+`func NewBudgetResponse(budgetDurationSec NullableInt32, budgetId string, createdAt string, maxBudget NullableFloat32, name NullableString, organizationId NullableString, requestLimit NullableInt32, resetAlignment NullableString, tokenLimit NullableInt32, updatedAt string, ) *BudgetResponse`
 
 NewBudgetResponse instantiates a new BudgetResponse object
 This constructor will assign default values to properties that have it defined,
@@ -163,6 +167,126 @@ SetName sets Name field to given value.
 `func (o *BudgetResponse) UnsetName()`
 
 UnsetName ensures that no value is present for Name, not even an explicit nil
+### GetOrganizationId
+
+`func (o *BudgetResponse) GetOrganizationId() string`
+
+GetOrganizationId returns the OrganizationId field if non-nil, zero value otherwise.
+
+### GetOrganizationIdOk
+
+`func (o *BudgetResponse) GetOrganizationIdOk() (*string, bool)`
+
+GetOrganizationIdOk returns a tuple with the OrganizationId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOrganizationId
+
+`func (o *BudgetResponse) SetOrganizationId(v string)`
+
+SetOrganizationId sets OrganizationId field to given value.
+
+
+### SetOrganizationIdNil
+
+`func (o *BudgetResponse) SetOrganizationIdNil(b bool)`
+
+ SetOrganizationIdNil sets the value for OrganizationId to be an explicit nil
+
+### UnsetOrganizationId
+`func (o *BudgetResponse) UnsetOrganizationId()`
+
+UnsetOrganizationId ensures that no value is present for OrganizationId, not even an explicit nil
+### GetRequestLimit
+
+`func (o *BudgetResponse) GetRequestLimit() int32`
+
+GetRequestLimit returns the RequestLimit field if non-nil, zero value otherwise.
+
+### GetRequestLimitOk
+
+`func (o *BudgetResponse) GetRequestLimitOk() (*int32, bool)`
+
+GetRequestLimitOk returns a tuple with the RequestLimit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRequestLimit
+
+`func (o *BudgetResponse) SetRequestLimit(v int32)`
+
+SetRequestLimit sets RequestLimit field to given value.
+
+
+### SetRequestLimitNil
+
+`func (o *BudgetResponse) SetRequestLimitNil(b bool)`
+
+ SetRequestLimitNil sets the value for RequestLimit to be an explicit nil
+
+### UnsetRequestLimit
+`func (o *BudgetResponse) UnsetRequestLimit()`
+
+UnsetRequestLimit ensures that no value is present for RequestLimit, not even an explicit nil
+### GetResetAlignment
+
+`func (o *BudgetResponse) GetResetAlignment() string`
+
+GetResetAlignment returns the ResetAlignment field if non-nil, zero value otherwise.
+
+### GetResetAlignmentOk
+
+`func (o *BudgetResponse) GetResetAlignmentOk() (*string, bool)`
+
+GetResetAlignmentOk returns a tuple with the ResetAlignment field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetResetAlignment
+
+`func (o *BudgetResponse) SetResetAlignment(v string)`
+
+SetResetAlignment sets ResetAlignment field to given value.
+
+
+### SetResetAlignmentNil
+
+`func (o *BudgetResponse) SetResetAlignmentNil(b bool)`
+
+ SetResetAlignmentNil sets the value for ResetAlignment to be an explicit nil
+
+### UnsetResetAlignment
+`func (o *BudgetResponse) UnsetResetAlignment()`
+
+UnsetResetAlignment ensures that no value is present for ResetAlignment, not even an explicit nil
+### GetTokenLimit
+
+`func (o *BudgetResponse) GetTokenLimit() int32`
+
+GetTokenLimit returns the TokenLimit field if non-nil, zero value otherwise.
+
+### GetTokenLimitOk
+
+`func (o *BudgetResponse) GetTokenLimitOk() (*int32, bool)`
+
+GetTokenLimitOk returns a tuple with the TokenLimit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTokenLimit
+
+`func (o *BudgetResponse) SetTokenLimit(v int32)`
+
+SetTokenLimit sets TokenLimit field to given value.
+
+
+### SetTokenLimitNil
+
+`func (o *BudgetResponse) SetTokenLimitNil(b bool)`
+
+ SetTokenLimitNil sets the value for TokenLimit to be an explicit nil
+
+### UnsetTokenLimit
+`func (o *BudgetResponse) UnsetTokenLimit()`
+
+UnsetTokenLimit ensures that no value is present for TokenLimit, not even an explicit nil
 ### GetTotalReserved
 
 `func (o *BudgetResponse) GetTotalReserved() float32`
