@@ -17,37 +17,37 @@ import (
 
 // Content14 struct for Content14
 type Content14 struct {
-	MRWebFetchBlock                *MRWebFetchBlock
-	MRWebFetchToolResultErrorBlock *MRWebFetchToolResultErrorBlock
+	MRToolSearchToolResultError       *MRToolSearchToolResultError
+	MRToolSearchToolSearchResultBlock *MRToolSearchToolSearchResultBlock
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *Content14) UnmarshalJSON(data []byte) error {
 	var err error
-	// try to unmarshal JSON data into MRWebFetchBlock
-	err = json.Unmarshal(data, &dst.MRWebFetchBlock)
+	// try to unmarshal JSON data into MRToolSearchToolResultError
+	err = json.Unmarshal(data, &dst.MRToolSearchToolResultError)
 	if err == nil {
-		jsonMRWebFetchBlock, _ := json.Marshal(dst.MRWebFetchBlock)
-		if string(jsonMRWebFetchBlock) == "{}" { // empty struct
-			dst.MRWebFetchBlock = nil
+		jsonMRToolSearchToolResultError, _ := json.Marshal(dst.MRToolSearchToolResultError)
+		if string(jsonMRToolSearchToolResultError) == "{}" { // empty struct
+			dst.MRToolSearchToolResultError = nil
 		} else {
-			return nil // data stored in dst.MRWebFetchBlock, return on the first match
+			return nil // data stored in dst.MRToolSearchToolResultError, return on the first match
 		}
 	} else {
-		dst.MRWebFetchBlock = nil
+		dst.MRToolSearchToolResultError = nil
 	}
 
-	// try to unmarshal JSON data into MRWebFetchToolResultErrorBlock
-	err = json.Unmarshal(data, &dst.MRWebFetchToolResultErrorBlock)
+	// try to unmarshal JSON data into MRToolSearchToolSearchResultBlock
+	err = json.Unmarshal(data, &dst.MRToolSearchToolSearchResultBlock)
 	if err == nil {
-		jsonMRWebFetchToolResultErrorBlock, _ := json.Marshal(dst.MRWebFetchToolResultErrorBlock)
-		if string(jsonMRWebFetchToolResultErrorBlock) == "{}" { // empty struct
-			dst.MRWebFetchToolResultErrorBlock = nil
+		jsonMRToolSearchToolSearchResultBlock, _ := json.Marshal(dst.MRToolSearchToolSearchResultBlock)
+		if string(jsonMRToolSearchToolSearchResultBlock) == "{}" { // empty struct
+			dst.MRToolSearchToolSearchResultBlock = nil
 		} else {
-			return nil // data stored in dst.MRWebFetchToolResultErrorBlock, return on the first match
+			return nil // data stored in dst.MRToolSearchToolSearchResultBlock, return on the first match
 		}
 	} else {
-		dst.MRWebFetchToolResultErrorBlock = nil
+		dst.MRToolSearchToolSearchResultBlock = nil
 	}
 
 	return fmt.Errorf("data failed to match schemas in anyOf(Content14)")
@@ -55,12 +55,12 @@ func (dst *Content14) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Content14) MarshalJSON() ([]byte, error) {
-	if src.MRWebFetchBlock != nil {
-		return json.Marshal(&src.MRWebFetchBlock)
+	if src.MRToolSearchToolResultError != nil {
+		return json.Marshal(&src.MRToolSearchToolResultError)
 	}
 
-	if src.MRWebFetchToolResultErrorBlock != nil {
-		return json.Marshal(&src.MRWebFetchToolResultErrorBlock)
+	if src.MRToolSearchToolSearchResultBlock != nil {
+		return json.Marshal(&src.MRToolSearchToolSearchResultBlock)
 	}
 
 	return nil, nil // no data in anyOf schemas

@@ -184,7 +184,7 @@ func (r ApiDeleteUserV1UsersUserIdDeleteRequest) Execute() (*http.Response, erro
 /*
 DeleteUserV1UsersUserIdDelete Delete User
 
-Delete a user.
+Delete a user, and erase the telemetry captured under their name.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param userId

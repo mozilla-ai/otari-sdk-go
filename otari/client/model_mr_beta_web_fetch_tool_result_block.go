@@ -20,7 +20,7 @@ var _ MappedNullable = &MRBetaWebFetchToolResultBlock{}
 
 // MRBetaWebFetchToolResultBlock struct for MRBetaWebFetchToolResultBlock
 type MRBetaWebFetchToolResultBlock struct {
-	Content              Content9       `json:"content"`
+	Content              Content10      `json:"content"`
 	ToolUseId            string         `json:"tool_use_id"`
 	Type                 string         `json:"type"`
 	Caller               NullableCaller `json:"caller,omitempty"`
@@ -33,7 +33,7 @@ type _MRBetaWebFetchToolResultBlock MRBetaWebFetchToolResultBlock
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRBetaWebFetchToolResultBlock(content Content9, toolUseId string, type_ string) *MRBetaWebFetchToolResultBlock {
+func NewMRBetaWebFetchToolResultBlock(content Content10, toolUseId string, type_ string) *MRBetaWebFetchToolResultBlock {
 	this := MRBetaWebFetchToolResultBlock{}
 	this.Content = content
 	this.ToolUseId = toolUseId
@@ -50,9 +50,9 @@ func NewMRBetaWebFetchToolResultBlockWithDefaults() *MRBetaWebFetchToolResultBlo
 }
 
 // GetContent returns the Content field value
-func (o *MRBetaWebFetchToolResultBlock) GetContent() Content9 {
+func (o *MRBetaWebFetchToolResultBlock) GetContent() Content10 {
 	if o == nil {
-		var ret Content9
+		var ret Content10
 		return ret
 	}
 
@@ -61,7 +61,7 @@ func (o *MRBetaWebFetchToolResultBlock) GetContent() Content9 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *MRBetaWebFetchToolResultBlock) GetContentOk() (*Content9, bool) {
+func (o *MRBetaWebFetchToolResultBlock) GetContentOk() (*Content10, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -69,7 +69,7 @@ func (o *MRBetaWebFetchToolResultBlock) GetContentOk() (*Content9, bool) {
 }
 
 // SetContent sets field value
-func (o *MRBetaWebFetchToolResultBlock) SetContent(v Content9) {
+func (o *MRBetaWebFetchToolResultBlock) SetContent(v Content10) {
 	o.Content = v
 }
 

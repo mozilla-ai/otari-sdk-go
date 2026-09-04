@@ -25,10 +25,11 @@ type MRMessageUsage struct {
 	CacheCreationInputTokens NullableInt32 `json:"cache_creation_input_tokens,omitempty"`
 	// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status='error' unless 'status' is given explicitly
 	CacheReadInputTokens NullableInt32 `json:"cache_read_input_tokens,omitempty"`
-	// Delete the alias scoped to this user. Omit to delete the global alias of that name.
+	// Filter to a single event type or metric name (e.g. 'tool_result', 'claude_code.commit.count')
 	InferenceGeo         NullableString                  `json:"inference_geo,omitempty"`
 	InputTokens          int32                           `json:"input_tokens"`
 	OutputTokens         int32                           `json:"output_tokens"`
+	OutputTokensDetails  NullableMROutputTokensDetails   `json:"output_tokens_details,omitempty"`
 	ServerToolUse        NullableMRServerToolUsage       `json:"server_tool_use,omitempty"`
 	ServiceTier          NullableString                  `json:"service_tier,omitempty"`
 	Iterations           []MRMessageUsageIterationsInner `json:"iterations,omitempty"`
@@ -277,6 +278,49 @@ func (o *MRMessageUsage) SetOutputTokens(v int32) {
 	o.OutputTokens = v
 }
 
+// GetOutputTokensDetails returns the OutputTokensDetails field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MRMessageUsage) GetOutputTokensDetails() MROutputTokensDetails {
+	if o == nil || IsNil(o.OutputTokensDetails.Get()) {
+		var ret MROutputTokensDetails
+		return ret
+	}
+	return *o.OutputTokensDetails.Get()
+}
+
+// GetOutputTokensDetailsOk returns a tuple with the OutputTokensDetails field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MRMessageUsage) GetOutputTokensDetailsOk() (*MROutputTokensDetails, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.OutputTokensDetails.Get(), o.OutputTokensDetails.IsSet()
+}
+
+// HasOutputTokensDetails returns a boolean if a field has been set.
+func (o *MRMessageUsage) HasOutputTokensDetails() bool {
+	if o != nil && o.OutputTokensDetails.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetOutputTokensDetails gets a reference to the given NullableMROutputTokensDetails and assigns it to the OutputTokensDetails field.
+func (o *MRMessageUsage) SetOutputTokensDetails(v MROutputTokensDetails) {
+	o.OutputTokensDetails.Set(&v)
+}
+
+// SetOutputTokensDetailsNil sets the value for OutputTokensDetails to be an explicit nil
+func (o *MRMessageUsage) SetOutputTokensDetailsNil() {
+	o.OutputTokensDetails.Set(nil)
+}
+
+// UnsetOutputTokensDetails ensures that no value is present for OutputTokensDetails, not even an explicit nil
+func (o *MRMessageUsage) UnsetOutputTokensDetails() {
+	o.OutputTokensDetails.Unset()
+}
+
 // GetServerToolUse returns the ServerToolUse field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MRMessageUsage) GetServerToolUse() MRServerToolUsage {
 	if o == nil || IsNil(o.ServerToolUse.Get()) {
@@ -463,6 +507,9 @@ func (o MRMessageUsage) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["input_tokens"] = o.InputTokens
 	toSerialize["output_tokens"] = o.OutputTokens
+	if o.OutputTokensDetails.IsSet() {
+		toSerialize["output_tokens_details"] = o.OutputTokensDetails.Get()
+	}
 	if o.ServerToolUse.IsSet() {
 		toSerialize["server_tool_use"] = o.ServerToolUse.Get()
 	}
@@ -525,6 +572,7 @@ func (o *MRMessageUsage) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "inference_geo")
 		delete(additionalProperties, "input_tokens")
 		delete(additionalProperties, "output_tokens")
+		delete(additionalProperties, "output_tokens_details")
 		delete(additionalProperties, "server_tool_use")
 		delete(additionalProperties, "service_tier")
 		delete(additionalProperties, "iterations")

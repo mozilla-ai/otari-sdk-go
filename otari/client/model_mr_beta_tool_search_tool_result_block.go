@@ -20,7 +20,7 @@ var _ MappedNullable = &MRBetaToolSearchToolResultBlock{}
 
 // MRBetaToolSearchToolResultBlock struct for MRBetaToolSearchToolResultBlock
 type MRBetaToolSearchToolResultBlock struct {
-	Content              Content8 `json:"content"`
+	Content              Content9 `json:"content"`
 	ToolUseId            string   `json:"tool_use_id"`
 	Type                 string   `json:"type"`
 	AdditionalProperties map[string]interface{}
@@ -32,7 +32,7 @@ type _MRBetaToolSearchToolResultBlock MRBetaToolSearchToolResultBlock
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRBetaToolSearchToolResultBlock(content Content8, toolUseId string, type_ string) *MRBetaToolSearchToolResultBlock {
+func NewMRBetaToolSearchToolResultBlock(content Content9, toolUseId string, type_ string) *MRBetaToolSearchToolResultBlock {
 	this := MRBetaToolSearchToolResultBlock{}
 	this.Content = content
 	this.ToolUseId = toolUseId
@@ -49,9 +49,9 @@ func NewMRBetaToolSearchToolResultBlockWithDefaults() *MRBetaToolSearchToolResul
 }
 
 // GetContent returns the Content field value
-func (o *MRBetaToolSearchToolResultBlock) GetContent() Content8 {
+func (o *MRBetaToolSearchToolResultBlock) GetContent() Content9 {
 	if o == nil {
-		var ret Content8
+		var ret Content9
 		return ret
 	}
 
@@ -60,7 +60,7 @@ func (o *MRBetaToolSearchToolResultBlock) GetContent() Content8 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *MRBetaToolSearchToolResultBlock) GetContentOk() (*Content8, bool) {
+func (o *MRBetaToolSearchToolResultBlock) GetContentOk() (*Content9, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,7 +68,7 @@ func (o *MRBetaToolSearchToolResultBlock) GetContentOk() (*Content8, bool) {
 }
 
 // SetContent sets field value
-func (o *MRBetaToolSearchToolResultBlock) SetContent(v Content8) {
+func (o *MRBetaToolSearchToolResultBlock) SetContent(v Content9) {
 	o.Content = v
 }
 

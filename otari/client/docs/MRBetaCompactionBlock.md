@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Content** | Pointer to **NullableString** |  | [optional] 
+**EncryptedContent** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Type** | **string** |  | 
 
 ## Methods
@@ -61,6 +62,41 @@ HasContent returns a boolean if a field has been set.
 `func (o *MRBetaCompactionBlock) UnsetContent()`
 
 UnsetContent ensures that no value is present for Content, not even an explicit nil
+### GetEncryptedContent
+
+`func (o *MRBetaCompactionBlock) GetEncryptedContent() string`
+
+GetEncryptedContent returns the EncryptedContent field if non-nil, zero value otherwise.
+
+### GetEncryptedContentOk
+
+`func (o *MRBetaCompactionBlock) GetEncryptedContentOk() (*string, bool)`
+
+GetEncryptedContentOk returns a tuple with the EncryptedContent field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEncryptedContent
+
+`func (o *MRBetaCompactionBlock) SetEncryptedContent(v string)`
+
+SetEncryptedContent sets EncryptedContent field to given value.
+
+### HasEncryptedContent
+
+`func (o *MRBetaCompactionBlock) HasEncryptedContent() bool`
+
+HasEncryptedContent returns a boolean if a field has been set.
+
+### SetEncryptedContentNil
+
+`func (o *MRBetaCompactionBlock) SetEncryptedContentNil(b bool)`
+
+ SetEncryptedContentNil sets the value for EncryptedContent to be an explicit nil
+
+### UnsetEncryptedContent
+`func (o *MRBetaCompactionBlock) UnsetEncryptedContent()`
+
+UnsetEncryptedContent ensures that no value is present for EncryptedContent, not even an explicit nil
 ### GetType
 
 `func (o *MRBetaCompactionBlock) GetType() string`

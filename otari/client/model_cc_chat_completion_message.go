@@ -27,9 +27,9 @@ type CCChatCompletionMessage struct {
 	Audio        NullableCCChatCompletionAudio           `json:"audio,omitempty"`
 	FunctionCall NullableCCFunctionCall                  `json:"function_call,omitempty"`
 	ToolCalls    []CCChatCompletionMessageToolCallsInner `json:"tool_calls,omitempty"`
-	// Delete the alias scoped to this user. Omit to delete the global alias of that name.
+	// Filter to a single event type or metric name (e.g. 'tool_result', 'claude_code.commit.count')
 	Reasoning NullableString `json:"reasoning,omitempty"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	ExtraContent         map[string]interface{} `json:"extra_content,omitempty"`
 	AdditionalProperties map[string]interface{}
 }

@@ -17,13 +17,28 @@ import (
 
 // MRMessageUsageIterationsInner struct for MRMessageUsageIterationsInner
 type MRMessageUsageIterationsInner struct {
-	MRBetaCompactionIterationUsage *MRBetaCompactionIterationUsage
-	MRBetaMessageIterationUsage    *MRBetaMessageIterationUsage
+	MRBetaAdvisorMessageIterationUsage  *MRBetaAdvisorMessageIterationUsage
+	MRBetaCompactionIterationUsage      *MRBetaCompactionIterationUsage
+	MRBetaFallbackMessageIterationUsage *MRBetaFallbackMessageIterationUsage
+	MRBetaMessageIterationUsage         *MRBetaMessageIterationUsage
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *MRMessageUsageIterationsInner) UnmarshalJSON(data []byte) error {
 	var err error
+	// try to unmarshal JSON data into MRBetaAdvisorMessageIterationUsage
+	err = json.Unmarshal(data, &dst.MRBetaAdvisorMessageIterationUsage)
+	if err == nil {
+		jsonMRBetaAdvisorMessageIterationUsage, _ := json.Marshal(dst.MRBetaAdvisorMessageIterationUsage)
+		if string(jsonMRBetaAdvisorMessageIterationUsage) == "{}" { // empty struct
+			dst.MRBetaAdvisorMessageIterationUsage = nil
+		} else {
+			return nil // data stored in dst.MRBetaAdvisorMessageIterationUsage, return on the first match
+		}
+	} else {
+		dst.MRBetaAdvisorMessageIterationUsage = nil
+	}
+
 	// try to unmarshal JSON data into MRBetaCompactionIterationUsage
 	err = json.Unmarshal(data, &dst.MRBetaCompactionIterationUsage)
 	if err == nil {
@@ -35,6 +50,19 @@ func (dst *MRMessageUsageIterationsInner) UnmarshalJSON(data []byte) error {
 		}
 	} else {
 		dst.MRBetaCompactionIterationUsage = nil
+	}
+
+	// try to unmarshal JSON data into MRBetaFallbackMessageIterationUsage
+	err = json.Unmarshal(data, &dst.MRBetaFallbackMessageIterationUsage)
+	if err == nil {
+		jsonMRBetaFallbackMessageIterationUsage, _ := json.Marshal(dst.MRBetaFallbackMessageIterationUsage)
+		if string(jsonMRBetaFallbackMessageIterationUsage) == "{}" { // empty struct
+			dst.MRBetaFallbackMessageIterationUsage = nil
+		} else {
+			return nil // data stored in dst.MRBetaFallbackMessageIterationUsage, return on the first match
+		}
+	} else {
+		dst.MRBetaFallbackMessageIterationUsage = nil
 	}
 
 	// try to unmarshal JSON data into MRBetaMessageIterationUsage
@@ -55,8 +83,16 @@ func (dst *MRMessageUsageIterationsInner) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src MRMessageUsageIterationsInner) MarshalJSON() ([]byte, error) {
+	if src.MRBetaAdvisorMessageIterationUsage != nil {
+		return json.Marshal(&src.MRBetaAdvisorMessageIterationUsage)
+	}
+
 	if src.MRBetaCompactionIterationUsage != nil {
 		return json.Marshal(&src.MRBetaCompactionIterationUsage)
+	}
+
+	if src.MRBetaFallbackMessageIterationUsage != nil {
+		return json.Marshal(&src.MRBetaFallbackMessageIterationUsage)
 	}
 
 	if src.MRBetaMessageIterationUsage != nil {

@@ -40,7 +40,7 @@ func (r ApiCreateKeyV1KeysPostRequest) Execute() (*CreateKeyResponse, *http.Resp
 /*
 CreateKeyV1KeysPost Create Key
 
-Create a new API key.
+Create a new API key in the caller's organization.
 
 Requires master key authentication.
 
@@ -48,6 +48,11 @@ If user_id is provided, the key will be associated with that user (creates user 
 If user_id is not provided, the key is associated with the shared "default" user, which is created
 on first use. Keys without an explicit owner therefore share one identity, and so share budget,
 usage, and files.
+
+“workspace_id“ names a workspace in the caller's organization, and omitting
+it mints into that organization's default workspace. A key resolves that
+organization's provider credentials and bills there, so minting into another
+organization's workspace would spend its budget on its credentials.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiCreateKeyV1KeysPostRequest
@@ -191,7 +196,7 @@ func (r ApiDeleteKeyV1KeysKeyIdDeleteRequest) Execute() (*http.Response, error) 
 /*
 DeleteKeyV1KeysKeyIdDelete Delete Key
 
-Delete (revoke) an API key.
+Delete (revoke) an API key in the caller's organization.
 
 Requires master key authentication.
 
@@ -323,7 +328,7 @@ func (r ApiGetKeyV1KeysKeyIdGetRequest) Execute() (*KeyInfo, *http.Response, err
 /*
 GetKeyV1KeysKeyIdGet Get Key
 
-Get details of a specific API key.
+Get details of a specific API key in the caller's organization.
 
 Requires master key authentication.
 
@@ -455,10 +460,11 @@ func (a *KeysAPIService) GetKeyV1KeysKeyIdGetExecute(r ApiGetKeyV1KeysKeyIdGetRe
 }
 
 type ApiListKeysV1KeysGetRequest struct {
-	ctx        context.Context
-	ApiService *KeysAPIService
-	skip       *int32
-	limit      *int32
+	ctx         context.Context
+	ApiService  *KeysAPIService
+	skip        *int32
+	limit       *int32
+	workspaceId *string
 }
 
 func (r ApiListKeysV1KeysGetRequest) Skip(skip int32) ApiListKeysV1KeysGetRequest {
@@ -471,6 +477,12 @@ func (r ApiListKeysV1KeysGetRequest) Limit(limit int32) ApiListKeysV1KeysGetRequ
 	return r
 }
 
+// Only keys in this workspace.
+func (r ApiListKeysV1KeysGetRequest) WorkspaceId(workspaceId string) ApiListKeysV1KeysGetRequest {
+	r.workspaceId = &workspaceId
+	return r
+}
+
 func (r ApiListKeysV1KeysGetRequest) Execute() ([]KeyInfo, *http.Response, error) {
 	return r.ApiService.ListKeysV1KeysGetExecute(r)
 }
@@ -478,9 +490,11 @@ func (r ApiListKeysV1KeysGetRequest) Execute() ([]KeyInfo, *http.Response, error
 /*
 ListKeysV1KeysGet List Keys
 
-List all API keys.
+List the API keys in the caller's organization.
 
-Requires master key authentication.
+Requires master key authentication. An unset “workspace_id“ lists every key
+in that organization; naming a workspace in another one lists nothing rather
+than refusing, so the filter reports no more than the unfiltered read does.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListKeysV1KeysGetRequest
@@ -527,6 +541,9 @@ func (a *KeysAPIService) ListKeysV1KeysGetExecute(r ApiListKeysV1KeysGetRequest)
 		var defaultValue int32 = 100
 		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", defaultValue, "form", "")
 		r.limit = &defaultValue
+	}
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -633,7 +650,7 @@ func (r ApiRotateKeyV1KeysKeyIdRotatePostRequest) Execute() (*CreateKeyResponse,
 /*
 RotateKeyV1KeysKeyIdRotatePost Rotate Key
 
-Rotate an API key's secret in place.
+Rotate an API key's secret in place, within the caller's organization.
 
 Requires master key authentication.
 
@@ -788,7 +805,7 @@ func (r ApiUpdateKeyV1KeysKeyIdPatchRequest) Execute() (*KeyInfo, *http.Response
 /*
 UpdateKeyV1KeysKeyIdPatch Update Key
 
-Update an API key.
+Update an API key in the caller's organization.
 
 Requires master key authentication.
 

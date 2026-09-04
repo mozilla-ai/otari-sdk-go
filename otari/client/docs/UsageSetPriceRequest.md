@@ -22,6 +22,7 @@ Name | Type | Description | Notes
 **Status** | Pointer to **NullableString** |  | [optional] 
 **Tool** | Pointer to **NullableString** |  | [optional] 
 **UserId** | Pointer to [**NullableUserId**](UserId.md) |  | [optional] 
+**WorkspaceId** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -632,6 +633,41 @@ HasUserId returns a boolean if a field has been set.
 `func (o *UsageSetPriceRequest) UnsetUserId()`
 
 UnsetUserId ensures that no value is present for UserId, not even an explicit nil
+### GetWorkspaceId
+
+`func (o *UsageSetPriceRequest) GetWorkspaceId() string`
+
+GetWorkspaceId returns the WorkspaceId field if non-nil, zero value otherwise.
+
+### GetWorkspaceIdOk
+
+`func (o *UsageSetPriceRequest) GetWorkspaceIdOk() (*string, bool)`
+
+GetWorkspaceIdOk returns a tuple with the WorkspaceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkspaceId
+
+`func (o *UsageSetPriceRequest) SetWorkspaceId(v string)`
+
+SetWorkspaceId sets WorkspaceId field to given value.
+
+### HasWorkspaceId
+
+`func (o *UsageSetPriceRequest) HasWorkspaceId() bool`
+
+HasWorkspaceId returns a boolean if a field has been set.
+
+### SetWorkspaceIdNil
+
+`func (o *UsageSetPriceRequest) SetWorkspaceIdNil(b bool)`
+
+ SetWorkspaceIdNil sets the value for WorkspaceId to be an explicit nil
+
+### UnsetWorkspaceId
+`func (o *UsageSetPriceRequest) UnsetWorkspaceId()`
+
+UnsetWorkspaceId ensures that no value is present for WorkspaceId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

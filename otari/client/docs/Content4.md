@@ -6,16 +6,15 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ErrorCode** | **string** |  | 
 **Type** | **string** |  | 
-**Content** | [**[]MRBetaBashCodeExecutionOutputBlock**](MRBetaBashCodeExecutionOutputBlock.md) |  | 
-**ReturnCode** | **int32** |  | 
-**Stderr** | **string** |  | 
-**Stdout** | **string** |  | 
+**StopReason** | Pointer to **string** |  | [optional] 
+**Text** | **string** |  | 
+**EncryptedContent** | **string** |  | 
 
 ## Methods
 
 ### NewContent4
 
-`func NewContent4(errorCode string, type_ string, content []MRBetaBashCodeExecutionOutputBlock, returnCode int32, stderr string, stdout string, ) *Content4`
+`func NewContent4(errorCode string, type_ string, text string, encryptedContent string, ) *Content4`
 
 NewContent4 instantiates a new Content4 object
 This constructor will assign default values to properties that have it defined,
@@ -70,84 +69,69 @@ and a boolean to check if the value has been set.
 SetType sets Type field to given value.
 
 
-### GetContent
+### GetStopReason
 
-`func (o *Content4) GetContent() []MRBetaBashCodeExecutionOutputBlock`
+`func (o *Content4) GetStopReason() string`
 
-GetContent returns the Content field if non-nil, zero value otherwise.
+GetStopReason returns the StopReason field if non-nil, zero value otherwise.
 
-### GetContentOk
+### GetStopReasonOk
 
-`func (o *Content4) GetContentOk() (*[]MRBetaBashCodeExecutionOutputBlock, bool)`
+`func (o *Content4) GetStopReasonOk() (*string, bool)`
 
-GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
+GetStopReasonOk returns a tuple with the StopReason field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetContent
+### SetStopReason
 
-`func (o *Content4) SetContent(v []MRBetaBashCodeExecutionOutputBlock)`
+`func (o *Content4) SetStopReason(v string)`
 
-SetContent sets Content field to given value.
+SetStopReason sets StopReason field to given value.
 
+### HasStopReason
 
-### GetReturnCode
+`func (o *Content4) HasStopReason() bool`
 
-`func (o *Content4) GetReturnCode() int32`
+HasStopReason returns a boolean if a field has been set.
 
-GetReturnCode returns the ReturnCode field if non-nil, zero value otherwise.
+### GetText
 
-### GetReturnCodeOk
+`func (o *Content4) GetText() string`
 
-`func (o *Content4) GetReturnCodeOk() (*int32, bool)`
+GetText returns the Text field if non-nil, zero value otherwise.
 
-GetReturnCodeOk returns a tuple with the ReturnCode field if it's non-nil, zero value otherwise
+### GetTextOk
+
+`func (o *Content4) GetTextOk() (*string, bool)`
+
+GetTextOk returns a tuple with the Text field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetReturnCode
+### SetText
 
-`func (o *Content4) SetReturnCode(v int32)`
+`func (o *Content4) SetText(v string)`
 
-SetReturnCode sets ReturnCode field to given value.
+SetText sets Text field to given value.
 
 
-### GetStderr
+### GetEncryptedContent
 
-`func (o *Content4) GetStderr() string`
+`func (o *Content4) GetEncryptedContent() string`
 
-GetStderr returns the Stderr field if non-nil, zero value otherwise.
+GetEncryptedContent returns the EncryptedContent field if non-nil, zero value otherwise.
 
-### GetStderrOk
+### GetEncryptedContentOk
 
-`func (o *Content4) GetStderrOk() (*string, bool)`
+`func (o *Content4) GetEncryptedContentOk() (*string, bool)`
 
-GetStderrOk returns a tuple with the Stderr field if it's non-nil, zero value otherwise
+GetEncryptedContentOk returns a tuple with the EncryptedContent field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetStderr
+### SetEncryptedContent
 
-`func (o *Content4) SetStderr(v string)`
+`func (o *Content4) SetEncryptedContent(v string)`
 
-SetStderr sets Stderr field to given value.
-
-
-### GetStdout
-
-`func (o *Content4) GetStdout() string`
-
-GetStdout returns the Stdout field if non-nil, zero value otherwise.
-
-### GetStdoutOk
-
-`func (o *Content4) GetStdoutOk() (*string, bool)`
-
-GetStdoutOk returns a tuple with the Stdout field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetStdout
-
-`func (o *Content4) SetStdout(v string)`
-
-SetStdout sets Stdout field to given value.
+SetEncryptedContent sets EncryptedContent field to given value.
 
 
 

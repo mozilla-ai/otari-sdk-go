@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **CacheCreationInputTokens** | **int32** |  | 
 **CacheReadInputTokens** | **int32** |  | 
 **InputTokens** | **int32** |  | 
+**Model** | [**Model1**](Model1.md) |  | 
 **OutputTokens** | **int32** |  | 
 **Type** | **string** |  | 
 
@@ -15,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewMRMessageUsageIterationsInner
 
-`func NewMRMessageUsageIterationsInner(cacheCreationInputTokens int32, cacheReadInputTokens int32, inputTokens int32, outputTokens int32, type_ string, ) *MRMessageUsageIterationsInner`
+`func NewMRMessageUsageIterationsInner(cacheCreationInputTokens int32, cacheReadInputTokens int32, inputTokens int32, model Model1, outputTokens int32, type_ string, ) *MRMessageUsageIterationsInner`
 
 NewMRMessageUsageIterationsInner instantiates a new MRMessageUsageIterationsInner object
 This constructor will assign default values to properties that have it defined,
@@ -113,6 +114,26 @@ and a boolean to check if the value has been set.
 `func (o *MRMessageUsageIterationsInner) SetInputTokens(v int32)`
 
 SetInputTokens sets InputTokens field to given value.
+
+
+### GetModel
+
+`func (o *MRMessageUsageIterationsInner) GetModel() Model1`
+
+GetModel returns the Model field if non-nil, zero value otherwise.
+
+### GetModelOk
+
+`func (o *MRMessageUsageIterationsInner) GetModelOk() (*Model1, bool)`
+
+GetModelOk returns a tuple with the Model field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetModel
+
+`func (o *MRMessageUsageIterationsInner) SetModel(v Model1)`
+
+SetModel sets Model field to given value.
 
 
 ### GetOutputTokens

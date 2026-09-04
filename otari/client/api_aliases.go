@@ -23,15 +23,22 @@ import (
 type AliasesAPIService service
 
 type ApiDeleteAliasV1AliasesNameDeleteRequest struct {
-	ctx        context.Context
-	ApiService *AliasesAPIService
-	name       string
-	userId     *string
+	ctx         context.Context
+	ApiService  *AliasesAPIService
+	name        string
+	userId      *string
+	workspaceId *string
 }
 
-// Delete the alias scoped to this user. Omit to delete the global alias of that name.
+// Delete the alias scoped to this user. Omit to delete the workspace-wide alias of that name.
 func (r ApiDeleteAliasV1AliasesNameDeleteRequest) UserId(userId string) ApiDeleteAliasV1AliasesNameDeleteRequest {
 	r.userId = &userId
+	return r
+}
+
+// Delete the alias in this workspace. Omit for the deployment&#39;s default workspace.
+func (r ApiDeleteAliasV1AliasesNameDeleteRequest) WorkspaceId(workspaceId string) ApiDeleteAliasV1AliasesNameDeleteRequest {
+	r.workspaceId = &workspaceId
 	return r
 }
 
@@ -43,10 +50,6 @@ func (r ApiDeleteAliasV1AliasesNameDeleteRequest) Execute() (*http.Response, err
 DeleteAliasV1AliasesNameDelete Delete Alias
 
 Delete a stored alias in one scope.
-
-Scoped by “user_id“ for the same reason the upsert is: deleting the global
-alias must not take a user's override with it, and deleting an override must
-leave the global one serving everyone else.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param name
@@ -82,6 +85,149 @@ func (a *AliasesAPIService) DeleteAliasV1AliasesNameDeleteExecute(r ApiDeleteAli
 
 	if r.userId != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+	}
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiDeleteOrganizationAliasV1OrganizationsMeAliasesNameDeleteRequest struct {
+	ctx         context.Context
+	ApiService  *AliasesAPIService
+	name        string
+	workspaceId *string
+}
+
+// Delete the alias in this workspace of the caller&#39;s organization.
+func (r ApiDeleteOrganizationAliasV1OrganizationsMeAliasesNameDeleteRequest) WorkspaceId(workspaceId string) ApiDeleteOrganizationAliasV1OrganizationsMeAliasesNameDeleteRequest {
+	r.workspaceId = &workspaceId
+	return r
+}
+
+func (r ApiDeleteOrganizationAliasV1OrganizationsMeAliasesNameDeleteRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteOrganizationAliasV1OrganizationsMeAliasesNameDeleteExecute(r)
+}
+
+/*
+DeleteOrganizationAliasV1OrganizationsMeAliasesNameDelete Delete Organization Alias
+
+Delete a stored alias from one of the organization's workspaces. Owners and admins only.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name
+	@return ApiDeleteOrganizationAliasV1OrganizationsMeAliasesNameDeleteRequest
+*/
+func (a *AliasesAPIService) DeleteOrganizationAliasV1OrganizationsMeAliasesNameDelete(ctx context.Context, name string) ApiDeleteOrganizationAliasV1OrganizationsMeAliasesNameDeleteRequest {
+	return ApiDeleteOrganizationAliasV1OrganizationsMeAliasesNameDeleteRequest{
+		ApiService: a,
+		ctx:        ctx,
+		name:       name,
+	}
+}
+
+// Execute executes the request
+func (a *AliasesAPIService) DeleteOrganizationAliasV1OrganizationsMeAliasesNameDeleteExecute(r ApiDeleteOrganizationAliasV1OrganizationsMeAliasesNameDeleteRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AliasesAPIService.DeleteOrganizationAliasV1OrganizationsMeAliasesNameDelete")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/organizations/me/aliases/{name}"
+	localVarPath = strings.Replace(localVarPath, "{"+"name"+"}", url.PathEscape(parameterValueToString(r.name, "name")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -167,8 +313,15 @@ func (a *AliasesAPIService) DeleteAliasV1AliasesNameDeleteExecute(r ApiDeleteAli
 }
 
 type ApiListAliasesV1AliasesGetRequest struct {
-	ctx        context.Context
-	ApiService *AliasesAPIService
+	ctx         context.Context
+	ApiService  *AliasesAPIService
+	workspaceId *string
+}
+
+// Only stored entries in this workspace. Config-file entries are always included, being deployment-wide. Omit to list the stored entries of every workspace.
+func (r ApiListAliasesV1AliasesGetRequest) WorkspaceId(workspaceId string) ApiListAliasesV1AliasesGetRequest {
+	r.workspaceId = &workspaceId
+	return r
 }
 
 func (r ApiListAliasesV1AliasesGetRequest) Execute() ([]AliasResponse, *http.Response, error) {
@@ -180,8 +333,8 @@ ListAliasesV1AliasesGet List Aliases
 
 List every alias in force, from config.yml and from storage.
 
-Every scope at once, global and user-scoped alike: this is the master-key
-management view, not what any one caller resolves.
+Every scope at once, workspace-wide and user-scoped alike: this is the
+master-key management view, not what any one caller resolves.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListAliasesV1AliasesGetRequest
@@ -215,6 +368,9 @@ func (a *AliasesAPIService) ListAliasesV1AliasesGetExecute(r ApiListAliasesV1Ali
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -282,6 +438,172 @@ func (a *AliasesAPIService) ListAliasesV1AliasesGetExecute(r ApiListAliasesV1Ali
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiListVisibleAliasesV1OrganizationsMeAliasesGetRequest struct {
+	ctx        context.Context
+	ApiService *AliasesAPIService
+	limit      *int32
+}
+
+// Maximum entries to return, stored and config-file together.
+func (r ApiListVisibleAliasesV1OrganizationsMeAliasesGetRequest) Limit(limit int32) ApiListVisibleAliasesV1OrganizationsMeAliasesGetRequest {
+	r.limit = &limit
+	return r
+}
+
+func (r ApiListVisibleAliasesV1OrganizationsMeAliasesGetRequest) Execute() ([]AliasResponse, *http.Response, error) {
+	return r.ApiService.ListVisibleAliasesV1OrganizationsMeAliasesGetExecute(r)
+}
+
+/*
+ListVisibleAliasesV1OrganizationsMeAliasesGet List Visible Aliases
+
+List the aliases in force in the workspaces this caller may see.
+
+The policies list's sibling, over “model_aliases“, and scoped the same way:
+stored rows from the caller's visible workspaces, plus the config-file
+aliases, which are deployment-wide.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListVisibleAliasesV1OrganizationsMeAliasesGetRequest
+*/
+func (a *AliasesAPIService) ListVisibleAliasesV1OrganizationsMeAliasesGet(ctx context.Context) ApiListVisibleAliasesV1OrganizationsMeAliasesGetRequest {
+	return ApiListVisibleAliasesV1OrganizationsMeAliasesGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return []AliasResponse
+func (a *AliasesAPIService) ListVisibleAliasesV1OrganizationsMeAliasesGetExecute(r ApiListVisibleAliasesV1OrganizationsMeAliasesGetRequest) ([]AliasResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []AliasResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AliasesAPIService.ListVisibleAliasesV1OrganizationsMeAliasesGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/organizations/me/aliases"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	} else {
+		var defaultValue int32 = 1000
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", defaultValue, "form", "")
+		r.limit = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -315,7 +637,7 @@ func (r ApiSetAliasV1AliasesPostRequest) Execute() (*AliasResponse, *http.Respon
 /*
 SetAliasV1AliasesPost Set Alias
 
-Create or update a stored alias, global or scoped to one user.
+Create or update a stored alias in one workspace, optionally for one user.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiSetAliasV1AliasesPostRequest
@@ -344,6 +666,159 @@ func (a *AliasesAPIService) SetAliasV1AliasesPostExecute(r ApiSetAliasV1AliasesP
 	}
 
 	localVarPath := localBasePath + "/v1/aliases"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.aliasRequest == nil {
+		return localVarReturnValue, nil, reportError("aliasRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.aliasRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSetOrganizationAliasV1OrganizationsMeAliasesPostRequest struct {
+	ctx          context.Context
+	ApiService   *AliasesAPIService
+	aliasRequest *AliasRequest
+}
+
+func (r ApiSetOrganizationAliasV1OrganizationsMeAliasesPostRequest) AliasRequest(aliasRequest AliasRequest) ApiSetOrganizationAliasV1OrganizationsMeAliasesPostRequest {
+	r.aliasRequest = &aliasRequest
+	return r
+}
+
+func (r ApiSetOrganizationAliasV1OrganizationsMeAliasesPostRequest) Execute() (*AliasResponse, *http.Response, error) {
+	return r.ApiService.SetOrganizationAliasV1OrganizationsMeAliasesPostExecute(r)
+}
+
+/*
+SetOrganizationAliasV1OrganizationsMeAliasesPost Set Organization Alias
+
+Create or update a stored alias in one of the organization's workspaces.
+
+Organization owners and admins only, with the same two scope rules the policy
+write has: “workspace_id“ is required and resolved inside the caller's
+organization, and “user_id“ is not accepted.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSetOrganizationAliasV1OrganizationsMeAliasesPostRequest
+*/
+func (a *AliasesAPIService) SetOrganizationAliasV1OrganizationsMeAliasesPost(ctx context.Context) ApiSetOrganizationAliasV1OrganizationsMeAliasesPostRequest {
+	return ApiSetOrganizationAliasV1OrganizationsMeAliasesPostRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return AliasResponse
+func (a *AliasesAPIService) SetOrganizationAliasV1OrganizationsMeAliasesPostExecute(r ApiSetOrganizationAliasV1OrganizationsMeAliasesPostRequest) (*AliasResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AliasResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AliasesAPIService.SetOrganizationAliasV1OrganizationsMeAliasesPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/organizations/me/aliases"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

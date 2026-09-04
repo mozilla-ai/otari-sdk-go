@@ -20,7 +20,9 @@ var _ MappedNullable = &MRBetaCompactionBlock{}
 
 // MRBetaCompactionBlock A compaction block returned when autocompact is triggered.  When content is None, it indicates the compaction failed to produce a valid summary (e.g., malformed output from the model). Clients may round-trip compaction blocks with null content; the server treats them as no-ops.
 type MRBetaCompactionBlock struct {
-	Content              NullableString `json:"content,omitempty"`
+	Content NullableString `json:"content,omitempty"`
+	// Filter to a single event type or metric name (e.g. 'tool_result', 'claude_code.commit.count')
+	EncryptedContent     NullableString `json:"encrypted_content,omitempty"`
 	Type                 string         `json:"type"`
 	AdditionalProperties map[string]interface{}
 }
@@ -88,6 +90,49 @@ func (o *MRBetaCompactionBlock) UnsetContent() {
 	o.Content.Unset()
 }
 
+// GetEncryptedContent returns the EncryptedContent field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MRBetaCompactionBlock) GetEncryptedContent() string {
+	if o == nil || IsNil(o.EncryptedContent.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.EncryptedContent.Get()
+}
+
+// GetEncryptedContentOk returns a tuple with the EncryptedContent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MRBetaCompactionBlock) GetEncryptedContentOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.EncryptedContent.Get(), o.EncryptedContent.IsSet()
+}
+
+// HasEncryptedContent returns a boolean if a field has been set.
+func (o *MRBetaCompactionBlock) HasEncryptedContent() bool {
+	if o != nil && o.EncryptedContent.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetEncryptedContent gets a reference to the given NullableString and assigns it to the EncryptedContent field.
+func (o *MRBetaCompactionBlock) SetEncryptedContent(v string) {
+	o.EncryptedContent.Set(&v)
+}
+
+// SetEncryptedContentNil sets the value for EncryptedContent to be an explicit nil
+func (o *MRBetaCompactionBlock) SetEncryptedContentNil() {
+	o.EncryptedContent.Set(nil)
+}
+
+// UnsetEncryptedContent ensures that no value is present for EncryptedContent, not even an explicit nil
+func (o *MRBetaCompactionBlock) UnsetEncryptedContent() {
+	o.EncryptedContent.Unset()
+}
+
 // GetType returns the Type field value
 func (o *MRBetaCompactionBlock) GetType() string {
 	if o == nil {
@@ -124,6 +169,9 @@ func (o MRBetaCompactionBlock) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Content.IsSet() {
 		toSerialize["content"] = o.Content.Get()
+	}
+	if o.EncryptedContent.IsSet() {
+		toSerialize["encrypted_content"] = o.EncryptedContent.Get()
 	}
 	toSerialize["type"] = o.Type
 
@@ -170,6 +218,7 @@ func (o *MRBetaCompactionBlock) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "content")
+		delete(additionalProperties, "encrypted_content")
 		delete(additionalProperties, "type")
 		o.AdditionalProperties = additionalProperties
 	}

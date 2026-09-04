@@ -186,6 +186,12 @@ DeleteBudgetV1BudgetsBudgetIdDelete Delete Budget
 
 Delete a budget.
 
+Refused with 409 while anything still names this budget: a workspace handing
+it to its members, or a scoped ceiling enforcing it. Both foreign keys are
+“RESTRICT“, so the database would refuse either anyway, but as an
+“IntegrityError“ reported as "Database error" with nothing naming what to
+go and change. Checked here so the refusal can say which, and where.
+
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param budgetId
 	@return ApiDeleteBudgetV1BudgetsBudgetIdDeleteRequest

@@ -5,9 +5,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApiKeyId** | **NullableString** |  | 
+**ApiKeyName** | Pointer to **NullableString** |  | [optional] 
 **AttemptCount** | Pointer to **NullableInt32** |  | [optional] 
 **AttemptPosition** | Pointer to **NullableInt32** |  | [optional] 
-**BillingMeters** | **map[string]interface{}** | An unsaved policy body to explain. | 
+**BillingMeters** | [**NullableBillingMeters**](BillingMeters.md) |  | 
+**BulkEditable** | **bool** |  | 
 **CacheReadTokens** | **NullableInt32** |  | 
 **CacheWrite1hTokens** | **NullableInt32** |  | 
 **CacheWriteTokens** | **NullableInt32** |  | 
@@ -20,7 +22,7 @@ Name | Type | Description | Notes
 **LatencyMs** | **NullableInt32** |  | 
 **Model** | **string** |  | 
 **PolicyName** | Pointer to **NullableString** |  | [optional] 
-**PricingBreakdown** | [**[]map[string]UsageEntryPricingBreakdownInnerValue**](map[string]UsageEntryPricingBreakdownInnerValue.md) |  | 
+**PricingBreakdown** | [**[]UsageEntryPricingBreakdownInner**](UsageEntryPricingBreakdownInner.md) |  | 
 **PromptTokens** | **NullableInt32** |  | 
 **Provider** | **NullableString** |  | 
 **RequestGroupId** | Pointer to **NullableString** |  | [optional] 
@@ -31,13 +33,14 @@ Name | Type | Description | Notes
 **StatusCode** | **NullableInt32** |  | 
 **Timestamp** | **string** |  | 
 **TotalTokens** | **NullableInt32** |  | 
+**UserAlias** | Pointer to **NullableString** |  | [optional] 
 **UserId** | **NullableString** |  | 
 
 ## Methods
 
 ### NewUsageEntry
 
-`func NewUsageEntry(apiKeyId NullableString, billingMeters map[string]interface{}, cacheReadTokens NullableInt32, cacheWrite1hTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, countsTowardBudget bool, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, pricingBreakdown []map[string]UsageEntryPricingBreakdownInnerValue, promptTokens NullableInt32, provider NullableString, source string, sourceLabel NullableString, status string, statusCode NullableInt32, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageEntry`
+`func NewUsageEntry(apiKeyId NullableString, billingMeters NullableBillingMeters, bulkEditable bool, cacheReadTokens NullableInt32, cacheWrite1hTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, countsTowardBudget bool, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, pricingBreakdown []UsageEntryPricingBreakdownInner, promptTokens NullableInt32, provider NullableString, source string, sourceLabel NullableString, status string, statusCode NullableInt32, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageEntry`
 
 NewUsageEntry instantiates a new UsageEntry object
 This constructor will assign default values to properties that have it defined,
@@ -82,6 +85,41 @@ SetApiKeyId sets ApiKeyId field to given value.
 `func (o *UsageEntry) UnsetApiKeyId()`
 
 UnsetApiKeyId ensures that no value is present for ApiKeyId, not even an explicit nil
+### GetApiKeyName
+
+`func (o *UsageEntry) GetApiKeyName() string`
+
+GetApiKeyName returns the ApiKeyName field if non-nil, zero value otherwise.
+
+### GetApiKeyNameOk
+
+`func (o *UsageEntry) GetApiKeyNameOk() (*string, bool)`
+
+GetApiKeyNameOk returns a tuple with the ApiKeyName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetApiKeyName
+
+`func (o *UsageEntry) SetApiKeyName(v string)`
+
+SetApiKeyName sets ApiKeyName field to given value.
+
+### HasApiKeyName
+
+`func (o *UsageEntry) HasApiKeyName() bool`
+
+HasApiKeyName returns a boolean if a field has been set.
+
+### SetApiKeyNameNil
+
+`func (o *UsageEntry) SetApiKeyNameNil(b bool)`
+
+ SetApiKeyNameNil sets the value for ApiKeyName to be an explicit nil
+
+### UnsetApiKeyName
+`func (o *UsageEntry) UnsetApiKeyName()`
+
+UnsetApiKeyName ensures that no value is present for ApiKeyName, not even an explicit nil
 ### GetAttemptCount
 
 `func (o *UsageEntry) GetAttemptCount() int32`
@@ -154,20 +192,20 @@ HasAttemptPosition returns a boolean if a field has been set.
 UnsetAttemptPosition ensures that no value is present for AttemptPosition, not even an explicit nil
 ### GetBillingMeters
 
-`func (o *UsageEntry) GetBillingMeters() map[string]interface{}`
+`func (o *UsageEntry) GetBillingMeters() BillingMeters`
 
 GetBillingMeters returns the BillingMeters field if non-nil, zero value otherwise.
 
 ### GetBillingMetersOk
 
-`func (o *UsageEntry) GetBillingMetersOk() (*map[string]interface{}, bool)`
+`func (o *UsageEntry) GetBillingMetersOk() (*BillingMeters, bool)`
 
 GetBillingMetersOk returns a tuple with the BillingMeters field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBillingMeters
 
-`func (o *UsageEntry) SetBillingMeters(v map[string]interface{})`
+`func (o *UsageEntry) SetBillingMeters(v BillingMeters)`
 
 SetBillingMeters sets BillingMeters field to given value.
 
@@ -182,6 +220,26 @@ SetBillingMeters sets BillingMeters field to given value.
 `func (o *UsageEntry) UnsetBillingMeters()`
 
 UnsetBillingMeters ensures that no value is present for BillingMeters, not even an explicit nil
+### GetBulkEditable
+
+`func (o *UsageEntry) GetBulkEditable() bool`
+
+GetBulkEditable returns the BulkEditable field if non-nil, zero value otherwise.
+
+### GetBulkEditableOk
+
+`func (o *UsageEntry) GetBulkEditableOk() (*bool, bool)`
+
+GetBulkEditableOk returns a tuple with the BulkEditable field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBulkEditable
+
+`func (o *UsageEntry) SetBulkEditable(v bool)`
+
+SetBulkEditable sets BulkEditable field to given value.
+
+
 ### GetCacheReadTokens
 
 `func (o *UsageEntry) GetCacheReadTokens() int32`
@@ -509,20 +567,20 @@ HasPolicyName returns a boolean if a field has been set.
 UnsetPolicyName ensures that no value is present for PolicyName, not even an explicit nil
 ### GetPricingBreakdown
 
-`func (o *UsageEntry) GetPricingBreakdown() []map[string]UsageEntryPricingBreakdownInnerValue`
+`func (o *UsageEntry) GetPricingBreakdown() []UsageEntryPricingBreakdownInner`
 
 GetPricingBreakdown returns the PricingBreakdown field if non-nil, zero value otherwise.
 
 ### GetPricingBreakdownOk
 
-`func (o *UsageEntry) GetPricingBreakdownOk() (*[]map[string]UsageEntryPricingBreakdownInnerValue, bool)`
+`func (o *UsageEntry) GetPricingBreakdownOk() (*[]UsageEntryPricingBreakdownInner, bool)`
 
 GetPricingBreakdownOk returns a tuple with the PricingBreakdown field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPricingBreakdown
 
-`func (o *UsageEntry) SetPricingBreakdown(v []map[string]UsageEntryPricingBreakdownInnerValue)`
+`func (o *UsageEntry) SetPricingBreakdown(v []UsageEntryPricingBreakdownInner)`
 
 SetPricingBreakdown sets PricingBreakdown field to given value.
 
@@ -817,6 +875,41 @@ SetTotalTokens sets TotalTokens field to given value.
 `func (o *UsageEntry) UnsetTotalTokens()`
 
 UnsetTotalTokens ensures that no value is present for TotalTokens, not even an explicit nil
+### GetUserAlias
+
+`func (o *UsageEntry) GetUserAlias() string`
+
+GetUserAlias returns the UserAlias field if non-nil, zero value otherwise.
+
+### GetUserAliasOk
+
+`func (o *UsageEntry) GetUserAliasOk() (*string, bool)`
+
+GetUserAliasOk returns a tuple with the UserAlias field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserAlias
+
+`func (o *UsageEntry) SetUserAlias(v string)`
+
+SetUserAlias sets UserAlias field to given value.
+
+### HasUserAlias
+
+`func (o *UsageEntry) HasUserAlias() bool`
+
+HasUserAlias returns a boolean if a field has been set.
+
+### SetUserAliasNil
+
+`func (o *UsageEntry) SetUserAliasNil(b bool)`
+
+ SetUserAliasNil sets the value for UserAlias to be an explicit nil
+
+### UnsetUserAlias
+`func (o *UsageEntry) UnsetUserAlias()`
+
+UnsetUserAlias ensures that no value is present for UserAlias, not even an explicit nil
 ### GetUserId
 
 `func (o *UsageEntry) GetUserId() string`

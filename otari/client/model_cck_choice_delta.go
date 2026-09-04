@@ -24,7 +24,7 @@ type CCKChoiceDelta struct {
 	Refusal      NullableString                     `json:"refusal,omitempty"`
 	Role         NullableString                     `json:"role,omitempty"`
 	ToolCalls    []CCKChoiceDeltaToolCall           `json:"tool_calls,omitempty"`
-	// Delete the alias scoped to this user. Omit to delete the global alias of that name.
+	// Filter to a single event type or metric name (e.g. 'tool_result', 'claude_code.commit.count')
 	Reasoning            NullableString         `json:"reasoning,omitempty"`
 	ExtraContent         map[string]interface{} `json:"extra_content,omitempty"`
 	AdditionalProperties map[string]interface{}

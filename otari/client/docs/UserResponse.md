@@ -10,9 +10,13 @@ Name | Type | Description | Notes
 **BudgetId** | **NullableString** |  | 
 **BudgetStartedAt** | **NullableString** |  | 
 **CreatedAt** | **string** |  | 
+**CurrentRequests** | **int32** |  | 
+**CurrentTokens** | **int32** |  | 
 **Metadata** | **map[string]interface{}** |  | 
 **NextBudgetResetAt** | **NullableString** |  | 
 **Reserved** | **float32** |  | 
+**ReservedRequests** | **int32** |  | 
+**ReservedTokens** | **int32** |  | 
 **Spend** | **float32** |  | 
 **UpdatedAt** | **string** |  | 
 **UserId** | **string** |  | 
@@ -21,7 +25,7 @@ Name | Type | Description | Notes
 
 ### NewUserResponse
 
-`func NewUserResponse(alias NullableString, allowedModels []string, blocked bool, budgetId NullableString, budgetStartedAt NullableString, createdAt string, metadata map[string]interface{}, nextBudgetResetAt NullableString, reserved float32, spend float32, updatedAt string, userId string, ) *UserResponse`
+`func NewUserResponse(alias NullableString, allowedModels []string, blocked bool, budgetId NullableString, budgetStartedAt NullableString, createdAt string, currentRequests int32, currentTokens int32, metadata map[string]interface{}, nextBudgetResetAt NullableString, reserved float32, reservedRequests int32, reservedTokens int32, spend float32, updatedAt string, userId string, ) *UserResponse`
 
 NewUserResponse instantiates a new UserResponse object
 This constructor will assign default values to properties that have it defined,
@@ -196,6 +200,46 @@ and a boolean to check if the value has been set.
 SetCreatedAt sets CreatedAt field to given value.
 
 
+### GetCurrentRequests
+
+`func (o *UserResponse) GetCurrentRequests() int32`
+
+GetCurrentRequests returns the CurrentRequests field if non-nil, zero value otherwise.
+
+### GetCurrentRequestsOk
+
+`func (o *UserResponse) GetCurrentRequestsOk() (*int32, bool)`
+
+GetCurrentRequestsOk returns a tuple with the CurrentRequests field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCurrentRequests
+
+`func (o *UserResponse) SetCurrentRequests(v int32)`
+
+SetCurrentRequests sets CurrentRequests field to given value.
+
+
+### GetCurrentTokens
+
+`func (o *UserResponse) GetCurrentTokens() int32`
+
+GetCurrentTokens returns the CurrentTokens field if non-nil, zero value otherwise.
+
+### GetCurrentTokensOk
+
+`func (o *UserResponse) GetCurrentTokensOk() (*int32, bool)`
+
+GetCurrentTokensOk returns a tuple with the CurrentTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCurrentTokens
+
+`func (o *UserResponse) SetCurrentTokens(v int32)`
+
+SetCurrentTokens sets CurrentTokens field to given value.
+
+
 ### GetMetadata
 
 `func (o *UserResponse) GetMetadata() map[string]interface{}`
@@ -264,6 +308,46 @@ and a boolean to check if the value has been set.
 `func (o *UserResponse) SetReserved(v float32)`
 
 SetReserved sets Reserved field to given value.
+
+
+### GetReservedRequests
+
+`func (o *UserResponse) GetReservedRequests() int32`
+
+GetReservedRequests returns the ReservedRequests field if non-nil, zero value otherwise.
+
+### GetReservedRequestsOk
+
+`func (o *UserResponse) GetReservedRequestsOk() (*int32, bool)`
+
+GetReservedRequestsOk returns a tuple with the ReservedRequests field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReservedRequests
+
+`func (o *UserResponse) SetReservedRequests(v int32)`
+
+SetReservedRequests sets ReservedRequests field to given value.
+
+
+### GetReservedTokens
+
+`func (o *UserResponse) GetReservedTokens() int32`
+
+GetReservedTokens returns the ReservedTokens field if non-nil, zero value otherwise.
+
+### GetReservedTokensOk
+
+`func (o *UserResponse) GetReservedTokensOk() (*int32, bool)`
+
+GetReservedTokensOk returns a tuple with the ReservedTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReservedTokens
+
+`func (o *UserResponse) SetReservedTokens(v int32)`
+
+SetReservedTokens sets ReservedTokens field to given value.
 
 
 ### GetSpend

@@ -40,7 +40,7 @@ type ResponsesRequest struct {
 	PreviousResponseId   NullableString           `json:"previous_response_id,omitempty"`
 	PromptCacheKey       NullableString           `json:"prompt_cache_key,omitempty"`
 	PromptCacheRetention NullableString           `json:"prompt_cache_retention,omitempty"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	Reasoning        map[string]interface{} `json:"reasoning,omitempty"`
 	ResponseFormat   map[string]interface{} `json:"response_format,omitempty"`
 	SafetyIdentifier NullableString         `json:"safety_identifier,omitempty"`

@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | Pointer to **[]string** |  | [optional] 
+**CaptureAgentTelemetry** | Pointer to **NullableBool** |  | [optional] 
 **ExcludeFromBudget** | Pointer to **NullableBool** |  | [optional] 
 **ExpiresAt** | Pointer to **NullableTime** |  | [optional] 
 **IsActive** | Pointer to **NullableBool** |  | [optional] 
@@ -66,6 +67,41 @@ HasAllowedModels returns a boolean if a field has been set.
 `func (o *UpdateKeyRequest) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetCaptureAgentTelemetry
+
+`func (o *UpdateKeyRequest) GetCaptureAgentTelemetry() bool`
+
+GetCaptureAgentTelemetry returns the CaptureAgentTelemetry field if non-nil, zero value otherwise.
+
+### GetCaptureAgentTelemetryOk
+
+`func (o *UpdateKeyRequest) GetCaptureAgentTelemetryOk() (*bool, bool)`
+
+GetCaptureAgentTelemetryOk returns a tuple with the CaptureAgentTelemetry field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCaptureAgentTelemetry
+
+`func (o *UpdateKeyRequest) SetCaptureAgentTelemetry(v bool)`
+
+SetCaptureAgentTelemetry sets CaptureAgentTelemetry field to given value.
+
+### HasCaptureAgentTelemetry
+
+`func (o *UpdateKeyRequest) HasCaptureAgentTelemetry() bool`
+
+HasCaptureAgentTelemetry returns a boolean if a field has been set.
+
+### SetCaptureAgentTelemetryNil
+
+`func (o *UpdateKeyRequest) SetCaptureAgentTelemetryNil(b bool)`
+
+ SetCaptureAgentTelemetryNil sets the value for CaptureAgentTelemetry to be an explicit nil
+
+### UnsetCaptureAgentTelemetry
+`func (o *UpdateKeyRequest) UnsetCaptureAgentTelemetry()`
+
+UnsetCaptureAgentTelemetry ensures that no value is present for CaptureAgentTelemetry, not even an explicit nil
 ### GetExcludeFromBudget
 
 `func (o *UpdateKeyRequest) GetExcludeFromBudget() bool`

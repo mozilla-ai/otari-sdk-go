@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Content** | [**Content12**](Content12.md) |  | 
+**Content** | [**Content13**](Content13.md) |  | 
 **ToolUseId** | **string** |  | 
 **Type** | **string** |  | 
 
@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 
 ### NewMRTextEditorCodeExecutionToolResultBlock
 
-`func NewMRTextEditorCodeExecutionToolResultBlock(content Content12, toolUseId string, type_ string, ) *MRTextEditorCodeExecutionToolResultBlock`
+`func NewMRTextEditorCodeExecutionToolResultBlock(content Content13, toolUseId string, type_ string, ) *MRTextEditorCodeExecutionToolResultBlock`
 
 NewMRTextEditorCodeExecutionToolResultBlock instantiates a new MRTextEditorCodeExecutionToolResultBlock object
 This constructor will assign default values to properties that have it defined,
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetContent
 
-`func (o *MRTextEditorCodeExecutionToolResultBlock) GetContent() Content12`
+`func (o *MRTextEditorCodeExecutionToolResultBlock) GetContent() Content13`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *MRTextEditorCodeExecutionToolResultBlock) GetContentOk() (*Content12, bool)`
+`func (o *MRTextEditorCodeExecutionToolResultBlock) GetContentOk() (*Content13, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *MRTextEditorCodeExecutionToolResultBlock) SetContent(v Content12)`
+`func (o *MRTextEditorCodeExecutionToolResultBlock) SetContent(v Content13)`
 
 SetContent sets Content field to given value.
 

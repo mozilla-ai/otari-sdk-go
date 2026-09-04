@@ -24,7 +24,7 @@ type CreateStoredProviderRequest struct {
 	ApiBase NullableString `json:"api_base,omitempty"`
 	// Provider API key. Stored encrypted; never returned.
 	ApiKey NullableString `json:"api_key,omitempty"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	ClientArgs map[string]interface{} `json:"client_args,omitempty"`
 	// Routing key, e.g. 'openai' or a named instance like 'home_lab'.
 	Instance string `json:"instance"`

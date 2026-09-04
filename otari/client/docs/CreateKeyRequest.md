@@ -5,12 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | Pointer to **[]string** | Model allow-list: null &#x3D; any model, [] &#x3D; deny all, or canonical instance:model entries (with instance:* / instance:prefix* wildcards). | [optional] 
+**CaptureAgentTelemetry** | Pointer to **NullableBool** | Per-key override of the deployment-wide capture_agent_telemetry setting: null (default) inherits it, true always stores this key&#39;s coding-agent telemetry, false always discards it. Covers both behavioral events (tool_result, tool_decision, user_prompt, api_error) from POST /v1/logs and outcome-metric data points (lines of code, commits, pull requests, active time) from POST /v1/metrics. Usage capture and billing are unaffected either way. | [optional] 
 **ExcludeFromBudget** | Pointer to **bool** | When true, requests on this key are logged with cost but never reserved, reconciled into the user&#39;s spend, or gated by budget. | [optional] [default to false]
 **ExpiresAt** | Pointer to **NullableTime** | Optional expiration timestamp | [optional] 
 **KeyName** | Pointer to **NullableString** | Optional name for the key | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** | Optional metadata | [optional] 
 **RejectUserMismatch** | Pointer to **NullableBool** | Per-key override of the deployment-wide reject_user_mismatch setting: null (default) inherits it, true always rejects a request naming a different &#39;user&#39;, false always accepts it. Spend binds to this key&#39;s own user either way. | [optional] 
 **UserId** | Pointer to **NullableString** | Optional user ID to associate with this key | [optional] 
+**WorkspaceId** | Pointer to **NullableString** | Workspace this key belongs to, which must be one in the caller&#39;s organization. Omitted means that organization&#39;s default workspace. A key belongs to exactly one workspace: requests on it are scoped and billed there, so the workspace is read off the key rather than off a request header. | [optional] 
 
 ## Methods
 
@@ -66,6 +68,41 @@ HasAllowedModels returns a boolean if a field has been set.
 `func (o *CreateKeyRequest) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetCaptureAgentTelemetry
+
+`func (o *CreateKeyRequest) GetCaptureAgentTelemetry() bool`
+
+GetCaptureAgentTelemetry returns the CaptureAgentTelemetry field if non-nil, zero value otherwise.
+
+### GetCaptureAgentTelemetryOk
+
+`func (o *CreateKeyRequest) GetCaptureAgentTelemetryOk() (*bool, bool)`
+
+GetCaptureAgentTelemetryOk returns a tuple with the CaptureAgentTelemetry field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCaptureAgentTelemetry
+
+`func (o *CreateKeyRequest) SetCaptureAgentTelemetry(v bool)`
+
+SetCaptureAgentTelemetry sets CaptureAgentTelemetry field to given value.
+
+### HasCaptureAgentTelemetry
+
+`func (o *CreateKeyRequest) HasCaptureAgentTelemetry() bool`
+
+HasCaptureAgentTelemetry returns a boolean if a field has been set.
+
+### SetCaptureAgentTelemetryNil
+
+`func (o *CreateKeyRequest) SetCaptureAgentTelemetryNil(b bool)`
+
+ SetCaptureAgentTelemetryNil sets the value for CaptureAgentTelemetry to be an explicit nil
+
+### UnsetCaptureAgentTelemetry
+`func (o *CreateKeyRequest) UnsetCaptureAgentTelemetry()`
+
+UnsetCaptureAgentTelemetry ensures that no value is present for CaptureAgentTelemetry, not even an explicit nil
 ### GetExcludeFromBudget
 
 `func (o *CreateKeyRequest) GetExcludeFromBudget() bool`
@@ -256,6 +293,41 @@ HasUserId returns a boolean if a field has been set.
 `func (o *CreateKeyRequest) UnsetUserId()`
 
 UnsetUserId ensures that no value is present for UserId, not even an explicit nil
+### GetWorkspaceId
+
+`func (o *CreateKeyRequest) GetWorkspaceId() string`
+
+GetWorkspaceId returns the WorkspaceId field if non-nil, zero value otherwise.
+
+### GetWorkspaceIdOk
+
+`func (o *CreateKeyRequest) GetWorkspaceIdOk() (*string, bool)`
+
+GetWorkspaceIdOk returns a tuple with the WorkspaceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkspaceId
+
+`func (o *CreateKeyRequest) SetWorkspaceId(v string)`
+
+SetWorkspaceId sets WorkspaceId field to given value.
+
+### HasWorkspaceId
+
+`func (o *CreateKeyRequest) HasWorkspaceId() bool`
+
+HasWorkspaceId returns a boolean if a field has been set.
+
+### SetWorkspaceIdNil
+
+`func (o *CreateKeyRequest) SetWorkspaceIdNil(b bool)`
+
+ SetWorkspaceIdNil sets the value for WorkspaceId to be an explicit nil
+
+### UnsetWorkspaceId
+`func (o *CreateKeyRequest) UnsetWorkspaceId()`
+
+UnsetWorkspaceId ensures that no value is present for WorkspaceId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

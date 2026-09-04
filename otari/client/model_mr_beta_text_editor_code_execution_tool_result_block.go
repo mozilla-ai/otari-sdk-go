@@ -20,7 +20,7 @@ var _ MappedNullable = &MRBetaTextEditorCodeExecutionToolResultBlock{}
 
 // MRBetaTextEditorCodeExecutionToolResultBlock struct for MRBetaTextEditorCodeExecutionToolResultBlock
 type MRBetaTextEditorCodeExecutionToolResultBlock struct {
-	Content              Content7 `json:"content"`
+	Content              Content8 `json:"content"`
 	ToolUseId            string   `json:"tool_use_id"`
 	Type                 string   `json:"type"`
 	AdditionalProperties map[string]interface{}
@@ -32,7 +32,7 @@ type _MRBetaTextEditorCodeExecutionToolResultBlock MRBetaTextEditorCodeExecution
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRBetaTextEditorCodeExecutionToolResultBlock(content Content7, toolUseId string, type_ string) *MRBetaTextEditorCodeExecutionToolResultBlock {
+func NewMRBetaTextEditorCodeExecutionToolResultBlock(content Content8, toolUseId string, type_ string) *MRBetaTextEditorCodeExecutionToolResultBlock {
 	this := MRBetaTextEditorCodeExecutionToolResultBlock{}
 	this.Content = content
 	this.ToolUseId = toolUseId
@@ -49,9 +49,9 @@ func NewMRBetaTextEditorCodeExecutionToolResultBlockWithDefaults() *MRBetaTextEd
 }
 
 // GetContent returns the Content field value
-func (o *MRBetaTextEditorCodeExecutionToolResultBlock) GetContent() Content7 {
+func (o *MRBetaTextEditorCodeExecutionToolResultBlock) GetContent() Content8 {
 	if o == nil {
-		var ret Content7
+		var ret Content8
 		return ret
 	}
 
@@ -60,7 +60,7 @@ func (o *MRBetaTextEditorCodeExecutionToolResultBlock) GetContent() Content7 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *MRBetaTextEditorCodeExecutionToolResultBlock) GetContentOk() (*Content7, bool) {
+func (o *MRBetaTextEditorCodeExecutionToolResultBlock) GetContentOk() (*Content8, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,7 +68,7 @@ func (o *MRBetaTextEditorCodeExecutionToolResultBlock) GetContentOk() (*Content7
 }
 
 // SetContent sets field value
-func (o *MRBetaTextEditorCodeExecutionToolResultBlock) SetContent(v Content7) {
+func (o *MRBetaTextEditorCodeExecutionToolResultBlock) SetContent(v Content8) {
 	o.Content = v
 }
 

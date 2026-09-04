@@ -71,18 +71,44 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AdminAPI* | [**GetAdministrationAccessV1AdminAccessGet**](docs/AdminAPI.md#getadministrationaccessv1adminaccessget) | **Get** /v1/admin/access | Get Administration Access
+*AdminAPI* | [**ListDeploymentUsersV1AdminUsersGet**](docs/AdminAPI.md#listdeploymentusersv1adminusersget) | **Get** /v1/admin/users | List Deployment Users
+*AdminAPI* | [**UpdateDeploymentUserV1AdminUsersUserIdPatch**](docs/AdminAPI.md#updatedeploymentuserv1adminusersuseridpatch) | **Patch** /v1/admin/users/{user_id} | Update Deployment User
+*AgentTelemetryAPI* | [**AgentTelemetrySeriesV1AgentTelemetrySeriesGet**](docs/AgentTelemetryAPI.md#agenttelemetryseriesv1agenttelemetryseriesget) | **Get** /v1/agent-telemetry/series | Agent Telemetry Series
+*AgentTelemetryAPI* | [**AgentTelemetrySummaryV1AgentTelemetrySummaryGet**](docs/AgentTelemetryAPI.md#agenttelemetrysummaryv1agenttelemetrysummaryget) | **Get** /v1/agent-telemetry/summary | Agent Telemetry Summary
+*AgentTelemetryAPI* | [**CountAgentTelemetryV1AgentTelemetryCountGet**](docs/AgentTelemetryAPI.md#countagenttelemetryv1agenttelemetrycountget) | **Get** /v1/agent-telemetry/count | Count Agent Telemetry
+*AgentTelemetryAPI* | [**DeleteAgentTelemetryRowsV1AgentTelemetryDelete**](docs/AgentTelemetryAPI.md#deleteagenttelemetryrowsv1agenttelemetrydelete) | **Delete** /v1/agent-telemetry | Delete Agent Telemetry Rows
 *AliasesAPI* | [**DeleteAliasV1AliasesNameDelete**](docs/AliasesAPI.md#deletealiasv1aliasesnamedelete) | **Delete** /v1/aliases/{name} | Delete Alias
+*AliasesAPI* | [**DeleteOrganizationAliasV1OrganizationsMeAliasesNameDelete**](docs/AliasesAPI.md#deleteorganizationaliasv1organizationsmealiasesnamedelete) | **Delete** /v1/organizations/me/aliases/{name} | Delete Organization Alias
 *AliasesAPI* | [**ListAliasesV1AliasesGet**](docs/AliasesAPI.md#listaliasesv1aliasesget) | **Get** /v1/aliases | List Aliases
+*AliasesAPI* | [**ListVisibleAliasesV1OrganizationsMeAliasesGet**](docs/AliasesAPI.md#listvisiblealiasesv1organizationsmealiasesget) | **Get** /v1/organizations/me/aliases | List Visible Aliases
 *AliasesAPI* | [**SetAliasV1AliasesPost**](docs/AliasesAPI.md#setaliasv1aliasespost) | **Post** /v1/aliases | Set Alias
+*AliasesAPI* | [**SetOrganizationAliasV1OrganizationsMeAliasesPost**](docs/AliasesAPI.md#setorganizationaliasv1organizationsmealiasespost) | **Post** /v1/organizations/me/aliases | Set Organization Alias
 *AudioAPI* | [**CreateSpeechV1AudioSpeechPost**](docs/AudioAPI.md#createspeechv1audiospeechpost) | **Post** /v1/audio/speech | Create Speech
 *AudioAPI* | [**CreateTranscriptionV1AudioTranscriptionsPost**](docs/AudioAPI.md#createtranscriptionv1audiotranscriptionspost) | **Post** /v1/audio/transcriptions | Create Transcription
+*AuthAPI* | [**AuthenticatePasskeyV1AuthWebauthnAuthenticatePost**](docs/AuthAPI.md#authenticatepasskeyv1authwebauthnauthenticatepost) | **Post** /v1/auth/webauthn/authenticate | Authenticate Passkey
+*AuthAPI* | [**AuthenticationOptionsV1AuthWebauthnAuthenticateOptionsPost**](docs/AuthAPI.md#authenticationoptionsv1authwebauthnauthenticateoptionspost) | **Post** /v1/auth/webauthn/authenticate/options | Authentication Options
+*AuthAPI* | [**AuthorizeV1AuthOauthProviderAuthorizeGet**](docs/AuthAPI.md#authorizev1authoauthproviderauthorizeget) | **Get** /v1/auth/oauth/{provider}/authorize | Authorize
+*AuthAPI* | [**CallbackV1AuthOauthProviderCallbackPost**](docs/AuthAPI.md#callbackv1authoauthprovidercallbackpost) | **Post** /v1/auth/oauth/{provider}/callback | Callback
+*AuthAPI* | [**ConfirmResetV1AuthPasswordResetConfirmPost**](docs/AuthAPI.md#confirmresetv1authpasswordresetconfirmpost) | **Post** /v1/auth/password/reset/confirm | Confirm Reset
 *AuthAPI* | [**CreateSessionV1AuthSessionPost**](docs/AuthAPI.md#createsessionv1authsessionpost) | **Post** /v1/auth/session | Create Session
+*AuthAPI* | [**DeletePasskeyV1AuthWebauthnCredentialsCredentialIdDelete**](docs/AuthAPI.md#deletepasskeyv1authwebauthncredentialscredentialiddelete) | **Delete** /v1/auth/webauthn/credentials/{credential_id} | Delete Passkey
 *AuthAPI* | [**DeleteSessionV1AuthSessionDelete**](docs/AuthAPI.md#deletesessionv1authsessiondelete) | **Delete** /v1/auth/session | Delete Session
+*AuthAPI* | [**ListPasskeysV1AuthWebauthnCredentialsGet**](docs/AuthAPI.md#listpasskeysv1authwebauthncredentialsget) | **Get** /v1/auth/webauthn/credentials | List Passkeys
+*AuthAPI* | [**RegisterPasskeyV1AuthWebauthnRegisterPost**](docs/AuthAPI.md#registerpasskeyv1authwebauthnregisterpost) | **Post** /v1/auth/webauthn/register | Register Passkey
+*AuthAPI* | [**RegistrationOptionsV1AuthWebauthnRegisterOptionsPost**](docs/AuthAPI.md#registrationoptionsv1authwebauthnregisteroptionspost) | **Post** /v1/auth/webauthn/register/options | Registration Options
+*AuthAPI* | [**RenamePasskeyV1AuthWebauthnCredentialsCredentialIdPatch**](docs/AuthAPI.md#renamepasskeyv1authwebauthncredentialscredentialidpatch) | **Patch** /v1/auth/webauthn/credentials/{credential_id} | Rename Passkey
+*AuthAPI* | [**RequestResetV1AuthPasswordResetPost**](docs/AuthAPI.md#requestresetv1authpasswordresetpost) | **Post** /v1/auth/password/reset | Request Reset
+*AuthAPI* | [**ResendVerificationV1AuthResendVerificationPost**](docs/AuthAPI.md#resendverificationv1authresendverificationpost) | **Post** /v1/auth/resend-verification | Resend Verification
+*AuthAPI* | [**SetDashboardPasswordV1AuthPasswordPut**](docs/AuthAPI.md#setdashboardpasswordv1authpasswordput) | **Put** /v1/auth/password | Set Dashboard Password
+*AuthAPI* | [**SignupV1AuthSignupPost**](docs/AuthAPI.md#signupv1authsignuppost) | **Post** /v1/auth/signup | Signup
+*AuthAPI* | [**VerifyEmailRouteV1AuthVerifyEmailPost**](docs/AuthAPI.md#verifyemailroutev1authverifyemailpost) | **Post** /v1/auth/verify-email | Verify Email Route
 *BatchesAPI* | [**CancelBatchV1BatchesBatchIdCancelPost**](docs/BatchesAPI.md#cancelbatchv1batchesbatchidcancelpost) | **Post** /v1/batches/{batch_id}/cancel | Cancel Batch
 *BatchesAPI* | [**CreateBatchV1BatchesPost**](docs/BatchesAPI.md#createbatchv1batchespost) | **Post** /v1/batches | Create Batch
 *BatchesAPI* | [**ListBatchesV1BatchesGet**](docs/BatchesAPI.md#listbatchesv1batchesget) | **Get** /v1/batches | List Batches
 *BatchesAPI* | [**RetrieveBatchResultsV1BatchesBatchIdResultsGet**](docs/BatchesAPI.md#retrievebatchresultsv1batchesbatchidresultsget) | **Get** /v1/batches/{batch_id}/results | Retrieve Batch Results
 *BatchesAPI* | [**RetrieveBatchV1BatchesBatchIdGet**](docs/BatchesAPI.md#retrievebatchv1batchesbatchidget) | **Get** /v1/batches/{batch_id} | Retrieve Batch
+*BootstrapAPI* | [**GetBootstrapV1BootstrapGet**](docs/BootstrapAPI.md#getbootstrapv1bootstrapget) | **Get** /v1/bootstrap | Get Bootstrap
 *BudgetsAPI* | [**CreateBudgetV1BudgetsPost**](docs/BudgetsAPI.md#createbudgetv1budgetspost) | **Post** /v1/budgets | Create Budget
 *BudgetsAPI* | [**DeleteBudgetV1BudgetsBudgetIdDelete**](docs/BudgetsAPI.md#deletebudgetv1budgetsbudgetiddelete) | **Delete** /v1/budgets/{budget_id} | Delete Budget
 *BudgetsAPI* | [**GetBudgetV1BudgetsBudgetIdGet**](docs/BudgetsAPI.md#getbudgetv1budgetsbudgetidget) | **Get** /v1/budgets/{budget_id} | Get Budget
@@ -100,12 +126,18 @@ Class | Method | HTTP request | Description
 *HealthAPI* | [**HealthLivenessHealthLivenessGet**](docs/HealthAPI.md#healthlivenesshealthlivenessget) | **Get** /health/liveness | Health Liveness
 *HealthAPI* | [**HealthReadinessHealthReadinessGet**](docs/HealthAPI.md#healthreadinesshealthreadinessget) | **Get** /health/readiness | Health Readiness
 *ImagesAPI* | [**CreateImageV1ImagesGenerationsPost**](docs/ImagesAPI.md#createimagev1imagesgenerationspost) | **Post** /v1/images/generations | Create Image
+*InvitationsAPI* | [**AcceptInvitationV1InvitationsAcceptPost**](docs/InvitationsAPI.md#acceptinvitationv1invitationsacceptpost) | **Post** /v1/invitations/accept | Accept Invitation
+*InvitationsAPI* | [**ValidateInvitationV1InvitationsValidatePost**](docs/InvitationsAPI.md#validateinvitationv1invitationsvalidatepost) | **Post** /v1/invitations/validate | Validate Invitation
 *KeysAPI* | [**CreateKeyV1KeysPost**](docs/KeysAPI.md#createkeyv1keyspost) | **Post** /v1/keys | Create Key
 *KeysAPI* | [**DeleteKeyV1KeysKeyIdDelete**](docs/KeysAPI.md#deletekeyv1keyskeyiddelete) | **Delete** /v1/keys/{key_id} | Delete Key
 *KeysAPI* | [**GetKeyV1KeysKeyIdGet**](docs/KeysAPI.md#getkeyv1keyskeyidget) | **Get** /v1/keys/{key_id} | Get Key
 *KeysAPI* | [**ListKeysV1KeysGet**](docs/KeysAPI.md#listkeysv1keysget) | **Get** /v1/keys | List Keys
 *KeysAPI* | [**RotateKeyV1KeysKeyIdRotatePost**](docs/KeysAPI.md#rotatekeyv1keyskeyidrotatepost) | **Post** /v1/keys/{key_id}/rotate | Rotate Key
 *KeysAPI* | [**UpdateKeyV1KeysKeyIdPatch**](docs/KeysAPI.md#updatekeyv1keyskeyidpatch) | **Patch** /v1/keys/{key_id} | Update Key
+*McpServersAPI* | [**CreateWorkspaceMcpServerV1WorkspacesWorkspaceIdMcpServersPost**](docs/McpServersAPI.md#createworkspacemcpserverv1workspacesworkspaceidmcpserverspost) | **Post** /v1/workspaces/{workspace_id}/mcp-servers | Create Workspace Mcp Server
+*McpServersAPI* | [**DeleteWorkspaceMcpServerV1WorkspacesWorkspaceIdMcpServersServerIdDelete**](docs/McpServersAPI.md#deleteworkspacemcpserverv1workspacesworkspaceidmcpserversserveriddelete) | **Delete** /v1/workspaces/{workspace_id}/mcp-servers/{server_id} | Delete Workspace Mcp Server
+*McpServersAPI* | [**ListWorkspaceMcpServersV1WorkspacesWorkspaceIdMcpServersGet**](docs/McpServersAPI.md#listworkspacemcpserversv1workspacesworkspaceidmcpserversget) | **Get** /v1/workspaces/{workspace_id}/mcp-servers | List Workspace Mcp Servers
+*McpServersAPI* | [**UpdateWorkspaceMcpServerV1WorkspacesWorkspaceIdMcpServersServerIdPatch**](docs/McpServersAPI.md#updateworkspacemcpserverv1workspacesworkspaceidmcpserversserveridpatch) | **Patch** /v1/workspaces/{workspace_id}/mcp-servers/{server_id} | Update Workspace Mcp Server
 *MessagesAPI* | [**CountMessageTokensV1MessagesCountTokensPost**](docs/MessagesAPI.md#countmessagetokensv1messagescounttokenspost) | **Post** /v1/messages/count_tokens | Count Message Tokens
 *MessagesAPI* | [**CreateMessageV1MessagesPost**](docs/MessagesAPI.md#createmessagev1messagespost) | **Post** /v1/messages | Create Message
 *ModelsAPI* | [**GetModelV1ModelsModelIdGet**](docs/ModelsAPI.md#getmodelv1modelsmodelidget) | **Get** /v1/models/{model_id} | Get Model
@@ -113,7 +145,52 @@ Class | Method | HTTP request | Description
 *ModelsAPI* | [**ListModelMetadataV1ModelsMetadataGet**](docs/ModelsAPI.md#listmodelmetadatav1modelsmetadataget) | **Get** /v1/models/metadata | List Model Metadata
 *ModelsAPI* | [**ListModelsV1ModelsGet**](docs/ModelsAPI.md#listmodelsv1modelsget) | **Get** /v1/models | List Models
 *ModerationsAPI* | [**CreateModerationV1ModerationsPost**](docs/ModerationsAPI.md#createmoderationv1moderationspost) | **Post** /v1/moderations | Create Moderation
+*OrganizationBudgetsAPI* | [**CreateOrganizationBudgetV1OrganizationsMeBudgetsPost**](docs/OrganizationBudgetsAPI.md#createorganizationbudgetv1organizationsmebudgetspost) | **Post** /v1/organizations/me/budgets | Create Organization Budget
+*OrganizationBudgetsAPI* | [**CreateOrganizationSpendCeilingV1OrganizationsMeSpendCeilingsPost**](docs/OrganizationBudgetsAPI.md#createorganizationspendceilingv1organizationsmespendceilingspost) | **Post** /v1/organizations/me/spend-ceilings | Create Organization Spend Ceiling
+*OrganizationBudgetsAPI* | [**DeleteOrganizationBudgetV1OrganizationsMeBudgetsBudgetIdDelete**](docs/OrganizationBudgetsAPI.md#deleteorganizationbudgetv1organizationsmebudgetsbudgetiddelete) | **Delete** /v1/organizations/me/budgets/{budget_id} | Delete Organization Budget
+*OrganizationBudgetsAPI* | [**DeleteOrganizationSpendCeilingV1OrganizationsMeSpendCeilingsCeilingIdDelete**](docs/OrganizationBudgetsAPI.md#deleteorganizationspendceilingv1organizationsmespendceilingsceilingiddelete) | **Delete** /v1/organizations/me/spend-ceilings/{ceiling_id} | Delete Organization Spend Ceiling
+*OrganizationBudgetsAPI* | [**ListOrganizationBudgetsV1OrganizationsMeBudgetsGet**](docs/OrganizationBudgetsAPI.md#listorganizationbudgetsv1organizationsmebudgetsget) | **Get** /v1/organizations/me/budgets | List Organization Budgets
+*OrganizationBudgetsAPI* | [**ListOrganizationSpendCeilingsV1OrganizationsMeSpendCeilingsGet**](docs/OrganizationBudgetsAPI.md#listorganizationspendceilingsv1organizationsmespendceilingsget) | **Get** /v1/organizations/me/spend-ceilings | List Organization Spend Ceilings
+*OrganizationBudgetsAPI* | [**UpdateOrganizationBudgetV1OrganizationsMeBudgetsBudgetIdPatch**](docs/OrganizationBudgetsAPI.md#updateorganizationbudgetv1organizationsmebudgetsbudgetidpatch) | **Patch** /v1/organizations/me/budgets/{budget_id} | Update Organization Budget
+*OrganizationBudgetsAPI* | [**UpdateOrganizationSpendCeilingV1OrganizationsMeSpendCeilingsCeilingIdPatch**](docs/OrganizationBudgetsAPI.md#updateorganizationspendceilingv1organizationsmespendceilingsceilingidpatch) | **Patch** /v1/organizations/me/spend-ceilings/{ceiling_id} | Update Organization Spend Ceiling
+*OrganizationGuardrailsAPI* | [**CreateOrganizationGuardrailV1OrganizationsMeGuardrailsPost**](docs/OrganizationGuardrailsAPI.md#createorganizationguardrailv1organizationsmeguardrailspost) | **Post** /v1/organizations/me/guardrails | Create Organization Guardrail
+*OrganizationGuardrailsAPI* | [**DeleteOrganizationGuardrailV1OrganizationsMeGuardrailsGuardrailIdDelete**](docs/OrganizationGuardrailsAPI.md#deleteorganizationguardrailv1organizationsmeguardrailsguardrailiddelete) | **Delete** /v1/organizations/me/guardrails/{guardrail_id} | Delete Organization Guardrail
+*OrganizationGuardrailsAPI* | [**ListOrganizationGuardrailsV1OrganizationsMeGuardrailsGet**](docs/OrganizationGuardrailsAPI.md#listorganizationguardrailsv1organizationsmeguardrailsget) | **Get** /v1/organizations/me/guardrails | List Organization Guardrails
+*OrganizationGuardrailsAPI* | [**UpdateOrganizationGuardrailV1OrganizationsMeGuardrailsGuardrailIdPatch**](docs/OrganizationGuardrailsAPI.md#updateorganizationguardrailv1organizationsmeguardrailsguardrailidpatch) | **Patch** /v1/organizations/me/guardrails/{guardrail_id} | Update Organization Guardrail
+*OrganizationKeysAPI* | [**CreateOwnKeyV1OrganizationsMeKeysPost**](docs/OrganizationKeysAPI.md#createownkeyv1organizationsmekeyspost) | **Post** /v1/organizations/me/keys | Create Own Key
+*OrganizationKeysAPI* | [**DeleteOwnKeyV1OrganizationsMeKeysKeyIdDelete**](docs/OrganizationKeysAPI.md#deleteownkeyv1organizationsmekeyskeyiddelete) | **Delete** /v1/organizations/me/keys/{key_id} | Delete Own Key
+*OrganizationKeysAPI* | [**ListOwnKeysV1OrganizationsMeKeysGet**](docs/OrganizationKeysAPI.md#listownkeysv1organizationsmekeysget) | **Get** /v1/organizations/me/keys | List Own Keys
+*OrganizationKeysAPI* | [**RotateOwnKeyV1OrganizationsMeKeysKeyIdRotatePost**](docs/OrganizationKeysAPI.md#rotateownkeyv1organizationsmekeyskeyidrotatepost) | **Post** /v1/organizations/me/keys/{key_id}/rotate | Rotate Own Key
+*OrganizationKeysAPI* | [**UpdateOwnKeyV1OrganizationsMeKeysKeyIdPatch**](docs/OrganizationKeysAPI.md#updateownkeyv1organizationsmekeyskeyidpatch) | **Patch** /v1/organizations/me/keys/{key_id} | Update Own Key
+*OrganizationPricingAPI* | [**CreateOrganizationPricingV1OrganizationsMePricingPost**](docs/OrganizationPricingAPI.md#createorganizationpricingv1organizationsmepricingpost) | **Post** /v1/organizations/me/pricing | Create Organization Pricing
+*OrganizationPricingAPI* | [**DeleteOrganizationPricingV1OrganizationsMePricingPricingIdDelete**](docs/OrganizationPricingAPI.md#deleteorganizationpricingv1organizationsmepricingpricingiddelete) | **Delete** /v1/organizations/me/pricing/{pricing_id} | Delete Organization Pricing
+*OrganizationPricingAPI* | [**ListOrganizationPricingV1OrganizationsMePricingGet**](docs/OrganizationPricingAPI.md#listorganizationpricingv1organizationsmepricingget) | **Get** /v1/organizations/me/pricing | List Organization Pricing
+*OrganizationPricingAPI* | [**ReplaceOrganizationPricingV1OrganizationsMePricingPricingIdPut**](docs/OrganizationPricingAPI.md#replaceorganizationpricingv1organizationsmepricingpricingidput) | **Put** /v1/organizations/me/pricing/{pricing_id} | Replace Organization Pricing
+*OrganizationUsageAPI* | [**CountOrganizationUsageV1OrganizationsMeUsageCountGet**](docs/OrganizationUsageAPI.md#countorganizationusagev1organizationsmeusagecountget) | **Get** /v1/organizations/me/usage/count | Count Organization Usage
+*OrganizationUsageAPI* | [**ListOrganizationUsageV1OrganizationsMeUsageGet**](docs/OrganizationUsageAPI.md#listorganizationusagev1organizationsmeusageget) | **Get** /v1/organizations/me/usage | List Organization Usage
+*OrganizationUsageAPI* | [**OrganizationUsageSeriesV1OrganizationsMeUsageSeriesGet**](docs/OrganizationUsageAPI.md#organizationusageseriesv1organizationsmeusageseriesget) | **Get** /v1/organizations/me/usage/series | Organization Usage Series
+*OrganizationUsageAPI* | [**OrganizationUsageSummaryV1OrganizationsMeUsageSummaryGet**](docs/OrganizationUsageAPI.md#organizationusagesummaryv1organizationsmeusagesummaryget) | **Get** /v1/organizations/me/usage/summary | Organization Usage Summary
+*OrganizationsAPI* | [**AcceptCallerPendingMembershipV1OrganizationsMePendingMembershipsOrganizationMemberIdAcceptPost**](docs/OrganizationsAPI.md#acceptcallerpendingmembershipv1organizationsmependingmembershipsorganizationmemberidacceptpost) | **Post** /v1/organizations/me/pending-memberships/{organization_member_id}/accept | Accept Caller Pending Membership
+*OrganizationsAPI* | [**CreateActiveOrganizationDomainV1OrganizationsMeDomainsPost**](docs/OrganizationsAPI.md#createactiveorganizationdomainv1organizationsmedomainspost) | **Post** /v1/organizations/me/domains | Create Active Organization Domain
+*OrganizationsAPI* | [**CreateActiveOrganizationMemberV1OrganizationsMeMembersPost**](docs/OrganizationsAPI.md#createactiveorganizationmemberv1organizationsmememberspost) | **Post** /v1/organizations/me/members | Create Active Organization Member
+*OrganizationsAPI* | [**CreateOrganizationV1OrganizationsPost**](docs/OrganizationsAPI.md#createorganizationv1organizationspost) | **Post** /v1/organizations | Create Organization
+*OrganizationsAPI* | [**DeclineCallerPendingMembershipV1OrganizationsMePendingMembershipsOrganizationMemberIdDeclinePost**](docs/OrganizationsAPI.md#declinecallerpendingmembershipv1organizationsmependingmembershipsorganizationmemberiddeclinepost) | **Post** /v1/organizations/me/pending-memberships/{organization_member_id}/decline | Decline Caller Pending Membership
+*OrganizationsAPI* | [**DeleteActiveOrganizationDomainV1OrganizationsMeDomainsOrganizationDomainIdDelete**](docs/OrganizationsAPI.md#deleteactiveorganizationdomainv1organizationsmedomainsorganizationdomainiddelete) | **Delete** /v1/organizations/me/domains/{organization_domain_id} | Delete Active Organization Domain
+*OrganizationsAPI* | [**GetActiveOrganizationContextV1OrganizationsMeGet**](docs/OrganizationsAPI.md#getactiveorganizationcontextv1organizationsmeget) | **Get** /v1/organizations/me | Get Active Organization Context
+*OrganizationsAPI* | [**InviteActiveOrganizationMemberV1OrganizationsMeMemberInvitationsPost**](docs/OrganizationsAPI.md#inviteactiveorganizationmemberv1organizationsmememberinvitationspost) | **Post** /v1/organizations/me/member-invitations | Invite Active Organization Member
+*OrganizationsAPI* | [**ListActiveOrganizationDomainsV1OrganizationsMeDomainsGet**](docs/OrganizationsAPI.md#listactiveorganizationdomainsv1organizationsmedomainsget) | **Get** /v1/organizations/me/domains | List Active Organization Domains
+*OrganizationsAPI* | [**ListActiveOrganizationMembersV1OrganizationsMeMembersGet**](docs/OrganizationsAPI.md#listactiveorganizationmembersv1organizationsmemembersget) | **Get** /v1/organizations/me/members | List Active Organization Members
+*OrganizationsAPI* | [**ListCallerOrganizationMembershipsV1OrganizationsMeMembershipsGet**](docs/OrganizationsAPI.md#listcallerorganizationmembershipsv1organizationsmemembershipsget) | **Get** /v1/organizations/me/memberships | List Caller Organization Memberships
+*OrganizationsAPI* | [**ListCallerPendingMembershipsV1OrganizationsMePendingMembershipsGet**](docs/OrganizationsAPI.md#listcallerpendingmembershipsv1organizationsmependingmembershipsget) | **Get** /v1/organizations/me/pending-memberships | List Caller Pending Memberships
+*OrganizationsAPI* | [**RemoveActiveOrganizationMemberV1OrganizationsMeMembersOrganizationMemberIdDelete**](docs/OrganizationsAPI.md#removeactiveorganizationmemberv1organizationsmemembersorganizationmemberiddelete) | **Delete** /v1/organizations/me/members/{organization_member_id} | Remove Active Organization Member
+*OrganizationsAPI* | [**RevokeActiveOrganizationMemberInvitationV1OrganizationsMeMemberInvitationsInvitationIdDelete**](docs/OrganizationsAPI.md#revokeactiveorganizationmemberinvitationv1organizationsmememberinvitationsinvitationiddelete) | **Delete** /v1/organizations/me/member-invitations/{invitation_id} | Revoke Active Organization Member Invitation
+*OrganizationsAPI* | [**SwitchActiveOrganizationV1OrganizationsMeSwitchPost**](docs/OrganizationsAPI.md#switchactiveorganizationv1organizationsmeswitchpost) | **Post** /v1/organizations/me/switch | Switch Active Organization
+*OrganizationsAPI* | [**UpdateActiveOrganizationDomainV1OrganizationsMeDomainsOrganizationDomainIdPatch**](docs/OrganizationsAPI.md#updateactiveorganizationdomainv1organizationsmedomainsorganizationdomainidpatch) | **Patch** /v1/organizations/me/domains/{organization_domain_id} | Update Active Organization Domain
+*OrganizationsAPI* | [**UpdateActiveOrganizationMemberV1OrganizationsMeMembersOrganizationMemberIdPatch**](docs/OrganizationsAPI.md#updateactiveorganizationmemberv1organizationsmemembersorganizationmemberidpatch) | **Patch** /v1/organizations/me/members/{organization_member_id} | Update Active Organization Member
+*OrganizationsAPI* | [**UpdateActiveOrganizationV1OrganizationsMePatch**](docs/OrganizationsAPI.md#updateactiveorganizationv1organizationsmepatch) | **Patch** /v1/organizations/me | Update Active Organization
+*OrganizationsAPI* | [**VerifyActiveOrganizationDomainV1OrganizationsMeDomainsOrganizationDomainIdVerifyPost**](docs/OrganizationsAPI.md#verifyactiveorganizationdomainv1organizationsmedomainsorganizationdomainidverifypost) | **Post** /v1/organizations/me/domains/{organization_domain_id}/verify | Verify Active Organization Domain
 *OtelAPI* | [**ReceiveLogsV1LogsPost**](docs/OtelAPI.md#receivelogsv1logspost) | **Post** /v1/logs | Receive Logs
+*OtelAPI* | [**ReceiveMetricsV1MetricsPost**](docs/OtelAPI.md#receivemetricsv1metricspost) | **Post** /v1/metrics | Receive Metrics
 *OtelAPI* | [**ReceiveTracesV1TracesPost**](docs/OtelAPI.md#receivetracesv1tracespost) | **Post** /v1/traces | Receive Traces
 *PricingAPI* | [**ConfirmPricingRefreshV1PricingRefreshConfirmPost**](docs/PricingAPI.md#confirmpricingrefreshv1pricingrefreshconfirmpost) | **Post** /v1/pricing/refresh/confirm | Confirm Pricing Refresh
 *PricingAPI* | [**DeletePricingV1PricingModelKeyDelete**](docs/PricingAPI.md#deletepricingv1pricingmodelkeydelete) | **Delete** /v1/pricing/{model_key} | Delete Pricing
@@ -123,6 +200,19 @@ Class | Method | HTTP request | Description
 *PricingAPI* | [**PreviewPricingRefreshV1PricingRefreshPost**](docs/PricingAPI.md#previewpricingrefreshv1pricingrefreshpost) | **Post** /v1/pricing/refresh | Preview Pricing Refresh
 *PricingAPI* | [**RejectPricingRefreshV1PricingRefreshRejectPost**](docs/PricingAPI.md#rejectpricingrefreshv1pricingrefreshrejectpost) | **Post** /v1/pricing/refresh/reject | Reject Pricing Refresh
 *PricingAPI* | [**SetPricingV1PricingPost**](docs/PricingAPI.md#setpricingv1pricingpost) | **Post** /v1/pricing | Set Pricing
+*ProviderKeysAPI* | [**AddWorkspaceProviderKeyModelRestrictionV1WorkspacesWorkspaceIdProviderKeysKeyIdModelsPost**](docs/ProviderKeysAPI.md#addworkspaceproviderkeymodelrestrictionv1workspacesworkspaceidproviderkeyskeyidmodelspost) | **Post** /v1/workspaces/{workspace_id}/provider-keys/{key_id}/models | Add Workspace Provider Key Model Restriction
+*ProviderKeysAPI* | [**ArchiveOrgProviderKeyV1OrganizationsMeProviderKeysKeyIdArchivePost**](docs/ProviderKeysAPI.md#archiveorgproviderkeyv1organizationsmeproviderkeyskeyidarchivepost) | **Post** /v1/organizations/me/provider-keys/{key_id}/archive | Archive Org Provider Key
+*ProviderKeysAPI* | [**CreateOrgProviderKeyV1OrganizationsMeProviderKeysPost**](docs/ProviderKeysAPI.md#createorgproviderkeyv1organizationsmeproviderkeyspost) | **Post** /v1/organizations/me/provider-keys | Create Org Provider Key
+*ProviderKeysAPI* | [**DeleteOrgProviderKeyV1OrganizationsMeProviderKeysKeyIdDelete**](docs/ProviderKeysAPI.md#deleteorgproviderkeyv1organizationsmeproviderkeyskeyiddelete) | **Delete** /v1/organizations/me/provider-keys/{key_id} | Delete Org Provider Key
+*ProviderKeysAPI* | [**ListOrgProviderKeysV1OrganizationsMeProviderKeysGet**](docs/ProviderKeysAPI.md#listorgproviderkeysv1organizationsmeproviderkeysget) | **Get** /v1/organizations/me/provider-keys | List Org Provider Keys
+*ProviderKeysAPI* | [**ListWorkspaceProviderKeyModelRestrictionsV1WorkspacesWorkspaceIdProviderKeysKeyIdModelsGet**](docs/ProviderKeysAPI.md#listworkspaceproviderkeymodelrestrictionsv1workspacesworkspaceidproviderkeyskeyidmodelsget) | **Get** /v1/workspaces/{workspace_id}/provider-keys/{key_id}/models | List Workspace Provider Key Model Restrictions
+*ProviderKeysAPI* | [**ListWorkspaceProviderKeysV1WorkspacesWorkspaceIdProviderKeysGet**](docs/ProviderKeysAPI.md#listworkspaceproviderkeysv1workspacesworkspaceidproviderkeysget) | **Get** /v1/workspaces/{workspace_id}/provider-keys | List Workspace Provider Keys
+*ProviderKeysAPI* | [**RemoveWorkspaceProviderKeyModelRestrictionV1WorkspacesWorkspaceIdProviderKeysKeyIdModelsModelDelete**](docs/ProviderKeysAPI.md#removeworkspaceproviderkeymodelrestrictionv1workspacesworkspaceidproviderkeyskeyidmodelsmodeldelete) | **Delete** /v1/workspaces/{workspace_id}/provider-keys/{key_id}/models/{model} | Remove Workspace Provider Key Model Restriction
+*ProviderKeysAPI* | [**ResetWorkspaceProviderKeyOverrideV1WorkspacesWorkspaceIdProviderKeysKeyIdDelete**](docs/ProviderKeysAPI.md#resetworkspaceproviderkeyoverridev1workspacesworkspaceidproviderkeyskeyiddelete) | **Delete** /v1/workspaces/{workspace_id}/provider-keys/{key_id} | Reset Workspace Provider Key Override
+*ProviderKeysAPI* | [**RestoreOrgProviderKeyV1OrganizationsMeProviderKeysKeyIdRestorePost**](docs/ProviderKeysAPI.md#restoreorgproviderkeyv1organizationsmeproviderkeyskeyidrestorepost) | **Post** /v1/organizations/me/provider-keys/{key_id}/restore | Restore Org Provider Key
+*ProviderKeysAPI* | [**SetOrgProviderKeyDefaultV1OrganizationsMeProviderKeysKeyIdDefaultPost**](docs/ProviderKeysAPI.md#setorgproviderkeydefaultv1organizationsmeproviderkeyskeyiddefaultpost) | **Post** /v1/organizations/me/provider-keys/{key_id}/default | Set Org Provider Key Default
+*ProviderKeysAPI* | [**SetWorkspaceProviderKeyOverrideV1WorkspacesWorkspaceIdProviderKeysKeyIdPatch**](docs/ProviderKeysAPI.md#setworkspaceproviderkeyoverridev1workspacesworkspaceidproviderkeyskeyidpatch) | **Patch** /v1/workspaces/{workspace_id}/provider-keys/{key_id} | Set Workspace Provider Key Override
+*ProviderKeysAPI* | [**UpdateOrgProviderKeyV1OrganizationsMeProviderKeysKeyIdPatch**](docs/ProviderKeysAPI.md#updateorgproviderkeyv1organizationsmeproviderkeyskeyidpatch) | **Patch** /v1/organizations/me/provider-keys/{key_id} | Update Org Provider Key
 *ProvidersAPI* | [**CreateStoredProviderV1ProviderCredentialsPost**](docs/ProvidersAPI.md#createstoredproviderv1providercredentialspost) | **Post** /v1/provider-credentials | Create Stored Provider
 *ProvidersAPI* | [**DeleteStoredProviderV1ProviderCredentialsInstanceDelete**](docs/ProvidersAPI.md#deletestoredproviderv1providercredentialsinstancedelete) | **Delete** /v1/provider-credentials/{instance} | Delete Stored Provider
 *ProvidersAPI* | [**ListProvidersV1ProvidersGet**](docs/ProvidersAPI.md#listprovidersv1providersget) | **Get** /v1/providers | List Providers
@@ -136,14 +226,34 @@ Class | Method | HTTP request | Description
 *ProvidersAPI* | [**UpdateStoredProviderV1ProviderCredentialsInstancePatch**](docs/ProvidersAPI.md#updatestoredproviderv1providercredentialsinstancepatch) | **Patch** /v1/provider-credentials/{instance} | Update Stored Provider
 *RerankAPI* | [**CreateRerankV1RerankPost**](docs/RerankAPI.md#creatererankv1rerankpost) | **Post** /v1/rerank | Create Rerank
 *ResponsesAPI* | [**CreateResponseV1ResponsesPost**](docs/ResponsesAPI.md#createresponsev1responsespost) | **Post** /v1/responses | Create Response
+*RoutingAPI* | [**DeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDelete**](docs/RoutingAPI.md#deleteorganizationroutingpolicyv1organizationsmeroutingpoliciesnamedelete) | **Delete** /v1/organizations/me/routing-policies/{name} | Delete Organization Routing Policy
 *RoutingAPI* | [**DeletePolicyV1RoutingPoliciesNameDelete**](docs/RoutingAPI.md#deletepolicyv1routingpoliciesnamedelete) | **Delete** /v1/routing/policies/{name} | Delete Policy
 *RoutingAPI* | [**ExplainPolicyV1RoutingPoliciesExplainPost**](docs/RoutingAPI.md#explainpolicyv1routingpoliciesexplainpost) | **Post** /v1/routing/policies/explain | Explain Policy
 *RoutingAPI* | [**ListPoliciesV1RoutingPoliciesGet**](docs/RoutingAPI.md#listpoliciesv1routingpoliciesget) | **Get** /v1/routing/policies | List Policies
+*RoutingAPI* | [**ListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGet**](docs/RoutingAPI.md#listvisibleroutingpoliciesv1organizationsmeroutingpoliciesget) | **Get** /v1/organizations/me/routing-policies | List Visible Routing Policies
+*RoutingAPI* | [**RankCandidatesV1RoutingPreferencesRankPost**](docs/RoutingAPI.md#rankcandidatesv1routingpreferencesrankpost) | **Post** /v1/routing/preferences/rank | Rank Candidates
+*RoutingAPI* | [**RoutingMemoryStatusV1RoutingStatusGet**](docs/RoutingAPI.md#routingmemorystatusv1routingstatusget) | **Get** /v1/routing/status | Routing Memory Status
+*RoutingAPI* | [**SetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPost**](docs/RoutingAPI.md#setorganizationroutingpolicyv1organizationsmeroutingpoliciespost) | **Post** /v1/organizations/me/routing-policies | Set Organization Routing Policy
 *RoutingAPI* | [**SetPolicyV1RoutingPoliciesPost**](docs/RoutingAPI.md#setpolicyv1routingpoliciespost) | **Post** /v1/routing/policies | Set Policy
+*ScopedBudgetsAPI* | [**CreateScopedBudgetV1ScopedBudgetsPost**](docs/ScopedBudgetsAPI.md#createscopedbudgetv1scopedbudgetspost) | **Post** /v1/scoped-budgets | Create Scoped Budget
+*ScopedBudgetsAPI* | [**DeleteScopedBudgetV1ScopedBudgetsBudgetIdDelete**](docs/ScopedBudgetsAPI.md#deletescopedbudgetv1scopedbudgetsbudgetiddelete) | **Delete** /v1/scoped-budgets/{budget_id} | Delete Scoped Budget
+*ScopedBudgetsAPI* | [**GetScopedBudgetV1ScopedBudgetsBudgetIdGet**](docs/ScopedBudgetsAPI.md#getscopedbudgetv1scopedbudgetsbudgetidget) | **Get** /v1/scoped-budgets/{budget_id} | Get Scoped Budget
+*ScopedBudgetsAPI* | [**ListScopedBudgetsV1ScopedBudgetsGet**](docs/ScopedBudgetsAPI.md#listscopedbudgetsv1scopedbudgetsget) | **Get** /v1/scoped-budgets | List Scoped Budgets
+*ScopedBudgetsAPI* | [**UpdateScopedBudgetV1ScopedBudgetsBudgetIdPatch**](docs/ScopedBudgetsAPI.md#updatescopedbudgetv1scopedbudgetsbudgetidpatch) | **Patch** /v1/scoped-budgets/{budget_id} | Update Scoped Budget
 *SearchAPI* | [**CreateSearchForToolV1SearchSearchToolNamePost**](docs/SearchAPI.md#createsearchfortoolv1searchsearchtoolnamepost) | **Post** /v1/search/{search_tool_name} | Create Search For Tool
 *SearchAPI* | [**CreateSearchV1SearchPost**](docs/SearchAPI.md#createsearchv1searchpost) | **Post** /v1/search | Create Search
+*SearchToolsAPI* | [**CreateSearchToolV1SearchToolsPost**](docs/SearchToolsAPI.md#createsearchtoolv1searchtoolspost) | **Post** /v1/search-tools | Create Search Tool
+*SearchToolsAPI* | [**DeleteStoredSearchToolV1SearchToolsNameDelete**](docs/SearchToolsAPI.md#deletestoredsearchtoolv1searchtoolsnamedelete) | **Delete** /v1/search-tools/{name} | Delete Stored Search Tool
+*SearchToolsAPI* | [**ListAllSearchToolsV1SearchToolsGet**](docs/SearchToolsAPI.md#listallsearchtoolsv1searchtoolsget) | **Get** /v1/search-tools | List All Search Tools
+*SearchToolsAPI* | [**ListSearchProvidersV1SearchToolsProvidersGet**](docs/SearchToolsAPI.md#listsearchprovidersv1searchtoolsprovidersget) | **Get** /v1/search-tools/providers | List Search Providers
+*SearchToolsAPI* | [**ReencryptStoredSearchToolKeysV1SearchToolsReencryptPost**](docs/SearchToolsAPI.md#reencryptstoredsearchtoolkeysv1searchtoolsreencryptpost) | **Post** /v1/search-tools/reencrypt | Reencrypt Stored Search Tool Keys
+*SearchToolsAPI* | [**UpdateSearchToolV1SearchToolsNamePatch**](docs/SearchToolsAPI.md#updatesearchtoolv1searchtoolsnamepatch) | **Patch** /v1/search-tools/{name} | Update Search Tool
+*SettingsAPI* | [**GetMailSettingsV1SettingsMailGet**](docs/SettingsAPI.md#getmailsettingsv1settingsmailget) | **Get** /v1/settings/mail | Get Mail Settings
+*SettingsAPI* | [**GetMaintenanceModeV1SettingsMaintenanceModeGet**](docs/SettingsAPI.md#getmaintenancemodev1settingsmaintenancemodeget) | **Get** /v1/settings/maintenance-mode | Get Maintenance Mode
 *SettingsAPI* | [**GetSettingsV1SettingsGet**](docs/SettingsAPI.md#getsettingsv1settingsget) | **Get** /v1/settings | Get Settings
 *SettingsAPI* | [**RotateMasterKeyV1SettingsMasterKeyRotatePost**](docs/SettingsAPI.md#rotatemasterkeyv1settingsmasterkeyrotatepost) | **Post** /v1/settings/master-key/rotate | Rotate Master Key
+*SettingsAPI* | [**SendTestMailV1SettingsMailTestPost**](docs/SettingsAPI.md#sendtestmailv1settingsmailtestpost) | **Post** /v1/settings/mail/test | Send Test Mail
+*SettingsAPI* | [**UpdateMaintenanceModeV1SettingsMaintenanceModePatch**](docs/SettingsAPI.md#updatemaintenancemodev1settingsmaintenancemodepatch) | **Patch** /v1/settings/maintenance-mode | Update Maintenance Mode
 *SettingsAPI* | [**UpdateSettingsV1SettingsPatch**](docs/SettingsAPI.md#updatesettingsv1settingspatch) | **Patch** /v1/settings | Update Settings
 *ToolSettingsAPI* | [**GetToolSettingsV1ToolSettingsGet**](docs/ToolSettingsAPI.md#gettoolsettingsv1toolsettingsget) | **Get** /v1/tool-settings | Get Tool Settings
 *ToolSettingsAPI* | [**TestServiceV1ToolSettingsServiceTestPost**](docs/ToolSettingsAPI.md#testservicev1toolsettingsservicetestpost) | **Post** /v1/tool-settings/{service}/test | Test Service
@@ -152,10 +262,10 @@ Class | Method | HTTP request | Description
 *UsageAPI* | [**CountUsageV1UsageCountGet**](docs/UsageAPI.md#countusagev1usagecountget) | **Get** /v1/usage/count | Count Usage
 *UsageAPI* | [**DeleteUsageRowsV1UsageDelete**](docs/UsageAPI.md#deleteusagerowsv1usagedelete) | **Delete** /v1/usage | Delete Usage Rows
 *UsageAPI* | [**IngestExternalUsageV1UsageExternalEventsPost**](docs/UsageAPI.md#ingestexternalusagev1usageexternaleventspost) | **Post** /v1/usage/external-events | Ingest External Usage
+*UsageAPI* | [**ListInFlightV1UsageInFlightGet**](docs/UsageAPI.md#listinflightv1usageinflightget) | **Get** /v1/usage/in-flight | List In Flight
 *UsageAPI* | [**ListUsageV1UsageGet**](docs/UsageAPI.md#listusagev1usageget) | **Get** /v1/usage | List Usage
 *UsageAPI* | [**SetUsagePriceRowsV1UsageSetPricePost**](docs/UsageAPI.md#setusagepricerowsv1usagesetpricepost) | **Post** /v1/usage/set-price | Set Usage Price Rows
 *UsageAPI* | [**UsageSeriesV1UsageSeriesGet**](docs/UsageAPI.md#usageseriesv1usageseriesget) | **Get** /v1/usage/series | Usage Series
-*UsageAPI* | [**UsageSummaryCsvV1UsageSummaryCsvGet**](docs/UsageAPI.md#usagesummarycsvv1usagesummarycsvget) | **Get** /v1/usage/summary.csv | Usage Summary Csv
 *UsageAPI* | [**UsageSummaryV1UsageSummaryGet**](docs/UsageAPI.md#usagesummaryv1usagesummaryget) | **Get** /v1/usage/summary | Usage Summary
 *UsersAPI* | [**CreateUserV1UsersPost**](docs/UsersAPI.md#createuserv1userspost) | **Post** /v1/users | Create User
 *UsersAPI* | [**DeleteUserV1UsersUserIdDelete**](docs/UsersAPI.md#deleteuserv1usersuseriddelete) | **Delete** /v1/users/{user_id} | Delete User
@@ -163,16 +273,65 @@ Class | Method | HTTP request | Description
 *UsersAPI* | [**GetUserV1UsersUserIdGet**](docs/UsersAPI.md#getuserv1usersuseridget) | **Get** /v1/users/{user_id} | Get User
 *UsersAPI* | [**ListUsersV1UsersGet**](docs/UsersAPI.md#listusersv1usersget) | **Get** /v1/users | List Users
 *UsersAPI* | [**UpdateUserV1UsersUserIdPatch**](docs/UsersAPI.md#updateuserv1usersuseridpatch) | **Patch** /v1/users/{user_id} | Update User
+*WebSearchAPI* | [**WebSearchV1WebSearchSearchGet**](docs/WebSearchAPI.md#websearchv1websearchsearchget) | **Get** /v1/web-search/search | Web Search
+*WorkspaceActivationAPI* | [**CreateWorkspaceActivationKeyV1WorkspacesWorkspaceIdActivationKeyPost**](docs/WorkspaceActivationAPI.md#createworkspaceactivationkeyv1workspacesworkspaceidactivationkeypost) | **Post** /v1/workspaces/{workspace_id}/activation/key | Create Workspace Activation Key
+*WorkspaceActivationAPI* | [**DismissWorkspaceActivationV1WorkspacesWorkspaceIdActivationDismissPost**](docs/WorkspaceActivationAPI.md#dismissworkspaceactivationv1workspacesworkspaceidactivationdismisspost) | **Post** /v1/workspaces/{workspace_id}/activation/dismiss | Dismiss Workspace Activation
+*WorkspaceActivationAPI* | [**GetWorkspaceActivationV1WorkspacesWorkspaceIdActivationGet**](docs/WorkspaceActivationAPI.md#getworkspaceactivationv1workspacesworkspaceidactivationget) | **Get** /v1/workspaces/{workspace_id}/activation | Get Workspace Activation
+*WorkspaceCodeExecutionPolicyAPI* | [**ClearWorkspaceCodeExecutionPolicyV1WorkspacesWorkspaceIdCodeExecutionPolicyDelete**](docs/WorkspaceCodeExecutionPolicyAPI.md#clearworkspacecodeexecutionpolicyv1workspacesworkspaceidcodeexecutionpolicydelete) | **Delete** /v1/workspaces/{workspace_id}/code-execution-policy | Clear Workspace Code Execution Policy
+*WorkspaceCodeExecutionPolicyAPI* | [**GetWorkspaceCodeExecutionPolicyV1WorkspacesWorkspaceIdCodeExecutionPolicyGet**](docs/WorkspaceCodeExecutionPolicyAPI.md#getworkspacecodeexecutionpolicyv1workspacesworkspaceidcodeexecutionpolicyget) | **Get** /v1/workspaces/{workspace_id}/code-execution-policy | Get Workspace Code Execution Policy
+*WorkspaceCodeExecutionPolicyAPI* | [**SetWorkspaceCodeExecutionPolicyV1WorkspacesWorkspaceIdCodeExecutionPolicyPut**](docs/WorkspaceCodeExecutionPolicyAPI.md#setworkspacecodeexecutionpolicyv1workspacesworkspaceidcodeexecutionpolicyput) | **Put** /v1/workspaces/{workspace_id}/code-execution-policy | Set Workspace Code Execution Policy
+*WorkspaceMemberBudgetPoliciesAPI* | [**CreateWorkspaceBudgetDefaultV1WorkspacesWorkspaceIdMemberBudgetPoliciesPost**](docs/WorkspaceMemberBudgetPoliciesAPI.md#createworkspacebudgetdefaultv1workspacesworkspaceidmemberbudgetpoliciespost) | **Post** /v1/workspaces/{workspace_id}/member-budget-policies | Create Workspace Budget Default
+*WorkspaceMemberBudgetPoliciesAPI* | [**DeleteWorkspaceBudgetDefaultV1WorkspacesWorkspaceIdMemberBudgetPoliciesDefaultIdDelete**](docs/WorkspaceMemberBudgetPoliciesAPI.md#deleteworkspacebudgetdefaultv1workspacesworkspaceidmemberbudgetpoliciesdefaultiddelete) | **Delete** /v1/workspaces/{workspace_id}/member-budget-policies/{default_id} | Delete Workspace Budget Default
+*WorkspaceMemberBudgetPoliciesAPI* | [**ListWorkspaceBudgetDefaultsV1WorkspacesWorkspaceIdMemberBudgetPoliciesGet**](docs/WorkspaceMemberBudgetPoliciesAPI.md#listworkspacebudgetdefaultsv1workspacesworkspaceidmemberbudgetpoliciesget) | **Get** /v1/workspaces/{workspace_id}/member-budget-policies | List Workspace Budget Defaults
+*WorkspaceMemberBudgetPoliciesAPI* | [**UpdateWorkspaceBudgetDefaultV1WorkspacesWorkspaceIdMemberBudgetPoliciesDefaultIdPatch**](docs/WorkspaceMemberBudgetPoliciesAPI.md#updateworkspacebudgetdefaultv1workspacesworkspaceidmemberbudgetpoliciesdefaultidpatch) | **Patch** /v1/workspaces/{workspace_id}/member-budget-policies/{default_id} | Update Workspace Budget Default
+*WorkspaceWebSearchAPI* | [**ClearWorkspaceWebSearchConfigV1WorkspacesWorkspaceIdWebSearchDelete**](docs/WorkspaceWebSearchAPI.md#clearworkspacewebsearchconfigv1workspacesworkspaceidwebsearchdelete) | **Delete** /v1/workspaces/{workspace_id}/web-search | Clear Workspace Web Search Config
+*WorkspaceWebSearchAPI* | [**GetWorkspaceWebSearchConfigV1WorkspacesWorkspaceIdWebSearchGet**](docs/WorkspaceWebSearchAPI.md#getworkspacewebsearchconfigv1workspacesworkspaceidwebsearchget) | **Get** /v1/workspaces/{workspace_id}/web-search | Get Workspace Web Search Config
+*WorkspaceWebSearchAPI* | [**SetWorkspaceWebSearchConfigV1WorkspacesWorkspaceIdWebSearchPut**](docs/WorkspaceWebSearchAPI.md#setworkspacewebsearchconfigv1workspacesworkspaceidwebsearchput) | **Put** /v1/workspaces/{workspace_id}/web-search | Set Workspace Web Search Config
+*WorkspacesAPI* | [**AddWorkspaceMemberV1WorkspacesWorkspaceIdMembersUserIdPost**](docs/WorkspacesAPI.md#addworkspacememberv1workspacesworkspaceidmembersuseridpost) | **Post** /v1/workspaces/{workspace_id}/members/{user_id} | Add Workspace Member
+*WorkspacesAPI* | [**CreateWorkspaceV1WorkspacesPost**](docs/WorkspacesAPI.md#createworkspacev1workspacespost) | **Post** /v1/workspaces | Create Workspace
+*WorkspacesAPI* | [**DeleteWorkspaceV1WorkspacesWorkspaceIdDelete**](docs/WorkspacesAPI.md#deleteworkspacev1workspacesworkspaceiddelete) | **Delete** /v1/workspaces/{workspace_id} | Delete Workspace
+*WorkspacesAPI* | [**GetWorkspaceV1WorkspacesWorkspaceIdGet**](docs/WorkspacesAPI.md#getworkspacev1workspacesworkspaceidget) | **Get** /v1/workspaces/{workspace_id} | Get Workspace
+*WorkspacesAPI* | [**ListWorkspaceMembersV1WorkspacesWorkspaceIdMembersGet**](docs/WorkspacesAPI.md#listworkspacemembersv1workspacesworkspaceidmembersget) | **Get** /v1/workspaces/{workspace_id}/members | List Workspace Members
+*WorkspacesAPI* | [**ListWorkspacesV1WorkspacesGet**](docs/WorkspacesAPI.md#listworkspacesv1workspacesget) | **Get** /v1/workspaces | List Workspaces
+*WorkspacesAPI* | [**RemoveWorkspaceMemberV1WorkspacesWorkspaceIdMembersUserIdDelete**](docs/WorkspacesAPI.md#removeworkspacememberv1workspacesworkspaceidmembersuseriddelete) | **Delete** /v1/workspaces/{workspace_id}/members/{user_id} | Remove Workspace Member
+*WorkspacesAPI* | [**UpdateWorkspaceMemberRoleV1WorkspacesWorkspaceIdMembersUserIdPatch**](docs/WorkspacesAPI.md#updateworkspacememberrolev1workspacesworkspaceidmembersuseridpatch) | **Patch** /v1/workspaces/{workspace_id}/members/{user_id} | Update Workspace Member Role
+*WorkspacesAPI* | [**UpdateWorkspaceV1WorkspacesWorkspaceIdPatch**](docs/WorkspacesAPI.md#updateworkspacev1workspacesworkspaceidpatch) | **Patch** /v1/workspaces/{workspace_id} | Update Workspace
 
 
 ## Documentation For Models
 
+ - [AcceptInvitationRequest](docs/AcceptInvitationRequest.md)
+ - [AcceptInvitationResultPublic](docs/AcceptInvitationResultPublic.md)
+ - [ActivationApiKeyPublic](docs/ActivationApiKeyPublic.md)
+ - [ActivationAttemptPublic](docs/ActivationAttemptPublic.md)
+ - [ActiveOrganizationMemberCreateRequest](docs/ActiveOrganizationMemberCreateRequest.md)
+ - [ActiveOrganizationMemberCreateResultPublic](docs/ActiveOrganizationMemberCreateResultPublic.md)
+ - [ActiveOrganizationMemberPublic](docs/ActiveOrganizationMemberPublic.md)
+ - [ActiveOrganizationMemberUpdateRequest](docs/ActiveOrganizationMemberUpdateRequest.md)
+ - [ActiveOrganizationMembersPublic](docs/ActiveOrganizationMembersPublic.md)
+ - [ActiveOrganizationUpdateRequest](docs/ActiveOrganizationUpdateRequest.md)
+ - [AgentTelemetryBehavior](docs/AgentTelemetryBehavior.md)
+ - [AgentTelemetryCount](docs/AgentTelemetryCount.md)
+ - [AgentTelemetryDeleteRequest](docs/AgentTelemetryDeleteRequest.md)
+ - [AgentTelemetryDeleteResult](docs/AgentTelemetryDeleteResult.md)
+ - [AgentTelemetryGroupRow](docs/AgentTelemetryGroupRow.md)
+ - [AgentTelemetryGroupedSeries](docs/AgentTelemetryGroupedSeries.md)
+ - [AgentTelemetryGroupedSeriesPoint](docs/AgentTelemetryGroupedSeriesPoint.md)
+ - [AgentTelemetryMeasures](docs/AgentTelemetryMeasures.md)
+ - [AgentTelemetryOutcomes](docs/AgentTelemetryOutcomes.md)
+ - [AgentTelemetrySeriesPoint](docs/AgentTelemetrySeriesPoint.md)
+ - [AgentTelemetrySummary](docs/AgentTelemetrySummary.md)
+ - [AgentTelemetryToolRow](docs/AgentTelemetryToolRow.md)
+ - [AgentTelemetryUsage](docs/AgentTelemetryUsage.md)
  - [AliasRequest](docs/AliasRequest.md)
  - [AliasResponse](docs/AliasResponse.md)
  - [ApiKeyId](docs/ApiKeyId.md)
  - [AppliedEditsInner](docs/AppliedEditsInner.md)
  - [AudioSpeechRequest](docs/AudioSpeechRequest.md)
+ - [AuthenticatePasskeyRequest](docs/AuthenticatePasskeyRequest.md)
+ - [AuthorizeResponse](docs/AuthorizeResponse.md)
  - [BatchRequestItem](docs/BatchRequestItem.md)
+ - [BillingMeters](docs/BillingMeters.md)
  - [BudgetResetLogResponse](docs/BudgetResetLogResponse.md)
  - [BudgetResponse](docs/BudgetResponse.md)
  - [CCChatCompletionAudio](docs/CCChatCompletionAudio.md)
@@ -201,8 +360,13 @@ Class | Method | HTTP request | Description
  - [CCKTopLogprob](docs/CCKTopLogprob.md)
  - [CCPromptTokensDetails](docs/CCPromptTokensDetails.md)
  - [CCTopLogprob](docs/CCTopLogprob.md)
+ - [CacheMissReason](docs/CacheMissReason.md)
  - [Caller](docs/Caller.md)
  - [Caller1](docs/Caller1.md)
+ - [CallerIdentityPublic](docs/CallerIdentityPublic.md)
+ - [CallerOrganizationMembershipPublic](docs/CallerOrganizationMembershipPublic.md)
+ - [CallerOrganizationMembershipsPublic](docs/CallerOrganizationMembershipsPublic.md)
+ - [CallerWorkspaceMembershipPublic](docs/CallerWorkspaceMembershipPublic.md)
  - [CandidateResponse](docs/CandidateResponse.md)
  - [ChatCompletion](docs/ChatCompletion.md)
  - [ChatCompletionChunk](docs/ChatCompletionChunk.md)
@@ -210,6 +374,7 @@ Class | Method | HTTP request | Description
  - [ChatCompletionRequestToolsInner](docs/ChatCompletionRequestToolsInner.md)
  - [ChatMessageInput](docs/ChatMessageInput.md)
  - [ConfigField](docs/ConfigField.md)
+ - [ConfigSearchToolSchema](docs/ConfigSearchToolSchema.md)
  - [Content](docs/Content.md)
  - [Content1](docs/Content1.md)
  - [Content10](docs/Content10.md)
@@ -218,7 +383,8 @@ Class | Method | HTTP request | Description
  - [Content13](docs/Content13.md)
  - [Content14](docs/Content14.md)
  - [Content15](docs/Content15.md)
- - [Content16Inner](docs/Content16Inner.md)
+ - [Content16](docs/Content16.md)
+ - [Content17Inner](docs/Content17Inner.md)
  - [Content2](docs/Content2.md)
  - [Content2AnyOfInner](docs/Content2AnyOfInner.md)
  - [Content3](docs/Content3.md)
@@ -237,9 +403,18 @@ Class | Method | HTTP request | Description
  - [CreateEmbeddingResponse](docs/CreateEmbeddingResponse.md)
  - [CreateKeyRequest](docs/CreateKeyRequest.md)
  - [CreateKeyResponse](docs/CreateKeyResponse.md)
+ - [CreateOwnKeyRequest](docs/CreateOwnKeyRequest.md)
+ - [CreateScopedBudgetRequest](docs/CreateScopedBudgetRequest.md)
+ - [CreateSearchToolRequest](docs/CreateSearchToolRequest.md)
  - [CreateSessionRequest](docs/CreateSessionRequest.md)
  - [CreateStoredProviderRequest](docs/CreateStoredProviderRequest.md)
  - [CreateUserRequest](docs/CreateUserRequest.md)
+ - [DeploymentAdminAccessPublic](docs/DeploymentAdminAccessPublic.md)
+ - [DeploymentBootstrap](docs/DeploymentBootstrap.md)
+ - [DeploymentUserOrganizationPublic](docs/DeploymentUserOrganizationPublic.md)
+ - [DeploymentUserPublic](docs/DeploymentUserPublic.md)
+ - [DeploymentUserUpdateRequest](docs/DeploymentUserUpdateRequest.md)
+ - [DeploymentUsersPublic](docs/DeploymentUsersPublic.md)
  - [DiscoverableModel](docs/DiscoverableModel.md)
  - [DiscoverableModelsResponse](docs/DiscoverableModelsResponse.md)
  - [DiscoverableProvider](docs/DiscoverableProvider.md)
@@ -262,11 +437,17 @@ Class | Method | HTTP request | Description
  - [IMGUsageOutputTokensDetails](docs/IMGUsageOutputTokensDetails.md)
  - [ImageGenerationRequest](docs/ImageGenerationRequest.md)
  - [ImagesResponse](docs/ImagesResponse.md)
+ - [InFlightEntry](docs/InFlightEntry.md)
+ - [InFlightResponse](docs/InFlightResponse.md)
  - [Input](docs/Input.md)
  - [Input1](docs/Input1.md)
+ - [InvitationPreviewPublic](docs/InvitationPreviewPublic.md)
+ - [InviteOrganizationMemberRequest](docs/InviteOrganizationMemberRequest.md)
+ - [InviteOrganizationMemberResultPublic](docs/InviteOrganizationMemberResultPublic.md)
  - [KeyInfo](docs/KeyInfo.md)
  - [KnownProviderSchema](docs/KnownProviderSchema.md)
  - [KnownProviderSummarySchema](docs/KnownProviderSummarySchema.md)
+ - [LearnedPolicy](docs/LearnedPolicy.md)
  - [LocationInner](docs/LocationInner.md)
  - [MRAnthropicTypesThinkingBlockThinkingBlock](docs/MRAnthropicTypesThinkingBlockThinkingBlock.md)
  - [MRAnyLlmTypesMessagesThinkingBlock](docs/MRAnyLlmTypesMessagesThinkingBlock.md)
@@ -275,12 +456,23 @@ Class | Method | HTTP request | Description
  - [MRBashCodeExecutionResultBlock](docs/MRBashCodeExecutionResultBlock.md)
  - [MRBashCodeExecutionToolResultBlock](docs/MRBashCodeExecutionToolResultBlock.md)
  - [MRBashCodeExecutionToolResultError](docs/MRBashCodeExecutionToolResultError.md)
+ - [MRBetaAdvisorMessageIterationUsage](docs/MRBetaAdvisorMessageIterationUsage.md)
+ - [MRBetaAdvisorRedactedResultBlock](docs/MRBetaAdvisorRedactedResultBlock.md)
+ - [MRBetaAdvisorResultBlock](docs/MRBetaAdvisorResultBlock.md)
+ - [MRBetaAdvisorToolResultBlock](docs/MRBetaAdvisorToolResultBlock.md)
+ - [MRBetaAdvisorToolResultError](docs/MRBetaAdvisorToolResultError.md)
  - [MRBetaBase64PDFSource](docs/MRBetaBase64PDFSource.md)
  - [MRBetaBashCodeExecutionOutputBlock](docs/MRBetaBashCodeExecutionOutputBlock.md)
  - [MRBetaBashCodeExecutionResultBlock](docs/MRBetaBashCodeExecutionResultBlock.md)
  - [MRBetaBashCodeExecutionToolResultBlock](docs/MRBetaBashCodeExecutionToolResultBlock.md)
  - [MRBetaBashCodeExecutionToolResultError](docs/MRBetaBashCodeExecutionToolResultError.md)
  - [MRBetaCacheCreation](docs/MRBetaCacheCreation.md)
+ - [MRBetaCacheMissMessagesChanged](docs/MRBetaCacheMissMessagesChanged.md)
+ - [MRBetaCacheMissModelChanged](docs/MRBetaCacheMissModelChanged.md)
+ - [MRBetaCacheMissPreviousMessageNotFound](docs/MRBetaCacheMissPreviousMessageNotFound.md)
+ - [MRBetaCacheMissSystemChanged](docs/MRBetaCacheMissSystemChanged.md)
+ - [MRBetaCacheMissToolsChanged](docs/MRBetaCacheMissToolsChanged.md)
+ - [MRBetaCacheMissUnavailable](docs/MRBetaCacheMissUnavailable.md)
  - [MRBetaCitationCharLocation](docs/MRBetaCitationCharLocation.md)
  - [MRBetaCitationConfig](docs/MRBetaCitationConfig.md)
  - [MRBetaCitationContentBlockLocation](docs/MRBetaCitationContentBlockLocation.md)
@@ -298,10 +490,14 @@ Class | Method | HTTP request | Description
  - [MRBetaContainer](docs/MRBetaContainer.md)
  - [MRBetaContainerUploadBlock](docs/MRBetaContainerUploadBlock.md)
  - [MRBetaContextManagementResponse](docs/MRBetaContextManagementResponse.md)
- - [MRBetaDiagnosticsFallback](docs/MRBetaDiagnosticsFallback.md)
+ - [MRBetaDiagnostics](docs/MRBetaDiagnostics.md)
  - [MRBetaDirectCaller](docs/MRBetaDirectCaller.md)
  - [MRBetaDocumentBlock](docs/MRBetaDocumentBlock.md)
  - [MRBetaEncryptedCodeExecutionResultBlock](docs/MRBetaEncryptedCodeExecutionResultBlock.md)
+ - [MRBetaFallbackBlock](docs/MRBetaFallbackBlock.md)
+ - [MRBetaFallbackInfo](docs/MRBetaFallbackInfo.md)
+ - [MRBetaFallbackMessageIterationUsage](docs/MRBetaFallbackMessageIterationUsage.md)
+ - [MRBetaFallbackRefusalTrigger](docs/MRBetaFallbackRefusalTrigger.md)
  - [MRBetaMCPToolResultBlock](docs/MRBetaMCPToolResultBlock.md)
  - [MRBetaMCPToolUseBlock](docs/MRBetaMCPToolUseBlock.md)
  - [MRBetaMessageIterationUsage](docs/MRBetaMessageIterationUsage.md)
@@ -347,6 +543,7 @@ Class | Method | HTTP request | Description
  - [MREncryptedCodeExecutionResultBlock](docs/MREncryptedCodeExecutionResultBlock.md)
  - [MRMessageUsage](docs/MRMessageUsage.md)
  - [MRMessageUsageIterationsInner](docs/MRMessageUsageIterationsInner.md)
+ - [MROutputTokensDetails](docs/MROutputTokensDetails.md)
  - [MRPlainTextSource](docs/MRPlainTextSource.md)
  - [MRRedactedThinkingBlock](docs/MRRedactedThinkingBlock.md)
  - [MRRefusalStopDetails](docs/MRRefusalStopDetails.md)
@@ -392,8 +589,11 @@ Class | Method | HTTP request | Description
  - [MSGFunctionCall](docs/MSGFunctionCall.md)
  - [MSGImageURL](docs/MSGImageURL.md)
  - [MSGInputAudio](docs/MSGInputAudio.md)
+ - [MailSettings](docs/MailSettings.md)
+ - [MaintenanceMode](docs/MaintenanceMode.md)
  - [ManagedTool](docs/ManagedTool.md)
  - [McpServerConfig](docs/McpServerConfig.md)
+ - [Message](docs/Message.md)
  - [MessageResponse](docs/MessageResponse.md)
  - [MessagesRequest](docs/MessagesRequest.md)
  - [Model](docs/Model.md)
@@ -406,14 +606,49 @@ Class | Method | HTTP request | Description
  - [ModerationRequest](docs/ModerationRequest.md)
  - [ModerationResponse](docs/ModerationResponse.md)
  - [ModerationResult](docs/ModerationResult.md)
+ - [OAuthCallbackRequest](docs/OAuthCallbackRequest.md)
+ - [OAuthSessionResponse](docs/OAuthSessionResponse.md)
+ - [OrgProviderKeyCreateRequest](docs/OrgProviderKeyCreateRequest.md)
+ - [OrgProviderKeyPublic](docs/OrgProviderKeyPublic.md)
+ - [OrgProviderKeyUpdateRequest](docs/OrgProviderKeyUpdateRequest.md)
+ - [OrgProviderKeysPublic](docs/OrgProviderKeysPublic.md)
+ - [OrganizationBudgetCreate](docs/OrganizationBudgetCreate.md)
+ - [OrganizationBudgetPublic](docs/OrganizationBudgetPublic.md)
+ - [OrganizationBudgetUpdate](docs/OrganizationBudgetUpdate.md)
+ - [OrganizationBudgetsPublic](docs/OrganizationBudgetsPublic.md)
+ - [OrganizationCreateRequest](docs/OrganizationCreateRequest.md)
+ - [OrganizationDomainCreateRequest](docs/OrganizationDomainCreateRequest.md)
+ - [OrganizationDomainPublic](docs/OrganizationDomainPublic.md)
+ - [OrganizationDomainUpdateRequest](docs/OrganizationDomainUpdateRequest.md)
+ - [OrganizationDomainsPublic](docs/OrganizationDomainsPublic.md)
+ - [OrganizationGuardrailCreate](docs/OrganizationGuardrailCreate.md)
+ - [OrganizationGuardrailPublic](docs/OrganizationGuardrailPublic.md)
+ - [OrganizationGuardrailUpdate](docs/OrganizationGuardrailUpdate.md)
+ - [OrganizationGuardrailsPublic](docs/OrganizationGuardrailsPublic.md)
+ - [OrganizationMembershipContextPublic](docs/OrganizationMembershipContextPublic.md)
+ - [OrganizationModelPricingCreate](docs/OrganizationModelPricingCreate.md)
+ - [OrganizationModelPricingPublic](docs/OrganizationModelPricingPublic.md)
+ - [OrganizationModelPricingUpdate](docs/OrganizationModelPricingUpdate.md)
+ - [OrganizationModelPricingsPublic](docs/OrganizationModelPricingsPublic.md)
+ - [OrganizationPublic](docs/OrganizationPublic.md)
+ - [OrganizationScopedBudgetCreate](docs/OrganizationScopedBudgetCreate.md)
+ - [OrganizationScopedBudgetPublic](docs/OrganizationScopedBudgetPublic.md)
+ - [OrganizationScopedBudgetUpdate](docs/OrganizationScopedBudgetUpdate.md)
+ - [OrganizationScopedBudgetsPublic](docs/OrganizationScopedBudgetsPublic.md)
+ - [PasskeySessionResponse](docs/PasskeySessionResponse.md)
+ - [PasswordResponse](docs/PasswordResponse.md)
+ - [PendingOrganizationInvitationPublic](docs/PendingOrganizationInvitationPublic.md)
+ - [PendingOrganizationInvitationsPublic](docs/PendingOrganizationInvitationsPublic.md)
  - [PolicyRequest](docs/PolicyRequest.md)
  - [PolicyResponse](docs/PolicyResponse.md)
+ - [PoolStatus](docs/PoolStatus.md)
  - [PricingRefreshChangeResponse](docs/PricingRefreshChangeResponse.md)
  - [PricingRefreshConfirmationResponse](docs/PricingRefreshConfirmationResponse.md)
  - [PricingRefreshPreviewResponse](docs/PricingRefreshPreviewResponse.md)
  - [PricingResponse](docs/PricingResponse.md)
  - [PricingTier](docs/PricingTier.md)
- - [PricingTiersInnerValue](docs/PricingTiersInnerValue.md)
+ - [PricingTiersInner](docs/PricingTiersInner.md)
+ - [PricingTiersInnerAnyOfValue](docs/PricingTiersInnerAnyOfValue.md)
  - [ProviderCapabilitiesSchema](docs/ProviderCapabilitiesSchema.md)
  - [ProviderHealthResponse](docs/ProviderHealthResponse.md)
  - [ProviderHealthSchema](docs/ProviderHealthSchema.md)
@@ -422,33 +657,65 @@ Class | Method | HTTP request | Description
  - [RRRerankMeta](docs/RRRerankMeta.md)
  - [RRRerankResult](docs/RRRerankResult.md)
  - [RRRerankUsage](docs/RRRerankUsage.md)
+ - [RankRequest](docs/RankRequest.md)
+ - [RankResponse](docs/RankResponse.md)
+ - [RecordedPool](docs/RecordedPool.md)
  - [ReencryptProviderCredentialsResponse](docs/ReencryptProviderCredentialsResponse.md)
+ - [ReencryptSearchToolsResponse](docs/ReencryptSearchToolsResponse.md)
+ - [RegisterPasskeyRequest](docs/RegisterPasskeyRequest.md)
+ - [RequestPasswordResetRequest](docs/RequestPasswordResetRequest.md)
+ - [RequestPasswordResetResponse](docs/RequestPasswordResetResponse.md)
  - [RerankRequest](docs/RerankRequest.md)
  - [RerankResponse](docs/RerankResponse.md)
+ - [ResendVerificationRequest](docs/ResendVerificationRequest.md)
+ - [ResendVerificationResponse](docs/ResendVerificationResponse.md)
+ - [ResetPasswordRequest](docs/ResetPasswordRequest.md)
  - [ResponsesRequest](docs/ResponsesRequest.md)
  - [RotateMasterKeyResponse](docs/RotateMasterKeyResponse.md)
+ - [RouterStatus](docs/RouterStatus.md)
+ - [ScopedBudgetResponse](docs/ScopedBudgetResponse.md)
+ - [ScoredExample](docs/ScoredExample.md)
+ - [SearchProviderSchema](docs/SearchProviderSchema.md)
  - [SearchRequest](docs/SearchRequest.md)
  - [SearchResponse](docs/SearchResponse.md)
  - [SearchResultItem](docs/SearchResultItem.md)
+ - [SearchToolsResponse](docs/SearchToolsResponse.md)
+ - [SendTestMailRequest](docs/SendTestMailRequest.md)
+ - [SendTestMailResponse](docs/SendTestMailResponse.md)
  - [SessionResponse](docs/SessionResponse.md)
+ - [SetPasswordRequest](docs/SetPasswordRequest.md)
  - [SetPricingRequest](docs/SetPricingRequest.md)
+ - [SignupRequest](docs/SignupRequest.md)
+ - [SignupResponse](docs/SignupResponse.md)
  - [Source](docs/Source.md)
  - [Source1](docs/Source1.md)
  - [Stop](docs/Stop.md)
  - [StoredProviderResponse](docs/StoredProviderResponse.md)
+ - [StoredSearchToolSchema](docs/StoredSearchToolSchema.md)
+ - [SwitchActiveOrganizationRequest](docs/SwitchActiveOrganizationRequest.md)
  - [System](docs/System.md)
+ - [TaskPool](docs/TaskPool.md)
  - [TestProviderRequest](docs/TestProviderRequest.md)
  - [TestProviderResponse](docs/TestProviderResponse.md)
  - [TestServiceRequest](docs/TestServiceRequest.md)
  - [TestServiceResponse](docs/TestServiceResponse.md)
+ - [TokenChargeLine](docs/TokenChargeLine.md)
  - [ToolCallsInner](docs/ToolCallsInner.md)
  - [ToolChoice](docs/ToolChoice.md)
  - [ToolChoice1](docs/ToolChoice1.md)
+ - [ToolMeter](docs/ToolMeter.md)
  - [ToolSettingField](docs/ToolSettingField.md)
  - [ToolSettingsResponse](docs/ToolSettingsResponse.md)
  - [ToolsResponse](docs/ToolsResponse.md)
+ - [UnitChargeLine](docs/UnitChargeLine.md)
+ - [Units](docs/Units.md)
+ - [Units1](docs/Units1.md)
  - [UpdateBudgetRequest](docs/UpdateBudgetRequest.md)
  - [UpdateKeyRequest](docs/UpdateKeyRequest.md)
+ - [UpdateMaintenanceModeRequest](docs/UpdateMaintenanceModeRequest.md)
+ - [UpdateOwnKeyRequest](docs/UpdateOwnKeyRequest.md)
+ - [UpdateScopedBudgetRequest](docs/UpdateScopedBudgetRequest.md)
+ - [UpdateSearchToolRequest](docs/UpdateSearchToolRequest.md)
  - [UpdateSettingsRequest](docs/UpdateSettingsRequest.md)
  - [UpdateStoredProviderRequest](docs/UpdateStoredProviderRequest.md)
  - [UpdateToolSettingsRequest](docs/UpdateToolSettingsRequest.md)
@@ -457,7 +724,7 @@ Class | Method | HTTP request | Description
  - [UsageDeleteRequest](docs/UsageDeleteRequest.md)
  - [UsageDeleteResult](docs/UsageDeleteResult.md)
  - [UsageEntry](docs/UsageEntry.md)
- - [UsageEntryPricingBreakdownInnerValue](docs/UsageEntryPricingBreakdownInnerValue.md)
+ - [UsageEntryPricingBreakdownInner](docs/UsageEntryPricingBreakdownInner.md)
  - [UsageErrorCodeRow](docs/UsageErrorCodeRow.md)
  - [UsageGroupRow](docs/UsageGroupRow.md)
  - [UsageGroupedSeries](docs/UsageGroupedSeries.md)
@@ -471,9 +738,42 @@ Class | Method | HTTP request | Description
  - [UsageTotals](docs/UsageTotals.md)
  - [UserId](docs/UserId.md)
  - [UserResponse](docs/UserResponse.md)
+ - [ValidateInvitationRequest](docs/ValidateInvitationRequest.md)
  - [ValidationError](docs/ValidationError.md)
  - [Value](docs/Value.md)
  - [Value1](docs/Value1.md)
+ - [VerifyEmailRequest](docs/VerifyEmailRequest.md)
+ - [VerifyEmailResponse](docs/VerifyEmailResponse.md)
+ - [WebAuthnCredentialPublic](docs/WebAuthnCredentialPublic.md)
+ - [WebAuthnCredentialUpdate](docs/WebAuthnCredentialUpdate.md)
+ - [WebAuthnCredentialsPublic](docs/WebAuthnCredentialsPublic.md)
+ - [WebSearchBackendResponse](docs/WebSearchBackendResponse.md)
+ - [WebSearchBackendResult](docs/WebSearchBackendResult.md)
+ - [WorkspaceActivationPublic](docs/WorkspaceActivationPublic.md)
+ - [WorkspaceAssignmentRequest](docs/WorkspaceAssignmentRequest.md)
+ - [WorkspaceCodeExecutionPolicyPublic](docs/WorkspaceCodeExecutionPolicyPublic.md)
+ - [WorkspaceCodeExecutionPolicyUpdate](docs/WorkspaceCodeExecutionPolicyUpdate.md)
+ - [WorkspaceCreate](docs/WorkspaceCreate.md)
+ - [WorkspaceMcpServerCreate](docs/WorkspaceMcpServerCreate.md)
+ - [WorkspaceMcpServerPublic](docs/WorkspaceMcpServerPublic.md)
+ - [WorkspaceMcpServerUpdate](docs/WorkspaceMcpServerUpdate.md)
+ - [WorkspaceMcpServersPublic](docs/WorkspaceMcpServersPublic.md)
+ - [WorkspaceMemberBudgetPoliciesPublic](docs/WorkspaceMemberBudgetPoliciesPublic.md)
+ - [WorkspaceMemberBudgetPolicyCreate](docs/WorkspaceMemberBudgetPolicyCreate.md)
+ - [WorkspaceMemberBudgetPolicyPublic](docs/WorkspaceMemberBudgetPolicyPublic.md)
+ - [WorkspaceMemberBudgetPolicyUpdate](docs/WorkspaceMemberBudgetPolicyUpdate.md)
+ - [WorkspaceMemberPublic](docs/WorkspaceMemberPublic.md)
+ - [WorkspaceMembersPublic](docs/WorkspaceMembersPublic.md)
+ - [WorkspaceProviderKeyOverridePublic](docs/WorkspaceProviderKeyOverridePublic.md)
+ - [WorkspaceProviderKeyOverrideRequest](docs/WorkspaceProviderKeyOverrideRequest.md)
+ - [WorkspaceProviderKeyOverridesPublic](docs/WorkspaceProviderKeyOverridesPublic.md)
+ - [WorkspaceProviderModelRestrictionRequest](docs/WorkspaceProviderModelRestrictionRequest.md)
+ - [WorkspaceProviderModelRestrictionsPublic](docs/WorkspaceProviderModelRestrictionsPublic.md)
+ - [WorkspacePublic](docs/WorkspacePublic.md)
+ - [WorkspaceUpdate](docs/WorkspaceUpdate.md)
+ - [WorkspaceWebSearchConfigPublic](docs/WorkspaceWebSearchConfigPublic.md)
+ - [WorkspaceWebSearchConfigUpdate](docs/WorkspaceWebSearchConfigUpdate.md)
+ - [WorkspacesPublic](docs/WorkspacesPublic.md)
 
 
 ## Documentation For Authorization
@@ -496,6 +796,27 @@ auth := context.WithValue(
 		client.ContextAPIKeys,
 		map[string]client.APIKey{
 			"ApiKeyAuth": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
+### GatewayTokenAuth
+
+- **Type**: API key
+- **API key parameter name**: X-Gateway-Token
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: GatewayTokenAuth and passed in as the auth context for each request.
+
+Example
+
+```go
+auth := context.WithValue(
+		context.Background(),
+		client.ContextAPIKeys,
+		map[string]client.APIKey{
+			"GatewayTokenAuth": {Key: "API_KEY_STRING"},
 		},
 	)
 r, err := client.Service.Operation(auth, args)

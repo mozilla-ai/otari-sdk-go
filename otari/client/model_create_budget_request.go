@@ -25,6 +25,12 @@ type CreateBudgetRequest struct {
 	MaxBudget NullableFloat32 `json:"max_budget,omitempty"`
 	// Admin-facing label for the budget
 	Name NullableString `json:"name,omitempty"`
+	// Maximum requests over the period. Independent of max_budget; null is unlimited
+	RequestLimit NullableInt32 `json:"request_limit,omitempty"`
+	// Reset on a UTC calendar boundary instead of a fixed number of seconds, which is the only way to express a calendar month. Mutually exclusive with budget_duration_sec
+	ResetAlignment NullableString `json:"reset_alignment,omitempty"`
+	// Maximum tokens over the period. Independent of max_budget; null is unlimited
+	TokenLimit NullableInt32 `json:"token_limit,omitempty"`
 }
 
 // NewCreateBudgetRequest instantiates a new CreateBudgetRequest object
@@ -173,6 +179,135 @@ func (o *CreateBudgetRequest) UnsetName() {
 	o.Name.Unset()
 }
 
+// GetRequestLimit returns the RequestLimit field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateBudgetRequest) GetRequestLimit() int32 {
+	if o == nil || IsNil(o.RequestLimit.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.RequestLimit.Get()
+}
+
+// GetRequestLimitOk returns a tuple with the RequestLimit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateBudgetRequest) GetRequestLimitOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RequestLimit.Get(), o.RequestLimit.IsSet()
+}
+
+// HasRequestLimit returns a boolean if a field has been set.
+func (o *CreateBudgetRequest) HasRequestLimit() bool {
+	if o != nil && o.RequestLimit.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRequestLimit gets a reference to the given NullableInt32 and assigns it to the RequestLimit field.
+func (o *CreateBudgetRequest) SetRequestLimit(v int32) {
+	o.RequestLimit.Set(&v)
+}
+
+// SetRequestLimitNil sets the value for RequestLimit to be an explicit nil
+func (o *CreateBudgetRequest) SetRequestLimitNil() {
+	o.RequestLimit.Set(nil)
+}
+
+// UnsetRequestLimit ensures that no value is present for RequestLimit, not even an explicit nil
+func (o *CreateBudgetRequest) UnsetRequestLimit() {
+	o.RequestLimit.Unset()
+}
+
+// GetResetAlignment returns the ResetAlignment field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateBudgetRequest) GetResetAlignment() string {
+	if o == nil || IsNil(o.ResetAlignment.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.ResetAlignment.Get()
+}
+
+// GetResetAlignmentOk returns a tuple with the ResetAlignment field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateBudgetRequest) GetResetAlignmentOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ResetAlignment.Get(), o.ResetAlignment.IsSet()
+}
+
+// HasResetAlignment returns a boolean if a field has been set.
+func (o *CreateBudgetRequest) HasResetAlignment() bool {
+	if o != nil && o.ResetAlignment.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetResetAlignment gets a reference to the given NullableString and assigns it to the ResetAlignment field.
+func (o *CreateBudgetRequest) SetResetAlignment(v string) {
+	o.ResetAlignment.Set(&v)
+}
+
+// SetResetAlignmentNil sets the value for ResetAlignment to be an explicit nil
+func (o *CreateBudgetRequest) SetResetAlignmentNil() {
+	o.ResetAlignment.Set(nil)
+}
+
+// UnsetResetAlignment ensures that no value is present for ResetAlignment, not even an explicit nil
+func (o *CreateBudgetRequest) UnsetResetAlignment() {
+	o.ResetAlignment.Unset()
+}
+
+// GetTokenLimit returns the TokenLimit field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateBudgetRequest) GetTokenLimit() int32 {
+	if o == nil || IsNil(o.TokenLimit.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.TokenLimit.Get()
+}
+
+// GetTokenLimitOk returns a tuple with the TokenLimit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateBudgetRequest) GetTokenLimitOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.TokenLimit.Get(), o.TokenLimit.IsSet()
+}
+
+// HasTokenLimit returns a boolean if a field has been set.
+func (o *CreateBudgetRequest) HasTokenLimit() bool {
+	if o != nil && o.TokenLimit.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetTokenLimit gets a reference to the given NullableInt32 and assigns it to the TokenLimit field.
+func (o *CreateBudgetRequest) SetTokenLimit(v int32) {
+	o.TokenLimit.Set(&v)
+}
+
+// SetTokenLimitNil sets the value for TokenLimit to be an explicit nil
+func (o *CreateBudgetRequest) SetTokenLimitNil() {
+	o.TokenLimit.Set(nil)
+}
+
+// UnsetTokenLimit ensures that no value is present for TokenLimit, not even an explicit nil
+func (o *CreateBudgetRequest) UnsetTokenLimit() {
+	o.TokenLimit.Unset()
+}
+
 func (o CreateBudgetRequest) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -191,6 +326,15 @@ func (o CreateBudgetRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if o.Name.IsSet() {
 		toSerialize["name"] = o.Name.Get()
+	}
+	if o.RequestLimit.IsSet() {
+		toSerialize["request_limit"] = o.RequestLimit.Get()
+	}
+	if o.ResetAlignment.IsSet() {
+		toSerialize["reset_alignment"] = o.ResetAlignment.Get()
+	}
+	if o.TokenLimit.IsSet() {
+		toSerialize["token_limit"] = o.TokenLimit.Get()
 	}
 	return toSerialize, nil
 }

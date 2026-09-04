@@ -29,10 +29,12 @@ type ExplainRequest struct {
 	KeyId NullableString `json:"key_id,omitempty"`
 	// An existing policy to explain.
 	Name NullableString `json:"name,omitempty"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	Spec map[string]interface{} `json:"spec,omitempty"`
 	// Evaluate conditions as this user.
 	UserId NullableString `json:"user_id,omitempty"`
+	// Resolve `name` and the policy's candidate selectors in this workspace. Omit for the deployment's default workspace.
+	WorkspaceId NullableString `json:"workspace_id,omitempty"`
 }
 
 // NewExplainRequest instantiates a new ExplainRequest object
@@ -333,6 +335,49 @@ func (o *ExplainRequest) UnsetUserId() {
 	o.UserId.Unset()
 }
 
+// GetWorkspaceId returns the WorkspaceId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ExplainRequest) GetWorkspaceId() string {
+	if o == nil || IsNil(o.WorkspaceId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.WorkspaceId.Get()
+}
+
+// GetWorkspaceIdOk returns a tuple with the WorkspaceId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ExplainRequest) GetWorkspaceIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.WorkspaceId.Get(), o.WorkspaceId.IsSet()
+}
+
+// HasWorkspaceId returns a boolean if a field has been set.
+func (o *ExplainRequest) HasWorkspaceId() bool {
+	if o != nil && o.WorkspaceId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetWorkspaceId gets a reference to the given NullableString and assigns it to the WorkspaceId field.
+func (o *ExplainRequest) SetWorkspaceId(v string) {
+	o.WorkspaceId.Set(&v)
+}
+
+// SetWorkspaceIdNil sets the value for WorkspaceId to be an explicit nil
+func (o *ExplainRequest) SetWorkspaceIdNil() {
+	o.WorkspaceId.Set(nil)
+}
+
+// UnsetWorkspaceId ensures that no value is present for WorkspaceId, not even an explicit nil
+func (o *ExplainRequest) UnsetWorkspaceId() {
+	o.WorkspaceId.Unset()
+}
+
 func (o ExplainRequest) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -363,6 +408,9 @@ func (o ExplainRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if o.UserId.IsSet() {
 		toSerialize["user_id"] = o.UserId.Get()
+	}
+	if o.WorkspaceId.IsSet() {
+		toSerialize["workspace_id"] = o.WorkspaceId.Get()
 	}
 	return toSerialize, nil
 }

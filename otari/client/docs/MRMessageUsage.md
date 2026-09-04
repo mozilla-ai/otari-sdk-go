@@ -7,9 +7,10 @@ Name | Type | Description | Notes
 **CacheCreation** | Pointer to [**NullableMRCacheCreation**](MRCacheCreation.md) |  | [optional] 
 **CacheCreationInputTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
 **CacheReadInputTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
-**InferenceGeo** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
+**InferenceGeo** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **InputTokens** | **int32** |  | 
 **OutputTokens** | **int32** |  | 
+**OutputTokensDetails** | Pointer to [**NullableMROutputTokensDetails**](MROutputTokensDetails.md) |  | [optional] 
 **ServerToolUse** | Pointer to [**NullableMRServerToolUsage**](MRServerToolUsage.md) |  | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
 **Iterations** | Pointer to [**[]MRMessageUsageIterationsInner**](MRMessageUsageIterationsInner.md) |  | [optional] 
@@ -214,6 +215,41 @@ and a boolean to check if the value has been set.
 SetOutputTokens sets OutputTokens field to given value.
 
 
+### GetOutputTokensDetails
+
+`func (o *MRMessageUsage) GetOutputTokensDetails() MROutputTokensDetails`
+
+GetOutputTokensDetails returns the OutputTokensDetails field if non-nil, zero value otherwise.
+
+### GetOutputTokensDetailsOk
+
+`func (o *MRMessageUsage) GetOutputTokensDetailsOk() (*MROutputTokensDetails, bool)`
+
+GetOutputTokensDetailsOk returns a tuple with the OutputTokensDetails field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOutputTokensDetails
+
+`func (o *MRMessageUsage) SetOutputTokensDetails(v MROutputTokensDetails)`
+
+SetOutputTokensDetails sets OutputTokensDetails field to given value.
+
+### HasOutputTokensDetails
+
+`func (o *MRMessageUsage) HasOutputTokensDetails() bool`
+
+HasOutputTokensDetails returns a boolean if a field has been set.
+
+### SetOutputTokensDetailsNil
+
+`func (o *MRMessageUsage) SetOutputTokensDetailsNil(b bool)`
+
+ SetOutputTokensDetailsNil sets the value for OutputTokensDetails to be an explicit nil
+
+### UnsetOutputTokensDetails
+`func (o *MRMessageUsage) UnsetOutputTokensDetails()`
+
+UnsetOutputTokensDetails ensures that no value is present for OutputTokensDetails, not even an explicit nil
 ### GetServerToolUse
 
 `func (o *MRMessageUsage) GetServerToolUse() MRServerToolUsage`

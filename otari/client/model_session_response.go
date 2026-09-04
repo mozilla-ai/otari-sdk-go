@@ -22,8 +22,12 @@ var _ MappedNullable = &SessionResponse{}
 
 // SessionResponse A freshly minted dashboard session (the token travels only in the cookie).
 type SessionResponse struct {
+	// The organization that identity is acting in, which scopes every tenancy surface.
+	ActiveOrganizationId string `json:"active_organization_id"`
 	// When the session cookie stops being accepted.
 	ExpiresAt time.Time `json:"expires_at"`
+	// The identity this session speaks for.
+	UserId string `json:"user_id"`
 }
 
 type _SessionResponse SessionResponse
@@ -32,9 +36,11 @@ type _SessionResponse SessionResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSessionResponse(expiresAt time.Time) *SessionResponse {
+func NewSessionResponse(activeOrganizationId string, expiresAt time.Time, userId string) *SessionResponse {
 	this := SessionResponse{}
+	this.ActiveOrganizationId = activeOrganizationId
 	this.ExpiresAt = expiresAt
+	this.UserId = userId
 	return &this
 }
 
@@ -44,6 +50,30 @@ func NewSessionResponse(expiresAt time.Time) *SessionResponse {
 func NewSessionResponseWithDefaults() *SessionResponse {
 	this := SessionResponse{}
 	return &this
+}
+
+// GetActiveOrganizationId returns the ActiveOrganizationId field value
+func (o *SessionResponse) GetActiveOrganizationId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ActiveOrganizationId
+}
+
+// GetActiveOrganizationIdOk returns a tuple with the ActiveOrganizationId field value
+// and a boolean to check if the value has been set.
+func (o *SessionResponse) GetActiveOrganizationIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ActiveOrganizationId, true
+}
+
+// SetActiveOrganizationId sets field value
+func (o *SessionResponse) SetActiveOrganizationId(v string) {
+	o.ActiveOrganizationId = v
 }
 
 // GetExpiresAt returns the ExpiresAt field value
@@ -70,6 +100,30 @@ func (o *SessionResponse) SetExpiresAt(v time.Time) {
 	o.ExpiresAt = v
 }
 
+// GetUserId returns the UserId field value
+func (o *SessionResponse) GetUserId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.UserId
+}
+
+// GetUserIdOk returns a tuple with the UserId field value
+// and a boolean to check if the value has been set.
+func (o *SessionResponse) GetUserIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UserId, true
+}
+
+// SetUserId sets field value
+func (o *SessionResponse) SetUserId(v string) {
+	o.UserId = v
+}
+
 func (o SessionResponse) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -80,7 +134,9 @@ func (o SessionResponse) MarshalJSON() ([]byte, error) {
 
 func (o SessionResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["active_organization_id"] = o.ActiveOrganizationId
 	toSerialize["expires_at"] = o.ExpiresAt
+	toSerialize["user_id"] = o.UserId
 	return toSerialize, nil
 }
 
@@ -89,7 +145,9 @@ func (o *SessionResponse) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"active_organization_id",
 		"expires_at",
+		"user_id",
 	}
 
 	allProperties := make(map[string]interface{})

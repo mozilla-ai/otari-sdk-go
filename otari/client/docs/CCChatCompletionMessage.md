@@ -11,8 +11,8 @@ Name | Type | Description | Notes
 **Audio** | Pointer to [**NullableCCChatCompletionAudio**](CCChatCompletionAudio.md) |  | [optional] 
 **FunctionCall** | Pointer to [**NullableCCFunctionCall**](CCFunctionCall.md) |  | [optional] 
 **ToolCalls** | Pointer to [**[]CCChatCompletionMessageToolCallsInner**](CCChatCompletionMessageToolCallsInner.md) |  | [optional] 
-**Reasoning** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
-**ExtraContent** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**Reasoning** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
+**ExtraContent** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
 
 ## Methods
 

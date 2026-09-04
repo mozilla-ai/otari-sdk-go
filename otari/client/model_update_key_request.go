@@ -20,13 +20,14 @@ var _ MappedNullable = &UpdateKeyRequest{}
 
 // UpdateKeyRequest Request model for updating a key.
 type UpdateKeyRequest struct {
-	AllowedModels      []string               `json:"allowed_models,omitempty"`
-	ExcludeFromBudget  NullableBool           `json:"exclude_from_budget,omitempty"`
-	ExpiresAt          NullableTime           `json:"expires_at,omitempty"`
-	IsActive           NullableBool           `json:"is_active,omitempty"`
-	KeyName            NullableString         `json:"key_name,omitempty"`
-	Metadata           map[string]interface{} `json:"metadata,omitempty"`
-	RejectUserMismatch NullableBool           `json:"reject_user_mismatch,omitempty"`
+	AllowedModels         []string               `json:"allowed_models,omitempty"`
+	CaptureAgentTelemetry NullableBool           `json:"capture_agent_telemetry,omitempty"`
+	ExcludeFromBudget     NullableBool           `json:"exclude_from_budget,omitempty"`
+	ExpiresAt             NullableTime           `json:"expires_at,omitempty"`
+	IsActive              NullableBool           `json:"is_active,omitempty"`
+	KeyName               NullableString         `json:"key_name,omitempty"`
+	Metadata              map[string]interface{} `json:"metadata,omitempty"`
+	RejectUserMismatch    NullableBool           `json:"reject_user_mismatch,omitempty"`
 }
 
 // NewUpdateKeyRequest instantiates a new UpdateKeyRequest object
@@ -77,6 +78,49 @@ func (o *UpdateKeyRequest) HasAllowedModels() bool {
 // SetAllowedModels gets a reference to the given []string and assigns it to the AllowedModels field.
 func (o *UpdateKeyRequest) SetAllowedModels(v []string) {
 	o.AllowedModels = v
+}
+
+// GetCaptureAgentTelemetry returns the CaptureAgentTelemetry field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UpdateKeyRequest) GetCaptureAgentTelemetry() bool {
+	if o == nil || IsNil(o.CaptureAgentTelemetry.Get()) {
+		var ret bool
+		return ret
+	}
+	return *o.CaptureAgentTelemetry.Get()
+}
+
+// GetCaptureAgentTelemetryOk returns a tuple with the CaptureAgentTelemetry field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UpdateKeyRequest) GetCaptureAgentTelemetryOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CaptureAgentTelemetry.Get(), o.CaptureAgentTelemetry.IsSet()
+}
+
+// HasCaptureAgentTelemetry returns a boolean if a field has been set.
+func (o *UpdateKeyRequest) HasCaptureAgentTelemetry() bool {
+	if o != nil && o.CaptureAgentTelemetry.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetCaptureAgentTelemetry gets a reference to the given NullableBool and assigns it to the CaptureAgentTelemetry field.
+func (o *UpdateKeyRequest) SetCaptureAgentTelemetry(v bool) {
+	o.CaptureAgentTelemetry.Set(&v)
+}
+
+// SetCaptureAgentTelemetryNil sets the value for CaptureAgentTelemetry to be an explicit nil
+func (o *UpdateKeyRequest) SetCaptureAgentTelemetryNil() {
+	o.CaptureAgentTelemetry.Set(nil)
+}
+
+// UnsetCaptureAgentTelemetry ensures that no value is present for CaptureAgentTelemetry, not even an explicit nil
+func (o *UpdateKeyRequest) UnsetCaptureAgentTelemetry() {
+	o.CaptureAgentTelemetry.Unset()
 }
 
 // GetExcludeFromBudget returns the ExcludeFromBudget field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -339,6 +383,9 @@ func (o UpdateKeyRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.AllowedModels != nil {
 		toSerialize["allowed_models"] = o.AllowedModels
+	}
+	if o.CaptureAgentTelemetry.IsSet() {
+		toSerialize["capture_agent_telemetry"] = o.CaptureAgentTelemetry.Get()
 	}
 	if o.ExcludeFromBudget.IsSet() {
 		toSerialize["exclude_from_budget"] = o.ExcludeFromBudget.Get()

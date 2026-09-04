@@ -22,16 +22,163 @@ import (
 // RoutingAPIService RoutingAPI service
 type RoutingAPIService service
 
-type ApiDeletePolicyV1RoutingPoliciesNameDeleteRequest struct {
-	ctx        context.Context
-	ApiService *RoutingAPIService
-	name       string
-	userId     *string
+type ApiDeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDeleteRequest struct {
+	ctx         context.Context
+	ApiService  *RoutingAPIService
+	name        string
+	workspaceId *string
 }
 
-// Delete the policy scoped to this user. Omit to delete the global one.
+// Delete the policy in this workspace of the caller&#39;s organization.
+func (r ApiDeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDeleteRequest) WorkspaceId(workspaceId string) ApiDeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDeleteRequest {
+	r.workspaceId = &workspaceId
+	return r
+}
+
+func (r ApiDeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDeleteRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDeleteExecute(r)
+}
+
+/*
+DeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDelete Delete Organization Routing Policy
+
+Delete a stored policy from one of the organization's workspaces. Owners and admins only.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name
+	@return ApiDeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDeleteRequest
+*/
+func (a *RoutingAPIService) DeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDelete(ctx context.Context, name string) ApiDeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDeleteRequest {
+	return ApiDeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDeleteRequest{
+		ApiService: a,
+		ctx:        ctx,
+		name:       name,
+	}
+}
+
+// Execute executes the request
+func (a *RoutingAPIService) DeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDeleteExecute(r ApiDeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDeleteRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoutingAPIService.DeleteOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesNameDelete")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/organizations/me/routing-policies/{name}"
+	localVarPath = strings.Replace(localVarPath, "{"+"name"+"}", url.PathEscape(parameterValueToString(r.name, "name")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiDeletePolicyV1RoutingPoliciesNameDeleteRequest struct {
+	ctx         context.Context
+	ApiService  *RoutingAPIService
+	name        string
+	userId      *string
+	workspaceId *string
+}
+
+// Delete the policy scoped to this user. Omit to delete the workspace-wide one.
 func (r ApiDeletePolicyV1RoutingPoliciesNameDeleteRequest) UserId(userId string) ApiDeletePolicyV1RoutingPoliciesNameDeleteRequest {
 	r.userId = &userId
+	return r
+}
+
+// Delete the policy in this workspace. Omit for the deployment&#39;s default workspace.
+func (r ApiDeletePolicyV1RoutingPoliciesNameDeleteRequest) WorkspaceId(workspaceId string) ApiDeletePolicyV1RoutingPoliciesNameDeleteRequest {
+	r.workspaceId = &workspaceId
 	return r
 }
 
@@ -43,10 +190,6 @@ func (r ApiDeletePolicyV1RoutingPoliciesNameDeleteRequest) Execute() (*http.Resp
 DeletePolicyV1RoutingPoliciesNameDelete Delete Policy
 
 Delete a stored policy in one scope.
-
-Scoped by “user_id“ for the same reason the upsert is: deleting the global
-policy must not take a user's override with it, and deleting an override must
-leave the global one serving everyone else.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param name
@@ -82,6 +225,9 @@ func (a *RoutingAPIService) DeletePolicyV1RoutingPoliciesNameDeleteExecute(r Api
 
 	if r.userId != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+	}
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -186,7 +332,7 @@ ExplainPolicyV1RoutingPoliciesExplainPost Explain Policy
 
 Compile a policy and return the plan, without dispatching anything.
 
-Master-key gated, and deliberately so: the response enumerates the policy's
+Operator-gated, and deliberately so: the response enumerates the policy's
 targets, which is exactly the information a policy exists to keep off the wire.
 It is a management surface, not a caller-facing one.
 
@@ -325,8 +471,15 @@ func (a *RoutingAPIService) ExplainPolicyV1RoutingPoliciesExplainPostExecute(r A
 }
 
 type ApiListPoliciesV1RoutingPoliciesGetRequest struct {
-	ctx        context.Context
-	ApiService *RoutingAPIService
+	ctx         context.Context
+	ApiService  *RoutingAPIService
+	workspaceId *string
+}
+
+// Only stored policies in this workspace. Config-file policies are always included, being deployment-wide. Omit to list the stored policies of every workspace.
+func (r ApiListPoliciesV1RoutingPoliciesGetRequest) WorkspaceId(workspaceId string) ApiListPoliciesV1RoutingPoliciesGetRequest {
+	r.workspaceId = &workspaceId
+	return r
 }
 
 func (r ApiListPoliciesV1RoutingPoliciesGetRequest) Execute() ([]PolicyResponse, *http.Response, error) {
@@ -338,8 +491,8 @@ ListPoliciesV1RoutingPoliciesGet List Policies
 
 List every routing policy in force, from config.yml and from storage.
 
-Every scope at once, global and user-scoped alike: this is the master-key
-management view, not what any one caller resolves.
+Every scope at once, workspace-wide and user-scoped alike: this is the
+master-key management view, not what any one caller resolves.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListPoliciesV1RoutingPoliciesGetRequest
@@ -373,6 +526,9 @@ func (a *RoutingAPIService) ListPoliciesV1RoutingPoliciesGetExecute(r ApiListPol
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -440,6 +596,655 @@ func (a *RoutingAPIService) ListPoliciesV1RoutingPoliciesGetExecute(r ApiListPol
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGetRequest struct {
+	ctx        context.Context
+	ApiService *RoutingAPIService
+	limit      *int32
+}
+
+// Maximum entries to return, stored and config-file together.
+func (r ApiListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGetRequest) Limit(limit int32) ApiListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGetRequest {
+	r.limit = &limit
+	return r
+}
+
+func (r ApiListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGetRequest) Execute() ([]PolicyResponse, *http.Response, error) {
+	return r.ApiService.ListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGetExecute(r)
+}
+
+/*
+ListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGet List Visible Routing Policies
+
+List the routing policies in force in the workspaces this caller may see.
+
+Stored policies from the caller's visible workspaces plus the config-file
+policies, which are deployment-wide and resolve in every workspace. The
+response is the shape “GET /v1/routing/policies“ answers, narrowed to the
+caller's own organization.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGetRequest
+*/
+func (a *RoutingAPIService) ListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGet(ctx context.Context) ApiListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGetRequest {
+	return ApiListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return []PolicyResponse
+func (a *RoutingAPIService) ListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGetExecute(r ApiListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGetRequest) ([]PolicyResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []PolicyResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoutingAPIService.ListVisibleRoutingPoliciesV1OrganizationsMeRoutingPoliciesGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/organizations/me/routing-policies"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	} else {
+		var defaultValue int32 = 1000
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", defaultValue, "form", "")
+		r.limit = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRankCandidatesV1RoutingPreferencesRankPostRequest struct {
+	ctx         context.Context
+	ApiService  *RoutingAPIService
+	rankRequest *RankRequest
+}
+
+func (r ApiRankCandidatesV1RoutingPreferencesRankPostRequest) RankRequest(rankRequest RankRequest) ApiRankCandidatesV1RoutingPreferencesRankPostRequest {
+	r.rankRequest = &rankRequest
+	return r
+}
+
+func (r ApiRankCandidatesV1RoutingPreferencesRankPostRequest) Execute() (*RankResponse, *http.Response, error) {
+	return r.ApiService.RankCandidatesV1RoutingPreferencesRankPostExecute(r)
+}
+
+/*
+RankCandidatesV1RoutingPreferencesRankPost Rank Candidates
+
+Record scored examples: one routing-memory record each, plus an audit row.
+
+The routing-memory record is written before its audit row for each example,
+because it is the load-bearing one (the router votes over it) and embedding it
+can fail; writing the audit row only afterwards means a failed embedding never
+leaves an orphan audit row.
+
+A failed embedding is a 502 that names the model, not a 500. Every example in
+the batch is embedded, so this is the call an operator makes most often and the
+one most likely to meet a misconfigured “router_embedding_model“.
+
+Score keys are stored canonically as “instance:model“ (see
+:func:`_validated_scores`), which is the form the router canonicalizes its
+candidates to, so how a policy spells a candidate cannot decide whether it
+matches.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRankCandidatesV1RoutingPreferencesRankPostRequest
+*/
+func (a *RoutingAPIService) RankCandidatesV1RoutingPreferencesRankPost(ctx context.Context) ApiRankCandidatesV1RoutingPreferencesRankPostRequest {
+	return ApiRankCandidatesV1RoutingPreferencesRankPostRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return RankResponse
+func (a *RoutingAPIService) RankCandidatesV1RoutingPreferencesRankPostExecute(r ApiRankCandidatesV1RoutingPreferencesRankPostRequest) (*RankResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *RankResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoutingAPIService.RankCandidatesV1RoutingPreferencesRankPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/routing/preferences/rank"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.rankRequest == nil {
+		return localVarReturnValue, nil, reportError("rankRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.rankRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRoutingMemoryStatusV1RoutingStatusGetRequest struct {
+	ctx         context.Context
+	ApiService  *RoutingAPIService
+	userId      *string
+	workspaceId *string
+}
+
+// Whose routing memory to report on.
+func (r ApiRoutingMemoryStatusV1RoutingStatusGetRequest) UserId(userId string) ApiRoutingMemoryStatusV1RoutingStatusGetRequest {
+	r.userId = &userId
+	return r
+}
+
+// Which workspace&#39;s routing memory to report on. Omit for the default workspace.
+func (r ApiRoutingMemoryStatusV1RoutingStatusGetRequest) WorkspaceId(workspaceId string) ApiRoutingMemoryStatusV1RoutingStatusGetRequest {
+	r.workspaceId = &workspaceId
+	return r
+}
+
+func (r ApiRoutingMemoryStatusV1RoutingStatusGetRequest) Execute() (*RouterStatus, *http.Response, error) {
+	return r.ApiService.RoutingMemoryStatusV1RoutingStatusGetExecute(r)
+}
+
+/*
+RoutingMemoryStatusV1RoutingStatusGet Routing Memory Status
+
+Report how warm one user's routing memory is in one workspace, per pool.
+
+“user_id“ is required rather than optional because there is no aggregate
+answer: warmth is per user, and a total across users would describe a pool
+that no request ever votes over. The same holds across workspaces, which is
+why “workspace_id“ narrows rather than aggregating; it merely defaults
+instead of being required, because a single-workspace deployment has one
+answer.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRoutingMemoryStatusV1RoutingStatusGetRequest
+*/
+func (a *RoutingAPIService) RoutingMemoryStatusV1RoutingStatusGet(ctx context.Context) ApiRoutingMemoryStatusV1RoutingStatusGetRequest {
+	return ApiRoutingMemoryStatusV1RoutingStatusGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return RouterStatus
+func (a *RoutingAPIService) RoutingMemoryStatusV1RoutingStatusGetExecute(r ApiRoutingMemoryStatusV1RoutingStatusGetRequest) (*RouterStatus, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *RouterStatus
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoutingAPIService.RoutingMemoryStatusV1RoutingStatusGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/routing/status"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.userId == nil {
+		return localVarReturnValue, nil, reportError("userId is required and must be specified")
+	}
+
+	parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPostRequest struct {
+	ctx           context.Context
+	ApiService    *RoutingAPIService
+	policyRequest *PolicyRequest
+}
+
+func (r ApiSetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPostRequest) PolicyRequest(policyRequest PolicyRequest) ApiSetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPostRequest {
+	r.policyRequest = &policyRequest
+	return r
+}
+
+func (r ApiSetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPostRequest) Execute() (*PolicyResponse, *http.Response, error) {
+	return r.ApiService.SetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPostExecute(r)
+}
+
+/*
+SetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPost Set Organization Routing Policy
+
+Create or update a stored policy in one of the organization's workspaces.
+
+Organization owners and admins only. “workspace_id“ is required and must
+name a workspace of the caller's own organization; “user_id“ is not
+accepted here.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPostRequest
+*/
+func (a *RoutingAPIService) SetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPost(ctx context.Context) ApiSetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPostRequest {
+	return ApiSetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPostRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return PolicyResponse
+func (a *RoutingAPIService) SetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPostExecute(r ApiSetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPostRequest) (*PolicyResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PolicyResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoutingAPIService.SetOrganizationRoutingPolicyV1OrganizationsMeRoutingPoliciesPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/organizations/me/routing-policies"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.policyRequest == nil {
+		return localVarReturnValue, nil, reportError("policyRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.policyRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -473,12 +1278,10 @@ func (r ApiSetPolicyV1RoutingPoliciesPostRequest) Execute() (*PolicyResponse, *h
 /*
 SetPolicyV1RoutingPoliciesPost Set Policy
 
-Create or update a stored policy, global or scoped to one user.
+Create or update a stored policy in one workspace, optionally for one user.
 
-The spec is validated here and stored as given, so a row can never contain a
-body this build would refuse at load. The cache is refreshed twice: once before
-validating (so the shadowing checks see other writers' policies) and once after
-committing (so this worker serves the new policy immediately).
+Omitting “workspace_id“ means the deployment's default workspace, which is
+where an operator acting deployment-wide writes.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiSetPolicyV1RoutingPoliciesPostRequest

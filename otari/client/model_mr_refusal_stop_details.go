@@ -21,7 +21,7 @@ var _ MappedNullable = &MRRefusalStopDetails{}
 // MRRefusalStopDetails Structured information about a refusal.
 type MRRefusalStopDetails struct {
 	Category NullableString `json:"category,omitempty"`
-	// Delete the alias scoped to this user. Omit to delete the global alias of that name.
+	// Filter to a single event type or metric name (e.g. 'tool_result', 'claude_code.commit.count')
 	Explanation          NullableString `json:"explanation,omitempty"`
 	Type                 string         `json:"type"`
 	AdditionalProperties map[string]interface{}

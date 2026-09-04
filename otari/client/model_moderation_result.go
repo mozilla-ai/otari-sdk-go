@@ -25,7 +25,7 @@ type ModerationResult struct {
 	CategoryAppliedInputTypes map[string][]string `json:"category_applied_input_types,omitempty"`
 	CategoryScores            map[string]float32  `json:"category_scores,omitempty"`
 	Flagged                   bool                `json:"flagged"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	ProviderRaw map[string]interface{} `json:"provider_raw,omitempty"`
 }
 

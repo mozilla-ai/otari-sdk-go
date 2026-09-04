@@ -41,6 +41,7 @@ type ApiCountUsageV1UsageCountGetRequest struct {
 	tool               *string
 	countsTowardBudget *bool
 	requestGroupId     *[]string
+	workspaceId        *string
 }
 
 // Return logs with timestamp &gt;&#x3D; start_date (ISO 8601 or Unix epoch seconds)
@@ -121,7 +122,7 @@ func (r ApiCountUsageV1UsageCountGetRequest) Tool(tool string) ApiCountUsageV1Us
 	return r
 }
 
-// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows that never touch a budget
+// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows, narrowed past the filter of the same name on GET /v1/usage so the total matches what bulk delete and set-price can reach
 func (r ApiCountUsageV1UsageCountGetRequest) CountsTowardBudget(countsTowardBudget bool) ApiCountUsageV1UsageCountGetRequest {
 	r.countsTowardBudget = &countsTowardBudget
 	return r
@@ -130,6 +131,12 @@ func (r ApiCountUsageV1UsageCountGetRequest) CountsTowardBudget(countsTowardBudg
 // Filter to the rows of one or more request groups; repeatable (request_group_id&#x3D;a&amp;request_group_id&#x3D;b). A routed request writes one row per attempt, all sharing a request_group_id, so this returns a request&#39;s whole plan: its absorbed attempts and the attempt that served it. Ignore ordering by timestamp and read attempt_position to reconstruct the plan. At most 1000 ids per call.
 func (r ApiCountUsageV1UsageCountGetRequest) RequestGroupId(requestGroupId []string) ApiCountUsageV1UsageCountGetRequest {
 	r.requestGroupId = &requestGroupId
+	return r
+}
+
+// Only usage recorded in this workspace.
+func (r ApiCountUsageV1UsageCountGetRequest) WorkspaceId(workspaceId string) ApiCountUsageV1UsageCountGetRequest {
+	r.workspaceId = &workspaceId
 	return r
 }
 
@@ -147,6 +154,11 @@ array contract of “GET /v1/usage“. Runs only when the client asks (a
 separate request), so the “COUNT(*)“ is not paid on every page load. With
 “counts_toward_budget=false“ it also backs the "select all N matching this
 filter" affordance for bulk delete / set-price, which touch imported rows only.
+
+That value is the one place this count is narrower than “GET /v1/usage“: it
+also excludes rows this deployment served itself, so the number an operator
+confirms is the number the mutation can reach. The list still pages the
+budget-exempt gateway rows it omits.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiCountUsageV1UsageCountGetRequest
@@ -256,6 +268,9 @@ func (a *UsageAPIService) CountUsageV1UsageCountGetExecute(r ApiCountUsageV1Usag
 		} else {
 			parameterAddToHeaderOrQuery(localVarQueryParams, "request_group_id", t, "form", "multi")
 		}
+	}
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -664,12 +679,150 @@ func (a *UsageAPIService) IngestExternalUsageV1UsageExternalEventsPostExecute(r 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiListInFlightV1UsageInFlightGetRequest struct {
+	ctx        context.Context
+	ApiService *UsageAPIService
+}
+
+func (r ApiListInFlightV1UsageInFlightGetRequest) Execute() (*InFlightResponse, *http.Response, error) {
+	return r.ApiService.ListInFlightV1UsageInFlightGetExecute(r)
+}
+
+/*
+ListInFlightV1UsageInFlightGet List In Flight
+
+Requests the gateway is currently serving, longest-running first.
+
+A usage row is written when a request settles, so the log alone cannot answer
+"is anything happening right now": on a slow backend, a 30-second local model
+call is invisible until it finishes. This reports what is in progress.
+
+Read from an in-memory registry, so it describes the process that answers this
+call and not the deployment: behind a load balancer, consecutive polls reach
+different otari processes, and there is no deployment-wide total to ask for.
+“total“ is the true in-flight count for the answering process even when
+“requests“ is capped.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListInFlightV1UsageInFlightGetRequest
+*/
+func (a *UsageAPIService) ListInFlightV1UsageInFlightGet(ctx context.Context) ApiListInFlightV1UsageInFlightGetRequest {
+	return ApiListInFlightV1UsageInFlightGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return InFlightResponse
+func (a *UsageAPIService) ListInFlightV1UsageInFlightGetExecute(r ApiListInFlightV1UsageInFlightGetRequest) (*InFlightResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *InFlightResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.ListInFlightV1UsageInFlightGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/usage/in-flight"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiListUsageV1UsageGetRequest struct {
 	ctx                context.Context
 	ApiService         *UsageAPIService
 	startDate          *time.Time
 	endDate            *time.Time
-	userId             *[]*string
+	userId             *[]string
 	status             *string
 	statusCode         *int32
 	model              *[]string
@@ -681,7 +834,8 @@ type ApiListUsageV1UsageGetRequest struct {
 	priced             *bool
 	tool               *string
 	countsTowardBudget *bool
-	requestGroupId     *[]*string
+	requestGroupId     *[]string
+	workspaceId        *string
 	skip               *int32
 	limit              *int32
 }
@@ -699,7 +853,7 @@ func (r ApiListUsageV1UsageGetRequest) EndDate(endDate time.Time) ApiListUsageV1
 }
 
 // Filter to one or more users; repeatable (user_id&#x3D;a&amp;user_id&#x3D;b). Several values match any of them. At most 50 per call.
-func (r ApiListUsageV1UsageGetRequest) UserId(userId []*string) ApiListUsageV1UsageGetRequest {
+func (r ApiListUsageV1UsageGetRequest) UserId(userId []string) ApiListUsageV1UsageGetRequest {
 	r.userId = &userId
 	return r
 }
@@ -764,15 +918,21 @@ func (r ApiListUsageV1UsageGetRequest) Tool(tool string) ApiListUsageV1UsageGetR
 	return r
 }
 
-// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows that never touch a budget
+// Filter by budget participation, which is not the same question as provenance: true &#x3D; only enforced gateway rows, false &#x3D; every row that never touches a budget, meaning imported usage and also gateway traffic on a budget-exempt key
 func (r ApiListUsageV1UsageGetRequest) CountsTowardBudget(countsTowardBudget bool) ApiListUsageV1UsageGetRequest {
 	r.countsTowardBudget = &countsTowardBudget
 	return r
 }
 
 // Filter to the rows of one or more request groups; repeatable (request_group_id&#x3D;a&amp;request_group_id&#x3D;b). A routed request writes one row per attempt, all sharing a request_group_id, so this returns a request&#39;s whole plan: its absorbed attempts and the attempt that served it. Ignore ordering by timestamp and read attempt_position to reconstruct the plan. At most 1000 ids per call.
-func (r ApiListUsageV1UsageGetRequest) RequestGroupId(requestGroupId []*string) ApiListUsageV1UsageGetRequest {
+func (r ApiListUsageV1UsageGetRequest) RequestGroupId(requestGroupId []string) ApiListUsageV1UsageGetRequest {
 	r.requestGroupId = &requestGroupId
+	return r
+}
+
+// Only usage recorded in this workspace.
+func (r ApiListUsageV1UsageGetRequest) WorkspaceId(workspaceId string) ApiListUsageV1UsageGetRequest {
+	r.workspaceId = &workspaceId
 	return r
 }
 
@@ -912,6 +1072,9 @@ func (a *UsageAPIService) ListUsageV1UsageGetExecute(r ApiListUsageV1UsageGetReq
 		} else {
 			parameterAddToHeaderOrQuery(localVarQueryParams, "request_group_id", t, "form", "multi")
 		}
+	}
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
 	}
 	if r.skip != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "skip", r.skip, "form", "")
@@ -1193,6 +1356,7 @@ type ApiUsageSeriesV1UsageSeriesGetRequest struct {
 	priced             *bool
 	tool               *string
 	countsTowardBudget *bool
+	workspaceId        *string
 	bucket             *string
 }
 
@@ -1280,9 +1444,15 @@ func (r ApiUsageSeriesV1UsageSeriesGetRequest) Tool(tool string) ApiUsageSeriesV
 	return r
 }
 
-// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows that never touch a budget
+// Filter by budget participation, which is not the same question as provenance: true &#x3D; only enforced gateway rows, false &#x3D; every row that never touches a budget, meaning imported usage and also gateway traffic on a budget-exempt key
 func (r ApiUsageSeriesV1UsageSeriesGetRequest) CountsTowardBudget(countsTowardBudget bool) ApiUsageSeriesV1UsageSeriesGetRequest {
 	r.countsTowardBudget = &countsTowardBudget
+	return r
+}
+
+// Only usage recorded in this workspace.
+func (r ApiUsageSeriesV1UsageSeriesGetRequest) WorkspaceId(workspaceId string) ApiUsageSeriesV1UsageSeriesGetRequest {
+	r.workspaceId = &workspaceId
 	return r
 }
 
@@ -1413,322 +1583,15 @@ func (a *UsageAPIService) UsageSeriesV1UsageSeriesGetExecute(r ApiUsageSeriesV1U
 	if r.countsTowardBudget != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "counts_toward_budget", r.countsTowardBudget, "form", "")
 	}
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
+	}
 	if r.bucket != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "bucket", r.bucket, "form", "")
 	} else {
 		var defaultValue string = "day"
 		parameterAddToHeaderOrQuery(localVarQueryParams, "bucket", defaultValue, "form", "")
 		r.bucket = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["XApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["x-api-key"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["Otari-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v HTTPValidationError
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest struct {
-	ctx                context.Context
-	ApiService         *UsageAPIService
-	startDate          *time.Time
-	endDate            *time.Time
-	userId             *[]string
-	status             *string
-	statusCode         *int32
-	model              *[]string
-	endpoint           *string
-	provider           *string
-	source             *string
-	sourceLabel        *string
-	apiKeyId           *[]string
-	priced             *bool
-	tool               *string
-	countsTowardBudget *bool
-}
-
-// Return logs with timestamp &gt;&#x3D; start_date (ISO 8601 or Unix epoch seconds)
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) StartDate(startDate time.Time) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.startDate = &startDate
-	return r
-}
-
-// Return logs with timestamp &lt; end_date (ISO 8601 or Unix epoch seconds)
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) EndDate(endDate time.Time) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.endDate = &endDate
-	return r
-}
-
-// Filter to one or more users; repeatable (user_id&#x3D;a&amp;user_id&#x3D;b). Several values match any of them. At most 50 per call.
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) UserId(userId []string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.userId = &userId
-	return r
-}
-
-// Filter to a single status: &#39;success&#39;, &#39;error&#39;, or &#39;absorbed&#39; (an attempt a routing policy recovered from, excluded from error_count and request_count)
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Status(status string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.status = &status
-	return r
-}
-
-// Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) StatusCode(statusCode int32) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.statusCode = &statusCode
-	return r
-}
-
-// Filter to one or more models; repeatable (model&#x3D;a&amp;model&#x3D;b). Several values match any of them. At most 50 per call.
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Model(model []string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.model = &model
-	return r
-}
-
-// Filter to a single endpoint (e.g. &#39;/v1/chat/completions&#39;)
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Endpoint(endpoint string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.endpoint = &endpoint
-	return r
-}
-
-// Filter to a single provider (e.g. &#39;openai&#39;)
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Provider(provider string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.provider = &provider
-	return r
-}
-
-// Filter to a single provenance source (e.g. &#39;gateway&#39; or &#39;claude_code&#39;)
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Source(source string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.source = &source
-	return r
-}
-
-// Filter to a single session/project label (the source_label carried by imported usage)
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) SourceLabel(sourceLabel string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.sourceLabel = &sourceLabel
-	return r
-}
-
-// Filter to one or more API key ids; repeatable (api_key_id&#x3D;a&amp;api_key_id&#x3D;b). Several values match any of them. At most 50 per call.
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) ApiKeyId(apiKeyId []string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.apiKeyId = &apiKeyId
-	return r
-}
-
-// Filter by token-pricing state: true &#x3D; only rows whose model tokens were priced, false &#x3D; only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing.
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Priced(priced bool) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.priced = &priced
-	return r
-}
-
-// Filter to requests that ran a gateway-run tool. &#39;any&#39; matches any tool; a tool name (web_search, code_execution) matches that tool specifically.
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Tool(tool string) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.tool = &tool
-	return r
-}
-
-// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows that never touch a budget
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) CountsTowardBudget(countsTowardBudget bool) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	r.countsTowardBudget = &countsTowardBudget
-	return r
-}
-
-func (r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) Execute() (interface{}, *http.Response, error) {
-	return r.ApiService.UsageSummaryCsvV1UsageSummaryCsvGetExecute(r)
-}
-
-/*
-UsageSummaryCsvV1UsageSummaryCsvGet Usage Summary Csv
-
-Download every breakdown the summary reports, as one CSV.
-
-One row per (dimension, key): model, user, API key, source, session
-(“source_label“), endpoint, and provider. A dedicated route rather than a
-“format=csv“ flag on “/summary“ so that endpoint keeps a single JSON
-response model and a clean OpenAPI schema. The export is **uncapped** (no
-top-N fold): finance wants every row. “tokens“ is the billed total (fresh
-input, both cache buckets, and output), matching the dashboard's analytics.
-Kept separate from the bare-array “/v1/usage“ contract, which is untouched.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest
-*/
-func (a *UsageAPIService) UsageSummaryCsvV1UsageSummaryCsvGet(ctx context.Context) ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest {
-	return ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest{
-		ApiService: a,
-		ctx:        ctx,
-	}
-}
-
-// Execute executes the request
-//
-//	@return interface{}
-func (a *UsageAPIService) UsageSummaryCsvV1UsageSummaryCsvGetExecute(r ApiUsageSummaryCsvV1UsageSummaryCsvGetRequest) (interface{}, *http.Response, error) {
-	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue interface{}
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.UsageSummaryCsvV1UsageSummaryCsvGet")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v1/usage/summary.csv"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.startDate != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "start_date", r.startDate, "form", "")
-	}
-	if r.endDate != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "end_date", r.endDate, "form", "")
-	}
-	if r.userId != nil {
-		t := *r.userId
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", t, "form", "multi")
-		}
-	}
-	if r.status != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
-	}
-	if r.statusCode != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "status_code", r.statusCode, "form", "")
-	}
-	if r.model != nil {
-		t := *r.model
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "model", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "model", t, "form", "multi")
-		}
-	}
-	if r.endpoint != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "endpoint", r.endpoint, "form", "")
-	}
-	if r.provider != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "provider", r.provider, "form", "")
-	}
-	if r.source != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "source", r.source, "form", "")
-	}
-	if r.sourceLabel != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "source_label", r.sourceLabel, "form", "")
-	}
-	if r.apiKeyId != nil {
-		t := *r.apiKeyId
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "api_key_id", t, "form", "multi")
-		}
-	}
-	if r.priced != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "priced", r.priced, "form", "")
-	}
-	if r.tool != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "tool", r.tool, "form", "")
-	}
-	if r.countsTowardBudget != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "counts_toward_budget", r.countsTowardBudget, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1839,6 +1702,7 @@ type ApiUsageSummaryV1UsageSummaryGetRequest struct {
 	priced             *bool
 	tool               *string
 	countsTowardBudget *bool
+	workspaceId        *string
 	bucket             *string
 	dimensions         *[]string
 }
@@ -1921,9 +1785,15 @@ func (r ApiUsageSummaryV1UsageSummaryGetRequest) Tool(tool string) ApiUsageSumma
 	return r
 }
 
-// Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows that never touch a budget
+// Filter by budget participation, which is not the same question as provenance: true &#x3D; only enforced gateway rows, false &#x3D; every row that never touches a budget, meaning imported usage and also gateway traffic on a budget-exempt key
 func (r ApiUsageSummaryV1UsageSummaryGetRequest) CountsTowardBudget(countsTowardBudget bool) ApiUsageSummaryV1UsageSummaryGetRequest {
 	r.countsTowardBudget = &countsTowardBudget
+	return r
+}
+
+// Only usage recorded in this workspace.
+func (r ApiUsageSummaryV1UsageSummaryGetRequest) WorkspaceId(workspaceId string) ApiUsageSummaryV1UsageSummaryGetRequest {
+	r.workspaceId = &workspaceId
 	return r
 }
 
@@ -2062,6 +1932,9 @@ func (a *UsageAPIService) UsageSummaryV1UsageSummaryGetExecute(r ApiUsageSummary
 	}
 	if r.countsTowardBudget != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "counts_toward_budget", r.countsTowardBudget, "form", "")
+	}
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
 	}
 	if r.bucket != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "bucket", r.bucket, "form", "")

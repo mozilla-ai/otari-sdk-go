@@ -642,10 +642,11 @@ func (a *FilesAPIService) GetFileV1FilesFileIdGetExecute(r ApiGetFileV1FilesFile
 }
 
 type ApiListFilesV1FilesGetRequest struct {
-	ctx        context.Context
-	ApiService *FilesAPIService
-	user       *string
-	purpose    *string
+	ctx         context.Context
+	ApiService  *FilesAPIService
+	user        *string
+	purpose     *string
+	workspaceId *string
 }
 
 func (r ApiListFilesV1FilesGetRequest) User(user string) ApiListFilesV1FilesGetRequest {
@@ -658,6 +659,11 @@ func (r ApiListFilesV1FilesGetRequest) Purpose(purpose string) ApiListFilesV1Fil
 	return r
 }
 
+func (r ApiListFilesV1FilesGetRequest) WorkspaceId(workspaceId string) ApiListFilesV1FilesGetRequest {
+	r.workspaceId = &workspaceId
+	return r
+}
+
 func (r ApiListFilesV1FilesGetRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.ListFilesV1FilesGetExecute(r)
 }
@@ -665,7 +671,10 @@ func (r ApiListFilesV1FilesGetRequest) Execute() (map[string]interface{}, *http.
 /*
 ListFilesV1FilesGet List Files
 
-List the authenticated user's uploaded files.
+List the authenticated user's uploaded files in the request's workspace.
+
+“workspace_id“ narrows a master-key listing to one workspace; a keyed
+request is already confined to its key's own and cannot widen or move it.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListFilesV1FilesGetRequest
@@ -704,6 +713,9 @@ func (a *FilesAPIService) ListFilesV1FilesGetExecute(r ApiListFilesV1FilesGetReq
 	}
 	if r.purpose != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "purpose", r.purpose, "form", "")
+	}
+	if r.workspaceId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workspace_id", r.workspaceId, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

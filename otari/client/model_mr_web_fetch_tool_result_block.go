@@ -21,7 +21,7 @@ var _ MappedNullable = &MRWebFetchToolResultBlock{}
 // MRWebFetchToolResultBlock struct for MRWebFetchToolResultBlock
 type MRWebFetchToolResultBlock struct {
 	Caller               NullableCaller1 `json:"caller,omitempty"`
-	Content              Content14       `json:"content"`
+	Content              Content15       `json:"content"`
 	ToolUseId            string          `json:"tool_use_id"`
 	Type                 string          `json:"type"`
 	AdditionalProperties map[string]interface{}
@@ -33,7 +33,7 @@ type _MRWebFetchToolResultBlock MRWebFetchToolResultBlock
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMRWebFetchToolResultBlock(content Content14, toolUseId string, type_ string) *MRWebFetchToolResultBlock {
+func NewMRWebFetchToolResultBlock(content Content15, toolUseId string, type_ string) *MRWebFetchToolResultBlock {
 	this := MRWebFetchToolResultBlock{}
 	this.Content = content
 	this.ToolUseId = toolUseId
@@ -93,9 +93,9 @@ func (o *MRWebFetchToolResultBlock) UnsetCaller() {
 }
 
 // GetContent returns the Content field value
-func (o *MRWebFetchToolResultBlock) GetContent() Content14 {
+func (o *MRWebFetchToolResultBlock) GetContent() Content15 {
 	if o == nil {
-		var ret Content14
+		var ret Content15
 		return ret
 	}
 
@@ -104,7 +104,7 @@ func (o *MRWebFetchToolResultBlock) GetContent() Content14 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *MRWebFetchToolResultBlock) GetContentOk() (*Content14, bool) {
+func (o *MRWebFetchToolResultBlock) GetContentOk() (*Content15, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -112,7 +112,7 @@ func (o *MRWebFetchToolResultBlock) GetContentOk() (*Content14, bool) {
 }
 
 // SetContent sets field value
-func (o *MRWebFetchToolResultBlock) SetContent(v Content14) {
+func (o *MRWebFetchToolResultBlock) SetContent(v Content15) {
 	o.Content = v
 }
 

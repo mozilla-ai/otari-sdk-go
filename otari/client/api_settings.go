@@ -21,6 +21,262 @@ import (
 // SettingsAPIService SettingsAPI service
 type SettingsAPIService service
 
+type ApiGetMailSettingsV1SettingsMailGetRequest struct {
+	ctx        context.Context
+	ApiService *SettingsAPIService
+}
+
+func (r ApiGetMailSettingsV1SettingsMailGetRequest) Execute() (*MailSettings, *http.Response, error) {
+	return r.ApiService.GetMailSettingsV1SettingsMailGetExecute(r)
+}
+
+/*
+GetMailSettingsV1SettingsMailGet Get Mail Settings
+
+Report the effective outgoing-mail configuration.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetMailSettingsV1SettingsMailGetRequest
+*/
+func (a *SettingsAPIService) GetMailSettingsV1SettingsMailGet(ctx context.Context) ApiGetMailSettingsV1SettingsMailGetRequest {
+	return ApiGetMailSettingsV1SettingsMailGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return MailSettings
+func (a *SettingsAPIService) GetMailSettingsV1SettingsMailGetExecute(r ApiGetMailSettingsV1SettingsMailGetRequest) (*MailSettings, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MailSettings
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SettingsAPIService.GetMailSettingsV1SettingsMailGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/settings/mail"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetMaintenanceModeV1SettingsMaintenanceModeGetRequest struct {
+	ctx        context.Context
+	ApiService *SettingsAPIService
+}
+
+func (r ApiGetMaintenanceModeV1SettingsMaintenanceModeGetRequest) Execute() (*MaintenanceMode, *http.Response, error) {
+	return r.ApiService.GetMaintenanceModeV1SettingsMaintenanceModeGetExecute(r)
+}
+
+/*
+GetMaintenanceModeV1SettingsMaintenanceModeGet Get Maintenance Mode
+
+Report whether new dashboard sign-ins are frozen.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetMaintenanceModeV1SettingsMaintenanceModeGetRequest
+*/
+func (a *SettingsAPIService) GetMaintenanceModeV1SettingsMaintenanceModeGet(ctx context.Context) ApiGetMaintenanceModeV1SettingsMaintenanceModeGetRequest {
+	return ApiGetMaintenanceModeV1SettingsMaintenanceModeGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return MaintenanceMode
+func (a *SettingsAPIService) GetMaintenanceModeV1SettingsMaintenanceModeGetExecute(r ApiGetMaintenanceModeV1SettingsMaintenanceModeGetRequest) (*MaintenanceMode, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MaintenanceMode
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SettingsAPIService.GetMaintenanceModeV1SettingsMaintenanceModeGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/settings/maintenance-mode"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetSettingsV1SettingsGetRequest struct {
 	ctx        context.Context
 	ApiService *SettingsAPIService
@@ -169,7 +425,10 @@ invalidate it; the operator must change that value and restart instead.
 
 Every dashboard session is revoked with the rotation (a session only proves
 possession of the now-dead key); the caller's own session is re-minted under
-the new key so the tab that performed the rotation stays signed in.
+the new key, for the same identity it named, so the tab that performed the
+rotation stays signed in as who it was. A caller that authenticated with a
+header key has no session identity to re-mint for, so it is not handed one:
+it was not signed in to the dashboard to begin with.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiRotateMasterKeyV1SettingsMasterKeyRotatePostRequest
@@ -285,6 +544,317 @@ func (a *SettingsAPIService) RotateMasterKeyV1SettingsMasterKeyRotatePostExecute
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiSendTestMailV1SettingsMailTestPostRequest struct {
+	ctx                 context.Context
+	ApiService          *SettingsAPIService
+	sendTestMailRequest *SendTestMailRequest
+}
+
+func (r ApiSendTestMailV1SettingsMailTestPostRequest) SendTestMailRequest(sendTestMailRequest SendTestMailRequest) ApiSendTestMailV1SettingsMailTestPostRequest {
+	r.sendTestMailRequest = &sendTestMailRequest
+	return r
+}
+
+func (r ApiSendTestMailV1SettingsMailTestPostRequest) Execute() (*SendTestMailResponse, *http.Response, error) {
+	return r.ApiService.SendTestMailV1SettingsMailTestPostExecute(r)
+}
+
+/*
+SendTestMailV1SettingsMailTestPost Send Test Mail
+
+Send one templated test message to prove the configuration works.
+
+Refuses with 503 when the deployment cannot send a linked message, naming
+the missing settings; the dashboard disables the control in that state, so
+reaching this is a direct API call or a race with a configuration change.
+
+The recipient is the only caller-supplied value: the body is a fixed
+template, so this cannot be used to put chosen text in someone's inbox from
+the deployment's own address, and the message says outright that no account
+was created for whoever receives it.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSendTestMailV1SettingsMailTestPostRequest
+*/
+func (a *SettingsAPIService) SendTestMailV1SettingsMailTestPost(ctx context.Context) ApiSendTestMailV1SettingsMailTestPostRequest {
+	return ApiSendTestMailV1SettingsMailTestPostRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return SendTestMailResponse
+func (a *SettingsAPIService) SendTestMailV1SettingsMailTestPostExecute(r ApiSendTestMailV1SettingsMailTestPostRequest) (*SendTestMailResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *SendTestMailResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SettingsAPIService.SendTestMailV1SettingsMailTestPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/settings/mail/test"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.sendTestMailRequest == nil {
+		return localVarReturnValue, nil, reportError("sendTestMailRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.sendTestMailRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUpdateMaintenanceModeV1SettingsMaintenanceModePatchRequest struct {
+	ctx                          context.Context
+	ApiService                   *SettingsAPIService
+	updateMaintenanceModeRequest *UpdateMaintenanceModeRequest
+}
+
+func (r ApiUpdateMaintenanceModeV1SettingsMaintenanceModePatchRequest) UpdateMaintenanceModeRequest(updateMaintenanceModeRequest UpdateMaintenanceModeRequest) ApiUpdateMaintenanceModeV1SettingsMaintenanceModePatchRequest {
+	r.updateMaintenanceModeRequest = &updateMaintenanceModeRequest
+	return r
+}
+
+func (r ApiUpdateMaintenanceModeV1SettingsMaintenanceModePatchRequest) Execute() (*MaintenanceMode, *http.Response, error) {
+	return r.ApiService.UpdateMaintenanceModeV1SettingsMaintenanceModePatchExecute(r)
+}
+
+/*
+UpdateMaintenanceModeV1SettingsMaintenanceModePatch Update Maintenance Mode
+
+Freeze or unfreeze dashboard sign-ins, for this and every other replica.
+
+The new state is persisted and nothing is applied to the running worker,
+because every reader goes back to the stored row. That is what makes one
+call enough for a deployment running more than one of them.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateMaintenanceModeV1SettingsMaintenanceModePatchRequest
+*/
+func (a *SettingsAPIService) UpdateMaintenanceModeV1SettingsMaintenanceModePatch(ctx context.Context) ApiUpdateMaintenanceModeV1SettingsMaintenanceModePatchRequest {
+	return ApiUpdateMaintenanceModeV1SettingsMaintenanceModePatchRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return MaintenanceMode
+func (a *SettingsAPIService) UpdateMaintenanceModeV1SettingsMaintenanceModePatchExecute(r ApiUpdateMaintenanceModeV1SettingsMaintenanceModePatchRequest) (*MaintenanceMode, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MaintenanceMode
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SettingsAPIService.UpdateMaintenanceModeV1SettingsMaintenanceModePatch")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/settings/maintenance-mode"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.updateMaintenanceModeRequest == nil {
+		return localVarReturnValue, nil, reportError("updateMaintenanceModeRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.updateMaintenanceModeRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiUpdateSettingsV1SettingsPatchRequest struct {
 	ctx                   context.Context
 	ApiService            *SettingsAPIService
@@ -306,7 +876,7 @@ UpdateSettingsV1SettingsPatch Update Settings
 Persist and apply runtime setting changes.
 
 Each provided field is stored as an override (winning over config/env) and
-applied to the running gateway immediately. Master-key gated: these change
+applied to the running gateway immediately. Operator-gated: these change
 how the gateway meters and lists models.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().

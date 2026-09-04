@@ -22,18 +22,18 @@ var _ MappedNullable = &CountTokensRequest{}
 // CountTokensRequest Anthropic “/v1/messages/count_tokens“ request.  A subset of :class:`MessagesRequest`: the input fields that affect the token count, minus “max_tokens“ and the streaming/sampling controls, since the endpoint only counts input tokens. “context_management“ and “betas“ are accepted for wire compatibility, but the local estimate does not apply provider-side context edits. Clients such as Claude Code call this on every turn to keep their prompt within the model's context window.
 type CountTokensRequest struct {
 	Betas []string `json:"betas,omitempty"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	CacheControl map[string]interface{} `json:"cache_control,omitempty"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	ContextManagement map[string]interface{}    `json:"context_management,omitempty"`
 	Messages          []*map[string]interface{} `json:"messages"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	Metadata map[string]interface{} `json:"metadata,omitempty"`
 	Model    string                 `json:"model"`
 	System   NullableSystem         `json:"system,omitempty"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	Thinking map[string]interface{} `json:"thinking,omitempty"`
-	// An unsaved policy body to explain.
+	// Provider-native request fields used as defaults (e.g. exa's 'type', searxng's 'engines').
 	ToolChoice map[string]interface{}   `json:"tool_choice,omitempty"`
 	Tools      []map[string]interface{} `json:"tools,omitempty"`
 }

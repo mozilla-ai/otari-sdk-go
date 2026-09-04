@@ -6,22 +6,23 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **string** |  | 
 **Container** | Pointer to [**NullableMRBetaContainer**](MRBetaContainer.md) |  | [optional] 
-**Content** | [**[]Content16Inner**](Content16Inner.md) |  | 
+**Content** | [**[]Content17Inner**](Content17Inner.md) |  | 
 **Model** | [**Model1**](Model1.md) |  | 
 **Role** | **string** |  | 
 **StopDetails** | Pointer to [**NullableMRRefusalStopDetails**](MRRefusalStopDetails.md) |  | [optional] 
 **StopReason** | Pointer to **NullableString** |  | [optional] 
-**StopSequence** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
+**StopSequence** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Type** | **string** |  | 
 **Usage** | [**MRMessageUsage**](MRMessageUsage.md) |  | 
+**RequestId** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **ContextManagement** | Pointer to [**NullableMRBetaContextManagementResponse**](MRBetaContextManagementResponse.md) |  | [optional] 
-**Diagnostics** | Pointer to [**NullableMRBetaDiagnosticsFallback**](MRBetaDiagnosticsFallback.md) |  | [optional] 
+**Diagnostics** | Pointer to [**NullableMRBetaDiagnostics**](MRBetaDiagnostics.md) |  | [optional] 
 
 ## Methods
 
 ### NewMessageResponse
 
-`func NewMessageResponse(id string, content []Content16Inner, model Model1, role string, type_ string, usage MRMessageUsage, ) *MessageResponse`
+`func NewMessageResponse(id string, content []Content17Inner, model Model1, role string, type_ string, usage MRMessageUsage, ) *MessageResponse`
 
 NewMessageResponse instantiates a new MessageResponse object
 This constructor will assign default values to properties that have it defined,
@@ -93,20 +94,20 @@ HasContainer returns a boolean if a field has been set.
 UnsetContainer ensures that no value is present for Container, not even an explicit nil
 ### GetContent
 
-`func (o *MessageResponse) GetContent() []Content16Inner`
+`func (o *MessageResponse) GetContent() []Content17Inner`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *MessageResponse) GetContentOk() (*[]Content16Inner, bool)`
+`func (o *MessageResponse) GetContentOk() (*[]Content17Inner, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *MessageResponse) SetContent(v []Content16Inner)`
+`func (o *MessageResponse) SetContent(v []Content17Inner)`
 
 SetContent sets Content field to given value.
 
@@ -296,6 +297,41 @@ and a boolean to check if the value has been set.
 SetUsage sets Usage field to given value.
 
 
+### GetRequestId
+
+`func (o *MessageResponse) GetRequestId() string`
+
+GetRequestId returns the RequestId field if non-nil, zero value otherwise.
+
+### GetRequestIdOk
+
+`func (o *MessageResponse) GetRequestIdOk() (*string, bool)`
+
+GetRequestIdOk returns a tuple with the RequestId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRequestId
+
+`func (o *MessageResponse) SetRequestId(v string)`
+
+SetRequestId sets RequestId field to given value.
+
+### HasRequestId
+
+`func (o *MessageResponse) HasRequestId() bool`
+
+HasRequestId returns a boolean if a field has been set.
+
+### SetRequestIdNil
+
+`func (o *MessageResponse) SetRequestIdNil(b bool)`
+
+ SetRequestIdNil sets the value for RequestId to be an explicit nil
+
+### UnsetRequestId
+`func (o *MessageResponse) UnsetRequestId()`
+
+UnsetRequestId ensures that no value is present for RequestId, not even an explicit nil
 ### GetContextManagement
 
 `func (o *MessageResponse) GetContextManagement() MRBetaContextManagementResponse`
@@ -333,20 +369,20 @@ HasContextManagement returns a boolean if a field has been set.
 UnsetContextManagement ensures that no value is present for ContextManagement, not even an explicit nil
 ### GetDiagnostics
 
-`func (o *MessageResponse) GetDiagnostics() MRBetaDiagnosticsFallback`
+`func (o *MessageResponse) GetDiagnostics() MRBetaDiagnostics`
 
 GetDiagnostics returns the Diagnostics field if non-nil, zero value otherwise.
 
 ### GetDiagnosticsOk
 
-`func (o *MessageResponse) GetDiagnosticsOk() (*MRBetaDiagnosticsFallback, bool)`
+`func (o *MessageResponse) GetDiagnosticsOk() (*MRBetaDiagnostics, bool)`
 
 GetDiagnosticsOk returns a tuple with the Diagnostics field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDiagnostics
 
-`func (o *MessageResponse) SetDiagnostics(v MRBetaDiagnosticsFallback)`
+`func (o *MessageResponse) SetDiagnostics(v MRBetaDiagnostics)`
 
 SetDiagnostics sets Diagnostics field to given value.
 

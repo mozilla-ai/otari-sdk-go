@@ -5,14 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Betas** | Pointer to **[]string** |  | [optional] 
-**CacheControl** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
-**ContextManagement** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**CacheControl** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**ContextManagement** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
 **Messages** | **[]map[string]interface{}** |  | 
-**Metadata** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**Metadata** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
 **Model** | **string** |  | 
 **System** | Pointer to [**NullableSystem**](System.md) |  | [optional] 
-**Thinking** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
-**ToolChoice** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**Thinking** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**ToolChoice** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
 **Tools** | Pointer to **[]map[string]interface{}** |  | [optional] 
 
 ## Methods

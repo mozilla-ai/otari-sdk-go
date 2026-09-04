@@ -149,6 +149,147 @@ func (a *OtelAPIService) ReceiveLogsV1LogsPostExecute(r ApiReceiveLogsV1LogsPost
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiReceiveMetricsV1MetricsPostRequest struct {
+	ctx        context.Context
+	ApiService *OtelAPIService
+}
+
+func (r ApiReceiveMetricsV1MetricsPostRequest) Execute() (interface{}, *http.Response, error) {
+	return r.ApiService.ReceiveMetricsV1MetricsPostExecute(r)
+}
+
+/*
+ReceiveMetricsV1MetricsPost Receive Metrics
+
+Ingest content-free coding-agent outcome metrics from OTLP metric points.
+
+Records the outcome counters a coding agent reports on the metrics signal and
+that Otari has no other source for: lines of code changed, commits, pull
+requests, and active time. Points are stored exactly as reported, with their
+OTLP series identity, so a cumulative counter is turned into an increment at
+read time rather than re-counted on every export. Metrics that duplicate an
+already-recorded signal (token/cost usage, already billed; edit decisions,
+already captured as behavioral events) are skipped, as is any metric name this
+gateway does not know, so a newer agent version never breaks reception.
+
+Outcome metrics are never billable: they touch no budget and no spend. Capture
+answers to the same “capture_agent_telemetry“ toggle as behavioral events;
+with it off, the export still succeeds and simply stores nothing.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiReceiveMetricsV1MetricsPostRequest
+*/
+func (a *OtelAPIService) ReceiveMetricsV1MetricsPost(ctx context.Context) ApiReceiveMetricsV1MetricsPostRequest {
+	return ApiReceiveMetricsV1MetricsPostRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return interface{}
+func (a *OtelAPIService) ReceiveMetricsV1MetricsPostExecute(r ApiReceiveMetricsV1MetricsPostRequest) (interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OtelAPIService.ReceiveMetricsV1MetricsPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/metrics"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["XApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Otari-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiReceiveTracesV1TracesPostRequest struct {
 	ctx        context.Context
 	ApiService *OtelAPIService

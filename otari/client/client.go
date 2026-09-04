@@ -48,6 +48,10 @@ type APIClient struct {
 
 	// API Services
 
+	AdminAPI *AdminAPIService
+
+	AgentTelemetryAPI *AgentTelemetryAPIService
+
 	AliasesAPI *AliasesAPIService
 
 	AudioAPI *AudioAPIService
@@ -55,6 +59,8 @@ type APIClient struct {
 	AuthAPI *AuthAPIService
 
 	BatchesAPI *BatchesAPIService
+
+	BootstrapAPI *BootstrapAPIService
 
 	BudgetsAPI *BudgetsAPIService
 
@@ -68,7 +74,11 @@ type APIClient struct {
 
 	ImagesAPI *ImagesAPIService
 
+	InvitationsAPI *InvitationsAPIService
+
 	KeysAPI *KeysAPIService
+
+	McpServersAPI *McpServersAPIService
 
 	MessagesAPI *MessagesAPIService
 
@@ -76,9 +86,23 @@ type APIClient struct {
 
 	ModerationsAPI *ModerationsAPIService
 
+	OrganizationBudgetsAPI *OrganizationBudgetsAPIService
+
+	OrganizationGuardrailsAPI *OrganizationGuardrailsAPIService
+
+	OrganizationKeysAPI *OrganizationKeysAPIService
+
+	OrganizationPricingAPI *OrganizationPricingAPIService
+
+	OrganizationUsageAPI *OrganizationUsageAPIService
+
+	OrganizationsAPI *OrganizationsAPIService
+
 	OtelAPI *OtelAPIService
 
 	PricingAPI *PricingAPIService
+
+	ProviderKeysAPI *ProviderKeysAPIService
 
 	ProvidersAPI *ProvidersAPIService
 
@@ -88,7 +112,11 @@ type APIClient struct {
 
 	RoutingAPI *RoutingAPIService
 
+	ScopedBudgetsAPI *ScopedBudgetsAPIService
+
 	SearchAPI *SearchAPIService
+
+	SearchToolsAPI *SearchToolsAPIService
 
 	SettingsAPI *SettingsAPIService
 
@@ -99,6 +127,18 @@ type APIClient struct {
 	UsageAPI *UsageAPIService
 
 	UsersAPI *UsersAPIService
+
+	WebSearchAPI *WebSearchAPIService
+
+	WorkspaceActivationAPI *WorkspaceActivationAPIService
+
+	WorkspaceCodeExecutionPolicyAPI *WorkspaceCodeExecutionPolicyAPIService
+
+	WorkspaceMemberBudgetPoliciesAPI *WorkspaceMemberBudgetPoliciesAPIService
+
+	WorkspaceWebSearchAPI *WorkspaceWebSearchAPIService
+
+	WorkspacesAPI *WorkspacesAPIService
 }
 
 type service struct {
@@ -117,32 +157,52 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
+	c.AdminAPI = (*AdminAPIService)(&c.common)
+	c.AgentTelemetryAPI = (*AgentTelemetryAPIService)(&c.common)
 	c.AliasesAPI = (*AliasesAPIService)(&c.common)
 	c.AudioAPI = (*AudioAPIService)(&c.common)
 	c.AuthAPI = (*AuthAPIService)(&c.common)
 	c.BatchesAPI = (*BatchesAPIService)(&c.common)
+	c.BootstrapAPI = (*BootstrapAPIService)(&c.common)
 	c.BudgetsAPI = (*BudgetsAPIService)(&c.common)
 	c.ChatAPI = (*ChatAPIService)(&c.common)
 	c.EmbeddingsAPI = (*EmbeddingsAPIService)(&c.common)
 	c.FilesAPI = (*FilesAPIService)(&c.common)
 	c.HealthAPI = (*HealthAPIService)(&c.common)
 	c.ImagesAPI = (*ImagesAPIService)(&c.common)
+	c.InvitationsAPI = (*InvitationsAPIService)(&c.common)
 	c.KeysAPI = (*KeysAPIService)(&c.common)
+	c.McpServersAPI = (*McpServersAPIService)(&c.common)
 	c.MessagesAPI = (*MessagesAPIService)(&c.common)
 	c.ModelsAPI = (*ModelsAPIService)(&c.common)
 	c.ModerationsAPI = (*ModerationsAPIService)(&c.common)
+	c.OrganizationBudgetsAPI = (*OrganizationBudgetsAPIService)(&c.common)
+	c.OrganizationGuardrailsAPI = (*OrganizationGuardrailsAPIService)(&c.common)
+	c.OrganizationKeysAPI = (*OrganizationKeysAPIService)(&c.common)
+	c.OrganizationPricingAPI = (*OrganizationPricingAPIService)(&c.common)
+	c.OrganizationUsageAPI = (*OrganizationUsageAPIService)(&c.common)
+	c.OrganizationsAPI = (*OrganizationsAPIService)(&c.common)
 	c.OtelAPI = (*OtelAPIService)(&c.common)
 	c.PricingAPI = (*PricingAPIService)(&c.common)
+	c.ProviderKeysAPI = (*ProviderKeysAPIService)(&c.common)
 	c.ProvidersAPI = (*ProvidersAPIService)(&c.common)
 	c.RerankAPI = (*RerankAPIService)(&c.common)
 	c.ResponsesAPI = (*ResponsesAPIService)(&c.common)
 	c.RoutingAPI = (*RoutingAPIService)(&c.common)
+	c.ScopedBudgetsAPI = (*ScopedBudgetsAPIService)(&c.common)
 	c.SearchAPI = (*SearchAPIService)(&c.common)
+	c.SearchToolsAPI = (*SearchToolsAPIService)(&c.common)
 	c.SettingsAPI = (*SettingsAPIService)(&c.common)
 	c.ToolSettingsAPI = (*ToolSettingsAPIService)(&c.common)
 	c.ToolsAPI = (*ToolsAPIService)(&c.common)
 	c.UsageAPI = (*UsageAPIService)(&c.common)
 	c.UsersAPI = (*UsersAPIService)(&c.common)
+	c.WebSearchAPI = (*WebSearchAPIService)(&c.common)
+	c.WorkspaceActivationAPI = (*WorkspaceActivationAPIService)(&c.common)
+	c.WorkspaceCodeExecutionPolicyAPI = (*WorkspaceCodeExecutionPolicyAPIService)(&c.common)
+	c.WorkspaceMemberBudgetPoliciesAPI = (*WorkspaceMemberBudgetPoliciesAPIService)(&c.common)
+	c.WorkspaceWebSearchAPI = (*WorkspaceWebSearchAPIService)(&c.common)
+	c.WorkspacesAPI = (*WorkspacesAPIService)(&c.common)
 
 	return c
 }

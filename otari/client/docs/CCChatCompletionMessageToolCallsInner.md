@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **Function** | [**CCFunction**](CCFunction.md) |  | 
 **Type** | **string** |  | 
+**ExtraContent** | Pointer to **map[string]interface{}** |  | [optional] 
 **Custom** | [**CCCustom**](CCCustom.md) |  | 
 
 ## Methods
@@ -87,6 +88,31 @@ and a boolean to check if the value has been set.
 
 SetType sets Type field to given value.
 
+
+### GetExtraContent
+
+`func (o *CCChatCompletionMessageToolCallsInner) GetExtraContent() map[string]interface{}`
+
+GetExtraContent returns the ExtraContent field if non-nil, zero value otherwise.
+
+### GetExtraContentOk
+
+`func (o *CCChatCompletionMessageToolCallsInner) GetExtraContentOk() (*map[string]interface{}, bool)`
+
+GetExtraContentOk returns a tuple with the ExtraContent field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExtraContent
+
+`func (o *CCChatCompletionMessageToolCallsInner) SetExtraContent(v map[string]interface{})`
+
+SetExtraContent sets ExtraContent field to given value.
+
+### HasExtraContent
+
+`func (o *CCChatCompletionMessageToolCallsInner) HasExtraContent() bool`
+
+HasExtraContent returns a boolean if a field has been set.
 
 ### GetCustom
 

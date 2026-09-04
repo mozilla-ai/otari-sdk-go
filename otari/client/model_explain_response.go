@@ -21,12 +21,16 @@ var _ MappedNullable = &ExplainResponse{}
 
 // ExplainResponse The plan a policy compiles to for the given inputs.
 type ExplainResponse struct {
-	Candidates      []CandidateResponse       `json:"candidates"`
-	Dropped         []DroppedResponse         `json:"dropped"`
-	Guardrails      []*map[string]interface{} `json:"guardrails"`
-	IsDynamic       bool                      `json:"is_dynamic"`
-	Name            string                    `json:"name"`
-	SelectionReason string                    `json:"selection_reason"`
+	Candidates       []CandidateResponse       `json:"candidates"`
+	Dropped          []DroppedResponse         `json:"dropped"`
+	Guardrails       []*map[string]interface{} `json:"guardrails"`
+	IsDynamic        bool                      `json:"is_dynamic"`
+	Name             string                    `json:"name"`
+	RouterBackend    NullableString            `json:"router_backend,omitempty"`
+	RouterCandidates []string                  `json:"router_candidates,omitempty"`
+	// For a weighted policy, the percentage of traffic each candidate receives, normalized over the candidates this caller may use. Empty for every other policy, and for a weighted policy whose whole split this caller may not use: a split over no candidate is not a split, and each filtered candidate is named in `dropped` instead. A weighted split needs no request state, so unlike a learned router's ranking it is knowable here: the plan above is the real ordering by share, not the decline path.
+	RouterWeights   map[string]float32 `json:"router_weights,omitempty"`
+	SelectionReason string             `json:"selection_reason"`
 }
 
 type _ExplainResponse ExplainResponse
@@ -174,6 +178,113 @@ func (o *ExplainResponse) SetName(v string) {
 	o.Name = v
 }
 
+// GetRouterBackend returns the RouterBackend field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ExplainResponse) GetRouterBackend() string {
+	if o == nil || IsNil(o.RouterBackend.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.RouterBackend.Get()
+}
+
+// GetRouterBackendOk returns a tuple with the RouterBackend field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ExplainResponse) GetRouterBackendOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RouterBackend.Get(), o.RouterBackend.IsSet()
+}
+
+// HasRouterBackend returns a boolean if a field has been set.
+func (o *ExplainResponse) HasRouterBackend() bool {
+	if o != nil && o.RouterBackend.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRouterBackend gets a reference to the given NullableString and assigns it to the RouterBackend field.
+func (o *ExplainResponse) SetRouterBackend(v string) {
+	o.RouterBackend.Set(&v)
+}
+
+// SetRouterBackendNil sets the value for RouterBackend to be an explicit nil
+func (o *ExplainResponse) SetRouterBackendNil() {
+	o.RouterBackend.Set(nil)
+}
+
+// UnsetRouterBackend ensures that no value is present for RouterBackend, not even an explicit nil
+func (o *ExplainResponse) UnsetRouterBackend() {
+	o.RouterBackend.Unset()
+}
+
+// GetRouterCandidates returns the RouterCandidates field value if set, zero value otherwise.
+func (o *ExplainResponse) GetRouterCandidates() []string {
+	if o == nil || IsNil(o.RouterCandidates) {
+		var ret []string
+		return ret
+	}
+	return o.RouterCandidates
+}
+
+// GetRouterCandidatesOk returns a tuple with the RouterCandidates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ExplainResponse) GetRouterCandidatesOk() ([]string, bool) {
+	if o == nil || IsNil(o.RouterCandidates) {
+		return nil, false
+	}
+	return o.RouterCandidates, true
+}
+
+// HasRouterCandidates returns a boolean if a field has been set.
+func (o *ExplainResponse) HasRouterCandidates() bool {
+	if o != nil && !IsNil(o.RouterCandidates) {
+		return true
+	}
+
+	return false
+}
+
+// SetRouterCandidates gets a reference to the given []string and assigns it to the RouterCandidates field.
+func (o *ExplainResponse) SetRouterCandidates(v []string) {
+	o.RouterCandidates = v
+}
+
+// GetRouterWeights returns the RouterWeights field value if set, zero value otherwise.
+func (o *ExplainResponse) GetRouterWeights() map[string]float32 {
+	if o == nil || IsNil(o.RouterWeights) {
+		var ret map[string]float32
+		return ret
+	}
+	return o.RouterWeights
+}
+
+// GetRouterWeightsOk returns a tuple with the RouterWeights field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ExplainResponse) GetRouterWeightsOk() (map[string]float32, bool) {
+	if o == nil || IsNil(o.RouterWeights) {
+		return map[string]float32{}, false
+	}
+	return o.RouterWeights, true
+}
+
+// HasRouterWeights returns a boolean if a field has been set.
+func (o *ExplainResponse) HasRouterWeights() bool {
+	if o != nil && !IsNil(o.RouterWeights) {
+		return true
+	}
+
+	return false
+}
+
+// SetRouterWeights gets a reference to the given map[string]float32 and assigns it to the RouterWeights field.
+func (o *ExplainResponse) SetRouterWeights(v map[string]float32) {
+	o.RouterWeights = v
+}
+
 // GetSelectionReason returns the SelectionReason field value
 func (o *ExplainResponse) GetSelectionReason() string {
 	if o == nil {
@@ -213,6 +324,15 @@ func (o ExplainResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["guardrails"] = o.Guardrails
 	toSerialize["is_dynamic"] = o.IsDynamic
 	toSerialize["name"] = o.Name
+	if o.RouterBackend.IsSet() {
+		toSerialize["router_backend"] = o.RouterBackend.Get()
+	}
+	if !IsNil(o.RouterCandidates) {
+		toSerialize["router_candidates"] = o.RouterCandidates
+	}
+	if !IsNil(o.RouterWeights) {
+		toSerialize["router_weights"] = o.RouterWeights
+	}
 	toSerialize["selection_reason"] = o.SelectionReason
 	return toSerialize, nil
 }
