@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetModelV1ModelsModelIdGet**](ModelsAPI.md#GetModelV1ModelsModelIdGet) | **Get** /v1/models/{model_id} | Get Model
-[**ListDiscoverableModelsV1ModelsDiscoverableGet**](ModelsAPI.md#ListDiscoverableModelsV1ModelsDiscoverableGet) | **Get** /v1/models/discoverable | List Discoverable Models
-[**ListModelMetadataV1ModelsMetadataGet**](ModelsAPI.md#ListModelMetadataV1ModelsMetadataGet) | **Get** /v1/models/metadata | List Model Metadata
-[**ListModelsV1ModelsGet**](ModelsAPI.md#ListModelsV1ModelsGet) | **Get** /v1/models | List Models
+[**ModelsGetModel**](ModelsAPI.md#ModelsGetModel) | **Get** /api/v1/models/{model_id} | Get Model
+[**ModelsListDiscoverableModels**](ModelsAPI.md#ModelsListDiscoverableModels) | **Get** /api/v1/models/discoverable | List Discoverable Models
+[**ModelsListModelMetadata**](ModelsAPI.md#ModelsListModelMetadata) | **Get** /api/v1/models/metadata | List Model Metadata
+[**ModelsListModels**](ModelsAPI.md#ModelsListModels) | **Get** /api/v1/models | List Models
 
 
 
-## GetModelV1ModelsModelIdGet
+## ModelsGetModel
 
-> ModelObject GetModelV1ModelsModelIdGet(ctx, modelId).Execute()
+> ModelObject ModelsGetModel(ctx, modelId).Execute()
 
 Get Model
 
@@ -36,13 +36,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ModelsAPI.GetModelV1ModelsModelIdGet(context.Background(), modelId).Execute()
+	resp, r, err := apiClient.ModelsAPI.ModelsGetModel(context.Background(), modelId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ModelsAPI.GetModelV1ModelsModelIdGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ModelsAPI.ModelsGetModel``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetModelV1ModelsModelIdGet`: ModelObject
-	fmt.Fprintf(os.Stdout, "Response from `ModelsAPI.GetModelV1ModelsModelIdGet`: %v\n", resp)
+	// response from `ModelsGetModel`: ModelObject
+	fmt.Fprintf(os.Stdout, "Response from `ModelsAPI.ModelsGetModel`: %v\n", resp)
 }
 ```
 
@@ -56,7 +56,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetModelV1ModelsModelIdGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiModelsGetModelRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -81,9 +81,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ListDiscoverableModelsV1ModelsDiscoverableGet
+## ModelsListDiscoverableModels
 
-> DiscoverableModelsResponse ListDiscoverableModelsV1ModelsDiscoverableGet(ctx).Execute()
+> DiscoverableModelsResponse ModelsListDiscoverableModels(ctx).Refresh(refresh).Execute()
 
 List Discoverable Models
 
@@ -102,27 +102,32 @@ import (
 )
 
 func main() {
+	refresh := true // bool | Re-dial every provider instead of answering from the discovery cache. (optional) (default to false)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ModelsAPI.ListDiscoverableModelsV1ModelsDiscoverableGet(context.Background()).Execute()
+	resp, r, err := apiClient.ModelsAPI.ModelsListDiscoverableModels(context.Background()).Refresh(refresh).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ModelsAPI.ListDiscoverableModelsV1ModelsDiscoverableGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ModelsAPI.ModelsListDiscoverableModels``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListDiscoverableModelsV1ModelsDiscoverableGet`: DiscoverableModelsResponse
-	fmt.Fprintf(os.Stdout, "Response from `ModelsAPI.ListDiscoverableModelsV1ModelsDiscoverableGet`: %v\n", resp)
+	// response from `ModelsListDiscoverableModels`: DiscoverableModelsResponse
+	fmt.Fprintf(os.Stdout, "Response from `ModelsAPI.ModelsListDiscoverableModels`: %v\n", resp)
 }
 ```
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiListDiscoverableModelsV1ModelsDiscoverableGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiModelsListDiscoverableModelsRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **refresh** | **bool** | Re-dial every provider instead of answering from the discovery cache. | [default to false]
 
 ### Return type
 
@@ -142,9 +147,9 @@ Other parameters are passed through a pointer to a apiListDiscoverableModelsV1Mo
 [[Back to README]](../README.md)
 
 
-## ListModelMetadataV1ModelsMetadataGet
+## ModelsListModelMetadata
 
-> ModelMetadataResponse ListModelMetadataV1ModelsMetadataGet(ctx).Execute()
+> ModelMetadataResponse ModelsListModelMetadata(ctx).Execute()
 
 List Model Metadata
 
@@ -166,13 +171,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ModelsAPI.ListModelMetadataV1ModelsMetadataGet(context.Background()).Execute()
+	resp, r, err := apiClient.ModelsAPI.ModelsListModelMetadata(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ModelsAPI.ListModelMetadataV1ModelsMetadataGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ModelsAPI.ModelsListModelMetadata``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListModelMetadataV1ModelsMetadataGet`: ModelMetadataResponse
-	fmt.Fprintf(os.Stdout, "Response from `ModelsAPI.ListModelMetadataV1ModelsMetadataGet`: %v\n", resp)
+	// response from `ModelsListModelMetadata`: ModelMetadataResponse
+	fmt.Fprintf(os.Stdout, "Response from `ModelsAPI.ModelsListModelMetadata`: %v\n", resp)
 }
 ```
 
@@ -182,7 +187,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiListModelMetadataV1ModelsMetadataGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiModelsListModelMetadataRequest struct via the builder pattern
 
 
 ### Return type
@@ -203,9 +208,9 @@ Other parameters are passed through a pointer to a apiListModelMetadataV1ModelsM
 [[Back to README]](../README.md)
 
 
-## ListModelsV1ModelsGet
+## ModelsListModels
 
-> ModelListResponse ListModelsV1ModelsGet(ctx).Provider(provider).Execute()
+> ModelListResponse ModelsListModels(ctx).Provider(provider).Execute()
 
 List Models
 
@@ -228,13 +233,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ModelsAPI.ListModelsV1ModelsGet(context.Background()).Provider(provider).Execute()
+	resp, r, err := apiClient.ModelsAPI.ModelsListModels(context.Background()).Provider(provider).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ModelsAPI.ListModelsV1ModelsGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ModelsAPI.ModelsListModels``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListModelsV1ModelsGet`: ModelListResponse
-	fmt.Fprintf(os.Stdout, "Response from `ModelsAPI.ListModelsV1ModelsGet`: %v\n", resp)
+	// response from `ModelsListModels`: ModelListResponse
+	fmt.Fprintf(os.Stdout, "Response from `ModelsAPI.ModelsListModels`: %v\n", resp)
 }
 ```
 
@@ -244,7 +249,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiListModelsV1ModelsGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiModelsListModelsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

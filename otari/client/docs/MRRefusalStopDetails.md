@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Category** | Pointer to **NullableString** |  | [optional] 
-**Explanation** | Pointer to **NullableString** | Delete the alias scoped to this user. Omit to delete the global alias of that name. | [optional] 
+**Explanation** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Type** | **string** |  | 
 
 ## Methods

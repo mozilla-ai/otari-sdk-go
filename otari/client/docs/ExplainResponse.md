@@ -9,6 +9,9 @@ Name | Type | Description | Notes
 **Guardrails** | **[]map[string]interface{}** |  | 
 **IsDynamic** | **bool** |  | 
 **Name** | **string** |  | 
+**RouterBackend** | Pointer to **NullableString** |  | [optional] 
+**RouterCandidates** | Pointer to **[]string** |  | [optional] 
+**RouterWeights** | Pointer to **map[string]float32** | For a weighted policy, the percentage of traffic each candidate receives, normalized over the candidates this caller may use. Empty for every other policy, and for a weighted policy whose whole split this caller may not use: a split over no candidate is not a split, and each filtered candidate is named in &#x60;dropped&#x60; instead. A weighted split needs no request state, so unlike a learned router&#39;s ranking it is knowable here: the plan above is the real ordering by share, not the decline path. | [optional] 
 **SelectionReason** | **string** |  | 
 
 ## Methods
@@ -129,6 +132,91 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+
+### GetRouterBackend
+
+`func (o *ExplainResponse) GetRouterBackend() string`
+
+GetRouterBackend returns the RouterBackend field if non-nil, zero value otherwise.
+
+### GetRouterBackendOk
+
+`func (o *ExplainResponse) GetRouterBackendOk() (*string, bool)`
+
+GetRouterBackendOk returns a tuple with the RouterBackend field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRouterBackend
+
+`func (o *ExplainResponse) SetRouterBackend(v string)`
+
+SetRouterBackend sets RouterBackend field to given value.
+
+### HasRouterBackend
+
+`func (o *ExplainResponse) HasRouterBackend() bool`
+
+HasRouterBackend returns a boolean if a field has been set.
+
+### SetRouterBackendNil
+
+`func (o *ExplainResponse) SetRouterBackendNil(b bool)`
+
+ SetRouterBackendNil sets the value for RouterBackend to be an explicit nil
+
+### UnsetRouterBackend
+`func (o *ExplainResponse) UnsetRouterBackend()`
+
+UnsetRouterBackend ensures that no value is present for RouterBackend, not even an explicit nil
+### GetRouterCandidates
+
+`func (o *ExplainResponse) GetRouterCandidates() []string`
+
+GetRouterCandidates returns the RouterCandidates field if non-nil, zero value otherwise.
+
+### GetRouterCandidatesOk
+
+`func (o *ExplainResponse) GetRouterCandidatesOk() (*[]string, bool)`
+
+GetRouterCandidatesOk returns a tuple with the RouterCandidates field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRouterCandidates
+
+`func (o *ExplainResponse) SetRouterCandidates(v []string)`
+
+SetRouterCandidates sets RouterCandidates field to given value.
+
+### HasRouterCandidates
+
+`func (o *ExplainResponse) HasRouterCandidates() bool`
+
+HasRouterCandidates returns a boolean if a field has been set.
+
+### GetRouterWeights
+
+`func (o *ExplainResponse) GetRouterWeights() map[string]float32`
+
+GetRouterWeights returns the RouterWeights field if non-nil, zero value otherwise.
+
+### GetRouterWeightsOk
+
+`func (o *ExplainResponse) GetRouterWeightsOk() (*map[string]float32, bool)`
+
+GetRouterWeightsOk returns a tuple with the RouterWeights field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRouterWeights
+
+`func (o *ExplainResponse) SetRouterWeights(v map[string]float32)`
+
+SetRouterWeights sets RouterWeights field to given value.
+
+### HasRouterWeights
+
+`func (o *ExplainResponse) HasRouterWeights() bool`
+
+HasRouterWeights returns a boolean if a field has been set.
 
 ### GetSelectionReason
 

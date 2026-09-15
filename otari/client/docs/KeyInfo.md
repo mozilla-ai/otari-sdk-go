@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | **[]string** |  | 
+**CaptureAgentTelemetry** | **NullableBool** |  | 
 **CreatedAt** | **string** |  | 
 **ExcludeFromBudget** | **bool** |  | 
 **ExpiresAt** | **NullableString** |  | 
@@ -12,16 +13,18 @@ Name | Type | Description | Notes
 **IsActive** | **bool** |  | 
 **KeyName** | **NullableString** |  | 
 **KeyPrefix** | **NullableString** |  | 
+**KeySuffix** | **NullableString** |  | 
 **LastUsedAt** | **NullableString** |  | 
 **Metadata** | **map[string]interface{}** |  | 
 **RejectUserMismatch** | **NullableBool** |  | 
 **UserId** | **NullableString** |  | 
+**WorkspaceId** | **string** |  | 
 
 ## Methods
 
 ### NewKeyInfo
 
-`func NewKeyInfo(allowedModels []string, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, keyName NullableString, keyPrefix NullableString, lastUsedAt NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, ) *KeyInfo`
+`func NewKeyInfo(allowedModels []string, captureAgentTelemetry NullableBool, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, keyName NullableString, keyPrefix NullableString, keySuffix NullableString, lastUsedAt NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, workspaceId string, ) *KeyInfo`
 
 NewKeyInfo instantiates a new KeyInfo object
 This constructor will assign default values to properties that have it defined,
@@ -66,6 +69,36 @@ SetAllowedModels sets AllowedModels field to given value.
 `func (o *KeyInfo) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetCaptureAgentTelemetry
+
+`func (o *KeyInfo) GetCaptureAgentTelemetry() bool`
+
+GetCaptureAgentTelemetry returns the CaptureAgentTelemetry field if non-nil, zero value otherwise.
+
+### GetCaptureAgentTelemetryOk
+
+`func (o *KeyInfo) GetCaptureAgentTelemetryOk() (*bool, bool)`
+
+GetCaptureAgentTelemetryOk returns a tuple with the CaptureAgentTelemetry field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCaptureAgentTelemetry
+
+`func (o *KeyInfo) SetCaptureAgentTelemetry(v bool)`
+
+SetCaptureAgentTelemetry sets CaptureAgentTelemetry field to given value.
+
+
+### SetCaptureAgentTelemetryNil
+
+`func (o *KeyInfo) SetCaptureAgentTelemetryNil(b bool)`
+
+ SetCaptureAgentTelemetryNil sets the value for CaptureAgentTelemetry to be an explicit nil
+
+### UnsetCaptureAgentTelemetry
+`func (o *KeyInfo) UnsetCaptureAgentTelemetry()`
+
+UnsetCaptureAgentTelemetry ensures that no value is present for CaptureAgentTelemetry, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *KeyInfo) GetCreatedAt() string`
@@ -236,6 +269,36 @@ SetKeyPrefix sets KeyPrefix field to given value.
 `func (o *KeyInfo) UnsetKeyPrefix()`
 
 UnsetKeyPrefix ensures that no value is present for KeyPrefix, not even an explicit nil
+### GetKeySuffix
+
+`func (o *KeyInfo) GetKeySuffix() string`
+
+GetKeySuffix returns the KeySuffix field if non-nil, zero value otherwise.
+
+### GetKeySuffixOk
+
+`func (o *KeyInfo) GetKeySuffixOk() (*string, bool)`
+
+GetKeySuffixOk returns a tuple with the KeySuffix field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKeySuffix
+
+`func (o *KeyInfo) SetKeySuffix(v string)`
+
+SetKeySuffix sets KeySuffix field to given value.
+
+
+### SetKeySuffixNil
+
+`func (o *KeyInfo) SetKeySuffixNil(b bool)`
+
+ SetKeySuffixNil sets the value for KeySuffix to be an explicit nil
+
+### UnsetKeySuffix
+`func (o *KeyInfo) UnsetKeySuffix()`
+
+UnsetKeySuffix ensures that no value is present for KeySuffix, not even an explicit nil
 ### GetLastUsedAt
 
 `func (o *KeyInfo) GetLastUsedAt() string`
@@ -346,6 +409,26 @@ SetUserId sets UserId field to given value.
 `func (o *KeyInfo) UnsetUserId()`
 
 UnsetUserId ensures that no value is present for UserId, not even an explicit nil
+### GetWorkspaceId
+
+`func (o *KeyInfo) GetWorkspaceId() string`
+
+GetWorkspaceId returns the WorkspaceId field if non-nil, zero value otherwise.
+
+### GetWorkspaceIdOk
+
+`func (o *KeyInfo) GetWorkspaceIdOk() (*string, bool)`
+
+GetWorkspaceIdOk returns a tuple with the WorkspaceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkspaceId
+
+`func (o *KeyInfo) SetWorkspaceId(v string)`
+
+SetWorkspaceId sets WorkspaceId field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

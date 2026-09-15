@@ -6,7 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | Display name callers use as the model, e.g. &#39;fast-model&#39;. | 
 **Target** | **string** | Selector the alias resolves to, as &#39;provider:model&#39; or &#39;instance:model&#39;. | 
-**UserId** | Pointer to **NullableString** | User this alias belongs to. Omit for a global alias every caller sees. A user-scoped alias resolves only for that user and shadows a global one of the same name. | [optional] 
+**UserId** | Pointer to **NullableString** | User this alias belongs to. Omit for an alias every caller in the workspace sees. A user-scoped alias resolves only for that user and shadows the workspace-wide one of the same name. | [optional] 
+**WorkspaceId** | Pointer to **NullableString** | Workspace this alias belongs to. Omit for the deployment&#39;s default workspace. The alias resolves only for requests in that workspace, so two workspaces can each point the same name at a different model. | [optional] 
 
 ## Methods
 
@@ -102,6 +103,41 @@ HasUserId returns a boolean if a field has been set.
 `func (o *AliasRequest) UnsetUserId()`
 
 UnsetUserId ensures that no value is present for UserId, not even an explicit nil
+### GetWorkspaceId
+
+`func (o *AliasRequest) GetWorkspaceId() string`
+
+GetWorkspaceId returns the WorkspaceId field if non-nil, zero value otherwise.
+
+### GetWorkspaceIdOk
+
+`func (o *AliasRequest) GetWorkspaceIdOk() (*string, bool)`
+
+GetWorkspaceIdOk returns a tuple with the WorkspaceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkspaceId
+
+`func (o *AliasRequest) SetWorkspaceId(v string)`
+
+SetWorkspaceId sets WorkspaceId field to given value.
+
+### HasWorkspaceId
+
+`func (o *AliasRequest) HasWorkspaceId() bool`
+
+HasWorkspaceId returns a boolean if a field has been set.
+
+### SetWorkspaceIdNil
+
+`func (o *AliasRequest) SetWorkspaceIdNil(b bool)`
+
+ SetWorkspaceIdNil sets the value for WorkspaceId to be an explicit nil
+
+### UnsetWorkspaceId
+`func (o *AliasRequest) UnsetWorkspaceId()`
+
+UnsetWorkspaceId ensures that no value is present for WorkspaceId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

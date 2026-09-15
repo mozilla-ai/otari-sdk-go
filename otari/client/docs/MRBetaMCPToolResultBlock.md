@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Content** | [**Content6**](Content6.md) |  | 
+**Content** | [**Content7**](Content7.md) |  | 
 **IsError** | **bool** |  | 
 **ToolUseId** | **string** |  | 
 **Type** | **string** |  | 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMRBetaMCPToolResultBlock
 
-`func NewMRBetaMCPToolResultBlock(content Content6, isError bool, toolUseId string, type_ string, ) *MRBetaMCPToolResultBlock`
+`func NewMRBetaMCPToolResultBlock(content Content7, isError bool, toolUseId string, type_ string, ) *MRBetaMCPToolResultBlock`
 
 NewMRBetaMCPToolResultBlock instantiates a new MRBetaMCPToolResultBlock object
 This constructor will assign default values to properties that have it defined,
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetContent
 
-`func (o *MRBetaMCPToolResultBlock) GetContent() Content6`
+`func (o *MRBetaMCPToolResultBlock) GetContent() Content7`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *MRBetaMCPToolResultBlock) GetContentOk() (*Content6, bool)`
+`func (o *MRBetaMCPToolResultBlock) GetContentOk() (*Content7, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *MRBetaMCPToolResultBlock) SetContent(v Content6)`
+`func (o *MRBetaMCPToolResultBlock) SetContent(v Content7)`
 
 SetContent sets Content field to given value.
 

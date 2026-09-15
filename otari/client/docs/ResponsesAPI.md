@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateResponseV1ResponsesPost**](ResponsesAPI.md#CreateResponseV1ResponsesPost) | **Post** /v1/responses | Create Response
+[**ResponsesCreateResponse**](ResponsesAPI.md#ResponsesCreateResponse) | **Post** /api/v1/responses | Create Response
 
 
 
-## CreateResponseV1ResponsesPost
+## ResponsesCreateResponse
 
-> interface{} CreateResponseV1ResponsesPost(ctx).ResponsesRequest(responsesRequest).Execute()
+> interface{} ResponsesCreateResponse(ctx).ResponsesRequest(responsesRequest).Execute()
 
 Create Response
 
@@ -33,13 +33,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ResponsesAPI.CreateResponseV1ResponsesPost(context.Background()).ResponsesRequest(responsesRequest).Execute()
+	resp, r, err := apiClient.ResponsesAPI.ResponsesCreateResponse(context.Background()).ResponsesRequest(responsesRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ResponsesAPI.CreateResponseV1ResponsesPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ResponsesAPI.ResponsesCreateResponse``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateResponseV1ResponsesPost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `ResponsesAPI.CreateResponseV1ResponsesPost`: %v\n", resp)
+	// response from `ResponsesCreateResponse`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `ResponsesAPI.ResponsesCreateResponse`: %v\n", resp)
 }
 ```
 
@@ -49,7 +49,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateResponseV1ResponsesPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiResponsesCreateResponseRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateModerationV1ModerationsPost**](ModerationsAPI.md#CreateModerationV1ModerationsPost) | **Post** /v1/moderations | Create Moderation
+[**ModerationsCreateModeration**](ModerationsAPI.md#ModerationsCreateModeration) | **Post** /api/v1/moderations | Create Moderation
 
 
 
-## CreateModerationV1ModerationsPost
+## ModerationsCreateModeration
 
-> ModerationResponse CreateModerationV1ModerationsPost(ctx).ModerationRequest(moderationRequest).IncludeRaw(includeRaw).Execute()
+> ModerationResponse ModerationsCreateModeration(ctx).ModerationRequest(moderationRequest).IncludeRaw(includeRaw).Execute()
 
 Create Moderation
 
@@ -34,13 +34,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ModerationsAPI.CreateModerationV1ModerationsPost(context.Background()).ModerationRequest(moderationRequest).IncludeRaw(includeRaw).Execute()
+	resp, r, err := apiClient.ModerationsAPI.ModerationsCreateModeration(context.Background()).ModerationRequest(moderationRequest).IncludeRaw(includeRaw).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ModerationsAPI.CreateModerationV1ModerationsPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ModerationsAPI.ModerationsCreateModeration``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateModerationV1ModerationsPost`: ModerationResponse
-	fmt.Fprintf(os.Stdout, "Response from `ModerationsAPI.CreateModerationV1ModerationsPost`: %v\n", resp)
+	// response from `ModerationsCreateModeration`: ModerationResponse
+	fmt.Fprintf(os.Stdout, "Response from `ModerationsAPI.ModerationsCreateModeration`: %v\n", resp)
 }
 ```
 
@@ -50,7 +50,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateModerationV1ModerationsPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiModerationsCreateModerationRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

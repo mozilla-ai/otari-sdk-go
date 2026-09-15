@@ -4,15 +4,17 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetToolSettingsV1ToolSettingsGet**](ToolSettingsAPI.md#GetToolSettingsV1ToolSettingsGet) | **Get** /v1/tool-settings | Get Tool Settings
-[**TestServiceV1ToolSettingsServiceTestPost**](ToolSettingsAPI.md#TestServiceV1ToolSettingsServiceTestPost) | **Post** /v1/tool-settings/{service}/test | Test Service
-[**UpdateToolSettingsV1ToolSettingsPatch**](ToolSettingsAPI.md#UpdateToolSettingsV1ToolSettingsPatch) | **Patch** /v1/tool-settings | Update Tool Settings
+[**ToolSettingsGetToolSettings**](ToolSettingsAPI.md#ToolSettingsGetToolSettings) | **Get** /api/v1/tool-settings | Get Tool Settings
+[**ToolSettingsListBuiltinGuardrails**](ToolSettingsAPI.md#ToolSettingsListBuiltinGuardrails) | **Get** /api/v1/tool-settings/guardrails/catalog | List Builtin Guardrails
+[**ToolSettingsListGuardrailProfiles**](ToolSettingsAPI.md#ToolSettingsListGuardrailProfiles) | **Get** /api/v1/tool-settings/guardrails/profiles | List Guardrail Profiles
+[**ToolSettingsTestService**](ToolSettingsAPI.md#ToolSettingsTestService) | **Post** /api/v1/tool-settings/{service}/test | Test Service
+[**ToolSettingsUpdateToolSettings**](ToolSettingsAPI.md#ToolSettingsUpdateToolSettings) | **Patch** /api/v1/tool-settings | Update Tool Settings
 
 
 
-## GetToolSettingsV1ToolSettingsGet
+## ToolSettingsGetToolSettings
 
-> ToolSettingsResponse GetToolSettingsV1ToolSettingsGet(ctx).Execute()
+> ToolSettingsResponse ToolSettingsGetToolSettings(ctx).Execute()
 
 Get Tool Settings
 
@@ -34,13 +36,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ToolSettingsAPI.GetToolSettingsV1ToolSettingsGet(context.Background()).Execute()
+	resp, r, err := apiClient.ToolSettingsAPI.ToolSettingsGetToolSettings(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ToolSettingsAPI.GetToolSettingsV1ToolSettingsGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ToolSettingsAPI.ToolSettingsGetToolSettings``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetToolSettingsV1ToolSettingsGet`: ToolSettingsResponse
-	fmt.Fprintf(os.Stdout, "Response from `ToolSettingsAPI.GetToolSettingsV1ToolSettingsGet`: %v\n", resp)
+	// response from `ToolSettingsGetToolSettings`: ToolSettingsResponse
+	fmt.Fprintf(os.Stdout, "Response from `ToolSettingsAPI.ToolSettingsGetToolSettings`: %v\n", resp)
 }
 ```
 
@@ -50,7 +52,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetToolSettingsV1ToolSettingsGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiToolSettingsGetToolSettingsRequest struct via the builder pattern
 
 
 ### Return type
@@ -71,9 +73,131 @@ Other parameters are passed through a pointer to a apiGetToolSettingsV1ToolSetti
 [[Back to README]](../README.md)
 
 
-## TestServiceV1ToolSettingsServiceTestPost
+## ToolSettingsListBuiltinGuardrails
 
-> TestServiceResponse TestServiceV1ToolSettingsServiceTestPost(ctx, service).TestServiceRequest(testServiceRequest).Execute()
+> BuiltInGuardrailCatalog ToolSettingsListBuiltinGuardrails(ctx).Execute()
+
+List Builtin Guardrails
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ToolSettingsAPI.ToolSettingsListBuiltinGuardrails(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ToolSettingsAPI.ToolSettingsListBuiltinGuardrails``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ToolSettingsListBuiltinGuardrails`: BuiltInGuardrailCatalog
+	fmt.Fprintf(os.Stdout, "Response from `ToolSettingsAPI.ToolSettingsListBuiltinGuardrails`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiToolSettingsListBuiltinGuardrailsRequest struct via the builder pattern
+
+
+### Return type
+
+[**BuiltInGuardrailCatalog**](BuiltInGuardrailCatalog.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ToolSettingsListGuardrailProfiles
+
+> GuardrailCatalog ToolSettingsListGuardrailProfiles(ctx).Execute()
+
+List Guardrail Profiles
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ToolSettingsAPI.ToolSettingsListGuardrailProfiles(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ToolSettingsAPI.ToolSettingsListGuardrailProfiles``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ToolSettingsListGuardrailProfiles`: GuardrailCatalog
+	fmt.Fprintf(os.Stdout, "Response from `ToolSettingsAPI.ToolSettingsListGuardrailProfiles`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiToolSettingsListGuardrailProfilesRequest struct via the builder pattern
+
+
+### Return type
+
+[**GuardrailCatalog**](GuardrailCatalog.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ToolSettingsTestService
+
+> TestServiceResponse ToolSettingsTestService(ctx, service).TestServiceRequest(testServiceRequest).Execute()
 
 Test Service
 
@@ -97,13 +221,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ToolSettingsAPI.TestServiceV1ToolSettingsServiceTestPost(context.Background(), service).TestServiceRequest(testServiceRequest).Execute()
+	resp, r, err := apiClient.ToolSettingsAPI.ToolSettingsTestService(context.Background(), service).TestServiceRequest(testServiceRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ToolSettingsAPI.TestServiceV1ToolSettingsServiceTestPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ToolSettingsAPI.ToolSettingsTestService``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `TestServiceV1ToolSettingsServiceTestPost`: TestServiceResponse
-	fmt.Fprintf(os.Stdout, "Response from `ToolSettingsAPI.TestServiceV1ToolSettingsServiceTestPost`: %v\n", resp)
+	// response from `ToolSettingsTestService`: TestServiceResponse
+	fmt.Fprintf(os.Stdout, "Response from `ToolSettingsAPI.ToolSettingsTestService`: %v\n", resp)
 }
 ```
 
@@ -117,7 +241,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiTestServiceV1ToolSettingsServiceTestPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiToolSettingsTestServiceRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -143,9 +267,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## UpdateToolSettingsV1ToolSettingsPatch
+## ToolSettingsUpdateToolSettings
 
-> ToolSettingsResponse UpdateToolSettingsV1ToolSettingsPatch(ctx).UpdateToolSettingsRequest(updateToolSettingsRequest).Execute()
+> ToolSettingsResponse ToolSettingsUpdateToolSettings(ctx).UpdateToolSettingsRequest(updateToolSettingsRequest).Execute()
 
 Update Tool Settings
 
@@ -168,13 +292,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ToolSettingsAPI.UpdateToolSettingsV1ToolSettingsPatch(context.Background()).UpdateToolSettingsRequest(updateToolSettingsRequest).Execute()
+	resp, r, err := apiClient.ToolSettingsAPI.ToolSettingsUpdateToolSettings(context.Background()).UpdateToolSettingsRequest(updateToolSettingsRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ToolSettingsAPI.UpdateToolSettingsV1ToolSettingsPatch``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ToolSettingsAPI.ToolSettingsUpdateToolSettings``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateToolSettingsV1ToolSettingsPatch`: ToolSettingsResponse
-	fmt.Fprintf(os.Stdout, "Response from `ToolSettingsAPI.UpdateToolSettingsV1ToolSettingsPatch`: %v\n", resp)
+	// response from `ToolSettingsUpdateToolSettings`: ToolSettingsResponse
+	fmt.Fprintf(os.Stdout, "Response from `ToolSettingsAPI.ToolSettingsUpdateToolSettings`: %v\n", resp)
 }
 ```
 
@@ -184,7 +308,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiUpdateToolSettingsV1ToolSettingsPatchRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiToolSettingsUpdateToolSettingsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

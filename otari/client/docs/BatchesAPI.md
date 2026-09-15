@@ -4,17 +4,17 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CancelBatchV1BatchesBatchIdCancelPost**](BatchesAPI.md#CancelBatchV1BatchesBatchIdCancelPost) | **Post** /v1/batches/{batch_id}/cancel | Cancel Batch
-[**CreateBatchV1BatchesPost**](BatchesAPI.md#CreateBatchV1BatchesPost) | **Post** /v1/batches | Create Batch
-[**ListBatchesV1BatchesGet**](BatchesAPI.md#ListBatchesV1BatchesGet) | **Get** /v1/batches | List Batches
-[**RetrieveBatchResultsV1BatchesBatchIdResultsGet**](BatchesAPI.md#RetrieveBatchResultsV1BatchesBatchIdResultsGet) | **Get** /v1/batches/{batch_id}/results | Retrieve Batch Results
-[**RetrieveBatchV1BatchesBatchIdGet**](BatchesAPI.md#RetrieveBatchV1BatchesBatchIdGet) | **Get** /v1/batches/{batch_id} | Retrieve Batch
+[**BatchesCancelBatch**](BatchesAPI.md#BatchesCancelBatch) | **Post** /api/v1/batches/{batch_id}/cancel | Cancel Batch
+[**BatchesCreateBatch**](BatchesAPI.md#BatchesCreateBatch) | **Post** /api/v1/batches | Create Batch
+[**BatchesListBatches**](BatchesAPI.md#BatchesListBatches) | **Get** /api/v1/batches | List Batches
+[**BatchesRetrieveBatch**](BatchesAPI.md#BatchesRetrieveBatch) | **Get** /api/v1/batches/{batch_id} | Retrieve Batch
+[**BatchesRetrieveBatchResults**](BatchesAPI.md#BatchesRetrieveBatchResults) | **Get** /api/v1/batches/{batch_id}/results | Retrieve Batch Results
 
 
 
-## CancelBatchV1BatchesBatchIdCancelPost
+## BatchesCancelBatch
 
-> interface{} CancelBatchV1BatchesBatchIdCancelPost(ctx, batchId).Provider(provider).Execute()
+> interface{} BatchesCancelBatch(ctx, batchId).Provider(provider).Execute()
 
 Cancel Batch
 
@@ -38,13 +38,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BatchesAPI.CancelBatchV1BatchesBatchIdCancelPost(context.Background(), batchId).Provider(provider).Execute()
+	resp, r, err := apiClient.BatchesAPI.BatchesCancelBatch(context.Background(), batchId).Provider(provider).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.CancelBatchV1BatchesBatchIdCancelPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.BatchesCancelBatch``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CancelBatchV1BatchesBatchIdCancelPost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.CancelBatchV1BatchesBatchIdCancelPost`: %v\n", resp)
+	// response from `BatchesCancelBatch`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.BatchesCancelBatch`: %v\n", resp)
 }
 ```
 
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCancelBatchV1BatchesBatchIdCancelPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBatchesCancelBatchRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -84,9 +84,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## CreateBatchV1BatchesPost
+## BatchesCreateBatch
 
-> interface{} CreateBatchV1BatchesPost(ctx).CreateBatchRequest(createBatchRequest).Execute()
+> interface{} BatchesCreateBatch(ctx).CreateBatchRequest(createBatchRequest).Execute()
 
 Create Batch
 
@@ -109,13 +109,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BatchesAPI.CreateBatchV1BatchesPost(context.Background()).CreateBatchRequest(createBatchRequest).Execute()
+	resp, r, err := apiClient.BatchesAPI.BatchesCreateBatch(context.Background()).CreateBatchRequest(createBatchRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.CreateBatchV1BatchesPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.BatchesCreateBatch``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateBatchV1BatchesPost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.CreateBatchV1BatchesPost`: %v\n", resp)
+	// response from `BatchesCreateBatch`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.BatchesCreateBatch`: %v\n", resp)
 }
 ```
 
@@ -125,7 +125,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateBatchV1BatchesPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBatchesCreateBatchRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -150,9 +150,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ListBatchesV1BatchesGet
+## BatchesListBatches
 
-> interface{} ListBatchesV1BatchesGet(ctx).Provider(provider).After(after).Limit(limit).Execute()
+> interface{} BatchesListBatches(ctx).Provider(provider).After(after).Limit(limit).Execute()
 
 List Batches
 
@@ -177,13 +177,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BatchesAPI.ListBatchesV1BatchesGet(context.Background()).Provider(provider).After(after).Limit(limit).Execute()
+	resp, r, err := apiClient.BatchesAPI.BatchesListBatches(context.Background()).Provider(provider).After(after).Limit(limit).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.ListBatchesV1BatchesGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.BatchesListBatches``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListBatchesV1BatchesGet`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.ListBatchesV1BatchesGet`: %v\n", resp)
+	// response from `BatchesListBatches`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.BatchesListBatches`: %v\n", resp)
 }
 ```
 
@@ -193,7 +193,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiListBatchesV1BatchesGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBatchesListBatchesRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -220,11 +220,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## RetrieveBatchResultsV1BatchesBatchIdResultsGet
+## BatchesRetrieveBatch
 
-> interface{} RetrieveBatchResultsV1BatchesBatchIdResultsGet(ctx, batchId).Provider(provider).Execute()
+> interface{} BatchesRetrieveBatch(ctx, batchId).Provider(provider).Execute()
 
-Retrieve Batch Results
+Retrieve Batch
 
 
 
@@ -246,13 +246,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BatchesAPI.RetrieveBatchResultsV1BatchesBatchIdResultsGet(context.Background(), batchId).Provider(provider).Execute()
+	resp, r, err := apiClient.BatchesAPI.BatchesRetrieveBatch(context.Background(), batchId).Provider(provider).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.RetrieveBatchResultsV1BatchesBatchIdResultsGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.BatchesRetrieveBatch``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `RetrieveBatchResultsV1BatchesBatchIdResultsGet`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.RetrieveBatchResultsV1BatchesBatchIdResultsGet`: %v\n", resp)
+	// response from `BatchesRetrieveBatch`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.BatchesRetrieveBatch`: %v\n", resp)
 }
 ```
 
@@ -266,7 +266,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiRetrieveBatchResultsV1BatchesBatchIdResultsGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBatchesRetrieveBatchRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -292,11 +292,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## RetrieveBatchV1BatchesBatchIdGet
+## BatchesRetrieveBatchResults
 
-> interface{} RetrieveBatchV1BatchesBatchIdGet(ctx, batchId).Provider(provider).Execute()
+> interface{} BatchesRetrieveBatchResults(ctx, batchId).Provider(provider).Execute()
 
-Retrieve Batch
+Retrieve Batch Results
 
 
 
@@ -318,13 +318,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BatchesAPI.RetrieveBatchV1BatchesBatchIdGet(context.Background(), batchId).Provider(provider).Execute()
+	resp, r, err := apiClient.BatchesAPI.BatchesRetrieveBatchResults(context.Background(), batchId).Provider(provider).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.RetrieveBatchV1BatchesBatchIdGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.BatchesRetrieveBatchResults``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `RetrieveBatchV1BatchesBatchIdGet`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.RetrieveBatchV1BatchesBatchIdGet`: %v\n", resp)
+	// response from `BatchesRetrieveBatchResults`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.BatchesRetrieveBatchResults`: %v\n", resp)
 }
 ```
 
@@ -338,7 +338,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiRetrieveBatchV1BatchesBatchIdGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBatchesRetrieveBatchResultsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

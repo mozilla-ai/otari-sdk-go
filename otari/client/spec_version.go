@@ -1,3 +1,3 @@
 package client
 
-const SpecVersion = "0.0.0-dev"
+const SpecVersion = "0.6.1"

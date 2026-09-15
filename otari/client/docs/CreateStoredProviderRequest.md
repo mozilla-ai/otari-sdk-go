@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApiBase** | Pointer to **NullableString** |  | [optional] 
 **ApiKey** | Pointer to **NullableString** | Provider API key. Stored encrypted; never returned. | [optional] 
-**ClientArgs** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**ClientArgs** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
 **Instance** | **string** | Routing key, e.g. &#39;openai&#39; or a named instance like &#39;home_lab&#39;. | 
 **ProviderType** | Pointer to **NullableString** | any-llm implementation when the instance name is not itself one. | [optional] 
 

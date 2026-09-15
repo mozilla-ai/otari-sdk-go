@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**HealthCheckHealthGet**](HealthAPI.md#HealthCheckHealthGet) | **Get** /health | Health Check
-[**HealthLivenessHealthLivenessGet**](HealthAPI.md#HealthLivenessHealthLivenessGet) | **Get** /health/liveness | Health Liveness
-[**HealthReadinessHealthReadinessGet**](HealthAPI.md#HealthReadinessHealthReadinessGet) | **Get** /health/readiness | Health Readiness
+[**HealthHealthCheck**](HealthAPI.md#HealthHealthCheck) | **Get** /api/v1/health | Health Check
+[**HealthHealthLiveness**](HealthAPI.md#HealthHealthLiveness) | **Get** /api/v1/health/liveness | Health Liveness
+[**HealthHealthReadiness**](HealthAPI.md#HealthHealthReadiness) | **Get** /api/v1/health/readiness | Health Readiness
 
 
 
-## HealthCheckHealthGet
+## HealthHealthCheck
 
-> map[string]string HealthCheckHealthGet(ctx).Execute()
+> map[string]string HealthHealthCheck(ctx).Execute()
 
 Health Check
 
@@ -34,13 +34,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.HealthAPI.HealthCheckHealthGet(context.Background()).Execute()
+	resp, r, err := apiClient.HealthAPI.HealthHealthCheck(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `HealthAPI.HealthCheckHealthGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `HealthAPI.HealthHealthCheck``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `HealthCheckHealthGet`: map[string]string
-	fmt.Fprintf(os.Stdout, "Response from `HealthAPI.HealthCheckHealthGet`: %v\n", resp)
+	// response from `HealthHealthCheck`: map[string]string
+	fmt.Fprintf(os.Stdout, "Response from `HealthAPI.HealthHealthCheck`: %v\n", resp)
 }
 ```
 
@@ -50,7 +50,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiHealthCheckHealthGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiHealthHealthCheckRequest struct via the builder pattern
 
 
 ### Return type
@@ -71,9 +71,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## HealthLivenessHealthLivenessGet
+## HealthHealthLiveness
 
-> string HealthLivenessHealthLivenessGet(ctx).Execute()
+> string HealthHealthLiveness(ctx).Execute()
 
 Health Liveness
 
@@ -95,13 +95,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.HealthAPI.HealthLivenessHealthLivenessGet(context.Background()).Execute()
+	resp, r, err := apiClient.HealthAPI.HealthHealthLiveness(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `HealthAPI.HealthLivenessHealthLivenessGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `HealthAPI.HealthHealthLiveness``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `HealthLivenessHealthLivenessGet`: string
-	fmt.Fprintf(os.Stdout, "Response from `HealthAPI.HealthLivenessHealthLivenessGet`: %v\n", resp)
+	// response from `HealthHealthLiveness`: string
+	fmt.Fprintf(os.Stdout, "Response from `HealthAPI.HealthHealthLiveness`: %v\n", resp)
 }
 ```
 
@@ -111,7 +111,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiHealthLivenessHealthLivenessGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiHealthHealthLivenessRequest struct via the builder pattern
 
 
 ### Return type
@@ -132,9 +132,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## HealthReadinessHealthReadinessGet
+## HealthHealthReadiness
 
-> map[string]interface{} HealthReadinessHealthReadinessGet(ctx).Execute()
+> map[string]interface{} HealthHealthReadiness(ctx).Execute()
 
 Health Readiness
 
@@ -156,13 +156,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.HealthAPI.HealthReadinessHealthReadinessGet(context.Background()).Execute()
+	resp, r, err := apiClient.HealthAPI.HealthHealthReadiness(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `HealthAPI.HealthReadinessHealthReadinessGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `HealthAPI.HealthHealthReadiness``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `HealthReadinessHealthReadinessGet`: map[string]interface{}
-	fmt.Fprintf(os.Stdout, "Response from `HealthAPI.HealthReadinessHealthReadinessGet`: %v\n", resp)
+	// response from `HealthHealthReadiness`: map[string]interface{}
+	fmt.Fprintf(os.Stdout, "Response from `HealthAPI.HealthHealthReadiness`: %v\n", resp)
 }
 ```
 
@@ -172,7 +172,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiHealthReadinessHealthReadinessGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiHealthHealthReadinessRequest struct via the builder pattern
 
 
 ### Return type
