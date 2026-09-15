@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **MaxTokensPerPage** | Pointer to **NullableInt32** | Approximate cap on the page content returned per result | [optional] 
 **Query** | **string** | The search query | 
 **SearchDomainFilter** | Pointer to **[]string** | Restrict results to these domains; prefix a domain with &#39;-&#39; to exclude it instead | [optional] 
-**SearchToolName** | Pointer to **NullableString** | Configured search tool to run against. Optional when exactly one tool is configured, and ignored on POST /v1/search/{search_tool_name}. | [optional] 
+**SearchToolName** | Pointer to **NullableString** | Configured search tool to run against. Optional when exactly one tool is configured, and ignored on POST /api/v1/search/{search_tool_name}. | [optional] 
 **User** | Pointer to **NullableString** | User ID for usage attribution | [optional] 
 
 ## Methods

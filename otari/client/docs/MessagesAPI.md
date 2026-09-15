@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CountMessageTokensV1MessagesCountTokensPost**](MessagesAPI.md#CountMessageTokensV1MessagesCountTokensPost) | **Post** /v1/messages/count_tokens | Count Message Tokens
-[**CreateMessageV1MessagesPost**](MessagesAPI.md#CreateMessageV1MessagesPost) | **Post** /v1/messages | Create Message
+[**MessagesCountMessageTokens**](MessagesAPI.md#MessagesCountMessageTokens) | **Post** /api/v1/messages/count_tokens | Count Message Tokens
+[**MessagesCreateMessage**](MessagesAPI.md#MessagesCreateMessage) | **Post** /api/v1/messages | Create Message
 
 
 
-## CountMessageTokensV1MessagesCountTokensPost
+## MessagesCountMessageTokens
 
-> CountTokensResponse CountMessageTokensV1MessagesCountTokensPost(ctx).CountTokensRequest(countTokensRequest).Execute()
+> CountTokensResponse MessagesCountMessageTokens(ctx).CountTokensRequest(countTokensRequest).Execute()
 
 Count Message Tokens
 
@@ -34,13 +34,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MessagesAPI.CountMessageTokensV1MessagesCountTokensPost(context.Background()).CountTokensRequest(countTokensRequest).Execute()
+	resp, r, err := apiClient.MessagesAPI.MessagesCountMessageTokens(context.Background()).CountTokensRequest(countTokensRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `MessagesAPI.CountMessageTokensV1MessagesCountTokensPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `MessagesAPI.MessagesCountMessageTokens``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CountMessageTokensV1MessagesCountTokensPost`: CountTokensResponse
-	fmt.Fprintf(os.Stdout, "Response from `MessagesAPI.CountMessageTokensV1MessagesCountTokensPost`: %v\n", resp)
+	// response from `MessagesCountMessageTokens`: CountTokensResponse
+	fmt.Fprintf(os.Stdout, "Response from `MessagesAPI.MessagesCountMessageTokens`: %v\n", resp)
 }
 ```
 
@@ -50,7 +50,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCountMessageTokensV1MessagesCountTokensPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiMessagesCountMessageTokensRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -75,9 +75,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## CreateMessageV1MessagesPost
+## MessagesCreateMessage
 
-> MessageResponse CreateMessageV1MessagesPost(ctx).MessagesRequest(messagesRequest).Execute()
+> MessageResponse MessagesCreateMessage(ctx).MessagesRequest(messagesRequest).Execute()
 
 Create Message
 
@@ -100,13 +100,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MessagesAPI.CreateMessageV1MessagesPost(context.Background()).MessagesRequest(messagesRequest).Execute()
+	resp, r, err := apiClient.MessagesAPI.MessagesCreateMessage(context.Background()).MessagesRequest(messagesRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `MessagesAPI.CreateMessageV1MessagesPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `MessagesAPI.MessagesCreateMessage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateMessageV1MessagesPost`: MessageResponse
-	fmt.Fprintf(os.Stdout, "Response from `MessagesAPI.CreateMessageV1MessagesPost`: %v\n", resp)
+	// response from `MessagesCreateMessage`: MessageResponse
+	fmt.Fprintf(os.Stdout, "Response from `MessagesAPI.MessagesCreateMessage`: %v\n", resp)
 }
 ```
 
@@ -116,7 +116,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateMessageV1MessagesPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiMessagesCreateMessageRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

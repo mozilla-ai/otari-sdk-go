@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ContextWindow** | Pointer to **NullableInt32** |  | [optional] 
 **Created** | **int32** |  | 
+**DeploymentManaged** | Pointer to **bool** |  | [optional] [default to false]
 **Id** | **string** |  | 
 **Object** | Pointer to **string** |  | [optional] [default to "model"]
 **OwnedBy** | **string** |  | 
@@ -85,6 +86,31 @@ and a boolean to check if the value has been set.
 
 SetCreated sets Created field to given value.
 
+
+### GetDeploymentManaged
+
+`func (o *ModelObject) GetDeploymentManaged() bool`
+
+GetDeploymentManaged returns the DeploymentManaged field if non-nil, zero value otherwise.
+
+### GetDeploymentManagedOk
+
+`func (o *ModelObject) GetDeploymentManagedOk() (*bool, bool)`
+
+GetDeploymentManagedOk returns a tuple with the DeploymentManaged field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDeploymentManaged
+
+`func (o *ModelObject) SetDeploymentManaged(v bool)`
+
+SetDeploymentManaged sets DeploymentManaged field to given value.
+
+### HasDeploymentManaged
+
+`func (o *ModelObject) HasDeploymentManaged() bool`
+
+HasDeploymentManaged returns a boolean if a field has been set.
 
 ### GetId
 

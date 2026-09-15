@@ -1,0 +1,102 @@
+# OrganizationScopedBudgetUpdate
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**BudgetId** | Pointer to **NullableString** |  | [optional] 
+**Name** | Pointer to **NullableString** |  | [optional] 
+
+## Methods
+
+### NewOrganizationScopedBudgetUpdate
+
+`func NewOrganizationScopedBudgetUpdate() *OrganizationScopedBudgetUpdate`
+
+NewOrganizationScopedBudgetUpdate instantiates a new OrganizationScopedBudgetUpdate object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewOrganizationScopedBudgetUpdateWithDefaults
+
+`func NewOrganizationScopedBudgetUpdateWithDefaults() *OrganizationScopedBudgetUpdate`
+
+NewOrganizationScopedBudgetUpdateWithDefaults instantiates a new OrganizationScopedBudgetUpdate object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetBudgetId
+
+`func (o *OrganizationScopedBudgetUpdate) GetBudgetId() string`
+
+GetBudgetId returns the BudgetId field if non-nil, zero value otherwise.
+
+### GetBudgetIdOk
+
+`func (o *OrganizationScopedBudgetUpdate) GetBudgetIdOk() (*string, bool)`
+
+GetBudgetIdOk returns a tuple with the BudgetId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBudgetId
+
+`func (o *OrganizationScopedBudgetUpdate) SetBudgetId(v string)`
+
+SetBudgetId sets BudgetId field to given value.
+
+### HasBudgetId
+
+`func (o *OrganizationScopedBudgetUpdate) HasBudgetId() bool`
+
+HasBudgetId returns a boolean if a field has been set.
+
+### SetBudgetIdNil
+
+`func (o *OrganizationScopedBudgetUpdate) SetBudgetIdNil(b bool)`
+
+ SetBudgetIdNil sets the value for BudgetId to be an explicit nil
+
+### UnsetBudgetId
+`func (o *OrganizationScopedBudgetUpdate) UnsetBudgetId()`
+
+UnsetBudgetId ensures that no value is present for BudgetId, not even an explicit nil
+### GetName
+
+`func (o *OrganizationScopedBudgetUpdate) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *OrganizationScopedBudgetUpdate) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *OrganizationScopedBudgetUpdate) SetName(v string)`
+
+SetName sets Name field to given value.
+
+### HasName
+
+`func (o *OrganizationScopedBudgetUpdate) HasName() bool`
+
+HasName returns a boolean if a field has been set.
+
+### SetNameNil
+
+`func (o *OrganizationScopedBudgetUpdate) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *OrganizationScopedBudgetUpdate) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

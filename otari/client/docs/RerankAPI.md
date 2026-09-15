@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateRerankV1RerankPost**](RerankAPI.md#CreateRerankV1RerankPost) | **Post** /v1/rerank | Create Rerank
+[**RerankCreateRerank**](RerankAPI.md#RerankCreateRerank) | **Post** /api/v1/rerank | Create Rerank
 
 
 
-## CreateRerankV1RerankPost
+## RerankCreateRerank
 
-> RerankResponse CreateRerankV1RerankPost(ctx).RerankRequest(rerankRequest).Execute()
+> RerankResponse RerankCreateRerank(ctx).RerankRequest(rerankRequest).Execute()
 
 Create Rerank
 
@@ -33,13 +33,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.RerankAPI.CreateRerankV1RerankPost(context.Background()).RerankRequest(rerankRequest).Execute()
+	resp, r, err := apiClient.RerankAPI.RerankCreateRerank(context.Background()).RerankRequest(rerankRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `RerankAPI.CreateRerankV1RerankPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `RerankAPI.RerankCreateRerank``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateRerankV1RerankPost`: RerankResponse
-	fmt.Fprintf(os.Stdout, "Response from `RerankAPI.CreateRerankV1RerankPost`: %v\n", resp)
+	// response from `RerankCreateRerank`: RerankResponse
+	fmt.Fprintf(os.Stdout, "Response from `RerankAPI.RerankCreateRerank`: %v\n", resp)
 }
 ```
 
@@ -49,7 +49,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateRerankV1RerankPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiRerankCreateRerankRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

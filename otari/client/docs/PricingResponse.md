@@ -11,15 +11,17 @@ Name | Type | Description | Notes
 **EffectiveAt** | **string** |  | 
 **InputPricePerMillion** | **float32** |  | 
 **ModelKey** | **string** |  | 
+**Origin** | **NullableString** | Which writer set this row: config, api, or migration. Null when recorded before origins were. | 
 **OutputPricePerMillion** | **float32** |  | 
 **PricingTiers** | [**[]PricingTier**](PricingTier.md) |  | 
+**Unit** | **string** | What the rates are per: tokens, requests, or images. | 
 **UpdatedAt** | **string** |  | 
 
 ## Methods
 
 ### NewPricingResponse
 
-`func NewPricingResponse(cacheReadPricePerMillion NullableFloat32, cacheWrite1hPricePerMillion NullableFloat32, cacheWritePricePerMillion NullableFloat32, createdAt string, effectiveAt string, inputPricePerMillion float32, modelKey string, outputPricePerMillion float32, pricingTiers []PricingTier, updatedAt string, ) *PricingResponse`
+`func NewPricingResponse(cacheReadPricePerMillion NullableFloat32, cacheWrite1hPricePerMillion NullableFloat32, cacheWritePricePerMillion NullableFloat32, createdAt string, effectiveAt string, inputPricePerMillion float32, modelKey string, origin NullableString, outputPricePerMillion float32, pricingTiers []PricingTier, unit string, updatedAt string, ) *PricingResponse`
 
 NewPricingResponse instantiates a new PricingResponse object
 This constructor will assign default values to properties that have it defined,
@@ -204,6 +206,36 @@ and a boolean to check if the value has been set.
 SetModelKey sets ModelKey field to given value.
 
 
+### GetOrigin
+
+`func (o *PricingResponse) GetOrigin() string`
+
+GetOrigin returns the Origin field if non-nil, zero value otherwise.
+
+### GetOriginOk
+
+`func (o *PricingResponse) GetOriginOk() (*string, bool)`
+
+GetOriginOk returns a tuple with the Origin field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOrigin
+
+`func (o *PricingResponse) SetOrigin(v string)`
+
+SetOrigin sets Origin field to given value.
+
+
+### SetOriginNil
+
+`func (o *PricingResponse) SetOriginNil(b bool)`
+
+ SetOriginNil sets the value for Origin to be an explicit nil
+
+### UnsetOrigin
+`func (o *PricingResponse) UnsetOrigin()`
+
+UnsetOrigin ensures that no value is present for Origin, not even an explicit nil
 ### GetOutputPricePerMillion
 
 `func (o *PricingResponse) GetOutputPricePerMillion() float32`
@@ -242,6 +274,26 @@ and a boolean to check if the value has been set.
 `func (o *PricingResponse) SetPricingTiers(v []PricingTier)`
 
 SetPricingTiers sets PricingTiers field to given value.
+
+
+### GetUnit
+
+`func (o *PricingResponse) GetUnit() string`
+
+GetUnit returns the Unit field if non-nil, zero value otherwise.
+
+### GetUnitOk
+
+`func (o *PricingResponse) GetUnitOk() (*string, bool)`
+
+GetUnitOk returns a tuple with the Unit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnit
+
+`func (o *PricingResponse) SetUnit(v string)`
+
+SetUnit sets Unit field to given value.
 
 
 ### GetUpdatedAt

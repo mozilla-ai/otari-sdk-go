@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **Input** | **map[string]interface{}** |  | 
 **Name** | **string** |  | 
 **Type** | **string** |  | 
+**ToolsetName** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -144,6 +145,41 @@ and a boolean to check if the value has been set.
 SetType sets Type field to given value.
 
 
+### GetToolsetName
+
+`func (o *MRToolUseBlock) GetToolsetName() string`
+
+GetToolsetName returns the ToolsetName field if non-nil, zero value otherwise.
+
+### GetToolsetNameOk
+
+`func (o *MRToolUseBlock) GetToolsetNameOk() (*string, bool)`
+
+GetToolsetNameOk returns a tuple with the ToolsetName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetToolsetName
+
+`func (o *MRToolUseBlock) SetToolsetName(v string)`
+
+SetToolsetName sets ToolsetName field to given value.
+
+### HasToolsetName
+
+`func (o *MRToolUseBlock) HasToolsetName() bool`
+
+HasToolsetName returns a boolean if a field has been set.
+
+### SetToolsetNameNil
+
+`func (o *MRToolUseBlock) SetToolsetNameNil(b bool)`
+
+ SetToolsetNameNil sets the value for ToolsetName to be an explicit nil
+
+### UnsetToolsetName
+`func (o *MRToolUseBlock) UnsetToolsetName()`
+
+UnsetToolsetName ensures that no value is present for ToolsetName, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

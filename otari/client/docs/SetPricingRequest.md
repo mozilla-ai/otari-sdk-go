@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **ModelKey** | **string** | Model identifier in format &#39;provider:model&#39; | 
 **OutputPricePerMillion** | **float32** | Price per 1M output tokens | 
 **PricingTiers** | Pointer to [**[]PricingTier**](PricingTier.md) | Whole-request context thresholds. Fields omitted by a tier inherit the base rate. | [optional] 
+**Unit** | Pointer to **string** | What the rates are per: &#39;tokens&#39; for a model, &#39;requests&#39; for a gateway-run tool or a moderation call (USD per million requests), &#39;images&#39; for image generation. | [optional] [default to "tokens"]
 
 ## Methods
 
@@ -267,6 +268,31 @@ HasPricingTiers returns a boolean if a field has been set.
 `func (o *SetPricingRequest) UnsetPricingTiers()`
 
 UnsetPricingTiers ensures that no value is present for PricingTiers, not even an explicit nil
+### GetUnit
+
+`func (o *SetPricingRequest) GetUnit() string`
+
+GetUnit returns the Unit field if non-nil, zero value otherwise.
+
+### GetUnitOk
+
+`func (o *SetPricingRequest) GetUnitOk() (*string, bool)`
+
+GetUnitOk returns a tuple with the Unit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnit
+
+`func (o *SetPricingRequest) SetUnit(v string)`
+
+SetUnit sets Unit field to given value.
+
+### HasUnit
+
+`func (o *SetPricingRequest) HasUnit() bool`
+
+HasUnit returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

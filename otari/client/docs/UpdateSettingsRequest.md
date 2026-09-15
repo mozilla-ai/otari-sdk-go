@@ -13,6 +13,8 @@ Name | Type | Description | Notes
 **ModelDiscoveryTimeoutSeconds** | Pointer to **NullableFloat32** |  | [optional] 
 **ModelsDevCacheTtlSeconds** | Pointer to **NullableInt32** |  | [optional] 
 **ModelsDevMetadata** | Pointer to **NullableBool** |  | [optional] 
+**PricingRefresh** | Pointer to **NullableString** |  | [optional] 
+**PublicCatalog** | Pointer to **NullableBool** |  | [optional] 
 **RejectUserMismatch** | Pointer to **NullableBool** |  | [optional] 
 **RequirePricing** | Pointer to **NullableBool** |  | [optional] 
 **StreamMissingUsagePolicy** | Pointer to **NullableString** |  | [optional] 
@@ -354,6 +356,76 @@ HasModelsDevMetadata returns a boolean if a field has been set.
 `func (o *UpdateSettingsRequest) UnsetModelsDevMetadata()`
 
 UnsetModelsDevMetadata ensures that no value is present for ModelsDevMetadata, not even an explicit nil
+### GetPricingRefresh
+
+`func (o *UpdateSettingsRequest) GetPricingRefresh() string`
+
+GetPricingRefresh returns the PricingRefresh field if non-nil, zero value otherwise.
+
+### GetPricingRefreshOk
+
+`func (o *UpdateSettingsRequest) GetPricingRefreshOk() (*string, bool)`
+
+GetPricingRefreshOk returns a tuple with the PricingRefresh field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPricingRefresh
+
+`func (o *UpdateSettingsRequest) SetPricingRefresh(v string)`
+
+SetPricingRefresh sets PricingRefresh field to given value.
+
+### HasPricingRefresh
+
+`func (o *UpdateSettingsRequest) HasPricingRefresh() bool`
+
+HasPricingRefresh returns a boolean if a field has been set.
+
+### SetPricingRefreshNil
+
+`func (o *UpdateSettingsRequest) SetPricingRefreshNil(b bool)`
+
+ SetPricingRefreshNil sets the value for PricingRefresh to be an explicit nil
+
+### UnsetPricingRefresh
+`func (o *UpdateSettingsRequest) UnsetPricingRefresh()`
+
+UnsetPricingRefresh ensures that no value is present for PricingRefresh, not even an explicit nil
+### GetPublicCatalog
+
+`func (o *UpdateSettingsRequest) GetPublicCatalog() bool`
+
+GetPublicCatalog returns the PublicCatalog field if non-nil, zero value otherwise.
+
+### GetPublicCatalogOk
+
+`func (o *UpdateSettingsRequest) GetPublicCatalogOk() (*bool, bool)`
+
+GetPublicCatalogOk returns a tuple with the PublicCatalog field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPublicCatalog
+
+`func (o *UpdateSettingsRequest) SetPublicCatalog(v bool)`
+
+SetPublicCatalog sets PublicCatalog field to given value.
+
+### HasPublicCatalog
+
+`func (o *UpdateSettingsRequest) HasPublicCatalog() bool`
+
+HasPublicCatalog returns a boolean if a field has been set.
+
+### SetPublicCatalogNil
+
+`func (o *UpdateSettingsRequest) SetPublicCatalogNil(b bool)`
+
+ SetPublicCatalogNil sets the value for PublicCatalog to be an explicit nil
+
+### UnsetPublicCatalog
+`func (o *UpdateSettingsRequest) UnsetPublicCatalog()`
+
+UnsetPublicCatalog ensures that no value is present for PublicCatalog, not even an explicit nil
 ### GetRejectUserMismatch
 
 `func (o *UpdateSettingsRequest) GetRejectUserMismatch() bool`

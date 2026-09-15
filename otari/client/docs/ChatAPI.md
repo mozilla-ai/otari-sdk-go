@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ChatCompletionsV1ChatCompletionsPost**](ChatAPI.md#ChatCompletionsV1ChatCompletionsPost) | **Post** /v1/chat/completions | Chat Completions
+[**ChatChatCompletions**](ChatAPI.md#ChatChatCompletions) | **Post** /api/v1/chat/completions | Chat Completions
 
 
 
-## ChatCompletionsV1ChatCompletionsPost
+## ChatChatCompletions
 
-> ChatCompletion ChatCompletionsV1ChatCompletionsPost(ctx).ChatCompletionRequest(chatCompletionRequest).Execute()
+> ChatCompletion ChatChatCompletions(ctx).ChatCompletionRequest(chatCompletionRequest).Execute()
 
 Chat Completions
 
@@ -33,13 +33,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ChatAPI.ChatCompletionsV1ChatCompletionsPost(context.Background()).ChatCompletionRequest(chatCompletionRequest).Execute()
+	resp, r, err := apiClient.ChatAPI.ChatChatCompletions(context.Background()).ChatCompletionRequest(chatCompletionRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ChatAPI.ChatCompletionsV1ChatCompletionsPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ChatAPI.ChatChatCompletions``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ChatCompletionsV1ChatCompletionsPost`: ChatCompletion
-	fmt.Fprintf(os.Stdout, "Response from `ChatAPI.ChatCompletionsV1ChatCompletionsPost`: %v\n", resp)
+	// response from `ChatChatCompletions`: ChatCompletion
+	fmt.Fprintf(os.Stdout, "Response from `ChatAPI.ChatChatCompletions`: %v\n", resp)
 }
 ```
 
@@ -49,7 +49,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiChatCompletionsV1ChatCompletionsPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiChatChatCompletionsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

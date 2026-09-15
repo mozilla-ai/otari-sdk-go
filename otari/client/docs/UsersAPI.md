@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateUserV1UsersPost**](UsersAPI.md#CreateUserV1UsersPost) | **Post** /v1/users | Create User
-[**DeleteUserV1UsersUserIdDelete**](UsersAPI.md#DeleteUserV1UsersUserIdDelete) | **Delete** /v1/users/{user_id} | Delete User
-[**GetUserUsageV1UsersUserIdUsageGet**](UsersAPI.md#GetUserUsageV1UsersUserIdUsageGet) | **Get** /v1/users/{user_id}/usage | Get User Usage
-[**GetUserV1UsersUserIdGet**](UsersAPI.md#GetUserV1UsersUserIdGet) | **Get** /v1/users/{user_id} | Get User
-[**ListUsersV1UsersGet**](UsersAPI.md#ListUsersV1UsersGet) | **Get** /v1/users | List Users
-[**UpdateUserV1UsersUserIdPatch**](UsersAPI.md#UpdateUserV1UsersUserIdPatch) | **Patch** /v1/users/{user_id} | Update User
+[**UsersCreateUser**](UsersAPI.md#UsersCreateUser) | **Post** /api/v1/users | Create User
+[**UsersDeleteUser**](UsersAPI.md#UsersDeleteUser) | **Delete** /api/v1/users/{user_id} | Delete User
+[**UsersGetUser**](UsersAPI.md#UsersGetUser) | **Get** /api/v1/users/{user_id} | Get User
+[**UsersGetUserUsage**](UsersAPI.md#UsersGetUserUsage) | **Get** /api/v1/users/{user_id}/usage | Get User Usage
+[**UsersListUsers**](UsersAPI.md#UsersListUsers) | **Get** /api/v1/users | List Users
+[**UsersUpdateUser**](UsersAPI.md#UsersUpdateUser) | **Patch** /api/v1/users/{user_id} | Update User
 
 
 
-## CreateUserV1UsersPost
+## UsersCreateUser
 
-> UserResponse CreateUserV1UsersPost(ctx).CreateUserRequest(createUserRequest).Execute()
+> UserResponse UsersCreateUser(ctx).CreateUserRequest(createUserRequest).Execute()
 
 Create User
 
@@ -38,13 +38,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.CreateUserV1UsersPost(context.Background()).CreateUserRequest(createUserRequest).Execute()
+	resp, r, err := apiClient.UsersAPI.UsersCreateUser(context.Background()).CreateUserRequest(createUserRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.CreateUserV1UsersPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UsersCreateUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateUserV1UsersPost`: UserResponse
-	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.CreateUserV1UsersPost`: %v\n", resp)
+	// response from `UsersCreateUser`: UserResponse
+	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.UsersCreateUser`: %v\n", resp)
 }
 ```
 
@@ -54,7 +54,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateUserV1UsersPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiUsersCreateUserRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -79,9 +79,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DeleteUserV1UsersUserIdDelete
+## UsersDeleteUser
 
-> DeleteUserV1UsersUserIdDelete(ctx, userId).Execute()
+> UsersDeleteUser(ctx, userId).Execute()
 
 Delete User
 
@@ -104,9 +104,9 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.UsersAPI.DeleteUserV1UsersUserIdDelete(context.Background(), userId).Execute()
+	r, err := apiClient.UsersAPI.UsersDeleteUser(context.Background(), userId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.DeleteUserV1UsersUserIdDelete``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UsersDeleteUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
 }
@@ -122,7 +122,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDeleteUserV1UsersUserIdDeleteRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiUsersDeleteUserRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -147,9 +147,79 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetUserUsageV1UsersUserIdUsageGet
+## UsersGetUser
 
-> []UsageLogResponse GetUserUsageV1UsersUserIdUsageGet(ctx, userId).Skip(skip).Limit(limit).Execute()
+> UserResponse UsersGetUser(ctx, userId).Execute()
+
+Get User
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	userId := "userId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.UsersAPI.UsersGetUser(context.Background(), userId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UsersGetUser``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UsersGetUser`: UserResponse
+	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.UsersGetUser`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**userId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUsersGetUserRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**UserResponse**](UserResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UsersGetUserUsage
+
+> []UsageLogResponse UsersGetUserUsage(ctx, userId).Skip(skip).Limit(limit).Execute()
 
 Get User Usage
 
@@ -174,13 +244,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.GetUserUsageV1UsersUserIdUsageGet(context.Background(), userId).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.UsersAPI.UsersGetUserUsage(context.Background(), userId).Skip(skip).Limit(limit).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.GetUserUsageV1UsersUserIdUsageGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UsersGetUserUsage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetUserUsageV1UsersUserIdUsageGet`: []UsageLogResponse
-	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.GetUserUsageV1UsersUserIdUsageGet`: %v\n", resp)
+	// response from `UsersGetUserUsage`: []UsageLogResponse
+	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.UsersGetUserUsage`: %v\n", resp)
 }
 ```
 
@@ -194,7 +264,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetUserUsageV1UsersUserIdUsageGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiUsersGetUserUsageRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -221,79 +291,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetUserV1UsersUserIdGet
+## UsersListUsers
 
-> UserResponse GetUserV1UsersUserIdGet(ctx, userId).Execute()
-
-Get User
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	userId := "userId_example" // string | 
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.GetUserV1UsersUserIdGet(context.Background(), userId).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.GetUserV1UsersUserIdGet``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `GetUserV1UsersUserIdGet`: UserResponse
-	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.GetUserV1UsersUserIdGet`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**userId** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiGetUserV1UsersUserIdGetRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-### Return type
-
-[**UserResponse**](UserResponse.md)
-
-### Authorization
-
-[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## ListUsersV1UsersGet
-
-> []UserResponse ListUsersV1UsersGet(ctx).Skip(skip).Limit(limit).Execute()
+> []UserResponse UsersListUsers(ctx).Skip(skip).Limit(limit).Execute()
 
 List Users
 
@@ -317,13 +317,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.ListUsersV1UsersGet(context.Background()).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.UsersAPI.UsersListUsers(context.Background()).Skip(skip).Limit(limit).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.ListUsersV1UsersGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UsersListUsers``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListUsersV1UsersGet`: []UserResponse
-	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.ListUsersV1UsersGet`: %v\n", resp)
+	// response from `UsersListUsers`: []UserResponse
+	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.UsersListUsers`: %v\n", resp)
 }
 ```
 
@@ -333,7 +333,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiListUsersV1UsersGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiUsersListUsersRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -359,9 +359,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## UpdateUserV1UsersUserIdPatch
+## UsersUpdateUser
 
-> UserResponse UpdateUserV1UsersUserIdPatch(ctx, userId).UpdateUserRequest(updateUserRequest).Execute()
+> UserResponse UsersUpdateUser(ctx, userId).UpdateUserRequest(updateUserRequest).Execute()
 
 Update User
 
@@ -385,13 +385,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.UpdateUserV1UsersUserIdPatch(context.Background(), userId).UpdateUserRequest(updateUserRequest).Execute()
+	resp, r, err := apiClient.UsersAPI.UsersUpdateUser(context.Background(), userId).UpdateUserRequest(updateUserRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UpdateUserV1UsersUserIdPatch``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UsersUpdateUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateUserV1UsersUserIdPatch`: UserResponse
-	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.UpdateUserV1UsersUserIdPatch`: %v\n", resp)
+	// response from `UsersUpdateUser`: UserResponse
+	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.UsersUpdateUser`: %v\n", resp)
 }
 ```
 
@@ -405,7 +405,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiUpdateUserV1UsersUserIdPatchRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiUsersUpdateUserRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

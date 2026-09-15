@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateBudgetV1BudgetsPost**](BudgetsAPI.md#CreateBudgetV1BudgetsPost) | **Post** /v1/budgets | Create Budget
-[**DeleteBudgetV1BudgetsBudgetIdDelete**](BudgetsAPI.md#DeleteBudgetV1BudgetsBudgetIdDelete) | **Delete** /v1/budgets/{budget_id} | Delete Budget
-[**GetBudgetV1BudgetsBudgetIdGet**](BudgetsAPI.md#GetBudgetV1BudgetsBudgetIdGet) | **Get** /v1/budgets/{budget_id} | Get Budget
-[**ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet**](BudgetsAPI.md#ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet) | **Get** /v1/budgets/{budget_id}/reset-logs | List Budget Reset Logs
-[**ListBudgetsV1BudgetsGet**](BudgetsAPI.md#ListBudgetsV1BudgetsGet) | **Get** /v1/budgets | List Budgets
-[**UpdateBudgetV1BudgetsBudgetIdPatch**](BudgetsAPI.md#UpdateBudgetV1BudgetsBudgetIdPatch) | **Patch** /v1/budgets/{budget_id} | Update Budget
+[**BudgetsCreateBudget**](BudgetsAPI.md#BudgetsCreateBudget) | **Post** /api/v1/budgets | Create Budget
+[**BudgetsDeleteBudget**](BudgetsAPI.md#BudgetsDeleteBudget) | **Delete** /api/v1/budgets/{budget_id} | Delete Budget
+[**BudgetsGetBudget**](BudgetsAPI.md#BudgetsGetBudget) | **Get** /api/v1/budgets/{budget_id} | Get Budget
+[**BudgetsListBudgetResetLogs**](BudgetsAPI.md#BudgetsListBudgetResetLogs) | **Get** /api/v1/budgets/{budget_id}/reset-logs | List Budget Reset Logs
+[**BudgetsListBudgets**](BudgetsAPI.md#BudgetsListBudgets) | **Get** /api/v1/budgets | List Budgets
+[**BudgetsUpdateBudget**](BudgetsAPI.md#BudgetsUpdateBudget) | **Patch** /api/v1/budgets/{budget_id} | Update Budget
 
 
 
-## CreateBudgetV1BudgetsPost
+## BudgetsCreateBudget
 
-> BudgetResponse CreateBudgetV1BudgetsPost(ctx).CreateBudgetRequest(createBudgetRequest).Execute()
+> BudgetResponse BudgetsCreateBudget(ctx).CreateBudgetRequest(createBudgetRequest).Execute()
 
 Create Budget
 
@@ -38,13 +38,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BudgetsAPI.CreateBudgetV1BudgetsPost(context.Background()).CreateBudgetRequest(createBudgetRequest).Execute()
+	resp, r, err := apiClient.BudgetsAPI.BudgetsCreateBudget(context.Background()).CreateBudgetRequest(createBudgetRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.CreateBudgetV1BudgetsPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.BudgetsCreateBudget``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateBudgetV1BudgetsPost`: BudgetResponse
-	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.CreateBudgetV1BudgetsPost`: %v\n", resp)
+	// response from `BudgetsCreateBudget`: BudgetResponse
+	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.BudgetsCreateBudget`: %v\n", resp)
 }
 ```
 
@@ -54,7 +54,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateBudgetV1BudgetsPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBudgetsCreateBudgetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -79,9 +79,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DeleteBudgetV1BudgetsBudgetIdDelete
+## BudgetsDeleteBudget
 
-> DeleteBudgetV1BudgetsBudgetIdDelete(ctx, budgetId).Execute()
+> BudgetsDeleteBudget(ctx, budgetId).Execute()
 
 Delete Budget
 
@@ -104,9 +104,9 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.BudgetsAPI.DeleteBudgetV1BudgetsBudgetIdDelete(context.Background(), budgetId).Execute()
+	r, err := apiClient.BudgetsAPI.BudgetsDeleteBudget(context.Background(), budgetId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.DeleteBudgetV1BudgetsBudgetIdDelete``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.BudgetsDeleteBudget``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
 }
@@ -122,7 +122,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDeleteBudgetV1BudgetsBudgetIdDeleteRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBudgetsDeleteBudgetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -147,9 +147,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetBudgetV1BudgetsBudgetIdGet
+## BudgetsGetBudget
 
-> BudgetResponse GetBudgetV1BudgetsBudgetIdGet(ctx, budgetId).Execute()
+> BudgetResponse BudgetsGetBudget(ctx, budgetId).Execute()
 
 Get Budget
 
@@ -172,13 +172,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BudgetsAPI.GetBudgetV1BudgetsBudgetIdGet(context.Background(), budgetId).Execute()
+	resp, r, err := apiClient.BudgetsAPI.BudgetsGetBudget(context.Background(), budgetId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.GetBudgetV1BudgetsBudgetIdGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.BudgetsGetBudget``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetBudgetV1BudgetsBudgetIdGet`: BudgetResponse
-	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.GetBudgetV1BudgetsBudgetIdGet`: %v\n", resp)
+	// response from `BudgetsGetBudget`: BudgetResponse
+	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.BudgetsGetBudget`: %v\n", resp)
 }
 ```
 
@@ -192,7 +192,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetBudgetV1BudgetsBudgetIdGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBudgetsGetBudgetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -217,9 +217,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet
+## BudgetsListBudgetResetLogs
 
-> []BudgetResetLogResponse ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet(ctx, budgetId).Skip(skip).Limit(limit).Execute()
+> []BudgetResetLogResponse BudgetsListBudgetResetLogs(ctx, budgetId).Skip(skip).Limit(limit).Execute()
 
 List Budget Reset Logs
 
@@ -244,13 +244,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BudgetsAPI.ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet(context.Background(), budgetId).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.BudgetsAPI.BudgetsListBudgetResetLogs(context.Background(), budgetId).Skip(skip).Limit(limit).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.BudgetsListBudgetResetLogs``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet`: []BudgetResetLogResponse
-	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.ListBudgetResetLogsV1BudgetsBudgetIdResetLogsGet`: %v\n", resp)
+	// response from `BudgetsListBudgetResetLogs`: []BudgetResetLogResponse
+	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.BudgetsListBudgetResetLogs`: %v\n", resp)
 }
 ```
 
@@ -264,7 +264,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiListBudgetResetLogsV1BudgetsBudgetIdResetLogsGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBudgetsListBudgetResetLogsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -291,9 +291,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ListBudgetsV1BudgetsGet
+## BudgetsListBudgets
 
-> []BudgetResponse ListBudgetsV1BudgetsGet(ctx).Skip(skip).Limit(limit).Execute()
+> []BudgetResponse BudgetsListBudgets(ctx).Skip(skip).Limit(limit).Execute()
 
 List Budgets
 
@@ -317,13 +317,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BudgetsAPI.ListBudgetsV1BudgetsGet(context.Background()).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.BudgetsAPI.BudgetsListBudgets(context.Background()).Skip(skip).Limit(limit).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.ListBudgetsV1BudgetsGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.BudgetsListBudgets``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListBudgetsV1BudgetsGet`: []BudgetResponse
-	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.ListBudgetsV1BudgetsGet`: %v\n", resp)
+	// response from `BudgetsListBudgets`: []BudgetResponse
+	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.BudgetsListBudgets`: %v\n", resp)
 }
 ```
 
@@ -333,7 +333,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiListBudgetsV1BudgetsGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBudgetsListBudgetsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -359,9 +359,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## UpdateBudgetV1BudgetsBudgetIdPatch
+## BudgetsUpdateBudget
 
-> BudgetResponse UpdateBudgetV1BudgetsBudgetIdPatch(ctx, budgetId).UpdateBudgetRequest(updateBudgetRequest).Execute()
+> BudgetResponse BudgetsUpdateBudget(ctx, budgetId).UpdateBudgetRequest(updateBudgetRequest).Execute()
 
 Update Budget
 
@@ -385,13 +385,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BudgetsAPI.UpdateBudgetV1BudgetsBudgetIdPatch(context.Background(), budgetId).UpdateBudgetRequest(updateBudgetRequest).Execute()
+	resp, r, err := apiClient.BudgetsAPI.BudgetsUpdateBudget(context.Background(), budgetId).UpdateBudgetRequest(updateBudgetRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.UpdateBudgetV1BudgetsBudgetIdPatch``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.BudgetsUpdateBudget``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateBudgetV1BudgetsBudgetIdPatch`: BudgetResponse
-	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.UpdateBudgetV1BudgetsBudgetIdPatch`: %v\n", resp)
+	// response from `BudgetsUpdateBudget`: BudgetResponse
+	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.BudgetsUpdateBudget`: %v\n", resp)
 }
 ```
 
@@ -405,7 +405,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiUpdateBudgetV1BudgetsBudgetIdPatchRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiBudgetsUpdateBudgetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

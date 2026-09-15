@@ -4,14 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ReceiveLogsV1LogsPost**](OtelAPI.md#ReceiveLogsV1LogsPost) | **Post** /v1/logs | Receive Logs
-[**ReceiveTracesV1TracesPost**](OtelAPI.md#ReceiveTracesV1TracesPost) | **Post** /v1/traces | Receive Traces
+[**OtelReceiveLogs**](OtelAPI.md#OtelReceiveLogs) | **Post** /otlp/v1/logs | Receive Logs
+[**OtelReceiveMetrics**](OtelAPI.md#OtelReceiveMetrics) | **Post** /otlp/v1/metrics | Receive Metrics
+[**OtelReceiveTraces**](OtelAPI.md#OtelReceiveTraces) | **Post** /otlp/v1/traces | Receive Traces
 
 
 
-## ReceiveLogsV1LogsPost
+## OtelReceiveLogs
 
-> interface{} ReceiveLogsV1LogsPost(ctx).Execute()
+> interface{} OtelReceiveLogs(ctx).Execute()
 
 Receive Logs
 
@@ -33,13 +34,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.OtelAPI.ReceiveLogsV1LogsPost(context.Background()).Execute()
+	resp, r, err := apiClient.OtelAPI.OtelReceiveLogs(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `OtelAPI.ReceiveLogsV1LogsPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `OtelAPI.OtelReceiveLogs``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ReceiveLogsV1LogsPost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `OtelAPI.ReceiveLogsV1LogsPost`: %v\n", resp)
+	// response from `OtelReceiveLogs`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `OtelAPI.OtelReceiveLogs`: %v\n", resp)
 }
 ```
 
@@ -49,7 +50,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiReceiveLogsV1LogsPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiOtelReceiveLogsRequest struct via the builder pattern
 
 
 ### Return type
@@ -70,9 +71,70 @@ Other parameters are passed through a pointer to a apiReceiveLogsV1LogsPostReque
 [[Back to README]](../README.md)
 
 
-## ReceiveTracesV1TracesPost
+## OtelReceiveMetrics
 
-> interface{} ReceiveTracesV1TracesPost(ctx).Execute()
+> interface{} OtelReceiveMetrics(ctx).Execute()
+
+Receive Metrics
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.OtelAPI.OtelReceiveMetrics(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OtelAPI.OtelReceiveMetrics``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `OtelReceiveMetrics`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `OtelAPI.OtelReceiveMetrics`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOtelReceiveMetricsRequest struct via the builder pattern
+
+
+### Return type
+
+**interface{}**
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## OtelReceiveTraces
+
+> interface{} OtelReceiveTraces(ctx).Execute()
 
 Receive Traces
 
@@ -94,13 +156,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.OtelAPI.ReceiveTracesV1TracesPost(context.Background()).Execute()
+	resp, r, err := apiClient.OtelAPI.OtelReceiveTraces(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `OtelAPI.ReceiveTracesV1TracesPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `OtelAPI.OtelReceiveTraces``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ReceiveTracesV1TracesPost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `OtelAPI.ReceiveTracesV1TracesPost`: %v\n", resp)
+	// response from `OtelReceiveTraces`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `OtelAPI.OtelReceiveTraces`: %v\n", resp)
 }
 ```
 
@@ -110,7 +172,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiReceiveTracesV1TracesPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiOtelReceiveTracesRequest struct via the builder pattern
 
 
 ### Return type

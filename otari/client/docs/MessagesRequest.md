@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Betas** | Pointer to **[]string** |  | [optional] 
 **CacheControl** | Pointer to **map[string]interface{}** |  | [optional] 
+**Container** | Pointer to **NullableString** |  | [optional] 
 **ContextManagement** | Pointer to **map[string]interface{}** |  | [optional] 
 **Guardrails** | Pointer to [**[]GuardrailConfig**](GuardrailConfig.md) |  | [optional] 
 **MaxTokens** | **int32** |  | 
@@ -15,7 +16,9 @@ Name | Type | Description | Notes
 **Messages** | **[]map[string]interface{}** |  | 
 **Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
 **Model** | **string** |  | 
-**OutputFormat** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**OutputFormat** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**PromptCacheKey** | Pointer to **NullableString** |  | [optional] 
+**ServiceTier** | Pointer to **NullableString** |  | [optional] 
 **SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to. | [optional] 
 **StopSequences** | Pointer to **[]string** |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
@@ -117,6 +120,41 @@ HasCacheControl returns a boolean if a field has been set.
 `func (o *MessagesRequest) UnsetCacheControl()`
 
 UnsetCacheControl ensures that no value is present for CacheControl, not even an explicit nil
+### GetContainer
+
+`func (o *MessagesRequest) GetContainer() string`
+
+GetContainer returns the Container field if non-nil, zero value otherwise.
+
+### GetContainerOk
+
+`func (o *MessagesRequest) GetContainerOk() (*string, bool)`
+
+GetContainerOk returns a tuple with the Container field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetContainer
+
+`func (o *MessagesRequest) SetContainer(v string)`
+
+SetContainer sets Container field to given value.
+
+### HasContainer
+
+`func (o *MessagesRequest) HasContainer() bool`
+
+HasContainer returns a boolean if a field has been set.
+
+### SetContainerNil
+
+`func (o *MessagesRequest) SetContainerNil(b bool)`
+
+ SetContainerNil sets the value for Container to be an explicit nil
+
+### UnsetContainer
+`func (o *MessagesRequest) UnsetContainer()`
+
+UnsetContainer ensures that no value is present for Container, not even an explicit nil
 ### GetContextManagement
 
 `func (o *MessagesRequest) GetContextManagement() map[string]interface{}`
@@ -422,6 +460,76 @@ HasOutputFormat returns a boolean if a field has been set.
 `func (o *MessagesRequest) UnsetOutputFormat()`
 
 UnsetOutputFormat ensures that no value is present for OutputFormat, not even an explicit nil
+### GetPromptCacheKey
+
+`func (o *MessagesRequest) GetPromptCacheKey() string`
+
+GetPromptCacheKey returns the PromptCacheKey field if non-nil, zero value otherwise.
+
+### GetPromptCacheKeyOk
+
+`func (o *MessagesRequest) GetPromptCacheKeyOk() (*string, bool)`
+
+GetPromptCacheKeyOk returns a tuple with the PromptCacheKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPromptCacheKey
+
+`func (o *MessagesRequest) SetPromptCacheKey(v string)`
+
+SetPromptCacheKey sets PromptCacheKey field to given value.
+
+### HasPromptCacheKey
+
+`func (o *MessagesRequest) HasPromptCacheKey() bool`
+
+HasPromptCacheKey returns a boolean if a field has been set.
+
+### SetPromptCacheKeyNil
+
+`func (o *MessagesRequest) SetPromptCacheKeyNil(b bool)`
+
+ SetPromptCacheKeyNil sets the value for PromptCacheKey to be an explicit nil
+
+### UnsetPromptCacheKey
+`func (o *MessagesRequest) UnsetPromptCacheKey()`
+
+UnsetPromptCacheKey ensures that no value is present for PromptCacheKey, not even an explicit nil
+### GetServiceTier
+
+`func (o *MessagesRequest) GetServiceTier() string`
+
+GetServiceTier returns the ServiceTier field if non-nil, zero value otherwise.
+
+### GetServiceTierOk
+
+`func (o *MessagesRequest) GetServiceTierOk() (*string, bool)`
+
+GetServiceTierOk returns a tuple with the ServiceTier field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetServiceTier
+
+`func (o *MessagesRequest) SetServiceTier(v string)`
+
+SetServiceTier sets ServiceTier field to given value.
+
+### HasServiceTier
+
+`func (o *MessagesRequest) HasServiceTier() bool`
+
+HasServiceTier returns a boolean if a field has been set.
+
+### SetServiceTierNil
+
+`func (o *MessagesRequest) SetServiceTierNil(b bool)`
+
+ SetServiceTierNil sets the value for ServiceTier to be an explicit nil
+
+### UnsetServiceTier
+`func (o *MessagesRequest) UnsetServiceTier()`
+
+UnsetServiceTier ensures that no value is present for ServiceTier, not even an explicit nil
 ### GetSessionLabel
 
 `func (o *MessagesRequest) GetSessionLabel() string`

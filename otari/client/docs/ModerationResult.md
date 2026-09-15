@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **CategoryAppliedInputTypes** | Pointer to **map[string][]string** |  | [optional] 
 **CategoryScores** | Pointer to **map[string]float32** |  | [optional] 
 **Flagged** | **bool** |  | 
-**ProviderRaw** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**ProviderRaw** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
 
 ## Methods
 

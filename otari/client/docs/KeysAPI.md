@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateKeyV1KeysPost**](KeysAPI.md#CreateKeyV1KeysPost) | **Post** /v1/keys | Create Key
-[**DeleteKeyV1KeysKeyIdDelete**](KeysAPI.md#DeleteKeyV1KeysKeyIdDelete) | **Delete** /v1/keys/{key_id} | Delete Key
-[**GetKeyV1KeysKeyIdGet**](KeysAPI.md#GetKeyV1KeysKeyIdGet) | **Get** /v1/keys/{key_id} | Get Key
-[**ListKeysV1KeysGet**](KeysAPI.md#ListKeysV1KeysGet) | **Get** /v1/keys | List Keys
-[**RotateKeyV1KeysKeyIdRotatePost**](KeysAPI.md#RotateKeyV1KeysKeyIdRotatePost) | **Post** /v1/keys/{key_id}/rotate | Rotate Key
-[**UpdateKeyV1KeysKeyIdPatch**](KeysAPI.md#UpdateKeyV1KeysKeyIdPatch) | **Patch** /v1/keys/{key_id} | Update Key
+[**KeysCreateKey**](KeysAPI.md#KeysCreateKey) | **Post** /api/v1/keys | Create Key
+[**KeysDeleteKey**](KeysAPI.md#KeysDeleteKey) | **Delete** /api/v1/keys/{key_id} | Delete Key
+[**KeysGetKey**](KeysAPI.md#KeysGetKey) | **Get** /api/v1/keys/{key_id} | Get Key
+[**KeysListKeys**](KeysAPI.md#KeysListKeys) | **Get** /api/v1/keys | List Keys
+[**KeysRotateKey**](KeysAPI.md#KeysRotateKey) | **Post** /api/v1/keys/{key_id}/rotate | Rotate Key
+[**KeysUpdateKey**](KeysAPI.md#KeysUpdateKey) | **Patch** /api/v1/keys/{key_id} | Update Key
 
 
 
-## CreateKeyV1KeysPost
+## KeysCreateKey
 
-> CreateKeyResponse CreateKeyV1KeysPost(ctx).CreateKeyRequest(createKeyRequest).Execute()
+> CreateKeyResponse KeysCreateKey(ctx).CreateKeyRequest(createKeyRequest).Execute()
 
 Create Key
 
@@ -38,13 +38,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.KeysAPI.CreateKeyV1KeysPost(context.Background()).CreateKeyRequest(createKeyRequest).Execute()
+	resp, r, err := apiClient.KeysAPI.KeysCreateKey(context.Background()).CreateKeyRequest(createKeyRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.CreateKeyV1KeysPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.KeysCreateKey``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateKeyV1KeysPost`: CreateKeyResponse
-	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.CreateKeyV1KeysPost`: %v\n", resp)
+	// response from `KeysCreateKey`: CreateKeyResponse
+	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.KeysCreateKey`: %v\n", resp)
 }
 ```
 
@@ -54,7 +54,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateKeyV1KeysPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiKeysCreateKeyRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -79,9 +79,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DeleteKeyV1KeysKeyIdDelete
+## KeysDeleteKey
 
-> DeleteKeyV1KeysKeyIdDelete(ctx, keyId).Execute()
+> KeysDeleteKey(ctx, keyId).Execute()
 
 Delete Key
 
@@ -104,9 +104,9 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.KeysAPI.DeleteKeyV1KeysKeyIdDelete(context.Background(), keyId).Execute()
+	r, err := apiClient.KeysAPI.KeysDeleteKey(context.Background(), keyId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.DeleteKeyV1KeysKeyIdDelete``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.KeysDeleteKey``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
 }
@@ -122,7 +122,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDeleteKeyV1KeysKeyIdDeleteRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiKeysDeleteKeyRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -147,9 +147,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetKeyV1KeysKeyIdGet
+## KeysGetKey
 
-> KeyInfo GetKeyV1KeysKeyIdGet(ctx, keyId).Execute()
+> KeyInfo KeysGetKey(ctx, keyId).Execute()
 
 Get Key
 
@@ -172,13 +172,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.KeysAPI.GetKeyV1KeysKeyIdGet(context.Background(), keyId).Execute()
+	resp, r, err := apiClient.KeysAPI.KeysGetKey(context.Background(), keyId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.GetKeyV1KeysKeyIdGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.KeysGetKey``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetKeyV1KeysKeyIdGet`: KeyInfo
-	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.GetKeyV1KeysKeyIdGet`: %v\n", resp)
+	// response from `KeysGetKey`: KeyInfo
+	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.KeysGetKey`: %v\n", resp)
 }
 ```
 
@@ -192,7 +192,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetKeyV1KeysKeyIdGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiKeysGetKeyRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -217,9 +217,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ListKeysV1KeysGet
+## KeysListKeys
 
-> []KeyInfo ListKeysV1KeysGet(ctx).Skip(skip).Limit(limit).Execute()
+> []KeyInfo KeysListKeys(ctx).Skip(skip).Limit(limit).WorkspaceId(workspaceId).Execute()
 
 List Keys
 
@@ -240,16 +240,17 @@ import (
 func main() {
 	skip := int32(56) // int32 |  (optional) (default to 0)
 	limit := int32(56) // int32 |  (optional) (default to 100)
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only keys in this workspace. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.KeysAPI.ListKeysV1KeysGet(context.Background()).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.KeysAPI.KeysListKeys(context.Background()).Skip(skip).Limit(limit).WorkspaceId(workspaceId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.ListKeysV1KeysGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.KeysListKeys``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListKeysV1KeysGet`: []KeyInfo
-	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.ListKeysV1KeysGet`: %v\n", resp)
+	// response from `KeysListKeys`: []KeyInfo
+	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.KeysListKeys`: %v\n", resp)
 }
 ```
 
@@ -259,13 +260,14 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiListKeysV1KeysGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiKeysListKeysRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **skip** | **int32** |  | [default to 0]
  **limit** | **int32** |  | [default to 100]
+ **workspaceId** | **string** | Only keys in this workspace. | 
 
 ### Return type
 
@@ -285,9 +287,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## RotateKeyV1KeysKeyIdRotatePost
+## KeysRotateKey
 
-> CreateKeyResponse RotateKeyV1KeysKeyIdRotatePost(ctx, keyId).Execute()
+> CreateKeyResponse KeysRotateKey(ctx, keyId).Execute()
 
 Rotate Key
 
@@ -310,13 +312,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.KeysAPI.RotateKeyV1KeysKeyIdRotatePost(context.Background(), keyId).Execute()
+	resp, r, err := apiClient.KeysAPI.KeysRotateKey(context.Background(), keyId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.RotateKeyV1KeysKeyIdRotatePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.KeysRotateKey``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `RotateKeyV1KeysKeyIdRotatePost`: CreateKeyResponse
-	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.RotateKeyV1KeysKeyIdRotatePost`: %v\n", resp)
+	// response from `KeysRotateKey`: CreateKeyResponse
+	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.KeysRotateKey`: %v\n", resp)
 }
 ```
 
@@ -330,7 +332,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiRotateKeyV1KeysKeyIdRotatePostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiKeysRotateKeyRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -355,9 +357,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## UpdateKeyV1KeysKeyIdPatch
+## KeysUpdateKey
 
-> KeyInfo UpdateKeyV1KeysKeyIdPatch(ctx, keyId).UpdateKeyRequest(updateKeyRequest).Execute()
+> KeyInfo KeysUpdateKey(ctx, keyId).UpdateKeyRequest(updateKeyRequest).Execute()
 
 Update Key
 
@@ -381,13 +383,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.KeysAPI.UpdateKeyV1KeysKeyIdPatch(context.Background(), keyId).UpdateKeyRequest(updateKeyRequest).Execute()
+	resp, r, err := apiClient.KeysAPI.KeysUpdateKey(context.Background(), keyId).UpdateKeyRequest(updateKeyRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.UpdateKeyV1KeysKeyIdPatch``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.KeysUpdateKey``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateKeyV1KeysKeyIdPatch`: KeyInfo
-	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.UpdateKeyV1KeysKeyIdPatch`: %v\n", resp)
+	// response from `KeysUpdateKey`: KeyInfo
+	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.KeysUpdateKey`: %v\n", resp)
 }
 ```
 
@@ -401,7 +403,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiUpdateKeyV1KeysKeyIdPatchRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiKeysUpdateKeyRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

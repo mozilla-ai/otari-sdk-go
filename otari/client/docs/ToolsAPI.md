@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ListToolsV1ToolsGet**](ToolsAPI.md#ListToolsV1ToolsGet) | **Get** /v1/tools | List Tools
+[**ToolsListTools**](ToolsAPI.md#ToolsListTools) | **Get** /api/v1/tools | List Tools
 
 
 
-## ListToolsV1ToolsGet
+## ToolsListTools
 
-> ToolsResponse ListToolsV1ToolsGet(ctx).Execute()
+> ToolsResponse ToolsListTools(ctx).Execute()
 
 List Tools
 
@@ -32,13 +32,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ToolsAPI.ListToolsV1ToolsGet(context.Background()).Execute()
+	resp, r, err := apiClient.ToolsAPI.ToolsListTools(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ToolsAPI.ListToolsV1ToolsGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ToolsAPI.ToolsListTools``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListToolsV1ToolsGet`: ToolsResponse
-	fmt.Fprintf(os.Stdout, "Response from `ToolsAPI.ListToolsV1ToolsGet`: %v\n", resp)
+	// response from `ToolsListTools`: ToolsResponse
+	fmt.Fprintf(os.Stdout, "Response from `ToolsAPI.ToolsListTools`: %v\n", resp)
 }
 ```
 
@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiListToolsV1ToolsGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiToolsListToolsRequest struct via the builder pattern
 
 
 ### Return type
