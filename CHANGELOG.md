@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.3.0](https://github.com/mozilla-ai/otari-sdk-go/compare/otari-sdk-go-v0.2.0...otari-sdk-go-v0.3.0) (2026-09-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* a base URL must be the gateway origin. A base URL ending in /v1 was previously trimmed and is now sent as-is, which will not resolve.
+
+### Features
+
+* regenerate client core and address the gateway at /api/v1 ([#28](https://github.com/mozilla-ai/otari-sdk-go/issues/28)) ([98d7aeb](https://github.com/mozilla-ai/otari-sdk-go/commit/98d7aeb04f9325adbaf7e548c6990d6b464311f6))
+
+
+### Bug Fixes
+
+* **ci:** make the endpoint-coverage check offline and deterministic ([#26](https://github.com/mozilla-ai/otari-sdk-go/issues/26)) ([864abd7](https://github.com/mozilla-ai/otari-sdk-go/commit/864abd7a5d9823624ac5ae2787950b04bdedbb33))
+* **control-plane:** map generated errors to typed SDK errors ([#20](https://github.com/mozilla-ai/otari-sdk-go/issues/20)) ([a9de4a6](https://github.com/mozilla-ai/otari-sdk-go/commit/a9de4a67da60101b9b89db8fce57d96a2b4de82d))
+
 ## [0.2.0](https://github.com/mozilla-ai/otari-sdk-go/compare/otari-sdk-go-v0.1.1...otari-sdk-go-v0.2.0) (2026-06-16)
 
 
