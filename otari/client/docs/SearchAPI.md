@@ -4,14 +4,80 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateSearchForToolV1SearchSearchToolNamePost**](SearchAPI.md#CreateSearchForToolV1SearchSearchToolNamePost) | **Post** /v1/search/{search_tool_name} | Create Search For Tool
-[**CreateSearchV1SearchPost**](SearchAPI.md#CreateSearchV1SearchPost) | **Post** /v1/search | Create Search
+[**SearchCreateSearch**](SearchAPI.md#SearchCreateSearch) | **Post** /api/v1/search | Create Search
+[**SearchCreateSearchForTool**](SearchAPI.md#SearchCreateSearchForTool) | **Post** /api/v1/search/{search_tool_name} | Create Search For Tool
 
 
 
-## CreateSearchForToolV1SearchSearchToolNamePost
+## SearchCreateSearch
 
-> SearchResponse CreateSearchForToolV1SearchSearchToolNamePost(ctx, searchToolName).SearchRequest(searchRequest).Execute()
+> SearchResponse SearchCreateSearch(ctx).SearchRequest(searchRequest).Execute()
+
+Create Search
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	searchRequest := *openapiclient.NewSearchRequest("Query_example") // SearchRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.SearchAPI.SearchCreateSearch(context.Background()).SearchRequest(searchRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `SearchAPI.SearchCreateSearch``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SearchCreateSearch`: SearchResponse
+	fmt.Fprintf(os.Stdout, "Response from `SearchAPI.SearchCreateSearch`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSearchCreateSearchRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **searchRequest** | [**SearchRequest**](SearchRequest.md) |  | 
+
+### Return type
+
+[**SearchResponse**](SearchResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SearchCreateSearchForTool
+
+> SearchResponse SearchCreateSearchForTool(ctx, searchToolName).SearchRequest(searchRequest).Execute()
 
 Create Search For Tool
 
@@ -35,13 +101,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SearchAPI.CreateSearchForToolV1SearchSearchToolNamePost(context.Background(), searchToolName).SearchRequest(searchRequest).Execute()
+	resp, r, err := apiClient.SearchAPI.SearchCreateSearchForTool(context.Background(), searchToolName).SearchRequest(searchRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `SearchAPI.CreateSearchForToolV1SearchSearchToolNamePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `SearchAPI.SearchCreateSearchForTool``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateSearchForToolV1SearchSearchToolNamePost`: SearchResponse
-	fmt.Fprintf(os.Stdout, "Response from `SearchAPI.CreateSearchForToolV1SearchSearchToolNamePost`: %v\n", resp)
+	// response from `SearchCreateSearchForTool`: SearchResponse
+	fmt.Fprintf(os.Stdout, "Response from `SearchAPI.SearchCreateSearchForTool`: %v\n", resp)
 }
 ```
 
@@ -55,78 +121,12 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateSearchForToolV1SearchSearchToolNamePostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiSearchCreateSearchForToolRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **searchRequest** | [**SearchRequest**](SearchRequest.md) |  | 
-
-### Return type
-
-[**SearchResponse**](SearchResponse.md)
-
-### Authorization
-
-[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## CreateSearchV1SearchPost
-
-> SearchResponse CreateSearchV1SearchPost(ctx).SearchRequest(searchRequest).Execute()
-
-Create Search
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	searchRequest := *openapiclient.NewSearchRequest("Query_example") // SearchRequest | 
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SearchAPI.CreateSearchV1SearchPost(context.Background()).SearchRequest(searchRequest).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `SearchAPI.CreateSearchV1SearchPost``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `CreateSearchV1SearchPost`: SearchResponse
-	fmt.Fprintf(os.Stdout, "Response from `SearchAPI.CreateSearchV1SearchPost`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiCreateSearchV1SearchPostRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
  **searchRequest** | [**SearchRequest**](SearchRequest.md) |  | 
 
 ### Return type

@@ -4,17 +4,17 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateFileV1FilesPost**](FilesAPI.md#CreateFileV1FilesPost) | **Post** /v1/files | Create File
-[**DeleteFileV1FilesFileIdDelete**](FilesAPI.md#DeleteFileV1FilesFileIdDelete) | **Delete** /v1/files/{file_id} | Delete File
-[**GetFileContentV1FilesFileIdContentGet**](FilesAPI.md#GetFileContentV1FilesFileIdContentGet) | **Get** /v1/files/{file_id}/content | Get File Content
-[**GetFileV1FilesFileIdGet**](FilesAPI.md#GetFileV1FilesFileIdGet) | **Get** /v1/files/{file_id} | Get File
-[**ListFilesV1FilesGet**](FilesAPI.md#ListFilesV1FilesGet) | **Get** /v1/files | List Files
+[**FilesCreateFile**](FilesAPI.md#FilesCreateFile) | **Post** /api/v1/files | Create File
+[**FilesDeleteFile**](FilesAPI.md#FilesDeleteFile) | **Delete** /api/v1/files/{file_id} | Delete File
+[**FilesGetFile**](FilesAPI.md#FilesGetFile) | **Get** /api/v1/files/{file_id} | Get File
+[**FilesGetFileContent**](FilesAPI.md#FilesGetFileContent) | **Get** /api/v1/files/{file_id}/content | Get File Content
+[**FilesListFiles**](FilesAPI.md#FilesListFiles) | **Get** /api/v1/files | List Files
 
 
 
-## CreateFileV1FilesPost
+## FilesCreateFile
 
-> map[string]interface{} CreateFileV1FilesPost(ctx).File(file).Purpose(purpose).User(user).Execute()
+> map[string]interface{} FilesCreateFile(ctx).File(file).Purpose(purpose).User(user).Execute()
 
 Create File
 
@@ -39,13 +39,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FilesAPI.CreateFileV1FilesPost(context.Background()).File(file).Purpose(purpose).User(user).Execute()
+	resp, r, err := apiClient.FilesAPI.FilesCreateFile(context.Background()).File(file).Purpose(purpose).User(user).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.CreateFileV1FilesPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.FilesCreateFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateFileV1FilesPost`: map[string]interface{}
-	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.CreateFileV1FilesPost`: %v\n", resp)
+	// response from `FilesCreateFile`: map[string]interface{}
+	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.FilesCreateFile`: %v\n", resp)
 }
 ```
 
@@ -55,7 +55,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateFileV1FilesPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiFilesCreateFileRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -82,9 +82,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DeleteFileV1FilesFileIdDelete
+## FilesDeleteFile
 
-> map[string]interface{} DeleteFileV1FilesFileIdDelete(ctx, fileId).User(user).Execute()
+> map[string]interface{} FilesDeleteFile(ctx, fileId).User(user).Execute()
 
 Delete File
 
@@ -108,13 +108,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FilesAPI.DeleteFileV1FilesFileIdDelete(context.Background(), fileId).User(user).Execute()
+	resp, r, err := apiClient.FilesAPI.FilesDeleteFile(context.Background(), fileId).User(user).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.DeleteFileV1FilesFileIdDelete``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.FilesDeleteFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteFileV1FilesFileIdDelete`: map[string]interface{}
-	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.DeleteFileV1FilesFileIdDelete`: %v\n", resp)
+	// response from `FilesDeleteFile`: map[string]interface{}
+	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.FilesDeleteFile`: %v\n", resp)
 }
 ```
 
@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDeleteFileV1FilesFileIdDeleteRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiFilesDeleteFileRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -154,81 +154,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetFileContentV1FilesFileIdContentGet
+## FilesGetFile
 
-> interface{} GetFileContentV1FilesFileIdContentGet(ctx, fileId).User(user).Execute()
-
-Get File Content
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	fileId := "fileId_example" // string | 
-	user := "user_example" // string |  (optional)
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FilesAPI.GetFileContentV1FilesFileIdContentGet(context.Background(), fileId).User(user).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.GetFileContentV1FilesFileIdContentGet``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `GetFileContentV1FilesFileIdContentGet`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.GetFileContentV1FilesFileIdContentGet`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**fileId** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiGetFileContentV1FilesFileIdContentGetRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **user** | **string** |  | 
-
-### Return type
-
-**interface{}**
-
-### Authorization
-
-[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## GetFileV1FilesFileIdGet
-
-> map[string]interface{} GetFileV1FilesFileIdGet(ctx, fileId).User(user).Execute()
+> map[string]interface{} FilesGetFile(ctx, fileId).User(user).Execute()
 
 Get File
 
@@ -252,13 +180,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FilesAPI.GetFileV1FilesFileIdGet(context.Background(), fileId).User(user).Execute()
+	resp, r, err := apiClient.FilesAPI.FilesGetFile(context.Background(), fileId).User(user).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.GetFileV1FilesFileIdGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.FilesGetFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetFileV1FilesFileIdGet`: map[string]interface{}
-	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.GetFileV1FilesFileIdGet`: %v\n", resp)
+	// response from `FilesGetFile`: map[string]interface{}
+	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.FilesGetFile`: %v\n", resp)
 }
 ```
 
@@ -272,7 +200,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetFileV1FilesFileIdGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiFilesGetFileRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -298,9 +226,81 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ListFilesV1FilesGet
+## FilesGetFileContent
 
-> map[string]interface{} ListFilesV1FilesGet(ctx).User(user).Purpose(purpose).Execute()
+> *os.File FilesGetFileContent(ctx, fileId).User(user).Execute()
+
+Get File Content
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	fileId := "fileId_example" // string | 
+	user := "user_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FilesAPI.FilesGetFileContent(context.Background(), fileId).User(user).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.FilesGetFileContent``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `FilesGetFileContent`: *os.File
+	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.FilesGetFileContent`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**fileId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFilesGetFileContentRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **user** | **string** |  | 
+
+### Return type
+
+[***os.File**](*os.File.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: */*, application/octet-stream, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## FilesListFiles
+
+> map[string]interface{} FilesListFiles(ctx).User(user).Purpose(purpose).WorkspaceId(workspaceId).Execute()
 
 List Files
 
@@ -321,16 +321,17 @@ import (
 func main() {
 	user := "user_example" // string |  (optional)
 	purpose := "purpose_example" // string |  (optional)
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FilesAPI.ListFilesV1FilesGet(context.Background()).User(user).Purpose(purpose).Execute()
+	resp, r, err := apiClient.FilesAPI.FilesListFiles(context.Background()).User(user).Purpose(purpose).WorkspaceId(workspaceId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.ListFilesV1FilesGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.FilesListFiles``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListFilesV1FilesGet`: map[string]interface{}
-	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.ListFilesV1FilesGet`: %v\n", resp)
+	// response from `FilesListFiles`: map[string]interface{}
+	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.FilesListFiles`: %v\n", resp)
 }
 ```
 
@@ -340,13 +341,14 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiListFilesV1FilesGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiFilesListFilesRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user** | **string** |  | 
  **purpose** | **string** |  | 
+ **workspaceId** | **string** |  | 
 
 ### Return type
 

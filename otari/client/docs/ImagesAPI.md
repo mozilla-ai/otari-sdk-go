@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateImageV1ImagesGenerationsPost**](ImagesAPI.md#CreateImageV1ImagesGenerationsPost) | **Post** /v1/images/generations | Create Image
+[**ImagesCreateImage**](ImagesAPI.md#ImagesCreateImage) | **Post** /api/v1/images/generations | Create Image
 
 
 
-## CreateImageV1ImagesGenerationsPost
+## ImagesCreateImage
 
-> ImagesResponse CreateImageV1ImagesGenerationsPost(ctx).ImageGenerationRequest(imageGenerationRequest).Execute()
+> ImagesResponse ImagesCreateImage(ctx).ImageGenerationRequest(imageGenerationRequest).Execute()
 
 Create Image
 
@@ -33,13 +33,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ImagesAPI.CreateImageV1ImagesGenerationsPost(context.Background()).ImageGenerationRequest(imageGenerationRequest).Execute()
+	resp, r, err := apiClient.ImagesAPI.ImagesCreateImage(context.Background()).ImageGenerationRequest(imageGenerationRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ImagesAPI.CreateImageV1ImagesGenerationsPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ImagesAPI.ImagesCreateImage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateImageV1ImagesGenerationsPost`: ImagesResponse
-	fmt.Fprintf(os.Stdout, "Response from `ImagesAPI.CreateImageV1ImagesGenerationsPost`: %v\n", resp)
+	// response from `ImagesCreateImage`: ImagesResponse
+	fmt.Fprintf(os.Stdout, "Response from `ImagesAPI.ImagesCreateImage`: %v\n", resp)
 }
 ```
 
@@ -49,7 +49,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateImageV1ImagesGenerationsPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiImagesCreateImageRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

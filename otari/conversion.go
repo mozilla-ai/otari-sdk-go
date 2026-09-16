@@ -2,7 +2,7 @@ package otari
 
 import "fmt"
 
-// completionBody builds the JSON request body for POST /v1/chat/completions
+// completionBody builds the JSON request body for POST /api/v1/chat/completions
 // from the ergonomic CompletionParams. The params struct already carries the
 // correct JSON tags for the OpenAI-compatible wire shape; this assembles a map
 // so the stream flag and any Extra fields can be layered in, and so zero-value
@@ -42,7 +42,7 @@ type MessageParams struct {
 	Extra         map[string]any   `json:"-"`
 }
 
-// messageBody builds the JSON request body for POST /v1/messages.
+// messageBody builds the JSON request body for POST /api/v1/messages.
 func messageBody(params MessageParams, stream bool) map[string]any {
 	body := structToMap(params)
 	for k, v := range params.Extra {
@@ -63,7 +63,7 @@ type ResponseParams struct {
 	Extra map[string]any `json:"-"`
 }
 
-// responseBody builds the JSON request body for POST /v1/responses.
+// responseBody builds the JSON request body for POST /api/v1/responses.
 func responseBody(params ResponseParams, stream bool) map[string]any {
 	body := structToMap(params)
 	for k, v := range params.Extra {

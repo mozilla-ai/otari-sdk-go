@@ -124,7 +124,7 @@ func TestControlPlaneLifecycle(t *testing.T) {
 	}
 
 	// raw escape hatch: the generated client stays reachable for the full surface.
-	if _, _, err := cp.Raw.UsageAPI.ListUsageV1UsageGet(ctx).Execute(); err != nil {
+	if _, _, err := cp.Raw.UsageAPI.UsageListUsage(ctx).Execute(); err != nil {
 		t.Fatalf("list usage via raw: %v", err)
 	}
 }

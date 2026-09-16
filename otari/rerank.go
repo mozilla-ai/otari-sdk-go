@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// Rerank reranks documents by relevance to a query via POST /v1/rerank.
+// Rerank reranks documents by relevance to a query via POST /api/v1/rerank.
 // The response contains results sorted by relevance_score in descending order.
 func (c *Client) Rerank(ctx context.Context, params RerankParams) (*RerankResponse, error) {
 	if params.Model == "" {

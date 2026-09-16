@@ -165,8 +165,8 @@ func (c *Client) rawPOST(
 	return resp, buf, nil
 }
 
-// serverURL returns the configured base server URL (the gateway root with the
-// /v1 suffix) from the generated client configuration.
+// serverURL returns the configured base server URL (the gateway origin with
+// the API root appended) from the generated client configuration.
 func (c *Client) serverURL() string {
 	cfg := c.api.GetConfig()
 	if len(cfg.Servers) > 0 {

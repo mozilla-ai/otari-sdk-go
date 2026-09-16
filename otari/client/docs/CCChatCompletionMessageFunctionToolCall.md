@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **Function** | [**CCFunction**](CCFunction.md) |  | 
 **Type** | **string** |  | 
+**ExtraContent** | Pointer to **map[string]interface{}** |  | [optional] 
 
 ## Methods
 
@@ -87,6 +88,41 @@ and a boolean to check if the value has been set.
 SetType sets Type field to given value.
 
 
+### GetExtraContent
+
+`func (o *CCChatCompletionMessageFunctionToolCall) GetExtraContent() map[string]interface{}`
+
+GetExtraContent returns the ExtraContent field if non-nil, zero value otherwise.
+
+### GetExtraContentOk
+
+`func (o *CCChatCompletionMessageFunctionToolCall) GetExtraContentOk() (*map[string]interface{}, bool)`
+
+GetExtraContentOk returns a tuple with the ExtraContent field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExtraContent
+
+`func (o *CCChatCompletionMessageFunctionToolCall) SetExtraContent(v map[string]interface{})`
+
+SetExtraContent sets ExtraContent field to given value.
+
+### HasExtraContent
+
+`func (o *CCChatCompletionMessageFunctionToolCall) HasExtraContent() bool`
+
+HasExtraContent returns a boolean if a field has been set.
+
+### SetExtraContentNil
+
+`func (o *CCChatCompletionMessageFunctionToolCall) SetExtraContentNil(b bool)`
+
+ SetExtraContentNil sets the value for ExtraContent to be an explicit nil
+
+### UnsetExtraContent
+`func (o *CCChatCompletionMessageFunctionToolCall) UnsetExtraContent()`
+
+UnsetExtraContent ensures that no value is present for ExtraContent, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

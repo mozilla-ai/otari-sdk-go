@@ -5,16 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ErrorCode** | **string** |  | 
+**ErrorMessage** | Pointer to **string** |  | [optional] 
 **Type** | **string** |  | 
-**Content** | [**MRDocumentBlock**](MRDocumentBlock.md) |  | 
-**RetrievedAt** | Pointer to **string** |  | [optional] 
-**Url** | **string** |  | 
+**ToolReferences** | [**[]MRToolReferenceBlock**](MRToolReferenceBlock.md) |  | 
 
 ## Methods
 
 ### NewContent14
 
-`func NewContent14(errorCode string, type_ string, content MRDocumentBlock, url string, ) *Content14`
+`func NewContent14(errorCode string, type_ string, toolReferences []MRToolReferenceBlock, ) *Content14`
 
 NewContent14 instantiates a new Content14 object
 This constructor will assign default values to properties that have it defined,
@@ -49,6 +48,31 @@ and a boolean to check if the value has been set.
 SetErrorCode sets ErrorCode field to given value.
 
 
+### GetErrorMessage
+
+`func (o *Content14) GetErrorMessage() string`
+
+GetErrorMessage returns the ErrorMessage field if non-nil, zero value otherwise.
+
+### GetErrorMessageOk
+
+`func (o *Content14) GetErrorMessageOk() (*string, bool)`
+
+GetErrorMessageOk returns a tuple with the ErrorMessage field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetErrorMessage
+
+`func (o *Content14) SetErrorMessage(v string)`
+
+SetErrorMessage sets ErrorMessage field to given value.
+
+### HasErrorMessage
+
+`func (o *Content14) HasErrorMessage() bool`
+
+HasErrorMessage returns a boolean if a field has been set.
+
 ### GetType
 
 `func (o *Content14) GetType() string`
@@ -69,69 +93,24 @@ and a boolean to check if the value has been set.
 SetType sets Type field to given value.
 
 
-### GetContent
+### GetToolReferences
 
-`func (o *Content14) GetContent() MRDocumentBlock`
+`func (o *Content14) GetToolReferences() []MRToolReferenceBlock`
 
-GetContent returns the Content field if non-nil, zero value otherwise.
+GetToolReferences returns the ToolReferences field if non-nil, zero value otherwise.
 
-### GetContentOk
+### GetToolReferencesOk
 
-`func (o *Content14) GetContentOk() (*MRDocumentBlock, bool)`
+`func (o *Content14) GetToolReferencesOk() (*[]MRToolReferenceBlock, bool)`
 
-GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
+GetToolReferencesOk returns a tuple with the ToolReferences field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetContent
+### SetToolReferences
 
-`func (o *Content14) SetContent(v MRDocumentBlock)`
+`func (o *Content14) SetToolReferences(v []MRToolReferenceBlock)`
 
-SetContent sets Content field to given value.
-
-
-### GetRetrievedAt
-
-`func (o *Content14) GetRetrievedAt() string`
-
-GetRetrievedAt returns the RetrievedAt field if non-nil, zero value otherwise.
-
-### GetRetrievedAtOk
-
-`func (o *Content14) GetRetrievedAtOk() (*string, bool)`
-
-GetRetrievedAtOk returns a tuple with the RetrievedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRetrievedAt
-
-`func (o *Content14) SetRetrievedAt(v string)`
-
-SetRetrievedAt sets RetrievedAt field to given value.
-
-### HasRetrievedAt
-
-`func (o *Content14) HasRetrievedAt() bool`
-
-HasRetrievedAt returns a boolean if a field has been set.
-
-### GetUrl
-
-`func (o *Content14) GetUrl() string`
-
-GetUrl returns the Url field if non-nil, zero value otherwise.
-
-### GetUrlOk
-
-`func (o *Content14) GetUrlOk() (*string, bool)`
-
-GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetUrl
-
-`func (o *Content14) SetUrl(v string)`
-
-SetUrl sets Url field to given value.
+SetToolReferences sets ToolReferences field to given value.
 
 
 

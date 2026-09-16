@@ -48,6 +48,10 @@ const (
 	// client is in platform mode and no base URL is otherwise provided.
 	defaultPlatformBaseURL = "https://api.otari.ai"
 
+	// apiRoot is the path prefix under which the gateway mounts every route.
+	// A base URL is the gateway origin; the SDK appends this root itself.
+	apiRoot = "/api/v1"
+
 	// extraKeyOtariKey is the config extra key used to coordinate
 	// WithOtariKey (writer) with the resolver logic in New (reader).
 	extraKeyOtariKey = "otari_key"
@@ -73,11 +77,12 @@ const (
 //   - Platform mode: uses a platform token as standard Bearer auth
 //   - Non-platform mode: sends an otari API key via a custom Otari-Key header
 type Client struct {
-	// api is the generated client configured to point at the gateway's /v1
-	// base, carrying the per-mode auth header as a default header.
+	// api is the generated client configured to point at the gateway's API
+	// root (origin + apiRoot), carrying the per-mode auth header as a default
+	// header.
 	api *client.APIClient
 
-	// apiBase is the gateway root URL (without /v1).
+	// apiBase is the gateway origin (without apiRoot).
 	apiBase string
 
 	// baseURL is the gateway root URL, kept for ControlPlane wiring.
@@ -176,14 +181,6 @@ func New(opts ...Option) (*Client, error) {
 	}
 	apiBase = strings.TrimRight(apiBase, "/")
 
-	// Normalize to the gateway root (without a trailing /v1). The generated
-	// client's base server URL is then <root>/v1, and inference/batch paths are
-	// joined relative to it (e.g. "/chat/completions"). Normalizing here means
-	// the hosted default and a self-hosted base URL both work whether or not the
-	// caller includes /v1 (mirrors the TS and Python SDKs).
-	apiBase = strings.TrimSuffix(apiBase, "/v1")
-	apiBase = strings.TrimRight(apiBase, "/")
-
 	// Assemble the per-mode default auth header fed into the generated client
 	// configuration. Platform mode uses standard Bearer Authorization;
 	// non-platform mode uses the custom Otari-Key header.
@@ -195,9 +192,9 @@ func New(opts ...Option) (*Client, error) {
 		headers[apiKeyHeaderName] = bearerPrefix + otariKey
 	}
 
-	// The generated core's operation paths already include the /v1 prefix, so
-	// its base server URL is the gateway root + /v1.
-	api := newAPIClient(apiBase+"/v1", headers, httpClient)
+	// The hand-built inference and batch paths are relative to the API root,
+	// so this client's base server URL is the gateway origin + apiRoot.
+	api := newAPIClient(apiBase+apiRoot, headers, httpClient)
 
 	return &Client{
 		api:           api,
@@ -234,7 +231,7 @@ func (c *Client) Capabilities() Capabilities {
 }
 
 // Completion performs a non-streaming chat completion request via
-// POST /v1/chat/completions. Gateway errors are mapped to typed errors.
+// POST /api/v1/chat/completions. Gateway errors are mapped to typed errors.
 func (c *Client) Completion(
 	ctx context.Context,
 	params CompletionParams,
@@ -302,7 +299,7 @@ func (c *Client) ConvertError(err error) error {
 	return err
 }
 
-// Embedding generates embeddings for the given input via POST /v1/embeddings.
+// Embedding generates embeddings for the given input via POST /api/v1/embeddings.
 func (c *Client) Embedding(
 	ctx context.Context,
 	params EmbeddingParams,
@@ -317,7 +314,7 @@ func (c *Client) Embedding(
 	return &out, nil
 }
 
-// ListModels returns the list of available models from GET /v1/models.
+// ListModels returns the list of available models from GET /api/v1/models.
 func (c *Client) ListModels(ctx context.Context) (*ModelsResponse, error) {
 	var out ModelsResponse
 	if err := c.doJSON(ctx, "GET", "/models", nil, &out, ""); err != nil {
@@ -329,7 +326,7 @@ func (c *Client) ListModels(ctx context.Context) (*ModelsResponse, error) {
 	return &out, nil
 }
 
-// Message creates an Anthropic-shaped message via POST /v1/messages.
+// Message creates an Anthropic-shaped message via POST /api/v1/messages.
 //
 // This endpoint has no OpenAI-SDK seam and was previously missing from the SDK.
 // Its response is opaque (response_model=None on the gateway), so the decoded
@@ -352,7 +349,7 @@ func (c *Client) Message(
 	return out, nil
 }
 
-// MessageStream streams an Anthropic-shaped message via POST /v1/messages.
+// MessageStream streams an Anthropic-shaped message via POST /api/v1/messages.
 // The /messages event stream has no single typed chunk model, so each event is
 // delivered as the raw decoded JSON map.
 func (c *Client) MessageStream(
@@ -371,7 +368,7 @@ func (c *Client) MessageStream(
 }
 
 // CountTokens counts the input tokens an Anthropic-shaped /messages request
-// would consume, via POST /v1/messages/count_tokens.
+// would consume, via POST /api/v1/messages/count_tokens.
 //
 // Unlike Message, this does not generate a response, so max_tokens is not part
 // of the request and is stripped from the body. The response is a clean typed
@@ -393,7 +390,7 @@ func (c *Client) CountTokens(
 }
 
 // Response creates a response via the OpenAI-style Responses API
-// (POST /v1/responses). Its response is opaque on the gateway, so the decoded
+// (POST /api/v1/responses). Its response is opaque on the gateway, so the decoded
 // JSON is returned as a map.
 func (c *Client) Response(
 	ctx context.Context,
@@ -410,7 +407,7 @@ func (c *Client) Response(
 	return out, nil
 }
 
-// ResponseStream streams a response via POST /v1/responses, delivering each
+// ResponseStream streams a response via POST /api/v1/responses, delivering each
 // event as the raw decoded JSON map.
 func (c *Client) ResponseStream(
 	ctx context.Context,

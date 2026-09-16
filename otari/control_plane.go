@@ -47,7 +47,7 @@ func translate(resp *http.Response, err error) error {
 // (generator-named operations, fluent request builders) remains available as
 // an escape hatch:
 //
-//	created, _, err := cp.Raw.KeysAPI.CreateKeyV1KeysPost(ctx).
+//	created, _, err := cp.Raw.KeysAPI.KeysCreateKey(ctx).
 //	    CreateKeyRequest(client.CreateKeyRequest{}).Execute()
 type ControlPlaneClient struct {
 	// Raw is the underlying generated API client (escape hatch).
@@ -63,17 +63,17 @@ type ControlPlaneClient struct {
 type KeysResource struct{ api *client.KeysAPIService }
 
 func (r KeysResource) Create(ctx context.Context, req client.CreateKeyRequest) (*client.CreateKeyResponse, *http.Response, error) {
-	v, resp, err := r.api.CreateKeyV1KeysPost(ctx).CreateKeyRequest(req).Execute()
+	v, resp, err := r.api.KeysCreateKey(ctx).CreateKeyRequest(req).Execute()
 	return v, resp, translate(resp, err)
 }
 
 func (r KeysResource) Get(ctx context.Context, keyID string) (*client.KeyInfo, *http.Response, error) {
-	v, resp, err := r.api.GetKeyV1KeysKeyIdGet(ctx, keyID).Execute()
+	v, resp, err := r.api.KeysGetKey(ctx, keyID).Execute()
 	return v, resp, translate(resp, err)
 }
 
 func (r KeysResource) List(ctx context.Context, skip, limit *int32) ([]client.KeyInfo, *http.Response, error) {
-	req := r.api.ListKeysV1KeysGet(ctx)
+	req := r.api.KeysListKeys(ctx)
 	if skip != nil {
 		req = req.Skip(*skip)
 	}
@@ -85,12 +85,12 @@ func (r KeysResource) List(ctx context.Context, skip, limit *int32) ([]client.Ke
 }
 
 func (r KeysResource) Update(ctx context.Context, keyID string, req client.UpdateKeyRequest) (*client.KeyInfo, *http.Response, error) {
-	v, resp, err := r.api.UpdateKeyV1KeysKeyIdPatch(ctx, keyID).UpdateKeyRequest(req).Execute()
+	v, resp, err := r.api.KeysUpdateKey(ctx, keyID).UpdateKeyRequest(req).Execute()
 	return v, resp, translate(resp, err)
 }
 
 func (r KeysResource) Delete(ctx context.Context, keyID string) (*http.Response, error) {
-	resp, err := r.api.DeleteKeyV1KeysKeyIdDelete(ctx, keyID).Execute()
+	resp, err := r.api.KeysDeleteKey(ctx, keyID).Execute()
 	return resp, translate(resp, err)
 }
 
@@ -98,17 +98,17 @@ func (r KeysResource) Delete(ctx context.Context, keyID string) (*http.Response,
 type UsersResource struct{ api *client.UsersAPIService }
 
 func (r UsersResource) Create(ctx context.Context, req client.CreateUserRequest) (*client.UserResponse, *http.Response, error) {
-	v, resp, err := r.api.CreateUserV1UsersPost(ctx).CreateUserRequest(req).Execute()
+	v, resp, err := r.api.UsersCreateUser(ctx).CreateUserRequest(req).Execute()
 	return v, resp, translate(resp, err)
 }
 
 func (r UsersResource) Get(ctx context.Context, userID string) (*client.UserResponse, *http.Response, error) {
-	v, resp, err := r.api.GetUserV1UsersUserIdGet(ctx, userID).Execute()
+	v, resp, err := r.api.UsersGetUser(ctx, userID).Execute()
 	return v, resp, translate(resp, err)
 }
 
 func (r UsersResource) List(ctx context.Context, skip, limit *int32) ([]client.UserResponse, *http.Response, error) {
-	req := r.api.ListUsersV1UsersGet(ctx)
+	req := r.api.UsersListUsers(ctx)
 	if skip != nil {
 		req = req.Skip(*skip)
 	}
@@ -120,17 +120,17 @@ func (r UsersResource) List(ctx context.Context, skip, limit *int32) ([]client.U
 }
 
 func (r UsersResource) Update(ctx context.Context, userID string, req client.UpdateUserRequest) (*client.UserResponse, *http.Response, error) {
-	v, resp, err := r.api.UpdateUserV1UsersUserIdPatch(ctx, userID).UpdateUserRequest(req).Execute()
+	v, resp, err := r.api.UsersUpdateUser(ctx, userID).UpdateUserRequest(req).Execute()
 	return v, resp, translate(resp, err)
 }
 
 func (r UsersResource) Delete(ctx context.Context, userID string) (*http.Response, error) {
-	resp, err := r.api.DeleteUserV1UsersUserIdDelete(ctx, userID).Execute()
+	resp, err := r.api.UsersDeleteUser(ctx, userID).Execute()
 	return resp, translate(resp, err)
 }
 
 func (r UsersResource) GetUsage(ctx context.Context, userID string, skip, limit *int32) ([]client.UsageLogResponse, *http.Response, error) {
-	req := r.api.GetUserUsageV1UsersUserIdUsageGet(ctx, userID)
+	req := r.api.UsersGetUserUsage(ctx, userID)
 	if skip != nil {
 		req = req.Skip(*skip)
 	}
@@ -145,17 +145,17 @@ func (r UsersResource) GetUsage(ctx context.Context, userID string, skip, limit 
 type BudgetsResource struct{ api *client.BudgetsAPIService }
 
 func (r BudgetsResource) Create(ctx context.Context, req client.CreateBudgetRequest) (*client.BudgetResponse, *http.Response, error) {
-	v, resp, err := r.api.CreateBudgetV1BudgetsPost(ctx).CreateBudgetRequest(req).Execute()
+	v, resp, err := r.api.BudgetsCreateBudget(ctx).CreateBudgetRequest(req).Execute()
 	return v, resp, translate(resp, err)
 }
 
 func (r BudgetsResource) Get(ctx context.Context, budgetID string) (*client.BudgetResponse, *http.Response, error) {
-	v, resp, err := r.api.GetBudgetV1BudgetsBudgetIdGet(ctx, budgetID).Execute()
+	v, resp, err := r.api.BudgetsGetBudget(ctx, budgetID).Execute()
 	return v, resp, translate(resp, err)
 }
 
 func (r BudgetsResource) List(ctx context.Context, skip, limit *int32) ([]client.BudgetResponse, *http.Response, error) {
-	req := r.api.ListBudgetsV1BudgetsGet(ctx)
+	req := r.api.BudgetsListBudgets(ctx)
 	if skip != nil {
 		req = req.Skip(*skip)
 	}
@@ -167,12 +167,12 @@ func (r BudgetsResource) List(ctx context.Context, skip, limit *int32) ([]client
 }
 
 func (r BudgetsResource) Update(ctx context.Context, budgetID string, req client.UpdateBudgetRequest) (*client.BudgetResponse, *http.Response, error) {
-	v, resp, err := r.api.UpdateBudgetV1BudgetsBudgetIdPatch(ctx, budgetID).UpdateBudgetRequest(req).Execute()
+	v, resp, err := r.api.BudgetsUpdateBudget(ctx, budgetID).UpdateBudgetRequest(req).Execute()
 	return v, resp, translate(resp, err)
 }
 
 func (r BudgetsResource) Delete(ctx context.Context, budgetID string) (*http.Response, error) {
-	resp, err := r.api.DeleteBudgetV1BudgetsBudgetIdDelete(ctx, budgetID).Execute()
+	resp, err := r.api.BudgetsDeleteBudget(ctx, budgetID).Execute()
 	return resp, translate(resp, err)
 }
 
@@ -180,7 +180,7 @@ func (r BudgetsResource) Delete(ctx context.Context, budgetID string) (*http.Res
 type PricingResource struct{ api *client.PricingAPIService }
 
 func (r PricingResource) List(ctx context.Context, skip, limit *int32) ([]client.PricingResponse, *http.Response, error) {
-	req := r.api.ListPricingV1PricingGet(ctx)
+	req := r.api.PricingListPricing(ctx)
 	if skip != nil {
 		req = req.Skip(*skip)
 	}
@@ -192,7 +192,7 @@ func (r PricingResource) List(ctx context.Context, skip, limit *int32) ([]client
 }
 
 func (r PricingResource) Get(ctx context.Context, modelKey string, asOf *time.Time) (*client.PricingResponse, *http.Response, error) {
-	req := r.api.GetPricingV1PricingModelKeyGet(ctx, modelKey)
+	req := r.api.PricingGetPricing(ctx, modelKey)
 	if asOf != nil {
 		req = req.AsOf(*asOf)
 	}
@@ -201,12 +201,12 @@ func (r PricingResource) Get(ctx context.Context, modelKey string, asOf *time.Ti
 }
 
 func (r PricingResource) Set(ctx context.Context, req client.SetPricingRequest) (*client.PricingResponse, *http.Response, error) {
-	v, resp, err := r.api.SetPricingV1PricingPost(ctx).SetPricingRequest(req).Execute()
+	v, resp, err := r.api.PricingSetPricing(ctx).SetPricingRequest(req).Execute()
 	return v, resp, translate(resp, err)
 }
 
 func (r PricingResource) Delete(ctx context.Context, modelKey string, effectiveAt *time.Time) (*http.Response, error) {
-	req := r.api.DeletePricingV1PricingModelKeyDelete(ctx, modelKey)
+	req := r.api.PricingDeletePricing(ctx, modelKey)
 	if effectiveAt != nil {
 		req = req.EffectiveAt(*effectiveAt)
 	}
@@ -215,7 +215,7 @@ func (r PricingResource) Delete(ctx context.Context, modelKey string, effectiveA
 }
 
 func (r PricingResource) GetHistory(ctx context.Context, modelKey string) ([]client.PricingResponse, *http.Response, error) {
-	v, resp, err := r.api.GetPricingHistoryV1PricingModelKeyHistoryGet(ctx, modelKey).Execute()
+	v, resp, err := r.api.PricingGetPricingHistory(ctx, modelKey).Execute()
 	return v, resp, translate(resp, err)
 }
 
@@ -223,7 +223,7 @@ func (r PricingResource) GetHistory(ctx context.Context, modelKey string) ([]cli
 type UsageResource struct{ api *client.UsageAPIService }
 
 func (r UsageResource) List(ctx context.Context, startDate, endDate *time.Time, userID *string, skip, limit *int32) ([]client.UsageEntry, *http.Response, error) {
-	req := r.api.ListUsageV1UsageGet(ctx)
+	req := r.api.UsageListUsage(ctx)
 	if startDate != nil {
 		req = req.StartDate(*startDate)
 	}
@@ -234,7 +234,7 @@ func (r UsageResource) List(ctx context.Context, startDate, endDate *time.Time, 
 		// UserId is repeatable upstream (user_id=a&user_id=b, max 50). This alias
 		// keeps its single-user signature and wraps; multi-user filtering is
 		// reachable through the generated client.
-		req = req.UserId([]*string{userID})
+		req = req.UserId([]string{*userID})
 	}
 	if skip != nil {
 		req = req.Skip(*skip)
@@ -252,8 +252,8 @@ func (r UsageResource) List(ctx context.Context, startDate, endDate *time.Time, 
 // These endpoints authenticate with Authorization: Bearer <admin/master key>,
 // which is distinct from the Otari-Key header used for inference. Pass the
 // gateway master key (or an admin token). The generated control-plane operation
-// paths already include the /v1 prefix, so the configured server URL is the
-// gateway root.
+// paths already include the API root, so the configured server URL is the
+// gateway origin.
 //
 //	cp := client.ControlPlane("gateway-master-key")
 //	created, _, err := cp.Keys.Create(ctx, client.CreateKeyRequest{})

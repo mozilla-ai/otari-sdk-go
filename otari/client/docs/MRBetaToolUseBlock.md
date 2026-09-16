@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Type** | **string** |  | 
 **Caller** | Pointer to [**NullableCaller**](Caller.md) |  | [optional] 
+**ToolsetName** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -144,6 +145,41 @@ HasCaller returns a boolean if a field has been set.
 `func (o *MRBetaToolUseBlock) UnsetCaller()`
 
 UnsetCaller ensures that no value is present for Caller, not even an explicit nil
+### GetToolsetName
+
+`func (o *MRBetaToolUseBlock) GetToolsetName() string`
+
+GetToolsetName returns the ToolsetName field if non-nil, zero value otherwise.
+
+### GetToolsetNameOk
+
+`func (o *MRBetaToolUseBlock) GetToolsetNameOk() (*string, bool)`
+
+GetToolsetNameOk returns a tuple with the ToolsetName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetToolsetName
+
+`func (o *MRBetaToolUseBlock) SetToolsetName(v string)`
+
+SetToolsetName sets ToolsetName field to given value.
+
+### HasToolsetName
+
+`func (o *MRBetaToolUseBlock) HasToolsetName() bool`
+
+HasToolsetName returns a boolean if a field has been set.
+
+### SetToolsetNameNil
+
+`func (o *MRBetaToolUseBlock) SetToolsetNameNil(b bool)`
+
+ SetToolsetNameNil sets the value for ToolsetName to be an explicit nil
+
+### UnsetToolsetName
+`func (o *MRBetaToolUseBlock) UnsetToolsetName()`
+
+UnsetToolsetName ensures that no value is present for ToolsetName, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

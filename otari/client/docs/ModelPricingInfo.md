@@ -9,7 +9,8 @@ Name | Type | Description | Notes
 **CacheWritePricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
 **InputPricePerMillion** | **float32** |  | 
 **OutputPricePerMillion** | **float32** |  | 
-**PricingTiers** | Pointer to [**[]map[string]PricingTiersInnerValue**](map[string]PricingTiersInnerValue.md) |  | [optional] 
+**PricingTiers** | Pointer to [**[]PricingTiersInner**](PricingTiersInner.md) |  | [optional] 
+**Unit** | Pointer to **string** |  | [optional] [default to "tokens"]
 
 ## Methods
 
@@ -177,20 +178,20 @@ SetOutputPricePerMillion sets OutputPricePerMillion field to given value.
 
 ### GetPricingTiers
 
-`func (o *ModelPricingInfo) GetPricingTiers() []map[string]PricingTiersInnerValue`
+`func (o *ModelPricingInfo) GetPricingTiers() []PricingTiersInner`
 
 GetPricingTiers returns the PricingTiers field if non-nil, zero value otherwise.
 
 ### GetPricingTiersOk
 
-`func (o *ModelPricingInfo) GetPricingTiersOk() (*[]map[string]PricingTiersInnerValue, bool)`
+`func (o *ModelPricingInfo) GetPricingTiersOk() (*[]PricingTiersInner, bool)`
 
 GetPricingTiersOk returns a tuple with the PricingTiers field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPricingTiers
 
-`func (o *ModelPricingInfo) SetPricingTiers(v []map[string]PricingTiersInnerValue)`
+`func (o *ModelPricingInfo) SetPricingTiers(v []PricingTiersInner)`
 
 SetPricingTiers sets PricingTiers field to given value.
 
@@ -199,6 +200,31 @@ SetPricingTiers sets PricingTiers field to given value.
 `func (o *ModelPricingInfo) HasPricingTiers() bool`
 
 HasPricingTiers returns a boolean if a field has been set.
+
+### GetUnit
+
+`func (o *ModelPricingInfo) GetUnit() string`
+
+GetUnit returns the Unit field if non-nil, zero value otherwise.
+
+### GetUnitOk
+
+`func (o *ModelPricingInfo) GetUnitOk() (*string, bool)`
+
+GetUnitOk returns a tuple with the Unit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnit
+
+`func (o *ModelPricingInfo) SetUnit(v string)`
+
+SetUnit sets Unit field to given value.
+
+### HasUnit
+
+`func (o *ModelPricingInfo) HasUnit() bool`
+
+HasUnit returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

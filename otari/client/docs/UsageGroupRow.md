@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Cost** | **float32** |  | 
 **IsOther** | Pointer to **bool** |  | [optional] [default to false]
 **Key** | **NullableString** |  | 
+**Label** | Pointer to **NullableString** |  | [optional] 
 **Requests** | **int32** |  | 
 **Tokens** | **int32** |  | 
 
@@ -104,6 +105,41 @@ SetKey sets Key field to given value.
 `func (o *UsageGroupRow) UnsetKey()`
 
 UnsetKey ensures that no value is present for Key, not even an explicit nil
+### GetLabel
+
+`func (o *UsageGroupRow) GetLabel() string`
+
+GetLabel returns the Label field if non-nil, zero value otherwise.
+
+### GetLabelOk
+
+`func (o *UsageGroupRow) GetLabelOk() (*string, bool)`
+
+GetLabelOk returns a tuple with the Label field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLabel
+
+`func (o *UsageGroupRow) SetLabel(v string)`
+
+SetLabel sets Label field to given value.
+
+### HasLabel
+
+`func (o *UsageGroupRow) HasLabel() bool`
+
+HasLabel returns a boolean if a field has been set.
+
+### SetLabelNil
+
+`func (o *UsageGroupRow) SetLabelNil(b bool)`
+
+ SetLabelNil sets the value for Label to be an explicit nil
+
+### UnsetLabel
+`func (o *UsageGroupRow) UnsetLabel()`
+
+UnsetLabel ensures that no value is present for Label, not even an explicit nil
 ### GetRequests
 
 `func (o *UsageGroupRow) GetRequests() int32`

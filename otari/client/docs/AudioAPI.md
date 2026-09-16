@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateSpeechV1AudioSpeechPost**](AudioAPI.md#CreateSpeechV1AudioSpeechPost) | **Post** /v1/audio/speech | Create Speech
-[**CreateTranscriptionV1AudioTranscriptionsPost**](AudioAPI.md#CreateTranscriptionV1AudioTranscriptionsPost) | **Post** /v1/audio/transcriptions | Create Transcription
+[**AudioCreateSpeech**](AudioAPI.md#AudioCreateSpeech) | **Post** /api/v1/audio/speech | Create Speech
+[**AudioCreateTranscription**](AudioAPI.md#AudioCreateTranscription) | **Post** /api/v1/audio/transcriptions | Create Transcription
 
 
 
-## CreateSpeechV1AudioSpeechPost
+## AudioCreateSpeech
 
-> interface{} CreateSpeechV1AudioSpeechPost(ctx).AudioSpeechRequest(audioSpeechRequest).Execute()
+> interface{} AudioCreateSpeech(ctx).AudioSpeechRequest(audioSpeechRequest).Execute()
 
 Create Speech
 
@@ -34,13 +34,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AudioAPI.CreateSpeechV1AudioSpeechPost(context.Background()).AudioSpeechRequest(audioSpeechRequest).Execute()
+	resp, r, err := apiClient.AudioAPI.AudioCreateSpeech(context.Background()).AudioSpeechRequest(audioSpeechRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `AudioAPI.CreateSpeechV1AudioSpeechPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `AudioAPI.AudioCreateSpeech``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateSpeechV1AudioSpeechPost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `AudioAPI.CreateSpeechV1AudioSpeechPost`: %v\n", resp)
+	// response from `AudioCreateSpeech`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `AudioAPI.AudioCreateSpeech`: %v\n", resp)
 }
 ```
 
@@ -50,7 +50,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateSpeechV1AudioSpeechPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiAudioCreateSpeechRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -75,9 +75,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## CreateTranscriptionV1AudioTranscriptionsPost
+## AudioCreateTranscription
 
-> interface{} CreateTranscriptionV1AudioTranscriptionsPost(ctx).File(file).Model(model).Language(language).Prompt(prompt).ResponseFormat(responseFormat).Temperature(temperature).User(user).Execute()
+> interface{} AudioCreateTranscription(ctx).File(file).Model(model).Language(language).Prompt(prompt).ResponseFormat(responseFormat).Temperature(temperature).User(user).Execute()
 
 Create Transcription
 
@@ -106,13 +106,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AudioAPI.CreateTranscriptionV1AudioTranscriptionsPost(context.Background()).File(file).Model(model).Language(language).Prompt(prompt).ResponseFormat(responseFormat).Temperature(temperature).User(user).Execute()
+	resp, r, err := apiClient.AudioAPI.AudioCreateTranscription(context.Background()).File(file).Model(model).Language(language).Prompt(prompt).ResponseFormat(responseFormat).Temperature(temperature).User(user).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `AudioAPI.CreateTranscriptionV1AudioTranscriptionsPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `AudioAPI.AudioCreateTranscription``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateTranscriptionV1AudioTranscriptionsPost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `AudioAPI.CreateTranscriptionV1AudioTranscriptionsPost`: %v\n", resp)
+	// response from `AudioCreateTranscription`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `AudioAPI.AudioCreateTranscription`: %v\n", resp)
 }
 ```
 
@@ -122,7 +122,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateTranscriptionV1AudioTranscriptionsPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiAudioCreateTranscriptionRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

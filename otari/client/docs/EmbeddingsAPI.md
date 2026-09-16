@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateEmbeddingV1EmbeddingsPost**](EmbeddingsAPI.md#CreateEmbeddingV1EmbeddingsPost) | **Post** /v1/embeddings | Create Embedding
+[**EmbeddingsCreateEmbedding**](EmbeddingsAPI.md#EmbeddingsCreateEmbedding) | **Post** /api/v1/embeddings | Create Embedding
 
 
 
-## CreateEmbeddingV1EmbeddingsPost
+## EmbeddingsCreateEmbedding
 
-> CreateEmbeddingResponse CreateEmbeddingV1EmbeddingsPost(ctx).EmbeddingRequest(embeddingRequest).Execute()
+> CreateEmbeddingResponse EmbeddingsCreateEmbedding(ctx).EmbeddingRequest(embeddingRequest).Execute()
 
 Create Embedding
 
@@ -33,13 +33,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.EmbeddingsAPI.CreateEmbeddingV1EmbeddingsPost(context.Background()).EmbeddingRequest(embeddingRequest).Execute()
+	resp, r, err := apiClient.EmbeddingsAPI.EmbeddingsCreateEmbedding(context.Background()).EmbeddingRequest(embeddingRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `EmbeddingsAPI.CreateEmbeddingV1EmbeddingsPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `EmbeddingsAPI.EmbeddingsCreateEmbedding``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateEmbeddingV1EmbeddingsPost`: CreateEmbeddingResponse
-	fmt.Fprintf(os.Stdout, "Response from `EmbeddingsAPI.CreateEmbeddingV1EmbeddingsPost`: %v\n", resp)
+	// response from `EmbeddingsCreateEmbedding`: CreateEmbeddingResponse
+	fmt.Fprintf(os.Stdout, "Response from `EmbeddingsAPI.EmbeddingsCreateEmbedding`: %v\n", resp)
 }
 ```
 
@@ -49,7 +49,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateEmbeddingV1EmbeddingsPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiEmbeddingsCreateEmbeddingRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

@@ -9,8 +9,9 @@ Name | Type | Description | Notes
 **BudgetUsedPct** | Pointer to **NullableFloat32** | Simulated budget usage percentage. | [optional] 
 **KeyId** | Pointer to **NullableString** | Evaluate conditions as this API key id. | [optional] 
 **Name** | Pointer to **NullableString** | An existing policy to explain. | [optional] 
-**Spec** | Pointer to **map[string]interface{}** | An unsaved policy body to explain. | [optional] 
+**Spec** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
 **UserId** | Pointer to **NullableString** | Evaluate conditions as this user. | [optional] 
+**WorkspaceId** | Pointer to **NullableString** | Resolve &#x60;name&#x60; and the policy&#39;s candidate selectors in this workspace. Omit for the deployment&#39;s default workspace. | [optional] 
 
 ## Methods
 
@@ -276,6 +277,41 @@ HasUserId returns a boolean if a field has been set.
 `func (o *ExplainRequest) UnsetUserId()`
 
 UnsetUserId ensures that no value is present for UserId, not even an explicit nil
+### GetWorkspaceId
+
+`func (o *ExplainRequest) GetWorkspaceId() string`
+
+GetWorkspaceId returns the WorkspaceId field if non-nil, zero value otherwise.
+
+### GetWorkspaceIdOk
+
+`func (o *ExplainRequest) GetWorkspaceIdOk() (*string, bool)`
+
+GetWorkspaceIdOk returns a tuple with the WorkspaceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkspaceId
+
+`func (o *ExplainRequest) SetWorkspaceId(v string)`
+
+SetWorkspaceId sets WorkspaceId field to given value.
+
+### HasWorkspaceId
+
+`func (o *ExplainRequest) HasWorkspaceId() bool`
+
+HasWorkspaceId returns a boolean if a field has been set.
+
+### SetWorkspaceIdNil
+
+`func (o *ExplainRequest) SetWorkspaceIdNil(b bool)`
+
+ SetWorkspaceIdNil sets the value for WorkspaceId to be an explicit nil
+
+### UnsetWorkspaceId
+`func (o *ExplainRequest) UnsetWorkspaceId()`
+
+UnsetWorkspaceId ensures that no value is present for WorkspaceId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
