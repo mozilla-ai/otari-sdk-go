@@ -52,7 +52,7 @@ func TestImageGeneration(t *testing.T) {
 
 	mu.Lock()
 	defer mu.Unlock()
-	require.Equal(t, "/v1/images/generations", gotPath)
+	require.Equal(t, "/api/v1/images/generations", gotPath)
 	require.Equal(t, "openai:dall-e-3", gotBody["model"])
 	require.Equal(t, "a red bicycle", gotBody["prompt"])
 	require.Equal(t, "1024x1024", gotBody["size"])
@@ -115,7 +115,7 @@ func TestSpeechReturnsBytesAndSendsAuth(t *testing.T) {
 
 	mu.Lock()
 	defer mu.Unlock()
-	require.Equal(t, "/v1/audio/speech", gotPath)
+	require.Equal(t, "/api/v1/audio/speech", gotPath)
 	require.Equal(t, "openai:tts-1", gotBody["model"])
 	require.Equal(t, "hello world", gotBody["input"])
 	require.Equal(t, "alloy", gotBody["voice"])
@@ -209,7 +209,7 @@ func TestTranscriptionSendsMultipartAndParsesJSON(t *testing.T) {
 
 	mu.Lock()
 	defer mu.Unlock()
-	require.Equal(t, "/v1/audio/transcriptions", gotPath)
+	require.Equal(t, "/api/v1/audio/transcriptions", gotPath)
 	require.Equal(t, "openai:whisper-1", gotModel)
 	require.Equal(t, "en", gotLang)
 	require.Equal(t, []byte("RIFFfake-audio-bytes"), gotFile)

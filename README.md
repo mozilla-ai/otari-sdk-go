@@ -117,7 +117,7 @@ client, err := otari.New(
 )
 ```
 
-The base URL and key can also come from the `GATEWAY_API_BASE` and `GATEWAY_API_KEY` environment variables. When no explicit credentials are provided, `otari.New()` resolves the mode from the environment: a platform token (`OTARI_AI_TOKEN` / `GATEWAY_PLATFORM_TOKEN`) selects platform mode against the hosted gateway, otherwise `GATEWAY_API_BASE` + `GATEWAY_API_KEY` select self-hosted mode.
+The base URL is the gateway origin. The SDK appends the `/api/v1` API root itself, so do not include it in the base URL. The base URL and key can also come from the `GATEWAY_API_BASE` and `GATEWAY_API_KEY` environment variables. When no explicit credentials are provided, `otari.New()` resolves the mode from the environment: a platform token (`OTARI_AI_TOKEN` / `GATEWAY_PLATFORM_TOKEN`) selects platform mode against the hosted gateway, otherwise `GATEWAY_API_BASE` + `GATEWAY_API_KEY` select self-hosted mode.
 
 ## Usage
 

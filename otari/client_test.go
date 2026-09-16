@@ -30,7 +30,7 @@ func TestNew(t *testing.T) {
 	})
 
 	t.Run("creates client with base URL from env", func(t *testing.T) {
-		t.Setenv(envAPIBase, "http://localhost:8000/v1")
+		t.Setenv(envAPIBase, "http://localhost:8000")
 		t.Setenv(envPlatformToken, "")
 		t.Setenv(envAPIKey, "")
 
@@ -44,7 +44,7 @@ func TestNew(t *testing.T) {
 		t.Setenv(envAPIBase, "")
 		t.Setenv(envPlatformToken, "")
 
-		client, err := New(WithBaseURL("http://localhost:8000/v1"))
+		client, err := New(WithBaseURL("http://localhost:8000"))
 		require.NoError(t, err)
 		require.NotNil(t, client)
 	})
@@ -54,7 +54,7 @@ func TestNew(t *testing.T) {
 		t.Setenv(envPlatformToken, "")
 
 		client, err := New(
-			WithBaseURL("http://localhost:8000/v1"),
+			WithBaseURL("http://localhost:8000"),
 			WithAPIKey("tk_test_token"),
 			WithPlatformMode(),
 		)
@@ -64,7 +64,7 @@ func TestNew(t *testing.T) {
 	})
 
 	t.Run("auto-detects platform mode from env token", func(t *testing.T) {
-		t.Setenv(envAPIBase, "http://localhost:8000/v1")
+		t.Setenv(envAPIBase, "http://localhost:8000")
 		t.Setenv(envPlatformToken, "tk_auto_detected")
 
 		client, err := New()
@@ -74,7 +74,7 @@ func TestNew(t *testing.T) {
 	})
 
 	t.Run("returns error when platform mode has no token", func(t *testing.T) {
-		t.Setenv(envAPIBase, "http://localhost:8000/v1")
+		t.Setenv(envAPIBase, "http://localhost:8000")
 		t.Setenv(envPlatformToken, "")
 
 		client, err := New(WithPlatformMode())
@@ -84,7 +84,7 @@ func TestNew(t *testing.T) {
 	})
 
 	t.Run("creates non-platform client with otari key from env", func(t *testing.T) {
-		t.Setenv(envAPIBase, "http://localhost:8000/v1")
+		t.Setenv(envAPIBase, "http://localhost:8000")
 		t.Setenv(envAPIKey, "gw_test_key")
 		t.Setenv(envPlatformToken, "")
 
@@ -99,7 +99,7 @@ func TestNew(t *testing.T) {
 		t.Setenv(envPlatformToken, "")
 
 		client, err := New(
-			WithBaseURL("http://localhost:8000/v1"),
+			WithBaseURL("http://localhost:8000"),
 			WithOtariKey("gw_explicit_key"),
 		)
 		require.NoError(t, err)
@@ -181,7 +181,7 @@ func TestNew(t *testing.T) {
 		t.Setenv(envPlatformTokenLegacy, "")
 
 		client, err := New(
-			WithBaseURL("http://localhost:8000/v1"),
+			WithBaseURL("http://localhost:8000"),
 			WithAPIKey("tk_x"),
 			WithPlatformMode(),
 		)
@@ -196,7 +196,7 @@ func TestNew(t *testing.T) {
 		t.Setenv(envPlatformToken, "")
 
 		client, err := New(
-			WithBaseURL("http://localhost:8000/v1"),
+			WithBaseURL("http://localhost:8000"),
 			WithTimeout(30*time.Second),
 		)
 		require.NoError(t, err)
@@ -267,7 +267,7 @@ func TestNew(t *testing.T) {
 func TestProviderName(t *testing.T) {
 	t.Parallel()
 
-	client, err := New(WithBaseURL("http://localhost:8000/v1"))
+	client, err := New(WithBaseURL("http://localhost:8000"))
 	require.NoError(t, err)
 	require.Equal(t, providerName, client.Name())
 }
@@ -275,7 +275,7 @@ func TestProviderName(t *testing.T) {
 func TestCapabilities(t *testing.T) {
 	t.Parallel()
 
-	client, err := New(WithBaseURL("http://localhost:8000/v1"))
+	client, err := New(WithBaseURL("http://localhost:8000"))
 	require.NoError(t, err)
 
 	caps := client.Capabilities()
@@ -319,7 +319,7 @@ func TestPlatformModeDetection(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			t.Setenv(envAPIBase, "http://localhost:8000/v1")
+			t.Setenv(envAPIBase, "http://localhost:8000")
 			t.Setenv(envPlatformToken, tc.envPlatformToken)
 			t.Setenv(envPlatformTokenLegacy, "")
 			t.Setenv(envAPIKey, tc.envAPIKey)
@@ -939,7 +939,7 @@ func TestCompletionRequestBody(t *testing.T) {
 func TestValidationErrors(t *testing.T) {
 	t.Parallel()
 
-	client, err := New(WithBaseURL("http://localhost:9999/v1"))
+	client, err := New(WithBaseURL("http://localhost:9999"))
 	require.NoError(t, err)
 
 	ctx := context.Background()
@@ -969,7 +969,7 @@ func TestValidationErrors(t *testing.T) {
 func TestConvertErrorNilPassthrough(t *testing.T) {
 	t.Parallel()
 
-	client, err := New(WithBaseURL("http://localhost:8000/v1"))
+	client, err := New(WithBaseURL("http://localhost:8000"))
 	require.NoError(t, err)
 
 	require.Nil(t, client.ConvertError(nil))
@@ -984,7 +984,7 @@ func TestCreateBatchSuccess(t *testing.T) {
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		require.Equal(t, http.MethodPost, r.Method)
-		require.Equal(t, "/v1/batches", r.URL.Path)
+		require.Equal(t, "/api/v1/batches", r.URL.Path)
 
 		raw, err := io.ReadAll(r.Body)
 		require.NoError(t, err)
@@ -1112,7 +1112,7 @@ func TestRetrieveBatchSendsProviderParam(t *testing.T) {
 	require.Equal(t, "batch_abc123", batch.ID)
 	require.Equal(t, BatchStatusInProgress, batch.Status)
 	require.Contains(t, capturedPath, "provider=openai")
-	require.Contains(t, capturedPath, "/v1/batches/batch_abc123")
+	require.Contains(t, capturedPath, "/api/v1/batches/batch_abc123")
 }
 
 func TestCancelBatchSuccess(t *testing.T) {
@@ -1148,7 +1148,7 @@ func TestCancelBatchSuccess(t *testing.T) {
 	require.Equal(t, "batch_abc123", batch.ID)
 	require.Equal(t, BatchStatusCancelling, batch.Status)
 	require.Equal(t, http.MethodPost, capturedMethod)
-	require.Contains(t, capturedPath, "/v1/batches/batch_abc123/cancel")
+	require.Contains(t, capturedPath, "/api/v1/batches/batch_abc123/cancel")
 	require.Contains(t, capturedPath, "provider=openai")
 }
 
@@ -1240,7 +1240,7 @@ func TestRetrieveBatchResultsSuccess(t *testing.T) {
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		require.Equal(t, http.MethodGet, r.Method)
-		require.Contains(t, r.URL.Path, "/v1/batches/batch_abc123/results")
+		require.Contains(t, r.URL.Path, "/api/v1/batches/batch_abc123/results")
 		require.Equal(t, "openai", r.URL.Query().Get("provider"))
 
 		w.Header().Set("Content-Type", "application/json")
@@ -1545,7 +1545,7 @@ func TestRerank(t *testing.T) {
 	var mu sync.Mutex
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/v1/rerank" && r.Method == http.MethodPost {
+		if r.URL.Path == "/api/v1/rerank" && r.Method == http.MethodPost {
 			mu.Lock()
 			capturedBody, _ = io.ReadAll(r.Body)
 			mu.Unlock()
@@ -1661,7 +1661,7 @@ func TestRerankError(t *testing.T) {
 			t.Parallel()
 
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				if r.URL.Path == "/v1/rerank" {
+				if r.URL.Path == "/api/v1/rerank" {
 					w.WriteHeader(tc.statusCode)
 					_, _ = w.Write([]byte(tc.body))
 					return
@@ -1697,7 +1697,7 @@ func TestRerankSendsOtariHeader(t *testing.T) {
 	)
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/v1/rerank" {
+		if r.URL.Path == "/api/v1/rerank" {
 			mu.Lock()
 			capturedHeaders = r.Header.Clone()
 			mu.Unlock()
@@ -1733,7 +1733,7 @@ func TestRerankSendsOtariHeader(t *testing.T) {
 func TestRerankValidation(t *testing.T) {
 	t.Parallel()
 
-	client, err := New(WithBaseURL("http://localhost:9999/v1"))
+	client, err := New(WithBaseURL("http://localhost:9999"))
 	require.NoError(t, err)
 
 	ctx := context.Background()
@@ -1784,7 +1784,7 @@ func TestRerankSendsPlatformBearerAuth(t *testing.T) {
 	)
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/v1/rerank" {
+		if r.URL.Path == "/api/v1/rerank" {
 			mu.Lock()
 			capturedHeaders = r.Header.Clone()
 			mu.Unlock()
@@ -1832,7 +1832,7 @@ func TestModeration(t *testing.T) {
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		require.Equal(t, http.MethodPost, r.Method)
-		require.Equal(t, "/v1/moderations", r.URL.Path)
+		require.Equal(t, "/api/v1/moderations", r.URL.Path)
 
 		raw, err := io.ReadAll(r.Body)
 		require.NoError(t, err)
@@ -2228,11 +2228,10 @@ func (m *mockRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) 
 }
 
 // mockCompletionParams returns standard completion params for tests.
-// TestBaseURLNormalizationAddsV1 guards the normalization that lets a base
-// URL without a /v1 suffix still reach the gateway's OpenAI-compatible
-// /v1 routes. openai-go appends bare paths like "chat/completions", so the
-// SDK must give it a /v1-suffixed base.
-func TestBaseURLNormalizationAddsV1(t *testing.T) {
+// TestBaseURLIsOriginAndSDKAppendsAPIRoot guards the contract that a base URL
+// is the gateway origin and the SDK appends the API root itself, so hand-built
+// inference paths like "/chat/completions" land under /api/v1.
+func TestBaseURLIsOriginAndSDKAppendsAPIRoot(t *testing.T) {
 	t.Setenv(envAPIBase, "")
 	t.Setenv(envPlatformToken, "")
 
@@ -2244,13 +2243,13 @@ func TestBaseURLNormalizationAddsV1(t *testing.T) {
 	}))
 	t.Cleanup(srv.Close)
 
-	// Base URL WITHOUT /v1 — the SDK must add it.
-	client, err := New(WithBaseURL(srv.URL), WithOtariKey("test-key"))
+	// The base URL is the bare origin; the SDK must add the API root.
+	client, err := New(WithBaseURL(srv.URL+"/"), WithOtariKey("test-key"))
 	require.NoError(t, err)
 
 	_, err = client.Completion(context.Background(), mockCompletionParams())
 	require.NoError(t, err)
-	require.Equal(t, "/v1/chat/completions", capturedPath)
+	require.Equal(t, "/api/v1/chat/completions", capturedPath)
 }
 
 func mockCompletionParams() CompletionParams {

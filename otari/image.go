@@ -8,7 +8,7 @@ import (
 	"github.com/mozilla-ai/otari-sdk-go/otari/client"
 )
 
-// ImageGenerationParams are the parameters for POST /v1/images/generations.
+// ImageGenerationParams are the parameters for POST /api/v1/images/generations.
 // Extra carries any additional OpenAI-compatible image fields (n, size,
 // quality, response_format, style, user, ...) forwarded verbatim.
 type ImageGenerationParams struct {
@@ -18,7 +18,7 @@ type ImageGenerationParams struct {
 }
 
 // imageGenerationBody builds the JSON request body for POST
-// /v1/images/generations from the ergonomic ImageGenerationParams.
+// /api/v1/images/generations from the ergonomic ImageGenerationParams.
 func imageGenerationBody(params ImageGenerationParams) map[string]any {
 	body := structToMap(params)
 	for k, v := range params.Extra {
@@ -28,7 +28,7 @@ func imageGenerationBody(params ImageGenerationParams) map[string]any {
 }
 
 // ImageGeneration generates images from a text prompt via
-// POST /v1/images/generations.
+// POST /api/v1/images/generations.
 //
 // The gateway returns an OpenAI-compatible image payload, modeled by the
 // generated *client.ImagesResponse (Created plus a Data slice of images, each

@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Moderation runs a content moderation check via POST /v1/moderations.
+// Moderation runs a content moderation check via POST /api/v1/moderations.
 //
 // Returns an *UnsupportedCapabilityError (matching ErrUnsupported) when the
 // gateway reports that the chosen backend provider does not support moderation;

@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// SpeechParams are the parameters for POST /v1/audio/speech (text-to-speech).
+// SpeechParams are the parameters for POST /api/v1/audio/speech (text-to-speech).
 // Extra carries any additional fields (response_format, speed, instructions,
 // user, ...) forwarded verbatim.
 type SpeechParams struct {
@@ -19,7 +19,7 @@ type SpeechParams struct {
 	Extra map[string]any `json:"-"`
 }
 
-// speechBody builds the JSON request body for POST /v1/audio/speech.
+// speechBody builds the JSON request body for POST /api/v1/audio/speech.
 func speechBody(params SpeechParams) map[string]any {
 	body := structToMap(params)
 	for k, v := range params.Extra {
@@ -28,7 +28,7 @@ func speechBody(params SpeechParams) map[string]any {
 	return body
 }
 
-// Speech synthesizes speech (text-to-speech) via POST /v1/audio/speech,
+// Speech synthesizes speech (text-to-speech) via POST /api/v1/audio/speech,
 // returning the raw audio bytes.
 //
 // The gateway returns binary audio (audio/mpeg by default) with no JSON
@@ -61,7 +61,7 @@ func (c *Client) Speech(
 	return body, nil
 }
 
-// TranscriptionParams are the parameters for POST /v1/audio/transcriptions.
+// TranscriptionParams are the parameters for POST /api/v1/audio/transcriptions.
 // File is the raw audio bytes uploaded as multipart form data; Filename names
 // the upload part (some providers infer the audio format from its extension).
 // Extra carries any additional fields (language, prompt, response_format,
@@ -83,7 +83,7 @@ type TranscriptionResult struct {
 	Text string
 }
 
-// Transcription transcribes audio to text via POST /v1/audio/transcriptions.
+// Transcription transcribes audio to text via POST /api/v1/audio/transcriptions.
 //
 // File is uploaded as the multipart "file" field; Model and any Extra fields
 // are sent as form fields. The generated core types its file field as a string

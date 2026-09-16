@@ -9,7 +9,7 @@ import (
 
 // Batch API path constants.
 const (
-	// batchesPath is the base path (relative to /v1) for batch operations.
+	// batchesPath is the base path (relative to /api/v1) for batch operations.
 	batchesPath = "/batches"
 
 	// providerQueryParam is the query-string key identifying the upstream
@@ -99,7 +99,7 @@ func (c *Client) RetrieveBatchResults(
 }
 
 // batchItemPath builds a path for /batches/{id}[/action]?provider=X relative to
-// the /v1 base. It escapes each path segment individually via url.URL.JoinPath
+// the /api/v1 base. It escapes each path segment individually via url.URL.JoinPath
 // so a batchID containing "/" or ".." is encoded as a single segment.
 func batchItemPath(batchID, action, provider string) string {
 	u := (&url.URL{Path: batchesPath}).JoinPath(batchID)

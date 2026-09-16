@@ -51,35 +51,35 @@ func TestControlPlaneAliasesRouteToGeneratedOperations(t *testing.T) {
 		{"keys.List", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
 			_, _, err := cp.Keys.List(ctx, nil, nil)
 			return err
-		}, http.MethodGet, "/v1/keys"},
+		}, http.MethodGet, "/api/v1/keys"},
 		{"keys.Delete", "", func(ctx context.Context, cp *ControlPlaneClient) error {
 			_, err := cp.Keys.Delete(ctx, "k1")
 			return err
-		}, http.MethodDelete, "/v1/keys/k1"},
+		}, http.MethodDelete, "/api/v1/keys/k1"},
 		{"users.List", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
 			_, _, err := cp.Users.List(ctx, nil, nil)
 			return err
-		}, http.MethodGet, "/v1/users"},
+		}, http.MethodGet, "/api/v1/users"},
 		{"users.GetUsage", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
 			_, _, err := cp.Users.GetUsage(ctx, "u1", nil, nil)
 			return err
-		}, http.MethodGet, "/v1/users/u1/usage"},
+		}, http.MethodGet, "/api/v1/users/u1/usage"},
 		{"budgets.List", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
 			_, _, err := cp.Budgets.List(ctx, nil, nil)
 			return err
-		}, http.MethodGet, "/v1/budgets"},
+		}, http.MethodGet, "/api/v1/budgets"},
 		{"pricing.List", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
 			_, _, err := cp.Pricing.List(ctx, nil, nil)
 			return err
-		}, http.MethodGet, "/v1/pricing"},
+		}, http.MethodGet, "/api/v1/pricing"},
 		{"pricing.GetHistory", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
 			_, _, err := cp.Pricing.GetHistory(ctx, "mk1")
 			return err
-		}, http.MethodGet, "/v1/pricing/mk1/history"},
+		}, http.MethodGet, "/api/v1/pricing/mk1/history"},
 		{"usage.List", "[]", func(ctx context.Context, cp *ControlPlaneClient) error {
 			_, _, err := cp.Usage.List(ctx, nil, nil, nil, nil, nil)
 			return err
-		}, http.MethodGet, "/v1/usage"},
+		}, http.MethodGet, "/api/v1/usage"},
 	}
 
 	for _, tc := range cases {
@@ -226,10 +226,10 @@ func TestControlPlaneRawEscapeHatch(t *testing.T) {
 	cp := client.ControlPlane("master")
 
 	require.NotNil(t, cp.Raw)
-	_, _, err = cp.Raw.KeysAPI.ListKeysV1KeysGet(context.Background()).Execute()
+	_, _, err = cp.Raw.KeysAPI.KeysListKeys(context.Background()).Execute()
 	require.NoError(t, err)
 
 	method, path, _ := recorded()
 	require.Equal(t, http.MethodGet, method)
-	require.Equal(t, "/v1/keys", path)
+	require.Equal(t, "/api/v1/keys", path)
 }

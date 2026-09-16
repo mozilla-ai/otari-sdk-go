@@ -172,7 +172,7 @@ type EmbeddingResponse struct {
 	Usage  *EmbeddingUsage `json:"usage,omitempty"`
 }
 
-// CountTokensResponse is the result of POST /v1/messages/count_tokens: the
+// CountTokensResponse is the result of POST /api/v1/messages/count_tokens: the
 // number of input tokens the corresponding /messages request would consume.
 type CountTokensResponse struct {
 	InputTokens int `json:"input_tokens"`
@@ -235,7 +235,7 @@ type ModelsResponse struct {
 	Data   []Model `json:"data"`
 }
 
-// ModerationParams is the request payload for POST /v1/moderations.
+// ModerationParams is the request payload for POST /api/v1/moderations.
 // Input accepts string | []string | []ContentPart.
 type ModerationParams struct {
 	// IncludeRaw is sent as a ?include_raw=true query param; it is

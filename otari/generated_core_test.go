@@ -62,7 +62,7 @@ func TestMessageTypedDecodeAndHeaders(t *testing.T) {
 
 	mu.Lock()
 	defer mu.Unlock()
-	require.Equal(t, "/v1/messages", gotPath)
+	require.Equal(t, "/api/v1/messages", gotPath)
 	require.EqualValues(t, 64, gotBody["max_tokens"])
 	require.Equal(t, "anthropic:claude-3-5-sonnet", gotBody["model"])
 	require.Equal(t, bearerPrefix+"vk", gotOtari)
@@ -114,7 +114,7 @@ func TestCountTokensTypedDecodeAndStripsMaxTokens(t *testing.T) {
 
 	mu.Lock()
 	defer mu.Unlock()
-	require.Equal(t, "/v1/messages/count_tokens", gotPath)
+	require.Equal(t, "/api/v1/messages/count_tokens", gotPath)
 	require.Equal(t, "anthropic:claude-3-5-sonnet", gotBody["model"])
 	_, hasMaxTokens := gotBody["max_tokens"]
 	require.False(t, hasMaxTokens)
@@ -126,7 +126,7 @@ func TestResponseTypedDecode(t *testing.T) {
 	t.Parallel()
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		require.Equal(t, "/v1/responses", r.URL.Path)
+		require.Equal(t, "/api/v1/responses", r.URL.Path)
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(`{"id":"resp-1","object":"response","output":[]}`))
 	}))
@@ -305,7 +305,7 @@ func TestMessageStreamingRawEvents(t *testing.T) {
 	t.Parallel()
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		require.Equal(t, "/v1/messages", r.URL.Path)
+		require.Equal(t, "/api/v1/messages", r.URL.Path)
 		w.Header().Set("Content-Type", "text/event-stream")
 		_, _ = fmt.Fprintf(w, "data: %s\n\n", `{"type":"message_start"}`)
 		_, _ = fmt.Fprintf(w, "data: %s\n\n", `{"type":"content_block_delta","delta":{"text":"hi"}}`)
