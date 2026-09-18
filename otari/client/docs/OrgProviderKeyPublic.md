@@ -15,12 +15,13 @@ Name | Type | Description | Notes
 **OrganizationId** | **string** |  | 
 **Provider** | **string** |  | 
 **UpdatedAt** | Pointer to **NullableTime** |  | [optional] 
+**Usable** | **bool** | False when the stored credential cannot be decrypted on this deployment, so the key supplies nothing at dispatch and the catalog withholds its provider. A row this deployment cannot read is still listed, because deleting or replacing it is what fixes it. | 
 
 ## Methods
 
 ### NewOrgProviderKeyPublic
 
-`func NewOrgProviderKeyPublic(createdAt time.Time, id string, isOrgDefault bool, name string, organizationId string, provider string, ) *OrgProviderKeyPublic`
+`func NewOrgProviderKeyPublic(createdAt time.Time, id string, isOrgDefault bool, name string, organizationId string, provider string, usable bool, ) *OrgProviderKeyPublic`
 
 NewOrgProviderKeyPublic instantiates a new OrgProviderKeyPublic object
 This constructor will assign default values to properties that have it defined,
@@ -330,6 +331,26 @@ HasUpdatedAt returns a boolean if a field has been set.
 `func (o *OrgProviderKeyPublic) UnsetUpdatedAt()`
 
 UnsetUpdatedAt ensures that no value is present for UpdatedAt, not even an explicit nil
+### GetUsable
+
+`func (o *OrgProviderKeyPublic) GetUsable() bool`
+
+GetUsable returns the Usable field if non-nil, zero value otherwise.
+
+### GetUsableOk
+
+`func (o *OrgProviderKeyPublic) GetUsableOk() (*bool, bool)`
+
+GetUsableOk returns a tuple with the Usable field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUsable
+
+`func (o *OrgProviderKeyPublic) SetUsable(v bool)`
+
+SetUsable sets Usable field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

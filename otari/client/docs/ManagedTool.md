@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AcceptedTypes** | **[]string** | Every &#x60;tools[].type&#x60; this deployment currently routes to the tool. Always includes the canonical &#x60;otari_*&#x60; type; for web search it also includes the provider-named keywords when interception is enabled. | 
-**Available** | **bool** | Whether this deployment has a backend configured for the tool. A request declaring an unavailable tool is rejected with 400. | 
+**Available** | **bool** | Whether this deployment has enabled and configured the tool. A request declaring an unavailable tool is rejected with 400. | 
 **Description** | **string** | What the tool does, as the model is told. | 
 **Example** | **map[string]interface{}** | A ready-to-use &#x60;tools[]&#x60; entry. | 
 **Id** | **string** | The canonical tool type to put in &#x60;tools[]&#x60;. | 

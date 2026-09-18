@@ -16,6 +16,7 @@ api_chat.go
 api_embeddings.go
 api_files.go
 api_health.go
+api_hooks.go
 api_images.go
 api_invitations.go
 api_keys.go
@@ -140,6 +141,7 @@ docs/CallerWorkspaceMembershipPublic.md
 docs/CandidateResponse.md
 docs/CatalogAPI.md
 docs/CatalogCapabilities.md
+docs/CatalogCredential.md
 docs/CatalogElsewhere.md
 docs/CatalogModelDetail.md
 docs/CatalogModelSummary.md
@@ -211,6 +213,7 @@ docs/ExternalIngestError.md
 docs/ExternalIngestResult.md
 docs/ExternalUsageEvent.md
 docs/FilesAPI.md
+docs/GateResultResponse.md
 docs/GatewaySettings.md
 docs/GuardrailCatalog.md
 docs/GuardrailCategory.md
@@ -220,6 +223,7 @@ docs/GuardrailProfileSpec.md
 docs/GuardrailStage.md
 docs/HTTPValidationError.md
 docs/HealthAPI.md
+docs/HooksAPI.md
 docs/IMGImage.md
 docs/IMGUsage.md
 docs/IMGUsageInputTokensDetails.md
@@ -469,6 +473,8 @@ docs/PlaygroundMessagePublic.md
 docs/PlaygroundMessagesPublic.md
 docs/PlaygroundToolStatus.md
 docs/PlaygroundToolsResponse.md
+docs/PolicyCheckRequest.md
+docs/PolicyCheckResponse.md
 docs/PolicyRequest.md
 docs/PolicyResponse.md
 docs/PoolStatus.md
@@ -685,6 +691,7 @@ model_caller_organization_memberships_public.go
 model_caller_workspace_membership_public.go
 model_candidate_response.go
 model_catalog_capabilities.go
+model_catalog_credential.go
 model_catalog_elsewhere.go
 model_catalog_model_detail.go
 model_catalog_model_summary.go
@@ -779,6 +786,7 @@ model_external_events_request.go
 model_external_ingest_error.go
 model_external_ingest_result.go
 model_external_usage_event.go
+model_gate_result_response.go
 model_gateway_settings.go
 model_guardrail_catalog.go
 model_guardrail_category.go
@@ -1020,6 +1028,8 @@ model_playground_message_public.go
 model_playground_messages_public.go
 model_playground_tool_status.go
 model_playground_tools_response.go
+model_policy_check_request.go
+model_policy_check_response.go
 model_policy_request.go
 model_policy_response.go
 model_pool_status.go
@@ -1178,6 +1188,7 @@ test/api_chat_test.go
 test/api_embeddings_test.go
 test/api_files_test.go
 test/api_health_test.go
+test/api_hooks_test.go
 test/api_images_test.go
 test/api_invitations_test.go
 test/api_keys_test.go
