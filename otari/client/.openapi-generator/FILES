@@ -16,6 +16,7 @@ api_chat.go
 api_embeddings.go
 api_files.go
 api_health.go
+api_hooks.go
 api_images.go
 api_invitations.go
 api_keys.go
@@ -31,6 +32,7 @@ api_organization_pricing.go
 api_organization_usage.go
 api_organizations.go
 api_otel.go
+api_overview.go
 api_playground.go
 api_pricing.go
 api_provider_keys.go
@@ -83,6 +85,7 @@ docs/AgentTelemetryUsage.md
 docs/AliasRequest.md
 docs/AliasResponse.md
 docs/AliasesAPI.md
+docs/AllocationHealthResponse.md
 docs/Annotations.md
 docs/ApiKeyId.md
 docs/AppliedEditsInner.md
@@ -140,6 +143,7 @@ docs/CallerWorkspaceMembershipPublic.md
 docs/CandidateResponse.md
 docs/CatalogAPI.md
 docs/CatalogCapabilities.md
+docs/CatalogCredential.md
 docs/CatalogElsewhere.md
 docs/CatalogModelDetail.md
 docs/CatalogModelSummary.md
@@ -188,6 +192,7 @@ docs/CreateSearchToolRequest.md
 docs/CreateSessionRequest.md
 docs/CreateStoredProviderRequest.md
 docs/CreateUserRequest.md
+docs/CurrentPricingPage.md
 docs/DeploymentAdminAccessPublic.md
 docs/DeploymentBootstrap.md
 docs/DeploymentUserOrganizationPublic.md
@@ -211,6 +216,7 @@ docs/ExternalIngestError.md
 docs/ExternalIngestResult.md
 docs/ExternalUsageEvent.md
 docs/FilesAPI.md
+docs/GateResultResponse.md
 docs/GatewaySettings.md
 docs/GuardrailCatalog.md
 docs/GuardrailCategory.md
@@ -220,6 +226,7 @@ docs/GuardrailProfileSpec.md
 docs/GuardrailStage.md
 docs/HTTPValidationError.md
 docs/HealthAPI.md
+docs/HooksAPI.md
 docs/IMGImage.md
 docs/IMGUsage.md
 docs/IMGUsageInputTokensDetails.md
@@ -237,6 +244,7 @@ docs/InvitationPreviewPublic.md
 docs/InvitationsAPI.md
 docs/InviteOrganizationMemberRequest.md
 docs/InviteOrganizationMemberResultPublic.md
+docs/JudgeVerdictRequest.md
 docs/KeyInfo.md
 docs/KeysAPI.md
 docs/KnownProviderSchema.md
@@ -394,6 +402,9 @@ docs/McpServersAPI.md
 docs/McpToolDefinition.md
 docs/McpToolWarning.md
 docs/McpToolsResponse.md
+docs/MemberAttributionPublic.md
+docs/MemberCeilingPublic.md
+docs/MemberWorkspacePlacementPublic.md
 docs/Message.md
 docs/MessageResponse.md
 docs/MessagesAPI.md
@@ -448,6 +459,8 @@ docs/OrganizationUsageAPI.md
 docs/OrganizationsAPI.md
 docs/OtelAPI.md
 docs/OutputShape.md
+docs/OverviewAPI.md
+docs/OverviewSummaryResponse.md
 docs/PasskeySessionResponse.md
 docs/PasswordResponse.md
 docs/PendingOrganizationInvitationPublic.md
@@ -469,6 +482,8 @@ docs/PlaygroundMessagePublic.md
 docs/PlaygroundMessagesPublic.md
 docs/PlaygroundToolStatus.md
 docs/PlaygroundToolsResponse.md
+docs/PolicyCheckRequest.md
+docs/PolicyCheckResponse.md
 docs/PolicyRequest.md
 docs/PolicyResponse.md
 docs/PoolStatus.md
@@ -633,6 +648,7 @@ docs/WorkspaceWebSearchConfigPublic.md
 docs/WorkspaceWebSearchConfigUpdate.md
 docs/WorkspacesAPI.md
 docs/WorkspacesPublic.md
+docs/WorstAllocationResponse.md
 git_push.sh
 model_accept_invitation_request.go
 model_accept_invitation_result_public.go
@@ -660,6 +676,7 @@ model_agent_telemetry_tool_row.go
 model_agent_telemetry_usage.go
 model_alias_request.go
 model_alias_response.go
+model_allocation_health_response.go
 model_annotations.go
 model_api_key_id.go
 model_applied_edits_inner.go
@@ -685,6 +702,7 @@ model_caller_organization_memberships_public.go
 model_caller_workspace_membership_public.go
 model_candidate_response.go
 model_catalog_capabilities.go
+model_catalog_credential.go
 model_catalog_elsewhere.go
 model_catalog_model_detail.go
 model_catalog_model_summary.go
@@ -758,6 +776,7 @@ model_create_search_tool_request.go
 model_create_session_request.go
 model_create_stored_provider_request.go
 model_create_user_request.go
+model_current_pricing_page.go
 model_deployment_admin_access_public.go
 model_deployment_bootstrap.go
 model_deployment_user_organization_public.go
@@ -779,6 +798,7 @@ model_external_events_request.go
 model_external_ingest_error.go
 model_external_ingest_result.go
 model_external_usage_event.go
+model_gate_result_response.go
 model_gateway_settings.go
 model_guardrail_catalog.go
 model_guardrail_category.go
@@ -802,6 +822,7 @@ model_input_1.go
 model_invitation_preview_public.go
 model_invite_organization_member_request.go
 model_invite_organization_member_result_public.go
+model_judge_verdict_request.go
 model_key_info.go
 model_known_provider_schema.go
 model_known_provider_summary_schema.go
@@ -816,6 +837,9 @@ model_mcp_server_config.go
 model_mcp_tool_definition.go
 model_mcp_tool_warning.go
 model_mcp_tools_response.go
+model_member_attribution_public.go
+model_member_ceiling_public.go
+model_member_workspace_placement_public.go
 model_message.go
 model_message_response.go
 model_messages_request.go
@@ -1000,6 +1024,7 @@ model_organization_scoped_budget_public.go
 model_organization_scoped_budget_update.go
 model_organization_scoped_budgets_public.go
 model_output_shape.go
+model_overview_summary_response.go
 model_passkey_session_response.go
 model_password_response.go
 model_pending_organization_invitation_public.go
@@ -1020,6 +1045,8 @@ model_playground_message_public.go
 model_playground_messages_public.go
 model_playground_tool_status.go
 model_playground_tools_response.go
+model_policy_check_request.go
+model_policy_check_response.go
 model_policy_request.go
 model_policy_response.go
 model_pool_status.go
@@ -1164,6 +1191,7 @@ model_workspace_update.go
 model_workspace_web_search_config_public.go
 model_workspace_web_search_config_update.go
 model_workspaces_public.go
+model_worst_allocation_response.go
 response.go
 test/api_admin_test.go
 test/api_agent_telemetry_test.go
@@ -1178,6 +1206,7 @@ test/api_chat_test.go
 test/api_embeddings_test.go
 test/api_files_test.go
 test/api_health_test.go
+test/api_hooks_test.go
 test/api_images_test.go
 test/api_invitations_test.go
 test/api_keys_test.go
@@ -1193,6 +1222,7 @@ test/api_organization_pricing_test.go
 test/api_organization_usage_test.go
 test/api_organizations_test.go
 test/api_otel_test.go
+test/api_overview_test.go
 test/api_playground_test.go
 test/api_pricing_test.go
 test/api_provider_keys_test.go

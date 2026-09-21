@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ContextWindow** | Pointer to **NullableInt32** |  | [optional] 
-**Credential** | **string** | Whose key serves it: &#x60;deployment&#x60; for a &#x60;providers:&#x60; instance the operator configured, &#x60;organization&#x60; for a key the viewer&#39;s organization holds. | 
+**Credential** | [**CatalogCredential**](CatalogCredential.md) | Who may price it: &#x60;deployment&#x60; for a &#x60;providers:&#x60; instance the operator configured, &#x60;hosted&#x60; for a provider the deployment pays for in any workspace of the viewer&#39;s organization, &#x60;organization&#x60; for one the viewer&#39;s organization may set its own rate for. A workspace can still call a &#x60;hosted&#x60; provider with the organization&#39;s own key. | 
 **Discovered** | **bool** | Whether the provider itself reported this model. | 
 **MaxOutputTokens** | Pointer to **NullableInt32** |  | [optional] 
 **MetadataInputPricePerMillion** | Pointer to **NullableFloat32** | What models.dev lists this provider charging, for a cross-check. Not billed from: two independent datasets disagreeing is the cheapest stale-price detector there is. | [optional] 
@@ -24,7 +24,7 @@ Name | Type | Description | Notes
 
 ### NewCatalogOffering
 
-`func NewCatalogOffering(credential string, discovered bool, provider string, providerType string, selector string, ) *CatalogOffering`
+`func NewCatalogOffering(credential CatalogCredential, discovered bool, provider string, providerType string, selector string, ) *CatalogOffering`
 
 NewCatalogOffering instantiates a new CatalogOffering object
 This constructor will assign default values to properties that have it defined,
@@ -76,20 +76,20 @@ HasContextWindow returns a boolean if a field has been set.
 UnsetContextWindow ensures that no value is present for ContextWindow, not even an explicit nil
 ### GetCredential
 
-`func (o *CatalogOffering) GetCredential() string`
+`func (o *CatalogOffering) GetCredential() CatalogCredential`
 
 GetCredential returns the Credential field if non-nil, zero value otherwise.
 
 ### GetCredentialOk
 
-`func (o *CatalogOffering) GetCredentialOk() (*string, bool)`
+`func (o *CatalogOffering) GetCredentialOk() (*CatalogCredential, bool)`
 
 GetCredentialOk returns a tuple with the Credential field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCredential
 
-`func (o *CatalogOffering) SetCredential(v string)`
+`func (o *CatalogOffering) SetCredential(v CatalogCredential)`
 
 SetCredential sets Credential field to given value.
 

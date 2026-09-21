@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   description: "Otari, an OpenAI-compatible LLM gateway with API key management"
   title: otari
-  version: 0.6.1
+  version: 0.0.0-dev
 servers:
 - url: /
 paths:
@@ -1848,6 +1848,44 @@ paths:
           nullable: true
           type: integer
         style: form
+      - description: "Narrow to models whose name, catalog id or any selector contains\
+          \ this text, case-insensitively."
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          description: "Narrow to models whose name, catalog id or any selector contains\
+            \ this text, case-insensitively."
+          maxLength: 200
+          nullable: true
+          type: string
+        style: form
+      - description: Number of models to skip
+        explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          description: Number of models to skip
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - description: Maximum number of models to return
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          description: Maximum number of models to return
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
       responses:
         "200":
           content:
@@ -2300,6 +2338,42 @@ paths:
       summary: Health Readiness
       tags:
       - health
+  /api/v1/hooks/check:
+    post:
+      description: |-
+        Evaluate a submitted policy against submitted evidence.
+
+        Authenticated with either an API key or the master key (the router-level
+        gate), like ``POST /api/v1/usage/external-events``: this identifies who
+        sent the request, not whether its evidence is true. `blocked` is set when
+        a required gate's outcome is not `pass`/`not_applicable` (an unresolved
+        gate never counts as a pass).
+      operationId: hooks-check_policy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyCheckRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PolicyCheckResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Check Policy
+      tags:
+      - hooks
   /api/v1/images/generations:
     post:
       description: |-
@@ -3899,7 +3973,7 @@ paths:
         The member-scoped counterpart of ``POST /api/v1/keys``: the owner is always the
         caller's own attribution user, the key is always budget-enforced, and the
         workspace must be visible to the caller (a member of it, or an organization
-        owner/admin/superuser, who see every workspace). The secret is returned once.
+        owner/admin, who see every workspace). The secret is returned once.
       operationId: organization-keys-create_own_key
       requestBody:
         content:
@@ -4104,7 +4178,12 @@ paths:
       - organizations
   /api/v1/organizations/me/members:
     get:
-      description: List the members of the caller's active organization.
+      description: |-
+        List the members of the caller's active organization.
+
+        ``search`` narrows the page and the count together, so a caller offering
+        these members as options can ask for the matches instead of filtering
+        whatever page it happened to fetch.
       operationId: organizations-list_active_organization_members
       parameters:
       - description: Number of records to skip
@@ -4131,6 +4210,18 @@ paths:
           minimum: 1
           title: Limit
           type: integer
+        style: form
+      - description: "Narrow to members whose name or email contains this text, case-insensitively."
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          description: "Narrow to members whose name or email contains this text,\
+            \ case-insensitively."
+          maxLength: 200
+          nullable: true
+          type: string
         style: form
       responses:
         "200":
@@ -4530,9 +4621,12 @@ paths:
 
         Refused with a 409 when the period overlaps one already stored for that model,
         naming the period it collides with, rather than shadowing it. Refused with a
-        403 when the model is addressed through one of the deployment's own provider
-        instances: the deployment holds that credential and settles its upstream bill,
-        so its rate is the deployment price list's rather than a tenant's.
+        403 when the deployment, not the caller's organization, holds the credential
+        that serves the model, whether through one of its own provider instances or a
+        hosted credential the bound port supplies because no usable BYO credential of
+        the organization's own covers every one of its workspaces: either way the
+        deployment settles the upstream bill, so its rate is the deployment price
+        list's rather than a tenant's.
 
         The key is normalized to its canonical ``instance:model`` form first, the same
         call ``POST /api/v1/pricing`` makes, and that is what makes one model one row
@@ -5414,18 +5508,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -5700,18 +5796,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -5973,18 +6071,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -6223,18 +6323,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -6334,6 +6436,48 @@ paths:
       summary: Organization Usage Summary
       tags:
       - organization-usage
+  /api/v1/overview:
+    get:
+      description: |-
+        Summarize what the dashboard overview shows beside its usage chart.
+
+        The counts and the budget judgment in one answer, so the page does not read
+        four collections to compute them. A workspace outside the caller's
+        organization is treated as none given rather than refused, because the id
+        comes from a switcher whose contents can go stale.
+      operationId: overview-get_overview
+      parameters:
+      - description: Narrow the counts to one workspace of the caller's organization.
+        explode: true
+        in: query
+        name: workspace_id
+        required: false
+        schema:
+          description: Delete the alias in this workspace. Omit for the deployment's
+            default workspace.
+          format: uuid
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OverviewSummaryResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Get Overview
+      tags:
+      - overview
   /api/v1/playground/chat/completions:
     post:
       description: |-
@@ -6355,6 +6499,11 @@ paths:
 
         ``user`` in the body is the one field the pipeline will not read here: spend
         binds to the session's own attribution user, derived and never accepted.
+
+        On a hosted control plane there is no local pipeline to call, so the same
+        principal is forwarded to the data-plane gateway instead
+        (:func:`_dispatch_to_data_plane`). The request and the response are the same
+        either way.
       operationId: playground-playground_chat_completions
       parameters:
       - description: "Workspace to act in. Defaults to the caller's organization's\
@@ -6924,6 +7073,59 @@ paths:
       - ApiKeyAuth: []
       - XApiKeyAuth: []
       summary: Set Pricing
+      tags:
+      - pricing
+  /api/v1/pricing/current:
+    get:
+      description: |-
+        List the rate each priced model is metered at, one row per model key.
+
+        Listing prices answers the stored history, one row per ``effective_at``, so a
+        page of that is a page of revisions rather than a page of models. This
+        answers one row per key: the newest rate that has taken effect, or the
+        earliest scheduled rate for a key that has none yet. ``count`` is the number
+        of priced models, so a caller can page without reading the collection to
+        learn how long it is.
+      operationId: pricing-list_current_pricing
+      parameters:
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentPricingPage"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: List Current Pricing
       tags:
       - pricing
   /api/v1/pricing/drift:
@@ -8603,27 +8805,28 @@ paths:
       description: |-
         List the guardrails this gateway can run itself, for the form that defines one.
 
-        Every guardrail ``any_guardrail`` ships, with the constructor and per-call
-        arguments each one takes, so a guardrail is configured by picking it and
-        filling typed fields. A parameter names the environment variable that fills it
+        Every guardrail ``any_guardrail`` reaches over a hosted API, with the
+        constructor and per-call arguments each one takes, so a guardrail is
+        configured by picking it and filling typed fields. It is not the whole
+        library: a guardrail that works by holding model weights in the process
+        running it belongs in the guardrails service the profiles read beside this one
+        describes, not here. A parameter names the environment variable that fills it
         where one exists, and ``requirement_groups`` carries the constraints satisfied
         by any of several parameters, which no single required flag can state. This is
         the counterpart of
         ``GET /api/v1/providers/catalog``: the same picker, for a guardrail rather
         than a provider, and on the same gate that one takes.
 
-        Reaches no service, so there is no unavailable state to report. ``runnable``
-        says whether the modules a guardrail's backend needs are installed here,
-        probed rather than imported, and ``missing_extra`` names the Otari extra that
-        would fix it.
+        Reaches no service, so there is no unavailable state to report: the answer is
+        a property of the installed ``any_guardrail``, not of any deployment's state.
 
-        On the operator router rather than the reader beside it, on both halves of
-        what it answers. It is the input to a write that stores a vendor API key
-        deployment-wide, which is an operator's action alone; and ``runnable``
-        describes the host's installed packages, which is infrastructure rather than
-        something a tenant is owed about their own requests. A profile *name* is the
-        one thing a caller needs, and the profiles read next door is where the set of
-        those is published.
+        On the operator router rather than the reader beside it, because it is the
+        input to a write that stores a vendor credential deployment-wide. The rows
+        carry secret constructor arguments and name the environment variables this
+        deployment would otherwise read them from, so this describes how the
+        deployment is credentialed rather than what a request will have done to it. A
+        profile *name* is the one thing a caller needs, and the profiles read next
+        door is where the set of those is published.
 
         Not on ``verify_catalog_reader`` either: that plane is a closed set of three
         deployment-describing reads a data-plane key may make, and this is a
@@ -8961,18 +9164,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -9249,18 +9454,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -9596,18 +9803,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -9894,18 +10103,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -11685,7 +11896,7 @@ paths:
       - workspace-web-search
     get:
       description: |-
-        Read a workspace's web-search configuration.
+        Read a workspace's web-access configuration.
 
         Takes the same role as setting it (an organization owner/admin, or an
         owner/admin of this workspace), because the row describes the workspace's
@@ -11724,12 +11935,12 @@ paths:
       - workspace-web-search
     put:
       description: |-
-        Set a workspace's web-search configuration, replacing any existing one.
+        Set a workspace's web-access configuration, replacing any existing one.
 
         An organization owner/admin, or an owner/admin of this workspace, may write
         it. The configuration can only narrow what the deployment permits: turning
-        web search off for the workspace, lowering the result ceiling, and adding to
-        the domains a search may not reach. It never turns on a backend the
+        web access off for the workspace, lowering the Search result ceiling, and
+        constraining domains for Search and Fetch. It never turns on a backend the
         deployment has not configured, and it carries no credential.
       operationId: workspace-web-search-set_workspace_web_search_config
       parameters:
@@ -12117,11 +12328,27 @@ components:
         updated_at: 2000-01-23T04:56:07.000+00:00
         organization_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         user_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        attribution: ""
         created_at: 2000-01-23T04:56:07.000+00:00
         attribution_user_id: attribution_user_id
+        workspaces:
+        - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          ceiling: ""
+          role: role
+          workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          workspace_name: workspace_name
+        - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          ceiling: ""
+          role: role
+          workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          workspace_name: workspace_name
         email: email
         status: status
       properties:
+        attribution:
+          allOf:
+          - $ref: "#/components/schemas/MemberAttributionPublic"
+          nullable: true
         attribution_user_id:
           nullable: true
           type: string
@@ -12157,6 +12384,11 @@ components:
           format: uuid
           nullable: true
           type: string
+        workspaces:
+          items:
+            $ref: "#/components/schemas/MemberWorkspacePlacementPublic"
+          title: Workspaces
+          type: array
       required:
       - created_at
       - role
@@ -12191,8 +12423,20 @@ components:
           updated_at: 2000-01-23T04:56:07.000+00:00
           organization_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           user_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          attribution: ""
           created_at: 2000-01-23T04:56:07.000+00:00
           attribution_user_id: attribution_user_id
+          workspaces:
+          - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            ceiling: ""
+            role: role
+            workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            workspace_name: workspace_name
+          - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            ceiling: ""
+            role: role
+            workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            workspace_name: workspace_name
           email: email
           status: status
         - invitation_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -12201,8 +12445,20 @@ components:
           updated_at: 2000-01-23T04:56:07.000+00:00
           organization_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           user_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          attribution: ""
           created_at: 2000-01-23T04:56:07.000+00:00
           attribution_user_id: attribution_user_id
+          workspaces:
+          - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            ceiling: ""
+            role: role
+            workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            workspace_name: workspace_name
+          - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            ceiling: ""
+            role: role
+            workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            workspace_name: workspace_name
           email: email
           status: status
         count: 0
@@ -12778,6 +13034,37 @@ components:
       - source
       - target
       title: AliasResponse
+    AllocationHealthResponse:
+      description: "One set of capped rows, reduced to what a strip renders."
+      properties:
+        capped_count:
+          description: "Rows with a finite cap, which are the ones that can be judged."
+          title: Capped Count
+          type: integer
+        near_count:
+          description: "Rows at 80% of their allowance or more, but not past it."
+          title: Near Count
+          type: integer
+        over_count:
+          description: Rows at or past their allowance.
+          title: Over Count
+          type: integer
+        total_count:
+          description: "Rows of any kind, so a caller can tell 'none configured' from\
+            \ 'none caps spend'."
+          title: Total Count
+          type: integer
+        worst:
+          allOf:
+          - $ref: "#/components/schemas/WorstAllocationResponse"
+          nullable: true
+      required:
+      - capped_count
+      - near_count
+      - over_count
+      - total_count
+      - worst
+      title: AllocationHealthResponse
     Annotations:
       additionalProperties: true
       properties:
@@ -13146,8 +13433,7 @@ components:
       - updated_at
       title: BudgetResponse
     BuiltInGuardrailCatalog:
-      description: "Every guardrail this gateway ships, whether or not it can currently\
-        \ run it."
+      description: The guardrails this gateway can build and call itself.
       example:
         guardrails:
         - supports_batch: false
@@ -13209,12 +13495,10 @@ components:
           variant_licenses:
           - key: variant_licenses
           - key: variant_licenses
-          missing_extra: missing_extra
           optional_validate_kwargs:
           - optional_validate_kwargs
           - optional_validate_kwargs
           requires_api_key: false
-          runnable: true
           requirement_groups:
           - description: description
             parameters:
@@ -13304,12 +13588,10 @@ components:
           variant_licenses:
           - key: variant_licenses
           - key: variant_licenses
-          missing_extra: missing_extra
           optional_validate_kwargs:
           - optional_validate_kwargs
           - optional_validate_kwargs
           requires_api_key: false
-          runnable: true
           requirement_groups:
           - description: description
             parameters:
@@ -13420,12 +13702,10 @@ components:
         variant_licenses:
         - key: variant_licenses
         - key: variant_licenses
-        missing_extra: missing_extra
         optional_validate_kwargs:
         - optional_validate_kwargs
         - optional_validate_kwargs
         requires_api_key: false
-        runnable: true
         requirement_groups:
         - description: description
           parameters:
@@ -13489,12 +13769,6 @@ components:
           description: "The any-guardrail class, and the name a stored guardrail selects"
           title: Guardrail Name
           type: string
-        missing_extra:
-          description: "The Otari extra to install to make this runnable, when one\
-            \ would. Null when it already runs, and null for a guardrail this gateway\
-            \ holds no backend information about"
-          nullable: true
-          type: string
         multilingual:
           default: false
           title: Multilingual
@@ -13532,11 +13806,6 @@ components:
           default: false
           title: Requires Api Key
           type: boolean
-        runnable:
-          description: Whether every module this guardrail's backend needs is installed
-            here. False is a missing package and not a broken guardrail
-          title: Runnable
-          type: boolean
         stages:
           items:
             type: string
@@ -13572,7 +13841,6 @@ components:
       - guardrail_name
       - output_shapes
       - primary_category
-      - runnable
       - stages
       - vendor
       title: BuiltInGuardrailSpec
@@ -13635,27 +13903,46 @@ components:
         names. Publishing it costs nothing either, since it is the caller's own
         identity and they are holding the credential that resolved to it.
 
-        Both fields are nullable, and for opposite reasons. A local operator
-        identity has no address, because first boot provisions it with a name and
-        nothing to sign in with but the master key; a member added to the roster by
+        ``email`` and ``full_name`` are nullable for opposite reasons. A local
+        operator identity has no address, because first boot provisions it with a
+        name and nothing to sign in with but the master key; a member added by
         address has no name until they claim the identity and supply one. So a shell
         has to be ready to draw either one alone.
       example:
         full_name: full_name
         user_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        claims_deployment: true
         email: email
+        has_password: true
       properties:
+        claims_deployment:
+          description: "Whether setting this identity's password claims the deployment,\
+            \ which stops the master key signing in to the dashboard. True for the\
+            \ deployment's operator until it holds a password, whether or not it already\
+            \ has an address; false for everybody else."
+          title: Claims Deployment
+          type: boolean
         email:
           nullable: true
           type: string
         full_name:
           nullable: true
           type: string
+        has_password:
+          description: "Whether this identity holds a dashboard password. False for\
+            \ one that signs in only through an OAuth provider or a passkey, and for\
+            \ a roster entry nobody has claimed yet. PUT /api/v1/auth/password requires\
+            \ current_password from a cookie-authenticated caller exactly while this\
+            \ is true."
+          title: Has Password
+          type: boolean
         user_id:
           format: uuid
           title: User Id
           type: string
       required:
+      - claims_deployment
+      - has_password
       - user_id
       title: CallerIdentityPublic
     CallerOrganizationMembershipPublic:
@@ -13833,6 +14120,14 @@ components:
           title: Tool Call
           type: boolean
       title: CatalogCapabilities
+    CatalogCredential:
+      description: Who may price a catalog offering.
+      enum:
+      - deployment
+      - organization
+      - hosted
+      title: CatalogCredential
+      type: string
     CatalogElsewhere:
       description: A provider models.dev lists for this model that this deployment
         has not configured.
@@ -13881,7 +14176,7 @@ components:
           discovered: true
           price_source: organization
           short_selector: short_selector
-          credential: deployment
+          credential: ""
           provider: provider
           metadata_output_price_per_million: 3.616076749251911
           metadata_input_price_per_million: 9.301444243932576
@@ -13896,7 +14191,7 @@ components:
           discovered: true
           price_source: organization
           short_selector: short_selector
-          credential: deployment
+          credential: ""
           provider: provider
           metadata_output_price_per_million: 3.616076749251911
           metadata_input_price_per_million: 9.301444243932576
@@ -14081,12 +14376,12 @@ components:
         output_modalities:
         - output_modalities
         - output_modalities
-        provider_count: 2
+        provider_count: 7
         selectors:
         - selectors
         - selectors
         vendor: vendor
-        offering_count: 5
+        offering_count: 2
         knowledge_cutoff: knowledge_cutoff
         open_weights: false
         selector: selector
@@ -14094,26 +14389,26 @@ components:
         input_modalities:
         - input_modalities
         - input_modalities
-        context_window: 0
+        context_window: 6
         capabilities:
           attachment: false
           reasoning: false
           temperature: false
           tool_call: false
           structured_output: false
-        min_input_price_per_million: 1.4658129805029452
-        min_output_price_per_million: 5.962133916683182
+        min_input_price_per_million: 5.962133916683182
+        min_output_price_per_million: 5.637376656633329
         price_sources:
         - organization
         - organization
         release_date: release_date
         name: name
         family: family
-        unpriced_count: 7
+        unpriced_count: 9
         providers:
         - providers
         - providers
-        max_output_tokens: 6
+        max_output_tokens: 1
       properties:
         capabilities:
           $ref: "#/components/schemas/CatalogCapabilities"
@@ -14246,7 +14541,7 @@ components:
         discovered: true
         price_source: organization
         short_selector: short_selector
-        credential: deployment
+        credential: ""
         provider: provider
         metadata_output_price_per_million: 3.616076749251911
         metadata_input_price_per_million: 9.301444243932576
@@ -14261,15 +14556,13 @@ components:
           nullable: true
           type: integer
         credential:
-          description: "Whose key serves it: `deployment` for a `providers:` instance\
-            \ the operator configured, `organization` for a key the viewer's organization\
-            \ holds."
-          enum:
-          - deployment
-          - organization
-          - hosted
-          title: Credential
-          type: string
+          allOf:
+          - $ref: "#/components/schemas/CatalogCredential"
+          description: "Who may price it: `deployment` for a `providers:` instance\
+            \ the operator configured, `hosted` for a provider the deployment pays\
+            \ for in any workspace of the viewer's organization, `organization` for\
+            \ one the viewer's organization may set its own rate for. A workspace\
+            \ can still call a `hosted` provider with the organization's own key."
         discovered:
           description: Whether the provider itself reported this model.
           title: Discovered
@@ -14351,12 +14644,12 @@ components:
           output_modalities:
           - output_modalities
           - output_modalities
-          provider_count: 2
+          provider_count: 7
           selectors:
           - selectors
           - selectors
           vendor: vendor
-          offering_count: 5
+          offering_count: 2
           knowledge_cutoff: knowledge_cutoff
           open_weights: false
           selector: selector
@@ -14364,26 +14657,26 @@ components:
           input_modalities:
           - input_modalities
           - input_modalities
-          context_window: 0
+          context_window: 6
           capabilities:
             attachment: false
             reasoning: false
             temperature: false
             tool_call: false
             structured_output: false
-          min_input_price_per_million: 1.4658129805029452
-          min_output_price_per_million: 5.962133916683182
+          min_input_price_per_million: 5.962133916683182
+          min_output_price_per_million: 5.637376656633329
           price_sources:
           - organization
           - organization
           release_date: release_date
           name: name
           family: family
-          unpriced_count: 7
+          unpriced_count: 9
           providers:
           - providers
           - providers
-          max_output_tokens: 6
+          max_output_tokens: 1
         - resolves_to: resolves_to
           discovered: true
           deprecated: false
@@ -14391,12 +14684,12 @@ components:
           output_modalities:
           - output_modalities
           - output_modalities
-          provider_count: 2
+          provider_count: 7
           selectors:
           - selectors
           - selectors
           vendor: vendor
-          offering_count: 5
+          offering_count: 2
           knowledge_cutoff: knowledge_cutoff
           open_weights: false
           selector: selector
@@ -14404,30 +14697,36 @@ components:
           input_modalities:
           - input_modalities
           - input_modalities
-          context_window: 0
+          context_window: 6
           capabilities:
             attachment: false
             reasoning: false
             temperature: false
             tool_call: false
             structured_output: false
-          min_input_price_per_million: 1.4658129805029452
-          min_output_price_per_million: 5.962133916683182
+          min_input_price_per_million: 5.962133916683182
+          min_output_price_per_million: 5.637376656633329
           price_sources:
           - organization
           - organization
           release_date: release_date
           name: name
           family: family
-          unpriced_count: 7
+          unpriced_count: 9
           providers:
           - providers
           - providers
-          max_output_tokens: 6
+          max_output_tokens: 1
         defaults_as_of: 2000-01-23T04:56:07.000+00:00
         metadata_available: true
+        count: 0
         default_pricing: true
       properties:
+        count:
+          description: "Models matching the search, before the window, so a caller\
+            \ can page without reading them all."
+          title: Count
+          type: integer
         default_pricing:
           description: Whether an unpriced model is metered at the genai-prices default.
           title: Default Pricing
@@ -14449,6 +14748,7 @@ components:
           title: Models
           type: array
       required:
+      - count
       - default_pricing
       - defaults_as_of
       - metadata_available
@@ -15452,6 +15752,73 @@ components:
       required:
       - user_id
       title: CreateUserRequest
+    CurrentPricingPage:
+      description: "One page of current model prices, with the total number of priced\
+        \ models."
+      example:
+        data:
+        - effective_at: effective_at
+          unit: unit
+          model_key: model_key
+          updated_at: updated_at
+          input_price_per_million: 5.962133916683182
+          origin: origin
+          created_at: created_at
+          cache_write_1h_price_per_million: 6.027456183070403
+          output_price_per_million: 5.637376656633329
+          cache_read_price_per_million: 0.8008281904610115
+          cache_write_price_per_million: 1.4658129805029452
+          pricing_tiers:
+          - min_input_tokens: 0
+            input_price_per_million: 0.20271230230023218
+            cache_write_1h_price_per_million: 0.9301444243932576
+            output_price_per_million: 0.7386281948385884
+            cache_read_price_per_million: 0.7061401241503109
+            cache_write_price_per_million: 0.3616076749251911
+          - min_input_tokens: 0
+            input_price_per_million: 0.20271230230023218
+            cache_write_1h_price_per_million: 0.9301444243932576
+            output_price_per_million: 0.7386281948385884
+            cache_read_price_per_million: 0.7061401241503109
+            cache_write_price_per_million: 0.3616076749251911
+        - effective_at: effective_at
+          unit: unit
+          model_key: model_key
+          updated_at: updated_at
+          input_price_per_million: 5.962133916683182
+          origin: origin
+          created_at: created_at
+          cache_write_1h_price_per_million: 6.027456183070403
+          output_price_per_million: 5.637376656633329
+          cache_read_price_per_million: 0.8008281904610115
+          cache_write_price_per_million: 1.4658129805029452
+          pricing_tiers:
+          - min_input_tokens: 0
+            input_price_per_million: 0.20271230230023218
+            cache_write_1h_price_per_million: 0.9301444243932576
+            output_price_per_million: 0.7386281948385884
+            cache_read_price_per_million: 0.7061401241503109
+            cache_write_price_per_million: 0.3616076749251911
+          - min_input_tokens: 0
+            input_price_per_million: 0.20271230230023218
+            cache_write_1h_price_per_million: 0.9301444243932576
+            output_price_per_million: 0.7386281948385884
+            cache_read_price_per_million: 0.7061401241503109
+            cache_write_price_per_million: 0.3616076749251911
+        count: 0
+      properties:
+        count:
+          title: Count
+          type: integer
+        data:
+          items:
+            $ref: "#/components/schemas/PricingResponse"
+          title: Data
+          type: array
+      required:
+      - count
+      - data
+      title: CurrentPricingPage
     DeploymentAdminAccessPublic:
       description: |-
         Whether the caller may reach the deployment administration surface.
@@ -16472,6 +16839,35 @@ components:
       - source_event_id
       - timestamp
       title: ExternalUsageEvent
+    GateResultResponse:
+      example:
+        gate_id: gate_id
+        enforcement: enforcement
+        detail: detail
+        message: message
+        outcome: outcome
+      properties:
+        detail:
+          nullable: true
+          type: string
+        enforcement:
+          title: Enforcement
+          type: string
+        gate_id:
+          title: Gate Id
+          type: string
+        message:
+          title: Message
+          type: string
+        outcome:
+          title: Outcome
+          type: string
+      required:
+      - enforcement
+      - gate_id
+      - message
+      - outcome
+      title: GateResultResponse
     GatewaySettings:
       description: |-
         Operator-facing runtime settings surfaced to the dashboard.
@@ -17206,6 +17602,36 @@ components:
       - organization_member_id
       - role
       title: InviteOrganizationMemberResultPublic
+    JudgeVerdictRequest:
+      additionalProperties: false
+      description: "One judge gate's verdict, as the caller's own model call produced\
+        \ it."
+      example:
+        gate_id: gate_id
+        reasoning: ""
+        outcome: pass
+      properties:
+        gate_id:
+          maxLength: 200
+          minLength: 1
+          title: Gate Id
+          type: string
+        outcome:
+          enum:
+          - pass
+          - fail
+          - error
+          title: Outcome
+          type: string
+        reasoning:
+          default: ""
+          maxLength: 4096
+          title: Reasoning
+          type: string
+      required:
+      - gate_id
+      - outcome
+      title: JudgeVerdictRequest
     KeyInfo:
       description: Response model for key information.
       example:
@@ -17489,7 +17915,7 @@ components:
           title: Accepted Types
           type: array
         available:
-          description: Whether this deployment has a backend configured for the tool.
+          description: Whether this deployment has enabled and configured the tool.
             A request declaring an unavailable tool is rejected with 400.
           title: Available
           type: boolean
@@ -17791,6 +18217,93 @@ components:
       - tools
       - warnings
       title: McpToolsResponse
+    MemberAttributionPublic:
+      description: |-
+        What the gateway identity behind a membership has spent, and may reach.
+
+        Deployment-wide facts, so they are withheld from a caller who does not
+        operate the deployment rather than zeroed: ``/api/v1/users`` refuses them,
+        and a zero here would read as a member who has spent nothing.
+      properties:
+        allowed_models:
+          items:
+            type: string
+          nullable: true
+          type: array
+        blocked:
+          title: Blocked
+          type: boolean
+        reserved:
+          title: Reserved
+          type: number
+        spend:
+          title: Spend
+          type: number
+      required:
+      - blocked
+      - reserved
+      - spend
+      title: MemberAttributionPublic
+    MemberCeilingPublic:
+      description: |-
+        The spend ceiling on one workspace membership, as the roster reports it.
+
+        Three fields rather than the whole ``scoped_budgets`` row: the figure the
+        roster prints, the budget its editor picks, and the id that edit writes to.
+      properties:
+        budget_id:
+          title: Budget Id
+          type: string
+        id:
+          title: Id
+          type: string
+        max_budget:
+          nullable: true
+          type: number
+      required:
+      - budget_id
+      - id
+      - max_budget
+      title: MemberCeilingPublic
+    MemberWorkspacePlacementPublic:
+      description: |-
+        One workspace a member is in, with their role and ceiling there.
+
+        A ceiling is keyed on the *membership*, not on the person, so a member of two
+        workspaces has two of them. The membership id is carried in its own right
+        rather than read back off the ceiling, because it is needed precisely when
+        there is no ceiling yet and one is about to be created.
+      example:
+        workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        ceiling: ""
+        role: role
+        workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        workspace_name: workspace_name
+      properties:
+        ceiling:
+          allOf:
+          - $ref: "#/components/schemas/MemberCeilingPublic"
+          nullable: true
+        role:
+          title: Role
+          type: string
+        workspace_id:
+          format: uuid
+          title: Workspace Id
+          type: string
+        workspace_member_id:
+          format: uuid
+          title: Workspace Member Id
+          type: string
+        workspace_name:
+          title: Workspace Name
+          type: string
+      required:
+      - role
+      - workspace_id
+      - workspace_member_id
+      - workspace_name
+      title: MemberWorkspacePlacementPublic
     Message:
       description: A human-readable acknowledgment for an operation with nothing to
         return.
@@ -18505,7 +19018,7 @@ components:
 
         The plaintext key is never stored as sent: the service encrypts it
         (`services/secret_box.py`) and keeps only the ciphertext and ``last4``,
-        the same convention `entities.ProviderCredential` already uses.
+        the same convention `providers.ProviderCredential` already uses.
       example:
         api_key: api_key
         provider: provider
@@ -18542,6 +19055,7 @@ components:
         \ is set."
       example:
         last4: last4
+        usable: true
         updated_at: 2000-01-23T04:56:07.000+00:00
         archived_at: 2000-01-23T04:56:07.000+00:00
         provider: provider
@@ -18593,6 +19107,13 @@ components:
           format: date-time
           nullable: true
           type: string
+        usable:
+          description: "False when the stored credential cannot be decrypted on this\
+            \ deployment, so the key supplies nothing at dispatch and the catalog\
+            \ withholds its provider. A row this deployment cannot read is still listed,\
+            \ because deleting or replacing it is what fixes it."
+          title: Usable
+          type: boolean
       required:
       - created_at
       - id
@@ -18600,6 +19121,7 @@ components:
       - name
       - organization_id
       - provider
+      - usable
       title: OrgProviderKeyPublic
     OrgProviderKeyUpdateRequest:
       description: A partial update. Every field is optional; only what is set is
@@ -18631,6 +19153,7 @@ components:
       example:
         data:
         - last4: last4
+          usable: true
           updated_at: 2000-01-23T04:56:07.000+00:00
           archived_at: 2000-01-23T04:56:07.000+00:00
           provider: provider
@@ -18643,6 +19166,7 @@ components:
           client_args:
             key: ""
         - last4: last4
+          usable: true
           updated_at: 2000-01-23T04:56:07.000+00:00
           archived_at: 2000-01-23T04:56:07.000+00:00
           provider: provider
@@ -19061,7 +19585,7 @@ components:
 
         ``credential`` is never stored as sent: it is encrypted with
         ``OTARI_SECRET_KEY`` and only the ciphertext is kept, the same convention
-        `entities.WorkspaceMcpServer` and `entities.ProviderCredential` use. It is
+        `tools.WorkspaceMcpServer` and `providers.ProviderCredential` use. It is
         sent to the endpoint as ``Authorization: Bearer`` when the guardrail runs,
         so it authenticates this gateway to the guardrails service the entry names.
         A guardrail *vendor's* own key is not this: the guardrails service builds
@@ -20114,6 +20638,40 @@ components:
       - span
       title: OutputShape
       type: string
+    OverviewSummaryResponse:
+      description: |-
+        What the dashboard overview renders beside its usage chart.
+
+        ``budgets`` and ``ceilings`` are null where the caller may not see them,
+        which is not the same as a strip with nothing in it: deployment budgets are
+        the operator's, and spend ceilings are an organization owner's or admin's.
+      example:
+        budgets: ""
+        active_members: 6
+        active_keys: 0
+        ceilings: ""
+      properties:
+        active_keys:
+          title: Active Keys
+          type: integer
+        active_members:
+          description: Active members of the named workspace; 0 when none is named.
+          title: Active Members
+          type: integer
+        budgets:
+          allOf:
+          - $ref: "#/components/schemas/AllocationHealthResponse"
+          nullable: true
+        ceilings:
+          allOf:
+          - $ref: "#/components/schemas/AllocationHealthResponse"
+          nullable: true
+      required:
+      - active_keys
+      - active_members
+      - budgets
+      - ceilings
+      title: OverviewSummaryResponse
     PasskeySessionResponse:
       description: |-
         A dashboard session minted by a passkey (the token travels only in the cookie).
@@ -20763,6 +21321,123 @@ components:
       - mcp_servers
       - web_search
       title: PlaygroundToolsResponse
+    PolicyCheckRequest:
+      additionalProperties: false
+      description: "A policy body plus the evidence to check it against, both caller-supplied."
+      example:
+        judge_results:
+        - gate_id: gate_id
+          reasoning: ""
+          outcome: pass
+        - gate_id: gate_id
+          reasoning: ""
+          outcome: pass
+        - gate_id: gate_id
+          reasoning: ""
+          outcome: pass
+        - gate_id: gate_id
+          reasoning: ""
+          outcome: pass
+        - gate_id: gate_id
+          reasoning: ""
+          outcome: pass
+        policy_yaml: policy_yaml
+        changed_paths:
+        - changed_paths
+        - changed_paths
+        - changed_paths
+        - changed_paths
+        - changed_paths
+        command_scope: call
+        commands:
+        - commands
+        - commands
+        - commands
+        - commands
+        - commands
+      properties:
+        changed_paths:
+          description: Repo-relative paths the caller observed changed (e.g. `git
+            status --porcelain`).
+          items:
+            type: string
+          maxItems: 10000
+          nullable: true
+          type: array
+        command_scope:
+          default: call
+          description: "What `commands` covers: `call` for the single tool call about\
+            \ to run, `session` for every command the session has run so far."
+          enum:
+          - call
+          - session
+          title: Command Scope
+          type: string
+        commands:
+          description: Shell commands the caller observed run or is about to run.
+          items:
+            type: string
+          maxItems: 10000
+          nullable: true
+          type: array
+        judge_results:
+          description: Model verdicts the caller collected for this request's judge
+            gates.
+          items:
+            $ref: "#/components/schemas/JudgeVerdictRequest"
+          maxItems: 1000
+          nullable: true
+          type: array
+        policy_yaml:
+          maxLength: 262144
+          minLength: 1
+          title: Policy Yaml
+          type: string
+      required:
+      - policy_yaml
+      title: PolicyCheckRequest
+    PolicyCheckResponse:
+      example:
+        schema_version: schema_version
+        provenance: client_reported
+        blocked: true
+        policy_id: policy_id
+        results:
+        - gate_id: gate_id
+          enforcement: enforcement
+          detail: detail
+          message: message
+          outcome: outcome
+        - gate_id: gate_id
+          enforcement: enforcement
+          detail: detail
+          message: message
+          outcome: outcome
+      properties:
+        blocked:
+          title: Blocked
+          type: boolean
+        policy_id:
+          title: Policy Id
+          type: string
+        provenance:
+          default: client_reported
+          title: Provenance
+          type: string
+        results:
+          items:
+            $ref: "#/components/schemas/GateResultResponse"
+          title: Results
+          type: array
+        schema_version:
+          title: Schema Version
+          type: string
+      required:
+      - blocked
+      - policy_id
+      - results
+      - schema_version
+      title: PolicyCheckResponse
     PolicyRequest:
       description: Request to create or update a routing policy.
       example:
@@ -25314,7 +25989,7 @@ components:
 
         ``authorization_token`` is never stored as sent: it is encrypted with
         ``OTARI_SECRET_KEY`` and only the ciphertext is kept, the same convention
-        `entities.ProviderCredential` and `OrgProviderKey` already use.
+        `providers.ProviderCredential` and `OrgProviderKey` already use.
       example:
         authorization_token: authorization_token
         allowed_tools:
@@ -25763,6 +26438,7 @@ components:
         \ the resolution."
       example:
         workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        usable: true
         is_effective_default: true
         org_provider_key_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         disabled: true
@@ -25793,6 +26469,9 @@ components:
           format: uuid
           title: Org Provider Key Id
           type: string
+        usable:
+          title: Usable
+          type: boolean
         workspace_id:
           format: uuid
           title: Workspace Id
@@ -25804,6 +26483,7 @@ components:
       - is_effective_default
       - is_effective_enabled
       - org_provider_key_id
+      - usable
       - workspace_id
       title: WorkspaceProviderKeyOverridePublic
     WorkspaceProviderKeyOverrideRequest:
@@ -25831,6 +26511,7 @@ components:
       example:
         data:
         - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          usable: true
           is_effective_default: true
           org_provider_key_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           disabled: true
@@ -25840,6 +26521,7 @@ components:
           - allowed_models
           - allowed_models
         - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          usable: true
           is_effective_default: true
           org_provider_key_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           disabled: true
@@ -26036,27 +26718,27 @@ components:
         purpose_hint: purpose_hint
       properties:
         allowed_domains:
-          description: Results are kept only from these domains; intersected with
-            any list the request sends
+          description: Filters Search results and constrains initial and redirected
+            Fetch destinations; intersected with any list the request sends
           items:
             type: string
           nullable: true
           type: array
         blocked_domains:
-          description: Results from these domains are dropped; added to any list the
-            request sends
+          description: Filters Search results and blocks initial and redirected Fetch
+            destinations; added to any list the request sends
           items:
             type: string
           nullable: true
           type: array
         enabled:
-          description: "False refuses web search for this workspace, both the otari_web_search\
-            \ tool and the search endpoint. The fields below narrow the tool only."
+          description: "False refuses web access for this workspace through otari_web_search,\
+            \ otari_web_fetch, and POST /api/v1/search."
           title: Enabled
           type: boolean
         max_results:
-          description: "Ceiling on results one search returns; only ever lowers the\
-            \ effective limit, so at most 20"
+          description: "Search only: ceiling on results one search returns; only ever\
+            \ lowers the effective limit, so at most 20"
           exclusiveMinimum: true
           maximum: 20.0
           minimum: 0.0
@@ -26069,8 +26751,8 @@ components:
           nullable: true
           type: object
         purpose_hint:
-          description: Hint used when a request declares otari_web_search without
-            one of its own
+          description: "Search only: hint used when a request declares otari_web_search\
+            \ without one of its own"
           maxLength: 2048
           nullable: true
           type: string
@@ -26108,6 +26790,39 @@ components:
       - count
       - data
       title: WorkspacesPublic
+    WorstAllocationResponse:
+      description: The row furthest through its allowance.
+      properties:
+        allocated:
+          title: Allocated
+          type: number
+        budget_id:
+          title: Budget Id
+          type: string
+        name:
+          description: "The row's own name, or null where nobody gave it one."
+          nullable: true
+          type: string
+        scope_id:
+          description: "The scope's id, so an unnamed ceiling can be named after it."
+          nullable: true
+          type: string
+        scope_type:
+          description: "What a spend ceiling caps (workspace, org_member, api_token,\
+            \ ...); null for a budget."
+          nullable: true
+          type: string
+        spent:
+          title: Spent
+          type: number
+      required:
+      - allocated
+      - budget_id
+      - name
+      - scope_id
+      - scope_type
+      - spent
+      title: WorstAllocationResponse
     CC_ChatCompletionAudio:
       additionalProperties: true
       description: |-

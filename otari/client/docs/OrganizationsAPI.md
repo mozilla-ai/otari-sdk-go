@@ -624,7 +624,7 @@ Other parameters are passed through a pointer to a apiOrganizationsListActiveOrg
 
 ## OrganizationsListActiveOrganizationMembers
 
-> ActiveOrganizationMembersPublic OrganizationsListActiveOrganizationMembers(ctx).Skip(skip).Limit(limit).Execute()
+> ActiveOrganizationMembersPublic OrganizationsListActiveOrganizationMembers(ctx).Skip(skip).Limit(limit).Search(search).Execute()
 
 List Active Organization Members
 
@@ -645,10 +645,11 @@ import (
 func main() {
 	skip := int32(56) // int32 | Number of records to skip (optional) (default to 0)
 	limit := int32(56) // int32 | Maximum number of records to return (optional) (default to 100)
+	search := "search_example" // string | Narrow to members whose name or email contains this text, case-insensitively. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.OrganizationsAPI.OrganizationsListActiveOrganizationMembers(context.Background()).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.OrganizationsAPI.OrganizationsListActiveOrganizationMembers(context.Background()).Skip(skip).Limit(limit).Search(search).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `OrganizationsAPI.OrganizationsListActiveOrganizationMembers``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -671,6 +672,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **skip** | **int32** | Number of records to skip | [default to 0]
  **limit** | **int32** | Maximum number of records to return | [default to 100]
+ **search** | **string** | Narrow to members whose name or email contains this text, case-insensitively. | 
 
 ### Return type
 

@@ -12,7 +12,6 @@ Name | Type | Description | Notes
 **Description** | **string** |  | 
 **DisplayName** | **string** |  | 
 **GuardrailName** | **string** | The any-guardrail class, and the name a stored guardrail selects | 
-**MissingExtra** | Pointer to **NullableString** | The Otari extra to install to make this runnable, when one would. Null when it already runs, and null for a guardrail this gateway holds no backend information about | [optional] 
 **Multilingual** | Pointer to **bool** |  | [optional] [default to false]
 **Multimodal** | Pointer to **bool** |  | [optional] [default to false]
 **OptionalValidateKwargs** | Pointer to **[]string** |  | [optional] 
@@ -21,7 +20,6 @@ Name | Type | Description | Notes
 **RequiredValidateKwargs** | Pointer to **[]string** |  | [optional] 
 **RequirementGroups** | Pointer to [**[]RequirementGroup**](RequirementGroup.md) | One-of constraints that no single parameter&#39;s required flag can express. At least one member of each group must be supplied, or one of the environment variables that satisfies it | [optional] 
 **RequiresApiKey** | Pointer to **bool** |  | [optional] [default to false]
-**Runnable** | **bool** | Whether every module this guardrail&#39;s backend needs is installed here. False is a missing package and not a broken guardrail | 
 **Stages** | **[]string** |  | 
 **SupportsBatch** | Pointer to **bool** | Whether several inputs run as one real batched call, not a per-item loop | [optional] [default to false]
 **ValidateParameters** | Pointer to [**[]GuardrailParameterSpec**](GuardrailParameterSpec.md) | Per-call arguments, sent with the text on every check | [optional] 
@@ -32,7 +30,7 @@ Name | Type | Description | Notes
 
 ### NewBuiltInGuardrailSpec
 
-`func NewBuiltInGuardrailSpec(backend BackendType, categories []string, defaultLicense string, description string, displayName string, guardrailName string, outputShapes []string, primaryCategory GuardrailCategory, runnable bool, stages []string, vendor string, ) *BuiltInGuardrailSpec`
+`func NewBuiltInGuardrailSpec(backend BackendType, categories []string, defaultLicense string, description string, displayName string, guardrailName string, outputShapes []string, primaryCategory GuardrailCategory, stages []string, vendor string, ) *BuiltInGuardrailSpec`
 
 NewBuiltInGuardrailSpec instantiates a new BuiltInGuardrailSpec object
 This constructor will assign default values to properties that have it defined,
@@ -217,41 +215,6 @@ and a boolean to check if the value has been set.
 SetGuardrailName sets GuardrailName field to given value.
 
 
-### GetMissingExtra
-
-`func (o *BuiltInGuardrailSpec) GetMissingExtra() string`
-
-GetMissingExtra returns the MissingExtra field if non-nil, zero value otherwise.
-
-### GetMissingExtraOk
-
-`func (o *BuiltInGuardrailSpec) GetMissingExtraOk() (*string, bool)`
-
-GetMissingExtraOk returns a tuple with the MissingExtra field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMissingExtra
-
-`func (o *BuiltInGuardrailSpec) SetMissingExtra(v string)`
-
-SetMissingExtra sets MissingExtra field to given value.
-
-### HasMissingExtra
-
-`func (o *BuiltInGuardrailSpec) HasMissingExtra() bool`
-
-HasMissingExtra returns a boolean if a field has been set.
-
-### SetMissingExtraNil
-
-`func (o *BuiltInGuardrailSpec) SetMissingExtraNil(b bool)`
-
- SetMissingExtraNil sets the value for MissingExtra to be an explicit nil
-
-### UnsetMissingExtra
-`func (o *BuiltInGuardrailSpec) UnsetMissingExtra()`
-
-UnsetMissingExtra ensures that no value is present for MissingExtra, not even an explicit nil
 ### GetMultilingual
 
 `func (o *BuiltInGuardrailSpec) GetMultilingual() bool`
@@ -441,26 +404,6 @@ SetRequiresApiKey sets RequiresApiKey field to given value.
 `func (o *BuiltInGuardrailSpec) HasRequiresApiKey() bool`
 
 HasRequiresApiKey returns a boolean if a field has been set.
-
-### GetRunnable
-
-`func (o *BuiltInGuardrailSpec) GetRunnable() bool`
-
-GetRunnable returns the Runnable field if non-nil, zero value otherwise.
-
-### GetRunnableOk
-
-`func (o *BuiltInGuardrailSpec) GetRunnableOk() (*bool, bool)`
-
-GetRunnableOk returns a tuple with the Runnable field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRunnable
-
-`func (o *BuiltInGuardrailSpec) SetRunnable(v bool)`
-
-SetRunnable sets Runnable field to given value.
-
 
 ### GetStages
 
