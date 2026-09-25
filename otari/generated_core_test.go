@@ -188,7 +188,7 @@ func TestUnifiedErrorMapping(t *testing.T) {
 	}
 }
 
-func TestErrorRetryAfterAndCorrelationID(t *testing.T) {
+func TestErrorRetryAfterAndAttemptID(t *testing.T) {
 	t.Parallel()
 
 	t.Run("429 carries retry-after", func(t *testing.T) {
@@ -210,10 +210,10 @@ func TestErrorRetryAfterAndCorrelationID(t *testing.T) {
 		require.Equal(t, 30, rl.RetryAfter)
 	})
 
-	t.Run("correlation id appears in message", func(t *testing.T) {
+	t.Run("attempt id appears in message", func(t *testing.T) {
 		t.Parallel()
 		srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-			w.Header().Set("X-Correlation-Id", "abc-123")
+			w.Header().Set("Otari-Attempt-ID", "abc-123")
 			w.WriteHeader(http.StatusPaymentRequired)
 			_, _ = w.Write([]byte(`{"detail":"no funds"}`))
 		}))
@@ -225,7 +225,7 @@ func TestErrorRetryAfterAndCorrelationID(t *testing.T) {
 		_, err = client.Completion(context.Background(), mockCompletionParams())
 		require.Error(t, err)
 		require.ErrorIs(t, err, ErrInsufficientFunds)
-		require.Contains(t, err.Error(), "abc-123")
+		require.Contains(t, err.Error(), "attempt_id=abc-123")
 	})
 }
 

@@ -332,10 +332,10 @@ func errorDetail(body []byte) string {
 // used to enrich 409 batch errors; pass "" when not applicable.
 func mapHTTPError(status int, header http.Header, body []byte, batchID string) error {
 	detail := errorDetail(body)
-	correlationID := header.Get("X-Correlation-Id")
+	attemptID := header.Get("Otari-Attempt-ID")
 	full := detail
-	if correlationID != "" {
-		full = fmt.Sprintf("%s (correlation_id=%s)", detail, correlationID)
+	if attemptID != "" {
+		full = fmt.Sprintf("%s (attempt_id=%s)", detail, attemptID)
 	}
 
 	// Unsupported-capability is surfaced regardless of auth mode.
