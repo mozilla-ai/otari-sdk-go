@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 ## FilesCreateFile
 
-> map[string]interface{} FilesCreateFile(ctx).File(file).Purpose(purpose).User(user).Execute()
+> ResponseFilesCreateFile FilesCreateFile(ctx).File(file).Purpose(purpose).User(user).Execute()
 
 Create File
 
@@ -44,7 +44,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.FilesCreateFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `FilesCreateFile`: map[string]interface{}
+	// response from `FilesCreateFile`: ResponseFilesCreateFile
 	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.FilesCreateFile`: %v\n", resp)
 }
 ```
@@ -66,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**map[string]interface{}**
+[**ResponseFilesCreateFile**](ResponseFilesCreateFile.md)
 
 ### Authorization
 
@@ -84,7 +84,7 @@ Name | Type | Description  | Notes
 
 ## FilesDeleteFile
 
-> map[string]interface{} FilesDeleteFile(ctx, fileId).User(user).Execute()
+> ResponseFilesDeleteFile FilesDeleteFile(ctx, fileId).User(user).Execute()
 
 Delete File
 
@@ -113,7 +113,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.FilesDeleteFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `FilesDeleteFile`: map[string]interface{}
+	// response from `FilesDeleteFile`: ResponseFilesDeleteFile
 	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.FilesDeleteFile`: %v\n", resp)
 }
 ```
@@ -138,7 +138,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**map[string]interface{}**
+[**ResponseFilesDeleteFile**](ResponseFilesDeleteFile.md)
 
 ### Authorization
 
@@ -156,7 +156,7 @@ Name | Type | Description  | Notes
 
 ## FilesGetFile
 
-> map[string]interface{} FilesGetFile(ctx, fileId).User(user).Execute()
+> ResponseFilesGetFile FilesGetFile(ctx, fileId).User(user).Execute()
 
 Get File
 
@@ -185,7 +185,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.FilesGetFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `FilesGetFile`: map[string]interface{}
+	// response from `FilesGetFile`: ResponseFilesGetFile
 	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.FilesGetFile`: %v\n", resp)
 }
 ```
@@ -210,7 +210,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**map[string]interface{}**
+[**ResponseFilesGetFile**](ResponseFilesGetFile.md)
 
 ### Authorization
 
@@ -300,7 +300,7 @@ Name | Type | Description  | Notes
 
 ## FilesListFiles
 
-> map[string]interface{} FilesListFiles(ctx).User(user).Purpose(purpose).WorkspaceId(workspaceId).Execute()
+> ResponseFilesListFiles FilesListFiles(ctx).User(user).Purpose(purpose).WorkspaceId(workspaceId).Limit(limit).After(after).Order(order).Page(page).Ids(ids).Execute()
 
 List Files
 
@@ -322,15 +322,20 @@ func main() {
 	user := "user_example" // string |  (optional)
 	purpose := "purpose_example" // string |  (optional)
 	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string |  (optional)
+	limit := int32(56) // int32 |  (optional) (default to 100)
+	after := "after_example" // string |  (optional)
+	order := "order_example" // string |  (optional) (default to "desc")
+	page := "page_example" // string |  (optional)
+	ids := []string{"Inner_example"} // []string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FilesAPI.FilesListFiles(context.Background()).User(user).Purpose(purpose).WorkspaceId(workspaceId).Execute()
+	resp, r, err := apiClient.FilesAPI.FilesListFiles(context.Background()).User(user).Purpose(purpose).WorkspaceId(workspaceId).Limit(limit).After(after).Order(order).Page(page).Ids(ids).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `FilesAPI.FilesListFiles``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `FilesListFiles`: map[string]interface{}
+	// response from `FilesListFiles`: ResponseFilesListFiles
 	fmt.Fprintf(os.Stdout, "Response from `FilesAPI.FilesListFiles`: %v\n", resp)
 }
 ```
@@ -349,10 +354,15 @@ Name | Type | Description  | Notes
  **user** | **string** |  | 
  **purpose** | **string** |  | 
  **workspaceId** | **string** |  | 
+ **limit** | **int32** |  | [default to 100]
+ **after** | **string** |  | 
+ **order** | **string** |  | [default to &quot;desc&quot;]
+ **page** | **string** |  | 
+ **ids** | **[]string** |  | 
 
 ### Return type
 
-**map[string]interface{}**
+[**ResponseFilesListFiles**](ResponseFilesListFiles.md)
 
 ### Authorization
 

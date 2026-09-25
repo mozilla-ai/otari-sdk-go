@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **DefaultPurposeHint** | **NullableString** |  | 
 **Enabled** | **bool** |  | 
 **ExecTimeoutS** | **NullableInt32** |  | 
+**Executor** | [**NullableCodeExecutor**](CodeExecutor.md) |  | 
 **Image** | **NullableString** |  | 
 **MaxIterations** | **NullableInt32** |  | 
 **SandboxConfigured** | **bool** |  | 
@@ -22,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewWorkspaceCodeExecutionPolicyPublic
 
-`func NewWorkspaceCodeExecutionPolicyPublic(allowedImages []string, availableTools []string, configured bool, createdAt NullableString, defaultPurposeHint NullableString, enabled bool, execTimeoutS NullableInt32, image NullableString, maxIterations NullableInt32, sandboxConfigured bool, tools []string, updatedAt NullableString, workspaceId string, ) *WorkspaceCodeExecutionPolicyPublic`
+`func NewWorkspaceCodeExecutionPolicyPublic(allowedImages []string, availableTools []string, configured bool, createdAt NullableString, defaultPurposeHint NullableString, enabled bool, execTimeoutS NullableInt32, executor NullableCodeExecutor, image NullableString, maxIterations NullableInt32, sandboxConfigured bool, tools []string, updatedAt NullableString, workspaceId string, ) *WorkspaceCodeExecutionPolicyPublic`
 
 NewWorkspaceCodeExecutionPolicyPublic instantiates a new WorkspaceCodeExecutionPolicyPublic object
 This constructor will assign default values to properties that have it defined,
@@ -207,6 +208,36 @@ SetExecTimeoutS sets ExecTimeoutS field to given value.
 `func (o *WorkspaceCodeExecutionPolicyPublic) UnsetExecTimeoutS()`
 
 UnsetExecTimeoutS ensures that no value is present for ExecTimeoutS, not even an explicit nil
+### GetExecutor
+
+`func (o *WorkspaceCodeExecutionPolicyPublic) GetExecutor() CodeExecutor`
+
+GetExecutor returns the Executor field if non-nil, zero value otherwise.
+
+### GetExecutorOk
+
+`func (o *WorkspaceCodeExecutionPolicyPublic) GetExecutorOk() (*CodeExecutor, bool)`
+
+GetExecutorOk returns a tuple with the Executor field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExecutor
+
+`func (o *WorkspaceCodeExecutionPolicyPublic) SetExecutor(v CodeExecutor)`
+
+SetExecutor sets Executor field to given value.
+
+
+### SetExecutorNil
+
+`func (o *WorkspaceCodeExecutionPolicyPublic) SetExecutorNil(b bool)`
+
+ SetExecutorNil sets the value for Executor to be an explicit nil
+
+### UnsetExecutor
+`func (o *WorkspaceCodeExecutionPolicyPublic) UnsetExecutor()`
+
+UnsetExecutor ensures that no value is present for Executor, not even an explicit nil
 ### GetImage
 
 `func (o *WorkspaceCodeExecutionPolicyPublic) GetImage() string`

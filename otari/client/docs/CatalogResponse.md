@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Count** | **int32** | Models matching the search, before the window, so a caller can page without reading them all. | 
 **DefaultPricing** | **bool** | Whether an unpriced model is metered at the genai-prices default. | 
 **DefaultsAsOf** | **NullableTime** | When the accepted genai-prices snapshot was taken. Null while the bundled dataset serves. | 
 **MetadataAvailable** | **bool** | False when models.dev could not be read; descriptions are then absent. | 
@@ -13,7 +14,7 @@ Name | Type | Description | Notes
 
 ### NewCatalogResponse
 
-`func NewCatalogResponse(defaultPricing bool, defaultsAsOf NullableTime, metadataAvailable bool, models []CatalogModelSummary, ) *CatalogResponse`
+`func NewCatalogResponse(count int32, defaultPricing bool, defaultsAsOf NullableTime, metadataAvailable bool, models []CatalogModelSummary, ) *CatalogResponse`
 
 NewCatalogResponse instantiates a new CatalogResponse object
 This constructor will assign default values to properties that have it defined,
@@ -27,6 +28,26 @@ will change when the set of required properties is changed
 NewCatalogResponseWithDefaults instantiates a new CatalogResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetCount
+
+`func (o *CatalogResponse) GetCount() int32`
+
+GetCount returns the Count field if non-nil, zero value otherwise.
+
+### GetCountOk
+
+`func (o *CatalogResponse) GetCountOk() (*int32, bool)`
+
+GetCountOk returns a tuple with the Count field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCount
+
+`func (o *CatalogResponse) SetCount(v int32)`
+
+SetCount sets Count field to given value.
+
 
 ### GetDefaultPricing
 

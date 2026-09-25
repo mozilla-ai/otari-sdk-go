@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AppliesToAllWorkspaces** | **bool** |  | 
 **CreatedAt** | **string** |  | 
+**DefinitionId** | **NullableString** |  | 
 **Enabled** | **bool** |  | 
 **HasCredential** | **bool** |  | 
 **Id** | **string** |  | 
@@ -22,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewOrganizationGuardrailPublic
 
-`func NewOrganizationGuardrailPublic(appliesToAllWorkspaces bool, createdAt string, enabled bool, hasCredential bool, id string, mode string, onUnavailable string, organizationId string, profile string, updatedAt string, url NullableString, validateKwargs map[string]interface{}, workspaceIds []string, ) *OrganizationGuardrailPublic`
+`func NewOrganizationGuardrailPublic(appliesToAllWorkspaces bool, createdAt string, definitionId NullableString, enabled bool, hasCredential bool, id string, mode string, onUnavailable string, organizationId string, profile string, updatedAt string, url NullableString, validateKwargs map[string]interface{}, workspaceIds []string, ) *OrganizationGuardrailPublic`
 
 NewOrganizationGuardrailPublic instantiates a new OrganizationGuardrailPublic object
 This constructor will assign default values to properties that have it defined,
@@ -77,6 +78,36 @@ and a boolean to check if the value has been set.
 SetCreatedAt sets CreatedAt field to given value.
 
 
+### GetDefinitionId
+
+`func (o *OrganizationGuardrailPublic) GetDefinitionId() string`
+
+GetDefinitionId returns the DefinitionId field if non-nil, zero value otherwise.
+
+### GetDefinitionIdOk
+
+`func (o *OrganizationGuardrailPublic) GetDefinitionIdOk() (*string, bool)`
+
+GetDefinitionIdOk returns a tuple with the DefinitionId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDefinitionId
+
+`func (o *OrganizationGuardrailPublic) SetDefinitionId(v string)`
+
+SetDefinitionId sets DefinitionId field to given value.
+
+
+### SetDefinitionIdNil
+
+`func (o *OrganizationGuardrailPublic) SetDefinitionIdNil(b bool)`
+
+ SetDefinitionIdNil sets the value for DefinitionId to be an explicit nil
+
+### UnsetDefinitionId
+`func (o *OrganizationGuardrailPublic) UnsetDefinitionId()`
+
+UnsetDefinitionId ensures that no value is present for DefinitionId, not even an explicit nil
 ### GetEnabled
 
 `func (o *OrganizationGuardrailPublic) GetEnabled() bool`

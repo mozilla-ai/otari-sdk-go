@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **Providers** | **[]string** | The provider instances offering it, sorted. | 
 **ReleaseDate** | Pointer to **NullableString** |  | [optional] 
 **ResolvesTo** | Pointer to **NullableString** | The offering &#x60;selector&#x60; resolves to. | [optional] 
-**Selector** | Pointer to **NullableString** | The id as a selector: send it as &#x60;model&#x60; and the model&#39;s cheapest offering answers. Null until the gateway has indexed the catalog. | [optional] 
+**Selector** | Pointer to **NullableString** | The id as a selector: send it as &#x60;model&#x60; and the model&#39;s cheapest offering the caller can reach answers, the vendor&#39;s own provider first where it serves the model. Null until the gateway has indexed the catalog. | [optional] 
 **Selectors** | **[]string** | Every offering&#39;s selector, so the list can be searched by one. | 
 **UnpricedCount** | **int32** | How many offerings carry no price for this caller. | 
 **Vendor** | **NullableString** |  | 

@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **ToolCalls** | Pointer to [**[]CCChatCompletionMessageToolCallsInner**](CCChatCompletionMessageToolCallsInner.md) |  | [optional] 
 **Reasoning** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **ExtraContent** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**Images** | Pointer to [**[]CCImageContent**](CCImageContent.md) |  | [optional] 
 
 ## Methods
 
@@ -333,6 +334,41 @@ HasExtraContent returns a boolean if a field has been set.
 `func (o *CCChatCompletionMessage) UnsetExtraContent()`
 
 UnsetExtraContent ensures that no value is present for ExtraContent, not even an explicit nil
+### GetImages
+
+`func (o *CCChatCompletionMessage) GetImages() []CCImageContent`
+
+GetImages returns the Images field if non-nil, zero value otherwise.
+
+### GetImagesOk
+
+`func (o *CCChatCompletionMessage) GetImagesOk() (*[]CCImageContent, bool)`
+
+GetImagesOk returns a tuple with the Images field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetImages
+
+`func (o *CCChatCompletionMessage) SetImages(v []CCImageContent)`
+
+SetImages sets Images field to given value.
+
+### HasImages
+
+`func (o *CCChatCompletionMessage) HasImages() bool`
+
+HasImages returns a boolean if a field has been set.
+
+### SetImagesNil
+
+`func (o *CCChatCompletionMessage) SetImagesNil(b bool)`
+
+ SetImagesNil sets the value for Images to be an explicit nil
+
+### UnsetImages
+`func (o *CCChatCompletionMessage) UnsetImages()`
+
+UnsetImages ensures that no value is present for Images, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

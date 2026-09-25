@@ -147,7 +147,7 @@ Name | Type | Description  | Notes
 
 ## OrganizationPricingListOrganizationPricing
 
-> OrganizationModelPricingsPublic OrganizationPricingListOrganizationPricing(ctx).Skip(skip).Limit(limit).Execute()
+> OrganizationModelPricingsPublic OrganizationPricingListOrganizationPricing(ctx).ModelKey(modelKey).Skip(skip).Limit(limit).Execute()
 
 List Organization Pricing
 
@@ -166,12 +166,13 @@ import (
 )
 
 func main() {
+	modelKey := "modelKey_example" // string | Return only this model's periods, in the canonical 'provider:model' form. (optional)
 	skip := int32(56) // int32 | Number of records to skip (optional) (default to 0)
 	limit := int32(56) // int32 | Maximum number of records to return (optional) (default to 100)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.OrganizationPricingAPI.OrganizationPricingListOrganizationPricing(context.Background()).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.OrganizationPricingAPI.OrganizationPricingListOrganizationPricing(context.Background()).ModelKey(modelKey).Skip(skip).Limit(limit).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `OrganizationPricingAPI.OrganizationPricingListOrganizationPricing``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -192,6 +193,7 @@ Other parameters are passed through a pointer to a apiOrganizationPricingListOrg
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **modelKey** | **string** | Return only this model&#39;s periods, in the canonical &#39;provider:model&#39; form. | 
  **skip** | **int32** | Number of records to skip | [default to 0]
  **limit** | **int32** | Maximum number of records to return | [default to 100]
 

@@ -10,13 +10,14 @@ Name | Type | Description | Notes
 **IsEffectiveDefault** | **bool** |  | 
 **IsEffectiveEnabled** | **bool** |  | 
 **OrgProviderKeyId** | **string** |  | 
+**Usable** | **bool** |  | 
 **WorkspaceId** | **string** |  | 
 
 ## Methods
 
 ### NewWorkspaceProviderKeyOverridePublic
 
-`func NewWorkspaceProviderKeyOverridePublic(allowedModels []string, disabled bool, isDefault bool, isEffectiveDefault bool, isEffectiveEnabled bool, orgProviderKeyId string, workspaceId string, ) *WorkspaceProviderKeyOverridePublic`
+`func NewWorkspaceProviderKeyOverridePublic(allowedModels []string, disabled bool, isDefault bool, isEffectiveDefault bool, isEffectiveEnabled bool, orgProviderKeyId string, usable bool, workspaceId string, ) *WorkspaceProviderKeyOverridePublic`
 
 NewWorkspaceProviderKeyOverridePublic instantiates a new WorkspaceProviderKeyOverridePublic object
 This constructor will assign default values to properties that have it defined,
@@ -149,6 +150,26 @@ and a boolean to check if the value has been set.
 `func (o *WorkspaceProviderKeyOverridePublic) SetOrgProviderKeyId(v string)`
 
 SetOrgProviderKeyId sets OrgProviderKeyId field to given value.
+
+
+### GetUsable
+
+`func (o *WorkspaceProviderKeyOverridePublic) GetUsable() bool`
+
+GetUsable returns the Usable field if non-nil, zero value otherwise.
+
+### GetUsableOk
+
+`func (o *WorkspaceProviderKeyOverridePublic) GetUsableOk() (*bool, bool)`
+
+GetUsableOk returns a tuple with the Usable field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUsable
+
+`func (o *WorkspaceProviderKeyOverridePublic) SetUsable(v bool)`
+
+SetUsable sets Usable field to given value.
 
 
 ### GetWorkspaceId

@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   description: "Otari, an OpenAI-compatible LLM gateway with API key management"
   title: otari
-  version: 0.6.1
+  version: 0.12.1
 servers:
 - url: /
 paths:
@@ -1829,8 +1829,8 @@ paths:
         Prices are the caller's: an organization's override where one applies, else
         the deployment's row, else the genai-prices default. Aliases and routing
         policies are not models and are not listed; see Routing. A visitor, where
-        the catalog is public, sees the configured instances at the deployment's
-        rates and nothing that belongs to a tenant.
+        the catalog is public, sees the configured instances and the hosted
+        models at the deployment's rates, and nothing that belongs to a tenant.
       operationId: catalog-list_catalog
       parameters:
       - description: "Compare prices for a request of this many input tokens: each\
@@ -1846,6 +1846,44 @@ paths:
             \ at. Omitted, the base rates compare."
           minimum: 1
           nullable: true
+          type: integer
+        style: form
+      - description: "Narrow to models whose name, catalog id or any selector contains\
+          \ this text, case-insensitively."
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          description: "Narrow to models whose name, catalog id or any selector contains\
+            \ this text, case-insensitively."
+          maxLength: 200
+          nullable: true
+          type: string
+        style: form
+      - description: Number of models to skip
+        explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          description: Number of models to skip
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - description: Maximum number of models to return
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          description: Maximum number of models to return
+          maximum: 1000
+          minimum: 1
+          title: Limit
           type: integer
         style: form
       responses:
@@ -2002,6 +2040,35 @@ paths:
       summary: Create Embedding
       tags:
       - embeddings
+  /api/v1/feedback:
+    post:
+      description: Send feedback privately to the Otari team.
+      operationId: feedback-submit_feedback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeedbackSubmission"
+        required: true
+      responses:
+        "204":
+          description: Successful Response
+        "413":
+          description: Feedback exceeds 32 KiB.
+        "415":
+          description: Only application/json is accepted.
+        "422":
+          description: Invalid feedback fields.
+        "429":
+          description: Feedback limit reached. Retry-After gives the wait in seconds.
+        "503":
+          description: Delivery could not be confirmed.
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Submit Feedback
+      tags:
+      - feedback
   /api/v1/files:
     get:
       description: |-
@@ -2009,6 +2076,12 @@ paths:
 
         ``workspace_id`` narrows a master-key listing to one workspace; a keyed
         request is already confined to its key's own and cannot widen or move it.
+
+        Each flavor pages with its own cursor.
+        OpenAI's ``after`` names the last file of the previous page, and ``has_more`` says whether to ask again.
+        Anthropic's ``next_page`` is passed back as ``page``, and ``ids[]`` reads up to 100 named files in one page.
+        A cursor whose file has since been deleted or has expired is still a position.
+        An ``after`` the caller never owned is a 404, and a ``page`` token this gateway did not issue is a 400.
       operationId: files-list_files
       parameters:
       - explode: true
@@ -2038,13 +2111,63 @@ paths:
           nullable: true
           type: string
         style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: after
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: order
+        required: false
+        schema:
+          default: desc
+          enum:
+          - asc
+          - desc
+          title: Order
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: "ids[]"
+        required: false
+        schema:
+          items:
+            type: string
+          nullable: true
+          type: array
+        style: form
       responses:
         "200":
           content:
             application/json:
               schema:
-                additionalProperties: {}
-                title: Response Files-List Files
+                $ref: "#/components/schemas/Response_Files_List_Files"
           description: Successful Response
         "422":
           content:
@@ -2059,7 +2182,8 @@ paths:
       tags:
       - files
     post:
-      description: OpenAI-compatible file upload endpoint.
+      description: "Upload a file. Answers in the OpenAI or Anthropic file shape,\
+        \ following the caller's headers."
       operationId: files-create_file
       requestBody:
         content:
@@ -2072,8 +2196,7 @@ paths:
           content:
             application/json:
               schema:
-                additionalProperties: {}
-                title: Response Files-Create File
+                $ref: "#/components/schemas/Response_Files_Create_File"
           description: Successful Response
         "422":
           content:
@@ -2113,8 +2236,7 @@ paths:
           content:
             application/json:
               schema:
-                additionalProperties: {}
-                title: Response Files-Delete File
+                $ref: "#/components/schemas/Response_Files_Delete_File"
           description: Successful Response
         "422":
           content:
@@ -2153,8 +2275,7 @@ paths:
           content:
             application/json:
               schema:
-                additionalProperties: {}
-                title: Response Files-Get File
+                $ref: "#/components/schemas/Response_Files_Get_File"
           description: Successful Response
         "422":
           content:
@@ -2300,6 +2421,48 @@ paths:
       summary: Health Readiness
       tags:
       - health
+  /api/v1/hooks/check:
+    post:
+      description: |-
+        Evaluate a submitted policy against submitted evidence.
+
+        Authenticated with either an API key or the master key (the router-level
+        gate), like ``POST /api/v1/usage/external-events``: this identifies who
+        sent the request, not whether its evidence is true. `blocked` is set when
+        a required gate's outcome is not `pass`/`not_applicable` (an unresolved
+        gate never counts as a pass).
+
+        The actual parse-and-evaluate work is
+        ``otari_agent.domain.check.run_policy_check``, shared with ``otari
+        hook``'s own local evaluation: this route's own job is authentication,
+        translating that function's tri-state request fields into its own typed
+        ones, and turning ``PolicyCheckError`` into a 422.
+      operationId: hooks-check_policy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyCheckRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PolicyCheckResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Check Policy
+      tags:
+      - hooks
   /api/v1/images/generations:
     post:
       description: |-
@@ -2337,7 +2500,8 @@ paths:
       - images
   /api/v1/invitations/accept:
     post:
-      description: "Accept a pending invitation, resolving it to an active membership."
+      description: "Accept a pending invitation, resolving it to an active membership\
+        \ and optionally setting a first password."
       operationId: invitations-accept_invitation
       requestBody:
         content:
@@ -3656,6 +3820,247 @@ paths:
       summary: Verify Active Organization Domain
       tags:
       - organizations
+  /api/v1/organizations/me/guardrail-definitions:
+    get:
+      description: |-
+        List the guardrails the caller's organization has defined.
+
+        Organization owners and admins only. A stored vendor credential is never
+        returned: each one comes back as ``***`` under its own name, which is what a
+        form resubmits to keep it.
+
+        ``build_state`` answers for the worker that served this request, so a read
+        taken moments after a write may still report ``pending`` on a sibling that
+        has not caught up.
+      operationId: organization-guardrail-definitions-list_organization_guardrail_definitions
+      parameters:
+      - description: Number of records to skip
+        explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          description: Number of records to skip
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - description: Maximum number of records to return
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          description: Maximum number of records to return
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationGuardrailDefinitionsPublic"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: List Organization Guardrail Definitions
+      tags:
+      - organization-guardrail-definitions
+    post:
+      description: |-
+        Define a guardrail this deployment will build and call itself. Organization owners and admins only.
+
+        ``guardrail_name`` must be one the built-in guardrail catalog lists
+        (``GET /api/v1/tool-settings/guardrails/catalog``), and
+        ``create_kwargs`` must satisfy that guardrail's constructor as the catalog
+        describes it: no argument it does not declare, nothing it types as a live
+        object rather than configuration, and every required argument no environment
+        variable can supply. Arguments the catalog marks secret are encrypted at
+        rest.
+
+        A definition on its own changes no request. Mandate it through
+        ``/api/v1/organizations/me/guardrails`` for it to run.
+
+        The definition is saved first and built second, so a guardrail this
+        deployment cannot construct is still stored and answers ``build_state:
+        "failed"`` rather than refusing the write. Why it failed is not reported: a
+        vendor library may put the arguments it was handed, which are your
+        credentials, into its own error message. The reason is in the gateway's log.
+      operationId: organization-guardrail-definitions-create_organization_guardrail_definition
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrganizationGuardrailDefinitionCreate"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationGuardrailDefinitionPublic"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Create Organization Guardrail Definition
+      tags:
+      - organization-guardrail-definitions
+  /api/v1/organizations/me/guardrail-definitions/{definition_id}:
+    delete:
+      description: |-
+        Drop a definition and the credentials it holds.
+
+        Organization owners and admins only. Use ``enabled: false`` instead to stop
+        the guardrail everywhere while keeping both.
+      operationId: organization-guardrail-definitions-delete_organization_guardrail_definition
+      parameters:
+      - explode: false
+        in: path
+        name: definition_id
+        required: true
+        schema:
+          format: uuid
+          title: Definition Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Delete Organization Guardrail Definition
+      tags:
+      - organization-guardrail-definitions
+    patch:
+      description: |-
+        Change a definition's name, guardrail, build arguments, or enabled flag.
+
+        Organization owners and admins only. Omitted fields are left as they are.
+        ``create_kwargs`` replaces the arguments whole when sent, an argument sent as
+        ``***`` keeps the value stored under that name, and omitting the field
+        entirely leaves the stored credentials untouched and unread.
+
+        The guardrail is rebuilt afterwards and the response reports the outcome in
+        ``build_state``, so repairing a credential shows the definition running
+        again in the same response, and ``enabled: false`` stops it here rather than
+        on the next refresh.
+      operationId: organization-guardrail-definitions-update_organization_guardrail_definition
+      parameters:
+      - explode: false
+        in: path
+        name: definition_id
+        required: true
+        schema:
+          format: uuid
+          title: Definition Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrganizationGuardrailDefinitionUpdate"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationGuardrailDefinitionPublic"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Update Organization Guardrail Definition
+      tags:
+      - organization-guardrail-definitions
+  /api/v1/organizations/me/guardrail-definitions/{definition_id}/test:
+    post:
+      description: |-
+        Run a definition's guardrail over some text and return its verdict.
+
+        Organization owners and admins only. The guardrail is the one the worker
+        that answered already holds built, so this tests what is running rather
+        than building it again. Nothing is stored and no mandate is involved;
+        ``validate_kwargs`` stands in for what a mandate would pass with each
+        check.
+
+        A definition this worker does not hold built answers 409, and its
+        ``build_state`` says why. A vendor call that fails answers 502, and the
+        reason is in the gateway's log only: a vendor library may put the
+        credentials it was handed into its own message.
+      operationId: organization-guardrail-definitions-test_organization_guardrail_definition
+      parameters:
+      - explode: false
+        in: path
+        name: definition_id
+        required: true
+        schema:
+          format: uuid
+          title: Definition Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrganizationGuardrailDefinitionTest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationGuardrailDefinitionTestResult"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Test Organization Guardrail Definition
+      tags:
+      - organization-guardrail-definitions
   /api/v1/organizations/me/guardrails:
     get:
       description: |-
@@ -3827,6 +4232,59 @@ paths:
       summary: Update Organization Guardrail
       tags:
       - organization-guardrails
+  /api/v1/organizations/me/guardrails/{guardrail_id}/test:
+    post:
+      description: |-
+        Post some text to the guardrails service a mandate names and return its verdict.
+
+        Organization owners and admins only. Uses the mandate's own endpoint and
+        credential, or the deployment's guardrails URL when it names none, and
+        faces the same safety check a request does. Nothing is stored.
+        ``validate_kwargs`` replaces the stored arguments for this call, a
+        ``***`` in it keeps the value stored under that name, and omitting it
+        sends the stored arguments.
+
+        A mandate that runs a configured guardrail answers 409: test that
+        guardrail through ``/api/v1/organizations/me/guardrail-definitions``. So
+        does one with nowhere to send the check. A service that cannot be reached,
+        or answers something malformed, answers 502, and the reason is in the
+        gateway's log only.
+      operationId: organization-guardrails-test_organization_guardrail
+      parameters:
+      - explode: false
+        in: path
+        name: guardrail_id
+        required: true
+        schema:
+          format: uuid
+          title: Guardrail Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrganizationGuardrailTest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationGuardrailTestResult"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Test Organization Guardrail
+      tags:
+      - organization-guardrails
   /api/v1/organizations/me/keys:
     get:
       description: |-
@@ -3899,7 +4357,7 @@ paths:
         The member-scoped counterpart of ``POST /api/v1/keys``: the owner is always the
         caller's own attribution user, the key is always budget-enforced, and the
         workspace must be visible to the caller (a member of it, or an organization
-        owner/admin/superuser, who see every workspace). The secret is returned once.
+        owner/admin, who see every workspace). The secret is returned once.
       operationId: organization-keys-create_own_key
       requestBody:
         content:
@@ -4104,7 +4562,12 @@ paths:
       - organizations
   /api/v1/organizations/me/members:
     get:
-      description: List the members of the caller's active organization.
+      description: |-
+        List the members of the caller's active organization.
+
+        ``search`` narrows the page and the count together, so a caller offering
+        these members as options can ask for the matches instead of filtering
+        whatever page it happened to fetch.
       operationId: organizations-list_active_organization_members
       parameters:
       - description: Number of records to skip
@@ -4131,6 +4594,18 @@ paths:
           minimum: 1
           title: Limit
           type: integer
+        style: form
+      - description: "Narrow to members whose name or email contains this text, case-insensitively."
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          description: "Narrow to members whose name or email contains this text,\
+            \ case-insensitively."
+          maxLength: 200
+          nullable: true
+          type: string
         style: form
       responses:
         "200":
@@ -4478,8 +4953,25 @@ paths:
         Paged on the same bounds the rest of the tenancy surface uses, because the
         table grows a row per model per period. ``count`` is the total, so a client
         knows whether another page is owed.
+
+        ``model_key`` narrows to one model, which is what an editor for that model
+        needs: every period stored for it, so it can open on the one in force and
+        refuse a new one that would overlap. Normalized the same way a write is, so
+        a legacy ``provider/model`` spelling finds the rows a canonical one stored.
       operationId: organization-pricing-list_organization_pricing
       parameters:
+      - description: "Return only this model's periods, in the canonical 'provider:model'\
+          \ form."
+        explode: true
+        in: query
+        name: model_key
+        required: false
+        schema:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+        style: form
       - description: Number of records to skip
         explode: true
         in: query
@@ -4530,9 +5022,12 @@ paths:
 
         Refused with a 409 when the period overlaps one already stored for that model,
         naming the period it collides with, rather than shadowing it. Refused with a
-        403 when the model is addressed through one of the deployment's own provider
-        instances: the deployment holds that credential and settles its upstream bill,
-        so its rate is the deployment price list's rather than a tenant's.
+        403 when the deployment, not the caller's organization, holds the credential
+        that serves the model, whether through one of its own provider instances or a
+        hosted credential the bound port supplies because no usable BYO credential of
+        the organization's own covers every one of its workspaces: either way the
+        deployment settles the upstream bill, so its rate is the deployment price
+        list's rather than a tenant's.
 
         The key is normalized to its canonical ``instance:model`` form first, the same
         call ``POST /api/v1/pricing`` makes, and that is what makes one model one row
@@ -4706,8 +5201,16 @@ paths:
       tags:
       - provider-keys
     post:
-      description: Create a provider key in the caller's organization. Organization
-        owners and admins only.
+      description: |-
+        Create a provider key in the caller's organization. Organization owners and admins only.
+
+        Everything the provider lists on the new credential is offered at once, so a
+        key starts with its real catalog rather than an empty list an admin retypes
+        by hand. A provider that will not say (no listing endpoint, unreachable,
+        credential refused) yields a key with no models rather than a failed create:
+        the credential may still be right for dispatch, and models can be added by
+        name. The response is the key either way; the models are read back through
+        ``GET /{key_id}/models``.
       operationId: provider-keys-create_org_provider_key
       requestBody:
         content:
@@ -4840,6 +5343,45 @@ paths:
       summary: Archive Org Provider Key
       tags:
       - provider-keys
+  /api/v1/organizations/me/provider-keys/{key_id}/available-models:
+    get:
+      description: |-
+        Ask the provider what it serves on this key's stored credential.
+
+        Dials the upstream on every call rather than caching: the caller is a model
+        picker, opened rarely and entitled to a current answer. The credential never
+        leaves the process; only model names come back. Organization owners and
+        admins only.
+      operationId: provider-keys-list_org_provider_key_available_models
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          format: uuid
+          title: Key Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrgProviderAvailableModelsPublic"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: List Org Provider Key Available Models
+      tags:
+      - provider-keys
   /api/v1/organizations/me/provider-keys/{key_id}/default:
     post:
       description: Make a key the organization's default for its provider. Organization
@@ -4872,6 +5414,286 @@ paths:
       - ApiKeyAuth: []
       - XApiKeyAuth: []
       summary: Set Org Provider Key Default
+      tags:
+      - provider-keys
+  /api/v1/organizations/me/provider-keys/{key_id}/models:
+    get:
+      description: |-
+        List the models offered on one key, each with the rate it currently serves at.
+
+        Organization owners and admins only. ``count`` is the total rather than the
+        page length, so a client knows whether another page is owed.
+      operationId: provider-keys-list_org_provider_key_models
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          format: uuid
+          title: Key Id
+          type: string
+        style: simple
+      - description: Number of records to skip
+        explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          description: Number of records to skip
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - description: Maximum number of records to return
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 500
+          description: Maximum number of records to return
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrgProviderKeyModelsPublic"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: List Org Provider Key Models
+      tags:
+      - provider-keys
+    post:
+      description: |-
+        Offer one model by name, for a backend whose models cannot be listed.
+
+        Carries no rate: an organization's rates are written through
+        ``/api/v1/organizations/me/pricing``, so a price set here and a price set
+        there could not disagree about what a request costs. The offer seeds the
+        community default like any other, and a model nothing prices arrives
+        disabled. Organization owners and admins only.
+      operationId: provider-keys-add_org_provider_key_model
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          format: uuid
+          title: Key Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrgProviderKeyModelCreateRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrgProviderKeyModelPublic"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Add Org Provider Key Model
+      tags:
+      - provider-keys
+  /api/v1/organizations/me/provider-keys/{key_id}/models/refresh:
+    post:
+      description: |-
+        Ask the provider again and offer whatever is newly listed.
+
+        Additive only: nothing already offered is removed or switched off, because
+        delisting a model is a decision the serving switch owns and an upstream
+        hiccup must not empty a catalog. New models follow the offer rule, seeded
+        with the community default rate and disabled when nothing prices them. A
+        rate this surface seeded and nobody has changed moves to today's default.
+        Organization owners and admins only.
+      operationId: provider-keys-refresh_org_provider_key_models
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          format: uuid
+          title: Key Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrgProviderModelsRefreshPublic"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Refresh Org Provider Key Models
+      tags:
+      - provider-keys
+  /api/v1/organizations/me/provider-keys/{key_id}/models/{model_id}:
+    delete:
+      description: Stop offering one model. Its rate and its history stay. Organization
+        owners and admins only.
+      operationId: provider-keys-remove_org_provider_key_model
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          format: uuid
+          title: Key Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: model_id
+        required: true
+        schema:
+          format: uuid
+          title: Model Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Remove Org Provider Key Model
+      tags:
+      - provider-keys
+    patch:
+      description: Turn one offered model's serving switch on or off. Organization
+        owners and admins only.
+      operationId: provider-keys-set_org_provider_key_model_enabled
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          format: uuid
+          title: Key Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: model_id
+        required: true
+        schema:
+          format: uuid
+          title: Model Id
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrgProviderKeyModelUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrgProviderKeyModelPublic"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Set Org Provider Key Model Enabled
+      tags:
+      - provider-keys
+  /api/v1/organizations/me/provider-keys/{key_id}/pricing/refresh:
+    post:
+      description: |-
+        Move every rate this surface seeded onto today's community default.
+
+        The other half of the refresh above, without the dial: re-reading community
+        rates is cheap and asking a provider for its whole catalog is not, so an
+        admin who only wants the price move does not wait on an upstream. A rate an
+        admin has since set is left alone, and a model that arrived unpriced is
+        offered a rate and switched on if one has appeared. Organization owners and
+        admins only.
+      operationId: provider-keys-refresh_org_provider_key_model_pricing
+      parameters:
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          format: uuid
+          title: Key Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrgProviderModelsRefreshPublic"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Refresh Org Provider Key Model Pricing
       tags:
       - provider-keys
   /api/v1/organizations/me/provider-keys/{key_id}/restore:
@@ -5414,18 +6236,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -5700,18 +6524,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -5973,18 +6799,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -6223,18 +7051,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -6334,6 +7164,48 @@ paths:
       summary: Organization Usage Summary
       tags:
       - organization-usage
+  /api/v1/overview:
+    get:
+      description: |-
+        Summarize what the dashboard overview shows beside its usage chart.
+
+        The counts and the budget judgment in one answer, so the page does not read
+        four collections to compute them. A workspace outside the caller's
+        organization is treated as none given rather than refused, because the id
+        comes from a switcher whose contents can go stale.
+      operationId: overview-get_overview
+      parameters:
+      - description: Narrow the counts to one workspace of the caller's organization.
+        explode: true
+        in: query
+        name: workspace_id
+        required: false
+        schema:
+          description: Delete the alias in this workspace. Omit for the deployment's
+            default workspace.
+          format: uuid
+          nullable: true
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OverviewSummaryResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Get Overview
+      tags:
+      - overview
   /api/v1/playground/chat/completions:
     post:
       description: |-
@@ -6355,6 +7227,11 @@ paths:
 
         ``user`` in the body is the one field the pipeline will not read here: spend
         binds to the session's own attribution user, derived and never accepted.
+
+        On a hosted control plane there is no local pipeline to call, so the same
+        principal is forwarded to the data-plane gateway instead
+        (:func:`_dispatch_to_data_plane`). The request and the response are the same
+        either way.
       operationId: playground-playground_chat_completions
       parameters:
       - description: "Workspace to act in. Defaults to the caller's organization's\
@@ -6924,6 +7801,59 @@ paths:
       - ApiKeyAuth: []
       - XApiKeyAuth: []
       summary: Set Pricing
+      tags:
+      - pricing
+  /api/v1/pricing/current:
+    get:
+      description: |-
+        List the rate each priced model is metered at, one row per model key.
+
+        Listing prices answers the stored history, one row per ``effective_at``, so a
+        page of that is a page of revisions rather than a page of models. This
+        answers one row per key: the newest rate that has taken effect, or the
+        earliest scheduled rate for a key that has none yet. ``count`` is the number
+        of priced models, so a caller can page without reading the collection to
+        learn how long it is.
+      operationId: pricing-list_current_pricing
+      parameters:
+      - explode: true
+        in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          title: Skip
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentPricingPage"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: List Current Pricing
       tags:
       - pricing
   /api/v1/pricing/drift:
@@ -8603,31 +9533,33 @@ paths:
       description: |-
         List the guardrails this gateway can run itself, for the form that defines one.
 
-        Every guardrail ``any_guardrail`` ships, with the constructor and per-call
-        arguments each one takes, so a guardrail is configured by picking it and
-        filling typed fields. A parameter names the environment variable that fills it
+        Every guardrail ``any_guardrail`` reaches over a hosted API, with the
+        constructor and per-call arguments each one takes, so a guardrail is
+        configured by picking it and filling typed fields. It is not the whole
+        library: a guardrail that works by holding model weights in the process
+        running it belongs in the guardrails service the profiles read beside this one
+        describes, not here. A parameter names the environment variable that fills it
         where one exists, and ``requirement_groups`` carries the constraints satisfied
         by any of several parameters, which no single required flag can state. This is
         the counterpart of
         ``GET /api/v1/providers/catalog``: the same picker, for a guardrail rather
         than a provider, and on the same gate that one takes.
 
-        Reaches no service, so there is no unavailable state to report. ``runnable``
-        says whether the modules a guardrail's backend needs are installed here,
-        probed rather than imported, and ``missing_extra`` names the Otari extra that
-        would fix it.
+        Reaches no service, so there is no unavailable state to report: the answer is
+        a property of the installed ``any_guardrail``, not of any deployment's state.
 
-        On the operator router rather than the reader beside it, on both halves of
-        what it answers. It is the input to a write that stores a vendor API key
-        deployment-wide, which is an operator's action alone; and ``runnable``
-        describes the host's installed packages, which is infrastructure rather than
-        something a tenant is owed about their own requests. A profile *name* is the
-        one thing a caller needs, and the profiles read next door is where the set of
-        those is published.
+        On the catalog router rather than the operator one beside it, because the
+        form this feeds belongs to an organization and is filled by an owner or
+        admin, who reaches no operator route. So it is readable without
+        deployment-wide standing, by a dashboard session and by any API key alike.
+        What it publishes carries no deployment state to withhold: the same bytes on
+        every deployment of the same build, and a parameter's environment variable is
+        a name, never whether that name is set.
 
-        Not on ``verify_catalog_reader`` either: that plane is a closed set of three
-        deployment-describing reads a data-plane key may make, and this is a
-        management read, not one of them.
+        The profiles read next door keeps the stricter gate, and the difference is
+        reach rather than audience. That one dials ``guardrails_url``, so admitting a
+        key there would let a workspace credential probe the deployment's own
+        service. This one dials nothing.
       operationId: tool-settings-list_builtin_guardrails
       responses:
         "200":
@@ -8961,18 +9893,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -9249,18 +10183,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -9596,18 +10532,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -9894,18 +10832,20 @@ paths:
           type: boolean
         style: form
       - description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-          \ any tool; a tool name (web_search, code_execution) matches that tool specifically."
+          \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+          \ that tool specifically."
         explode: true
         in: query
         name: tool
         required: false
         schema:
           description: "Filter to requests that ran a gateway-run tool. 'any' matches\
-            \ any tool; a tool name (web_search, code_execution) matches that tool\
-            \ specifically."
+            \ any tool; a tool name (web_search, web_fetch, code_execution) matches\
+            \ that tool specifically."
           enum:
           - any
           - web_search
+          - web_fetch
           - code_execution
           nullable: true
           type: string
@@ -11685,7 +12625,7 @@ paths:
       - workspace-web-search
     get:
       description: |-
-        Read a workspace's web-search configuration.
+        Read a workspace's web-access configuration.
 
         Takes the same role as setting it (an organization owner/admin, or an
         owner/admin of this workspace), because the row describes the workspace's
@@ -11724,12 +12664,12 @@ paths:
       - workspace-web-search
     put:
       description: |-
-        Set a workspace's web-search configuration, replacing any existing one.
+        Set a workspace's web-access configuration, replacing any existing one.
 
         An organization owner/admin, or an owner/admin of this workspace, may write
         it. The configuration can only narrow what the deployment permits: turning
-        web search off for the workspace, lowering the result ceiling, and adding to
-        the domains a search may not reach. It never turns on a backend the
+        web access off for the workspace, lowering the Search result ceiling, and
+        constraining domains for Search and Fetch. It never turns on a backend the
         deployment has not configured, and it carries no credential.
       operationId: workspace-web-search-set_workspace_web_search_config
       parameters:
@@ -11834,8 +12774,28 @@ components:
   schemas:
     AcceptInvitationRequest:
       example:
+        terms_accepted: false
+        password: password
+        full_name: full_name
         token: token
       properties:
+        full_name:
+          description: Filled in only if not already set.
+          maxLength: 255
+          nullable: true
+          type: string
+        password:
+          description: "Sets the invited identity's password in the same step, when\
+            \ the preview reported needs_password. Needs no mail: the link is the\
+            \ proof, whether it was emailed or an admin handed it over."
+          maxLength: 1024
+          nullable: true
+          type: string
+        terms_accepted:
+          default: false
+          description: Whether the caller accepted this deployment's terms.
+          title: Terms Accepted
+          type: boolean
         token:
           title: Token
           type: string
@@ -11846,17 +12806,22 @@ components:
       description: |-
         What accepting produces: enough for the accept page to say where the visitor landed.
 
-        No session and no token: accepting resolves the membership to ``active``
-        and stops there. The identity it resolves to is password-less on the roster
-        until it is claimed, so the next step is a sign-up on the
-        invited address, not a sign-in.
+        No session and no token. When the request carried a password, the identity
+        can sign in straight away; otherwise it stays password-less until claimed by
+        signup or a provider sign-in.
       example:
         role: role
         organization_name: organization_name
+        password_set: false
       properties:
         organization_name:
           title: Organization Name
           type: string
+        password_set:
+          default: false
+          description: Whether this accept set the identity's password.
+          title: Password Set
+          type: boolean
         role:
           title: Role
           type: string
@@ -12117,11 +13082,27 @@ components:
         updated_at: 2000-01-23T04:56:07.000+00:00
         organization_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         user_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        attribution: ""
         created_at: 2000-01-23T04:56:07.000+00:00
         attribution_user_id: attribution_user_id
+        workspaces:
+        - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          ceiling: ""
+          role: role
+          workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          workspace_name: workspace_name
+        - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          ceiling: ""
+          role: role
+          workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          workspace_name: workspace_name
         email: email
         status: status
       properties:
+        attribution:
+          allOf:
+          - $ref: "#/components/schemas/MemberAttributionPublic"
+          nullable: true
         attribution_user_id:
           nullable: true
           type: string
@@ -12157,6 +13138,11 @@ components:
           format: uuid
           nullable: true
           type: string
+        workspaces:
+          items:
+            $ref: "#/components/schemas/MemberWorkspacePlacementPublic"
+          title: Workspaces
+          type: array
       required:
       - created_at
       - role
@@ -12191,8 +13177,20 @@ components:
           updated_at: 2000-01-23T04:56:07.000+00:00
           organization_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           user_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          attribution: ""
           created_at: 2000-01-23T04:56:07.000+00:00
           attribution_user_id: attribution_user_id
+          workspaces:
+          - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            ceiling: ""
+            role: role
+            workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            workspace_name: workspace_name
+          - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            ceiling: ""
+            role: role
+            workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            workspace_name: workspace_name
           email: email
           status: status
         - invitation_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -12201,8 +13199,20 @@ components:
           updated_at: 2000-01-23T04:56:07.000+00:00
           organization_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           user_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          attribution: ""
           created_at: 2000-01-23T04:56:07.000+00:00
           attribution_user_id: attribution_user_id
+          workspaces:
+          - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            ceiling: ""
+            role: role
+            workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            workspace_name: workspace_name
+          - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            ceiling: ""
+            role: role
+            workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            workspace_name: workspace_name
           email: email
           status: status
         count: 0
@@ -12778,6 +13788,37 @@ components:
       - source
       - target
       title: AliasResponse
+    AllocationHealthResponse:
+      description: "One set of capped rows, reduced to what a strip renders."
+      properties:
+        capped_count:
+          description: "Rows with a finite cap, which are the ones that can be judged."
+          title: Capped Count
+          type: integer
+        near_count:
+          description: "Rows at 80% of their allowance or more, but not past it."
+          title: Near Count
+          type: integer
+        over_count:
+          description: Rows at or past their allowance.
+          title: Over Count
+          type: integer
+        total_count:
+          description: "Rows of any kind, so a caller can tell 'none configured' from\
+            \ 'none caps spend'."
+          title: Total Count
+          type: integer
+        worst:
+          allOf:
+          - $ref: "#/components/schemas/WorstAllocationResponse"
+          nullable: true
+      required:
+      - capped_count
+      - near_count
+      - over_count
+      - total_count
+      - worst
+      title: AllocationHealthResponse
     Annotations:
       additionalProperties: true
       properties:
@@ -12795,6 +13836,82 @@ components:
           nullable: true
           type: number
       title: Annotations
+    AnthropicFileDeleted:
+      description: Anthropic's answer to a delete.
+      properties:
+        id:
+          title: Id
+          type: string
+        type:
+          default: file_deleted
+          enum:
+          - file_deleted
+          title: Type
+          type: string
+      required:
+      - id
+      title: AnthropicFileDeleted
+    AnthropicFileList:
+      description: "A page of files in Anthropic's list shape, whose cursor is an\
+        \ opaque token."
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/AnthropicFileMetadata"
+          title: Data
+          type: array
+        next_page:
+          nullable: true
+          type: string
+      required:
+      - data
+      - next_page
+      title: AnthropicFileList
+    AnthropicFileMetadata:
+      description: |-
+        One file in the ``FileMetadata`` shape of Anthropic's GA Files API.
+
+        ``expires_at`` is always present and ``None`` for a file kept indefinitely.
+        ``downloadable`` is always true, because the gateway serves every stored file's bytes back.
+      properties:
+        created_at:
+          title: Created At
+          type: string
+        downloadable:
+          default: true
+          enum:
+          - true
+          title: Downloadable
+          type: boolean
+        expires_at:
+          nullable: true
+          type: string
+        filename:
+          title: Filename
+          type: string
+        id:
+          title: Id
+          type: string
+        mime_type:
+          title: Mime Type
+          type: string
+        size_bytes:
+          title: Size Bytes
+          type: integer
+        type:
+          default: file
+          enum:
+          - file
+          title: Type
+          type: string
+      required:
+      - created_at
+      - expires_at
+      - filename
+      - id
+      - mime_type
+      - size_bytes
+      title: AnthropicFileMetadata
     AudioContent:
       additionalProperties: {}
       description: Audio content for a message.
@@ -13146,8 +14263,7 @@ components:
       - updated_at
       title: BudgetResponse
     BuiltInGuardrailCatalog:
-      description: "Every guardrail this gateway ships, whether or not it can currently\
-        \ run it."
+      description: The guardrails this gateway can build and call itself.
       example:
         guardrails:
         - supports_batch: false
@@ -13209,12 +14325,10 @@ components:
           variant_licenses:
           - key: variant_licenses
           - key: variant_licenses
-          missing_extra: missing_extra
           optional_validate_kwargs:
           - optional_validate_kwargs
           - optional_validate_kwargs
           requires_api_key: false
-          runnable: true
           requirement_groups:
           - description: description
             parameters:
@@ -13304,12 +14418,10 @@ components:
           variant_licenses:
           - key: variant_licenses
           - key: variant_licenses
-          missing_extra: missing_extra
           optional_validate_kwargs:
           - optional_validate_kwargs
           - optional_validate_kwargs
           requires_api_key: false
-          runnable: true
           requirement_groups:
           - description: description
             parameters:
@@ -13420,12 +14532,10 @@ components:
         variant_licenses:
         - key: variant_licenses
         - key: variant_licenses
-        missing_extra: missing_extra
         optional_validate_kwargs:
         - optional_validate_kwargs
         - optional_validate_kwargs
         requires_api_key: false
-        runnable: true
         requirement_groups:
         - description: description
           parameters:
@@ -13489,12 +14599,6 @@ components:
           description: "The any-guardrail class, and the name a stored guardrail selects"
           title: Guardrail Name
           type: string
-        missing_extra:
-          description: "The Otari extra to install to make this runnable, when one\
-            \ would. Null when it already runs, and null for a guardrail this gateway\
-            \ holds no backend information about"
-          nullable: true
-          type: string
         multilingual:
           default: false
           title: Multilingual
@@ -13532,11 +14636,6 @@ components:
           default: false
           title: Requires Api Key
           type: boolean
-        runnable:
-          description: Whether every module this guardrail's backend needs is installed
-            here. False is a missing package and not a broken guardrail
-          title: Runnable
-          type: boolean
         stages:
           items:
             type: string
@@ -13572,7 +14671,6 @@ components:
       - guardrail_name
       - output_shapes
       - primary_category
-      - runnable
       - stages
       - vendor
       title: BuiltInGuardrailSpec
@@ -13635,27 +14733,46 @@ components:
         names. Publishing it costs nothing either, since it is the caller's own
         identity and they are holding the credential that resolved to it.
 
-        Both fields are nullable, and for opposite reasons. A local operator
-        identity has no address, because first boot provisions it with a name and
-        nothing to sign in with but the master key; a member added to the roster by
+        ``email`` and ``full_name`` are nullable for opposite reasons. A local
+        operator identity has no address, because first boot provisions it with a
+        name and nothing to sign in with but the master key; a member added by
         address has no name until they claim the identity and supply one. So a shell
         has to be ready to draw either one alone.
       example:
         full_name: full_name
         user_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        claims_deployment: true
         email: email
+        has_password: true
       properties:
+        claims_deployment:
+          description: "Whether setting this identity's password claims the deployment,\
+            \ which stops the master key signing in to the dashboard. True for the\
+            \ deployment's operator until it holds a password, whether or not it already\
+            \ has an address; false for everybody else."
+          title: Claims Deployment
+          type: boolean
         email:
           nullable: true
           type: string
         full_name:
           nullable: true
           type: string
+        has_password:
+          description: "Whether this identity holds a dashboard password. False for\
+            \ one that signs in only through an OAuth provider or a passkey, and for\
+            \ a roster entry nobody has claimed yet. PUT /api/v1/auth/password requires\
+            \ current_password from a cookie-authenticated caller exactly while this\
+            \ is true."
+          title: Has Password
+          type: boolean
         user_id:
           format: uuid
           title: User Id
           type: string
       required:
+      - claims_deployment
+      - has_password
       - user_id
       title: CallerIdentityPublic
     CallerOrganizationMembershipPublic:
@@ -13833,6 +14950,14 @@ components:
           title: Tool Call
           type: boolean
       title: CatalogCapabilities
+    CatalogCredential:
+      description: Who may price a catalog offering.
+      enum:
+      - deployment
+      - organization
+      - hosted
+      title: CatalogCredential
+      type: string
     CatalogElsewhere:
       description: A provider models.dev lists for this model that this deployment
         has not configured.
@@ -13881,7 +15006,7 @@ components:
           discovered: true
           price_source: organization
           short_selector: short_selector
-          credential: deployment
+          credential: ""
           provider: provider
           metadata_output_price_per_million: 3.616076749251911
           metadata_input_price_per_million: 9.301444243932576
@@ -13896,7 +15021,7 @@ components:
           discovered: true
           price_source: organization
           short_selector: short_selector
-          credential: deployment
+          credential: ""
           provider: provider
           metadata_output_price_per_million: 3.616076749251911
           metadata_input_price_per_million: 9.301444243932576
@@ -14036,7 +15161,8 @@ components:
           type: string
         selector:
           description: "The id as a selector: send it as `model` and the model's cheapest\
-            \ offering answers. Null until the gateway has indexed the catalog."
+            \ offering the caller can reach answers, the vendor's own provider first\
+            \ where it serves the model. Null until the gateway has indexed the catalog."
           nullable: true
           type: string
         selectors:
@@ -14081,12 +15207,12 @@ components:
         output_modalities:
         - output_modalities
         - output_modalities
-        provider_count: 2
+        provider_count: 7
         selectors:
         - selectors
         - selectors
         vendor: vendor
-        offering_count: 5
+        offering_count: 2
         knowledge_cutoff: knowledge_cutoff
         open_weights: false
         selector: selector
@@ -14094,26 +15220,26 @@ components:
         input_modalities:
         - input_modalities
         - input_modalities
-        context_window: 0
+        context_window: 6
         capabilities:
           attachment: false
           reasoning: false
           temperature: false
           tool_call: false
           structured_output: false
-        min_input_price_per_million: 1.4658129805029452
-        min_output_price_per_million: 5.962133916683182
+        min_input_price_per_million: 5.962133916683182
+        min_output_price_per_million: 5.637376656633329
         price_sources:
         - organization
         - organization
         release_date: release_date
         name: name
         family: family
-        unpriced_count: 7
+        unpriced_count: 9
         providers:
         - providers
         - providers
-        max_output_tokens: 6
+        max_output_tokens: 1
       properties:
         capabilities:
           $ref: "#/components/schemas/CatalogCapabilities"
@@ -14206,7 +15332,8 @@ components:
           type: string
         selector:
           description: "The id as a selector: send it as `model` and the model's cheapest\
-            \ offering answers. Null until the gateway has indexed the catalog."
+            \ offering the caller can reach answers, the vendor's own provider first\
+            \ where it serves the model. Null until the gateway has indexed the catalog."
           nullable: true
           type: string
         selectors:
@@ -14246,7 +15373,7 @@ components:
         discovered: true
         price_source: organization
         short_selector: short_selector
-        credential: deployment
+        credential: ""
         provider: provider
         metadata_output_price_per_million: 3.616076749251911
         metadata_input_price_per_million: 9.301444243932576
@@ -14261,15 +15388,13 @@ components:
           nullable: true
           type: integer
         credential:
-          description: "Whose key serves it: `deployment` for a `providers:` instance\
-            \ the operator configured, `organization` for a key the viewer's organization\
-            \ holds."
-          enum:
-          - deployment
-          - organization
-          - hosted
-          title: Credential
-          type: string
+          allOf:
+          - $ref: "#/components/schemas/CatalogCredential"
+          description: "Who may price it: `deployment` for a `providers:` instance\
+            \ the operator configured, `hosted` for a provider the deployment pays\
+            \ for in any workspace of the viewer's organization, `organization` for\
+            \ one the viewer's organization may set its own rate for. A workspace\
+            \ can still call a `hosted` provider with the organization's own key."
         discovered:
           description: Whether the provider itself reported this model.
           title: Discovered
@@ -14322,10 +15447,11 @@ components:
           title: Selector
           type: string
         short_selector:
-          description: "A shorter spelling the gateway also accepts: the instance\
-            \ with the model's cleaned id (`fireworks:gpt-oss-120b`). Null where two\
-            \ offerings on the instance would share it, or until the gateway has indexed\
-            \ the catalog."
+          description: "The pinned spelling the gateway also accepts for this offering:\
+            \ the instance with the model's catalog id (`fireworks:openai/gpt-oss-120b`),\
+            \ which pins the instance and reaches the model's cheapest offering on\
+            \ it. Null for a dearer sibling on the same instance, or until the gateway\
+            \ has indexed the catalog."
           nullable: true
           type: string
         usage_30d:
@@ -14351,12 +15477,12 @@ components:
           output_modalities:
           - output_modalities
           - output_modalities
-          provider_count: 2
+          provider_count: 7
           selectors:
           - selectors
           - selectors
           vendor: vendor
-          offering_count: 5
+          offering_count: 2
           knowledge_cutoff: knowledge_cutoff
           open_weights: false
           selector: selector
@@ -14364,26 +15490,26 @@ components:
           input_modalities:
           - input_modalities
           - input_modalities
-          context_window: 0
+          context_window: 6
           capabilities:
             attachment: false
             reasoning: false
             temperature: false
             tool_call: false
             structured_output: false
-          min_input_price_per_million: 1.4658129805029452
-          min_output_price_per_million: 5.962133916683182
+          min_input_price_per_million: 5.962133916683182
+          min_output_price_per_million: 5.637376656633329
           price_sources:
           - organization
           - organization
           release_date: release_date
           name: name
           family: family
-          unpriced_count: 7
+          unpriced_count: 9
           providers:
           - providers
           - providers
-          max_output_tokens: 6
+          max_output_tokens: 1
         - resolves_to: resolves_to
           discovered: true
           deprecated: false
@@ -14391,12 +15517,12 @@ components:
           output_modalities:
           - output_modalities
           - output_modalities
-          provider_count: 2
+          provider_count: 7
           selectors:
           - selectors
           - selectors
           vendor: vendor
-          offering_count: 5
+          offering_count: 2
           knowledge_cutoff: knowledge_cutoff
           open_weights: false
           selector: selector
@@ -14404,30 +15530,36 @@ components:
           input_modalities:
           - input_modalities
           - input_modalities
-          context_window: 0
+          context_window: 6
           capabilities:
             attachment: false
             reasoning: false
             temperature: false
             tool_call: false
             structured_output: false
-          min_input_price_per_million: 1.4658129805029452
-          min_output_price_per_million: 5.962133916683182
+          min_input_price_per_million: 5.962133916683182
+          min_output_price_per_million: 5.637376656633329
           price_sources:
           - organization
           - organization
           release_date: release_date
           name: name
           family: family
-          unpriced_count: 7
+          unpriced_count: 9
           providers:
           - providers
           - providers
-          max_output_tokens: 6
+          max_output_tokens: 1
         defaults_as_of: 2000-01-23T04:56:07.000+00:00
         metadata_available: true
+        count: 0
         default_pricing: true
       properties:
+        count:
+          description: "Models matching the search, before the window, so a caller\
+            \ can page without reading them all."
+          title: Count
+          type: integer
         default_pricing:
           description: Whether an unpriced model is metered at the genai-prices default.
           title: Default Pricing
@@ -14449,6 +15581,7 @@ components:
           title: Models
           type: array
       required:
+      - count
       - default_pricing
       - defaults_as_of
       - metadata_available
@@ -14728,6 +15861,53 @@ components:
       - messages
       - model
       title: ChatCompletionRequest
+    CheckVerdictRequest:
+      additionalProperties: false
+      description: |-
+        One verifier gate's verdict, as the caller's own verifier run produced it.
+
+        Mirrors ``JudgeVerdictRequest`` field-for-field: ``gate_id`` echoes back
+        the gate the policy itself named (same bound, same reason), ``outcome``
+        is the caller's own report of the verifier's exit code (0/1/anything
+        else, mapped by the caller to pass/fail/error), and ``detail`` is the
+        verifier's captured stdout, capped the same way ``reasoning`` is.
+      example:
+        gate_id: gate_id
+        detail: ""
+        outcome: pass
+      properties:
+        detail:
+          default: ""
+          maxLength: 4096
+          title: Detail
+          type: string
+        gate_id:
+          maxLength: 200
+          minLength: 1
+          title: Gate Id
+          type: string
+        outcome:
+          enum:
+          - pass
+          - fail
+          - error
+          title: Outcome
+          type: string
+      required:
+      - gate_id
+      - outcome
+      title: CheckVerdictRequest
+    CodeExecutor:
+      description: |-
+        Who runs the code a request's code-execution tool asks for.
+
+        Values are read without regard to case or surrounding whitespace.
+      enum:
+      - auto
+      - otari
+      - provider
+      title: CodeExecutor
+      type: string
     ConfigField:
       description: One effective config value surfaced to the dashboard's config viewer.
       example:
@@ -15452,6 +16632,73 @@ components:
       required:
       - user_id
       title: CreateUserRequest
+    CurrentPricingPage:
+      description: "One page of current model prices, with the total number of priced\
+        \ models."
+      example:
+        data:
+        - effective_at: effective_at
+          unit: unit
+          model_key: model_key
+          updated_at: updated_at
+          input_price_per_million: 5.962133916683182
+          origin: origin
+          created_at: created_at
+          cache_write_1h_price_per_million: 6.027456183070403
+          output_price_per_million: 5.637376656633329
+          cache_read_price_per_million: 0.8008281904610115
+          cache_write_price_per_million: 1.4658129805029452
+          pricing_tiers:
+          - min_input_tokens: 0
+            input_price_per_million: 0.20271230230023218
+            cache_write_1h_price_per_million: 0.9301444243932576
+            output_price_per_million: 0.7386281948385884
+            cache_read_price_per_million: 0.7061401241503109
+            cache_write_price_per_million: 0.3616076749251911
+          - min_input_tokens: 0
+            input_price_per_million: 0.20271230230023218
+            cache_write_1h_price_per_million: 0.9301444243932576
+            output_price_per_million: 0.7386281948385884
+            cache_read_price_per_million: 0.7061401241503109
+            cache_write_price_per_million: 0.3616076749251911
+        - effective_at: effective_at
+          unit: unit
+          model_key: model_key
+          updated_at: updated_at
+          input_price_per_million: 5.962133916683182
+          origin: origin
+          created_at: created_at
+          cache_write_1h_price_per_million: 6.027456183070403
+          output_price_per_million: 5.637376656633329
+          cache_read_price_per_million: 0.8008281904610115
+          cache_write_price_per_million: 1.4658129805029452
+          pricing_tiers:
+          - min_input_tokens: 0
+            input_price_per_million: 0.20271230230023218
+            cache_write_1h_price_per_million: 0.9301444243932576
+            output_price_per_million: 0.7386281948385884
+            cache_read_price_per_million: 0.7061401241503109
+            cache_write_price_per_million: 0.3616076749251911
+          - min_input_tokens: 0
+            input_price_per_million: 0.20271230230023218
+            cache_write_1h_price_per_million: 0.9301444243932576
+            output_price_per_million: 0.7386281948385884
+            cache_read_price_per_million: 0.7061401241503109
+            cache_write_price_per_million: 0.3616076749251911
+        count: 0
+      properties:
+        count:
+          title: Count
+          type: integer
+        data:
+          items:
+            $ref: "#/components/schemas/PricingResponse"
+          title: Data
+          type: array
+      required:
+      - count
+      - data
+      title: CurrentPricingPage
     DeploymentAdminAccessPublic:
       description: |-
         Whether the caller may reach the deployment administration surface.
@@ -15473,6 +16720,7 @@ components:
     DeploymentBootstrap:
       description: What the dashboard shell needs before it can render anything.
       example:
+        feedback_enabled: true
         management_url: management_url
         sign_in_methods:
         - master_key
@@ -15484,6 +16732,7 @@ components:
         public_catalog: false
         deployment_type: standalone
         docs_url: docs_url
+        site_url: site_url
         surfaces:
         - surfaces
         - surfaces
@@ -15535,6 +16784,10 @@ components:
             \ since this response is unauthenticated."
           nullable: true
           type: string
+        feedback_enabled:
+          description: Whether this deployment accepts deliberate feedback submissions.
+          title: Feedback Enabled
+          type: boolean
         mail_ready:
           description: "Whether this deployment can deliver a message carrying a link\
             \ back to itself (an invitation's accept link, and the verification and\
@@ -15644,6 +16897,15 @@ components:
             type: string
           title: Sign In Methods
           type: array
+        site_url:
+          description: "Where this deployment's public website lives. Set, the logo\
+            \ on the pages a visitor reaches without an account links to it; null,\
+            \ it links to the public catalog where public_catalog is true, and is\
+            \ not a link otherwise. A link target an operator configured, validated\
+            \ at startup as an absolute http(s) URL carrying no credential, since\
+            \ this response is unauthenticated."
+          nullable: true
+          type: string
         surfaces:
           description: "Management API groups this deployment serves, sorted, which\
             \ is what its dashboard pages gate on. Named surfaces, not capabilities:\
@@ -15665,6 +16927,7 @@ components:
       - data_plane_url
       - deployment_type
       - docs_url
+      - feedback_enabled
       - mail_ready
       - maintenance_mode
       - management_url
@@ -15674,6 +16937,7 @@ components:
       - privacy_url
       - session_type
       - sign_in_methods
+      - site_url
       - surfaces
       - terms_url
       title: DeploymentBootstrap
@@ -16472,6 +17736,35 @@ components:
       - source_event_id
       - timestamp
       title: ExternalUsageEvent
+    GateResultResponse:
+      example:
+        gate_id: gate_id
+        enforcement: enforcement
+        detail: detail
+        message: message
+        outcome: outcome
+      properties:
+        detail:
+          nullable: true
+          type: string
+        enforcement:
+          title: Enforcement
+          type: string
+        gate_id:
+          title: Gate Id
+          type: string
+        message:
+          title: Message
+          type: string
+        outcome:
+          title: Outcome
+          type: string
+      required:
+      - enforcement
+      - gate_id
+      - message
+      - outcome
+      title: GateResultResponse
     GatewaySettings:
       description: |-
         Operator-facing runtime settings surfaced to the dashboard.
@@ -17076,6 +18369,7 @@ components:
       example:
         expires_at: 2000-01-23T04:56:07.000+00:00
         role: role
+        needs_password: true
         organization_name: organization_name
         email: email
       properties:
@@ -17086,6 +18380,12 @@ components:
           format: date-time
           title: Expires At
           type: string
+        needs_password:
+          description: "Whether the invited address has never signed in here, so accepting\
+            \ should also set its password. False when the address already has a way\
+            \ in, and then accept refuses one."
+          title: Needs Password
+          type: boolean
         organization_name:
           title: Organization Name
           type: string
@@ -17095,6 +18395,7 @@ components:
       required:
       - email
       - expires_at
+      - needs_password
       - organization_name
       - role
       title: InvitationPreviewPublic
@@ -17206,6 +18507,36 @@ components:
       - organization_member_id
       - role
       title: InviteOrganizationMemberResultPublic
+    JudgeVerdictRequest:
+      additionalProperties: false
+      description: "One judge gate's verdict, as the caller's own model call produced\
+        \ it."
+      example:
+        gate_id: gate_id
+        reasoning: ""
+        outcome: pass
+      properties:
+        gate_id:
+          maxLength: 200
+          minLength: 1
+          title: Gate Id
+          type: string
+        outcome:
+          enum:
+          - pass
+          - fail
+          - error
+          title: Outcome
+          type: string
+        reasoning:
+          default: ""
+          maxLength: 4096
+          title: Reasoning
+          type: string
+      required:
+      - gate_id
+      - outcome
+      title: JudgeVerdictRequest
     KeyInfo:
       description: Response model for key information.
       example:
@@ -17483,13 +18814,15 @@ components:
         accepted_types:
           description: "Every `tools[].type` this deployment currently routes to the\
             \ tool. Always includes the canonical `otari_*` type; for web search it\
-            \ also includes the provider-named keywords when interception is enabled."
+            \ also includes the provider-named keywords when interception is enabled,\
+            \ and for code execution the provider-named keywords unless the deployment's\
+            \ executor is `provider`."
           items:
             type: string
           title: Accepted Types
           type: array
         available:
-          description: Whether this deployment has a backend configured for the tool.
+          description: Whether this deployment has enabled and configured the tool.
             A request declaring an unavailable tool is rejected with 400.
           title: Available
           type: boolean
@@ -17791,6 +19124,93 @@ components:
       - tools
       - warnings
       title: McpToolsResponse
+    MemberAttributionPublic:
+      description: |-
+        What the gateway identity behind a membership has spent, and may reach.
+
+        Deployment-wide facts, so they are withheld from a caller who does not
+        operate the deployment rather than zeroed: ``/api/v1/users`` refuses them,
+        and a zero here would read as a member who has spent nothing.
+      properties:
+        allowed_models:
+          items:
+            type: string
+          nullable: true
+          type: array
+        blocked:
+          title: Blocked
+          type: boolean
+        reserved:
+          title: Reserved
+          type: number
+        spend:
+          title: Spend
+          type: number
+      required:
+      - blocked
+      - reserved
+      - spend
+      title: MemberAttributionPublic
+    MemberCeilingPublic:
+      description: |-
+        The spend ceiling on one workspace membership, as the roster reports it.
+
+        Three fields rather than the whole ``scoped_budgets`` row: the figure the
+        roster prints, the budget its editor picks, and the id that edit writes to.
+      properties:
+        budget_id:
+          title: Budget Id
+          type: string
+        id:
+          title: Id
+          type: string
+        max_budget:
+          nullable: true
+          type: number
+      required:
+      - budget_id
+      - id
+      - max_budget
+      title: MemberCeilingPublic
+    MemberWorkspacePlacementPublic:
+      description: |-
+        One workspace a member is in, with their role and ceiling there.
+
+        A ceiling is keyed on the *membership*, not on the person, so a member of two
+        workspaces has two of them. The membership id is carried in its own right
+        rather than read back off the ceiling, because it is needed precisely when
+        there is no ceiling yet and one is about to be created.
+      example:
+        workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        ceiling: ""
+        role: role
+        workspace_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        workspace_name: workspace_name
+      properties:
+        ceiling:
+          allOf:
+          - $ref: "#/components/schemas/MemberCeilingPublic"
+          nullable: true
+        role:
+          title: Role
+          type: string
+        workspace_id:
+          format: uuid
+          title: Workspace Id
+          type: string
+        workspace_member_id:
+          format: uuid
+          title: Workspace Member Id
+          type: string
+        workspace_name:
+          title: Workspace Name
+          type: string
+      required:
+      - role
+      - workspace_id
+      - workspace_member_id
+      - workspace_name
+      title: MemberWorkspacePlacementPublic
     Message:
       description: A human-readable acknowledgment for an operation with nothing to
         return.
@@ -17816,7 +19236,7 @@ components:
         changing the upstream wire shape. They're stripped before the request is
         forwarded.
       example:
-        container: container
+        container: Container
         max_tool_iterations: 15
         metadata:
           key: ""
@@ -17931,8 +19351,7 @@ components:
           nullable: true
           type: object
         container:
-          nullable: true
-          type: string
+          $ref: "#/components/schemas/Container"
         context_management:
           additionalProperties: true
           nullable: true
@@ -18499,13 +19918,165 @@ components:
       - spend_usd
       - total_tokens
       title: OfferingUsage
+    OpenAIFileDeleted:
+      description: OpenAI's answer to a delete.
+      example:
+        deleted: true
+        id: id
+        object: file
+      properties:
+        deleted:
+          default: true
+          enum:
+          - true
+          title: Deleted
+          type: boolean
+        id:
+          title: Id
+          type: string
+        object:
+          default: file
+          enum:
+          - file
+          title: Object
+          type: string
+      required:
+      - id
+      title: OpenAIFileDeleted
+    OpenAIFileList:
+      description: "A page of files in OpenAI's list shape, whose cursor is the last\
+        \ entry's ID."
+      example:
+        first_id: first_id
+        data:
+        - expires_at: 1
+          filename: filename
+          purpose: purpose
+          bytes: 0
+          created_at: 6
+          id: id
+          object: file
+        - expires_at: 1
+          filename: filename
+          purpose: purpose
+          bytes: 0
+          created_at: 6
+          id: id
+          object: file
+        last_id: last_id
+        has_more: true
+        object: list
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/OpenAIFileObject"
+          title: Data
+          type: array
+        first_id:
+          nullable: true
+          type: string
+        has_more:
+          title: Has More
+          type: boolean
+        last_id:
+          nullable: true
+          type: string
+        object:
+          default: list
+          enum:
+          - list
+          title: Object
+          type: string
+      required:
+      - data
+      - first_id
+      - has_more
+      - last_id
+      title: OpenAIFileList
+    OpenAIFileObject:
+      description: One file in OpenAI's file object shape.
+      example:
+        expires_at: 1
+        filename: filename
+        purpose: purpose
+        bytes: 0
+        created_at: 6
+        id: id
+        object: file
+      properties:
+        bytes:
+          title: Bytes
+          type: integer
+        created_at:
+          title: Created At
+          type: integer
+        expires_at:
+          nullable: true
+          type: integer
+        filename:
+          title: Filename
+          type: string
+        id:
+          title: Id
+          type: string
+        object:
+          default: file
+          enum:
+          - file
+          title: Object
+          type: string
+        purpose:
+          title: Purpose
+          type: string
+      required:
+      - bytes
+      - created_at
+      - expires_at
+      - filename
+      - id
+      - purpose
+      title: OpenAIFileObject
+    OrgProviderAvailableModelsPublic:
+      description: |-
+        What the provider says it serves on this key's stored credential.
+
+        Failure is a field rather than a status: an unreachable upstream, or a
+        provider with no model listing, is an answer about the provider rather than
+        about this request, and the form still has to render (with a plain text box)
+        when the list cannot be fetched.
+      example:
+        models:
+        - models
+        - models
+        provider: provider
+        discovery_unsupported: false
+        error: error
+      properties:
+        discovery_unsupported:
+          default: false
+          title: Discovery Unsupported
+          type: boolean
+        error:
+          nullable: true
+          type: string
+        models:
+          items:
+            type: string
+          title: Models
+          type: array
+        provider:
+          title: Provider
+          type: string
+      required:
+      - provider
+      title: OrgProviderAvailableModelsPublic
     OrgProviderKeyCreateRequest:
       description: |-
         What a caller sends to create a key.
 
         The plaintext key is never stored as sent: the service encrypts it
         (`services/secret_box.py`) and keeps only the ciphertext and ``last4``,
-        the same convention `entities.ProviderCredential` already uses.
+        the same convention `providers.ProviderCredential` already uses.
       example:
         api_key: api_key
         provider: provider
@@ -18537,11 +20108,167 @@ components:
       - name
       - provider
       title: OrgProviderKeyCreateRequest
+    OrgProviderKeyModelCreateRequest:
+      description: "Offer one model on a key, for a backend whose models cannot be\
+        \ listed."
+      example:
+        model: model
+      properties:
+        model:
+          maxLength: 255
+          title: Model
+          type: string
+      required:
+      - model
+      title: OrgProviderKeyModelCreateRequest
+    OrgProviderKeyModelPublic:
+      description: |-
+        One offered model, with the rate the caller's organization is charged for it.
+
+        ``price_source`` says which rung of ``services.pricing_service`` answered:
+        ``organization`` for a rate an admin set, ``defaults`` for the
+        community-maintained rate this surface seeded or the genai-prices fallback,
+        ``deployment`` for the deployment's own price list, and None when nothing
+        prices the model yet. ``pricing_id`` names the organization's own row where
+        there is one, so a client can edit that rate without re-deriving the key.
+      example:
+        input_price_per_million: 5.637376656633329
+        created_at: 2000-01-23T04:56:07.000+00:00
+        price_source: organization
+        output_price_per_million: 2.3021358869347655
+        enabled: true
+        cache_write_price_per_million: 5.962133916683182
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        org_provider_key_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        model: model
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        cache_write_1h_price_per_million: 1.4658129805029452
+        pricing_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        cache_read_price_per_million: 6.027456183070403
+      properties:
+        cache_read_price_per_million:
+          nullable: true
+          type: number
+        cache_write_1h_price_per_million:
+          nullable: true
+          type: number
+        cache_write_price_per_million:
+          nullable: true
+          type: number
+        created_at:
+          format: date-time
+          title: Created At
+          type: string
+        enabled:
+          title: Enabled
+          type: boolean
+        id:
+          format: uuid
+          title: Id
+          type: string
+        input_price_per_million:
+          nullable: true
+          type: number
+        model:
+          title: Model
+          type: string
+        org_provider_key_id:
+          format: uuid
+          title: Org Provider Key Id
+          type: string
+        output_price_per_million:
+          nullable: true
+          type: number
+        price_source:
+          enum:
+          - organization
+          - deployment
+          - defaults
+          nullable: true
+          type: string
+        pricing_id:
+          format: uuid
+          nullable: true
+          type: string
+        updated_at:
+          format: date-time
+          nullable: true
+          type: string
+      required:
+      - created_at
+      - enabled
+      - id
+      - model
+      - org_provider_key_id
+      title: OrgProviderKeyModelPublic
+    OrgProviderKeyModelUpdateRequest:
+      description: |-
+        Whether the runtime serves this model. The only field an update may change.
+
+        A rate is not here: an organization's rates live in
+        ``organization_model_pricing`` and are written through
+        ``/organizations/me/pricing``, so a price set on this surface and a price set
+        on that one could not disagree.
+      example:
+        enabled: true
+      properties:
+        enabled:
+          title: Enabled
+          type: boolean
+      required:
+      - enabled
+      title: OrgProviderKeyModelUpdateRequest
+    OrgProviderKeyModelsPublic:
+      description: "One page of a key's offered models, and how many there are in\
+        \ total."
+      example:
+        data:
+        - input_price_per_million: 5.637376656633329
+          created_at: 2000-01-23T04:56:07.000+00:00
+          price_source: organization
+          output_price_per_million: 2.3021358869347655
+          enabled: true
+          cache_write_price_per_million: 5.962133916683182
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          org_provider_key_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          model: model
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          cache_write_1h_price_per_million: 1.4658129805029452
+          pricing_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          cache_read_price_per_million: 6.027456183070403
+        - input_price_per_million: 5.637376656633329
+          created_at: 2000-01-23T04:56:07.000+00:00
+          price_source: organization
+          output_price_per_million: 2.3021358869347655
+          enabled: true
+          cache_write_price_per_million: 5.962133916683182
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          org_provider_key_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          model: model
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          cache_write_1h_price_per_million: 1.4658129805029452
+          pricing_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          cache_read_price_per_million: 6.027456183070403
+        count: 0
+      properties:
+        count:
+          title: Count
+          type: integer
+        data:
+          items:
+            $ref: "#/components/schemas/OrgProviderKeyModelPublic"
+          title: Data
+          type: array
+      required:
+      - count
+      - data
+      title: OrgProviderKeyModelsPublic
     OrgProviderKeyPublic:
       description: "The API-facing shape. Never carries the key, only whether one\
         \ is set."
       example:
         last4: last4
+        usable: true
         updated_at: 2000-01-23T04:56:07.000+00:00
         archived_at: 2000-01-23T04:56:07.000+00:00
         provider: provider
@@ -18593,6 +20320,13 @@ components:
           format: date-time
           nullable: true
           type: string
+        usable:
+          description: "False when the stored credential cannot be decrypted on this\
+            \ deployment, so the key supplies nothing at dispatch and the catalog\
+            \ withholds its provider. A row this deployment cannot read is still listed,\
+            \ because deleting or replacing it is what fixes it."
+          title: Usable
+          type: boolean
       required:
       - created_at
       - id
@@ -18600,6 +20334,7 @@ components:
       - name
       - organization_id
       - provider
+      - usable
       title: OrgProviderKeyPublic
     OrgProviderKeyUpdateRequest:
       description: A partial update. Every field is optional; only what is set is
@@ -18631,6 +20366,7 @@ components:
       example:
         data:
         - last4: last4
+          usable: true
           updated_at: 2000-01-23T04:56:07.000+00:00
           archived_at: 2000-01-23T04:56:07.000+00:00
           provider: provider
@@ -18643,6 +20379,7 @@ components:
           client_args:
             key: ""
         - last4: last4
+          usable: true
           updated_at: 2000-01-23T04:56:07.000+00:00
           archived_at: 2000-01-23T04:56:07.000+00:00
           provider: provider
@@ -18668,6 +20405,49 @@ components:
       - count
       - data
       title: OrgProviderKeysPublic
+    OrgProviderModelsRefreshPublic:
+      description: |-
+        What a refresh did: what it newly offered, what it repriced, and the list's new size.
+
+        Failure is a field rather than a status, for the reason
+        ``OrgProviderAvailableModelsPublic`` gives: the list is still standing, and
+        the panel renders the reason beside it.
+      example:
+        added:
+        - added
+        - added
+        count: 0
+        discovery_unsupported: false
+        error: error
+        repriced:
+        - repriced
+        - repriced
+      properties:
+        added:
+          items:
+            type: string
+          title: Added
+          type: array
+        count:
+          title: Count
+          type: integer
+        discovery_unsupported:
+          default: false
+          title: Discovery Unsupported
+          type: boolean
+        error:
+          nullable: true
+          type: string
+        repriced:
+          items:
+            type: string
+          title: Repriced
+          type: array
+      required:
+      - added
+      - count
+      - repriced
+      title: OrgProviderModelsRefreshPublic
     OrganizationBudgetCreate:
       description: Create one budget owned by the caller's organization.
       example:
@@ -19061,7 +20841,7 @@ components:
 
         ``credential`` is never stored as sent: it is encrypted with
         ``OTARI_SECRET_KEY`` and only the ciphertext is kept, the same convention
-        `entities.WorkspaceMcpServer` and `entities.ProviderCredential` use. It is
+        `tools.WorkspaceMcpServer` and `providers.ProviderCredential` use. It is
         sent to the endpoint as ``Authorization: Bearer`` when the guardrail runs,
         so it authenticates this gateway to the guardrails service the entry names.
         A guardrail *vendor's* own key is not this: the guardrails service builds
@@ -19096,6 +20876,13 @@ components:
             \ to the deployment's guardrails_url, which is commonly a same-host http\
             \ sidecar. Encrypted at rest, never returned"
           maxLength: 8192
+          nullable: true
+          type: string
+        definition_id:
+          description: "A guardrail definition of this organization for Otari to build\
+            \ and run itself, instead of calling a profile on a guardrails service.\
+            \ Mutually exclusive with url and credential, which name a service"
+          format: uuid
           nullable: true
           type: string
         enabled:
@@ -19152,6 +20939,279 @@ components:
       required:
       - profile
       title: OrganizationGuardrailCreate
+    OrganizationGuardrailDefinitionCreate:
+      description: |-
+        Request body for defining a guardrail Otari will build and call itself.
+
+        ``create_kwargs`` carries both halves of the form: the plain arguments and
+        the vendor credentials. Which is which is the catalog's answer, not this
+        schema's, so a credential lands in the encrypted map whatever it is called
+        and a caller cannot move one into the plain column by naming it oddly.
+
+        Per-call arguments are not offered. This row says what a guardrail is built
+        with; what travels with each check is the mandate's ``validate_kwargs``.
+      example:
+        create_kwargs:
+          api_key: lakera-...
+          endpoint: https://api.lakera.ai
+        enabled: true
+        guardrail_name: lakera_guard
+        name: prod-lakera
+      properties:
+        create_kwargs:
+          additionalProperties: true
+          description: Constructor arguments for the guardrail. Every argument the
+            catalog marks secret is encrypted at rest and never returned; the rest
+            are stored and returned as sent
+          title: Create Kwargs
+          type: object
+        enabled:
+          default: true
+          description: False stops the guardrail everywhere it is mandated
+          title: Enabled
+          type: boolean
+        guardrail_name:
+          description: "The any-guardrail class to build, as the built-in guardrail\
+            \ catalog names it"
+          maxLength: 128
+          minLength: 1
+          title: Guardrail Name
+          type: string
+        name:
+          description: "The organization's own label for this definition, unique within\
+            \ the organization"
+          maxLength: 128
+          minLength: 1
+          title: Name
+          type: string
+      required:
+      - guardrail_name
+      - name
+      title: OrganizationGuardrailDefinitionCreate
+    OrganizationGuardrailDefinitionPublic:
+      description: The API-facing shape. Carries the names of the stored secrets and
+        none of their values.
+      example:
+        create_secrets:
+          key: create_secrets
+        build_state: built
+        create_kwargs:
+          key: ""
+        updated_at: updated_at
+        organization_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        name: name
+        secrets_decryptable: true
+        created_at: created_at
+        guardrail_name: guardrail_name
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        enabled: true
+      properties:
+        build_state:
+          description: "Whether the worker that answered this request holds a guardrail\
+            \ built from this version of the definition. built means it does and the\
+            \ check runs; failed means that worker tried these exact arguments and\
+            \ could not build them, so every mandate pointing here is unevaluable;\
+            \ pending means it holds nothing for this version yet, which is the answer\
+            \ right after a write and on any worker that has not caught up within\
+            \ the refresh interval; disabled means the definition is switched off\
+            \ and nothing is built on purpose. It answers for one worker, so two reads\
+            \ can disagree while a write propagates. Why a build failed is never reported\
+            \ here: the reason is in the gateway's log"
+          enum:
+          - built
+          - failed
+          - pending
+          - disabled
+          title: Build State
+          type: string
+        create_kwargs:
+          additionalProperties: true
+          description: "The constructor arguments the catalog does not mark secret,\
+            \ as they were stored. Returned in clear: the secrets were taken out of\
+            \ this map by flag, and a form has to round-trip an endpoint or a project\
+            \ id"
+          title: Create Kwargs
+          type: object
+        create_secrets:
+          additionalProperties:
+            type: string
+          description: "The secret constructor arguments this definition holds, each\
+            \ as ***. Sending one back unchanged keeps the stored value; sending a\
+            \ new one rotates it, and leaving one out clears it"
+          title: Create Secrets
+        created_at:
+          title: Created At
+          type: string
+        enabled:
+          title: Enabled
+          type: boolean
+        guardrail_name:
+          title: Guardrail Name
+          type: string
+        id:
+          format: uuid
+          title: Id
+          type: string
+        name:
+          title: Name
+          type: string
+        organization_id:
+          format: uuid
+          title: Organization Id
+          type: string
+        secrets_decryptable:
+          description: "False when the stored secrets cannot be read with the current\
+            \ OTARI_SECRET_KEY, in which case create_secrets is empty and the definition\
+            \ needs its credentials sent again"
+          title: Secrets Decryptable
+          type: boolean
+        updated_at:
+          title: Updated At
+          type: string
+      required:
+      - build_state
+      - create_kwargs
+      - create_secrets
+      - created_at
+      - enabled
+      - guardrail_name
+      - id
+      - name
+      - organization_id
+      - secrets_decryptable
+      - updated_at
+      title: OrganizationGuardrailDefinitionPublic
+    OrganizationGuardrailDefinitionTest:
+      additionalProperties: {}
+      description: "Text to run one definition's guardrail over, as a request would."
+      example:
+        validate_kwargs:
+          key: ""
+        text: text
+      properties:
+        text:
+          description: "The input to check, as a request's user text would reach it"
+          maxLength: 10000
+          minLength: 1
+          title: Text
+          type: string
+        validate_kwargs:
+          additionalProperties: true
+          description: "Per-check arguments, as a mandate's validate_kwargs would\
+            \ hand them to this guardrail"
+          title: Validate Kwargs
+          type: object
+      required:
+      - text
+      title: OrganizationGuardrailDefinitionTest
+    OrganizationGuardrailDefinitionTestResult:
+      description: "The guardrail's own verdict on the text, in the fields a request's\
+        \ check reports."
+      example:
+        valid: true
+        score: 0.8008281904610115
+        explanation: explanation
+      properties:
+        explanation:
+          description: "The vendor's reason, when it gives one"
+          nullable: true
+          type: string
+        score:
+          description: "The vendor's score, when it gives one"
+          nullable: true
+          type: number
+        valid:
+          description: False when the guardrail flagged the text
+          title: Valid
+          type: boolean
+      required:
+      - explanation
+      - score
+      - valid
+      title: OrganizationGuardrailDefinitionTestResult
+    OrganizationGuardrailDefinitionUpdate:
+      description: |-
+        Partial update. Only the fields the caller sets are applied.
+
+        ``create_kwargs`` replaces the arguments whole when sent, and an argument the
+        catalog marks secret keeps its stored value where the caller echoes back the
+        ``***`` a read gave them. Omitting it leaves both columns untouched *and
+        reads neither*, which is what lets an admin on a deployment whose
+        ``OTARI_SECRET_KEY`` has moved still flip ``enabled`` and repair the row by
+        typing the credential again.
+
+        Changing ``guardrail_name`` without sending ``create_kwargs`` re-splits the
+        stored arguments under the new class, because the plain/secret split is the
+        old class's answer and would otherwise go stale.
+      example:
+        create_kwargs:
+          api_key: '***'
+          endpoint: https://eu.api.lakera.ai
+        enabled: false
+      properties:
+        create_kwargs:
+          additionalProperties: true
+          description: "Provider-native request fields used as defaults (e.g. exa's\
+            \ 'type', searxng's 'engines')."
+          nullable: true
+          type: object
+        enabled:
+          title: Enabled
+          type: boolean
+        guardrail_name:
+          maxLength: 128
+          minLength: 1
+          title: Guardrail Name
+          type: string
+        name:
+          maxLength: 128
+          minLength: 1
+          title: Name
+          type: string
+      title: OrganizationGuardrailDefinitionUpdate
+    OrganizationGuardrailDefinitionsPublic:
+      example:
+        data:
+        - create_secrets:
+            key: create_secrets
+          build_state: built
+          create_kwargs:
+            key: ""
+          updated_at: updated_at
+          organization_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: name
+          secrets_decryptable: true
+          created_at: created_at
+          guardrail_name: guardrail_name
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          enabled: true
+        - create_secrets:
+            key: create_secrets
+          build_state: built
+          create_kwargs:
+            key: ""
+          updated_at: updated_at
+          organization_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: name
+          secrets_decryptable: true
+          created_at: created_at
+          guardrail_name: guardrail_name
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          enabled: true
+        count: 0
+      properties:
+        count:
+          title: Count
+          type: integer
+        data:
+          items:
+            $ref: "#/components/schemas/OrganizationGuardrailDefinitionPublic"
+          title: Data
+          type: array
+      required:
+      - count
+      - data
+      title: OrganizationGuardrailDefinitionsPublic
     OrganizationGuardrailPublic:
       description: |-
         The API-facing shape. Never carries the credential, nor a credential-shaped parameter.
@@ -19176,6 +21236,7 @@ components:
         enabled: true
         url: url
         mode: mode
+        definition_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         has_credential: true
         updated_at: updated_at
         organization_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -19186,6 +21247,10 @@ components:
           type: boolean
         created_at:
           title: Created At
+          type: string
+        definition_id:
+          format: uuid
+          nullable: true
           type: string
         enabled:
           title: Enabled
@@ -19231,6 +21296,7 @@ components:
       required:
       - applies_to_all_workspaces
       - created_at
+      - definition_id
       - enabled
       - has_credential
       - id
@@ -19243,6 +21309,55 @@ components:
       - validate_kwargs
       - workspace_ids
       title: OrganizationGuardrailPublic
+    OrganizationGuardrailTest:
+      additionalProperties: {}
+      description: "Text to run one mandate's check over, as a request would."
+      example:
+        validate_kwargs:
+          key: ""
+        text: text
+      properties:
+        text:
+          description: "The input to check, as a request's user text would reach it"
+          maxLength: 10000
+          minLength: 1
+          title: Text
+          type: string
+        validate_kwargs:
+          additionalProperties: true
+          description: Per-check arguments to send in place of the stored ones; omitted
+            sends the stored ones. A *** keeps the value stored under that name
+          title: Validate Kwargs
+          type: object
+      required:
+      - text
+      title: OrganizationGuardrailTest
+    OrganizationGuardrailTestResult:
+      description: "The guardrails service's verdict on the text, in the fields a\
+        \ request's check reports."
+      example:
+        valid: true
+        score: 0.8008281904610115
+        explanation: explanation
+      properties:
+        explanation:
+          description: "The service's reason, when it gives one"
+          nullable: true
+          type: string
+        score:
+          description: "The service's score, when it gives one"
+          nullable: true
+          type: number
+        valid:
+          description: "False when the guardrail flagged the text, null when it gave\
+            \ no verdict"
+          nullable: true
+          type: boolean
+      required:
+      - explanation
+      - score
+      - valid
+      title: OrganizationGuardrailTestResult
     OrganizationGuardrailUpdate:
       description: |-
         Partial update. Only the fields the caller sets are applied.
@@ -19256,6 +21371,12 @@ components:
         credential it was never shown.
 
         ``workspace_ids`` replaces the scope whole when sent; ``[]`` clears it.
+
+        ``definition_id`` diverges: an explicit ``null`` **clears** it. The rule
+        above protects a field the client was never shown, and this one is returned
+        on every read, so a form sending ``null`` is sending back a field it was
+        given rather than an empty box it never filled in. Omitting it still leaves
+        the link alone.
       example:
         credential: sk-guardrails-...
         mode: monitor
@@ -19266,6 +21387,13 @@ components:
           type: boolean
         credential:
           maxLength: 8192
+          nullable: true
+          type: string
+        definition_id:
+          description: "The organization's own definition this mandate runs. Unlike\
+            \ url and credential, an explicit null clears the link; omit the field\
+            \ to leave it as it is"
+          format: uuid
           nullable: true
           type: string
         enabled:
@@ -19321,6 +21449,7 @@ components:
           enabled: true
           url: url
           mode: mode
+          definition_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           has_credential: true
           updated_at: updated_at
           organization_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -19337,6 +21466,7 @@ components:
           enabled: true
           url: url
           mode: mode
+          definition_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           has_credential: true
           updated_at: updated_at
           organization_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -20114,6 +22244,40 @@ components:
       - span
       title: OutputShape
       type: string
+    OverviewSummaryResponse:
+      description: |-
+        What the dashboard overview renders beside its usage chart.
+
+        ``budgets`` and ``ceilings`` are null where the caller may not see them,
+        which is not the same as a strip with nothing in it: deployment budgets are
+        the operator's, and spend ceilings are an organization owner's or admin's.
+      example:
+        budgets: ""
+        active_members: 6
+        active_keys: 0
+        ceilings: ""
+      properties:
+        active_keys:
+          title: Active Keys
+          type: integer
+        active_members:
+          description: Active members of the named workspace; 0 when none is named.
+          title: Active Members
+          type: integer
+        budgets:
+          allOf:
+          - $ref: "#/components/schemas/AllocationHealthResponse"
+          nullable: true
+        ceilings:
+          allOf:
+          - $ref: "#/components/schemas/AllocationHealthResponse"
+          nullable: true
+      required:
+      - active_keys
+      - active_members
+      - budgets
+      - ceilings
+      title: OverviewSummaryResponse
     PasskeySessionResponse:
       description: |-
         A dashboard session minted by a passkey (the token travels only in the cookie).
@@ -20763,6 +22927,168 @@ components:
       - mcp_servers
       - web_search
       title: PlaygroundToolsResponse
+    PolicyCheckRequest:
+      additionalProperties: false
+      description: "A policy body plus the evidence to check it against, both caller-supplied."
+      example:
+        judge_results:
+        - gate_id: gate_id
+          reasoning: ""
+          outcome: pass
+        - gate_id: gate_id
+          reasoning: ""
+          outcome: pass
+        - gate_id: gate_id
+          reasoning: ""
+          outcome: pass
+        - gate_id: gate_id
+          reasoning: ""
+          outcome: pass
+        - gate_id: gate_id
+          reasoning: ""
+          outcome: pass
+        check_results:
+        - gate_id: gate_id
+          detail: ""
+          outcome: pass
+        - gate_id: gate_id
+          detail: ""
+          outcome: pass
+        - gate_id: gate_id
+          detail: ""
+          outcome: pass
+        - gate_id: gate_id
+          detail: ""
+          outcome: pass
+        - gate_id: gate_id
+          detail: ""
+          outcome: pass
+        policy_yaml: policy_yaml
+        command_scope: call
+        paths:
+        - paths
+        - paths
+        - paths
+        - paths
+        - paths
+        path_source: pre_tool_use.edit_target
+        commands:
+        - commands
+        - commands
+        - commands
+        - commands
+        - commands
+      properties:
+        check_results:
+          description: Verifier verdicts the caller collected for this request's verifier
+            gates.
+          items:
+            $ref: "#/components/schemas/CheckVerdictRequest"
+          maxItems: 1000
+          nullable: true
+          type: array
+        command_scope:
+          default: call
+          description: "What `commands` covers: `call` for the single tool call about\
+            \ to run, `session` for every command the session has run so far."
+          enum:
+          - call
+          - session
+          title: Command Scope
+          type: string
+        commands:
+          description: Shell commands the caller observed run or is about to run.
+          items:
+            type: string
+          maxItems: 10000
+          nullable: true
+          type: array
+        judge_results:
+          description: Model verdicts the caller collected for this request's judge
+            gates.
+          items:
+            $ref: "#/components/schemas/JudgeVerdictRequest"
+          maxItems: 1000
+          nullable: true
+          type: array
+        path_source:
+          description: "Which moment `paths` was read at, matching the `runs` values\
+            \ a path gate declares. Only three of the six `runs` values are legal\
+            \ here, because only those three are moments a path can be read at: `pre_tool_use.edit_target`\
+            \ for a write tool's own target before it runs, `pre_tool_use.read_target`\
+            \ for a read tool's, and `stop.working_tree` for `git status` once the\
+            \ turn is over. Required whenever `paths` is non-empty, and rejected with\
+            \ a 422 if omitted or set to any other value: either would resolve every\
+            \ path gate `not_applicable`, which loses enforcement without reporting\
+            \ anything. An empty `paths` needs no source."
+          enum:
+          - pre_tool_use.edit_target
+          - pre_tool_use.read_target
+          - pre_tool_use.command
+          - stop.working_tree
+          - stop.session
+          - stop.verifier
+          nullable: true
+          type: string
+        paths:
+          description: "Repo-relative paths this moment of the session puts in scope:\
+            \ what `git status --porcelain` reports, or the single target a tool call\
+            \ is about to write or read. `path_source` says which."
+          items:
+            type: string
+          maxItems: 10000
+          nullable: true
+          type: array
+        policy_yaml:
+          maxLength: 262144
+          minLength: 1
+          title: Policy Yaml
+          type: string
+      required:
+      - policy_yaml
+      title: PolicyCheckRequest
+    PolicyCheckResponse:
+      example:
+        schema_version: schema_version
+        provenance: client_reported
+        blocked: true
+        policy_id: policy_id
+        results:
+        - gate_id: gate_id
+          enforcement: enforcement
+          detail: detail
+          message: message
+          outcome: outcome
+        - gate_id: gate_id
+          enforcement: enforcement
+          detail: detail
+          message: message
+          outcome: outcome
+      properties:
+        blocked:
+          title: Blocked
+          type: boolean
+        policy_id:
+          title: Policy Id
+          type: string
+        provenance:
+          default: client_reported
+          title: Provenance
+          type: string
+        results:
+          items:
+            $ref: "#/components/schemas/GateResultResponse"
+          title: Results
+          type: array
+        schema_version:
+          title: Schema Version
+          type: string
+      required:
+      - blocked
+      - policy_id
+      - results
+      - schema_version
+      title: PolicyCheckResponse
     PolicyRequest:
       description: Request to create or update a routing policy.
       example:
@@ -22507,7 +24833,7 @@ components:
       description: What the rebuilt index knows.
       example:
         models: 0
-        short_selectors: 1
+        pinned_selectors: 1
         offerings: 6
       properties:
         models:
@@ -22518,14 +24844,14 @@ components:
           description: Selectors the deployment serves.
           title: Offerings
           type: integer
-        short_selectors:
-          description: Offerings with an unambiguous short spelling.
-          title: Short Selectors
+        pinned_selectors:
+          description: "Pinned spellings, one per instance a model is offered on."
+          title: Pinned Selectors
           type: integer
       required:
       - models
       - offerings
-      - short_selectors
+      - pinned_selectors
       title: SelectorIndexResponse
     SendTestMailRequest:
       description: Where to send the test message.
@@ -23102,6 +25428,9 @@ components:
       description: One editable tool/guardrail field surfaced to the dashboard.
       example:
         service: web_search
+        options:
+        - options
+        - options
         description: description
         type: url
         value: true
@@ -23113,6 +25442,11 @@ components:
         key:
           title: Key
           type: string
+        options:
+          items:
+            type: string
+          nullable: true
+          type: array
         service:
           enum:
           - web_search
@@ -23141,11 +25475,17 @@ components:
       example:
         fields:
         - service: web_search
+          options:
+          - options
+          - options
           description: description
           type: url
           value: true
           key: key
         - service: web_search
+          options:
+          - options
+          - options
           description: description
           type: url
           value: true
@@ -23585,6 +25925,9 @@ components:
         web_search_max_results: 5
         web_search_url: http://searxng:8080
       properties:
+        code_execution_executor:
+          nullable: true
+          type: string
         guardrails_url:
           nullable: true
           type: string
@@ -25168,6 +27511,7 @@ components:
         workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         sandbox_configured: true
         updated_at: updated_at
+        executor: ""
         default_purpose_hint: default_purpose_hint
       properties:
         allowed_images:
@@ -25195,6 +27539,10 @@ components:
         exec_timeout_s:
           nullable: true
           type: integer
+        executor:
+          allOf:
+          - $ref: "#/components/schemas/CodeExecutor"
+          nullable: true
         image:
           nullable: true
           type: string
@@ -25224,6 +27572,7 @@ components:
       - default_purpose_hint
       - enabled
       - exec_timeout_s
+      - executor
       - image
       - max_iterations
       - sandbox_configured
@@ -25242,6 +27591,7 @@ components:
         max_iterations: 15
         image: image
         exec_timeout_s: 4
+        executor: ""
         default_purpose_hint: default_purpose_hint
         tools:
         - tools
@@ -25266,6 +27616,15 @@ components:
           minimum: 0.0
           nullable: true
           type: integer
+        executor:
+          allOf:
+          - $ref: "#/components/schemas/CodeExecutor"
+          description: "Who runs a provider-native code-execution declaration for\
+            \ this workspace: 'auto' (the provider when it runs the tool natively\
+            \ for the model, else this gateway's sandbox), 'otari' or 'provider'.\
+            \ Pins over the deployment default and over the request's Otari-Code-Execution\
+            \ header; null leaves both in charge"
+          nullable: true
         image:
           description: Sandbox image this workspace's code runs in. Must be one the
             operator curated into sandbox_allowed_session_images (or the deployment's
@@ -25314,7 +27673,7 @@ components:
 
         ``authorization_token`` is never stored as sent: it is encrypted with
         ``OTARI_SECRET_KEY`` and only the ciphertext is kept, the same convention
-        `entities.ProviderCredential` and `OrgProviderKey` already use.
+        `providers.ProviderCredential` and `OrgProviderKey` already use.
       example:
         authorization_token: authorization_token
         allowed_tools:
@@ -25763,6 +28122,7 @@ components:
         \ the resolution."
       example:
         workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        usable: true
         is_effective_default: true
         org_provider_key_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         disabled: true
@@ -25793,6 +28153,9 @@ components:
           format: uuid
           title: Org Provider Key Id
           type: string
+        usable:
+          title: Usable
+          type: boolean
         workspace_id:
           format: uuid
           title: Workspace Id
@@ -25804,6 +28167,7 @@ components:
       - is_effective_default
       - is_effective_enabled
       - org_provider_key_id
+      - usable
       - workspace_id
       title: WorkspaceProviderKeyOverridePublic
     WorkspaceProviderKeyOverrideRequest:
@@ -25831,6 +28195,7 @@ components:
       example:
         data:
         - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          usable: true
           is_effective_default: true
           org_provider_key_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           disabled: true
@@ -25840,6 +28205,7 @@ components:
           - allowed_models
           - allowed_models
         - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          usable: true
           is_effective_default: true
           org_provider_key_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           disabled: true
@@ -26036,27 +28402,27 @@ components:
         purpose_hint: purpose_hint
       properties:
         allowed_domains:
-          description: Results are kept only from these domains; intersected with
-            any list the request sends
+          description: Filters Search results and constrains initial and redirected
+            Fetch destinations; intersected with any list the request sends
           items:
             type: string
           nullable: true
           type: array
         blocked_domains:
-          description: Results from these domains are dropped; added to any list the
-            request sends
+          description: Filters Search results and blocks initial and redirected Fetch
+            destinations; added to any list the request sends
           items:
             type: string
           nullable: true
           type: array
         enabled:
-          description: "False refuses web search for this workspace, both the otari_web_search\
-            \ tool and the search endpoint. The fields below narrow the tool only."
+          description: "False refuses web access for this workspace through otari_web_search,\
+            \ otari_web_fetch, and POST /api/v1/search."
           title: Enabled
           type: boolean
         max_results:
-          description: "Ceiling on results one search returns; only ever lowers the\
-            \ effective limit, so at most 20"
+          description: "Search only: ceiling on results one search returns; only ever\
+            \ lowers the effective limit, so at most 20"
           exclusiveMinimum: true
           maximum: 20.0
           minimum: 0.0
@@ -26069,8 +28435,8 @@ components:
           nullable: true
           type: object
         purpose_hint:
-          description: Hint used when a request declares otari_web_search without
-            one of its own
+          description: "Search only: hint used when a request declares otari_web_search\
+            \ without one of its own"
           maxLength: 2048
           nullable: true
           type: string
@@ -26108,6 +28474,57 @@ components:
       - count
       - data
       title: WorkspacesPublic
+    WorstAllocationResponse:
+      description: The row furthest through its allowance.
+      properties:
+        allocated:
+          title: Allocated
+          type: number
+        budget_id:
+          title: Budget Id
+          type: string
+        name:
+          description: "The row's own name, or null where nobody gave it one."
+          nullable: true
+          type: string
+        scope_id:
+          description: "The scope's id, so an unnamed ceiling can be named after it."
+          nullable: true
+          type: string
+        scope_type:
+          description: "What a spend ceiling caps (workspace, org_member, api_token,\
+            \ ...); null for a budget."
+          nullable: true
+          type: string
+        spent:
+          title: Spent
+          type: number
+      required:
+      - allocated
+      - budget_id
+      - name
+      - scope_id
+      - scope_type
+      - spent
+      title: WorstAllocationResponse
+    CC_CacheCreationTokenDetails:
+      description: "Cache writes split by time-to-live, as Anthropic reports them."
+      properties:
+        ephemeral_5m_input_tokens:
+          description: "Filter to a single failure status code (e.g. 429 for provider\
+            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
+            \ one, so this filter also restricts to status='error' unless 'status'\
+            \ is given explicitly"
+          nullable: true
+          type: integer
+        ephemeral_1h_input_tokens:
+          description: "Filter to a single failure status code (e.g. 429 for provider\
+            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
+            \ one, so this filter also restricts to status='error' unless 'status'\
+            \ is given explicitly"
+          nullable: true
+          type: integer
+      title: CacheCreationTokenDetails
     CC_ChatCompletionAudio:
       additionalProperties: true
       description: |-
@@ -26135,6 +28552,13 @@ components:
     CC_ChatCompletionMessage:
       additionalProperties: {}
       example:
+        images:
+        - image_url:
+            url: url
+          type: image_url
+        - image_url:
+            url: url
+          type: image_url
         role: assistant
         function_call: ""
         reasoning: ""
@@ -26201,6 +28625,11 @@ components:
             \ 'type', searxng's 'engines')."
           nullable: true
           type: object
+        images:
+          items:
+            $ref: "#/components/schemas/CC_ImageContent"
+          nullable: true
+          type: array
       required:
       - role
       title: ChatCompletionMessage
@@ -26292,6 +28721,13 @@ components:
         finish_reason: stop
         index: 0
         message:
+          images:
+          - image_url:
+              url: url
+            type: image_url
+          - image_url:
+              url: url
+            type: image_url
           role: assistant
           function_call: ""
           reasoning: ""
@@ -26389,7 +28825,6 @@ components:
       title: CompletionTokensDetails
     CC_CompletionUsage:
       additionalProperties: {}
-      description: Usage statistics for the completion request.
       properties:
         completion_tokens:
           title: Completion Tokens
@@ -26461,9 +28896,41 @@ components:
       - arguments
       - name
       title: FunctionCall
+    CC_ImageContent:
+      description: OpenAI-compatible image response content.
+      example:
+        image_url:
+          url: url
+        type: image_url
+      properties:
+        type:
+          enum:
+          - image_url
+          title: Type
+          type: string
+        image_url:
+          $ref: "#/components/schemas/CC_ImageURL"
+      required:
+      - image_url
+      - type
+      title: ImageContent
+    CC_ImageURL:
+      description: OpenAI-compatible URL for an image response part.
+      example:
+        url: url
+      properties:
+        url:
+          title: Url
+          type: string
+      required:
+      - url
+      title: ImageURL
     CC_PromptTokensDetails:
       additionalProperties: {}
-      description: Breakdown of tokens used in the prompt.
+      description: |-
+        OpenAI prompt token breakdown extended with the TTL split of cache writes.
+
+        As in OpenAI, ``cached_tokens`` and ``cache_write_tokens`` are subsets of ``prompt_tokens``.
       properties:
         audio_tokens:
           nullable: true
@@ -26475,6 +28942,13 @@ components:
             \ is given explicitly"
           nullable: true
           type: integer
+        cache_write_tokens:
+          nullable: true
+          type: integer
+        cache_creation_token_details:
+          allOf:
+          - $ref: "#/components/schemas/CC_CacheCreationTokenDetails"
+          nullable: true
       title: PromptTokensDetails
     CC_Reasoning:
       description: "Filter to a single event type or metric name (e.g. 'tool_result',\
@@ -26511,6 +28985,13 @@ components:
         - finish_reason: stop
           index: 0
           message:
+            images:
+            - image_url:
+                url: url
+              type: image_url
+            - image_url:
+                url: url
+              type: image_url
             role: assistant
             function_call: ""
             reasoning: ""
@@ -26541,6 +29022,13 @@ components:
         - finish_reason: stop
           index: 0
           message:
+            images:
+            - image_url:
+                url: url
+              type: image_url
+            - image_url:
+                url: url
+              type: image_url
             role: assistant
             function_call: ""
             reasoning: ""
@@ -26609,6 +29097,16 @@ components:
       - model
       - object
       title: ChatCompletion
+    CCK_CacheCreationTokenDetails:
+      description: "Cache writes split by time-to-live, as Anthropic reports them."
+      properties:
+        ephemeral_5m_input_tokens:
+          nullable: true
+          type: integer
+        ephemeral_1h_input_tokens:
+          nullable: true
+          type: integer
+      title: CacheCreationTokenDetails
     CCK_ChatCompletionTokenLogprob:
       additionalProperties: {}
       properties:
@@ -26668,7 +29166,39 @@ components:
           additionalProperties: true
           nullable: true
           type: object
+        images:
+          items:
+            $ref: "#/components/schemas/CCK_ImageContent"
+          nullable: true
+          type: array
+        audio:
+          allOf:
+          - $ref: "#/components/schemas/CCK_ChoiceDeltaAudio"
+          nullable: true
       title: ChoiceDelta
+    CCK_ChoiceDeltaAudio:
+      description: |-
+        Partial audio object emitted by a streaming chat completion.
+
+        Providers may send the identifier, transcript, data, and expiration timestamp in
+        separate chunks, so every field is optional. The data field contains the
+        base64-encoded bytes for the current chunk.
+      properties:
+        id:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+        data:
+          nullable: true
+          type: string
+        transcript:
+          nullable: true
+          type: string
+        expires_at:
+          nullable: true
+          type: integer
+      title: ChoiceDeltaAudio
     CCK_ChoiceDeltaFunctionCall:
       additionalProperties: {}
       description: |-
@@ -26785,7 +29315,6 @@ components:
       title: CompletionTokensDetails
     CCK_CompletionUsage:
       additionalProperties: {}
-      description: Usage statistics for the completion request.
       properties:
         completion_tokens:
           title: Completion Tokens
@@ -26809,9 +29338,37 @@ components:
       - prompt_tokens
       - total_tokens
       title: CompletionUsage
+    CCK_ImageContent:
+      description: OpenAI-compatible image response content.
+      properties:
+        type:
+          enum:
+          - image_url
+          title: Type
+          type: string
+        image_url:
+          $ref: "#/components/schemas/CCK_ImageURL"
+      required:
+      - image_url
+      - type
+      title: ImageContent
+    CCK_ImageURL:
+      description: OpenAI-compatible URL for an image response part.
+      example:
+        url: url
+      properties:
+        url:
+          title: Url
+          type: string
+      required:
+      - url
+      title: ImageURL
     CCK_PromptTokensDetails:
-      additionalProperties: true
-      description: Breakdown of tokens used in the prompt.
+      additionalProperties: {}
+      description: |-
+        OpenAI prompt token breakdown extended with the TTL split of cache writes.
+
+        As in OpenAI, ``cached_tokens`` and ``cache_write_tokens`` are subsets of ``prompt_tokens``.
       properties:
         audio_tokens:
           nullable: true
@@ -26819,6 +29376,13 @@ components:
         cached_tokens:
           nullable: true
           type: integer
+        cache_write_tokens:
+          nullable: true
+          type: integer
+        cache_creation_token_details:
+          allOf:
+          - $ref: "#/components/schemas/CCK_CacheCreationTokenDetails"
+          nullable: true
       title: PromptTokensDetails
     CCK_Reasoning:
       description: "Filter to a single event type or metric name (e.g. 'tool_result',\
@@ -30225,6 +32789,39 @@ components:
     FreeFormObject:
       additionalProperties: true
       type: object
+    FeedbackSubmission:
+      additionalProperties: {}
+      example:
+        message: message
+      properties:
+        message:
+          maxLength: 4000
+          minLength: 1
+          title: Message
+          type: string
+      required:
+      - message
+      title: FeedbackSubmission
+    Response_Files_List_Files:
+      anyOf:
+      - $ref: "#/components/schemas/OpenAIFileList"
+      - $ref: "#/components/schemas/AnthropicFileList"
+      title: Response Files-List Files
+    Response_Files_Create_File:
+      anyOf:
+      - $ref: "#/components/schemas/OpenAIFileObject"
+      - $ref: "#/components/schemas/AnthropicFileMetadata"
+      title: Response Files-Create File
+    Response_Files_Get_File:
+      anyOf:
+      - $ref: "#/components/schemas/OpenAIFileObject"
+      - $ref: "#/components/schemas/AnthropicFileMetadata"
+      title: Response Files-Get File
+    Response_Files_Delete_File:
+      anyOf:
+      - $ref: "#/components/schemas/OpenAIFileDeleted"
+      - $ref: "#/components/schemas/AnthropicFileDeleted"
+      title: Response Files-Delete File
     Api_Key_Id:
       anyOf:
       - type: string
@@ -30311,6 +32908,19 @@ components:
         type: array
       description: Input text to embed
       title: Input
+    Container:
+      anyOf:
+      - description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+          \ 'claude_code.commit.count')"
+        nullable: true
+        type: string
+      - additionalProperties: true
+        description: "Provider-native request fields used as defaults (e.g. exa's\
+          \ 'type', searxng's 'engines')."
+        nullable: true
+        type: object
+      nullable: true
+      title: Container
     Pricing_Tiers_inner_anyOf_value:
       anyOf:
       - type: number

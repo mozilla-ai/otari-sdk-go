@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Attribution** | Pointer to [**NullableMemberAttributionPublic**](MemberAttributionPublic.md) |  | [optional] 
 **AttributionUserId** | Pointer to **NullableString** |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
 **Email** | Pointer to **NullableString** |  | [optional] 
@@ -14,6 +15,7 @@ Name | Type | Description | Notes
 **Status** | **string** |  | 
 **UpdatedAt** | Pointer to **NullableTime** |  | [optional] 
 **UserId** | Pointer to **NullableString** |  | [optional] 
+**Workspaces** | Pointer to [**[]MemberWorkspacePlacementPublic**](MemberWorkspacePlacementPublic.md) |  | [optional] 
 
 ## Methods
 
@@ -34,6 +36,41 @@ NewActiveOrganizationMemberPublicWithDefaults instantiates a new ActiveOrganizat
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetAttribution
+
+`func (o *ActiveOrganizationMemberPublic) GetAttribution() MemberAttributionPublic`
+
+GetAttribution returns the Attribution field if non-nil, zero value otherwise.
+
+### GetAttributionOk
+
+`func (o *ActiveOrganizationMemberPublic) GetAttributionOk() (*MemberAttributionPublic, bool)`
+
+GetAttributionOk returns a tuple with the Attribution field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAttribution
+
+`func (o *ActiveOrganizationMemberPublic) SetAttribution(v MemberAttributionPublic)`
+
+SetAttribution sets Attribution field to given value.
+
+### HasAttribution
+
+`func (o *ActiveOrganizationMemberPublic) HasAttribution() bool`
+
+HasAttribution returns a boolean if a field has been set.
+
+### SetAttributionNil
+
+`func (o *ActiveOrganizationMemberPublic) SetAttributionNil(b bool)`
+
+ SetAttributionNil sets the value for Attribution to be an explicit nil
+
+### UnsetAttribution
+`func (o *ActiveOrganizationMemberPublic) UnsetAttribution()`
+
+UnsetAttribution ensures that no value is present for Attribution, not even an explicit nil
 ### GetAttributionUserId
 
 `func (o *ActiveOrganizationMemberPublic) GetAttributionUserId() string`
@@ -339,6 +376,31 @@ HasUserId returns a boolean if a field has been set.
 `func (o *ActiveOrganizationMemberPublic) UnsetUserId()`
 
 UnsetUserId ensures that no value is present for UserId, not even an explicit nil
+### GetWorkspaces
+
+`func (o *ActiveOrganizationMemberPublic) GetWorkspaces() []MemberWorkspacePlacementPublic`
+
+GetWorkspaces returns the Workspaces field if non-nil, zero value otherwise.
+
+### GetWorkspacesOk
+
+`func (o *ActiveOrganizationMemberPublic) GetWorkspacesOk() (*[]MemberWorkspacePlacementPublic, bool)`
+
+GetWorkspacesOk returns a tuple with the Workspaces field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkspaces
+
+`func (o *ActiveOrganizationMemberPublic) SetWorkspaces(v []MemberWorkspacePlacementPublic)`
+
+SetWorkspaces sets Workspaces field to given value.
+
+### HasWorkspaces
+
+`func (o *ActiveOrganizationMemberPublic) HasWorkspaces() bool`
+
+HasWorkspaces returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

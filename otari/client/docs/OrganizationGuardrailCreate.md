@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AppliesToAllWorkspaces** | Pointer to **bool** | True runs this in every workspace of the organization, including one created later; false runs it only in the workspaces named by workspace_ids | [optional] [default to false]
 **Credential** | Pointer to **NullableString** | Bearer credential for this entry&#39;s endpoint. Requires url to be set, and https: an entry with no endpoint of its own falls back to the deployment&#39;s guardrails_url, which is commonly a same-host http sidecar. Encrypted at rest, never returned | [optional] 
+**DefinitionId** | Pointer to **NullableString** | A guardrail definition of this organization for Otari to build and run itself, instead of calling a profile on a guardrails service. Mutually exclusive with url and credential, which name a service | [optional] 
 **Enabled** | Pointer to **bool** | False stops the guardrail everywhere without discarding it | [optional] [default to true]
 **Mode** | Pointer to **string** | block rejects a flagged request with 403; monitor annotates the response and forwards it | [optional] [default to "monitor"]
 **OnUnavailable** | Pointer to **string** | What a block-mode entry does when the guardrails service cannot be reached at all | [optional] [default to "block"]
@@ -93,6 +94,41 @@ HasCredential returns a boolean if a field has been set.
 `func (o *OrganizationGuardrailCreate) UnsetCredential()`
 
 UnsetCredential ensures that no value is present for Credential, not even an explicit nil
+### GetDefinitionId
+
+`func (o *OrganizationGuardrailCreate) GetDefinitionId() string`
+
+GetDefinitionId returns the DefinitionId field if non-nil, zero value otherwise.
+
+### GetDefinitionIdOk
+
+`func (o *OrganizationGuardrailCreate) GetDefinitionIdOk() (*string, bool)`
+
+GetDefinitionIdOk returns a tuple with the DefinitionId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDefinitionId
+
+`func (o *OrganizationGuardrailCreate) SetDefinitionId(v string)`
+
+SetDefinitionId sets DefinitionId field to given value.
+
+### HasDefinitionId
+
+`func (o *OrganizationGuardrailCreate) HasDefinitionId() bool`
+
+HasDefinitionId returns a boolean if a field has been set.
+
+### SetDefinitionIdNil
+
+`func (o *OrganizationGuardrailCreate) SetDefinitionIdNil(b bool)`
+
+ SetDefinitionIdNil sets the value for DefinitionId to be an explicit nil
+
+### UnsetDefinitionId
+`func (o *OrganizationGuardrailCreate) UnsetDefinitionId()`
+
+UnsetDefinitionId ensures that no value is present for DefinitionId, not even an explicit nil
 ### GetEnabled
 
 `func (o *OrganizationGuardrailCreate) GetEnabled() bool`

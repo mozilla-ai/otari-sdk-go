@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **DefaultPurposeHint** | Pointer to **NullableString** | Hint used when a request declares otari_code_execution without one of its own | [optional] 
 **Enabled** | **bool** | False refuses code execution for this workspace | 
 **ExecTimeoutS** | Pointer to **NullableInt32** | Ceiling on one execution&#39;s runtime in seconds; only ever lowers the effective limit, so at most 60 | [optional] 
+**Executor** | Pointer to [**NullableCodeExecutor**](CodeExecutor.md) | Who runs a provider-native code-execution declaration for this workspace: &#39;auto&#39; (the provider when it runs the tool natively for the model, else this gateway&#39;s sandbox), &#39;otari&#39; or &#39;provider&#39;. Pins over the deployment default and over the request&#39;s Otari-Code-Execution header; null leaves both in charge | [optional] 
 **Image** | Pointer to **NullableString** | Sandbox image this workspace&#39;s code runs in. Must be one the operator curated into sandbox_allowed_session_images (or the deployment&#39;s own sandbox_session_image); null uses the deployment&#39;s | [optional] 
 **MaxIterations** | Pointer to **NullableInt32** | Ceiling on tool-loop iterations; only ever lowers the effective limit, so at most 25 | [optional] 
 **Tools** | Pointer to **[]string** | Code-execution tool kinds this workspace may use, from code_execution, bash_code_execution, text_editor_code_execution. Only ever removes one the backend serves; null exposes whatever it serves | [optional] 
@@ -120,6 +121,41 @@ HasExecTimeoutS returns a boolean if a field has been set.
 `func (o *WorkspaceCodeExecutionPolicyUpdate) UnsetExecTimeoutS()`
 
 UnsetExecTimeoutS ensures that no value is present for ExecTimeoutS, not even an explicit nil
+### GetExecutor
+
+`func (o *WorkspaceCodeExecutionPolicyUpdate) GetExecutor() CodeExecutor`
+
+GetExecutor returns the Executor field if non-nil, zero value otherwise.
+
+### GetExecutorOk
+
+`func (o *WorkspaceCodeExecutionPolicyUpdate) GetExecutorOk() (*CodeExecutor, bool)`
+
+GetExecutorOk returns a tuple with the Executor field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExecutor
+
+`func (o *WorkspaceCodeExecutionPolicyUpdate) SetExecutor(v CodeExecutor)`
+
+SetExecutor sets Executor field to given value.
+
+### HasExecutor
+
+`func (o *WorkspaceCodeExecutionPolicyUpdate) HasExecutor() bool`
+
+HasExecutor returns a boolean if a field has been set.
+
+### SetExecutorNil
+
+`func (o *WorkspaceCodeExecutionPolicyUpdate) SetExecutorNil(b bool)`
+
+ SetExecutorNil sets the value for Executor to be an explicit nil
+
+### UnsetExecutor
+`func (o *WorkspaceCodeExecutionPolicyUpdate) UnsetExecutor()`
+
+UnsetExecutor ensures that no value is present for Executor, not even an explicit nil
 ### GetImage
 
 `func (o *WorkspaceCodeExecutionPolicyUpdate) GetImage() string`
