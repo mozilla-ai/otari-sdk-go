@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/mozilla-ai/otari-sdk-go/compare/v0.3.0...v0.3.1) (2026-09-25)
+
+
+### Bug Fixes
+
+* **release:** tag releases as plain vX.Y.Z so go get can resolve them ([#34](https://github.com/mozilla-ai/otari-sdk-go/issues/34)) ([3ba7154](https://github.com/mozilla-ai/otari-sdk-go/commit/3ba7154eb128464547c3a42f27a9ff1554c637a8))
+
 ## [0.3.0](https://github.com/mozilla-ai/otari-sdk-go/compare/otari-sdk-go-v0.2.0...otari-sdk-go-v0.3.0) (2026-09-25)
 
 
