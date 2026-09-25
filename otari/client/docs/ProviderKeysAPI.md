@@ -4,20 +4,99 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**ProviderKeysAddOrgProviderKeyModel**](ProviderKeysAPI.md#ProviderKeysAddOrgProviderKeyModel) | **Post** /api/v1/organizations/me/provider-keys/{key_id}/models | Add Org Provider Key Model
 [**ProviderKeysAddWorkspaceProviderKeyModelRestriction**](ProviderKeysAPI.md#ProviderKeysAddWorkspaceProviderKeyModelRestriction) | **Post** /api/v1/workspaces/{workspace_id}/provider-keys/{key_id}/models | Add Workspace Provider Key Model Restriction
 [**ProviderKeysArchiveOrgProviderKey**](ProviderKeysAPI.md#ProviderKeysArchiveOrgProviderKey) | **Post** /api/v1/organizations/me/provider-keys/{key_id}/archive | Archive Org Provider Key
 [**ProviderKeysCreateOrgProviderKey**](ProviderKeysAPI.md#ProviderKeysCreateOrgProviderKey) | **Post** /api/v1/organizations/me/provider-keys | Create Org Provider Key
 [**ProviderKeysDeleteOrgProviderKey**](ProviderKeysAPI.md#ProviderKeysDeleteOrgProviderKey) | **Delete** /api/v1/organizations/me/provider-keys/{key_id} | Delete Org Provider Key
+[**ProviderKeysListOrgProviderKeyAvailableModels**](ProviderKeysAPI.md#ProviderKeysListOrgProviderKeyAvailableModels) | **Get** /api/v1/organizations/me/provider-keys/{key_id}/available-models | List Org Provider Key Available Models
+[**ProviderKeysListOrgProviderKeyModels**](ProviderKeysAPI.md#ProviderKeysListOrgProviderKeyModels) | **Get** /api/v1/organizations/me/provider-keys/{key_id}/models | List Org Provider Key Models
 [**ProviderKeysListOrgProviderKeys**](ProviderKeysAPI.md#ProviderKeysListOrgProviderKeys) | **Get** /api/v1/organizations/me/provider-keys | List Org Provider Keys
 [**ProviderKeysListWorkspaceProviderKeyModelRestrictions**](ProviderKeysAPI.md#ProviderKeysListWorkspaceProviderKeyModelRestrictions) | **Get** /api/v1/workspaces/{workspace_id}/provider-keys/{key_id}/models | List Workspace Provider Key Model Restrictions
 [**ProviderKeysListWorkspaceProviderKeys**](ProviderKeysAPI.md#ProviderKeysListWorkspaceProviderKeys) | **Get** /api/v1/workspaces/{workspace_id}/provider-keys | List Workspace Provider Keys
+[**ProviderKeysRefreshOrgProviderKeyModelPricing**](ProviderKeysAPI.md#ProviderKeysRefreshOrgProviderKeyModelPricing) | **Post** /api/v1/organizations/me/provider-keys/{key_id}/pricing/refresh | Refresh Org Provider Key Model Pricing
+[**ProviderKeysRefreshOrgProviderKeyModels**](ProviderKeysAPI.md#ProviderKeysRefreshOrgProviderKeyModels) | **Post** /api/v1/organizations/me/provider-keys/{key_id}/models/refresh | Refresh Org Provider Key Models
+[**ProviderKeysRemoveOrgProviderKeyModel**](ProviderKeysAPI.md#ProviderKeysRemoveOrgProviderKeyModel) | **Delete** /api/v1/organizations/me/provider-keys/{key_id}/models/{model_id} | Remove Org Provider Key Model
 [**ProviderKeysRemoveWorkspaceProviderKeyModelRestriction**](ProviderKeysAPI.md#ProviderKeysRemoveWorkspaceProviderKeyModelRestriction) | **Delete** /api/v1/workspaces/{workspace_id}/provider-keys/{key_id}/models/{model} | Remove Workspace Provider Key Model Restriction
 [**ProviderKeysResetWorkspaceProviderKeyOverride**](ProviderKeysAPI.md#ProviderKeysResetWorkspaceProviderKeyOverride) | **Delete** /api/v1/workspaces/{workspace_id}/provider-keys/{key_id} | Reset Workspace Provider Key Override
 [**ProviderKeysRestoreOrgProviderKey**](ProviderKeysAPI.md#ProviderKeysRestoreOrgProviderKey) | **Post** /api/v1/organizations/me/provider-keys/{key_id}/restore | Restore Org Provider Key
 [**ProviderKeysSetOrgProviderKeyDefault**](ProviderKeysAPI.md#ProviderKeysSetOrgProviderKeyDefault) | **Post** /api/v1/organizations/me/provider-keys/{key_id}/default | Set Org Provider Key Default
+[**ProviderKeysSetOrgProviderKeyModelEnabled**](ProviderKeysAPI.md#ProviderKeysSetOrgProviderKeyModelEnabled) | **Patch** /api/v1/organizations/me/provider-keys/{key_id}/models/{model_id} | Set Org Provider Key Model Enabled
 [**ProviderKeysSetWorkspaceProviderKeyOverride**](ProviderKeysAPI.md#ProviderKeysSetWorkspaceProviderKeyOverride) | **Patch** /api/v1/workspaces/{workspace_id}/provider-keys/{key_id} | Set Workspace Provider Key Override
 [**ProviderKeysUpdateOrgProviderKey**](ProviderKeysAPI.md#ProviderKeysUpdateOrgProviderKey) | **Patch** /api/v1/organizations/me/provider-keys/{key_id} | Update Org Provider Key
 
+
+
+## ProviderKeysAddOrgProviderKeyModel
+
+> OrgProviderKeyModelPublic ProviderKeysAddOrgProviderKeyModel(ctx, keyId).OrgProviderKeyModelCreateRequest(orgProviderKeyModelCreateRequest).Execute()
+
+Add Org Provider Key Model
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	orgProviderKeyModelCreateRequest := *openapiclient.NewOrgProviderKeyModelCreateRequest("Model_example") // OrgProviderKeyModelCreateRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProviderKeysAPI.ProviderKeysAddOrgProviderKeyModel(context.Background(), keyId).OrgProviderKeyModelCreateRequest(orgProviderKeyModelCreateRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderKeysAPI.ProviderKeysAddOrgProviderKeyModel``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ProviderKeysAddOrgProviderKeyModel`: OrgProviderKeyModelPublic
+	fmt.Fprintf(os.Stdout, "Response from `ProviderKeysAPI.ProviderKeysAddOrgProviderKeyModel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProviderKeysAddOrgProviderKeyModelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **orgProviderKeyModelCreateRequest** | [**OrgProviderKeyModelCreateRequest**](OrgProviderKeyModelCreateRequest.md) |  | 
+
+### Return type
+
+[**OrgProviderKeyModelPublic**](OrgProviderKeyModelPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## ProviderKeysAddWorkspaceProviderKeyModelRestriction
@@ -301,6 +380,150 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## ProviderKeysListOrgProviderKeyAvailableModels
+
+> OrgProviderAvailableModelsPublic ProviderKeysListOrgProviderKeyAvailableModels(ctx, keyId).Execute()
+
+List Org Provider Key Available Models
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProviderKeysAPI.ProviderKeysListOrgProviderKeyAvailableModels(context.Background(), keyId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderKeysAPI.ProviderKeysListOrgProviderKeyAvailableModels``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ProviderKeysListOrgProviderKeyAvailableModels`: OrgProviderAvailableModelsPublic
+	fmt.Fprintf(os.Stdout, "Response from `ProviderKeysAPI.ProviderKeysListOrgProviderKeyAvailableModels`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProviderKeysListOrgProviderKeyAvailableModelsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**OrgProviderAvailableModelsPublic**](OrgProviderAvailableModelsPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ProviderKeysListOrgProviderKeyModels
+
+> OrgProviderKeyModelsPublic ProviderKeysListOrgProviderKeyModels(ctx, keyId).Skip(skip).Limit(limit).Execute()
+
+List Org Provider Key Models
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	skip := int32(56) // int32 | Number of records to skip (optional) (default to 0)
+	limit := int32(56) // int32 | Maximum number of records to return (optional) (default to 500)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProviderKeysAPI.ProviderKeysListOrgProviderKeyModels(context.Background(), keyId).Skip(skip).Limit(limit).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderKeysAPI.ProviderKeysListOrgProviderKeyModels``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ProviderKeysListOrgProviderKeyModels`: OrgProviderKeyModelsPublic
+	fmt.Fprintf(os.Stdout, "Response from `ProviderKeysAPI.ProviderKeysListOrgProviderKeyModels`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProviderKeysListOrgProviderKeyModelsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **skip** | **int32** | Number of records to skip | [default to 0]
+ **limit** | **int32** | Maximum number of records to return | [default to 500]
+
+### Return type
+
+[**OrgProviderKeyModelsPublic**](OrgProviderKeyModelsPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## ProviderKeysListOrgProviderKeys
 
 > OrgProviderKeysPublic ProviderKeysListOrgProviderKeys(ctx).IncludeArchived(includeArchived).Skip(skip).Limit(limit).Execute()
@@ -499,6 +722,219 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**WorkspaceProviderKeyOverridesPublic**](WorkspaceProviderKeyOverridesPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ProviderKeysRefreshOrgProviderKeyModelPricing
+
+> OrgProviderModelsRefreshPublic ProviderKeysRefreshOrgProviderKeyModelPricing(ctx, keyId).Execute()
+
+Refresh Org Provider Key Model Pricing
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProviderKeysAPI.ProviderKeysRefreshOrgProviderKeyModelPricing(context.Background(), keyId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderKeysAPI.ProviderKeysRefreshOrgProviderKeyModelPricing``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ProviderKeysRefreshOrgProviderKeyModelPricing`: OrgProviderModelsRefreshPublic
+	fmt.Fprintf(os.Stdout, "Response from `ProviderKeysAPI.ProviderKeysRefreshOrgProviderKeyModelPricing`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProviderKeysRefreshOrgProviderKeyModelPricingRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**OrgProviderModelsRefreshPublic**](OrgProviderModelsRefreshPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ProviderKeysRefreshOrgProviderKeyModels
+
+> OrgProviderModelsRefreshPublic ProviderKeysRefreshOrgProviderKeyModels(ctx, keyId).Execute()
+
+Refresh Org Provider Key Models
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProviderKeysAPI.ProviderKeysRefreshOrgProviderKeyModels(context.Background(), keyId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderKeysAPI.ProviderKeysRefreshOrgProviderKeyModels``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ProviderKeysRefreshOrgProviderKeyModels`: OrgProviderModelsRefreshPublic
+	fmt.Fprintf(os.Stdout, "Response from `ProviderKeysAPI.ProviderKeysRefreshOrgProviderKeyModels`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProviderKeysRefreshOrgProviderKeyModelsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**OrgProviderModelsRefreshPublic**](OrgProviderModelsRefreshPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ProviderKeysRemoveOrgProviderKeyModel
+
+> Message ProviderKeysRemoveOrgProviderKeyModel(ctx, keyId, modelId).Execute()
+
+Remove Org Provider Key Model
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	modelId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProviderKeysAPI.ProviderKeysRemoveOrgProviderKeyModel(context.Background(), keyId, modelId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderKeysAPI.ProviderKeysRemoveOrgProviderKeyModel``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ProviderKeysRemoveOrgProviderKeyModel`: Message
+	fmt.Fprintf(os.Stdout, "Response from `ProviderKeysAPI.ProviderKeysRemoveOrgProviderKeyModel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+**modelId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProviderKeysRemoveOrgProviderKeyModelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+[**Message**](Message.md)
 
 ### Authorization
 
@@ -796,6 +1232,81 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ProviderKeysSetOrgProviderKeyModelEnabled
+
+> OrgProviderKeyModelPublic ProviderKeysSetOrgProviderKeyModelEnabled(ctx, keyId, modelId).OrgProviderKeyModelUpdateRequest(orgProviderKeyModelUpdateRequest).Execute()
+
+Set Org Provider Key Model Enabled
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	modelId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	orgProviderKeyModelUpdateRequest := *openapiclient.NewOrgProviderKeyModelUpdateRequest(false) // OrgProviderKeyModelUpdateRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProviderKeysAPI.ProviderKeysSetOrgProviderKeyModelEnabled(context.Background(), keyId, modelId).OrgProviderKeyModelUpdateRequest(orgProviderKeyModelUpdateRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderKeysAPI.ProviderKeysSetOrgProviderKeyModelEnabled``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ProviderKeysSetOrgProviderKeyModelEnabled`: OrgProviderKeyModelPublic
+	fmt.Fprintf(os.Stdout, "Response from `ProviderKeysAPI.ProviderKeysSetOrgProviderKeyModelEnabled`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+**modelId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProviderKeysSetOrgProviderKeyModelEnabledRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **orgProviderKeyModelUpdateRequest** | [**OrgProviderKeyModelUpdateRequest**](OrgProviderKeyModelUpdateRequest.md) |  | 
+
+### Return type
+
+[**OrgProviderKeyModelPublic**](OrgProviderKeyModelPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

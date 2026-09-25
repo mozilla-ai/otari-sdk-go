@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Email** | **string** |  | 
 **ExpiresAt** | **time.Time** |  | 
+**NeedsPassword** | **bool** | Whether the invited address has never signed in here, so accepting should also set its password. False when the address already has a way in, and then accept refuses one. | 
 **OrganizationName** | **string** |  | 
 **Role** | **string** |  | 
 
@@ -13,7 +14,7 @@ Name | Type | Description | Notes
 
 ### NewInvitationPreviewPublic
 
-`func NewInvitationPreviewPublic(email string, expiresAt time.Time, organizationName string, role string, ) *InvitationPreviewPublic`
+`func NewInvitationPreviewPublic(email string, expiresAt time.Time, needsPassword bool, organizationName string, role string, ) *InvitationPreviewPublic`
 
 NewInvitationPreviewPublic instantiates a new InvitationPreviewPublic object
 This constructor will assign default values to properties that have it defined,
@@ -66,6 +67,26 @@ and a boolean to check if the value has been set.
 `func (o *InvitationPreviewPublic) SetExpiresAt(v time.Time)`
 
 SetExpiresAt sets ExpiresAt field to given value.
+
+
+### GetNeedsPassword
+
+`func (o *InvitationPreviewPublic) GetNeedsPassword() bool`
+
+GetNeedsPassword returns the NeedsPassword field if non-nil, zero value otherwise.
+
+### GetNeedsPasswordOk
+
+`func (o *InvitationPreviewPublic) GetNeedsPasswordOk() (*bool, bool)`
+
+GetNeedsPasswordOk returns a tuple with the NeedsPassword field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNeedsPassword
+
+`func (o *InvitationPreviewPublic) SetNeedsPassword(v bool)`
+
+SetNeedsPassword sets NeedsPassword field to given value.
 
 
 ### GetOrganizationName

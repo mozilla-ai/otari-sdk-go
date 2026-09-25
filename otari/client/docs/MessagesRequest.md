@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Betas** | Pointer to **[]string** |  | [optional] 
 **CacheControl** | Pointer to **map[string]interface{}** |  | [optional] 
-**Container** | Pointer to **NullableString** |  | [optional] 
+**Container** | Pointer to [**NullableContainer**](Container.md) |  | [optional] 
 **ContextManagement** | Pointer to **map[string]interface{}** |  | [optional] 
 **Guardrails** | Pointer to [**[]GuardrailConfig**](GuardrailConfig.md) |  | [optional] 
 **MaxTokens** | **int32** |  | 
@@ -122,20 +122,20 @@ HasCacheControl returns a boolean if a field has been set.
 UnsetCacheControl ensures that no value is present for CacheControl, not even an explicit nil
 ### GetContainer
 
-`func (o *MessagesRequest) GetContainer() string`
+`func (o *MessagesRequest) GetContainer() Container`
 
 GetContainer returns the Container field if non-nil, zero value otherwise.
 
 ### GetContainerOk
 
-`func (o *MessagesRequest) GetContainerOk() (*string, bool)`
+`func (o *MessagesRequest) GetContainerOk() (*Container, bool)`
 
 GetContainerOk returns a tuple with the Container field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContainer
 
-`func (o *MessagesRequest) SetContainer(v string)`
+`func (o *MessagesRequest) SetContainer(v Container)`
 
 SetContainer sets Container field to given value.
 

@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**OrganizationGuardrailsCreateOrganizationGuardrail**](OrganizationGuardrailsAPI.md#OrganizationGuardrailsCreateOrganizationGuardrail) | **Post** /api/v1/organizations/me/guardrails | Create Organization Guardrail
 [**OrganizationGuardrailsDeleteOrganizationGuardrail**](OrganizationGuardrailsAPI.md#OrganizationGuardrailsDeleteOrganizationGuardrail) | **Delete** /api/v1/organizations/me/guardrails/{guardrail_id} | Delete Organization Guardrail
 [**OrganizationGuardrailsListOrganizationGuardrails**](OrganizationGuardrailsAPI.md#OrganizationGuardrailsListOrganizationGuardrails) | **Get** /api/v1/organizations/me/guardrails | List Organization Guardrails
+[**OrganizationGuardrailsTestOrganizationGuardrail**](OrganizationGuardrailsAPI.md#OrganizationGuardrailsTestOrganizationGuardrail) | **Post** /api/v1/organizations/me/guardrails/{guardrail_id}/test | Test Organization Guardrail
 [**OrganizationGuardrailsUpdateOrganizationGuardrail**](OrganizationGuardrailsAPI.md#OrganizationGuardrailsUpdateOrganizationGuardrail) | **Patch** /api/v1/organizations/me/guardrails/{guardrail_id} | Update Organization Guardrail
 
 
@@ -208,6 +209,78 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## OrganizationGuardrailsTestOrganizationGuardrail
+
+> OrganizationGuardrailTestResult OrganizationGuardrailsTestOrganizationGuardrail(ctx, guardrailId).OrganizationGuardrailTest(organizationGuardrailTest).Execute()
+
+Test Organization Guardrail
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	guardrailId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	organizationGuardrailTest := *openapiclient.NewOrganizationGuardrailTest("Text_example") // OrganizationGuardrailTest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.OrganizationGuardrailsAPI.OrganizationGuardrailsTestOrganizationGuardrail(context.Background(), guardrailId).OrganizationGuardrailTest(organizationGuardrailTest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OrganizationGuardrailsAPI.OrganizationGuardrailsTestOrganizationGuardrail``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `OrganizationGuardrailsTestOrganizationGuardrail`: OrganizationGuardrailTestResult
+	fmt.Fprintf(os.Stdout, "Response from `OrganizationGuardrailsAPI.OrganizationGuardrailsTestOrganizationGuardrail`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**guardrailId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOrganizationGuardrailsTestOrganizationGuardrailRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **organizationGuardrailTest** | [**OrganizationGuardrailTest**](OrganizationGuardrailTest.md) |  | 
+
+### Return type
+
+[**OrganizationGuardrailTestResult**](OrganizationGuardrailTestResult.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

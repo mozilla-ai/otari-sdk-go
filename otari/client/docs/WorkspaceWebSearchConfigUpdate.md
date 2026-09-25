@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AllowedDomains** | Pointer to **[]string** | Results are kept only from these domains; intersected with any list the request sends | [optional] 
-**BlockedDomains** | Pointer to **[]string** | Results from these domains are dropped; added to any list the request sends | [optional] 
-**Enabled** | **bool** | False refuses web search for this workspace, both the otari_web_search tool and the search endpoint. The fields below narrow the tool only. | 
-**MaxResults** | Pointer to **NullableInt32** | Ceiling on results one search returns; only ever lowers the effective limit, so at most 20 | [optional] 
+**AllowedDomains** | Pointer to **[]string** | Filters Search results and constrains initial and redirected Fetch destinations; intersected with any list the request sends | [optional] 
+**BlockedDomains** | Pointer to **[]string** | Filters Search results and blocks initial and redirected Fetch destinations; added to any list the request sends | [optional] 
+**Enabled** | **bool** | False refuses web access for this workspace through otari_web_search, otari_web_fetch, and POST /api/v1/search. | 
+**MaxResults** | Pointer to **NullableInt32** | Search only: ceiling on results one search returns; only ever lowers the effective limit, so at most 20 | [optional] 
 **ProviderOptions** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
-**PurposeHint** | Pointer to **NullableString** | Hint used when a request declares otari_web_search without one of its own | [optional] 
+**PurposeHint** | Pointer to **NullableString** | Search only: hint used when a request declares otari_web_search without one of its own | [optional] 
 
 ## Methods
 

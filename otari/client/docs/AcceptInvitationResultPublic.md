@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **OrganizationName** | **string** |  | 
+**PasswordSet** | Pointer to **bool** | Whether this accept set the identity&#39;s password. | [optional] [default to false]
 **Role** | **string** |  | 
 
 ## Methods
@@ -45,6 +46,31 @@ and a boolean to check if the value has been set.
 
 SetOrganizationName sets OrganizationName field to given value.
 
+
+### GetPasswordSet
+
+`func (o *AcceptInvitationResultPublic) GetPasswordSet() bool`
+
+GetPasswordSet returns the PasswordSet field if non-nil, zero value otherwise.
+
+### GetPasswordSetOk
+
+`func (o *AcceptInvitationResultPublic) GetPasswordSetOk() (*bool, bool)`
+
+GetPasswordSetOk returns a tuple with the PasswordSet field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPasswordSet
+
+`func (o *AcceptInvitationResultPublic) SetPasswordSet(v bool)`
+
+SetPasswordSet sets PasswordSet field to given value.
+
+### HasPasswordSet
+
+`func (o *AcceptInvitationResultPublic) HasPasswordSet() bool`
+
+HasPasswordSet returns a boolean if a field has been set.
 
 ### GetRole
 

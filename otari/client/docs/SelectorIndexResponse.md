@@ -6,13 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Models** | **int32** | Slugs that resolve to an offering. | 
 **Offerings** | **int32** | Selectors the deployment serves. | 
-**ShortSelectors** | **int32** | Offerings with an unambiguous short spelling. | 
+**PinnedSelectors** | **int32** | Pinned spellings, one per instance a model is offered on. | 
 
 ## Methods
 
 ### NewSelectorIndexResponse
 
-`func NewSelectorIndexResponse(models int32, offerings int32, shortSelectors int32, ) *SelectorIndexResponse`
+`func NewSelectorIndexResponse(models int32, offerings int32, pinnedSelectors int32, ) *SelectorIndexResponse`
 
 NewSelectorIndexResponse instantiates a new SelectorIndexResponse object
 This constructor will assign default values to properties that have it defined,
@@ -67,24 +67,24 @@ and a boolean to check if the value has been set.
 SetOfferings sets Offerings field to given value.
 
 
-### GetShortSelectors
+### GetPinnedSelectors
 
-`func (o *SelectorIndexResponse) GetShortSelectors() int32`
+`func (o *SelectorIndexResponse) GetPinnedSelectors() int32`
 
-GetShortSelectors returns the ShortSelectors field if non-nil, zero value otherwise.
+GetPinnedSelectors returns the PinnedSelectors field if non-nil, zero value otherwise.
 
-### GetShortSelectorsOk
+### GetPinnedSelectorsOk
 
-`func (o *SelectorIndexResponse) GetShortSelectorsOk() (*int32, bool)`
+`func (o *SelectorIndexResponse) GetPinnedSelectorsOk() (*int32, bool)`
 
-GetShortSelectorsOk returns a tuple with the ShortSelectors field if it's non-nil, zero value otherwise
+GetPinnedSelectorsOk returns a tuple with the PinnedSelectors field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetShortSelectors
+### SetPinnedSelectors
 
-`func (o *SelectorIndexResponse) SetShortSelectors(v int32)`
+`func (o *SelectorIndexResponse) SetPinnedSelectors(v int32)`
 
-SetShortSelectors sets ShortSelectors field to given value.
+SetPinnedSelectors sets PinnedSelectors field to given value.
 
 
 

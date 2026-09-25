@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**PricingGetPendingPricingRefresh**](PricingAPI.md#PricingGetPendingPricingRefresh) | **Get** /api/v1/pricing/refresh/pending | Get Pending Pricing Refresh
 [**PricingGetPricing**](PricingAPI.md#PricingGetPricing) | **Get** /api/v1/pricing/{model_key} | Get Pricing
 [**PricingGetPricingHistory**](PricingAPI.md#PricingGetPricingHistory) | **Get** /api/v1/pricing/{model_key}/history | Get Pricing History
+[**PricingListCurrentPricing**](PricingAPI.md#PricingListCurrentPricing) | **Get** /api/v1/pricing/current | List Current Pricing
 [**PricingListPricing**](PricingAPI.md#PricingListPricing) | **Get** /api/v1/pricing | List Pricing
 [**PricingListPricingDrift**](PricingAPI.md#PricingListPricingDrift) | **Get** /api/v1/pricing/drift | List Pricing Drift
 [**PricingListPricingSnapshots**](PricingAPI.md#PricingListPricingSnapshots) | **Get** /api/v1/pricing/snapshots | List Pricing Snapshots
@@ -339,6 +340,74 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**[]PricingResponse**](PricingResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PricingListCurrentPricing
+
+> CurrentPricingPage PricingListCurrentPricing(ctx).Skip(skip).Limit(limit).Execute()
+
+List Current Pricing
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	skip := int32(56) // int32 |  (optional) (default to 0)
+	limit := int32(56) // int32 |  (optional) (default to 100)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PricingAPI.PricingListCurrentPricing(context.Background()).Skip(skip).Limit(limit).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.PricingListCurrentPricing``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PricingListCurrentPricing`: CurrentPricingPage
+	fmt.Fprintf(os.Stdout, "Response from `PricingAPI.PricingListCurrentPricing`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPricingListCurrentPricingRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **skip** | **int32** |  | [default to 0]
+ **limit** | **int32** |  | [default to 100]
+
+### Return type
+
+[**CurrentPricingPage**](CurrentPricingPage.md)
 
 ### Authorization
 

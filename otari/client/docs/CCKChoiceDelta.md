@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **ToolCalls** | Pointer to [**[]CCKChoiceDeltaToolCall**](CCKChoiceDeltaToolCall.md) |  | [optional] 
 **Reasoning** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **ExtraContent** | Pointer to **map[string]interface{}** |  | [optional] 
+**Images** | Pointer to [**[]CCKImageContent**](CCKImageContent.md) |  | [optional] 
+**Audio** | Pointer to [**NullableCCKChoiceDeltaAudio**](CCKChoiceDeltaAudio.md) |  | [optional] 
 
 ## Methods
 
@@ -276,6 +278,76 @@ HasExtraContent returns a boolean if a field has been set.
 `func (o *CCKChoiceDelta) UnsetExtraContent()`
 
 UnsetExtraContent ensures that no value is present for ExtraContent, not even an explicit nil
+### GetImages
+
+`func (o *CCKChoiceDelta) GetImages() []CCKImageContent`
+
+GetImages returns the Images field if non-nil, zero value otherwise.
+
+### GetImagesOk
+
+`func (o *CCKChoiceDelta) GetImagesOk() (*[]CCKImageContent, bool)`
+
+GetImagesOk returns a tuple with the Images field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetImages
+
+`func (o *CCKChoiceDelta) SetImages(v []CCKImageContent)`
+
+SetImages sets Images field to given value.
+
+### HasImages
+
+`func (o *CCKChoiceDelta) HasImages() bool`
+
+HasImages returns a boolean if a field has been set.
+
+### SetImagesNil
+
+`func (o *CCKChoiceDelta) SetImagesNil(b bool)`
+
+ SetImagesNil sets the value for Images to be an explicit nil
+
+### UnsetImages
+`func (o *CCKChoiceDelta) UnsetImages()`
+
+UnsetImages ensures that no value is present for Images, not even an explicit nil
+### GetAudio
+
+`func (o *CCKChoiceDelta) GetAudio() CCKChoiceDeltaAudio`
+
+GetAudio returns the Audio field if non-nil, zero value otherwise.
+
+### GetAudioOk
+
+`func (o *CCKChoiceDelta) GetAudioOk() (*CCKChoiceDeltaAudio, bool)`
+
+GetAudioOk returns a tuple with the Audio field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAudio
+
+`func (o *CCKChoiceDelta) SetAudio(v CCKChoiceDeltaAudio)`
+
+SetAudio sets Audio field to given value.
+
+### HasAudio
+
+`func (o *CCKChoiceDelta) HasAudio() bool`
+
+HasAudio returns a boolean if a field has been set.
+
+### SetAudioNil
+
+`func (o *CCKChoiceDelta) SetAudioNil(b bool)`
+
+ SetAudioNil sets the value for Audio to be an explicit nil
+
+### UnsetAudio
+`func (o *CCKChoiceDelta) UnsetAudio()`
+
+UnsetAudio ensures that no value is present for Audio, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

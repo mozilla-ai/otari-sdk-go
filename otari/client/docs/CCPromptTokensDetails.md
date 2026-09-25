@@ -6,6 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AudioTokens** | Pointer to **NullableInt32** |  | [optional] 
 **CachedTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
+**CacheWriteTokens** | Pointer to **NullableInt32** |  | [optional] 
+**CacheCreationTokenDetails** | Pointer to [**NullableCCCacheCreationTokenDetails**](CCCacheCreationTokenDetails.md) |  | [optional] 
 
 ## Methods
 
@@ -96,6 +98,76 @@ HasCachedTokens returns a boolean if a field has been set.
 `func (o *CCPromptTokensDetails) UnsetCachedTokens()`
 
 UnsetCachedTokens ensures that no value is present for CachedTokens, not even an explicit nil
+### GetCacheWriteTokens
+
+`func (o *CCPromptTokensDetails) GetCacheWriteTokens() int32`
+
+GetCacheWriteTokens returns the CacheWriteTokens field if non-nil, zero value otherwise.
+
+### GetCacheWriteTokensOk
+
+`func (o *CCPromptTokensDetails) GetCacheWriteTokensOk() (*int32, bool)`
+
+GetCacheWriteTokensOk returns a tuple with the CacheWriteTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCacheWriteTokens
+
+`func (o *CCPromptTokensDetails) SetCacheWriteTokens(v int32)`
+
+SetCacheWriteTokens sets CacheWriteTokens field to given value.
+
+### HasCacheWriteTokens
+
+`func (o *CCPromptTokensDetails) HasCacheWriteTokens() bool`
+
+HasCacheWriteTokens returns a boolean if a field has been set.
+
+### SetCacheWriteTokensNil
+
+`func (o *CCPromptTokensDetails) SetCacheWriteTokensNil(b bool)`
+
+ SetCacheWriteTokensNil sets the value for CacheWriteTokens to be an explicit nil
+
+### UnsetCacheWriteTokens
+`func (o *CCPromptTokensDetails) UnsetCacheWriteTokens()`
+
+UnsetCacheWriteTokens ensures that no value is present for CacheWriteTokens, not even an explicit nil
+### GetCacheCreationTokenDetails
+
+`func (o *CCPromptTokensDetails) GetCacheCreationTokenDetails() CCCacheCreationTokenDetails`
+
+GetCacheCreationTokenDetails returns the CacheCreationTokenDetails field if non-nil, zero value otherwise.
+
+### GetCacheCreationTokenDetailsOk
+
+`func (o *CCPromptTokensDetails) GetCacheCreationTokenDetailsOk() (*CCCacheCreationTokenDetails, bool)`
+
+GetCacheCreationTokenDetailsOk returns a tuple with the CacheCreationTokenDetails field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCacheCreationTokenDetails
+
+`func (o *CCPromptTokensDetails) SetCacheCreationTokenDetails(v CCCacheCreationTokenDetails)`
+
+SetCacheCreationTokenDetails sets CacheCreationTokenDetails field to given value.
+
+### HasCacheCreationTokenDetails
+
+`func (o *CCPromptTokensDetails) HasCacheCreationTokenDetails() bool`
+
+HasCacheCreationTokenDetails returns a boolean if a field has been set.
+
+### SetCacheCreationTokenDetailsNil
+
+`func (o *CCPromptTokensDetails) SetCacheCreationTokenDetailsNil(b bool)`
+
+ SetCacheCreationTokenDetailsNil sets the value for CacheCreationTokenDetails to be an explicit nil
+
+### UnsetCacheCreationTokenDetails
+`func (o *CCPromptTokensDetails) UnsetCacheCreationTokenDetails()`
+
+UnsetCacheCreationTokenDetails ensures that no value is present for CacheCreationTokenDetails, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

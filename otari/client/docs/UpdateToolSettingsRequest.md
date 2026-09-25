@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**CodeExecutionExecutor** | Pointer to **NullableString** |  | [optional] 
 **GuardrailsUrl** | Pointer to **NullableString** |  | [optional] 
 **SandboxPurposeHint** | Pointer to **NullableString** |  | [optional] 
 **SandboxSessionImage** | Pointer to **NullableString** |  | [optional] 
@@ -34,6 +35,41 @@ NewUpdateToolSettingsRequestWithDefaults instantiates a new UpdateToolSettingsRe
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetCodeExecutionExecutor
+
+`func (o *UpdateToolSettingsRequest) GetCodeExecutionExecutor() string`
+
+GetCodeExecutionExecutor returns the CodeExecutionExecutor field if non-nil, zero value otherwise.
+
+### GetCodeExecutionExecutorOk
+
+`func (o *UpdateToolSettingsRequest) GetCodeExecutionExecutorOk() (*string, bool)`
+
+GetCodeExecutionExecutorOk returns a tuple with the CodeExecutionExecutor field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCodeExecutionExecutor
+
+`func (o *UpdateToolSettingsRequest) SetCodeExecutionExecutor(v string)`
+
+SetCodeExecutionExecutor sets CodeExecutionExecutor field to given value.
+
+### HasCodeExecutionExecutor
+
+`func (o *UpdateToolSettingsRequest) HasCodeExecutionExecutor() bool`
+
+HasCodeExecutionExecutor returns a boolean if a field has been set.
+
+### SetCodeExecutionExecutorNil
+
+`func (o *UpdateToolSettingsRequest) SetCodeExecutionExecutorNil(b bool)`
+
+ SetCodeExecutionExecutorNil sets the value for CodeExecutionExecutor to be an explicit nil
+
+### UnsetCodeExecutionExecutor
+`func (o *UpdateToolSettingsRequest) UnsetCodeExecutionExecutor()`
+
+UnsetCodeExecutionExecutor ensures that no value is present for CodeExecutionExecutor, not even an explicit nil
 ### GetGuardrailsUrl
 
 `func (o *UpdateToolSettingsRequest) GetGuardrailsUrl() string`

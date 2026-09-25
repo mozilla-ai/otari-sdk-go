@@ -82,7 +82,7 @@ Name | Type | Description  | Notes
 
 ## CatalogListCatalog
 
-> CatalogResponse CatalogListCatalog(ctx).AtContext(atContext).Execute()
+> CatalogResponse CatalogListCatalog(ctx).AtContext(atContext).Search(search).Skip(skip).Limit(limit).Execute()
 
 List Catalog
 
@@ -102,10 +102,13 @@ import (
 
 func main() {
 	atContext := int32(56) // int32 | Compare prices for a request of this many input tokens: each model's minimum is taken from the pricing tier that request would settle at. Omitted, the base rates compare. (optional)
+	search := "search_example" // string | Narrow to models whose name, catalog id or any selector contains this text, case-insensitively. (optional)
+	skip := int32(56) // int32 | Number of models to skip (optional) (default to 0)
+	limit := int32(56) // int32 | Maximum number of models to return (optional) (default to 100)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.CatalogAPI.CatalogListCatalog(context.Background()).AtContext(atContext).Execute()
+	resp, r, err := apiClient.CatalogAPI.CatalogListCatalog(context.Background()).AtContext(atContext).Search(search).Skip(skip).Limit(limit).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `CatalogAPI.CatalogListCatalog``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -127,6 +130,9 @@ Other parameters are passed through a pointer to a apiCatalogListCatalogRequest 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **atContext** | **int32** | Compare prices for a request of this many input tokens: each model&#39;s minimum is taken from the pricing tier that request would settle at. Omitted, the base rates compare. | 
+ **search** | **string** | Narrow to models whose name, catalog id or any selector contains this text, case-insensitively. | 
+ **skip** | **int32** | Number of models to skip | [default to 0]
+ **limit** | **int32** | Maximum number of models to return | [default to 100]
 
 ### Return type
 

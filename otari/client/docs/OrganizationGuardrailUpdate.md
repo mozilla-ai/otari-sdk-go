@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AppliesToAllWorkspaces** | Pointer to **bool** |  | [optional] 
 **Credential** | Pointer to **NullableString** |  | [optional] 
+**DefinitionId** | Pointer to **NullableString** | The organization&#39;s own definition this mandate runs. Unlike url and credential, an explicit null clears the link; omit the field to leave it as it is | [optional] 
 **Enabled** | Pointer to **bool** |  | [optional] 
 **Mode** | Pointer to **string** |  | [optional] 
 **OnUnavailable** | Pointer to **string** |  | [optional] 
@@ -93,6 +94,41 @@ HasCredential returns a boolean if a field has been set.
 `func (o *OrganizationGuardrailUpdate) UnsetCredential()`
 
 UnsetCredential ensures that no value is present for Credential, not even an explicit nil
+### GetDefinitionId
+
+`func (o *OrganizationGuardrailUpdate) GetDefinitionId() string`
+
+GetDefinitionId returns the DefinitionId field if non-nil, zero value otherwise.
+
+### GetDefinitionIdOk
+
+`func (o *OrganizationGuardrailUpdate) GetDefinitionIdOk() (*string, bool)`
+
+GetDefinitionIdOk returns a tuple with the DefinitionId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDefinitionId
+
+`func (o *OrganizationGuardrailUpdate) SetDefinitionId(v string)`
+
+SetDefinitionId sets DefinitionId field to given value.
+
+### HasDefinitionId
+
+`func (o *OrganizationGuardrailUpdate) HasDefinitionId() bool`
+
+HasDefinitionId returns a boolean if a field has been set.
+
+### SetDefinitionIdNil
+
+`func (o *OrganizationGuardrailUpdate) SetDefinitionIdNil(b bool)`
+
+ SetDefinitionIdNil sets the value for DefinitionId to be an explicit nil
+
+### UnsetDefinitionId
+`func (o *OrganizationGuardrailUpdate) UnsetDefinitionId()`
+
+UnsetDefinitionId ensures that no value is present for DefinitionId, not even an explicit nil
 ### GetEnabled
 
 `func (o *OrganizationGuardrailUpdate) GetEnabled() bool`

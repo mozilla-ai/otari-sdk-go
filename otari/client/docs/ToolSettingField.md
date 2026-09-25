@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Description** | Pointer to **NullableString** |  | [optional] 
 **Key** | **string** |  | 
+**Options** | Pointer to **[]string** |  | [optional] 
 **Service** | **string** |  | 
 **Type** | **string** |  | 
 **Value** | [**NullableValue1**](Value1.md) |  | 
@@ -84,6 +85,41 @@ and a boolean to check if the value has been set.
 SetKey sets Key field to given value.
 
 
+### GetOptions
+
+`func (o *ToolSettingField) GetOptions() []string`
+
+GetOptions returns the Options field if non-nil, zero value otherwise.
+
+### GetOptionsOk
+
+`func (o *ToolSettingField) GetOptionsOk() (*[]string, bool)`
+
+GetOptionsOk returns a tuple with the Options field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOptions
+
+`func (o *ToolSettingField) SetOptions(v []string)`
+
+SetOptions sets Options field to given value.
+
+### HasOptions
+
+`func (o *ToolSettingField) HasOptions() bool`
+
+HasOptions returns a boolean if a field has been set.
+
+### SetOptionsNil
+
+`func (o *ToolSettingField) SetOptionsNil(b bool)`
+
+ SetOptionsNil sets the value for Options to be an explicit nil
+
+### UnsetOptions
+`func (o *ToolSettingField) UnsetOptions()`
+
+UnsetOptions ensures that no value is present for Options, not even an explicit nil
 ### GetService
 
 `func (o *ToolSettingField) GetService() string`
