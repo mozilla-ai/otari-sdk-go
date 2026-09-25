@@ -22,6 +22,12 @@ the new version with `go get github.com/mozilla-ai/otari-sdk-go@vX.Y.Z`.
 - **Auth:** none beyond the default `GITHUB_TOKEN`.
 - **Version:** the git tag itself. A Go module has no version file to bump, so
   release-please only manages the changelog and the tag.
+- **Tag format:** plain `vX.Y.Z`, held there by `include-component-in-tag: false`
+  in `release-please-config.json`. Do not remove that setting. The Go toolchain
+  resolves a root module only by that exact form, so a component-prefixed tag
+  such as `otari-sdk-go-v0.3.0` cuts a GitHub Release that `go get` cannot see,
+  and the failure is silent: the tag and the Release both exist, while
+  `go get ...@latest` keeps serving the last plain tag.
 
 ## Prerequisites (one time, repo settings)
 
