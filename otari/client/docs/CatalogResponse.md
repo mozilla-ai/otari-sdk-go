@@ -4,9 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Count** | **int32** | Models matching the search, before the window, so a caller can page without reading them all. | 
+**Count** | **int32** | Models matching all filters before paging. | 
 **DefaultPricing** | **bool** | Whether an unpriced model is metered at the genai-prices default. | 
 **DefaultsAsOf** | **NullableTime** | When the accepted genai-prices snapshot was taken. Null while the bundled dataset serves. | 
+**Facets** | Pointer to [**NullableCatalogFacets**](CatalogFacets.md) | Present when include_facets is requested. | [optional] 
 **MetadataAvailable** | **bool** | False when models.dev could not be read; descriptions are then absent. | 
 **Models** | [**[]CatalogModelSummary**](CatalogModelSummary.md) |  | 
 
@@ -99,6 +100,41 @@ SetDefaultsAsOf sets DefaultsAsOf field to given value.
 `func (o *CatalogResponse) UnsetDefaultsAsOf()`
 
 UnsetDefaultsAsOf ensures that no value is present for DefaultsAsOf, not even an explicit nil
+### GetFacets
+
+`func (o *CatalogResponse) GetFacets() CatalogFacets`
+
+GetFacets returns the Facets field if non-nil, zero value otherwise.
+
+### GetFacetsOk
+
+`func (o *CatalogResponse) GetFacetsOk() (*CatalogFacets, bool)`
+
+GetFacetsOk returns a tuple with the Facets field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFacets
+
+`func (o *CatalogResponse) SetFacets(v CatalogFacets)`
+
+SetFacets sets Facets field to given value.
+
+### HasFacets
+
+`func (o *CatalogResponse) HasFacets() bool`
+
+HasFacets returns a boolean if a field has been set.
+
+### SetFacetsNil
+
+`func (o *CatalogResponse) SetFacetsNil(b bool)`
+
+ SetFacetsNil sets the value for Facets to be an explicit nil
+
+### UnsetFacets
+`func (o *CatalogResponse) UnsetFacets()`
+
+UnsetFacets ensures that no value is present for Facets, not even an explicit nil
 ### GetMetadataAvailable
 
 `func (o *CatalogResponse) GetMetadataAvailable() bool`

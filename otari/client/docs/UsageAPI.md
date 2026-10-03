@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**UsageCountUsage**](UsageAPI.md#UsageCountUsage) | **Get** /api/v1/usage/count | Count Usage
 [**UsageDeleteUsageRows**](UsageAPI.md#UsageDeleteUsageRows) | **Delete** /api/v1/usage | Delete Usage Rows
+[**UsageGetRequestSettlement**](UsageAPI.md#UsageGetRequestSettlement) | **Get** /api/v1/usage/requests/{request_id} | Get Request Settlement
 [**UsageIngestExternalUsage**](UsageAPI.md#UsageIngestExternalUsage) | **Post** /api/v1/usage/external-events | Ingest External Usage
 [**UsageListInFlight**](UsageAPI.md#UsageListInFlight) | **Get** /api/v1/usage/in-flight | List In Flight
 [**UsageListUsage**](UsageAPI.md#UsageListUsage) | **Get** /api/v1/usage | List Usage
@@ -171,6 +172,76 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UsageGetRequestSettlement
+
+> RequestSettlement UsageGetRequestSettlement(ctx, requestId).Execute()
+
+Get Request Settlement
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	requestId := "requestId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.UsageAPI.UsageGetRequestSettlement(context.Background(), requestId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.UsageGetRequestSettlement``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UsageGetRequestSettlement`: RequestSettlement
+	fmt.Fprintf(os.Stdout, "Response from `UsageAPI.UsageGetRequestSettlement`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**requestId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUsageGetRequestSettlementRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**RequestSettlement**](RequestSettlement.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

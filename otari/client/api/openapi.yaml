@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   description: "Otari, an OpenAI-compatible LLM gateway with API key management"
   title: otari
-  version: 0.12.1
+  version: 0.0.0-dev
 servers:
 - url: /
 paths:
@@ -1393,8 +1393,9 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
-          description: Successful Response
+              schema:
+                $ref: "#/components/schemas/BatchListResponse"
+          description: Batches
         "422":
           content:
             application/json:
@@ -1426,8 +1427,9 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
-          description: Successful Response
+              schema:
+                $ref: "#/components/schemas/BatchResponse"
+          description: Created batch
         "422":
           content:
             application/json:
@@ -1465,8 +1467,9 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
-          description: Successful Response
+              schema:
+                $ref: "#/components/schemas/BatchResponse"
+          description: Batch
         "422":
           content:
             application/json:
@@ -1504,8 +1507,9 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
-          description: Successful Response
+              schema:
+                $ref: "#/components/schemas/BatchResponse"
+          description: Canceled batch
         "422":
           content:
             application/json:
@@ -1543,8 +1547,9 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
-          description: Successful Response
+              schema:
+                $ref: "#/components/schemas/BatchResultsResponse"
+          description: Batch results
         "409":
           description: Batch is not yet complete
         "422":
@@ -1665,13 +1670,18 @@ paths:
   /api/v1/budgets/{budget_id}:
     delete:
       description: |-
-        Delete a budget.
+        Delete a budget the deployment owns.
 
-        Refused with 409 while anything still names this budget: a workspace handing
-        it to its members, or a scoped ceiling enforcing it. Both foreign keys are
-        ``RESTRICT``, so the database would refuse either anyway, but as an
-        ``IntegrityError`` reported as "Database error" with nothing naming what to
-        go and change. Checked here so the refusal can say which, and where.
+        Refused with 409 for an organization's budget: the operator may edit one
+        (``PATCH`` retimes its ceilings) but deleting it would take a budget the
+        tenant defined out from under them.
+
+        Refused with 409, too, while anything still names this budget: a workspace
+        handing it to its members, or a scoped ceiling enforcing it. The refusal says
+        which, and where.
+
+        Gateway users assigned to the budget are left uncapped, as the dashboard's
+        confirmation says, and its reset history is deleted with it.
       operationId: budgets-delete_budget
       parameters:
       - explode: false
@@ -1848,43 +1858,228 @@ paths:
           nullable: true
           type: integer
         style: form
-      - description: "Narrow to models whose name, catalog id or any selector contains\
-          \ this text, case-insensitively."
+      - description: "Case-insensitive text in a model's name, vendor, id, selectors,\
+          \ or provider instances."
         explode: true
         in: query
         name: search
         required: false
         schema:
-          description: "Narrow to models whose name, catalog id or any selector contains\
-            \ this text, case-insensitively."
+          description: "Case-insensitive text in a model's name, vendor, id, selectors,\
+            \ or provider instances."
           maxLength: 200
           nullable: true
           type: string
         style: form
-      - description: Number of models to skip
+      - description: Number of matching models to skip.
         explode: true
         in: query
         name: skip
         required: false
         schema:
           default: 0
-          description: Number of models to skip
+          description: Number of matching models to skip.
           minimum: 0
           title: Skip
           type: integer
         style: form
-      - description: Maximum number of models to return
+      - description: Maximum number of models to return.
         explode: true
         in: query
         name: limit
         required: false
         schema:
           default: 100
-          description: Maximum number of models to return
+          description: Maximum number of models to return.
           maximum: 1000
           minimum: 1
           title: Limit
           type: integer
+        style: form
+      - description: Match any named provider instance.
+        explode: true
+        in: query
+        name: provider
+        required: false
+        schema:
+          description: Match any named provider instance.
+          items:
+            description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+              \ 'claude_code.commit.count')"
+            nullable: true
+            type: string
+          maxItems: 100
+          title: Provider
+          type: array
+        style: form
+      - description: Match any vendor; an empty value names unknown vendors.
+        explode: true
+        in: query
+        name: vendor
+        required: false
+        schema:
+          description: Match any vendor; an empty value names unknown vendors.
+          items:
+            description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+              \ 'claude_code.commit.count')"
+            nullable: true
+            type: string
+          maxItems: 100
+          title: Vendor
+          type: array
+        style: form
+      - description: Require every input modality.
+        explode: true
+        in: query
+        name: input_modality
+        required: false
+        schema:
+          description: Require every input modality.
+          items:
+            description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+              \ 'claude_code.commit.count')"
+            nullable: true
+            type: string
+          maxItems: 100
+          title: Input Modality
+          type: array
+        style: form
+      - description: Require every output modality.
+        explode: true
+        in: query
+        name: output_modality
+        required: false
+        schema:
+          description: Require every output modality.
+          items:
+            description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+              \ 'claude_code.commit.count')"
+            nullable: true
+            type: string
+          maxItems: 100
+          title: Output Modality
+          type: array
+        style: form
+      - description: Require every capability.
+        explode: true
+        in: query
+        name: capability
+        required: false
+        schema:
+          description: Require every capability.
+          items:
+            $ref: "#/components/schemas/CatalogCapability"
+          maxItems: 100
+          title: Capability
+          type: array
+        style: form
+      - description: Minimum context window; unknown windows do not match.
+        explode: true
+        in: query
+        name: min_context
+        required: false
+        schema:
+          default: 0
+          description: Minimum context window; unknown windows do not match.
+          minimum: 0
+          title: Min Context
+          type: integer
+        style: form
+      - description: Maximum cheapest input price per million tokens; unpriced models
+          do not match.
+        explode: true
+        in: query
+        name: max_input
+        required: false
+        schema:
+          description: Maximum cheapest input price per million tokens; unpriced models
+            do not match.
+          minimum: 0
+          nullable: true
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: pricing
+        required: false
+        schema:
+          default: all
+          enum:
+          - all
+          - custom
+          - default
+          - priced
+          - unpriced
+          title: Pricing
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: source
+        required: false
+        schema:
+          default: all
+          enum:
+          - all
+          - discovered
+          - custom
+          title: Source
+          type: string
+        style: form
+      - description: Release window ending today (UTC); zero disables it. Unknown
+          and future releases do not match.
+        explode: true
+        in: query
+        name: released_within_days
+        required: false
+        schema:
+          default: 0
+          description: Release window ending today (UTC); zero disables it. Unknown
+            and future releases do not match.
+          maximum: 36500
+          minimum: 0
+          title: Released Within Days
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          default: name
+          enum:
+          - name
+          - released
+          - input
+          - output
+          - context
+          - providers
+          title: Sort
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: direction
+        required: false
+        schema:
+          default: asc
+          enum:
+          - asc
+          - desc
+          title: Direction
+          type: string
+        style: form
+      - description: Include the filter choices drawn from the whole authorized catalog.
+        explode: true
+        in: query
+        name: include_facets
+        required: false
+        schema:
+          default: false
+          description: Include the filter choices drawn from the whole authorized
+            catalog.
+          title: Include Facets
+          type: boolean
         style: form
       responses:
         "200":
@@ -1980,6 +2175,24 @@ paths:
         - API key + user field: Use specified user (must exist)
         - API key without user field: Use the shared "default" user
       operationId: chat-chat_completions
+      parameters:
+      - description: "A unique value, such as a UUID, that makes a non-streaming request\
+          \ safe to retry. A retry with the same key and body returns the original\
+          \ response, request ID and cost without calling the provider or billing\
+          \ again. A retry while the original is still running is answered 409 with\
+          \ Retry-After. Reusing a key for a different body is refused with 422. Ignored\
+          \ for streaming requests, in hybrid mode, and on a deployment without OTARI_SECRET_KEY,\
+          \ which encrypts the stored response."
+        explode: false
+        in: header
+        name: Idempotency-Key
+        required: false
+        schema:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+        style: simple
       requestBody:
         content:
           application/json:
@@ -2005,6 +2218,44 @@ paths:
       summary: Chat Completions
       tags:
       - chat
+  /api/v1/decisions:
+    post:
+      description: |-
+        Answer typed questions (noul, choice, score) about a state.
+
+        ``model`` is ``<provider>:<model>``, where the provider is a ``decision_providers``
+        entry, for example ``typesafe:jev-latest`` or ``openrouter:typesafe/jev-1.13``.
+
+        Authentication modes:
+        - Master key: the ``user`` field is required and may name any existing user.
+        - API key: usage and spend bind to the key's own user; a ``user`` naming a
+          different user is rejected with 403 unless mismatch rejection is off.
+      operationId: decisions-create_decision
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DecisionRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Create Decision
+      tags:
+      - decisions
   /api/v1/embeddings:
     post:
       description: |-
@@ -3027,6 +3278,29 @@ paths:
         fallback across the resolved route, tool-loop requests included (fallback
         applies up to the pre-lock-in point, same as chat).
       operationId: messages-create_message
+      parameters:
+      - description: "A unique value, such as a UUID, that makes a non-streaming request\
+          \ safe to retry. A retry with the same key and body returns the original\
+          \ response, request ID and cost without calling the provider or billing\
+          \ again. A retry while the original is still running is answered 409 with\
+          \ Retry-After. Reusing a key for a different body is refused with 422. Ignored\
+          \ for streaming requests, in hybrid mode, and on a deployment without OTARI_SECRET_KEY,\
+          \ which encrypts the stored response."
+        explode: false
+        in: header
+        name: Idempotency-Key
+        required: false
+        schema:
+          description: "A unique value, such as a UUID, that makes a non-streaming\
+            \ request safe to retry. A retry with the same key and body returns the\
+            \ original response, request ID and cost without calling the provider\
+            \ or billing again. A retry while the original is still running is answered\
+            \ 409 with Retry-After. Reusing a key for a different body is refused\
+            \ with 422. Ignored for streaming requests, in hybrid mode, and on a deployment\
+            \ without OTARI_SECRET_KEY, which encrypts the stored response."
+          nullable: true
+          type: string
+        style: simple
       requestBody:
         content:
           application/json:
@@ -4521,6 +4795,43 @@ paths:
       - ApiKeyAuth: []
       - XApiKeyAuth: []
       summary: Invite Active Organization Member
+      tags:
+      - organizations
+  /api/v1/organizations/me/member-invitations/bulk:
+    post:
+      description: |-
+        Invite several addresses to the caller's active organization at once.
+
+        Organization owners and admins only. Every address gets the same role and
+        workspace assignments. Each one is checked as ``POST /me/member-invitations``
+        would check it, and an address that is refused lands in ``failed`` with the
+        reason rather than failing the request, so the answer is 200 even when some
+        or all were refused. Each invited entry carries its own ``mail_sent`` and
+        accept link.
+      operationId: organizations-bulk_invite_active_organization_members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkInviteOrganizationMembersRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkInviteOrganizationMembersResultPublic"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Bulk Invite Active Organization Members
       tags:
       - organizations
   /api/v1/organizations/me/member-invitations/{invitation_id}:
@@ -8517,6 +8828,29 @@ paths:
         fallback across the resolved route, tool-loop requests included (fallback
         applies up to the pre-lock-in point, same as chat).
       operationId: responses-create_response
+      parameters:
+      - description: "A unique value, such as a UUID, that makes a non-streaming request\
+          \ safe to retry. A retry with the same key and body returns the original\
+          \ response, request ID and cost without calling the provider or billing\
+          \ again. A retry while the original is still running is answered 409 with\
+          \ Retry-After. Reusing a key for a different body is refused with 422. Ignored\
+          \ for streaming requests, in hybrid mode, and on a deployment without OTARI_SECRET_KEY,\
+          \ which encrypts the stored response."
+        explode: false
+        in: header
+        name: Idempotency-Key
+        required: false
+        schema:
+          description: "A unique value, such as a UUID, that makes a non-streaming\
+            \ request safe to retry. A retry with the same key and body returns the\
+            \ original response, request ID and cost without calling the provider\
+            \ or billing again. A retry while the original is still running is answered\
+            \ 409 with Retry-After. Reusing a key for a different body is refused\
+            \ with 422. Ignored for streaming requests, in hybrid mode, and on a deployment\
+            \ without OTARI_SECRET_KEY, which encrypts the stored response."
+          nullable: true
+          type: string
+        style: simple
       requestBody:
         content:
           application/json:
@@ -9472,6 +9806,38 @@ paths:
       summary: Rotate Master Key
       tags:
       - settings
+  /api/v1/systemone:
+    post:
+      description: |-
+        Answer typed questions at the path TypeSafe's SDK and llama-server use.
+
+        Identical to ``POST /api/v1/decisions``; point the client's base URL at the gateway's ``/api``.
+      operationId: decisions-create_systemone_decision
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DecisionRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Create Systemone Decision
+      tags:
+      - decisions
   /api/v1/tool-settings:
     get:
       description: |-
@@ -10337,6 +10703,49 @@ paths:
       - ApiKeyAuth: []
       - XApiKeyAuth: []
       summary: List In Flight
+      tags:
+      - usage
+  /api/v1/usage/requests/{request_id}:
+    get:
+      description: |-
+        Look up a request's settled cost by the ``Otari-Request-ID`` it was sent (standalone).
+
+        This is how a caller recovers the cost of a request whose response never
+        carried one: a stream that failed or was disconnected mid-response, or a
+        request that errored. An API key sees only the requests it made; the master
+        key sees any. Returns 404 until the request has settled (its rows are written
+        by a background writer, so a lookup made the instant a stream closes can
+        precede them), and for an id that is unknown or belongs to another key, with
+        no way to tell those apart. A stream that ended before the provider reported
+        usage, and ran no gateway tools, writes no row, so its id stays 404.
+      operationId: usage-get_request_settlement
+      parameters:
+      - explode: false
+        in: path
+        name: request_id
+        required: true
+        schema:
+          maxLength: 255
+          title: Request Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequestSettlement"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      security:
+      - ApiKeyAuth: []
+      - XApiKeyAuth: []
+      summary: Get Request Settlement
       tags:
       - usage
   /api/v1/usage/series:
@@ -14674,6 +15083,113 @@ components:
       - stages
       - vendor
       title: BuiltInGuardrailSpec
+    BulkInvitationFailurePublic:
+      description: "An address the bulk invite could not invite, and why."
+      example:
+        detail: detail
+        email: email
+      properties:
+        detail:
+          title: Detail
+          type: string
+        email:
+          title: Email
+          type: string
+      required:
+      - detail
+      - email
+      title: BulkInvitationFailurePublic
+    BulkInviteOrganizationMembersRequest:
+      description: "Invite several addresses at once, all with the same role and workspace\
+        \ assignments."
+      example:
+        emails:
+        - emails
+        - emails
+        - emails
+        - emails
+        - emails
+        role: member
+        workspace_assignments:
+        - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          role: member
+        - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          role: member
+        - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          role: member
+        - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          role: member
+        - workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          role: member
+      properties:
+        emails:
+          items:
+            type: string
+          maxItems: 100
+          minItems: 1
+          title: Emails
+          type: array
+        role:
+          default: member
+          enum:
+          - owner
+          - admin
+          - member
+          - viewer
+          title: Role
+          type: string
+        workspace_assignments:
+          items:
+            $ref: "#/components/schemas/WorkspaceAssignmentRequest"
+          maxItems: 50
+          nullable: true
+          type: array
+      required:
+      - emails
+      title: BulkInviteOrganizationMembersRequest
+    BulkInviteOrganizationMembersResultPublic:
+      description: "What a bulk invite produced: one entry per submitted address,\
+        \ repeats included, in one of the two lists."
+      example:
+        invited:
+        - invitation_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          expires_at: 2000-01-23T04:56:07.000+00:00
+          role: role
+          accept_link: accept_link
+          organization_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          created_at: 2000-01-23T04:56:07.000+00:00
+          email: email
+          mail_sent: true
+          status: invited
+        - invitation_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          expires_at: 2000-01-23T04:56:07.000+00:00
+          role: role
+          accept_link: accept_link
+          organization_member_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          created_at: 2000-01-23T04:56:07.000+00:00
+          email: email
+          mail_sent: true
+          status: invited
+        failed:
+        - detail: detail
+          email: email
+        - detail: detail
+          email: email
+      properties:
+        failed:
+          items:
+            $ref: "#/components/schemas/BulkInvitationFailurePublic"
+          title: Failed
+          type: array
+        invited:
+          items:
+            $ref: "#/components/schemas/InviteOrganizationMemberResultPublic"
+          title: Invited
+          type: array
+      required:
+      - failed
+      - invited
+      title: BulkInviteOrganizationMembersResultPublic
     CallToolResult:
       additionalProperties: {}
       description: The server's response to a tool call.
@@ -14950,8 +15466,18 @@ components:
           title: Tool Call
           type: boolean
       title: CatalogCapabilities
+    CatalogCapability:
+      enum:
+      - tool_call
+      - reasoning
+      - structured_output
+      - attachment
+      - open_weights
+      title: CatalogCapability
+      type: string
     CatalogCredential:
-      description: Who may price a catalog offering.
+      description: "Whose key serves a catalog offering, which also says who may price\
+        \ it."
       enum:
       - deployment
       - organization
@@ -14975,6 +15501,31 @@ components:
       - name
       - provider_type
       title: CatalogElsewhere
+    CatalogFacets:
+      description: "The filter rail's choices, from the caller's whole authorized\
+        \ catalog rather than one page."
+      properties:
+        providers:
+          description: "Every provider instance offering an authorized model, sorted."
+          items:
+            type: string
+          title: Providers
+          type: array
+        total_count:
+          description: Authorized models before any of the request's filters.
+          minimum: 0.0
+          title: Total Count
+          type: integer
+        vendors:
+          items:
+            $ref: "#/components/schemas/CatalogVendorFacet"
+          title: Vendors
+          type: array
+      required:
+      - providers
+      - total_count
+      - vendors
+      title: CatalogFacets
     CatalogModelDetail:
       description: One model with everything the detail page shows.
       example:
@@ -15390,11 +15941,12 @@ components:
         credential:
           allOf:
           - $ref: "#/components/schemas/CatalogCredential"
-          description: "Who may price it: `deployment` for a `providers:` instance\
+          description: "Whose key serves it: `deployment` for a `providers:` instance\
             \ the operator configured, `hosted` for a provider the deployment pays\
             \ for in any workspace of the viewer's organization, `organization` for\
-            \ one the viewer's organization may set its own rate for. A workspace\
-            \ can still call a `hosted` provider with the organization's own key."
+            \ one on the organization's own key, which it may set its own rate for.\
+            \ A workspace can still call a `hosted` provider with the organization's\
+            \ own key."
         discovered:
           description: Whether the provider itself reported this model.
           title: Discovered
@@ -15554,10 +16106,10 @@ components:
         metadata_available: true
         count: 0
         default_pricing: true
+        facets: ""
       properties:
         count:
-          description: "Models matching the search, before the window, so a caller\
-            \ can page without reading them all."
+          description: Models matching all filters before paging.
           title: Count
           type: integer
         default_pricing:
@@ -15570,6 +16122,11 @@ components:
           format: date-time
           nullable: true
           type: string
+        facets:
+          allOf:
+          - $ref: "#/components/schemas/CatalogFacets"
+          description: Present when include_facets is requested.
+          nullable: true
         metadata_available:
           description: False when models.dev could not be read; descriptions are then
             absent.
@@ -15587,6 +16144,18 @@ components:
       - metadata_available
       - models
       title: CatalogResponse
+    CatalogVendorFacet:
+      properties:
+        value:
+          description: The vendor's name; empty for models whose vendor is unknown.
+          title: Value
+          type: string
+        vendor_slug:
+          nullable: true
+          type: string
+      required:
+      - value
+      title: CatalogVendorFacet
     CeremonyOptions:
       additionalProperties: true
       description: |-
@@ -15897,6 +16466,29 @@ components:
       - gate_id
       - outcome
       title: CheckVerdictRequest
+    ChoiceQuestion:
+      additionalProperties: {}
+      description: A question answered with one of the named options.
+      properties:
+        criteria:
+          additionalProperties:
+            $ref: "#/components/schemas/Criteria_value"
+          description: Option name to what it means
+          maxProperties: 255
+          minProperties: 2
+          title: Criteria
+        instructions:
+          $ref: "#/components/schemas/Instructions"
+        type:
+          enum:
+          - choice
+          title: Type
+          type: string
+      required:
+      - criteria
+      - instructions
+      - type
+      title: ChoiceQuestion
     CodeExecutor:
       description: |-
         Who runs the code a request's code-execution tool asks for.
@@ -16212,9 +16804,11 @@ components:
         metadata:
           key: ""
         expires_at: 2000-01-23T04:56:07.000+00:00
+        is_service_key: false
         user_id: user_id
         capture_agent_telemetry: true
         reject_user_mismatch: true
+        end_user_budget_id: end_user_budget_id
         allowed_models:
         - allowed_models
         - allowed_models
@@ -16236,6 +16830,11 @@ components:
             \ way."
           nullable: true
           type: boolean
+        end_user_budget_id:
+          description: Budget each end user this key creates is capped at. Null leaves
+            end users capped only by this key's own ceiling.
+          nullable: true
+          type: string
         exclude_from_budget:
           default: false
           description: "When true, requests on this key are logged with cost but never\
@@ -16247,6 +16846,14 @@ components:
           format: date-time
           nullable: true
           type: string
+        is_service_key:
+          default: false
+          description: "When true, a request may name an end user in its 'user' field.\
+            \ Each end user is created on first use, owned by this key's user, and\
+            \ billed to its own budget, while this key's own ceiling caps all of them\
+            \ together."
+          title: Is Service Key
+          type: boolean
         key_name:
           description: Optional name for the key
           nullable: true
@@ -16285,9 +16892,11 @@ components:
         is_active: true
         capture_agent_telemetry: true
         created_at: created_at
+        end_user_budget_id: end_user_budget_id
         key_name: key_name
         exclude_from_budget: true
         expires_at: expires_at
+        is_service_key: true
         user_id: user_id
         key_prefix: key_prefix
         reject_user_mismatch: true
@@ -16309,6 +16918,9 @@ components:
         created_at:
           title: Created At
           type: string
+        end_user_budget_id:
+          nullable: true
+          type: string
         exclude_from_budget:
           title: Exclude From Budget
           type: boolean
@@ -16320,6 +16932,9 @@ components:
           type: string
         is_active:
           title: Is Active
+          type: boolean
+        is_service_key:
+          title: Is Service Key
           type: boolean
         key:
           title: Key
@@ -16347,10 +16962,12 @@ components:
       - allowed_models
       - capture_agent_telemetry
       - created_at
+      - end_user_budget_id
       - exclude_from_budget
       - expires_at
       - id
       - is_active
+      - is_service_key
       - key
       - key_name
       - key_prefix
@@ -16699,6 +17316,143 @@ components:
       - count
       - data
       title: CurrentPricingPage
+    DecisionAnswer:
+      additionalProperties: {}
+      description: One question's answer. Which value field is set follows ``type``.
+      example:
+        score: 5.962133916683182
+        legend:
+          key: ""
+        confidence: 0.8008281904610115
+        noul: 6.027456183070403
+        choice: choice
+        type: type
+        probabilities:
+          key: 1.4658129805029452
+      properties:
+        choice:
+          description: "The chosen option, for a choice question"
+          nullable: true
+          type: string
+        confidence:
+          nullable: true
+          type: number
+        legend:
+          additionalProperties: true
+          description: "Provider-native request fields used as defaults (e.g. exa's\
+            \ 'type', searxng's 'engines')."
+          nullable: true
+          type: object
+        noul:
+          description: "Probability of yes, for a noul question"
+          nullable: true
+          type: number
+        probabilities:
+          additionalProperties:
+            type: number
+          nullable: true
+        score:
+          description: "The level, for a score question"
+          nullable: true
+          type: number
+        type:
+          title: Type
+          type: string
+      required:
+      - type
+      title: DecisionAnswer
+    DecisionRequest:
+      description: "A decisions request: typed questions to answer about one state."
+      example:
+        model: typesafe:jev-latest
+        questions:
+          urgency:
+            instructions: Does this message express urgency?
+            type: noul
+        state: The Stripe integration has failed for 3 days and I'm losing sales.
+      properties:
+        images:
+          description: "Images for a vision decision model, as data URLs (data:image/...;base64,...).\
+            \ An extension llama-server supports; a provider that does not refuses\
+            \ the request."
+          items:
+            type: string
+          maxItems: 16
+          nullable: true
+          type: array
+        model:
+          description: "Decision provider and model, e.g. 'typesafe:jev-latest'"
+          title: Model
+          type: string
+        questions:
+          additionalProperties:
+            $ref: "#/components/schemas/Questions_value"
+          description: "Questions, keyed by answer name"
+          minProperties: 1
+          title: Questions
+        state:
+          $ref: "#/components/schemas/State"
+        user:
+          description: User ID for usage attribution; not sent upstream
+          nullable: true
+          type: string
+      required:
+      - model
+      - questions
+      - state
+      title: DecisionRequest
+    DecisionResponse:
+      additionalProperties: true
+      description: "The provider's answers, keyed like the request's questions."
+      example:
+        usage: ""
+        answers:
+          key:
+            score: 5.962133916683182
+            legend:
+              key: ""
+            confidence: 0.8008281904610115
+            noul: 6.027456183070403
+            choice: choice
+            type: type
+            probabilities:
+              key: 1.4658129805029452
+        model: model
+      properties:
+        answers:
+          additionalProperties:
+            $ref: "#/components/schemas/DecisionAnswer"
+          title: Answers
+        model:
+          title: Model
+          type: string
+        usage:
+          allOf:
+          - $ref: "#/components/schemas/DecisionUsage"
+          nullable: true
+      required:
+      - answers
+      - model
+      title: DecisionResponse
+    DecisionUsage:
+      additionalProperties: true
+      description: "Token counts the provider reported, plus its own cost where it\
+        \ reports one."
+      properties:
+        cost:
+          description: "The provider's own charge in USD, when it reports one"
+          minimum: 0.0
+          nullable: true
+          type: number
+        input_tokens:
+          default: 0
+          title: Input Tokens
+          type: integer
+        output_tokens:
+          default: 0
+          title: Output Tokens
+          type: integer
+      title: DecisionUsage
     DeploymentAdminAccessPublic:
       description: |-
         Whether the caller may reach the deployment administration surface.
@@ -17497,6 +18251,7 @@ components:
           source_event_id: source_event_id
           model: model
           output_tokens: 494379917
+          reasoning_tokens: 1516424369
           status: success
           timestamp: 2000-01-23T04:56:07.000+00:00
         - cache_write_1h_tokens: 1294386358
@@ -17511,6 +18266,7 @@ components:
           source_event_id: source_event_id
           model: model
           output_tokens: 494379917
+          reasoning_tokens: 1516424369
           status: success
           timestamp: 2000-01-23T04:56:07.000+00:00
         - cache_write_1h_tokens: 1294386358
@@ -17525,6 +18281,7 @@ components:
           source_event_id: source_event_id
           model: model
           output_tokens: 494379917
+          reasoning_tokens: 1516424369
           status: success
           timestamp: 2000-01-23T04:56:07.000+00:00
         - cache_write_1h_tokens: 1294386358
@@ -17539,6 +18296,7 @@ components:
           source_event_id: source_event_id
           model: model
           output_tokens: 494379917
+          reasoning_tokens: 1516424369
           status: success
           timestamp: 2000-01-23T04:56:07.000+00:00
         - cache_write_1h_tokens: 1294386358
@@ -17553,6 +18311,7 @@ components:
           source_event_id: source_event_id
           model: model
           output_tokens: 494379917
+          reasoning_tokens: 1516424369
           status: success
           timestamp: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -17652,6 +18411,7 @@ components:
         source_event_id: source_event_id
         model: model
         output_tokens: 494379917
+        reasoning_tokens: 1516424369
         status: success
         timestamp: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -17706,6 +18466,12 @@ components:
           pattern: "^[A-Za-z0-9._:/\\-]+$"
           title: Provider
           type: string
+        reasoning_tokens:
+          default: 0
+          maximum: 2147483647
+          minimum: 0.0
+          title: Reasoning Tokens
+          type: integer
         session_label:
           maxLength: 256
           nullable: true
@@ -18545,11 +19311,13 @@ components:
         is_active: true
         capture_agent_telemetry: true
         created_at: created_at
+        end_user_budget_id: end_user_budget_id
         key_name: key_name
         workspace_id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         last_used_at: last_used_at
         exclude_from_budget: true
         expires_at: expires_at
+        is_service_key: true
         user_id: user_id
         key_prefix: key_prefix
         reject_user_mismatch: true
@@ -18570,6 +19338,9 @@ components:
         created_at:
           title: Created At
           type: string
+        end_user_budget_id:
+          nullable: true
+          type: string
         exclude_from_budget:
           title: Exclude From Budget
           type: boolean
@@ -18581,6 +19352,9 @@ components:
           type: string
         is_active:
           title: Is Active
+          type: boolean
+        is_service_key:
+          title: Is Service Key
           type: boolean
         key_name:
           nullable: true
@@ -18612,10 +19386,12 @@ components:
       - allowed_models
       - capture_agent_telemetry
       - created_at
+      - end_user_budget_id
       - exclude_from_budget
       - expires_at
       - id
       - is_active
+      - is_service_key
       - key_name
       - key_prefix
       - key_suffix
@@ -19817,6 +20593,34 @@ components:
       required:
       - flagged
       title: ModerationResult
+    NoulCriteria:
+      additionalProperties: {}
+      description: "What a yes and a no each mean, for a ``noul`` question."
+      properties:
+        "false":
+          $ref: "#/components/schemas/False"
+        "true":
+          $ref: "#/components/schemas/True"
+      title: NoulCriteria
+    NoulQuestion:
+      additionalProperties: {}
+      description: "A yes-or-no question, answered with the probability of yes."
+      properties:
+        criteria:
+          allOf:
+          - $ref: "#/components/schemas/NoulCriteria"
+          nullable: true
+        instructions:
+          $ref: "#/components/schemas/Instructions_1"
+        type:
+          enum:
+          - noul
+          title: Type
+          type: string
+      required:
+      - instructions
+      - type
+      title: NoulQuestion
     OAuthCallbackRequest:
       description: |-
         The authorization code a provider handed the browser.
@@ -23847,11 +24651,19 @@ components:
         key.
       example:
         reencrypted: 0
-        unreadable: 6
+        unreadable: 1
+        skipped: 6
       properties:
         reencrypted:
           description: Number of stored provider keys re-encrypted.
           title: Reencrypted
+          type: integer
+        skipped:
+          default: 0
+          description: "Number of rows whose stored key changed between the read and\
+            \ the write, so the re-encryption was not applied. They already hold whoever\
+            \ wrote them last."
+          title: Skipped
           type: integer
         unreadable:
           description: Number of encrypted keys left untouched because they could
@@ -23867,11 +24679,19 @@ components:
         secret key.
       example:
         reencrypted: 0
-        unreadable: 6
+        unreadable: 1
+        skipped: 6
       properties:
         reencrypted:
           description: Number of stored search-tool keys re-encrypted.
           title: Reencrypted
+          type: integer
+        skipped:
+          default: 0
+          description: "Number of rows whose stored key changed between the read and\
+            \ the write, so the re-encryption was not applied. They already hold whoever\
+            \ wrote them last."
+          title: Skipped
           type: integer
         unreadable:
           description: Number of encrypted keys left untouched because they could
@@ -23928,6 +24748,57 @@ components:
       required:
       - message
       title: RequestPasswordResetResponse
+    RequestSettlement:
+      description: |-
+        What one request settled at, summed over every usage row it wrote.
+
+        A routed request writes a row per attempt and a vision-normalized one a row for
+        the describe call, all sharing the ``Otari-Request-ID`` the caller was sent as
+        their ``request_group_id``, so this is the request's whole bill rather than one
+        attempt's. ``cost_usd`` uses the inline ``usage.cost_usd`` format and is null
+        when no row was priced.
+      example:
+        cost_usd: cost_usd
+        completion_tokens: 0
+        prompt_tokens: 6
+        total_tokens: 5
+        request_id: request_id
+        row_count: 1
+        status: success
+      properties:
+        completion_tokens:
+          title: Completion Tokens
+          type: integer
+        cost_usd:
+          nullable: true
+          type: string
+        prompt_tokens:
+          title: Prompt Tokens
+          type: integer
+        request_id:
+          title: Request Id
+          type: string
+        row_count:
+          title: Row Count
+          type: integer
+        status:
+          enum:
+          - success
+          - error
+          title: Status
+          type: string
+        total_tokens:
+          title: Total Tokens
+          type: integer
+      required:
+      - completion_tokens
+      - cost_usd
+      - prompt_tokens
+      - request_id
+      - row_count
+      - status
+      - total_tokens
+      title: RequestSettlement
     RequirementGroup:
       description: |-
         A guardrail-level "at least one of these must be provided" constraint.
@@ -24601,6 +25472,30 @@ components:
       - token_limit
       - updated_at
       title: ScopedBudgetResponse
+    ScoreQuestion:
+      additionalProperties: {}
+      description: A question answered with a level on an ordered scale.
+      properties:
+        criteria:
+          description: "Level descriptions, lowest first"
+          items:
+            $ref: "#/components/schemas/Criteria_inner"
+          maxItems: 10
+          minItems: 2
+          title: Criteria
+          type: array
+        instructions:
+          $ref: "#/components/schemas/Instructions_1"
+        type:
+          enum:
+          - score
+          title: Type
+          type: string
+      required:
+      - criteria
+      - instructions
+      - type
+      title: ScoreQuestion
     ScoredExample:
       description: One prompt and how well each candidate answered it.
       example:
@@ -25623,8 +26518,10 @@ components:
           key: ""
         expires_at: 2000-01-23T04:56:07.000+00:00
         is_active: true
+        is_service_key: true
         capture_agent_telemetry: true
         reject_user_mismatch: true
+        end_user_budget_id: end_user_budget_id
         allowed_models:
         - allowed_models
         - allowed_models
@@ -25637,6 +26534,9 @@ components:
         capture_agent_telemetry:
           nullable: true
           type: boolean
+        end_user_budget_id:
+          nullable: true
+          type: string
         exclude_from_budget:
           nullable: true
           type: boolean
@@ -25645,6 +26545,9 @@ components:
           nullable: true
           type: string
         is_active:
+          nullable: true
+          type: boolean
+        is_service_key:
           nullable: true
           type: boolean
         key_name:
@@ -26090,7 +26993,7 @@ components:
       description: A single usage log entry.
       example:
         completion_tokens: 3
-        status_code: 6
+        status_code: 7
         attempt_position: 6
         cache_read_tokens: 2
         counts_toward_budget: true
@@ -26103,6 +27006,7 @@ components:
         provider: provider
         model: model
         id: id
+        reasoning_tokens: 6
         bulk_editable: true
         timestamp: timestamp
         cache_write_1h_tokens: 7
@@ -26131,7 +27035,7 @@ components:
         request_group_id: request_group_id
         user_id: user_id
         source_label: source_label
-        total_tokens: 7
+        total_tokens: 1
         status: status
       properties:
         api_key_id:
@@ -26198,6 +27102,9 @@ components:
         provider:
           nullable: true
           type: string
+        reasoning_tokens:
+          nullable: true
+          type: integer
         request_group_id:
           nullable: true
           type: string
@@ -26768,13 +27675,14 @@ components:
           cost: 9.369310271410669
           cache_read_tokens: 1
           error_count: 6
-          unpriced_requests: 3
-          request_count: 9
+          unpriced_requests: 6
+          request_count: 6
           billed_input_tokens: 6
           cache_write_tokens: 5
           prompt_tokens: 8
-          total_tokens: 6
+          total_tokens: 3
           avg_latency_ms: 1.4894159098541704
+          reasoning_tokens: 9
         by_tool:
         - cost: 6.027456183070403
           calls: 0
@@ -26994,13 +27902,14 @@ components:
         cost: 9.369310271410669
         cache_read_tokens: 1
         error_count: 6
-        unpriced_requests: 3
-        request_count: 9
+        unpriced_requests: 6
+        request_count: 6
         billed_input_tokens: 6
         cache_write_tokens: 5
         prompt_tokens: 8
-        total_tokens: 6
+        total_tokens: 3
         avg_latency_ms: 1.4894159098541704
+        reasoning_tokens: 9
       properties:
         avg_latency_ms:
           nullable: true
@@ -27034,6 +27943,10 @@ components:
         prompt_tokens:
           title: Prompt Tokens
           type: integer
+        reasoning_tokens:
+          default: 0
+          title: Reasoning Tokens
+          type: integer
         request_count:
           title: Request Count
           type: integer
@@ -27061,10 +27974,12 @@ components:
       example:
         metadata:
           key: ""
+        parent_user_id: parent_user_id
         budget_id: budget_id
         reserved_requests: 5
         created_at: created_at
         current_requests: 0
+        external_id: external_id
         reserved_tokens: 5
         budget_started_at: budget_started_at
         blocked: true
@@ -27105,11 +28020,17 @@ components:
         current_tokens:
           title: Current Tokens
           type: integer
+        external_id:
+          nullable: true
+          type: string
         metadata:
           additionalProperties: true
           title: Metadata
           type: object
         next_budget_reset_at:
+          nullable: true
+          type: string
+        parent_user_id:
           nullable: true
           type: string
         reserved:
@@ -28809,10 +29730,6 @@ components:
           nullable: true
           type: integer
         reasoning_tokens:
-          description: "Filter to a single failure status code (e.g. 429 for provider\
-            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
-            \ one, so this filter also restricts to status='error' unless 'status'\
-            \ is given explicitly"
           nullable: true
           type: integer
         rejected_prediction_tokens:
@@ -32786,6 +33703,367 @@ components:
       required:
       - created
       title: ImagesResponse
+    BATCH_BatchError:
+      additionalProperties: {}
+      properties:
+        code:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+        line:
+          description: "Filter to a single failure status code (e.g. 429 for provider\
+            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
+            \ one, so this filter also restricts to status='error' unless 'status'\
+            \ is given explicitly"
+          nullable: true
+          type: integer
+        message:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+        param:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+      title: BatchError
+    BATCH_BatchRequestCounts:
+      additionalProperties: true
+      description: The request counts for different statuses within the batch.
+      properties:
+        completed:
+          title: Completed
+          type: integer
+        failed:
+          title: Failed
+          type: integer
+        total:
+          title: Total
+          type: integer
+      required:
+      - completed
+      - failed
+      - total
+      title: BatchRequestCounts
+    BATCH_BatchUsage:
+      additionalProperties: true
+      description: |-
+        Represents token usage details including input tokens, output tokens, a
+        breakdown of output tokens, and the total tokens used. Only populated on
+        batches created after September 7, 2025.
+      properties:
+        input_tokens:
+          title: Input Tokens
+          type: integer
+        input_tokens_details:
+          $ref: "#/components/schemas/BATCH_InputTokensDetails"
+        output_tokens:
+          title: Output Tokens
+          type: integer
+        output_tokens_details:
+          $ref: "#/components/schemas/BATCH_OutputTokensDetails"
+        total_tokens:
+          title: Total Tokens
+          type: integer
+      required:
+      - input_tokens
+      - input_tokens_details
+      - output_tokens
+      - output_tokens_details
+      - total_tokens
+      title: BatchUsage
+    BATCH_Errors:
+      additionalProperties: {}
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/BATCH_BatchError"
+          nullable: true
+          type: array
+        object:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+      title: Errors
+    BATCH_InputTokensDetails:
+      additionalProperties: true
+      description: A detailed breakdown of the input tokens.
+      properties:
+        cached_tokens:
+          title: Cached Tokens
+          type: integer
+      required:
+      - cached_tokens
+      title: InputTokensDetails
+    BATCH_OutputTokensDetails:
+      additionalProperties: true
+      description: A detailed breakdown of the output tokens.
+      properties:
+        reasoning_tokens:
+          title: Reasoning Tokens
+          type: integer
+      required:
+      - reasoning_tokens
+      title: OutputTokensDetails
+    BatchResponse:
+      additionalProperties: {}
+      example:
+        cancelled_at: 6
+        metadata:
+          key: metadata
+        request_counts: ""
+        input_file_id: input_file_id
+        output_file_id: output_file_id
+        usage: ""
+        error_file_id: error_file_id
+        created_at: 0
+        in_progress_at: 3
+        expired_at: 5
+        finalizing_at: 9
+        completed_at: 5
+        endpoint: endpoint
+        cancelling_at: 1
+        expires_at: 2
+        provider: provider
+        completion_window: completion_window
+        model: model
+        id: id
+        failed_at: 7
+        errors: ""
+        object: batch
+        status: validating
+      properties:
+        id:
+          title: Id
+          type: string
+        completion_window:
+          title: Completion Window
+          type: string
+        created_at:
+          title: Created At
+          type: integer
+        endpoint:
+          title: Endpoint
+          type: string
+        input_file_id:
+          title: Input File Id
+          type: string
+        object:
+          enum:
+          - batch
+          title: Object
+          type: string
+        status:
+          enum:
+          - validating
+          - failed
+          - in_progress
+          - finalizing
+          - completed
+          - expired
+          - cancelling
+          - cancelled
+          title: Status
+          type: string
+        cancelled_at:
+          description: "Filter to a single failure status code (e.g. 429 for provider\
+            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
+            \ one, so this filter also restricts to status='error' unless 'status'\
+            \ is given explicitly"
+          nullable: true
+          type: integer
+        cancelling_at:
+          description: "Filter to a single failure status code (e.g. 429 for provider\
+            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
+            \ one, so this filter also restricts to status='error' unless 'status'\
+            \ is given explicitly"
+          nullable: true
+          type: integer
+        completed_at:
+          description: "Filter to a single failure status code (e.g. 429 for provider\
+            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
+            \ one, so this filter also restricts to status='error' unless 'status'\
+            \ is given explicitly"
+          nullable: true
+          type: integer
+        error_file_id:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+        errors:
+          allOf:
+          - $ref: "#/components/schemas/BATCH_Errors"
+          nullable: true
+        expired_at:
+          description: "Filter to a single failure status code (e.g. 429 for provider\
+            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
+            \ one, so this filter also restricts to status='error' unless 'status'\
+            \ is given explicitly"
+          nullable: true
+          type: integer
+        expires_at:
+          nullable: true
+          type: integer
+        failed_at:
+          description: "Filter to a single failure status code (e.g. 429 for provider\
+            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
+            \ one, so this filter also restricts to status='error' unless 'status'\
+            \ is given explicitly"
+          nullable: true
+          type: integer
+        finalizing_at:
+          description: "Filter to a single failure status code (e.g. 429 for provider\
+            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
+            \ one, so this filter also restricts to status='error' unless 'status'\
+            \ is given explicitly"
+          nullable: true
+          type: integer
+        in_progress_at:
+          description: "Filter to a single failure status code (e.g. 429 for provider\
+            \ rate limits, 402 for missing-pricing rejections). Only error rows carry\
+            \ one, so this filter also restricts to status='error' unless 'status'\
+            \ is given explicitly"
+          nullable: true
+          type: integer
+        metadata:
+          additionalProperties:
+            type: string
+          nullable: true
+        model:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+        output_file_id:
+          description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+            \ 'claude_code.commit.count')"
+          nullable: true
+          type: string
+        request_counts:
+          allOf:
+          - $ref: "#/components/schemas/BATCH_BatchRequestCounts"
+          nullable: true
+        usage:
+          allOf:
+          - $ref: "#/components/schemas/BATCH_BatchUsage"
+          nullable: true
+        provider:
+          description: Provider instance that owns the batch.
+          type: string
+      required:
+      - completion_window
+      - created_at
+      - endpoint
+      - id
+      - input_file_id
+      - object
+      - provider
+      - status
+      title: Batch
+    BatchListResponse:
+      example:
+        data:
+        - cancelled_at: 6
+          metadata:
+            key: metadata
+          request_counts: ""
+          input_file_id: input_file_id
+          output_file_id: output_file_id
+          usage: ""
+          error_file_id: error_file_id
+          created_at: 0
+          in_progress_at: 3
+          expired_at: 5
+          finalizing_at: 9
+          completed_at: 5
+          endpoint: endpoint
+          cancelling_at: 1
+          expires_at: 2
+          provider: provider
+          completion_window: completion_window
+          model: model
+          id: id
+          failed_at: 7
+          errors: ""
+          object: batch
+          status: validating
+        - cancelled_at: 6
+          metadata:
+            key: metadata
+          request_counts: ""
+          input_file_id: input_file_id
+          output_file_id: output_file_id
+          usage: ""
+          error_file_id: error_file_id
+          created_at: 0
+          in_progress_at: 3
+          expired_at: 5
+          finalizing_at: 9
+          completed_at: 5
+          endpoint: endpoint
+          cancelling_at: 1
+          expires_at: 2
+          provider: provider
+          completion_window: completion_window
+          model: model
+          id: id
+          failed_at: 7
+          errors: ""
+          object: batch
+          status: validating
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/BatchResponse"
+          type: array
+      required:
+      - data
+    BatchResultItem:
+      example:
+        result: ""
+        custom_id: custom_id
+        error:
+          code: code
+          message: message
+      properties:
+        custom_id:
+          description: Identifier supplied for this request in the batch.
+          type: string
+        result:
+          allOf:
+          - $ref: "#/components/schemas/ChatCompletion"
+          description: "Serialized provider result, or null when the request failed."
+          nullable: true
+        error:
+          $ref: "#/components/schemas/BatchResultItem_error"
+      required:
+      - custom_id
+      - error
+      - result
+    BatchResultsResponse:
+      example:
+        results:
+        - result: ""
+          custom_id: custom_id
+          error:
+            code: code
+            message: message
+        - result: ""
+          custom_id: custom_id
+          error:
+            code: code
+            message: message
+      properties:
+        results:
+          items:
+            $ref: "#/components/schemas/BatchResultItem"
+          type: array
+      required:
+      - results
     FreeFormObject:
       additionalProperties: true
       type: object
@@ -32876,6 +34154,34 @@ components:
         nullable: true
         type: object
       - $ref: "#/components/schemas/FreeFormObject"
+    Criteria_value:
+      anyOf:
+      - description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+          \ 'claude_code.commit.count')"
+        nullable: true
+        type: string
+      - additionalProperties: true
+        description: "Provider-native request fields used as defaults (e.g. exa's\
+          \ 'type', searxng's 'engines')."
+        nullable: true
+        type: object
+      - items: {}
+        type: array
+      nullable: true
+    Instructions:
+      anyOf:
+      - description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+          \ 'claude_code.commit.count')"
+        nullable: true
+        type: string
+      - additionalProperties: true
+        description: "Provider-native request fields used as defaults (e.g. exa's\
+          \ 'type', searxng's 'engines')."
+        nullable: true
+        type: object
+      - items: {}
+        type: array
+      title: Instructions
     Value:
       anyOf:
       - type: boolean
@@ -32895,6 +34201,32 @@ components:
         type: array
       nullable: true
       title: System
+    Questions_value:
+      discriminator:
+        mapping:
+          choice: "#/components/schemas/ChoiceQuestion"
+          noul: "#/components/schemas/NoulQuestion"
+          score: "#/components/schemas/ScoreQuestion"
+        propertyName: type
+      oneOf:
+      - $ref: "#/components/schemas/NoulQuestion"
+      - $ref: "#/components/schemas/ChoiceQuestion"
+      - $ref: "#/components/schemas/ScoreQuestion"
+    State:
+      anyOf:
+      - description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+          \ 'claude_code.commit.count')"
+        nullable: true
+        type: string
+      - additionalProperties: true
+        description: "Provider-native request fields used as defaults (e.g. exa's\
+          \ 'type', searxng's 'engines')."
+        nullable: true
+        type: object
+      - items: {}
+        type: array
+      description: The content the questions are about
+      title: State
     Resource:
       anyOf:
       - $ref: "#/components/schemas/TextResourceContents"
@@ -32941,6 +34273,44 @@ components:
         type: array
       description: "Text, list of texts, or list of content-part dicts to moderate"
       title: Input
+    "False":
+      anyOf:
+      - description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+          \ 'claude_code.commit.count')"
+        nullable: true
+        type: string
+      - additionalProperties: true
+        description: "Provider-native request fields used as defaults (e.g. exa's\
+          \ 'type', searxng's 'engines')."
+        nullable: true
+        type: object
+      - items: {}
+        type: array
+      nullable: true
+      title: "False"
+    "True":
+      anyOf:
+      - description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+          \ 'claude_code.commit.count')"
+        nullable: true
+        type: string
+      - additionalProperties: true
+        description: "Provider-native request fields used as defaults (e.g. exa's\
+          \ 'type', searxng's 'engines')."
+        nullable: true
+        type: object
+      - items: {}
+        type: array
+      nullable: true
+      title: "True"
+    Instructions_1:
+      anyOf:
+      - type: string
+      - additionalProperties: true
+        type: object
+      - items: {}
+        type: array
+      title: Instructions
     Conversation:
       anyOf:
       - description: "Filter to a single event type or metric name (e.g. 'tool_result',\
@@ -32961,6 +34331,19 @@ components:
         type: object
       nullable: true
       title: Tool Choice
+    Criteria_inner:
+      anyOf:
+      - description: "Filter to a single event type or metric name (e.g. 'tool_result',\
+          \ 'claude_code.commit.count')"
+        nullable: true
+        type: string
+      - additionalProperties: true
+        description: "Provider-native request fields used as defaults (e.g. exa's\
+          \ 'type', searxng's 'engines')."
+        nullable: true
+        type: object
+      - items: {}
+        type: array
     Units:
       anyOf:
       - type: integer
@@ -33246,6 +34629,19 @@ components:
       - $ref: "#/components/schemas/MR_BetaContainerUploadBlock"
       - $ref: "#/components/schemas/MR_BetaCompactionBlock"
       - $ref: "#/components/schemas/MR_BetaFallbackBlock"
+    BatchResultItem_error:
+      example:
+        code: code
+        message: message
+      nullable: true
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+      - code
+      - message
   securitySchemes:
     ApiKeyAuth:
       description: Enter your API key here (sent as Otari-Key header).

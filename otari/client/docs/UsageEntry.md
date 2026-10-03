@@ -25,6 +25,7 @@ Name | Type | Description | Notes
 **PricingBreakdown** | [**[]UsageEntryPricingBreakdownInner**](UsageEntryPricingBreakdownInner.md) |  | 
 **PromptTokens** | **NullableInt32** |  | 
 **Provider** | **NullableString** |  | 
+**ReasoningTokens** | Pointer to **NullableInt32** |  | [optional] 
 **RequestGroupId** | Pointer to **NullableString** |  | [optional] 
 **SelectionReason** | Pointer to **NullableString** |  | [optional] 
 **Source** | **string** |  | 
@@ -655,6 +656,41 @@ SetProvider sets Provider field to given value.
 `func (o *UsageEntry) UnsetProvider()`
 
 UnsetProvider ensures that no value is present for Provider, not even an explicit nil
+### GetReasoningTokens
+
+`func (o *UsageEntry) GetReasoningTokens() int32`
+
+GetReasoningTokens returns the ReasoningTokens field if non-nil, zero value otherwise.
+
+### GetReasoningTokensOk
+
+`func (o *UsageEntry) GetReasoningTokensOk() (*int32, bool)`
+
+GetReasoningTokensOk returns a tuple with the ReasoningTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReasoningTokens
+
+`func (o *UsageEntry) SetReasoningTokens(v int32)`
+
+SetReasoningTokens sets ReasoningTokens field to given value.
+
+### HasReasoningTokens
+
+`func (o *UsageEntry) HasReasoningTokens() bool`
+
+HasReasoningTokens returns a boolean if a field has been set.
+
+### SetReasoningTokensNil
+
+`func (o *UsageEntry) SetReasoningTokensNil(b bool)`
+
+ SetReasoningTokensNil sets the value for ReasoningTokens to be an explicit nil
+
+### UnsetReasoningTokens
+`func (o *UsageEntry) UnsetReasoningTokens()`
+
+UnsetReasoningTokens ensures that no value is present for ReasoningTokens, not even an explicit nil
 ### GetRequestGroupId
 
 `func (o *UsageEntry) GetRequestGroupId() string`
