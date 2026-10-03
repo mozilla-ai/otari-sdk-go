@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 
 ## MessagesCreateMessage
 
-> MessageResponse MessagesCreateMessage(ctx).MessagesRequest(messagesRequest).Execute()
+> MessageResponse MessagesCreateMessage(ctx).MessagesRequest(messagesRequest).IdempotencyKey(idempotencyKey).Execute()
 
 Create Message
 
@@ -97,10 +97,11 @@ import (
 
 func main() {
 	messagesRequest := *openapiclient.NewMessagesRequest(int32(123), []map[string]interface{}{map[string]interface{}{"key": interface{}(123)}}, "Model_example") // MessagesRequest | 
+	idempotencyKey := "idempotencyKey_example" // string | A unique value, such as a UUID, that makes a non-streaming request safe to retry. A retry with the same key and body returns the original response, request ID and cost without calling the provider or billing again. A retry while the original is still running is answered 409 with Retry-After. Reusing a key for a different body is refused with 422. Ignored for streaming requests, in hybrid mode, and on a deployment without OTARI_SECRET_KEY, which encrypts the stored response. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MessagesAPI.MessagesCreateMessage(context.Background()).MessagesRequest(messagesRequest).Execute()
+	resp, r, err := apiClient.MessagesAPI.MessagesCreateMessage(context.Background()).MessagesRequest(messagesRequest).IdempotencyKey(idempotencyKey).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MessagesAPI.MessagesCreateMessage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -122,6 +123,7 @@ Other parameters are passed through a pointer to a apiMessagesCreateMessageReque
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **messagesRequest** | [**MessagesRequest**](MessagesRequest.md) |  | 
+ **idempotencyKey** | **string** | A unique value, such as a UUID, that makes a non-streaming request safe to retry. A retry with the same key and body returns the original response, request ID and cost without calling the provider or billing again. A retry while the original is still running is answered 409 with Retry-After. Reusing a key for a different body is refused with 422. Ignored for streaming requests, in hybrid mode, and on a deployment without OTARI_SECRET_KEY, which encrypts the stored response. | 
 
 ### Return type
 

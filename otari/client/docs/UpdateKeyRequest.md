@@ -6,9 +6,11 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | Pointer to **[]string** |  | [optional] 
 **CaptureAgentTelemetry** | Pointer to **NullableBool** |  | [optional] 
+**EndUserBudgetId** | Pointer to **NullableString** |  | [optional] 
 **ExcludeFromBudget** | Pointer to **NullableBool** |  | [optional] 
 **ExpiresAt** | Pointer to **NullableTime** |  | [optional] 
 **IsActive** | Pointer to **NullableBool** |  | [optional] 
+**IsServiceKey** | Pointer to **NullableBool** |  | [optional] 
 **KeyName** | Pointer to **NullableString** |  | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
 **RejectUserMismatch** | Pointer to **NullableBool** |  | [optional] 
@@ -102,6 +104,41 @@ HasCaptureAgentTelemetry returns a boolean if a field has been set.
 `func (o *UpdateKeyRequest) UnsetCaptureAgentTelemetry()`
 
 UnsetCaptureAgentTelemetry ensures that no value is present for CaptureAgentTelemetry, not even an explicit nil
+### GetEndUserBudgetId
+
+`func (o *UpdateKeyRequest) GetEndUserBudgetId() string`
+
+GetEndUserBudgetId returns the EndUserBudgetId field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdOk
+
+`func (o *UpdateKeyRequest) GetEndUserBudgetIdOk() (*string, bool)`
+
+GetEndUserBudgetIdOk returns a tuple with the EndUserBudgetId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetId
+
+`func (o *UpdateKeyRequest) SetEndUserBudgetId(v string)`
+
+SetEndUserBudgetId sets EndUserBudgetId field to given value.
+
+### HasEndUserBudgetId
+
+`func (o *UpdateKeyRequest) HasEndUserBudgetId() bool`
+
+HasEndUserBudgetId returns a boolean if a field has been set.
+
+### SetEndUserBudgetIdNil
+
+`func (o *UpdateKeyRequest) SetEndUserBudgetIdNil(b bool)`
+
+ SetEndUserBudgetIdNil sets the value for EndUserBudgetId to be an explicit nil
+
+### UnsetEndUserBudgetId
+`func (o *UpdateKeyRequest) UnsetEndUserBudgetId()`
+
+UnsetEndUserBudgetId ensures that no value is present for EndUserBudgetId, not even an explicit nil
 ### GetExcludeFromBudget
 
 `func (o *UpdateKeyRequest) GetExcludeFromBudget() bool`
@@ -207,6 +244,41 @@ HasIsActive returns a boolean if a field has been set.
 `func (o *UpdateKeyRequest) UnsetIsActive()`
 
 UnsetIsActive ensures that no value is present for IsActive, not even an explicit nil
+### GetIsServiceKey
+
+`func (o *UpdateKeyRequest) GetIsServiceKey() bool`
+
+GetIsServiceKey returns the IsServiceKey field if non-nil, zero value otherwise.
+
+### GetIsServiceKeyOk
+
+`func (o *UpdateKeyRequest) GetIsServiceKeyOk() (*bool, bool)`
+
+GetIsServiceKeyOk returns a tuple with the IsServiceKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIsServiceKey
+
+`func (o *UpdateKeyRequest) SetIsServiceKey(v bool)`
+
+SetIsServiceKey sets IsServiceKey field to given value.
+
+### HasIsServiceKey
+
+`func (o *UpdateKeyRequest) HasIsServiceKey() bool`
+
+HasIsServiceKey returns a boolean if a field has been set.
+
+### SetIsServiceKeyNil
+
+`func (o *UpdateKeyRequest) SetIsServiceKeyNil(b bool)`
+
+ SetIsServiceKeyNil sets the value for IsServiceKey to be an explicit nil
+
+### UnsetIsServiceKey
+`func (o *UpdateKeyRequest) UnsetIsServiceKey()`
+
+UnsetIsServiceKey ensures that no value is present for IsServiceKey, not even an explicit nil
 ### GetKeyName
 
 `func (o *UpdateKeyRequest) GetKeyName() string`
