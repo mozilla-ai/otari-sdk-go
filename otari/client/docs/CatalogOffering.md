@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ContextWindow** | Pointer to **NullableInt32** |  | [optional] 
-**Credential** | [**CatalogCredential**](CatalogCredential.md) | Who may price it: &#x60;deployment&#x60; for a &#x60;providers:&#x60; instance the operator configured, &#x60;hosted&#x60; for a provider the deployment pays for in any workspace of the viewer&#39;s organization, &#x60;organization&#x60; for one the viewer&#39;s organization may set its own rate for. A workspace can still call a &#x60;hosted&#x60; provider with the organization&#39;s own key. | 
+**Credential** | [**CatalogCredential**](CatalogCredential.md) | Whose key serves it: &#x60;deployment&#x60; for a &#x60;providers:&#x60; instance the operator configured, &#x60;hosted&#x60; for a provider the deployment pays for in any workspace of the viewer&#39;s organization, &#x60;organization&#x60; for one on the organization&#39;s own key, which it may set its own rate for. A workspace can still call a &#x60;hosted&#x60; provider with the organization&#39;s own key. | 
 **Discovered** | **bool** | Whether the provider itself reported this model. | 
 **MaxOutputTokens** | Pointer to **NullableInt32** |  | [optional] 
 **MetadataInputPricePerMillion** | Pointer to **NullableFloat32** | What models.dev lists this provider charging, for a cross-check. Not billed from: two independent datasets disagreeing is the cheapest stale-price detector there is. | [optional] 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **ProviderType** | **string** | The any-llm implementation behind the instance. | 
 **Quantization** | Pointer to **NullableString** | From the provider&#39;s id, when it names one. | [optional] 
 **Selector** | **string** | What to send as &#x60;model&#x60;, in &#x60;instance:model&#x60; form. | 
-**ShortSelector** | Pointer to **NullableString** | The pinned spelling the gateway also accepts for this offering: the instance with the model&#39;s catalog id (&#x60;fireworks:openai/gpt-oss-120b&#x60;), which pins the instance and reaches the model&#39;s cheapest offering on it. Null for a dearer sibling on the same instance, or until the gateway has indexed the catalog. | [optional] 
+**ShortSelector** | Pointer to **NullableString** | The pinned spelling the gateway also accepts for this offering: the instance with the model&#39;s catalog id (&#x60;fireworks:openai/gpt-oss-120b&#x60;), which pins the instance and reaches the model&#39;s best offering on it. Null for another build on the same instance, or until the gateway has indexed the catalog. | [optional] 
 **Usage30d** | Pointer to [**NullableOfferingUsage**](OfferingUsage.md) |  | [optional] 
 
 ## Methods

@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**RoutingListPolicies**](RoutingAPI.md#RoutingListPolicies) | **Get** /api/v1/routing/policies | List Policies
 [**RoutingListVisibleRoutingPolicies**](RoutingAPI.md#RoutingListVisibleRoutingPolicies) | **Get** /api/v1/organizations/me/routing-policies | List Visible Routing Policies
 [**RoutingRankCandidates**](RoutingAPI.md#RoutingRankCandidates) | **Post** /api/v1/routing/preferences/rank | Rank Candidates
+[**RoutingRecommendModelForAgent**](RoutingAPI.md#RoutingRecommendModelForAgent) | **Post** /api/v1/routing/recommend | Recommend Model For Agent
 [**RoutingRoutingMemoryStatus**](RoutingAPI.md#RoutingRoutingMemoryStatus) | **Get** /api/v1/routing/status | Routing Memory Status
 [**RoutingSetOrganizationRoutingPolicy**](RoutingAPI.md#RoutingSetOrganizationRoutingPolicy) | **Post** /api/v1/organizations/me/routing-policies | Set Organization Routing Policy
 [**RoutingSetPolicy**](RoutingAPI.md#RoutingSetPolicy) | **Post** /api/v1/routing/policies | Set Policy
@@ -409,6 +410,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**RankResponse**](RankResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RoutingRecommendModelForAgent
+
+> AgentModelRecommendation RoutingRecommendModelForAgent(ctx).AgentModelRecommendationRequest(agentModelRecommendationRequest).Execute()
+
+Recommend Model For Agent
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	agentModelRecommendationRequest := *openapiclient.NewAgentModelRecommendationRequest("AgentType_example", "Harness_example", "ParentModel_example", "Prompt_example", "SessionId_example", "ToolUseId_example") // AgentModelRecommendationRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.RoutingAPI.RoutingRecommendModelForAgent(context.Background()).AgentModelRecommendationRequest(agentModelRecommendationRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `RoutingAPI.RoutingRecommendModelForAgent``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RoutingRecommendModelForAgent`: AgentModelRecommendation
+	fmt.Fprintf(os.Stdout, "Response from `RoutingAPI.RoutingRecommendModelForAgent`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRoutingRecommendModelForAgentRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **agentModelRecommendationRequest** | [**AgentModelRecommendationRequest**](AgentModelRecommendationRequest.md) |  | 
+
+### Return type
+
+[**AgentModelRecommendation**](AgentModelRecommendation.md)
 
 ### Authorization
 

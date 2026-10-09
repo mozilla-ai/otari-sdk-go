@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **BlockedDomains** | Pointer to **[]string** | Filters Search results and blocks initial and redirected Fetch destinations; added to any list the request sends | [optional] 
 **Enabled** | **bool** | False refuses web access for this workspace through otari_web_search, otari_web_fetch, and POST /api/v1/search. | 
 **MaxResults** | Pointer to **NullableInt32** | Search only: ceiling on results one search returns; only ever lowers the effective limit, so at most 20 | [optional] 
-**ProviderOptions** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**ProviderOptions** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **PurposeHint** | Pointer to **NullableString** | Search only: hint used when a request declares otari_web_search without one of its own | [optional] 
 
 ## Methods

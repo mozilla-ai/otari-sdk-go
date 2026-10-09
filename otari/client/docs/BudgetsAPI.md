@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**BudgetsGetBudget**](BudgetsAPI.md#BudgetsGetBudget) | **Get** /api/v1/budgets/{budget_id} | Get Budget
 [**BudgetsListBudgetResetLogs**](BudgetsAPI.md#BudgetsListBudgetResetLogs) | **Get** /api/v1/budgets/{budget_id}/reset-logs | List Budget Reset Logs
 [**BudgetsListBudgets**](BudgetsAPI.md#BudgetsListBudgets) | **Get** /api/v1/budgets | List Budgets
+[**BudgetsPutBudget**](BudgetsAPI.md#BudgetsPutBudget) | **Put** /api/v1/budgets/{budget_id} | Put Budget
 [**BudgetsUpdateBudget**](BudgetsAPI.md#BudgetsUpdateBudget) | **Patch** /api/v1/budgets/{budget_id} | Update Budget
 
 
@@ -352,6 +353,78 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## BudgetsPutBudget
+
+> BudgetResponse BudgetsPutBudget(ctx, budgetId).CreateBudgetRequest(createBudgetRequest).Execute()
+
+Put Budget
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	budgetId := "budgetId_example" // string | An id you choose: up to 128 letters, digits, '.', '_' and '-', starting with a letter or digit
+	createBudgetRequest := *openapiclient.NewCreateBudgetRequest() // CreateBudgetRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BudgetsAPI.BudgetsPutBudget(context.Background(), budgetId).CreateBudgetRequest(createBudgetRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BudgetsAPI.BudgetsPutBudget``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `BudgetsPutBudget`: BudgetResponse
+	fmt.Fprintf(os.Stdout, "Response from `BudgetsAPI.BudgetsPutBudget`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**budgetId** | **string** | An id you choose: up to 128 letters, digits, &#39;.&#39;, &#39;_&#39; and &#39;-&#39;, starting with a letter or digit | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiBudgetsPutBudgetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **createBudgetRequest** | [**CreateBudgetRequest**](CreateBudgetRequest.md) |  | 
+
+### Return type
+
+[**BudgetResponse**](BudgetResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

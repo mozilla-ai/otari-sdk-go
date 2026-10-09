@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **ModelKey** | **string** | Model identifier in &#39;provider:model&#39; form, matching the key the deployment price list uses. A provider instance name is valid here (&#39;home_lab:llama-3&#39;), because pricing keys on the instance a request resolves to. | 
 **OutputPricePerMillion** | **float32** | Price per 1M output tokens | 
 **PricingTiers** | Pointer to [**[]PricingTier**](PricingTier.md) | Whole-request context thresholds. Fields omitted by a tier inherit the base rate. | [optional] 
-**Unit** | Pointer to **string** | What the rates are per: tokens for a model, requests or images for a non-token endpoint. | [optional] [default to "tokens"]
+**Unit** | Pointer to **string** | What the rates are per: tokens for a model, requests or images for a non-token endpoint. A completion model priced per requests is charged one request per successful call. | [optional] [default to "tokens"]
 
 ## Methods
 
