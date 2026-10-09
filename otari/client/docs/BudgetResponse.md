@@ -12,9 +12,11 @@ Name | Type | Description | Notes
 **OrganizationId** | **NullableString** |  | 
 **RequestLimit** | **NullableInt32** |  | 
 **ResetAlignment** | **NullableString** |  | 
+**RpmLimit** | Pointer to **NullableInt32** |  | [optional] 
 **TokenLimit** | **NullableInt32** |  | 
 **TotalReserved** | Pointer to **float32** |  | [optional] [default to 0.0]
 **TotalSpend** | Pointer to **float32** |  | [optional] [default to 0.0]
+**TpmLimit** | Pointer to **NullableInt32** |  | [optional] 
 **UpdatedAt** | **string** |  | 
 **UserCount** | Pointer to **int32** |  | [optional] [default to 0]
 
@@ -257,6 +259,41 @@ SetResetAlignment sets ResetAlignment field to given value.
 `func (o *BudgetResponse) UnsetResetAlignment()`
 
 UnsetResetAlignment ensures that no value is present for ResetAlignment, not even an explicit nil
+### GetRpmLimit
+
+`func (o *BudgetResponse) GetRpmLimit() int32`
+
+GetRpmLimit returns the RpmLimit field if non-nil, zero value otherwise.
+
+### GetRpmLimitOk
+
+`func (o *BudgetResponse) GetRpmLimitOk() (*int32, bool)`
+
+GetRpmLimitOk returns a tuple with the RpmLimit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRpmLimit
+
+`func (o *BudgetResponse) SetRpmLimit(v int32)`
+
+SetRpmLimit sets RpmLimit field to given value.
+
+### HasRpmLimit
+
+`func (o *BudgetResponse) HasRpmLimit() bool`
+
+HasRpmLimit returns a boolean if a field has been set.
+
+### SetRpmLimitNil
+
+`func (o *BudgetResponse) SetRpmLimitNil(b bool)`
+
+ SetRpmLimitNil sets the value for RpmLimit to be an explicit nil
+
+### UnsetRpmLimit
+`func (o *BudgetResponse) UnsetRpmLimit()`
+
+UnsetRpmLimit ensures that no value is present for RpmLimit, not even an explicit nil
 ### GetTokenLimit
 
 `func (o *BudgetResponse) GetTokenLimit() int32`
@@ -337,6 +374,41 @@ SetTotalSpend sets TotalSpend field to given value.
 
 HasTotalSpend returns a boolean if a field has been set.
 
+### GetTpmLimit
+
+`func (o *BudgetResponse) GetTpmLimit() int32`
+
+GetTpmLimit returns the TpmLimit field if non-nil, zero value otherwise.
+
+### GetTpmLimitOk
+
+`func (o *BudgetResponse) GetTpmLimitOk() (*int32, bool)`
+
+GetTpmLimitOk returns a tuple with the TpmLimit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTpmLimit
+
+`func (o *BudgetResponse) SetTpmLimit(v int32)`
+
+SetTpmLimit sets TpmLimit field to given value.
+
+### HasTpmLimit
+
+`func (o *BudgetResponse) HasTpmLimit() bool`
+
+HasTpmLimit returns a boolean if a field has been set.
+
+### SetTpmLimitNil
+
+`func (o *BudgetResponse) SetTpmLimitNil(b bool)`
+
+ SetTpmLimitNil sets the value for TpmLimit to be an explicit nil
+
+### UnsetTpmLimit
+`func (o *BudgetResponse) UnsetTpmLimit()`
+
+UnsetTpmLimit ensures that no value is present for TpmLimit, not even an explicit nil
 ### GetUpdatedAt
 
 `func (o *BudgetResponse) GetUpdatedAt() string`

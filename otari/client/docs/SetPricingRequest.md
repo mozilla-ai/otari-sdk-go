@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **ModelKey** | **string** | Model identifier in format &#39;provider:model&#39; | 
 **OutputPricePerMillion** | **float32** | Price per 1M output tokens | 
 **PricingTiers** | Pointer to [**[]PricingTier**](PricingTier.md) | Whole-request context thresholds. Fields omitted by a tier inherit the base rate. | [optional] 
-**Unit** | Pointer to **string** | What the rates are per: &#39;tokens&#39; for a model, &#39;requests&#39; for a gateway-run tool or a moderation call (USD per million requests), &#39;images&#39; for image generation. | [optional] [default to "tokens"]
+**Unit** | Pointer to **string** | What the rates are per: &#39;tokens&#39; for a model, &#39;requests&#39; for a gateway-run tool, a moderation call, or a completion model billed per call (USD per million requests), &#39;images&#39; for image generation. | [optional] [default to "tokens"]
 
 ## Methods
 

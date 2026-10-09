@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **OutputPricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
 **PriceSource** | Pointer to **NullableString** |  | [optional] 
 **PricingId** | Pointer to **NullableString** |  | [optional] 
+**Unit** | Pointer to **string** |  | [optional] [default to "tokens"]
 **UpdatedAt** | Pointer to **NullableTime** |  | [optional] 
 
 ## Methods
@@ -382,6 +383,31 @@ HasPricingId returns a boolean if a field has been set.
 `func (o *OrgProviderKeyModelPublic) UnsetPricingId()`
 
 UnsetPricingId ensures that no value is present for PricingId, not even an explicit nil
+### GetUnit
+
+`func (o *OrgProviderKeyModelPublic) GetUnit() string`
+
+GetUnit returns the Unit field if non-nil, zero value otherwise.
+
+### GetUnitOk
+
+`func (o *OrgProviderKeyModelPublic) GetUnitOk() (*string, bool)`
+
+GetUnitOk returns a tuple with the Unit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnit
+
+`func (o *OrgProviderKeyModelPublic) SetUnit(v string)`
+
+SetUnit sets Unit field to given value.
+
+### HasUnit
+
+`func (o *OrgProviderKeyModelPublic) HasUnit() bool`
+
+HasUnit returns a boolean if a field has been set.
+
 ### GetUpdatedAt
 
 `func (o *OrgProviderKeyModelPublic) GetUpdatedAt() time.Time`

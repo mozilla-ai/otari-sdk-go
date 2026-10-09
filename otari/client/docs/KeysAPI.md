@@ -6,9 +6,12 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**KeysCreateKey**](KeysAPI.md#KeysCreateKey) | **Post** /api/v1/keys | Create Key
 [**KeysDeleteKey**](KeysAPI.md#KeysDeleteKey) | **Delete** /api/v1/keys/{key_id} | Delete Key
+[**KeysGetEndUser**](KeysAPI.md#KeysGetEndUser) | **Get** /api/v1/keys/{key_id}/end-users/{external_id} | Get End User
 [**KeysGetKey**](KeysAPI.md#KeysGetKey) | **Get** /api/v1/keys/{key_id} | Get Key
 [**KeysListKeys**](KeysAPI.md#KeysListKeys) | **Get** /api/v1/keys | List Keys
+[**KeysPutEndUser**](KeysAPI.md#KeysPutEndUser) | **Put** /api/v1/keys/{key_id}/end-users/{external_id} | Put End User
 [**KeysRotateKey**](KeysAPI.md#KeysRotateKey) | **Post** /api/v1/keys/{key_id}/rotate | Rotate Key
+[**KeysUpdateEndUser**](KeysAPI.md#KeysUpdateEndUser) | **Patch** /api/v1/keys/{key_id}/end-users/{external_id} | Update End User
 [**KeysUpdateKey**](KeysAPI.md#KeysUpdateKey) | **Patch** /api/v1/keys/{key_id} | Update Key
 
 
@@ -132,6 +135,79 @@ Name | Type | Description  | Notes
 ### Return type
 
  (empty response body)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## KeysGetEndUser
+
+> EndUserPublic KeysGetEndUser(ctx, keyId, externalId).Execute()
+
+Get End User
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "keyId_example" // string | 
+	externalId := "externalId_example" // string | The id the service names the end user by in a request's user field
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.KeysAPI.KeysGetEndUser(context.Background(), keyId, externalId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.KeysGetEndUser``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `KeysGetEndUser`: EndUserPublic
+	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.KeysGetEndUser`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+**externalId** | **string** | The id the service names the end user by in a request&#39;s user field | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiKeysGetEndUserRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+[**EndUserPublic**](EndUserPublic.md)
 
 ### Authorization
 
@@ -287,6 +363,81 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## KeysPutEndUser
+
+> EndUserPublic KeysPutEndUser(ctx, keyId, externalId).EndUserPut(endUserPut).Execute()
+
+Put End User
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "keyId_example" // string | 
+	externalId := "externalId_example" // string | The id the service names the end user by in a request's user field
+	endUserPut := *openapiclient.NewEndUserPut("BudgetId_example") // EndUserPut | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.KeysAPI.KeysPutEndUser(context.Background(), keyId, externalId).EndUserPut(endUserPut).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.KeysPutEndUser``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `KeysPutEndUser`: EndUserPublic
+	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.KeysPutEndUser`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+**externalId** | **string** | The id the service names the end user by in a request&#39;s user field | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiKeysPutEndUserRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **endUserPut** | [**EndUserPut**](EndUserPut.md) |  | 
+
+### Return type
+
+[**EndUserPublic**](EndUserPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## KeysRotateKey
 
 > CreateKeyResponse KeysRotateKey(ctx, keyId).Execute()
@@ -350,6 +501,81 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## KeysUpdateEndUser
+
+> EndUserPublic KeysUpdateEndUser(ctx, keyId, externalId).EndUserUpdate(endUserUpdate).Execute()
+
+Update End User
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "keyId_example" // string | 
+	externalId := "externalId_example" // string | The id the service names the end user by in a request's user field
+	endUserUpdate := *openapiclient.NewEndUserUpdate() // EndUserUpdate | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.KeysAPI.KeysUpdateEndUser(context.Background(), keyId, externalId).EndUserUpdate(endUserUpdate).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `KeysAPI.KeysUpdateEndUser``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `KeysUpdateEndUser`: EndUserPublic
+	fmt.Fprintf(os.Stdout, "Response from `KeysAPI.KeysUpdateEndUser`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+**externalId** | **string** | The id the service names the end user by in a request&#39;s user field | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiKeysUpdateEndUserRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **endUserUpdate** | [**EndUserUpdate**](EndUserUpdate.md) |  | 
+
+### Return type
+
+[**EndUserPublic**](EndUserPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

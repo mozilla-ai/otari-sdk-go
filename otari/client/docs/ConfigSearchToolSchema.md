@@ -5,10 +5,12 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApiBase** | Pointer to **NullableString** |  | [optional] 
+**FetchTool** | Pointer to **NullableString** | A search instance&#39;s enrichment fetch instance. Null means the fetch default enriches it. | [optional] 
 **HasApiKey** | **bool** | Whether the config entry carries an API key. The key itself is not shown. | 
+**Kind** | Pointer to **string** | Whether this is a search or a fetch instance. | [optional] [default to "search"]
 **Name** | **string** |  | 
 **Provider** | **string** |  | 
-**Shadowed** | Pointer to **bool** | True when a stored search tool of the same name overrides this entry. | [optional] [default to false]
+**Shadowed** | Pointer to **bool** | True when a stored instance of the same name and kind overrides this entry. | [optional] [default to false]
 
 ## Methods
 
@@ -64,6 +66,41 @@ HasApiBase returns a boolean if a field has been set.
 `func (o *ConfigSearchToolSchema) UnsetApiBase()`
 
 UnsetApiBase ensures that no value is present for ApiBase, not even an explicit nil
+### GetFetchTool
+
+`func (o *ConfigSearchToolSchema) GetFetchTool() string`
+
+GetFetchTool returns the FetchTool field if non-nil, zero value otherwise.
+
+### GetFetchToolOk
+
+`func (o *ConfigSearchToolSchema) GetFetchToolOk() (*string, bool)`
+
+GetFetchToolOk returns a tuple with the FetchTool field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFetchTool
+
+`func (o *ConfigSearchToolSchema) SetFetchTool(v string)`
+
+SetFetchTool sets FetchTool field to given value.
+
+### HasFetchTool
+
+`func (o *ConfigSearchToolSchema) HasFetchTool() bool`
+
+HasFetchTool returns a boolean if a field has been set.
+
+### SetFetchToolNil
+
+`func (o *ConfigSearchToolSchema) SetFetchToolNil(b bool)`
+
+ SetFetchToolNil sets the value for FetchTool to be an explicit nil
+
+### UnsetFetchTool
+`func (o *ConfigSearchToolSchema) UnsetFetchTool()`
+
+UnsetFetchTool ensures that no value is present for FetchTool, not even an explicit nil
 ### GetHasApiKey
 
 `func (o *ConfigSearchToolSchema) GetHasApiKey() bool`
@@ -83,6 +120,31 @@ and a boolean to check if the value has been set.
 
 SetHasApiKey sets HasApiKey field to given value.
 
+
+### GetKind
+
+`func (o *ConfigSearchToolSchema) GetKind() string`
+
+GetKind returns the Kind field if non-nil, zero value otherwise.
+
+### GetKindOk
+
+`func (o *ConfigSearchToolSchema) GetKindOk() (*string, bool)`
+
+GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKind
+
+`func (o *ConfigSearchToolSchema) SetKind(v string)`
+
+SetKind sets Kind field to given value.
+
+### HasKind
+
+`func (o *ConfigSearchToolSchema) HasKind() bool`
+
+HasKind returns a boolean if a field has been set.
 
 ### GetName
 

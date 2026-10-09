@@ -12,8 +12,10 @@ Name | Type | Description | Notes
 **CreatedAt** | **string** |  | 
 **CurrentRequests** | **int32** |  | 
 **CurrentTokens** | **int32** |  | 
+**ExternalId** | Pointer to **NullableString** |  | [optional] 
 **Metadata** | **map[string]interface{}** |  | 
 **NextBudgetResetAt** | **NullableString** |  | 
+**ParentUserId** | Pointer to **NullableString** |  | [optional] 
 **Reserved** | **float32** |  | 
 **ReservedRequests** | **int32** |  | 
 **ReservedTokens** | **int32** |  | 
@@ -240,6 +242,41 @@ and a boolean to check if the value has been set.
 SetCurrentTokens sets CurrentTokens field to given value.
 
 
+### GetExternalId
+
+`func (o *UserResponse) GetExternalId() string`
+
+GetExternalId returns the ExternalId field if non-nil, zero value otherwise.
+
+### GetExternalIdOk
+
+`func (o *UserResponse) GetExternalIdOk() (*string, bool)`
+
+GetExternalIdOk returns a tuple with the ExternalId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExternalId
+
+`func (o *UserResponse) SetExternalId(v string)`
+
+SetExternalId sets ExternalId field to given value.
+
+### HasExternalId
+
+`func (o *UserResponse) HasExternalId() bool`
+
+HasExternalId returns a boolean if a field has been set.
+
+### SetExternalIdNil
+
+`func (o *UserResponse) SetExternalIdNil(b bool)`
+
+ SetExternalIdNil sets the value for ExternalId to be an explicit nil
+
+### UnsetExternalId
+`func (o *UserResponse) UnsetExternalId()`
+
+UnsetExternalId ensures that no value is present for ExternalId, not even an explicit nil
 ### GetMetadata
 
 `func (o *UserResponse) GetMetadata() map[string]interface{}`
@@ -290,6 +327,41 @@ SetNextBudgetResetAt sets NextBudgetResetAt field to given value.
 `func (o *UserResponse) UnsetNextBudgetResetAt()`
 
 UnsetNextBudgetResetAt ensures that no value is present for NextBudgetResetAt, not even an explicit nil
+### GetParentUserId
+
+`func (o *UserResponse) GetParentUserId() string`
+
+GetParentUserId returns the ParentUserId field if non-nil, zero value otherwise.
+
+### GetParentUserIdOk
+
+`func (o *UserResponse) GetParentUserIdOk() (*string, bool)`
+
+GetParentUserIdOk returns a tuple with the ParentUserId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParentUserId
+
+`func (o *UserResponse) SetParentUserId(v string)`
+
+SetParentUserId sets ParentUserId field to given value.
+
+### HasParentUserId
+
+`func (o *UserResponse) HasParentUserId() bool`
+
+HasParentUserId returns a boolean if a field has been set.
+
+### SetParentUserIdNil
+
+`func (o *UserResponse) SetParentUserIdNil(b bool)`
+
+ SetParentUserIdNil sets the value for ParentUserId to be an explicit nil
+
+### UnsetParentUserId
+`func (o *UserResponse) UnsetParentUserId()`
+
+UnsetParentUserId ensures that no value is present for ParentUserId, not even an explicit nil
 ### GetReserved
 
 `func (o *UserResponse) GetReserved() float32`

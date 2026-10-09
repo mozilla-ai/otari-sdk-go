@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Code** | Pointer to **string** | Stable error code, also sent as the Otari-Error-Code header. | [optional] 
 **Detail** | Pointer to [**[]ValidationError**](ValidationError.md) |  | [optional] 
 
 ## Methods
@@ -24,6 +25,31 @@ will change when the set of required properties is changed
 NewHTTPValidationErrorWithDefaults instantiates a new HTTPValidationError object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetCode
+
+`func (o *HTTPValidationError) GetCode() string`
+
+GetCode returns the Code field if non-nil, zero value otherwise.
+
+### GetCodeOk
+
+`func (o *HTTPValidationError) GetCodeOk() (*string, bool)`
+
+GetCodeOk returns a tuple with the Code field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCode
+
+`func (o *HTTPValidationError) SetCode(v string)`
+
+SetCode sets Code field to given value.
+
+### HasCode
+
+`func (o *HTTPValidationError) HasCode() bool`
+
+HasCode returns a boolean if a field has been set.
 
 ### GetDetail
 

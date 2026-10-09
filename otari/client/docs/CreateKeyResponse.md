@@ -7,10 +7,13 @@ Name | Type | Description | Notes
 **AllowedModels** | **[]string** |  | 
 **CaptureAgentTelemetry** | **NullableBool** |  | 
 **CreatedAt** | **string** |  | 
+**EndUserBudgetId** | **NullableString** |  | 
+**EndUserBudgetIds** | **[]string** |  | 
 **ExcludeFromBudget** | **bool** |  | 
 **ExpiresAt** | **NullableString** |  | 
 **Id** | **string** |  | 
 **IsActive** | **bool** |  | 
+**IsServiceKey** | **bool** |  | 
 **Key** | **string** |  | 
 **KeyName** | **NullableString** |  | 
 **KeyPrefix** | **NullableString** |  | 
@@ -23,7 +26,7 @@ Name | Type | Description | Notes
 
 ### NewCreateKeyResponse
 
-`func NewCreateKeyResponse(allowedModels []string, captureAgentTelemetry NullableBool, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, key string, keyName NullableString, keyPrefix NullableString, keySuffix NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, ) *CreateKeyResponse`
+`func NewCreateKeyResponse(allowedModels []string, captureAgentTelemetry NullableBool, createdAt string, endUserBudgetId NullableString, endUserBudgetIds []string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, isServiceKey bool, key string, keyName NullableString, keyPrefix NullableString, keySuffix NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, ) *CreateKeyResponse`
 
 NewCreateKeyResponse instantiates a new CreateKeyResponse object
 This constructor will assign default values to properties that have it defined,
@@ -118,6 +121,56 @@ and a boolean to check if the value has been set.
 SetCreatedAt sets CreatedAt field to given value.
 
 
+### GetEndUserBudgetId
+
+`func (o *CreateKeyResponse) GetEndUserBudgetId() string`
+
+GetEndUserBudgetId returns the EndUserBudgetId field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdOk
+
+`func (o *CreateKeyResponse) GetEndUserBudgetIdOk() (*string, bool)`
+
+GetEndUserBudgetIdOk returns a tuple with the EndUserBudgetId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetId
+
+`func (o *CreateKeyResponse) SetEndUserBudgetId(v string)`
+
+SetEndUserBudgetId sets EndUserBudgetId field to given value.
+
+
+### SetEndUserBudgetIdNil
+
+`func (o *CreateKeyResponse) SetEndUserBudgetIdNil(b bool)`
+
+ SetEndUserBudgetIdNil sets the value for EndUserBudgetId to be an explicit nil
+
+### UnsetEndUserBudgetId
+`func (o *CreateKeyResponse) UnsetEndUserBudgetId()`
+
+UnsetEndUserBudgetId ensures that no value is present for EndUserBudgetId, not even an explicit nil
+### GetEndUserBudgetIds
+
+`func (o *CreateKeyResponse) GetEndUserBudgetIds() []string`
+
+GetEndUserBudgetIds returns the EndUserBudgetIds field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdsOk
+
+`func (o *CreateKeyResponse) GetEndUserBudgetIdsOk() (*[]string, bool)`
+
+GetEndUserBudgetIdsOk returns a tuple with the EndUserBudgetIds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetIds
+
+`func (o *CreateKeyResponse) SetEndUserBudgetIds(v []string)`
+
+SetEndUserBudgetIds sets EndUserBudgetIds field to given value.
+
+
 ### GetExcludeFromBudget
 
 `func (o *CreateKeyResponse) GetExcludeFromBudget() bool`
@@ -206,6 +259,26 @@ and a boolean to check if the value has been set.
 `func (o *CreateKeyResponse) SetIsActive(v bool)`
 
 SetIsActive sets IsActive field to given value.
+
+
+### GetIsServiceKey
+
+`func (o *CreateKeyResponse) GetIsServiceKey() bool`
+
+GetIsServiceKey returns the IsServiceKey field if non-nil, zero value otherwise.
+
+### GetIsServiceKeyOk
+
+`func (o *CreateKeyResponse) GetIsServiceKeyOk() (*bool, bool)`
+
+GetIsServiceKeyOk returns a tuple with the IsServiceKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIsServiceKey
+
+`func (o *CreateKeyResponse) SetIsServiceKey(v bool)`
+
+SetIsServiceKey sets IsServiceKey field to given value.
 
 
 ### GetKey

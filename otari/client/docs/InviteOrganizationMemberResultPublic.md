@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AcceptLink** | **string** |  | 
+**AcceptLink** | Pointer to **NullableString** | The link to share with the invitee yourself, set only when mail_sent is false. A delivered link goes to the invitee&#39;s mailbox alone, so the inviter cannot open it as them. | [optional] 
 **CreatedAt** | **time.Time** |  | 
 **Email** | **string** |  | 
 **ExpiresAt** | **time.Time** |  | 
 **InvitationId** | **string** |  | 
-**MailSent** | **bool** | Whether the invitation email was actually dispatched. False when mail is not configured, or the send itself failed; accept_link is set either way, so the operator can share it themselves rather than the invitation being a dead end. | 
+**MailSent** | **bool** | Whether the invitation email was actually dispatched. False when mail is not configured, or the send itself failed. | 
 **OrganizationMemberId** | **string** |  | 
 **Role** | **string** |  | 
 **Status** | Pointer to **string** |  | [optional] [default to "invited"]
@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewInviteOrganizationMemberResultPublic
 
-`func NewInviteOrganizationMemberResultPublic(acceptLink string, createdAt time.Time, email string, expiresAt time.Time, invitationId string, mailSent bool, organizationMemberId string, role string, ) *InviteOrganizationMemberResultPublic`
+`func NewInviteOrganizationMemberResultPublic(createdAt time.Time, email string, expiresAt time.Time, invitationId string, mailSent bool, organizationMemberId string, role string, ) *InviteOrganizationMemberResultPublic`
 
 NewInviteOrganizationMemberResultPublic instantiates a new InviteOrganizationMemberResultPublic object
 This constructor will assign default values to properties that have it defined,
@@ -52,7 +52,22 @@ and a boolean to check if the value has been set.
 
 SetAcceptLink sets AcceptLink field to given value.
 
+### HasAcceptLink
 
+`func (o *InviteOrganizationMemberResultPublic) HasAcceptLink() bool`
+
+HasAcceptLink returns a boolean if a field has been set.
+
+### SetAcceptLinkNil
+
+`func (o *InviteOrganizationMemberResultPublic) SetAcceptLinkNil(b bool)`
+
+ SetAcceptLinkNil sets the value for AcceptLink to be an explicit nil
+
+### UnsetAcceptLink
+`func (o *InviteOrganizationMemberResultPublic) UnsetAcceptLink()`
+
+UnsetAcceptLink ensures that no value is present for AcceptLink, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *InviteOrganizationMemberResultPublic) GetCreatedAt() time.Time`

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **InputPricePerMillion** | **float32** | Price per 1M input tokens | 
 **OutputPricePerMillion** | **float32** | Price per 1M output tokens | 
 **PricingTiers** | Pointer to [**[]PricingTier**](PricingTier.md) | Whole-request context thresholds. Fields omitted by a tier inherit the base rate. | [optional] 
-**Unit** | Pointer to **string** | What the rates are per: tokens for a model, requests or images for a non-token endpoint. | [optional] [default to "tokens"]
+**Unit** | Pointer to **string** | What the rates are per: tokens for a model, requests or images for a non-token endpoint. A completion model priced per requests is charged one request per successful call. | [optional] [default to "tokens"]
 
 ## Methods
 
