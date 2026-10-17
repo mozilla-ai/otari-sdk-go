@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **AlsoAvailableFrom** | [**[]CatalogElsewhere**](CatalogElsewhere.md) |  | 
 **Capabilities** | [**CatalogCapabilities**](CatalogCapabilities.md) |  | 
 **ContextWindow** | Pointer to **NullableInt32** | The largest any offering serves. | [optional] 
-**DefaultPricing** | **bool** | Whether an unpriced model is metered at the genai-prices default. | 
+**DefaultPricing** | **bool** | Whether an unpriced model is metered at the models.dev default. | 
 **Deprecated** | Pointer to **bool** | True only when every offering with metadata says so. | [optional] [default to false]
 **Description** | Pointer to **NullableString** | models.dev&#39;s, from the offering that named the model. | [optional] 
 **Discovered** | **bool** | Whether any offering was discovered from its provider. | 
@@ -28,7 +28,7 @@ Name | Type | Description | Notes
 **Providers** | **[]string** | The provider instances offering it, sorted. | 
 **ReleaseDate** | Pointer to **NullableString** |  | [optional] 
 **ResolvesTo** | Pointer to **NullableString** | The offering &#x60;selector&#x60; resolves to. | [optional] 
-**Selector** | Pointer to **NullableString** | The id as a selector: send it as &#x60;model&#x60; and the model&#39;s cheapest offering the caller can reach answers, the vendor&#39;s own provider first where it serves the model. Null until the gateway has indexed the catalog. | [optional] 
+**Selector** | Pointer to **NullableString** | The id as a selector: send it as &#x60;model&#x60; and the best offering the caller can reach answers. Priced offerings come first, and among them the organization&#39;s own key, then the vendor&#39;s own provider, then the cheapest. Null until the gateway has indexed the catalog. | [optional] 
 **Selectors** | **[]string** | Every offering&#39;s selector, so the list can be searched by one. | 
 **UnpricedCount** | **int32** | How many offerings carry no price for this caller. | 
 **Vendor** | **NullableString** |  | 

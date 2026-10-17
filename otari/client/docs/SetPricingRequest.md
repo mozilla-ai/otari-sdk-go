@@ -5,14 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CacheReadPricePerMillion** | Pointer to **NullableFloat32** | Price per 1M cached-input tokens | [optional] 
-**CacheWrite1hPricePerMillion** | Pointer to **NullableFloat32** | Price per 1M Anthropic 1-hour cache-write tokens | [optional] 
 **CacheWritePricePerMillion** | Pointer to **NullableFloat32** | Price per 1M cache-write (creation) tokens | [optional] 
 **EffectiveAt** | Pointer to **NullableTime** | ISO 8601 datetime from which this price applies. Defaults to now if omitted. | [optional] 
-**InputPricePerMillion** | **float32** | Price per 1M input tokens | 
+**InputPricePerMillion** | **float32** | Price per 1M of the rate&#39;s unit: input tokens, requests or images | 
 **ModelKey** | **string** | Model identifier in format &#39;provider:model&#39; | 
-**OutputPricePerMillion** | **float32** | Price per 1M output tokens | 
+**OutputPricePerMillion** | **float32** | Price per 1M output tokens; unused by a rate in requests or images | 
 **PricingTiers** | Pointer to [**[]PricingTier**](PricingTier.md) | Whole-request context thresholds. Fields omitted by a tier inherit the base rate. | [optional] 
-**Unit** | Pointer to **string** | What the rates are per: &#39;tokens&#39; for a model, &#39;requests&#39; for a gateway-run tool or a moderation call (USD per million requests), &#39;images&#39; for image generation. | [optional] [default to "tokens"]
+**Unit** | Pointer to **string** | What the rates are per: &#39;tokens&#39; for a model, &#39;requests&#39; for a gateway-run tool, a moderation call, or a completion model billed per call (USD per million requests), &#39;images&#39; for image generation (USD per million images). | [optional] [default to "tokens"]
 
 ## Methods
 
@@ -68,41 +67,6 @@ HasCacheReadPricePerMillion returns a boolean if a field has been set.
 `func (o *SetPricingRequest) UnsetCacheReadPricePerMillion()`
 
 UnsetCacheReadPricePerMillion ensures that no value is present for CacheReadPricePerMillion, not even an explicit nil
-### GetCacheWrite1hPricePerMillion
-
-`func (o *SetPricingRequest) GetCacheWrite1hPricePerMillion() float32`
-
-GetCacheWrite1hPricePerMillion returns the CacheWrite1hPricePerMillion field if non-nil, zero value otherwise.
-
-### GetCacheWrite1hPricePerMillionOk
-
-`func (o *SetPricingRequest) GetCacheWrite1hPricePerMillionOk() (*float32, bool)`
-
-GetCacheWrite1hPricePerMillionOk returns a tuple with the CacheWrite1hPricePerMillion field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCacheWrite1hPricePerMillion
-
-`func (o *SetPricingRequest) SetCacheWrite1hPricePerMillion(v float32)`
-
-SetCacheWrite1hPricePerMillion sets CacheWrite1hPricePerMillion field to given value.
-
-### HasCacheWrite1hPricePerMillion
-
-`func (o *SetPricingRequest) HasCacheWrite1hPricePerMillion() bool`
-
-HasCacheWrite1hPricePerMillion returns a boolean if a field has been set.
-
-### SetCacheWrite1hPricePerMillionNil
-
-`func (o *SetPricingRequest) SetCacheWrite1hPricePerMillionNil(b bool)`
-
- SetCacheWrite1hPricePerMillionNil sets the value for CacheWrite1hPricePerMillion to be an explicit nil
-
-### UnsetCacheWrite1hPricePerMillion
-`func (o *SetPricingRequest) UnsetCacheWrite1hPricePerMillion()`
-
-UnsetCacheWrite1hPricePerMillion ensures that no value is present for CacheWrite1hPricePerMillion, not even an explicit nil
 ### GetCacheWritePricePerMillion
 
 `func (o *SetPricingRequest) GetCacheWritePricePerMillion() float32`

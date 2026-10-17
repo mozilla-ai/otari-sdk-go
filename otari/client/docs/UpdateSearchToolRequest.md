@@ -7,7 +7,9 @@ Name | Type | Description | Notes
 **ApiBase** | Pointer to **NullableString** |  | [optional] 
 **ApiKey** | Pointer to **NullableString** | New API key. Omit to keep the existing one. Never returned. | [optional] 
 **ExpectedUpdatedAt** | Pointer to **NullableString** | Optimistic concurrency: if set, the update 412s unless it matches the stored updated_at. | [optional] 
-**Options** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**FetchTool** | Pointer to **NullableString** | For a search instance: the fetch instance that enriches its results. Null clears it. | [optional] 
+**Kind** | Pointer to **NullableString** | Accepted only when it matches the stored kind, which cannot change. | [optional] 
+**Options** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **Provider** | Pointer to **NullableString** |  | [optional] 
 **Timeout** | Pointer to **NullableFloat32** |  | [optional] 
 
@@ -135,6 +137,76 @@ HasExpectedUpdatedAt returns a boolean if a field has been set.
 `func (o *UpdateSearchToolRequest) UnsetExpectedUpdatedAt()`
 
 UnsetExpectedUpdatedAt ensures that no value is present for ExpectedUpdatedAt, not even an explicit nil
+### GetFetchTool
+
+`func (o *UpdateSearchToolRequest) GetFetchTool() string`
+
+GetFetchTool returns the FetchTool field if non-nil, zero value otherwise.
+
+### GetFetchToolOk
+
+`func (o *UpdateSearchToolRequest) GetFetchToolOk() (*string, bool)`
+
+GetFetchToolOk returns a tuple with the FetchTool field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFetchTool
+
+`func (o *UpdateSearchToolRequest) SetFetchTool(v string)`
+
+SetFetchTool sets FetchTool field to given value.
+
+### HasFetchTool
+
+`func (o *UpdateSearchToolRequest) HasFetchTool() bool`
+
+HasFetchTool returns a boolean if a field has been set.
+
+### SetFetchToolNil
+
+`func (o *UpdateSearchToolRequest) SetFetchToolNil(b bool)`
+
+ SetFetchToolNil sets the value for FetchTool to be an explicit nil
+
+### UnsetFetchTool
+`func (o *UpdateSearchToolRequest) UnsetFetchTool()`
+
+UnsetFetchTool ensures that no value is present for FetchTool, not even an explicit nil
+### GetKind
+
+`func (o *UpdateSearchToolRequest) GetKind() string`
+
+GetKind returns the Kind field if non-nil, zero value otherwise.
+
+### GetKindOk
+
+`func (o *UpdateSearchToolRequest) GetKindOk() (*string, bool)`
+
+GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKind
+
+`func (o *UpdateSearchToolRequest) SetKind(v string)`
+
+SetKind sets Kind field to given value.
+
+### HasKind
+
+`func (o *UpdateSearchToolRequest) HasKind() bool`
+
+HasKind returns a boolean if a field has been set.
+
+### SetKindNil
+
+`func (o *UpdateSearchToolRequest) SetKindNil(b bool)`
+
+ SetKindNil sets the value for Kind to be an explicit nil
+
+### UnsetKind
+`func (o *UpdateSearchToolRequest) UnsetKind()`
+
+UnsetKind ensures that no value is present for Kind, not even an explicit nil
 ### GetOptions
 
 `func (o *UpdateSearchToolRequest) GetOptions() map[string]interface{}`

@@ -5,7 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CacheReadPricePerMillion** | **NullableFloat32** |  | 
-**CacheWrite1hPricePerMillion** | **NullableFloat32** |  | 
 **CacheWritePricePerMillion** | **NullableFloat32** |  | 
 **CreatedAt** | **string** |  | 
 **EffectiveAt** | **string** |  | 
@@ -21,7 +20,7 @@ Name | Type | Description | Notes
 
 ### NewPricingResponse
 
-`func NewPricingResponse(cacheReadPricePerMillion NullableFloat32, cacheWrite1hPricePerMillion NullableFloat32, cacheWritePricePerMillion NullableFloat32, createdAt string, effectiveAt string, inputPricePerMillion float32, modelKey string, origin NullableString, outputPricePerMillion float32, pricingTiers []PricingTier, unit string, updatedAt string, ) *PricingResponse`
+`func NewPricingResponse(cacheReadPricePerMillion NullableFloat32, cacheWritePricePerMillion NullableFloat32, createdAt string, effectiveAt string, inputPricePerMillion float32, modelKey string, origin NullableString, outputPricePerMillion float32, pricingTiers []PricingTier, unit string, updatedAt string, ) *PricingResponse`
 
 NewPricingResponse instantiates a new PricingResponse object
 This constructor will assign default values to properties that have it defined,
@@ -66,36 +65,6 @@ SetCacheReadPricePerMillion sets CacheReadPricePerMillion field to given value.
 `func (o *PricingResponse) UnsetCacheReadPricePerMillion()`
 
 UnsetCacheReadPricePerMillion ensures that no value is present for CacheReadPricePerMillion, not even an explicit nil
-### GetCacheWrite1hPricePerMillion
-
-`func (o *PricingResponse) GetCacheWrite1hPricePerMillion() float32`
-
-GetCacheWrite1hPricePerMillion returns the CacheWrite1hPricePerMillion field if non-nil, zero value otherwise.
-
-### GetCacheWrite1hPricePerMillionOk
-
-`func (o *PricingResponse) GetCacheWrite1hPricePerMillionOk() (*float32, bool)`
-
-GetCacheWrite1hPricePerMillionOk returns a tuple with the CacheWrite1hPricePerMillion field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCacheWrite1hPricePerMillion
-
-`func (o *PricingResponse) SetCacheWrite1hPricePerMillion(v float32)`
-
-SetCacheWrite1hPricePerMillion sets CacheWrite1hPricePerMillion field to given value.
-
-
-### SetCacheWrite1hPricePerMillionNil
-
-`func (o *PricingResponse) SetCacheWrite1hPricePerMillionNil(b bool)`
-
- SetCacheWrite1hPricePerMillionNil sets the value for CacheWrite1hPricePerMillion to be an explicit nil
-
-### UnsetCacheWrite1hPricePerMillion
-`func (o *PricingResponse) UnsetCacheWrite1hPricePerMillion()`
-
-UnsetCacheWrite1hPricePerMillion ensures that no value is present for CacheWrite1hPricePerMillion, not even an explicit nil
 ### GetCacheWritePricePerMillion
 
 `func (o *PricingResponse) GetCacheWritePricePerMillion() float32`

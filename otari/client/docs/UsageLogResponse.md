@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **Model** | **string** |  | 
 **PromptTokens** | **NullableInt32** |  | 
 **Provider** | **NullableString** |  | 
+**ProviderLatencyMs** | **NullableInt32** |  | 
 **Status** | **string** |  | 
 **Timestamp** | **string** |  | 
 **TotalTokens** | **NullableInt32** |  | 
@@ -23,7 +24,7 @@ Name | Type | Description | Notes
 
 ### NewUsageLogResponse
 
-`func NewUsageLogResponse(apiKeyId NullableString, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, promptTokens NullableInt32, provider NullableString, status string, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageLogResponse`
+`func NewUsageLogResponse(apiKeyId NullableString, completionTokens NullableInt32, cost NullableFloat32, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, promptTokens NullableInt32, provider NullableString, providerLatencyMs NullableInt32, status string, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageLogResponse`
 
 NewUsageLogResponse instantiates a new UsageLogResponse object
 This constructor will assign default values to properties that have it defined,
@@ -308,6 +309,36 @@ SetProvider sets Provider field to given value.
 `func (o *UsageLogResponse) UnsetProvider()`
 
 UnsetProvider ensures that no value is present for Provider, not even an explicit nil
+### GetProviderLatencyMs
+
+`func (o *UsageLogResponse) GetProviderLatencyMs() int32`
+
+GetProviderLatencyMs returns the ProviderLatencyMs field if non-nil, zero value otherwise.
+
+### GetProviderLatencyMsOk
+
+`func (o *UsageLogResponse) GetProviderLatencyMsOk() (*int32, bool)`
+
+GetProviderLatencyMsOk returns a tuple with the ProviderLatencyMs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProviderLatencyMs
+
+`func (o *UsageLogResponse) SetProviderLatencyMs(v int32)`
+
+SetProviderLatencyMs sets ProviderLatencyMs field to given value.
+
+
+### SetProviderLatencyMsNil
+
+`func (o *UsageLogResponse) SetProviderLatencyMsNil(b bool)`
+
+ SetProviderLatencyMsNil sets the value for ProviderLatencyMs to be an explicit nil
+
+### UnsetProviderLatencyMs
+`func (o *UsageLogResponse) UnsetProviderLatencyMs()`
+
+UnsetProviderLatencyMs ensures that no value is present for ProviderLatencyMs, not even an explicit nil
 ### GetStatus
 
 `func (o *UsageLogResponse) GetStatus() string`

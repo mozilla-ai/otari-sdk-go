@@ -9,9 +9,12 @@ Name | Type | Description | Notes
 **SandboxPurposeHint** | Pointer to **NullableString** |  | [optional] 
 **SandboxSessionImage** | Pointer to **NullableString** |  | [optional] 
 **SandboxUrl** | Pointer to **NullableString** |  | [optional] 
+**WebFetchDefaultTool** | Pointer to **NullableString** | A fetch instance, or &#39;builtin_fetch&#39;. | [optional] 
+**WebSearchDefaultTool** | Pointer to **NullableString** | A search instance whose provider any-search serves, or &#39;none&#39; to turn in-loop search off. | [optional] 
 **WebSearchEngines** | Pointer to **NullableString** |  | [optional] 
 **WebSearchExtract** | Pointer to **NullableBool** |  | [optional] 
 **WebSearchIntercept** | Pointer to **NullableBool** |  | [optional] 
+**WebSearchMaxCalls** | Pointer to **NullableInt32** |  | [optional] 
 **WebSearchMaxResults** | Pointer to **NullableInt32** |  | [optional] 
 **WebSearchPurposeHint** | Pointer to **NullableString** |  | [optional] 
 **WebSearchUrl** | Pointer to **NullableString** |  | [optional] 
@@ -210,6 +213,76 @@ HasSandboxUrl returns a boolean if a field has been set.
 `func (o *UpdateToolSettingsRequest) UnsetSandboxUrl()`
 
 UnsetSandboxUrl ensures that no value is present for SandboxUrl, not even an explicit nil
+### GetWebFetchDefaultTool
+
+`func (o *UpdateToolSettingsRequest) GetWebFetchDefaultTool() string`
+
+GetWebFetchDefaultTool returns the WebFetchDefaultTool field if non-nil, zero value otherwise.
+
+### GetWebFetchDefaultToolOk
+
+`func (o *UpdateToolSettingsRequest) GetWebFetchDefaultToolOk() (*string, bool)`
+
+GetWebFetchDefaultToolOk returns a tuple with the WebFetchDefaultTool field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWebFetchDefaultTool
+
+`func (o *UpdateToolSettingsRequest) SetWebFetchDefaultTool(v string)`
+
+SetWebFetchDefaultTool sets WebFetchDefaultTool field to given value.
+
+### HasWebFetchDefaultTool
+
+`func (o *UpdateToolSettingsRequest) HasWebFetchDefaultTool() bool`
+
+HasWebFetchDefaultTool returns a boolean if a field has been set.
+
+### SetWebFetchDefaultToolNil
+
+`func (o *UpdateToolSettingsRequest) SetWebFetchDefaultToolNil(b bool)`
+
+ SetWebFetchDefaultToolNil sets the value for WebFetchDefaultTool to be an explicit nil
+
+### UnsetWebFetchDefaultTool
+`func (o *UpdateToolSettingsRequest) UnsetWebFetchDefaultTool()`
+
+UnsetWebFetchDefaultTool ensures that no value is present for WebFetchDefaultTool, not even an explicit nil
+### GetWebSearchDefaultTool
+
+`func (o *UpdateToolSettingsRequest) GetWebSearchDefaultTool() string`
+
+GetWebSearchDefaultTool returns the WebSearchDefaultTool field if non-nil, zero value otherwise.
+
+### GetWebSearchDefaultToolOk
+
+`func (o *UpdateToolSettingsRequest) GetWebSearchDefaultToolOk() (*string, bool)`
+
+GetWebSearchDefaultToolOk returns a tuple with the WebSearchDefaultTool field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWebSearchDefaultTool
+
+`func (o *UpdateToolSettingsRequest) SetWebSearchDefaultTool(v string)`
+
+SetWebSearchDefaultTool sets WebSearchDefaultTool field to given value.
+
+### HasWebSearchDefaultTool
+
+`func (o *UpdateToolSettingsRequest) HasWebSearchDefaultTool() bool`
+
+HasWebSearchDefaultTool returns a boolean if a field has been set.
+
+### SetWebSearchDefaultToolNil
+
+`func (o *UpdateToolSettingsRequest) SetWebSearchDefaultToolNil(b bool)`
+
+ SetWebSearchDefaultToolNil sets the value for WebSearchDefaultTool to be an explicit nil
+
+### UnsetWebSearchDefaultTool
+`func (o *UpdateToolSettingsRequest) UnsetWebSearchDefaultTool()`
+
+UnsetWebSearchDefaultTool ensures that no value is present for WebSearchDefaultTool, not even an explicit nil
 ### GetWebSearchEngines
 
 `func (o *UpdateToolSettingsRequest) GetWebSearchEngines() string`
@@ -315,6 +388,41 @@ HasWebSearchIntercept returns a boolean if a field has been set.
 `func (o *UpdateToolSettingsRequest) UnsetWebSearchIntercept()`
 
 UnsetWebSearchIntercept ensures that no value is present for WebSearchIntercept, not even an explicit nil
+### GetWebSearchMaxCalls
+
+`func (o *UpdateToolSettingsRequest) GetWebSearchMaxCalls() int32`
+
+GetWebSearchMaxCalls returns the WebSearchMaxCalls field if non-nil, zero value otherwise.
+
+### GetWebSearchMaxCallsOk
+
+`func (o *UpdateToolSettingsRequest) GetWebSearchMaxCallsOk() (*int32, bool)`
+
+GetWebSearchMaxCallsOk returns a tuple with the WebSearchMaxCalls field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWebSearchMaxCalls
+
+`func (o *UpdateToolSettingsRequest) SetWebSearchMaxCalls(v int32)`
+
+SetWebSearchMaxCalls sets WebSearchMaxCalls field to given value.
+
+### HasWebSearchMaxCalls
+
+`func (o *UpdateToolSettingsRequest) HasWebSearchMaxCalls() bool`
+
+HasWebSearchMaxCalls returns a boolean if a field has been set.
+
+### SetWebSearchMaxCallsNil
+
+`func (o *UpdateToolSettingsRequest) SetWebSearchMaxCallsNil(b bool)`
+
+ SetWebSearchMaxCallsNil sets the value for WebSearchMaxCalls to be an explicit nil
+
+### UnsetWebSearchMaxCalls
+`func (o *UpdateToolSettingsRequest) UnsetWebSearchMaxCalls()`
+
+UnsetWebSearchMaxCalls ensures that no value is present for WebSearchMaxCalls, not even an explicit nil
 ### GetWebSearchMaxResults
 
 `func (o *UpdateToolSettingsRequest) GetWebSearchMaxResults() int32`

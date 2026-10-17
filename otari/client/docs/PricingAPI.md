@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 ## PricingConfirmPricingRefresh
 
-> PricingRefreshConfirmationResponse PricingConfirmPricingRefresh(ctx).Execute()
+> PricingRefreshConfirmationResponse PricingConfirmPricingRefresh(ctx).Digest(digest).Execute()
 
 Confirm Pricing Refresh
 
@@ -40,10 +40,11 @@ import (
 )
 
 func main() {
+	digest := "digest_example" // string | The `digest` of the previewed snapshot; 409 when the pending one differs. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PricingAPI.PricingConfirmPricingRefresh(context.Background()).Execute()
+	resp, r, err := apiClient.PricingAPI.PricingConfirmPricingRefresh(context.Background()).Digest(digest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.PricingConfirmPricingRefresh``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -55,12 +56,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiPricingConfirmPricingRefreshRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **digest** | **string** | The &#x60;digest&#x60; of the previewed snapshot; 409 when the pending one differs. | 
 
 ### Return type
 
@@ -686,7 +691,7 @@ Other parameters are passed through a pointer to a apiPricingPreviewPricingRefre
 
 ## PricingRejectPricingRefresh
 
-> PricingRejectPricingRefresh(ctx).Execute()
+> PricingRejectPricingRefresh(ctx).Digest(digest).Execute()
 
 Reject Pricing Refresh
 
@@ -705,10 +710,11 @@ import (
 )
 
 func main() {
+	digest := "digest_example" // string | The `digest` of the previewed snapshot; 409 when the pending one differs. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.PricingAPI.PricingRejectPricingRefresh(context.Background()).Execute()
+	r, err := apiClient.PricingAPI.PricingRejectPricingRefresh(context.Background()).Digest(digest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.PricingRejectPricingRefresh``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -718,12 +724,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiPricingRejectPricingRefreshRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **digest** | **string** | The &#x60;digest&#x60; of the previewed snapshot; 409 when the pending one differs. | 
 
 ### Return type
 
@@ -736,7 +746,7 @@ Other parameters are passed through a pointer to a apiPricingRejectPricingRefres
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
