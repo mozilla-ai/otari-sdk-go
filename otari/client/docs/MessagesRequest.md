@@ -14,9 +14,9 @@ Name | Type | Description | Notes
 **McpServerIds** | Pointer to **[]string** |  | [optional] 
 **McpServers** | Pointer to [**[]McpServerConfig**](McpServerConfig.md) |  | [optional] 
 **Messages** | **[]map[string]interface{}** |  | 
-**Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
+**Metadata** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **Model** | **string** |  | 
-**OutputFormat** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**OutputFormat** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **PromptCacheKey** | Pointer to **NullableString** |  | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
 **SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to. | [optional] 

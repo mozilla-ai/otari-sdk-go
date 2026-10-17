@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **Created** | **int32** |  | 
 **DeploymentManaged** | Pointer to **bool** |  | [optional] [default to false]
 **Id** | **string** |  | 
+**MaxOutputTokens** | Pointer to **NullableInt32** |  | [optional] 
 **Object** | Pointer to **string** |  | [optional] [default to "model"]
 **OwnedBy** | **string** |  | 
 **Pricing** | Pointer to [**NullableModelPricingInfo**](ModelPricingInfo.md) |  | [optional] 
@@ -132,6 +133,41 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
+### GetMaxOutputTokens
+
+`func (o *ModelObject) GetMaxOutputTokens() int32`
+
+GetMaxOutputTokens returns the MaxOutputTokens field if non-nil, zero value otherwise.
+
+### GetMaxOutputTokensOk
+
+`func (o *ModelObject) GetMaxOutputTokensOk() (*int32, bool)`
+
+GetMaxOutputTokensOk returns a tuple with the MaxOutputTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMaxOutputTokens
+
+`func (o *ModelObject) SetMaxOutputTokens(v int32)`
+
+SetMaxOutputTokens sets MaxOutputTokens field to given value.
+
+### HasMaxOutputTokens
+
+`func (o *ModelObject) HasMaxOutputTokens() bool`
+
+HasMaxOutputTokens returns a boolean if a field has been set.
+
+### SetMaxOutputTokensNil
+
+`func (o *ModelObject) SetMaxOutputTokensNil(b bool)`
+
+ SetMaxOutputTokensNil sets the value for MaxOutputTokens to be an explicit nil
+
+### UnsetMaxOutputTokens
+`func (o *ModelObject) UnsetMaxOutputTokens()`
+
+UnsetMaxOutputTokens ensures that no value is present for MaxOutputTokens, not even an explicit nil
 ### GetObject
 
 `func (o *ModelObject) GetObject() string`

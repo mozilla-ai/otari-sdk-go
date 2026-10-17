@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **ManagementUrl** | **NullableString** | Where the authoritative control plane lives when it is not this deployment. Set for a hybrid gateway so its landing page can link to otari.ai; null otherwise. | 
 **OauthProviders** | **[]string** | OAuth providers this deployment can sign somebody in with, sorted, one entry per provider with a client ID, a client secret and a public_base_url to build a redirect URI from. The sign-in screen renders a button per entry and none at all when the list is empty, so a provider nobody configured is absent rather than offered and then refused. Additive to sign_in_methods rather than part of it: an OAuth sign-in coexists with whichever typed credential is current, the way a passkey does. Empty for a hybrid gateway, which issues no session. | 
 **OpenSignup** | **bool** | Whether POST /api/v1/auth/signup creates an account for an address nobody has added yet, each with an organization of its own, or only lets an address an admin already put on the roster set its password. The signup page reads as registration or as claiming an invitation accordingly, and the sign-in screen links to it with the wording that matches. False for a hybrid gateway, which holds no identities. | 
+**PasskeysEnabled** | **bool** | Whether this deployment offers passkeys at all (the passkeys_enabled setting). False means the passkey routes are not mounted and the dashboard hides its passkey page, which is a different answer from passkeys_ready: a deployment that merely has not configured a relying party is ready for nobody yet but still shows the page that says so. False for a hybrid gateway, which issues no session of its own. | 
 **PasskeysReady** | **bool** | Whether this deployment can run a passkey ceremony at all: it has a relying-party ID (webauthn_rp_id, or derived from public_base_url) and an origin to serve one from. Distinct from &#39;passkey&#39; in sign_in_methods, which is narrower and answers whether a registered passkey could sign somebody in *right now*: an operator with none yet needs this one, or the page that registers the first would be hidden from them. False for a hybrid gateway, which issues no session of its own. | 
 **PrivacyUrl** | **NullableString** | Where this deployment&#39;s privacy notice lives. Set, the account menu&#39;s Data &amp; Privacy row links to it; null, no address is configured and that row stays disabled, carrying the standing note that there is nothing to configure there yet. A link target an operator configured, validated at startup as an absolute http(s) URL carrying no credential, since this response is unauthenticated. | 
 **PublicCatalog** | Pointer to **bool** | Whether the model catalog is served to a visitor with no session: GET /api/v1/catalog/models answers anonymously and the dashboard renders Models ahead of sign-in. False for a hybrid gateway, which serves no catalog of its own. | [optional] [default to false]
@@ -26,7 +27,7 @@ Name | Type | Description | Notes
 
 ### NewDeploymentBootstrap
 
-`func NewDeploymentBootstrap(dataPlaneUrl NullableString, deploymentType string, docsUrl NullableString, feedbackEnabled bool, mailReady bool, maintenanceMode bool, managementUrl NullableString, oauthProviders []string, openSignup bool, passkeysReady bool, privacyUrl NullableString, sessionType string, signInMethods []string, siteUrl NullableString, surfaces []string, termsUrl NullableString, ) *DeploymentBootstrap`
+`func NewDeploymentBootstrap(dataPlaneUrl NullableString, deploymentType string, docsUrl NullableString, feedbackEnabled bool, mailReady bool, maintenanceMode bool, managementUrl NullableString, oauthProviders []string, openSignup bool, passkeysEnabled bool, passkeysReady bool, privacyUrl NullableString, sessionType string, signInMethods []string, siteUrl NullableString, surfaces []string, termsUrl NullableString, ) *DeploymentBootstrap`
 
 NewDeploymentBootstrap instantiates a new DeploymentBootstrap object
 This constructor will assign default values to properties that have it defined,
@@ -249,6 +250,26 @@ and a boolean to check if the value has been set.
 `func (o *DeploymentBootstrap) SetOpenSignup(v bool)`
 
 SetOpenSignup sets OpenSignup field to given value.
+
+
+### GetPasskeysEnabled
+
+`func (o *DeploymentBootstrap) GetPasskeysEnabled() bool`
+
+GetPasskeysEnabled returns the PasskeysEnabled field if non-nil, zero value otherwise.
+
+### GetPasskeysEnabledOk
+
+`func (o *DeploymentBootstrap) GetPasskeysEnabledOk() (*bool, bool)`
+
+GetPasskeysEnabledOk returns a tuple with the PasskeysEnabled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPasskeysEnabled
+
+`func (o *DeploymentBootstrap) SetPasskeysEnabled(v bool)`
+
+SetPasskeysEnabled sets PasskeysEnabled field to given value.
 
 
 ### GetPasskeysReady

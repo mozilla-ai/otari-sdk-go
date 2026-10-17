@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApiBase** | Pointer to **NullableString** |  | [optional] 
 **ApiKey** | Pointer to **NullableString** | Provider API key. Stored encrypted; never returned. | [optional] 
-**ClientArgs** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**ClientArgs** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **Instance** | **string** | Routing key, e.g. &#39;openai&#39; or a named instance like &#39;home_lab&#39;. | 
 **ProviderType** | Pointer to **NullableString** | any-llm implementation when the instance name is not itself one. | [optional] 
 
