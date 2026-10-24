@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**AuthCreateSession**](AuthAPI.md#AuthCreateSession) | **Post** /api/v1/auth/session | Create Session
 [**AuthDeletePasskey**](AuthAPI.md#AuthDeletePasskey) | **Delete** /api/v1/auth/webauthn/credentials/{credential_id} | Delete Passkey
 [**AuthDeleteSession**](AuthAPI.md#AuthDeleteSession) | **Delete** /api/v1/auth/session | Delete Session
+[**AuthGetOwnProfile**](AuthAPI.md#AuthGetOwnProfile) | **Get** /api/v1/auth/profile | Get Own Profile
 [**AuthListPasskeys**](AuthAPI.md#AuthListPasskeys) | **Get** /api/v1/auth/webauthn/credentials | List Passkeys
 [**AuthRegisterPasskey**](AuthAPI.md#AuthRegisterPasskey) | **Post** /api/v1/auth/webauthn/register | Register Passkey
 [**AuthRegistrationOptions**](AuthAPI.md#AuthRegistrationOptions) | **Post** /api/v1/auth/webauthn/register/options | Registration Options
@@ -21,6 +22,8 @@ Method | HTTP request | Description
 [**AuthSetDashboardPassword**](AuthAPI.md#AuthSetDashboardPassword) | **Put** /api/v1/auth/password | Set Dashboard Password
 [**AuthSignup**](AuthAPI.md#AuthSignup) | **Post** /api/v1/auth/signup | Signup
 [**AuthUpdateOwnProfile**](AuthAPI.md#AuthUpdateOwnProfile) | **Patch** /api/v1/auth/profile | Update Own Profile
+[**AuthValidateResetLink**](AuthAPI.md#AuthValidateResetLink) | **Post** /api/v1/auth/password/reset/validate | Validate Reset Link
+[**AuthValidateVerificationLink**](AuthAPI.md#AuthValidateVerificationLink) | **Post** /api/v1/auth/verify-email/validate | Validate Verification Link
 [**AuthVerifyEmailRoute**](AuthAPI.md#AuthVerifyEmailRoute) | **Post** /api/v1/auth/verify-email | Verify Email Route
 
 
@@ -545,6 +548,67 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AuthGetOwnProfile
+
+> CallerIdentityPublic AuthGetOwnProfile(ctx).Execute()
+
+Get Own Profile
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthGetOwnProfile(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthGetOwnProfile``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthGetOwnProfile`: CallerIdentityPublic
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthGetOwnProfile`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthGetOwnProfileRequest struct via the builder pattern
+
+
+### Return type
+
+[**CallerIdentityPublic**](CallerIdentityPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -1141,6 +1205,138 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## AuthValidateResetLink
+
+> MailedLinkStatusResponse AuthValidateResetLink(ctx).MailedLinkRequest(mailedLinkRequest).Execute()
+
+Validate Reset Link
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	mailedLinkRequest := *openapiclient.NewMailedLinkRequest("Token_example") // MailedLinkRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthValidateResetLink(context.Background()).MailedLinkRequest(mailedLinkRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthValidateResetLink``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthValidateResetLink`: MailedLinkStatusResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthValidateResetLink`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthValidateResetLinkRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **mailedLinkRequest** | [**MailedLinkRequest**](MailedLinkRequest.md) |  | 
+
+### Return type
+
+[**MailedLinkStatusResponse**](MailedLinkStatusResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AuthValidateVerificationLink
+
+> MailedLinkStatusResponse AuthValidateVerificationLink(ctx).MailedLinkRequest(mailedLinkRequest).Execute()
+
+Validate Verification Link
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	mailedLinkRequest := *openapiclient.NewMailedLinkRequest("Token_example") // MailedLinkRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthValidateVerificationLink(context.Background()).MailedLinkRequest(mailedLinkRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthValidateVerificationLink``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthValidateVerificationLink`: MailedLinkStatusResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthValidateVerificationLink`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthValidateVerificationLinkRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **mailedLinkRequest** | [**MailedLinkRequest**](MailedLinkRequest.md) |  | 
+
+### Return type
+
+[**MailedLinkStatusResponse**](MailedLinkStatusResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## AuthVerifyEmailRoute
 
 > VerifyEmailResponse AuthVerifyEmailRoute(ctx).VerifyEmailRequest(verifyEmailRequest).Execute()
@@ -1162,7 +1358,7 @@ import (
 )
 
 func main() {
-	verifyEmailRequest := *openapiclient.NewVerifyEmailRequest("Token_example") // VerifyEmailRequest | 
+	verifyEmailRequest := *openapiclient.NewVerifyEmailRequest("Password_example", "Token_example") // VerifyEmailRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

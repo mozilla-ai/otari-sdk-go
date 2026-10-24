@@ -12,8 +12,10 @@ Name | Type | Description | Notes
 **IsOrgDefault** | **bool** |  | 
 **Last4** | Pointer to **NullableString** |  | [optional] 
 **Name** | **string** |  | 
+**OfferedCount** | **int32** | How many models the organization offers on this key. Zero means the key has never been refreshed, so it is unnarrowed and reaches whatever its provider serves. | 
 **OrganizationId** | **string** |  | 
 **Provider** | **string** |  | 
+**ServingCount** | **int32** | How many of the offered models have their serving switch on. A key offering models and serving none refuses every request through it until one is switched on. | 
 **UpdatedAt** | Pointer to **NullableTime** |  | [optional] 
 **Usable** | **bool** | False when the stored credential cannot be decrypted on this deployment, so the key supplies nothing at dispatch and the catalog withholds its provider. A row this deployment cannot read is still listed, because deleting or replacing it is what fixes it. | 
 
@@ -21,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewOrgProviderKeyPublic
 
-`func NewOrgProviderKeyPublic(createdAt time.Time, id string, isOrgDefault bool, name string, organizationId string, provider string, usable bool, ) *OrgProviderKeyPublic`
+`func NewOrgProviderKeyPublic(createdAt time.Time, id string, isOrgDefault bool, name string, offeredCount int32, organizationId string, provider string, servingCount int32, usable bool, ) *OrgProviderKeyPublic`
 
 NewOrgProviderKeyPublic instantiates a new OrgProviderKeyPublic object
 This constructor will assign default values to properties that have it defined,
@@ -256,6 +258,26 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
+### GetOfferedCount
+
+`func (o *OrgProviderKeyPublic) GetOfferedCount() int32`
+
+GetOfferedCount returns the OfferedCount field if non-nil, zero value otherwise.
+
+### GetOfferedCountOk
+
+`func (o *OrgProviderKeyPublic) GetOfferedCountOk() (*int32, bool)`
+
+GetOfferedCountOk returns a tuple with the OfferedCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOfferedCount
+
+`func (o *OrgProviderKeyPublic) SetOfferedCount(v int32)`
+
+SetOfferedCount sets OfferedCount field to given value.
+
+
 ### GetOrganizationId
 
 `func (o *OrgProviderKeyPublic) GetOrganizationId() string`
@@ -294,6 +316,26 @@ and a boolean to check if the value has been set.
 `func (o *OrgProviderKeyPublic) SetProvider(v string)`
 
 SetProvider sets Provider field to given value.
+
+
+### GetServingCount
+
+`func (o *OrgProviderKeyPublic) GetServingCount() int32`
+
+GetServingCount returns the ServingCount field if non-nil, zero value otherwise.
+
+### GetServingCountOk
+
+`func (o *OrgProviderKeyPublic) GetServingCountOk() (*int32, bool)`
+
+GetServingCountOk returns a tuple with the ServingCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetServingCount
+
+`func (o *OrgProviderKeyPublic) SetServingCount(v int32)`
+
+SetServingCount sets ServingCount field to given value.
 
 
 ### GetUpdatedAt

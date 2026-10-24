@@ -4,12 +4,75 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**ToolSettingsClearSandboxCredential**](ToolSettingsAPI.md#ToolSettingsClearSandboxCredential) | **Delete** /api/v1/tool-settings/sandbox/credential | Clear Sandbox Credential
 [**ToolSettingsGetToolSettings**](ToolSettingsAPI.md#ToolSettingsGetToolSettings) | **Get** /api/v1/tool-settings | Get Tool Settings
 [**ToolSettingsListBuiltinGuardrails**](ToolSettingsAPI.md#ToolSettingsListBuiltinGuardrails) | **Get** /api/v1/tool-settings/guardrails/catalog | List Builtin Guardrails
 [**ToolSettingsListGuardrailProfiles**](ToolSettingsAPI.md#ToolSettingsListGuardrailProfiles) | **Get** /api/v1/tool-settings/guardrails/profiles | List Guardrail Profiles
+[**ToolSettingsSetSandboxCredential**](ToolSettingsAPI.md#ToolSettingsSetSandboxCredential) | **Put** /api/v1/tool-settings/sandbox/credential | Set Sandbox Credential
 [**ToolSettingsTestService**](ToolSettingsAPI.md#ToolSettingsTestService) | **Post** /api/v1/tool-settings/{service}/test | Test Service
 [**ToolSettingsUpdateToolSettings**](ToolSettingsAPI.md#ToolSettingsUpdateToolSettings) | **Patch** /api/v1/tool-settings | Update Tool Settings
 
+
+
+## ToolSettingsClearSandboxCredential
+
+> SandboxCredentialPublic ToolSettingsClearSandboxCredential(ctx).Execute()
+
+Clear Sandbox Credential
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ToolSettingsAPI.ToolSettingsClearSandboxCredential(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ToolSettingsAPI.ToolSettingsClearSandboxCredential``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ToolSettingsClearSandboxCredential`: SandboxCredentialPublic
+	fmt.Fprintf(os.Stdout, "Response from `ToolSettingsAPI.ToolSettingsClearSandboxCredential`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiToolSettingsClearSandboxCredentialRequest struct via the builder pattern
+
+
+### Return type
+
+[**SandboxCredentialPublic**](SandboxCredentialPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## ToolSettingsGetToolSettings
@@ -188,6 +251,72 @@ Other parameters are passed through a pointer to a apiToolSettingsListGuardrailP
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ToolSettingsSetSandboxCredential
+
+> SandboxCredentialPublic ToolSettingsSetSandboxCredential(ctx).SandboxCredentialRequest(sandboxCredentialRequest).Execute()
+
+Set Sandbox Credential
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	sandboxCredentialRequest := *openapiclient.NewSandboxCredentialRequest("ApiKey_example") // SandboxCredentialRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ToolSettingsAPI.ToolSettingsSetSandboxCredential(context.Background()).SandboxCredentialRequest(sandboxCredentialRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ToolSettingsAPI.ToolSettingsSetSandboxCredential``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ToolSettingsSetSandboxCredential`: SandboxCredentialPublic
+	fmt.Fprintf(os.Stdout, "Response from `ToolSettingsAPI.ToolSettingsSetSandboxCredential`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiToolSettingsSetSandboxCredentialRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **sandboxCredentialRequest** | [**SandboxCredentialRequest**](SandboxCredentialRequest.md) |  | 
+
+### Return type
+
+[**SandboxCredentialPublic**](SandboxCredentialPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

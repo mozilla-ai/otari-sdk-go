@@ -5,16 +5,22 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | **[]string** |  | 
+**AllowedTools** | **[]string** |  | 
 **CaptureAgentTelemetry** | **NullableBool** |  | 
+**ConfigName** | Pointer to **NullableString** |  | [optional] 
 **CreatedAt** | **string** |  | 
+**EndUserBudgetId** | **NullableString** |  | 
+**EndUserBudgetIds** | **[]string** |  | 
 **ExcludeFromBudget** | **bool** |  | 
 **ExpiresAt** | **NullableString** |  | 
 **Id** | **string** |  | 
 **IsActive** | **bool** |  | 
+**IsServiceKey** | **bool** |  | 
 **KeyName** | **NullableString** |  | 
 **KeyPrefix** | **NullableString** |  | 
 **KeySuffix** | **NullableString** |  | 
 **LastUsedAt** | **NullableString** |  | 
+**MaxEndUsers** | Pointer to **NullableInt32** |  | [optional] 
 **Metadata** | **map[string]interface{}** |  | 
 **RejectUserMismatch** | **NullableBool** |  | 
 **UserId** | **NullableString** |  | 
@@ -24,7 +30,7 @@ Name | Type | Description | Notes
 
 ### NewKeyInfo
 
-`func NewKeyInfo(allowedModels []string, captureAgentTelemetry NullableBool, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, keyName NullableString, keyPrefix NullableString, keySuffix NullableString, lastUsedAt NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, workspaceId string, ) *KeyInfo`
+`func NewKeyInfo(allowedModels []string, allowedTools []string, captureAgentTelemetry NullableBool, createdAt string, endUserBudgetId NullableString, endUserBudgetIds []string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, isServiceKey bool, keyName NullableString, keyPrefix NullableString, keySuffix NullableString, lastUsedAt NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, workspaceId string, ) *KeyInfo`
 
 NewKeyInfo instantiates a new KeyInfo object
 This constructor will assign default values to properties that have it defined,
@@ -69,6 +75,36 @@ SetAllowedModels sets AllowedModels field to given value.
 `func (o *KeyInfo) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetAllowedTools
+
+`func (o *KeyInfo) GetAllowedTools() []string`
+
+GetAllowedTools returns the AllowedTools field if non-nil, zero value otherwise.
+
+### GetAllowedToolsOk
+
+`func (o *KeyInfo) GetAllowedToolsOk() (*[]string, bool)`
+
+GetAllowedToolsOk returns a tuple with the AllowedTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedTools
+
+`func (o *KeyInfo) SetAllowedTools(v []string)`
+
+SetAllowedTools sets AllowedTools field to given value.
+
+
+### SetAllowedToolsNil
+
+`func (o *KeyInfo) SetAllowedToolsNil(b bool)`
+
+ SetAllowedToolsNil sets the value for AllowedTools to be an explicit nil
+
+### UnsetAllowedTools
+`func (o *KeyInfo) UnsetAllowedTools()`
+
+UnsetAllowedTools ensures that no value is present for AllowedTools, not even an explicit nil
 ### GetCaptureAgentTelemetry
 
 `func (o *KeyInfo) GetCaptureAgentTelemetry() bool`
@@ -99,6 +135,41 @@ SetCaptureAgentTelemetry sets CaptureAgentTelemetry field to given value.
 `func (o *KeyInfo) UnsetCaptureAgentTelemetry()`
 
 UnsetCaptureAgentTelemetry ensures that no value is present for CaptureAgentTelemetry, not even an explicit nil
+### GetConfigName
+
+`func (o *KeyInfo) GetConfigName() string`
+
+GetConfigName returns the ConfigName field if non-nil, zero value otherwise.
+
+### GetConfigNameOk
+
+`func (o *KeyInfo) GetConfigNameOk() (*string, bool)`
+
+GetConfigNameOk returns a tuple with the ConfigName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetConfigName
+
+`func (o *KeyInfo) SetConfigName(v string)`
+
+SetConfigName sets ConfigName field to given value.
+
+### HasConfigName
+
+`func (o *KeyInfo) HasConfigName() bool`
+
+HasConfigName returns a boolean if a field has been set.
+
+### SetConfigNameNil
+
+`func (o *KeyInfo) SetConfigNameNil(b bool)`
+
+ SetConfigNameNil sets the value for ConfigName to be an explicit nil
+
+### UnsetConfigName
+`func (o *KeyInfo) UnsetConfigName()`
+
+UnsetConfigName ensures that no value is present for ConfigName, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *KeyInfo) GetCreatedAt() string`
@@ -117,6 +188,56 @@ and a boolean to check if the value has been set.
 `func (o *KeyInfo) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
+
+
+### GetEndUserBudgetId
+
+`func (o *KeyInfo) GetEndUserBudgetId() string`
+
+GetEndUserBudgetId returns the EndUserBudgetId field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdOk
+
+`func (o *KeyInfo) GetEndUserBudgetIdOk() (*string, bool)`
+
+GetEndUserBudgetIdOk returns a tuple with the EndUserBudgetId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetId
+
+`func (o *KeyInfo) SetEndUserBudgetId(v string)`
+
+SetEndUserBudgetId sets EndUserBudgetId field to given value.
+
+
+### SetEndUserBudgetIdNil
+
+`func (o *KeyInfo) SetEndUserBudgetIdNil(b bool)`
+
+ SetEndUserBudgetIdNil sets the value for EndUserBudgetId to be an explicit nil
+
+### UnsetEndUserBudgetId
+`func (o *KeyInfo) UnsetEndUserBudgetId()`
+
+UnsetEndUserBudgetId ensures that no value is present for EndUserBudgetId, not even an explicit nil
+### GetEndUserBudgetIds
+
+`func (o *KeyInfo) GetEndUserBudgetIds() []string`
+
+GetEndUserBudgetIds returns the EndUserBudgetIds field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdsOk
+
+`func (o *KeyInfo) GetEndUserBudgetIdsOk() (*[]string, bool)`
+
+GetEndUserBudgetIdsOk returns a tuple with the EndUserBudgetIds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetIds
+
+`func (o *KeyInfo) SetEndUserBudgetIds(v []string)`
+
+SetEndUserBudgetIds sets EndUserBudgetIds field to given value.
 
 
 ### GetExcludeFromBudget
@@ -207,6 +328,26 @@ and a boolean to check if the value has been set.
 `func (o *KeyInfo) SetIsActive(v bool)`
 
 SetIsActive sets IsActive field to given value.
+
+
+### GetIsServiceKey
+
+`func (o *KeyInfo) GetIsServiceKey() bool`
+
+GetIsServiceKey returns the IsServiceKey field if non-nil, zero value otherwise.
+
+### GetIsServiceKeyOk
+
+`func (o *KeyInfo) GetIsServiceKeyOk() (*bool, bool)`
+
+GetIsServiceKeyOk returns a tuple with the IsServiceKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIsServiceKey
+
+`func (o *KeyInfo) SetIsServiceKey(v bool)`
+
+SetIsServiceKey sets IsServiceKey field to given value.
 
 
 ### GetKeyName
@@ -329,6 +470,41 @@ SetLastUsedAt sets LastUsedAt field to given value.
 `func (o *KeyInfo) UnsetLastUsedAt()`
 
 UnsetLastUsedAt ensures that no value is present for LastUsedAt, not even an explicit nil
+### GetMaxEndUsers
+
+`func (o *KeyInfo) GetMaxEndUsers() int32`
+
+GetMaxEndUsers returns the MaxEndUsers field if non-nil, zero value otherwise.
+
+### GetMaxEndUsersOk
+
+`func (o *KeyInfo) GetMaxEndUsersOk() (*int32, bool)`
+
+GetMaxEndUsersOk returns a tuple with the MaxEndUsers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMaxEndUsers
+
+`func (o *KeyInfo) SetMaxEndUsers(v int32)`
+
+SetMaxEndUsers sets MaxEndUsers field to given value.
+
+### HasMaxEndUsers
+
+`func (o *KeyInfo) HasMaxEndUsers() bool`
+
+HasMaxEndUsers returns a boolean if a field has been set.
+
+### SetMaxEndUsersNil
+
+`func (o *KeyInfo) SetMaxEndUsersNil(b bool)`
+
+ SetMaxEndUsersNil sets the value for MaxEndUsers to be an explicit nil
+
+### UnsetMaxEndUsers
+`func (o *KeyInfo) UnsetMaxEndUsers()`
+
+UnsetMaxEndUsers ensures that no value is present for MaxEndUsers, not even an explicit nil
 ### GetMetadata
 
 `func (o *KeyInfo) GetMetadata() map[string]interface{}`

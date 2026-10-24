@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Delta** | [**CCKChoiceDelta**](CCKChoiceDelta.md) |  | 
-**FinishReason** | Pointer to **NullableString** |  | [optional] 
+**FinishReason** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Index** | **int32** |  | 
 **Logprobs** | Pointer to [**NullableCCKChoiceLogprobs**](CCKChoiceLogprobs.md) |  | [optional] 
 

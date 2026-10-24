@@ -7,6 +7,8 @@ Name | Type | Description | Notes
 **ApiBase** | Pointer to **NullableString** |  | [optional] 
 **CreatedAt** | Pointer to **NullableString** |  | [optional] 
 **Decryptable** | Pointer to **bool** |  | [optional] [default to true]
+**FetchTool** | Pointer to **NullableString** | A search instance&#39;s enrichment fetch instance. Null means the fetch default enriches it. | [optional] 
+**Kind** | Pointer to **string** | Whether this is a search or a fetch instance. | [optional] [default to "search"]
 **Last4** | Pointer to **NullableString** |  | [optional] 
 **Name** | **string** |  | 
 **Options** | Pointer to **map[string]interface{}** |  | [optional] 
@@ -128,6 +130,66 @@ SetDecryptable sets Decryptable field to given value.
 `func (o *StoredSearchToolSchema) HasDecryptable() bool`
 
 HasDecryptable returns a boolean if a field has been set.
+
+### GetFetchTool
+
+`func (o *StoredSearchToolSchema) GetFetchTool() string`
+
+GetFetchTool returns the FetchTool field if non-nil, zero value otherwise.
+
+### GetFetchToolOk
+
+`func (o *StoredSearchToolSchema) GetFetchToolOk() (*string, bool)`
+
+GetFetchToolOk returns a tuple with the FetchTool field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFetchTool
+
+`func (o *StoredSearchToolSchema) SetFetchTool(v string)`
+
+SetFetchTool sets FetchTool field to given value.
+
+### HasFetchTool
+
+`func (o *StoredSearchToolSchema) HasFetchTool() bool`
+
+HasFetchTool returns a boolean if a field has been set.
+
+### SetFetchToolNil
+
+`func (o *StoredSearchToolSchema) SetFetchToolNil(b bool)`
+
+ SetFetchToolNil sets the value for FetchTool to be an explicit nil
+
+### UnsetFetchTool
+`func (o *StoredSearchToolSchema) UnsetFetchTool()`
+
+UnsetFetchTool ensures that no value is present for FetchTool, not even an explicit nil
+### GetKind
+
+`func (o *StoredSearchToolSchema) GetKind() string`
+
+GetKind returns the Kind field if non-nil, zero value otherwise.
+
+### GetKindOk
+
+`func (o *StoredSearchToolSchema) GetKindOk() (*string, bool)`
+
+GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKind
+
+`func (o *StoredSearchToolSchema) SetKind(v string)`
+
+SetKind sets Kind field to given value.
+
+### HasKind
+
+`func (o *StoredSearchToolSchema) HasKind() bool`
+
+HasKind returns a boolean if a field has been set.
 
 ### GetLast4
 

@@ -8,9 +8,12 @@ Name | Type | Description | Notes
 **ChangedCount** | **int32** |  | 
 **Changes** | [**[]PricingRefreshChangeResponse**](PricingRefreshChangeResponse.md) |  | 
 **ChangesTruncated** | **bool** |  | 
+**Digest** | Pointer to **string** | Identity of the pending snapshot; send it to confirm or reject to act on exactly this one. | [optional] [default to ""]
 **FetchedAt** | **time.Time** |  | 
+**NeedsReview** | Pointer to **bool** | True when the update is implausibly large; the scheduled &#x60;auto&#x60; policy leaves it pending. | [optional] [default to false]
 **ProtectedModelCount** | **int32** |  | 
 **RemovedCount** | **int32** |  | 
+**ReviewReason** | Pointer to **NullableString** | Why the update needs review. | [optional] 
 
 ## Methods
 
@@ -111,6 +114,31 @@ and a boolean to check if the value has been set.
 SetChangesTruncated sets ChangesTruncated field to given value.
 
 
+### GetDigest
+
+`func (o *PricingRefreshPreviewResponse) GetDigest() string`
+
+GetDigest returns the Digest field if non-nil, zero value otherwise.
+
+### GetDigestOk
+
+`func (o *PricingRefreshPreviewResponse) GetDigestOk() (*string, bool)`
+
+GetDigestOk returns a tuple with the Digest field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDigest
+
+`func (o *PricingRefreshPreviewResponse) SetDigest(v string)`
+
+SetDigest sets Digest field to given value.
+
+### HasDigest
+
+`func (o *PricingRefreshPreviewResponse) HasDigest() bool`
+
+HasDigest returns a boolean if a field has been set.
+
 ### GetFetchedAt
 
 `func (o *PricingRefreshPreviewResponse) GetFetchedAt() time.Time`
@@ -130,6 +158,31 @@ and a boolean to check if the value has been set.
 
 SetFetchedAt sets FetchedAt field to given value.
 
+
+### GetNeedsReview
+
+`func (o *PricingRefreshPreviewResponse) GetNeedsReview() bool`
+
+GetNeedsReview returns the NeedsReview field if non-nil, zero value otherwise.
+
+### GetNeedsReviewOk
+
+`func (o *PricingRefreshPreviewResponse) GetNeedsReviewOk() (*bool, bool)`
+
+GetNeedsReviewOk returns a tuple with the NeedsReview field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNeedsReview
+
+`func (o *PricingRefreshPreviewResponse) SetNeedsReview(v bool)`
+
+SetNeedsReview sets NeedsReview field to given value.
+
+### HasNeedsReview
+
+`func (o *PricingRefreshPreviewResponse) HasNeedsReview() bool`
+
+HasNeedsReview returns a boolean if a field has been set.
 
 ### GetProtectedModelCount
 
@@ -171,6 +224,41 @@ and a boolean to check if the value has been set.
 SetRemovedCount sets RemovedCount field to given value.
 
 
+### GetReviewReason
+
+`func (o *PricingRefreshPreviewResponse) GetReviewReason() string`
+
+GetReviewReason returns the ReviewReason field if non-nil, zero value otherwise.
+
+### GetReviewReasonOk
+
+`func (o *PricingRefreshPreviewResponse) GetReviewReasonOk() (*string, bool)`
+
+GetReviewReasonOk returns a tuple with the ReviewReason field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReviewReason
+
+`func (o *PricingRefreshPreviewResponse) SetReviewReason(v string)`
+
+SetReviewReason sets ReviewReason field to given value.
+
+### HasReviewReason
+
+`func (o *PricingRefreshPreviewResponse) HasReviewReason() bool`
+
+HasReviewReason returns a boolean if a field has been set.
+
+### SetReviewReasonNil
+
+`func (o *PricingRefreshPreviewResponse) SetReviewReasonNil(b bool)`
+
+ SetReviewReasonNil sets the value for ReviewReason to be an explicit nil
+
+### UnsetReviewReason
+`func (o *PricingRefreshPreviewResponse) UnsetReviewReason()`
+
+UnsetReviewReason ensures that no value is present for ReviewReason, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
