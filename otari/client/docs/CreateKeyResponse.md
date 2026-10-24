@@ -5,16 +5,21 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | **[]string** |  | 
+**AllowedTools** | **[]string** |  | 
 **CaptureAgentTelemetry** | **NullableBool** |  | 
 **CreatedAt** | **string** |  | 
+**EndUserBudgetId** | **NullableString** |  | 
+**EndUserBudgetIds** | **[]string** |  | 
 **ExcludeFromBudget** | **bool** |  | 
 **ExpiresAt** | **NullableString** |  | 
 **Id** | **string** |  | 
 **IsActive** | **bool** |  | 
+**IsServiceKey** | **bool** |  | 
 **Key** | **string** |  | 
 **KeyName** | **NullableString** |  | 
 **KeyPrefix** | **NullableString** |  | 
 **KeySuffix** | **NullableString** |  | 
+**MaxEndUsers** | **NullableInt32** |  | 
 **Metadata** | **map[string]interface{}** |  | 
 **RejectUserMismatch** | **NullableBool** |  | 
 **UserId** | **NullableString** |  | 
@@ -23,7 +28,7 @@ Name | Type | Description | Notes
 
 ### NewCreateKeyResponse
 
-`func NewCreateKeyResponse(allowedModels []string, captureAgentTelemetry NullableBool, createdAt string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, key string, keyName NullableString, keyPrefix NullableString, keySuffix NullableString, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, ) *CreateKeyResponse`
+`func NewCreateKeyResponse(allowedModels []string, allowedTools []string, captureAgentTelemetry NullableBool, createdAt string, endUserBudgetId NullableString, endUserBudgetIds []string, excludeFromBudget bool, expiresAt NullableString, id string, isActive bool, isServiceKey bool, key string, keyName NullableString, keyPrefix NullableString, keySuffix NullableString, maxEndUsers NullableInt32, metadata map[string]interface{}, rejectUserMismatch NullableBool, userId NullableString, ) *CreateKeyResponse`
 
 NewCreateKeyResponse instantiates a new CreateKeyResponse object
 This constructor will assign default values to properties that have it defined,
@@ -68,6 +73,36 @@ SetAllowedModels sets AllowedModels field to given value.
 `func (o *CreateKeyResponse) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetAllowedTools
+
+`func (o *CreateKeyResponse) GetAllowedTools() []string`
+
+GetAllowedTools returns the AllowedTools field if non-nil, zero value otherwise.
+
+### GetAllowedToolsOk
+
+`func (o *CreateKeyResponse) GetAllowedToolsOk() (*[]string, bool)`
+
+GetAllowedToolsOk returns a tuple with the AllowedTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedTools
+
+`func (o *CreateKeyResponse) SetAllowedTools(v []string)`
+
+SetAllowedTools sets AllowedTools field to given value.
+
+
+### SetAllowedToolsNil
+
+`func (o *CreateKeyResponse) SetAllowedToolsNil(b bool)`
+
+ SetAllowedToolsNil sets the value for AllowedTools to be an explicit nil
+
+### UnsetAllowedTools
+`func (o *CreateKeyResponse) UnsetAllowedTools()`
+
+UnsetAllowedTools ensures that no value is present for AllowedTools, not even an explicit nil
 ### GetCaptureAgentTelemetry
 
 `func (o *CreateKeyResponse) GetCaptureAgentTelemetry() bool`
@@ -116,6 +151,56 @@ and a boolean to check if the value has been set.
 `func (o *CreateKeyResponse) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
+
+
+### GetEndUserBudgetId
+
+`func (o *CreateKeyResponse) GetEndUserBudgetId() string`
+
+GetEndUserBudgetId returns the EndUserBudgetId field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdOk
+
+`func (o *CreateKeyResponse) GetEndUserBudgetIdOk() (*string, bool)`
+
+GetEndUserBudgetIdOk returns a tuple with the EndUserBudgetId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetId
+
+`func (o *CreateKeyResponse) SetEndUserBudgetId(v string)`
+
+SetEndUserBudgetId sets EndUserBudgetId field to given value.
+
+
+### SetEndUserBudgetIdNil
+
+`func (o *CreateKeyResponse) SetEndUserBudgetIdNil(b bool)`
+
+ SetEndUserBudgetIdNil sets the value for EndUserBudgetId to be an explicit nil
+
+### UnsetEndUserBudgetId
+`func (o *CreateKeyResponse) UnsetEndUserBudgetId()`
+
+UnsetEndUserBudgetId ensures that no value is present for EndUserBudgetId, not even an explicit nil
+### GetEndUserBudgetIds
+
+`func (o *CreateKeyResponse) GetEndUserBudgetIds() []string`
+
+GetEndUserBudgetIds returns the EndUserBudgetIds field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdsOk
+
+`func (o *CreateKeyResponse) GetEndUserBudgetIdsOk() (*[]string, bool)`
+
+GetEndUserBudgetIdsOk returns a tuple with the EndUserBudgetIds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetIds
+
+`func (o *CreateKeyResponse) SetEndUserBudgetIds(v []string)`
+
+SetEndUserBudgetIds sets EndUserBudgetIds field to given value.
 
 
 ### GetExcludeFromBudget
@@ -206,6 +291,26 @@ and a boolean to check if the value has been set.
 `func (o *CreateKeyResponse) SetIsActive(v bool)`
 
 SetIsActive sets IsActive field to given value.
+
+
+### GetIsServiceKey
+
+`func (o *CreateKeyResponse) GetIsServiceKey() bool`
+
+GetIsServiceKey returns the IsServiceKey field if non-nil, zero value otherwise.
+
+### GetIsServiceKeyOk
+
+`func (o *CreateKeyResponse) GetIsServiceKeyOk() (*bool, bool)`
+
+GetIsServiceKeyOk returns a tuple with the IsServiceKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIsServiceKey
+
+`func (o *CreateKeyResponse) SetIsServiceKey(v bool)`
+
+SetIsServiceKey sets IsServiceKey field to given value.
 
 
 ### GetKey
@@ -318,6 +423,36 @@ SetKeySuffix sets KeySuffix field to given value.
 `func (o *CreateKeyResponse) UnsetKeySuffix()`
 
 UnsetKeySuffix ensures that no value is present for KeySuffix, not even an explicit nil
+### GetMaxEndUsers
+
+`func (o *CreateKeyResponse) GetMaxEndUsers() int32`
+
+GetMaxEndUsers returns the MaxEndUsers field if non-nil, zero value otherwise.
+
+### GetMaxEndUsersOk
+
+`func (o *CreateKeyResponse) GetMaxEndUsersOk() (*int32, bool)`
+
+GetMaxEndUsersOk returns a tuple with the MaxEndUsers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMaxEndUsers
+
+`func (o *CreateKeyResponse) SetMaxEndUsers(v int32)`
+
+SetMaxEndUsers sets MaxEndUsers field to given value.
+
+
+### SetMaxEndUsersNil
+
+`func (o *CreateKeyResponse) SetMaxEndUsersNil(b bool)`
+
+ SetMaxEndUsersNil sets the value for MaxEndUsers to be an explicit nil
+
+### UnsetMaxEndUsers
+`func (o *CreateKeyResponse) UnsetMaxEndUsers()`
+
+UnsetMaxEndUsers ensures that no value is present for MaxEndUsers, not even an explicit nil
 ### GetMetadata
 
 `func (o *CreateKeyResponse) GetMetadata() map[string]interface{}`

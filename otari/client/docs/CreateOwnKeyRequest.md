@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | Pointer to **[]string** | Model allow-list: null &#x3D; any model your user default allows, [] &#x3D; deny all, or canonical instance:model entries. A key can only narrow your own model access, never broaden it. | [optional] 
+**AllowedTools** | Pointer to **[]string** | Search tool allow-list for POST /api/v1/search: null &#x3D; inherit your own, [] &#x3D; no tool, or search tool names (&#39;*&#39; for every search tool). A key can only narrow your own tool access. | [optional] 
 **CaptureAgentTelemetry** | Pointer to **NullableBool** | Per-key override of the deployment-wide capture_agent_telemetry setting: null (default) inherits it, true always stores this key&#39;s coding-agent telemetry, false always discards it. | [optional] 
 **ExpiresAt** | Pointer to **NullableTime** | Optional expiration timestamp | [optional] 
 **KeyName** | Pointer to **NullableString** | Optional name for the key | [optional] 
@@ -66,6 +67,41 @@ HasAllowedModels returns a boolean if a field has been set.
 `func (o *CreateOwnKeyRequest) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetAllowedTools
+
+`func (o *CreateOwnKeyRequest) GetAllowedTools() []string`
+
+GetAllowedTools returns the AllowedTools field if non-nil, zero value otherwise.
+
+### GetAllowedToolsOk
+
+`func (o *CreateOwnKeyRequest) GetAllowedToolsOk() (*[]string, bool)`
+
+GetAllowedToolsOk returns a tuple with the AllowedTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedTools
+
+`func (o *CreateOwnKeyRequest) SetAllowedTools(v []string)`
+
+SetAllowedTools sets AllowedTools field to given value.
+
+### HasAllowedTools
+
+`func (o *CreateOwnKeyRequest) HasAllowedTools() bool`
+
+HasAllowedTools returns a boolean if a field has been set.
+
+### SetAllowedToolsNil
+
+`func (o *CreateOwnKeyRequest) SetAllowedToolsNil(b bool)`
+
+ SetAllowedToolsNil sets the value for AllowedTools to be an explicit nil
+
+### UnsetAllowedTools
+`func (o *CreateOwnKeyRequest) UnsetAllowedTools()`
+
+UnsetAllowedTools ensures that no value is present for AllowedTools, not even an explicit nil
 ### GetCaptureAgentTelemetry
 
 `func (o *CreateOwnKeyRequest) GetCaptureAgentTelemetry() bool`

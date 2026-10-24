@@ -5,16 +5,17 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Cost** | **float32** | USD charged for this line. | 
+**Label** | **string** | What served the calls: &#39;&lt;provider&gt;:&lt;instance&gt;&#39; for a search or fetch instance, &#39;builtin:builtin_fetch&#39; for the built-in fetcher, &#39;org:&lt;provider&gt;&#39; for an organization&#39;s own key, or &#39;otari:&lt;tool&gt;&#39; for any other gateway-run tool. | 
 **Meter** | **string** | What was metered, e.g. &#39;request&#39; or &#39;web_search_calls&#39;. | 
-**RatePerMillion** | **float32** | USD per million units. | 
-**Units** | [**Units1**](Units1.md) |  | 
 **UnitRate** | **float32** | USD per call. | 
+**Units** | [**Units1**](Units1.md) |  | 
+**RatePerMillion** | **float32** | USD per million units. | 
 
 ## Methods
 
 ### NewUsageEntryPricingBreakdownInner
 
-`func NewUsageEntryPricingBreakdownInner(cost float32, meter string, ratePerMillion float32, units Units1, unitRate float32, ) *UsageEntryPricingBreakdownInner`
+`func NewUsageEntryPricingBreakdownInner(cost float32, label string, meter string, unitRate float32, units Units1, ratePerMillion float32, ) *UsageEntryPricingBreakdownInner`
 
 NewUsageEntryPricingBreakdownInner instantiates a new UsageEntryPricingBreakdownInner object
 This constructor will assign default values to properties that have it defined,
@@ -49,6 +50,26 @@ and a boolean to check if the value has been set.
 SetCost sets Cost field to given value.
 
 
+### GetLabel
+
+`func (o *UsageEntryPricingBreakdownInner) GetLabel() string`
+
+GetLabel returns the Label field if non-nil, zero value otherwise.
+
+### GetLabelOk
+
+`func (o *UsageEntryPricingBreakdownInner) GetLabelOk() (*string, bool)`
+
+GetLabelOk returns a tuple with the Label field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLabel
+
+`func (o *UsageEntryPricingBreakdownInner) SetLabel(v string)`
+
+SetLabel sets Label field to given value.
+
+
 ### GetMeter
 
 `func (o *UsageEntryPricingBreakdownInner) GetMeter() string`
@@ -69,24 +90,24 @@ and a boolean to check if the value has been set.
 SetMeter sets Meter field to given value.
 
 
-### GetRatePerMillion
+### GetUnitRate
 
-`func (o *UsageEntryPricingBreakdownInner) GetRatePerMillion() float32`
+`func (o *UsageEntryPricingBreakdownInner) GetUnitRate() float32`
 
-GetRatePerMillion returns the RatePerMillion field if non-nil, zero value otherwise.
+GetUnitRate returns the UnitRate field if non-nil, zero value otherwise.
 
-### GetRatePerMillionOk
+### GetUnitRateOk
 
-`func (o *UsageEntryPricingBreakdownInner) GetRatePerMillionOk() (*float32, bool)`
+`func (o *UsageEntryPricingBreakdownInner) GetUnitRateOk() (*float32, bool)`
 
-GetRatePerMillionOk returns a tuple with the RatePerMillion field if it's non-nil, zero value otherwise
+GetUnitRateOk returns a tuple with the UnitRate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetRatePerMillion
+### SetUnitRate
 
-`func (o *UsageEntryPricingBreakdownInner) SetRatePerMillion(v float32)`
+`func (o *UsageEntryPricingBreakdownInner) SetUnitRate(v float32)`
 
-SetRatePerMillion sets RatePerMillion field to given value.
+SetUnitRate sets UnitRate field to given value.
 
 
 ### GetUnits
@@ -109,24 +130,24 @@ and a boolean to check if the value has been set.
 SetUnits sets Units field to given value.
 
 
-### GetUnitRate
+### GetRatePerMillion
 
-`func (o *UsageEntryPricingBreakdownInner) GetUnitRate() float32`
+`func (o *UsageEntryPricingBreakdownInner) GetRatePerMillion() float32`
 
-GetUnitRate returns the UnitRate field if non-nil, zero value otherwise.
+GetRatePerMillion returns the RatePerMillion field if non-nil, zero value otherwise.
 
-### GetUnitRateOk
+### GetRatePerMillionOk
 
-`func (o *UsageEntryPricingBreakdownInner) GetUnitRateOk() (*float32, bool)`
+`func (o *UsageEntryPricingBreakdownInner) GetRatePerMillionOk() (*float32, bool)`
 
-GetUnitRateOk returns a tuple with the UnitRate field if it's non-nil, zero value otherwise
+GetRatePerMillionOk returns a tuple with the RatePerMillion field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUnitRate
+### SetRatePerMillion
 
-`func (o *UsageEntryPricingBreakdownInner) SetUnitRate(v float32)`
+`func (o *UsageEntryPricingBreakdownInner) SetRatePerMillion(v float32)`
 
-SetUnitRate sets UnitRate field to given value.
+SetRatePerMillion sets RatePerMillion field to given value.
 
 
 

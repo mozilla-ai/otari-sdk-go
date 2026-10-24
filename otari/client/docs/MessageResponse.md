@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **StopSequence** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Type** | **string** |  | 
 **Usage** | [**MRMessageUsage**](MRMessageUsage.md) |  | 
-**RequestId** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
+**RequestId** | Pointer to **NullableString** |  | [optional] 
 **ContextManagement** | Pointer to [**NullableMRBetaContextManagementResponse**](MRBetaContextManagementResponse.md) |  | [optional] 
 **Diagnostics** | Pointer to [**NullableMRBetaDiagnostics**](MRBetaDiagnostics.md) |  | [optional] 
 

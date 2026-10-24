@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | Pointer to **[]string** |  | [optional] 
+**AllowedTools** | Pointer to **[]string** |  | [optional] 
 **CaptureAgentTelemetry** | Pointer to **NullableBool** |  | [optional] 
 **ExpiresAt** | Pointer to **NullableTime** |  | [optional] 
 **IsActive** | Pointer to **NullableBool** |  | [optional] 
@@ -66,6 +67,41 @@ HasAllowedModels returns a boolean if a field has been set.
 `func (o *UpdateOwnKeyRequest) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetAllowedTools
+
+`func (o *UpdateOwnKeyRequest) GetAllowedTools() []string`
+
+GetAllowedTools returns the AllowedTools field if non-nil, zero value otherwise.
+
+### GetAllowedToolsOk
+
+`func (o *UpdateOwnKeyRequest) GetAllowedToolsOk() (*[]string, bool)`
+
+GetAllowedToolsOk returns a tuple with the AllowedTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedTools
+
+`func (o *UpdateOwnKeyRequest) SetAllowedTools(v []string)`
+
+SetAllowedTools sets AllowedTools field to given value.
+
+### HasAllowedTools
+
+`func (o *UpdateOwnKeyRequest) HasAllowedTools() bool`
+
+HasAllowedTools returns a boolean if a field has been set.
+
+### SetAllowedToolsNil
+
+`func (o *UpdateOwnKeyRequest) SetAllowedToolsNil(b bool)`
+
+ SetAllowedToolsNil sets the value for AllowedTools to be an explicit nil
+
+### UnsetAllowedTools
+`func (o *UpdateOwnKeyRequest) UnsetAllowedTools()`
+
+UnsetAllowedTools ensures that no value is present for AllowedTools, not even an explicit nil
 ### GetCaptureAgentTelemetry
 
 `func (o *UpdateOwnKeyRequest) GetCaptureAgentTelemetry() bool`

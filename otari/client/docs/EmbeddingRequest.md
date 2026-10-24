@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Dimensions** | Pointer to **NullableInt32** |  | [optional] 
 **EncodingFormat** | Pointer to **NullableString** |  | [optional] 
 **Input** | [**Input**](Input.md) |  | 
+**InputType** | Pointer to **NullableString** | What the input will be used for, for providers whose embedding depends on it: Cohere (&#x60;search_document&#x60;, &#x60;search_query&#x60;, &#x60;classification&#x60;, &#x60;clustering&#x60;, &#x60;image&#x60;) and Voyage (&#x60;query&#x60;, &#x60;document&#x60;). The provider validates the value. Any other provider answers 400, rather than embedding the input as if the field were absent. | [optional] 
 **Model** | **string** |  | 
 **User** | Pointer to **NullableString** |  | [optional] 
 
@@ -119,6 +120,41 @@ and a boolean to check if the value has been set.
 SetInput sets Input field to given value.
 
 
+### GetInputType
+
+`func (o *EmbeddingRequest) GetInputType() string`
+
+GetInputType returns the InputType field if non-nil, zero value otherwise.
+
+### GetInputTypeOk
+
+`func (o *EmbeddingRequest) GetInputTypeOk() (*string, bool)`
+
+GetInputTypeOk returns a tuple with the InputType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetInputType
+
+`func (o *EmbeddingRequest) SetInputType(v string)`
+
+SetInputType sets InputType field to given value.
+
+### HasInputType
+
+`func (o *EmbeddingRequest) HasInputType() bool`
+
+HasInputType returns a boolean if a field has been set.
+
+### SetInputTypeNil
+
+`func (o *EmbeddingRequest) SetInputTypeNil(b bool)`
+
+ SetInputTypeNil sets the value for InputType to be an explicit nil
+
+### UnsetInputType
+`func (o *EmbeddingRequest) UnsetInputType()`
+
+UnsetInputType ensures that no value is present for InputType, not even an explicit nil
 ### GetModel
 
 `func (o *EmbeddingRequest) GetModel() string`

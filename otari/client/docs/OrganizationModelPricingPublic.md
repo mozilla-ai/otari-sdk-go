@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CacheReadPricePerMillion** | **NullableFloat32** |  | 
-**CacheWrite1hPricePerMillion** | **NullableFloat32** |  | 
 **CacheWritePricePerMillion** | **NullableFloat32** |  | 
 **CreatedAt** | **time.Time** |  | 
 **EffectiveFrom** | **time.Time** |  | 
 **EffectiveTo** | **NullableTime** |  | 
 **Id** | **string** |  | 
 **InputPricePerMillion** | **float32** |  | 
+**Kind** | **string** | What the row prices: &#39;model&#39; (the default), or &#39;search&#39; or &#39;fetch&#39; for a search or fetch instance, keyed by the instance&#39;s name and priced per call. Only the deployment operator sets a search or fetch rate. | 
 **ModelKey** | **string** |  | 
 **OrganizationId** | **string** |  | 
 **OutputPricePerMillion** | **float32** |  | 
@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewOrganizationModelPricingPublic
 
-`func NewOrganizationModelPricingPublic(cacheReadPricePerMillion NullableFloat32, cacheWrite1hPricePerMillion NullableFloat32, cacheWritePricePerMillion NullableFloat32, createdAt time.Time, effectiveFrom time.Time, effectiveTo NullableTime, id string, inputPricePerMillion float32, modelKey string, organizationId string, outputPricePerMillion float32, pricingTiers []PricingTier, unit string, updatedAt time.Time, ) *OrganizationModelPricingPublic`
+`func NewOrganizationModelPricingPublic(cacheReadPricePerMillion NullableFloat32, cacheWritePricePerMillion NullableFloat32, createdAt time.Time, effectiveFrom time.Time, effectiveTo NullableTime, id string, inputPricePerMillion float32, kind string, modelKey string, organizationId string, outputPricePerMillion float32, pricingTiers []PricingTier, unit string, updatedAt time.Time, ) *OrganizationModelPricingPublic`
 
 NewOrganizationModelPricingPublic instantiates a new OrganizationModelPricingPublic object
 This constructor will assign default values to properties that have it defined,
@@ -68,36 +68,6 @@ SetCacheReadPricePerMillion sets CacheReadPricePerMillion field to given value.
 `func (o *OrganizationModelPricingPublic) UnsetCacheReadPricePerMillion()`
 
 UnsetCacheReadPricePerMillion ensures that no value is present for CacheReadPricePerMillion, not even an explicit nil
-### GetCacheWrite1hPricePerMillion
-
-`func (o *OrganizationModelPricingPublic) GetCacheWrite1hPricePerMillion() float32`
-
-GetCacheWrite1hPricePerMillion returns the CacheWrite1hPricePerMillion field if non-nil, zero value otherwise.
-
-### GetCacheWrite1hPricePerMillionOk
-
-`func (o *OrganizationModelPricingPublic) GetCacheWrite1hPricePerMillionOk() (*float32, bool)`
-
-GetCacheWrite1hPricePerMillionOk returns a tuple with the CacheWrite1hPricePerMillion field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCacheWrite1hPricePerMillion
-
-`func (o *OrganizationModelPricingPublic) SetCacheWrite1hPricePerMillion(v float32)`
-
-SetCacheWrite1hPricePerMillion sets CacheWrite1hPricePerMillion field to given value.
-
-
-### SetCacheWrite1hPricePerMillionNil
-
-`func (o *OrganizationModelPricingPublic) SetCacheWrite1hPricePerMillionNil(b bool)`
-
- SetCacheWrite1hPricePerMillionNil sets the value for CacheWrite1hPricePerMillion to be an explicit nil
-
-### UnsetCacheWrite1hPricePerMillion
-`func (o *OrganizationModelPricingPublic) UnsetCacheWrite1hPricePerMillion()`
-
-UnsetCacheWrite1hPricePerMillion ensures that no value is present for CacheWrite1hPricePerMillion, not even an explicit nil
 ### GetCacheWritePricePerMillion
 
 `func (o *OrganizationModelPricingPublic) GetCacheWritePricePerMillion() float32`
@@ -236,6 +206,26 @@ and a boolean to check if the value has been set.
 `func (o *OrganizationModelPricingPublic) SetInputPricePerMillion(v float32)`
 
 SetInputPricePerMillion sets InputPricePerMillion field to given value.
+
+
+### GetKind
+
+`func (o *OrganizationModelPricingPublic) GetKind() string`
+
+GetKind returns the Kind field if non-nil, zero value otherwise.
+
+### GetKindOk
+
+`func (o *OrganizationModelPricingPublic) GetKindOk() (*string, bool)`
+
+GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKind
+
+`func (o *OrganizationModelPricingPublic) SetKind(v string)`
+
+SetKind sets Kind field to given value.
 
 
 ### GetModelKey
