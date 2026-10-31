@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Description** | Pointer to **NullableString** |  | [optional] 
 **Name** | Pointer to **NullableString** |  | [optional] 
+**TraceContentEnabled** | Pointer to **NullableBool** | Keep what this workspace&#39;s agent sessions were about: the prompts, commands and file paths its agents report. Only where the deployment keeps content at all. | [optional] 
 
 ## Methods
 
@@ -96,6 +97,41 @@ HasName returns a boolean if a field has been set.
 `func (o *WorkspaceUpdate) UnsetName()`
 
 UnsetName ensures that no value is present for Name, not even an explicit nil
+### GetTraceContentEnabled
+
+`func (o *WorkspaceUpdate) GetTraceContentEnabled() bool`
+
+GetTraceContentEnabled returns the TraceContentEnabled field if non-nil, zero value otherwise.
+
+### GetTraceContentEnabledOk
+
+`func (o *WorkspaceUpdate) GetTraceContentEnabledOk() (*bool, bool)`
+
+GetTraceContentEnabledOk returns a tuple with the TraceContentEnabled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTraceContentEnabled
+
+`func (o *WorkspaceUpdate) SetTraceContentEnabled(v bool)`
+
+SetTraceContentEnabled sets TraceContentEnabled field to given value.
+
+### HasTraceContentEnabled
+
+`func (o *WorkspaceUpdate) HasTraceContentEnabled() bool`
+
+HasTraceContentEnabled returns a boolean if a field has been set.
+
+### SetTraceContentEnabledNil
+
+`func (o *WorkspaceUpdate) SetTraceContentEnabledNil(b bool)`
+
+ SetTraceContentEnabledNil sets the value for TraceContentEnabled to be an explicit nil
+
+### UnsetTraceContentEnabled
+`func (o *WorkspaceUpdate) UnsetTraceContentEnabled()`
+
+UnsetTraceContentEnabled ensures that no value is present for TraceContentEnabled, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

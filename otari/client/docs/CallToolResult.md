@@ -7,7 +7,8 @@ Name | Type | Description | Notes
 **Meta** | Pointer to **map[string]interface{}** |  | [optional] 
 **Content** | [**[]ContentInner**](ContentInner.md) |  | 
 **IsError** | Pointer to **bool** |  | [optional] [default to false]
-**StructuredContent** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**ResultType** | Pointer to [**Resulttype**](Resulttype.md) |  | [optional] [default to complete]
+**StructuredContent** | Pointer to **interface{}** |  | [optional] 
 
 ## Methods
 
@@ -108,22 +109,47 @@ SetIsError sets IsError field to given value.
 
 HasIsError returns a boolean if a field has been set.
 
+### GetResultType
+
+`func (o *CallToolResult) GetResultType() Resulttype`
+
+GetResultType returns the ResultType field if non-nil, zero value otherwise.
+
+### GetResultTypeOk
+
+`func (o *CallToolResult) GetResultTypeOk() (*Resulttype, bool)`
+
+GetResultTypeOk returns a tuple with the ResultType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetResultType
+
+`func (o *CallToolResult) SetResultType(v Resulttype)`
+
+SetResultType sets ResultType field to given value.
+
+### HasResultType
+
+`func (o *CallToolResult) HasResultType() bool`
+
+HasResultType returns a boolean if a field has been set.
+
 ### GetStructuredContent
 
-`func (o *CallToolResult) GetStructuredContent() map[string]interface{}`
+`func (o *CallToolResult) GetStructuredContent() interface{}`
 
 GetStructuredContent returns the StructuredContent field if non-nil, zero value otherwise.
 
 ### GetStructuredContentOk
 
-`func (o *CallToolResult) GetStructuredContentOk() (*map[string]interface{}, bool)`
+`func (o *CallToolResult) GetStructuredContentOk() (*interface{}, bool)`
 
 GetStructuredContentOk returns a tuple with the StructuredContent field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStructuredContent
 
-`func (o *CallToolResult) SetStructuredContent(v map[string]interface{})`
+`func (o *CallToolResult) SetStructuredContent(v interface{})`
 
 SetStructuredContent sets StructuredContent field to given value.
 

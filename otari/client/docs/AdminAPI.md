@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AdminGetAdministrationAccess**](AdminAPI.md#AdminGetAdministrationAccess) | **Get** /api/v1/admin/access | Get Administration Access
+[**AdminIssuePasswordLink**](AdminAPI.md#AdminIssuePasswordLink) | **Post** /api/v1/admin/users/{user_id}/password-link | Issue Password Link
 [**AdminListDeploymentUsers**](AdminAPI.md#AdminListDeploymentUsers) | **Get** /api/v1/admin/users | List Deployment Users
 [**AdminUpdateDeploymentUser**](AdminAPI.md#AdminUpdateDeploymentUser) | **Patch** /api/v1/admin/users/{user_id} | Update Deployment User
 
@@ -71,9 +72,79 @@ Other parameters are passed through a pointer to a apiAdminGetAdministrationAcce
 [[Back to README]](../README.md)
 
 
+## AdminIssuePasswordLink
+
+> PasswordLinkPublic AdminIssuePasswordLink(ctx, userId).Execute()
+
+Issue Password Link
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	userId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AdminAPI.AdminIssuePasswordLink(context.Background(), userId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AdminAPI.AdminIssuePasswordLink``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AdminIssuePasswordLink`: PasswordLinkPublic
+	fmt.Fprintf(os.Stdout, "Response from `AdminAPI.AdminIssuePasswordLink`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**userId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAdminIssuePasswordLinkRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**PasswordLinkPublic**](PasswordLinkPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## AdminListDeploymentUsers
 
-> DeploymentUsersPublic AdminListDeploymentUsers(ctx).Skip(skip).Limit(limit).Execute()
+> DeploymentUsersPublic AdminListDeploymentUsers(ctx).Skip(skip).Limit(limit).Search(search).Execute()
 
 List Deployment Users
 
@@ -94,10 +165,11 @@ import (
 func main() {
 	skip := int32(56) // int32 | Number of records to skip (optional) (default to 0)
 	limit := int32(56) // int32 | Maximum number of records to return (optional) (default to 100)
+	search := "search_example" // string | Narrow to accounts whose name or email contains this text, case-insensitively. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AdminAPI.AdminListDeploymentUsers(context.Background()).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.AdminAPI.AdminListDeploymentUsers(context.Background()).Skip(skip).Limit(limit).Search(search).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AdminAPI.AdminListDeploymentUsers``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -120,6 +192,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **skip** | **int32** | Number of records to skip | [default to 0]
  **limit** | **int32** | Maximum number of records to return | [default to 100]
+ **search** | **string** | Narrow to accounts whose name or email contains this text, case-insensitively. | 
 
 ### Return type
 

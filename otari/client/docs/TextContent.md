@@ -7,13 +7,13 @@ Name | Type | Description | Notes
 **Meta** | Pointer to **map[string]interface{}** |  | [optional] 
 **Annotations** | Pointer to [**NullableAnnotations**](Annotations.md) |  | [optional] 
 **Text** | **string** |  | 
-**Type** | **string** |  | 
+**Type** | Pointer to **string** |  | [optional] [default to "text"]
 
 ## Methods
 
 ### NewTextContent
 
-`func NewTextContent(text string, type_ string, ) *TextContent`
+`func NewTextContent(text string, ) *TextContent`
 
 NewTextContent instantiates a new TextContent object
 This constructor will assign default values to properties that have it defined,
@@ -137,6 +137,11 @@ and a boolean to check if the value has been set.
 
 SetType sets Type field to given value.
 
+### HasType
+
+`func (o *TextContent) HasType() bool`
+
+HasType returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

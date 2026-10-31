@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**WorkspacesAddWorkspaceMember**](WorkspacesAPI.md#WorkspacesAddWorkspaceMember) | **Post** /api/v1/workspaces/{workspace_id}/members/{user_id} | Add Workspace Member
 [**WorkspacesCreateWorkspace**](WorkspacesAPI.md#WorkspacesCreateWorkspace) | **Post** /api/v1/workspaces | Create Workspace
 [**WorkspacesDeleteWorkspace**](WorkspacesAPI.md#WorkspacesDeleteWorkspace) | **Delete** /api/v1/workspaces/{workspace_id} | Delete Workspace
+[**WorkspacesDeleteWorkspaceTraceContent**](WorkspacesAPI.md#WorkspacesDeleteWorkspaceTraceContent) | **Delete** /api/v1/workspaces/{workspace_id}/trace-content | Delete Workspace Trace Content
 [**WorkspacesGetWorkspace**](WorkspacesAPI.md#WorkspacesGetWorkspace) | **Get** /api/v1/workspaces/{workspace_id} | Get Workspace
 [**WorkspacesListWorkspaceMembers**](WorkspacesAPI.md#WorkspacesListWorkspaceMembers) | **Get** /api/v1/workspaces/{workspace_id}/members | List Workspace Members
 [**WorkspacesListWorkspaces**](WorkspacesAPI.md#WorkspacesListWorkspaces) | **Get** /api/v1/workspaces | List Workspaces
@@ -203,6 +204,76 @@ Name | Type | Description  | Notes
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiWorkspacesDeleteWorkspaceRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**Message**](Message.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## WorkspacesDeleteWorkspaceTraceContent
+
+> Message WorkspacesDeleteWorkspaceTraceContent(ctx, workspaceId).Execute()
+
+Delete Workspace Trace Content
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.WorkspacesAPI.WorkspacesDeleteWorkspaceTraceContent(context.Background(), workspaceId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `WorkspacesAPI.WorkspacesDeleteWorkspaceTraceContent``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `WorkspacesDeleteWorkspaceTraceContent`: Message
+	fmt.Fprintf(os.Stdout, "Response from `WorkspacesAPI.WorkspacesDeleteWorkspaceTraceContent`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiWorkspacesDeleteWorkspaceTraceContentRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

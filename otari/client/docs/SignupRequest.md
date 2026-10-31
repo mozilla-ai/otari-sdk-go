@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Email** | **string** | The address to sign in with. An address an admin added or invited where this deployment keeps signup closed; any address where the bootstrap reports open_signup. | 
 **FullName** | Pointer to **NullableString** | Filled in only if not already set. | [optional] 
 **Password** | **string** | The password to sign in with once verified. At least 8 characters, at most 72 bytes. | 
-**TermsAccepted** | Pointer to **bool** | Whether the caller accepted this deployment&#39;s terms. | [optional] [default to false]
+**TermsAccepted** | Pointer to **bool** | Whether the caller accepted this deployment&#39;s terms. Required where the bootstrap reports a terms_url. | [optional] [default to false]
 
 ## Methods
 

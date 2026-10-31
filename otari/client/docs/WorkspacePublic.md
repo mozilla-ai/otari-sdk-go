@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **Name** | **string** |  | 
 **OrganizationId** | **string** |  | 
+**TraceContentEnabled** | Pointer to **bool** | Whether this workspace keeps what its agent sessions were about. | [optional] [default to false]
 **UpdatedAt** | Pointer to **NullableTime** |  | [optional] 
 
 ## Methods
@@ -180,6 +181,31 @@ and a boolean to check if the value has been set.
 
 SetOrganizationId sets OrganizationId field to given value.
 
+
+### GetTraceContentEnabled
+
+`func (o *WorkspacePublic) GetTraceContentEnabled() bool`
+
+GetTraceContentEnabled returns the TraceContentEnabled field if non-nil, zero value otherwise.
+
+### GetTraceContentEnabledOk
+
+`func (o *WorkspacePublic) GetTraceContentEnabledOk() (*bool, bool)`
+
+GetTraceContentEnabledOk returns a tuple with the TraceContentEnabled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTraceContentEnabled
+
+`func (o *WorkspacePublic) SetTraceContentEnabled(v bool)`
+
+SetTraceContentEnabled sets TraceContentEnabled field to given value.
+
+### HasTraceContentEnabled
+
+`func (o *WorkspacePublic) HasTraceContentEnabled() bool`
+
+HasTraceContentEnabled returns a boolean if a field has been set.
 
 ### GetUpdatedAt
 

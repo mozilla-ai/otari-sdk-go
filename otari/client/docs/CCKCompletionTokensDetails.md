@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **AudioTokens** | Pointer to **NullableInt32** |  | [optional] 
 **ReasoningTokens** | Pointer to **NullableInt32** |  | [optional] 
 **RejectedPredictionTokens** | Pointer to **NullableInt32** |  | [optional] 
+**ImageTokens** | Pointer to **NullableInt32** |  | [optional] 
 
 ## Methods
 
@@ -168,6 +169,41 @@ HasRejectedPredictionTokens returns a boolean if a field has been set.
 `func (o *CCKCompletionTokensDetails) UnsetRejectedPredictionTokens()`
 
 UnsetRejectedPredictionTokens ensures that no value is present for RejectedPredictionTokens, not even an explicit nil
+### GetImageTokens
+
+`func (o *CCKCompletionTokensDetails) GetImageTokens() int32`
+
+GetImageTokens returns the ImageTokens field if non-nil, zero value otherwise.
+
+### GetImageTokensOk
+
+`func (o *CCKCompletionTokensDetails) GetImageTokensOk() (*int32, bool)`
+
+GetImageTokensOk returns a tuple with the ImageTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetImageTokens
+
+`func (o *CCKCompletionTokensDetails) SetImageTokens(v int32)`
+
+SetImageTokens sets ImageTokens field to given value.
+
+### HasImageTokens
+
+`func (o *CCKCompletionTokensDetails) HasImageTokens() bool`
+
+HasImageTokens returns a boolean if a field has been set.
+
+### SetImageTokensNil
+
+`func (o *CCKCompletionTokensDetails) SetImageTokensNil(b bool)`
+
+ SetImageTokensNil sets the value for ImageTokens to be an explicit nil
+
+### UnsetImageTokens
+`func (o *CCKCompletionTokensDetails) UnsetImageTokens()`
+
+UnsetImageTokens ensures that no value is present for ImageTokens, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **OnUnavailable** | Pointer to **string** | What a block-mode entry does when the guardrails service cannot be reached at all | [optional] [default to "block"]
 **Profile** | **string** | Profile name configured on the guardrails service, unique within the organization | 
 **Url** | Pointer to **NullableString** | Guardrails endpoint for this entry; null uses the deployment&#39;s guardrails_url | [optional] 
-**ValidateKwargs** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**ValidateKwargs** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **WorkspaceIds** | Pointer to **[]string** | Workspaces this guardrail runs in. Must be empty when applies_to_all_workspaces is true | [optional] 
 
 ## Methods

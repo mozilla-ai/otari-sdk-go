@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Audience** | Pointer to **[]string** |  | [optional] 
+**LastModified** | Pointer to **NullableString** |  | [optional] 
 **Priority** | Pointer to **NullableFloat32** |  | [optional] 
 
 ## Methods
@@ -61,6 +62,41 @@ HasAudience returns a boolean if a field has been set.
 `func (o *Annotations) UnsetAudience()`
 
 UnsetAudience ensures that no value is present for Audience, not even an explicit nil
+### GetLastModified
+
+`func (o *Annotations) GetLastModified() string`
+
+GetLastModified returns the LastModified field if non-nil, zero value otherwise.
+
+### GetLastModifiedOk
+
+`func (o *Annotations) GetLastModifiedOk() (*string, bool)`
+
+GetLastModifiedOk returns a tuple with the LastModified field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLastModified
+
+`func (o *Annotations) SetLastModified(v string)`
+
+SetLastModified sets LastModified field to given value.
+
+### HasLastModified
+
+`func (o *Annotations) HasLastModified() bool`
+
+HasLastModified returns a boolean if a field has been set.
+
+### SetLastModifiedNil
+
+`func (o *Annotations) SetLastModifiedNil(b bool)`
+
+ SetLastModifiedNil sets the value for LastModified to be an explicit nil
+
+### UnsetLastModified
+`func (o *Annotations) UnsetLastModified()`
+
+UnsetLastModified ensures that no value is present for LastModified, not even an explicit nil
 ### GetPriority
 
 `func (o *Annotations) GetPriority() float32`

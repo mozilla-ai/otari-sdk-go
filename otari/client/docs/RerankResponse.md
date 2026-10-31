@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
+**Model** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Results** | [**[]RRRerankResult**](RRRerankResult.md) | Results sorted by relevance_score descending | 
 **Meta** | Pointer to [**NullableRRRerankMeta**](RRRerankMeta.md) |  | [optional] 
 **Usage** | Pointer to [**NullableRRRerankUsage**](RRRerankUsage.md) |  | [optional] 
@@ -63,6 +64,41 @@ HasId returns a boolean if a field has been set.
 `func (o *RerankResponse) UnsetId()`
 
 UnsetId ensures that no value is present for Id, not even an explicit nil
+### GetModel
+
+`func (o *RerankResponse) GetModel() string`
+
+GetModel returns the Model field if non-nil, zero value otherwise.
+
+### GetModelOk
+
+`func (o *RerankResponse) GetModelOk() (*string, bool)`
+
+GetModelOk returns a tuple with the Model field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetModel
+
+`func (o *RerankResponse) SetModel(v string)`
+
+SetModel sets Model field to given value.
+
+### HasModel
+
+`func (o *RerankResponse) HasModel() bool`
+
+HasModel returns a boolean if a field has been set.
+
+### SetModelNil
+
+`func (o *RerankResponse) SetModelNil(b bool)`
+
+ SetModelNil sets the value for Model to be an explicit nil
+
+### UnsetModel
+`func (o *RerankResponse) UnsetModel()`
+
+UnsetModel ensures that no value is present for Model, not even an explicit nil
 ### GetResults
 
 `func (o *RerankResponse) GetResults() []RRRerankResult`

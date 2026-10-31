@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Message** | **string** | The same message whether or not the address has a password to reset. | 
+**Message** | **string** | The same message whether or not a link was sent. | 
 
 ## Methods
 
