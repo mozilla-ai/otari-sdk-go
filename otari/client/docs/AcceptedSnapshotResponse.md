@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AcceptedAt** | **time.Time** |  | 
-**AcceptedBy** | **string** | &#x60;operator&#x60; for a dashboard confirm, &#x60;schedule&#x60; for the auto policy. | 
+**AcceptedBy** | **string** | &#x60;operator&#x60; for a catalog update an operator ran, &#x60;schedule&#x60; for the auto policy. | 
 **Id** | **string** |  | 
 **ModelCount** | **int32** |  | 
 

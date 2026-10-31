@@ -5,19 +5,19 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ContextWindow** | Pointer to **NullableInt32** |  | [optional] 
-**Credential** | [**CatalogCredential**](CatalogCredential.md) | Who may price it: &#x60;deployment&#x60; for a &#x60;providers:&#x60; instance the operator configured, &#x60;hosted&#x60; for a provider the deployment pays for in any workspace of the viewer&#39;s organization, &#x60;organization&#x60; for one the viewer&#39;s organization may set its own rate for. A workspace can still call a &#x60;hosted&#x60; provider with the organization&#39;s own key. | 
+**Credential** | [**CatalogCredential**](CatalogCredential.md) | Whose key serves it: &#x60;deployment&#x60; for a &#x60;providers:&#x60; instance the operator configured, &#x60;hosted&#x60; for a provider the deployment pays for in any workspace of the viewer&#39;s organization, &#x60;organization&#x60; for one on the organization&#39;s own key, which it may set its own rate for. A workspace can still call a &#x60;hosted&#x60; provider with the organization&#39;s own key. | 
 **Discovered** | **bool** | Whether the provider itself reported this model. | 
 **MaxOutputTokens** | Pointer to **NullableInt32** |  | [optional] 
-**MetadataInputPricePerMillion** | Pointer to **NullableFloat32** | What models.dev lists this provider charging, for a cross-check. Not billed from: two independent datasets disagreeing is the cheapest stale-price detector there is. | [optional] 
+**MetadataInputPricePerMillion** | Pointer to **NullableFloat32** | What the live models.dev catalog lists this provider charging. The default is billed from the accepted models.dev snapshot, which can lag the live catalog, so a difference means a price update is waiting for review. | [optional] 
 **MetadataOutputPricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
-**PriceReference** | Pointer to **NullableString** | For a default, the genai-prices &#x60;provider:model&#x60; entry that matched; the selector otherwise. | [optional] 
-**PriceSource** | Pointer to **NullableString** | Which price list &#x60;pricing&#x60; came from, for this viewer: the organization&#39;s own override, the deployment&#39;s stored row, or the genai-prices defaults. Null when nothing prices it. | [optional] 
+**PriceReference** | Pointer to **NullableString** | For a default, the &#x60;models.dev:&lt;provider&gt;/&lt;model&gt;&#x60; entry that matched; the selector otherwise. | [optional] 
+**PriceSource** | Pointer to **NullableString** | Which price list &#x60;pricing&#x60; came from, for this viewer: the organization&#39;s own override, the deployment&#39;s stored row, or the models.dev defaults. Null when nothing prices it. | [optional] 
 **Pricing** | Pointer to [**NullableModelPricingInfo**](ModelPricingInfo.md) |  | [optional] 
 **Provider** | **string** | The provider instance the selector names. | 
 **ProviderType** | **string** | The any-llm implementation behind the instance. | 
 **Quantization** | Pointer to **NullableString** | From the provider&#39;s id, when it names one. | [optional] 
 **Selector** | **string** | What to send as &#x60;model&#x60;, in &#x60;instance:model&#x60; form. | 
-**ShortSelector** | Pointer to **NullableString** | The pinned spelling the gateway also accepts for this offering: the instance with the model&#39;s catalog id (&#x60;fireworks:openai/gpt-oss-120b&#x60;), which pins the instance and reaches the model&#39;s cheapest offering on it. Null for a dearer sibling on the same instance, or until the gateway has indexed the catalog. | [optional] 
+**ShortSelector** | Pointer to **NullableString** | The pinned spelling the gateway also accepts for this offering: the instance with the model&#39;s catalog id (&#x60;fireworks:openai/gpt-oss-120b&#x60;), which pins the instance and reaches the model&#39;s best offering on it. Null for another build on the same instance, or until the gateway has indexed the catalog. | [optional] 
 **Usage30d** | Pointer to [**NullableOfferingUsage**](OfferingUsage.md) |  | [optional] 
 
 ## Methods

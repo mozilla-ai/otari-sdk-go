@@ -14,19 +14,21 @@ Name | Type | Description | Notes
 **McpServerIds** | Pointer to **[]string** |  | [optional] 
 **McpServers** | Pointer to [**[]McpServerConfig**](McpServerConfig.md) |  | [optional] 
 **Messages** | [**[]ChatMessageInput**](ChatMessageInput.md) |  | 
+**Metadata** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **Model** | **string** |  | 
 **N** | Pointer to **NullableInt32** |  | [optional] 
 **ParallelToolCalls** | Pointer to **NullableBool** |  | [optional] 
 **PresencePenalty** | Pointer to **NullableFloat32** |  | [optional] 
 **PromptCacheKey** | Pointer to **NullableString** |  | [optional] 
 **ReasoningEffort** | Pointer to **NullableString** |  | [optional] 
-**ResponseFormat** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**ResponseFormat** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
+**SafetyIdentifier** | Pointer to **NullableString** | A stable identifier for the end user behind the request, used as the tag the provider&#39;s end-user identifier is derived from. Wins over &#x60;user&#x60; for that, and is never sent upstream. The dashboard&#39;s Playground ignores it. | [optional] 
 **Seed** | Pointer to **NullableInt32** |  | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
-**SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to. | [optional] 
+**SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for a run, experiment or conversation, which names the session the request&#39;s trace is grouped under. Stripped before the request is forwarded upstream to the provider. | [optional] 
 **Stop** | Pointer to [**NullableStop**](Stop.md) |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
-**StreamOptions** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**StreamOptions** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **Temperature** | Pointer to **NullableFloat32** |  | [optional] 
 **ToolChoice** | Pointer to [**NullableToolChoice**](ToolChoice.md) |  | [optional] 
 **Tools** | Pointer to [**[]ChatCompletionRequestToolsInner**](ChatCompletionRequestToolsInner.md) |  | [optional] 
@@ -389,6 +391,41 @@ and a boolean to check if the value has been set.
 SetMessages sets Messages field to given value.
 
 
+### GetMetadata
+
+`func (o *ChatCompletionRequest) GetMetadata() map[string]interface{}`
+
+GetMetadata returns the Metadata field if non-nil, zero value otherwise.
+
+### GetMetadataOk
+
+`func (o *ChatCompletionRequest) GetMetadataOk() (*map[string]interface{}, bool)`
+
+GetMetadataOk returns a tuple with the Metadata field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetadata
+
+`func (o *ChatCompletionRequest) SetMetadata(v map[string]interface{})`
+
+SetMetadata sets Metadata field to given value.
+
+### HasMetadata
+
+`func (o *ChatCompletionRequest) HasMetadata() bool`
+
+HasMetadata returns a boolean if a field has been set.
+
+### SetMetadataNil
+
+`func (o *ChatCompletionRequest) SetMetadataNil(b bool)`
+
+ SetMetadataNil sets the value for Metadata to be an explicit nil
+
+### UnsetMetadata
+`func (o *ChatCompletionRequest) UnsetMetadata()`
+
+UnsetMetadata ensures that no value is present for Metadata, not even an explicit nil
 ### GetModel
 
 `func (o *ChatCompletionRequest) GetModel() string`
@@ -619,6 +656,41 @@ HasResponseFormat returns a boolean if a field has been set.
 `func (o *ChatCompletionRequest) UnsetResponseFormat()`
 
 UnsetResponseFormat ensures that no value is present for ResponseFormat, not even an explicit nil
+### GetSafetyIdentifier
+
+`func (o *ChatCompletionRequest) GetSafetyIdentifier() string`
+
+GetSafetyIdentifier returns the SafetyIdentifier field if non-nil, zero value otherwise.
+
+### GetSafetyIdentifierOk
+
+`func (o *ChatCompletionRequest) GetSafetyIdentifierOk() (*string, bool)`
+
+GetSafetyIdentifierOk returns a tuple with the SafetyIdentifier field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSafetyIdentifier
+
+`func (o *ChatCompletionRequest) SetSafetyIdentifier(v string)`
+
+SetSafetyIdentifier sets SafetyIdentifier field to given value.
+
+### HasSafetyIdentifier
+
+`func (o *ChatCompletionRequest) HasSafetyIdentifier() bool`
+
+HasSafetyIdentifier returns a boolean if a field has been set.
+
+### SetSafetyIdentifierNil
+
+`func (o *ChatCompletionRequest) SetSafetyIdentifierNil(b bool)`
+
+ SetSafetyIdentifierNil sets the value for SafetyIdentifier to be an explicit nil
+
+### UnsetSafetyIdentifier
+`func (o *ChatCompletionRequest) UnsetSafetyIdentifier()`
+
+UnsetSafetyIdentifier ensures that no value is present for SafetyIdentifier, not even an explicit nil
 ### GetSeed
 
 `func (o *ChatCompletionRequest) GetSeed() int32`

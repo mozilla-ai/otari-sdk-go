@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Alias** | Pointer to **NullableString** | Optional admin-facing alias | [optional] 
 **AllowedModels** | Pointer to **[]string** | Default model access-list this user&#39;s keys inherit; null &#x3D; unrestricted, [] &#x3D; deny all | [optional] 
+**AllowedTools** | Pointer to **[]string** | Default search tool access-list this user&#39;s keys inherit: null &#x3D; the tools allowed_models grants, [] &#x3D; no tool, or search tool names (&#39;*&#39; for every search tool). | [optional] 
 **Blocked** | Pointer to **bool** | Whether user is blocked | [optional] [default to false]
 **BudgetId** | Pointer to **NullableString** | Optional budget ID | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** | Optional metadata | [optional] 
@@ -100,6 +101,41 @@ HasAllowedModels returns a boolean if a field has been set.
 `func (o *CreateUserRequest) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetAllowedTools
+
+`func (o *CreateUserRequest) GetAllowedTools() []string`
+
+GetAllowedTools returns the AllowedTools field if non-nil, zero value otherwise.
+
+### GetAllowedToolsOk
+
+`func (o *CreateUserRequest) GetAllowedToolsOk() (*[]string, bool)`
+
+GetAllowedToolsOk returns a tuple with the AllowedTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedTools
+
+`func (o *CreateUserRequest) SetAllowedTools(v []string)`
+
+SetAllowedTools sets AllowedTools field to given value.
+
+### HasAllowedTools
+
+`func (o *CreateUserRequest) HasAllowedTools() bool`
+
+HasAllowedTools returns a boolean if a field has been set.
+
+### SetAllowedToolsNil
+
+`func (o *CreateUserRequest) SetAllowedToolsNil(b bool)`
+
+ SetAllowedToolsNil sets the value for AllowedTools to be an explicit nil
+
+### UnsetAllowedTools
+`func (o *CreateUserRequest) UnsetAllowedTools()`
+
+UnsetAllowedTools ensures that no value is present for AllowedTools, not even an explicit nil
 ### GetBlocked
 
 `func (o *CreateUserRequest) GetBlocked() bool`

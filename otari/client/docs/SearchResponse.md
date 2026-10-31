@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Object** | Pointer to **string** |  | [optional] [default to "search"]
+**Raw** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **Results** | [**[]SearchResultItem**](SearchResultItem.md) |  | 
 **SearchTool** | **string** | The configured search tool that served the request | 
 
@@ -52,6 +53,41 @@ SetObject sets Object field to given value.
 
 HasObject returns a boolean if a field has been set.
 
+### GetRaw
+
+`func (o *SearchResponse) GetRaw() map[string]interface{}`
+
+GetRaw returns the Raw field if non-nil, zero value otherwise.
+
+### GetRawOk
+
+`func (o *SearchResponse) GetRawOk() (*map[string]interface{}, bool)`
+
+GetRawOk returns a tuple with the Raw field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRaw
+
+`func (o *SearchResponse) SetRaw(v map[string]interface{})`
+
+SetRaw sets Raw field to given value.
+
+### HasRaw
+
+`func (o *SearchResponse) HasRaw() bool`
+
+HasRaw returns a boolean if a field has been set.
+
+### SetRawNil
+
+`func (o *SearchResponse) SetRawNil(b bool)`
+
+ SetRawNil sets the value for Raw to be an explicit nil
+
+### UnsetRaw
+`func (o *SearchResponse) UnsetRaw()`
+
+UnsetRaw ensures that no value is present for Raw, not even an explicit nil
 ### GetResults
 
 `func (o *SearchResponse) GetResults() []SearchResultItem`

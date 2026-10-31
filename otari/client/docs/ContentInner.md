@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Meta** | Pointer to **map[string]interface{}** |  | [optional] 
 **Annotations** | Pointer to [**Annotations**](Annotations.md) |  | [optional] 
 **Text** | **string** |  | 
-**Type** | **string** |  | 
+**Type** | Pointer to **string** |  | [optional] [default to "text"]
 **Data** | **string** |  | 
 **MimeType** | **string** |  | 
 **Description** | Pointer to **string** |  | [optional] 
@@ -22,7 +22,7 @@ Name | Type | Description | Notes
 
 ### NewContentInner
 
-`func NewContentInner(text string, type_ string, data string, mimeType string, name string, uri string, resource Resource, ) *ContentInner`
+`func NewContentInner(text string, data string, mimeType string, name string, uri string, resource Resource, ) *ContentInner`
 
 NewContentInner instantiates a new ContentInner object
 This constructor will assign default values to properties that have it defined,
@@ -126,6 +126,11 @@ and a boolean to check if the value has been set.
 
 SetType sets Type field to given value.
 
+### HasType
+
+`func (o *ContentInner) HasType() bool`
+
+HasType returns a boolean if a field has been set.
 
 ### GetData
 

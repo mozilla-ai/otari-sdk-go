@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **BudgetUsedPct** | Pointer to **NullableFloat32** | Simulated budget usage percentage. | [optional] 
 **KeyId** | Pointer to **NullableString** | Evaluate conditions as this API key id. | [optional] 
 **Name** | Pointer to **NullableString** | An existing policy to explain. | [optional] 
-**Spec** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**Spec** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **UserId** | Pointer to **NullableString** | Evaluate conditions as this user. | [optional] 
 **WorkspaceId** | Pointer to **NullableString** | Resolve &#x60;name&#x60; and the policy&#39;s candidate selectors in this workspace. Omit for the deployment&#39;s default workspace. | [optional] 
 

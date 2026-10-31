@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CodeExecution** | [**PlaygroundToolStatus**](PlaygroundToolStatus.md) |  | 
+**Files** | [**PlaygroundToolStatus**](PlaygroundToolStatus.md) | Whether a message may attach a file uploaded here. | 
 **McpServers** | [**[]PlaygroundMcpServer**](PlaygroundMcpServer.md) |  | 
 **WebSearch** | [**PlaygroundToolStatus**](PlaygroundToolStatus.md) |  | 
 
@@ -12,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewPlaygroundToolsResponse
 
-`func NewPlaygroundToolsResponse(codeExecution PlaygroundToolStatus, mcpServers []PlaygroundMcpServer, webSearch PlaygroundToolStatus, ) *PlaygroundToolsResponse`
+`func NewPlaygroundToolsResponse(codeExecution PlaygroundToolStatus, files PlaygroundToolStatus, mcpServers []PlaygroundMcpServer, webSearch PlaygroundToolStatus, ) *PlaygroundToolsResponse`
 
 NewPlaygroundToolsResponse instantiates a new PlaygroundToolsResponse object
 This constructor will assign default values to properties that have it defined,
@@ -45,6 +46,26 @@ and a boolean to check if the value has been set.
 `func (o *PlaygroundToolsResponse) SetCodeExecution(v PlaygroundToolStatus)`
 
 SetCodeExecution sets CodeExecution field to given value.
+
+
+### GetFiles
+
+`func (o *PlaygroundToolsResponse) GetFiles() PlaygroundToolStatus`
+
+GetFiles returns the Files field if non-nil, zero value otherwise.
+
+### GetFilesOk
+
+`func (o *PlaygroundToolsResponse) GetFilesOk() (*PlaygroundToolStatus, bool)`
+
+GetFilesOk returns a tuple with the Files field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFiles
+
+`func (o *PlaygroundToolsResponse) SetFiles(v PlaygroundToolStatus)`
+
+SetFiles sets Files field to given value.
 
 
 ### GetMcpServers

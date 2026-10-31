@@ -229,7 +229,7 @@ import (
 )
 
 func main() {
-	provider := "provider_example" // string | Filter models by provider name (optional)
+	provider := "provider_example" // string | Only the models this provider instance serves, described as served there. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -254,7 +254,7 @@ Other parameters are passed through a pointer to a apiModelsListModelsRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **provider** | **string** | Filter models by provider name | 
+ **provider** | **string** | Only the models this provider instance serves, described as served there. | 
 
 ### Return type
 

@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **NewPassword** | **string** | The password to sign in with from now on. At least 8 characters, at most 72 bytes. | 
+**TermsAccepted** | Pointer to **bool** | Whether the caller accepted this deployment&#39;s terms. Required where the bootstrap reports a terms_url and the account has not accepted them yet. | [optional] [default to false]
 **Token** | **string** | The token from the reset link. | 
 
 ## Methods
@@ -45,6 +46,31 @@ and a boolean to check if the value has been set.
 
 SetNewPassword sets NewPassword field to given value.
 
+
+### GetTermsAccepted
+
+`func (o *ResetPasswordRequest) GetTermsAccepted() bool`
+
+GetTermsAccepted returns the TermsAccepted field if non-nil, zero value otherwise.
+
+### GetTermsAcceptedOk
+
+`func (o *ResetPasswordRequest) GetTermsAcceptedOk() (*bool, bool)`
+
+GetTermsAcceptedOk returns a tuple with the TermsAccepted field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTermsAccepted
+
+`func (o *ResetPasswordRequest) SetTermsAccepted(v bool)`
+
+SetTermsAccepted sets TermsAccepted field to given value.
+
+### HasTermsAccepted
+
+`func (o *ResetPasswordRequest) HasTermsAccepted() bool`
+
+HasTermsAccepted returns a boolean if a field has been set.
 
 ### GetToken
 

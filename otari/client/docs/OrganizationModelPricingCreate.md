@@ -5,15 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CacheReadPricePerMillion** | Pointer to **NullableFloat32** | Price per 1M cached-input tokens | [optional] 
-**CacheWrite1hPricePerMillion** | Pointer to **NullableFloat32** | Price per 1M Anthropic 1-hour cache-write tokens | [optional] 
 **CacheWritePricePerMillion** | Pointer to **NullableFloat32** | Price per 1M cache-write (creation) tokens | [optional] 
 **EffectiveFrom** | Pointer to **NullableTime** | ISO 8601 datetime from which this rate applies, inclusive. Defaults to now. | [optional] 
 **EffectiveTo** | Pointer to **NullableTime** | ISO 8601 datetime at which this rate stops applying, exclusive. Null leaves it open ended. Because the end is exclusive, the next period may begin at exactly this instant without overlapping. | [optional] 
-**InputPricePerMillion** | **float32** | Price per 1M input tokens | 
-**ModelKey** | **string** | Model identifier in &#39;provider:model&#39; form, matching the key the deployment price list uses. A provider instance name is valid here (&#39;home_lab:llama-3&#39;), because pricing keys on the instance a request resolves to. | 
-**OutputPricePerMillion** | **float32** | Price per 1M output tokens | 
+**InputPricePerMillion** | **float32** | Price per 1M of the rate&#39;s unit: input tokens, requests or images | 
+**Kind** | Pointer to **NullableString** | What the row prices: &#39;model&#39; (the default), or &#39;search&#39; or &#39;fetch&#39; for a search or fetch instance, keyed by the instance&#39;s name and priced per call. Only the deployment operator sets a search or fetch rate. | [optional] 
+**ModelKey** | **string** | For a model, &#39;provider:model&#39;, matching the key the deployment price list uses; a provider instance name is valid here (&#39;home_lab:llama-3&#39;), because pricing keys on the instance a request resolves to. For a search or fetch kind, the instance&#39;s name. | 
+**OutputPricePerMillion** | **float32** | Price per 1M output tokens; unused by a rate in requests or images | 
 **PricingTiers** | Pointer to [**[]PricingTier**](PricingTier.md) | Whole-request context thresholds. Fields omitted by a tier inherit the base rate. | [optional] 
-**Unit** | Pointer to **string** | What the rates are per: tokens for a model, requests or images for a non-token endpoint. | [optional] [default to "tokens"]
+**Unit** | Pointer to **string** | What the rates are per: tokens for a model, requests or images for a non-token endpoint, each priced per million. A completion model priced per requests is charged one request per successful call. | [optional] [default to "tokens"]
 
 ## Methods
 
@@ -69,41 +69,6 @@ HasCacheReadPricePerMillion returns a boolean if a field has been set.
 `func (o *OrganizationModelPricingCreate) UnsetCacheReadPricePerMillion()`
 
 UnsetCacheReadPricePerMillion ensures that no value is present for CacheReadPricePerMillion, not even an explicit nil
-### GetCacheWrite1hPricePerMillion
-
-`func (o *OrganizationModelPricingCreate) GetCacheWrite1hPricePerMillion() float32`
-
-GetCacheWrite1hPricePerMillion returns the CacheWrite1hPricePerMillion field if non-nil, zero value otherwise.
-
-### GetCacheWrite1hPricePerMillionOk
-
-`func (o *OrganizationModelPricingCreate) GetCacheWrite1hPricePerMillionOk() (*float32, bool)`
-
-GetCacheWrite1hPricePerMillionOk returns a tuple with the CacheWrite1hPricePerMillion field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCacheWrite1hPricePerMillion
-
-`func (o *OrganizationModelPricingCreate) SetCacheWrite1hPricePerMillion(v float32)`
-
-SetCacheWrite1hPricePerMillion sets CacheWrite1hPricePerMillion field to given value.
-
-### HasCacheWrite1hPricePerMillion
-
-`func (o *OrganizationModelPricingCreate) HasCacheWrite1hPricePerMillion() bool`
-
-HasCacheWrite1hPricePerMillion returns a boolean if a field has been set.
-
-### SetCacheWrite1hPricePerMillionNil
-
-`func (o *OrganizationModelPricingCreate) SetCacheWrite1hPricePerMillionNil(b bool)`
-
- SetCacheWrite1hPricePerMillionNil sets the value for CacheWrite1hPricePerMillion to be an explicit nil
-
-### UnsetCacheWrite1hPricePerMillion
-`func (o *OrganizationModelPricingCreate) UnsetCacheWrite1hPricePerMillion()`
-
-UnsetCacheWrite1hPricePerMillion ensures that no value is present for CacheWrite1hPricePerMillion, not even an explicit nil
 ### GetCacheWritePricePerMillion
 
 `func (o *OrganizationModelPricingCreate) GetCacheWritePricePerMillion() float32`
@@ -229,6 +194,41 @@ and a boolean to check if the value has been set.
 SetInputPricePerMillion sets InputPricePerMillion field to given value.
 
 
+### GetKind
+
+`func (o *OrganizationModelPricingCreate) GetKind() string`
+
+GetKind returns the Kind field if non-nil, zero value otherwise.
+
+### GetKindOk
+
+`func (o *OrganizationModelPricingCreate) GetKindOk() (*string, bool)`
+
+GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKind
+
+`func (o *OrganizationModelPricingCreate) SetKind(v string)`
+
+SetKind sets Kind field to given value.
+
+### HasKind
+
+`func (o *OrganizationModelPricingCreate) HasKind() bool`
+
+HasKind returns a boolean if a field has been set.
+
+### SetKindNil
+
+`func (o *OrganizationModelPricingCreate) SetKindNil(b bool)`
+
+ SetKindNil sets the value for Kind to be an explicit nil
+
+### UnsetKind
+`func (o *OrganizationModelPricingCreate) UnsetKind()`
+
+UnsetKind ensures that no value is present for Kind, not even an explicit nil
 ### GetModelKey
 
 `func (o *OrganizationModelPricingCreate) GetModelKey() string`

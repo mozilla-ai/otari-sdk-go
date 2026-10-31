@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 ## BatchesCancelBatch
 
-> interface{} BatchesCancelBatch(ctx, batchId).Provider(provider).Execute()
+> BatchResponse BatchesCancelBatch(ctx, batchId).Provider(provider).Execute()
 
 Cancel Batch
 
@@ -43,7 +43,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.BatchesCancelBatch``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `BatchesCancelBatch`: interface{}
+	// response from `BatchesCancelBatch`: BatchResponse
 	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.BatchesCancelBatch`: %v\n", resp)
 }
 ```
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**BatchResponse**](BatchResponse.md)
 
 ### Authorization
 
@@ -86,7 +86,7 @@ Name | Type | Description  | Notes
 
 ## BatchesCreateBatch
 
-> interface{} BatchesCreateBatch(ctx).CreateBatchRequest(createBatchRequest).Execute()
+> BatchResponse BatchesCreateBatch(ctx).CreateBatchRequest(createBatchRequest).Execute()
 
 Create Batch
 
@@ -114,7 +114,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.BatchesCreateBatch``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `BatchesCreateBatch`: interface{}
+	// response from `BatchesCreateBatch`: BatchResponse
 	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.BatchesCreateBatch`: %v\n", resp)
 }
 ```
@@ -134,7 +134,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**BatchResponse**](BatchResponse.md)
 
 ### Authorization
 
@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
 
 ## BatchesListBatches
 
-> interface{} BatchesListBatches(ctx).Provider(provider).After(after).Limit(limit).Execute()
+> BatchListResponse BatchesListBatches(ctx).Provider(provider).After(after).Limit(limit).Execute()
 
 List Batches
 
@@ -182,7 +182,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.BatchesListBatches``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `BatchesListBatches`: interface{}
+	// response from `BatchesListBatches`: BatchListResponse
 	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.BatchesListBatches`: %v\n", resp)
 }
 ```
@@ -204,7 +204,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**BatchListResponse**](BatchListResponse.md)
 
 ### Authorization
 
@@ -222,7 +222,7 @@ Name | Type | Description  | Notes
 
 ## BatchesRetrieveBatch
 
-> interface{} BatchesRetrieveBatch(ctx, batchId).Provider(provider).Execute()
+> BatchResponse BatchesRetrieveBatch(ctx, batchId).Provider(provider).Execute()
 
 Retrieve Batch
 
@@ -251,7 +251,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.BatchesRetrieveBatch``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `BatchesRetrieveBatch`: interface{}
+	// response from `BatchesRetrieveBatch`: BatchResponse
 	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.BatchesRetrieveBatch`: %v\n", resp)
 }
 ```
@@ -276,7 +276,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**BatchResponse**](BatchResponse.md)
 
 ### Authorization
 
@@ -294,7 +294,7 @@ Name | Type | Description  | Notes
 
 ## BatchesRetrieveBatchResults
 
-> interface{} BatchesRetrieveBatchResults(ctx, batchId).Provider(provider).Execute()
+> BatchResultsResponse BatchesRetrieveBatchResults(ctx, batchId).Provider(provider).Execute()
 
 Retrieve Batch Results
 
@@ -323,7 +323,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `BatchesAPI.BatchesRetrieveBatchResults``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `BatchesRetrieveBatchResults`: interface{}
+	// response from `BatchesRetrieveBatchResults`: BatchResultsResponse
 	fmt.Fprintf(os.Stdout, "Response from `BatchesAPI.BatchesRetrieveBatchResults`: %v\n", resp)
 }
 ```
@@ -348,7 +348,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**BatchResultsResponse**](BatchResultsResponse.md)
 
 ### Authorization
 

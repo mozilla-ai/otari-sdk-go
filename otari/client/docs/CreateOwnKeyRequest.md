@@ -5,9 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | Pointer to **[]string** | Model allow-list: null &#x3D; any model your user default allows, [] &#x3D; deny all, or canonical instance:model entries. A key can only narrow your own model access, never broaden it. | [optional] 
+**AllowedTools** | Pointer to **[]string** | Search tool allow-list for POST /api/v1/search: null &#x3D; inherit your own, [] &#x3D; no tool, or search tool names (&#39;*&#39; for every search tool). A key can only narrow your own tool access. | [optional] 
 **CaptureAgentTelemetry** | Pointer to **NullableBool** | Per-key override of the deployment-wide capture_agent_telemetry setting: null (default) inherits it, true always stores this key&#39;s coding-agent telemetry, false always discards it. | [optional] 
+**EndUserBudgetId** | Pointer to **NullableString** | Budget of this organization each end user this key creates is capped at, unless the request names another with Otari-End-User-Budget. Null leaves end users capped only by this key&#39;s own ceiling. | [optional] 
+**EndUserBudgetIds** | Pointer to **[]string** | Budgets of this organization a request may start a new end user on by naming one in Otari-End-User-Budget. Null allows end_user_budget_id alone. When both are set, end_user_budget_id must be on the list. | [optional] 
 **ExpiresAt** | Pointer to **NullableTime** | Optional expiration timestamp | [optional] 
+**IsServiceKey** | Pointer to **bool** | When true, a request may name an end user in its &#39;user&#39; field. Each end user is created on first use and billed to its own budget, while this key&#39;s own ceiling caps all of them together. Only an organization owner or admin may create one. It belongs to the organization rather than to you: every owner or admin manages it, and its end users are reachable from no other key. Fixed once the key exists. | [optional] [default to false]
 **KeyName** | Pointer to **NullableString** | Optional name for the key | [optional] 
+**MaxEndUsers** | Pointer to **NullableInt32** | Most live end users this service key may have. A request that would create one more is refused with 403 and end_user_limit_reached; deleting end users frees room. Null is 10000: an organization&#39;s service key always has a cap. | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** | Optional metadata | [optional] 
 **RejectUserMismatch** | Pointer to **NullableBool** | Per-key override of the deployment-wide reject_user_mismatch setting: null (default) inherits it, true always rejects a request naming a different &#39;user&#39;, false always accepts it. Spend binds to your own user either way. | [optional] 
 **WorkspaceId** | Pointer to **NullableString** | Workspace this key belongs to, which must be one you may see in your active organization. Omitted means that organization&#39;s default workspace, refused when you are not a member of it. | [optional] 
@@ -66,6 +71,41 @@ HasAllowedModels returns a boolean if a field has been set.
 `func (o *CreateOwnKeyRequest) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetAllowedTools
+
+`func (o *CreateOwnKeyRequest) GetAllowedTools() []string`
+
+GetAllowedTools returns the AllowedTools field if non-nil, zero value otherwise.
+
+### GetAllowedToolsOk
+
+`func (o *CreateOwnKeyRequest) GetAllowedToolsOk() (*[]string, bool)`
+
+GetAllowedToolsOk returns a tuple with the AllowedTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedTools
+
+`func (o *CreateOwnKeyRequest) SetAllowedTools(v []string)`
+
+SetAllowedTools sets AllowedTools field to given value.
+
+### HasAllowedTools
+
+`func (o *CreateOwnKeyRequest) HasAllowedTools() bool`
+
+HasAllowedTools returns a boolean if a field has been set.
+
+### SetAllowedToolsNil
+
+`func (o *CreateOwnKeyRequest) SetAllowedToolsNil(b bool)`
+
+ SetAllowedToolsNil sets the value for AllowedTools to be an explicit nil
+
+### UnsetAllowedTools
+`func (o *CreateOwnKeyRequest) UnsetAllowedTools()`
+
+UnsetAllowedTools ensures that no value is present for AllowedTools, not even an explicit nil
 ### GetCaptureAgentTelemetry
 
 `func (o *CreateOwnKeyRequest) GetCaptureAgentTelemetry() bool`
@@ -101,6 +141,76 @@ HasCaptureAgentTelemetry returns a boolean if a field has been set.
 `func (o *CreateOwnKeyRequest) UnsetCaptureAgentTelemetry()`
 
 UnsetCaptureAgentTelemetry ensures that no value is present for CaptureAgentTelemetry, not even an explicit nil
+### GetEndUserBudgetId
+
+`func (o *CreateOwnKeyRequest) GetEndUserBudgetId() string`
+
+GetEndUserBudgetId returns the EndUserBudgetId field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdOk
+
+`func (o *CreateOwnKeyRequest) GetEndUserBudgetIdOk() (*string, bool)`
+
+GetEndUserBudgetIdOk returns a tuple with the EndUserBudgetId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetId
+
+`func (o *CreateOwnKeyRequest) SetEndUserBudgetId(v string)`
+
+SetEndUserBudgetId sets EndUserBudgetId field to given value.
+
+### HasEndUserBudgetId
+
+`func (o *CreateOwnKeyRequest) HasEndUserBudgetId() bool`
+
+HasEndUserBudgetId returns a boolean if a field has been set.
+
+### SetEndUserBudgetIdNil
+
+`func (o *CreateOwnKeyRequest) SetEndUserBudgetIdNil(b bool)`
+
+ SetEndUserBudgetIdNil sets the value for EndUserBudgetId to be an explicit nil
+
+### UnsetEndUserBudgetId
+`func (o *CreateOwnKeyRequest) UnsetEndUserBudgetId()`
+
+UnsetEndUserBudgetId ensures that no value is present for EndUserBudgetId, not even an explicit nil
+### GetEndUserBudgetIds
+
+`func (o *CreateOwnKeyRequest) GetEndUserBudgetIds() []string`
+
+GetEndUserBudgetIds returns the EndUserBudgetIds field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdsOk
+
+`func (o *CreateOwnKeyRequest) GetEndUserBudgetIdsOk() (*[]string, bool)`
+
+GetEndUserBudgetIdsOk returns a tuple with the EndUserBudgetIds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetIds
+
+`func (o *CreateOwnKeyRequest) SetEndUserBudgetIds(v []string)`
+
+SetEndUserBudgetIds sets EndUserBudgetIds field to given value.
+
+### HasEndUserBudgetIds
+
+`func (o *CreateOwnKeyRequest) HasEndUserBudgetIds() bool`
+
+HasEndUserBudgetIds returns a boolean if a field has been set.
+
+### SetEndUserBudgetIdsNil
+
+`func (o *CreateOwnKeyRequest) SetEndUserBudgetIdsNil(b bool)`
+
+ SetEndUserBudgetIdsNil sets the value for EndUserBudgetIds to be an explicit nil
+
+### UnsetEndUserBudgetIds
+`func (o *CreateOwnKeyRequest) UnsetEndUserBudgetIds()`
+
+UnsetEndUserBudgetIds ensures that no value is present for EndUserBudgetIds, not even an explicit nil
 ### GetExpiresAt
 
 `func (o *CreateOwnKeyRequest) GetExpiresAt() time.Time`
@@ -136,6 +246,31 @@ HasExpiresAt returns a boolean if a field has been set.
 `func (o *CreateOwnKeyRequest) UnsetExpiresAt()`
 
 UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
+### GetIsServiceKey
+
+`func (o *CreateOwnKeyRequest) GetIsServiceKey() bool`
+
+GetIsServiceKey returns the IsServiceKey field if non-nil, zero value otherwise.
+
+### GetIsServiceKeyOk
+
+`func (o *CreateOwnKeyRequest) GetIsServiceKeyOk() (*bool, bool)`
+
+GetIsServiceKeyOk returns a tuple with the IsServiceKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIsServiceKey
+
+`func (o *CreateOwnKeyRequest) SetIsServiceKey(v bool)`
+
+SetIsServiceKey sets IsServiceKey field to given value.
+
+### HasIsServiceKey
+
+`func (o *CreateOwnKeyRequest) HasIsServiceKey() bool`
+
+HasIsServiceKey returns a boolean if a field has been set.
+
 ### GetKeyName
 
 `func (o *CreateOwnKeyRequest) GetKeyName() string`
@@ -171,6 +306,41 @@ HasKeyName returns a boolean if a field has been set.
 `func (o *CreateOwnKeyRequest) UnsetKeyName()`
 
 UnsetKeyName ensures that no value is present for KeyName, not even an explicit nil
+### GetMaxEndUsers
+
+`func (o *CreateOwnKeyRequest) GetMaxEndUsers() int32`
+
+GetMaxEndUsers returns the MaxEndUsers field if non-nil, zero value otherwise.
+
+### GetMaxEndUsersOk
+
+`func (o *CreateOwnKeyRequest) GetMaxEndUsersOk() (*int32, bool)`
+
+GetMaxEndUsersOk returns a tuple with the MaxEndUsers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMaxEndUsers
+
+`func (o *CreateOwnKeyRequest) SetMaxEndUsers(v int32)`
+
+SetMaxEndUsers sets MaxEndUsers field to given value.
+
+### HasMaxEndUsers
+
+`func (o *CreateOwnKeyRequest) HasMaxEndUsers() bool`
+
+HasMaxEndUsers returns a boolean if a field has been set.
+
+### SetMaxEndUsersNil
+
+`func (o *CreateOwnKeyRequest) SetMaxEndUsersNil(b bool)`
+
+ SetMaxEndUsersNil sets the value for MaxEndUsers to be an explicit nil
+
+### UnsetMaxEndUsers
+`func (o *CreateOwnKeyRequest) UnsetMaxEndUsers()`
+
+UnsetMaxEndUsers ensures that no value is present for MaxEndUsers, not even an explicit nil
 ### GetMetadata
 
 `func (o *CreateOwnKeyRequest) GetMetadata() map[string]interface{}`

@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **CreatedAt** | **string** |  | 
 **Enabled** | **bool** |  | 
 **HasToken** | **bool** |  | 
+**Health** | [**NullableWorkspaceMcpServerHealth**](WorkspaceMcpServerHealth.md) | The last connection check; null until one has run | 
 **Id** | **string** |  | 
 **Name** | **string** |  | 
 **PurposeHint** | **NullableString** |  | 
@@ -19,7 +20,7 @@ Name | Type | Description | Notes
 
 ### NewWorkspaceMcpServerPublic
 
-`func NewWorkspaceMcpServerPublic(allowedTools []string, createdAt string, enabled bool, hasToken bool, id string, name string, purposeHint NullableString, updatedAt string, url string, workspaceId string, ) *WorkspaceMcpServerPublic`
+`func NewWorkspaceMcpServerPublic(allowedTools []string, createdAt string, enabled bool, hasToken bool, health NullableWorkspaceMcpServerHealth, id string, name string, purposeHint NullableString, updatedAt string, url string, workspaceId string, ) *WorkspaceMcpServerPublic`
 
 NewWorkspaceMcpServerPublic instantiates a new WorkspaceMcpServerPublic object
 This constructor will assign default values to properties that have it defined,
@@ -124,6 +125,36 @@ and a boolean to check if the value has been set.
 SetHasToken sets HasToken field to given value.
 
 
+### GetHealth
+
+`func (o *WorkspaceMcpServerPublic) GetHealth() WorkspaceMcpServerHealth`
+
+GetHealth returns the Health field if non-nil, zero value otherwise.
+
+### GetHealthOk
+
+`func (o *WorkspaceMcpServerPublic) GetHealthOk() (*WorkspaceMcpServerHealth, bool)`
+
+GetHealthOk returns a tuple with the Health field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHealth
+
+`func (o *WorkspaceMcpServerPublic) SetHealth(v WorkspaceMcpServerHealth)`
+
+SetHealth sets Health field to given value.
+
+
+### SetHealthNil
+
+`func (o *WorkspaceMcpServerPublic) SetHealthNil(b bool)`
+
+ SetHealthNil sets the value for Health to be an explicit nil
+
+### UnsetHealth
+`func (o *WorkspaceMcpServerPublic) UnsetHealth()`
+
+UnsetHealth ensures that no value is present for Health, not even an explicit nil
 ### GetId
 
 `func (o *WorkspaceMcpServerPublic) GetId() string`

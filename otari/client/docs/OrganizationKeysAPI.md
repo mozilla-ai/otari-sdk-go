@@ -4,12 +4,87 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**OrganizationKeysCreateOwnFederationRule**](OrganizationKeysAPI.md#OrganizationKeysCreateOwnFederationRule) | **Post** /api/v1/organizations/me/keys/{key_id}/federation-rules | Create Own Federation Rule
 [**OrganizationKeysCreateOwnKey**](OrganizationKeysAPI.md#OrganizationKeysCreateOwnKey) | **Post** /api/v1/organizations/me/keys | Create Own Key
+[**OrganizationKeysDeleteOwnFederationRule**](OrganizationKeysAPI.md#OrganizationKeysDeleteOwnFederationRule) | **Delete** /api/v1/organizations/me/keys/{key_id}/federation-rules/{rule_id} | Delete Own Federation Rule
 [**OrganizationKeysDeleteOwnKey**](OrganizationKeysAPI.md#OrganizationKeysDeleteOwnKey) | **Delete** /api/v1/organizations/me/keys/{key_id} | Delete Own Key
+[**OrganizationKeysListOwnFederationRules**](OrganizationKeysAPI.md#OrganizationKeysListOwnFederationRules) | **Get** /api/v1/organizations/me/keys/{key_id}/federation-rules | List Own Federation Rules
 [**OrganizationKeysListOwnKeys**](OrganizationKeysAPI.md#OrganizationKeysListOwnKeys) | **Get** /api/v1/organizations/me/keys | List Own Keys
 [**OrganizationKeysRotateOwnKey**](OrganizationKeysAPI.md#OrganizationKeysRotateOwnKey) | **Post** /api/v1/organizations/me/keys/{key_id}/rotate | Rotate Own Key
 [**OrganizationKeysUpdateOwnKey**](OrganizationKeysAPI.md#OrganizationKeysUpdateOwnKey) | **Patch** /api/v1/organizations/me/keys/{key_id} | Update Own Key
 
+
+
+## OrganizationKeysCreateOwnFederationRule
+
+> FederationRulePublic OrganizationKeysCreateOwnFederationRule(ctx, keyId).FederationRuleCreate(federationRuleCreate).Execute()
+
+Create Own Federation Rule
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "keyId_example" // string | 
+	federationRuleCreate := *openapiclient.NewFederationRuleCreate("Audience_example", "Issuer_example") // FederationRuleCreate | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.OrganizationKeysAPI.OrganizationKeysCreateOwnFederationRule(context.Background(), keyId).FederationRuleCreate(federationRuleCreate).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OrganizationKeysAPI.OrganizationKeysCreateOwnFederationRule``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `OrganizationKeysCreateOwnFederationRule`: FederationRulePublic
+	fmt.Fprintf(os.Stdout, "Response from `OrganizationKeysAPI.OrganizationKeysCreateOwnFederationRule`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOrganizationKeysCreateOwnFederationRuleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **federationRuleCreate** | [**FederationRuleCreate**](FederationRuleCreate.md) |  | 
+
+### Return type
+
+[**FederationRulePublic**](FederationRulePublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## OrganizationKeysCreateOwnKey
@@ -78,6 +153,77 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## OrganizationKeysDeleteOwnFederationRule
+
+> OrganizationKeysDeleteOwnFederationRule(ctx, keyId, ruleId).Execute()
+
+Delete Own Federation Rule
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "keyId_example" // string | 
+	ruleId := "ruleId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.OrganizationKeysAPI.OrganizationKeysDeleteOwnFederationRule(context.Background(), keyId, ruleId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OrganizationKeysAPI.OrganizationKeysDeleteOwnFederationRule``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+**ruleId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOrganizationKeysDeleteOwnFederationRuleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## OrganizationKeysDeleteOwnKey
 
 > OrganizationKeysDeleteOwnKey(ctx, keyId).Execute()
@@ -131,6 +277,76 @@ Name | Type | Description  | Notes
 ### Return type
 
  (empty response body)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## OrganizationKeysListOwnFederationRules
+
+> []FederationRulePublic OrganizationKeysListOwnFederationRules(ctx, keyId).Execute()
+
+List Own Federation Rules
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "keyId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.OrganizationKeysAPI.OrganizationKeysListOwnFederationRules(context.Background(), keyId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OrganizationKeysAPI.OrganizationKeysListOwnFederationRules``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `OrganizationKeysListOwnFederationRules`: []FederationRulePublic
+	fmt.Fprintf(os.Stdout, "Response from `OrganizationKeysAPI.OrganizationKeysListOwnFederationRules`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOrganizationKeysListOwnFederationRulesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**[]FederationRulePublic**](FederationRulePublic.md)
 
 ### Authorization
 
