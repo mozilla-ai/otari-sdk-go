@@ -5,11 +5,16 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AllowedModels** | Pointer to **[]string** |  | [optional] 
+**AllowedTools** | Pointer to **[]string** |  | [optional] 
 **CaptureAgentTelemetry** | Pointer to **NullableBool** |  | [optional] 
+**EndUserBudgetId** | Pointer to **NullableString** |  | [optional] 
+**EndUserBudgetIds** | Pointer to **[]string** |  | [optional] 
 **ExcludeFromBudget** | Pointer to **NullableBool** |  | [optional] 
 **ExpiresAt** | Pointer to **NullableTime** |  | [optional] 
 **IsActive** | Pointer to **NullableBool** |  | [optional] 
+**IsServiceKey** | Pointer to **NullableBool** |  | [optional] 
 **KeyName** | Pointer to **NullableString** |  | [optional] 
+**MaxEndUsers** | Pointer to **NullableInt32** |  | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
 **RejectUserMismatch** | Pointer to **NullableBool** |  | [optional] 
 
@@ -67,6 +72,41 @@ HasAllowedModels returns a boolean if a field has been set.
 `func (o *UpdateKeyRequest) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetAllowedTools
+
+`func (o *UpdateKeyRequest) GetAllowedTools() []string`
+
+GetAllowedTools returns the AllowedTools field if non-nil, zero value otherwise.
+
+### GetAllowedToolsOk
+
+`func (o *UpdateKeyRequest) GetAllowedToolsOk() (*[]string, bool)`
+
+GetAllowedToolsOk returns a tuple with the AllowedTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedTools
+
+`func (o *UpdateKeyRequest) SetAllowedTools(v []string)`
+
+SetAllowedTools sets AllowedTools field to given value.
+
+### HasAllowedTools
+
+`func (o *UpdateKeyRequest) HasAllowedTools() bool`
+
+HasAllowedTools returns a boolean if a field has been set.
+
+### SetAllowedToolsNil
+
+`func (o *UpdateKeyRequest) SetAllowedToolsNil(b bool)`
+
+ SetAllowedToolsNil sets the value for AllowedTools to be an explicit nil
+
+### UnsetAllowedTools
+`func (o *UpdateKeyRequest) UnsetAllowedTools()`
+
+UnsetAllowedTools ensures that no value is present for AllowedTools, not even an explicit nil
 ### GetCaptureAgentTelemetry
 
 `func (o *UpdateKeyRequest) GetCaptureAgentTelemetry() bool`
@@ -102,6 +142,76 @@ HasCaptureAgentTelemetry returns a boolean if a field has been set.
 `func (o *UpdateKeyRequest) UnsetCaptureAgentTelemetry()`
 
 UnsetCaptureAgentTelemetry ensures that no value is present for CaptureAgentTelemetry, not even an explicit nil
+### GetEndUserBudgetId
+
+`func (o *UpdateKeyRequest) GetEndUserBudgetId() string`
+
+GetEndUserBudgetId returns the EndUserBudgetId field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdOk
+
+`func (o *UpdateKeyRequest) GetEndUserBudgetIdOk() (*string, bool)`
+
+GetEndUserBudgetIdOk returns a tuple with the EndUserBudgetId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetId
+
+`func (o *UpdateKeyRequest) SetEndUserBudgetId(v string)`
+
+SetEndUserBudgetId sets EndUserBudgetId field to given value.
+
+### HasEndUserBudgetId
+
+`func (o *UpdateKeyRequest) HasEndUserBudgetId() bool`
+
+HasEndUserBudgetId returns a boolean if a field has been set.
+
+### SetEndUserBudgetIdNil
+
+`func (o *UpdateKeyRequest) SetEndUserBudgetIdNil(b bool)`
+
+ SetEndUserBudgetIdNil sets the value for EndUserBudgetId to be an explicit nil
+
+### UnsetEndUserBudgetId
+`func (o *UpdateKeyRequest) UnsetEndUserBudgetId()`
+
+UnsetEndUserBudgetId ensures that no value is present for EndUserBudgetId, not even an explicit nil
+### GetEndUserBudgetIds
+
+`func (o *UpdateKeyRequest) GetEndUserBudgetIds() []string`
+
+GetEndUserBudgetIds returns the EndUserBudgetIds field if non-nil, zero value otherwise.
+
+### GetEndUserBudgetIdsOk
+
+`func (o *UpdateKeyRequest) GetEndUserBudgetIdsOk() (*[]string, bool)`
+
+GetEndUserBudgetIdsOk returns a tuple with the EndUserBudgetIds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndUserBudgetIds
+
+`func (o *UpdateKeyRequest) SetEndUserBudgetIds(v []string)`
+
+SetEndUserBudgetIds sets EndUserBudgetIds field to given value.
+
+### HasEndUserBudgetIds
+
+`func (o *UpdateKeyRequest) HasEndUserBudgetIds() bool`
+
+HasEndUserBudgetIds returns a boolean if a field has been set.
+
+### SetEndUserBudgetIdsNil
+
+`func (o *UpdateKeyRequest) SetEndUserBudgetIdsNil(b bool)`
+
+ SetEndUserBudgetIdsNil sets the value for EndUserBudgetIds to be an explicit nil
+
+### UnsetEndUserBudgetIds
+`func (o *UpdateKeyRequest) UnsetEndUserBudgetIds()`
+
+UnsetEndUserBudgetIds ensures that no value is present for EndUserBudgetIds, not even an explicit nil
 ### GetExcludeFromBudget
 
 `func (o *UpdateKeyRequest) GetExcludeFromBudget() bool`
@@ -207,6 +317,41 @@ HasIsActive returns a boolean if a field has been set.
 `func (o *UpdateKeyRequest) UnsetIsActive()`
 
 UnsetIsActive ensures that no value is present for IsActive, not even an explicit nil
+### GetIsServiceKey
+
+`func (o *UpdateKeyRequest) GetIsServiceKey() bool`
+
+GetIsServiceKey returns the IsServiceKey field if non-nil, zero value otherwise.
+
+### GetIsServiceKeyOk
+
+`func (o *UpdateKeyRequest) GetIsServiceKeyOk() (*bool, bool)`
+
+GetIsServiceKeyOk returns a tuple with the IsServiceKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIsServiceKey
+
+`func (o *UpdateKeyRequest) SetIsServiceKey(v bool)`
+
+SetIsServiceKey sets IsServiceKey field to given value.
+
+### HasIsServiceKey
+
+`func (o *UpdateKeyRequest) HasIsServiceKey() bool`
+
+HasIsServiceKey returns a boolean if a field has been set.
+
+### SetIsServiceKeyNil
+
+`func (o *UpdateKeyRequest) SetIsServiceKeyNil(b bool)`
+
+ SetIsServiceKeyNil sets the value for IsServiceKey to be an explicit nil
+
+### UnsetIsServiceKey
+`func (o *UpdateKeyRequest) UnsetIsServiceKey()`
+
+UnsetIsServiceKey ensures that no value is present for IsServiceKey, not even an explicit nil
 ### GetKeyName
 
 `func (o *UpdateKeyRequest) GetKeyName() string`
@@ -242,6 +387,41 @@ HasKeyName returns a boolean if a field has been set.
 `func (o *UpdateKeyRequest) UnsetKeyName()`
 
 UnsetKeyName ensures that no value is present for KeyName, not even an explicit nil
+### GetMaxEndUsers
+
+`func (o *UpdateKeyRequest) GetMaxEndUsers() int32`
+
+GetMaxEndUsers returns the MaxEndUsers field if non-nil, zero value otherwise.
+
+### GetMaxEndUsersOk
+
+`func (o *UpdateKeyRequest) GetMaxEndUsersOk() (*int32, bool)`
+
+GetMaxEndUsersOk returns a tuple with the MaxEndUsers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMaxEndUsers
+
+`func (o *UpdateKeyRequest) SetMaxEndUsers(v int32)`
+
+SetMaxEndUsers sets MaxEndUsers field to given value.
+
+### HasMaxEndUsers
+
+`func (o *UpdateKeyRequest) HasMaxEndUsers() bool`
+
+HasMaxEndUsers returns a boolean if a field has been set.
+
+### SetMaxEndUsersNil
+
+`func (o *UpdateKeyRequest) SetMaxEndUsersNil(b bool)`
+
+ SetMaxEndUsersNil sets the value for MaxEndUsers to be an explicit nil
+
+### UnsetMaxEndUsers
+`func (o *UpdateKeyRequest) UnsetMaxEndUsers()`
+
+UnsetMaxEndUsers ensures that no value is present for MaxEndUsers, not even an explicit nil
 ### GetMetadata
 
 `func (o *UpdateKeyRequest) GetMetadata() map[string]interface{}`

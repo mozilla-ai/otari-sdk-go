@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ServerId** | **string** |  | 
-**ServerRevision** | **string** | An opaque revision of the stored server&#39;s URL, credential, enabled state and allowlist. It detects Otari-side and platform-side configuration changes only: a remote server that changes its own catalog or a tool&#39;s behavior behind an unchanged URL will not move it. | 
+**ServerRevision** | **string** | An opaque revision of the stored server&#39;s URL, credential, enabled state and allowlist. It detects Otari-side configuration changes only: a remote server that changes its own catalog or a tool&#39;s behavior behind an unchanged URL will not move it. | 
 **Tools** | [**[]McpToolDefinition**](McpToolDefinition.md) |  | 
 **Warnings** | [**[]McpToolWarning**](McpToolWarning.md) |  | 
 

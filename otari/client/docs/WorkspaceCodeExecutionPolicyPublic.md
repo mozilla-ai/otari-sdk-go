@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **AvailableTools** | **[]string** |  | 
 **Configured** | **bool** |  | 
 **CreatedAt** | **NullableString** |  | 
+**DefaultEnabled** | **bool** |  | 
 **DefaultPurposeHint** | **NullableString** |  | 
 **Enabled** | **bool** |  | 
 **ExecTimeoutS** | **NullableInt32** |  | 
@@ -23,7 +24,7 @@ Name | Type | Description | Notes
 
 ### NewWorkspaceCodeExecutionPolicyPublic
 
-`func NewWorkspaceCodeExecutionPolicyPublic(allowedImages []string, availableTools []string, configured bool, createdAt NullableString, defaultPurposeHint NullableString, enabled bool, execTimeoutS NullableInt32, executor NullableCodeExecutor, image NullableString, maxIterations NullableInt32, sandboxConfigured bool, tools []string, updatedAt NullableString, workspaceId string, ) *WorkspaceCodeExecutionPolicyPublic`
+`func NewWorkspaceCodeExecutionPolicyPublic(allowedImages []string, availableTools []string, configured bool, createdAt NullableString, defaultEnabled bool, defaultPurposeHint NullableString, enabled bool, execTimeoutS NullableInt32, executor NullableCodeExecutor, image NullableString, maxIterations NullableInt32, sandboxConfigured bool, tools []string, updatedAt NullableString, workspaceId string, ) *WorkspaceCodeExecutionPolicyPublic`
 
 NewWorkspaceCodeExecutionPolicyPublic instantiates a new WorkspaceCodeExecutionPolicyPublic object
 This constructor will assign default values to properties that have it defined,
@@ -128,6 +129,26 @@ SetCreatedAt sets CreatedAt field to given value.
 `func (o *WorkspaceCodeExecutionPolicyPublic) UnsetCreatedAt()`
 
 UnsetCreatedAt ensures that no value is present for CreatedAt, not even an explicit nil
+### GetDefaultEnabled
+
+`func (o *WorkspaceCodeExecutionPolicyPublic) GetDefaultEnabled() bool`
+
+GetDefaultEnabled returns the DefaultEnabled field if non-nil, zero value otherwise.
+
+### GetDefaultEnabledOk
+
+`func (o *WorkspaceCodeExecutionPolicyPublic) GetDefaultEnabledOk() (*bool, bool)`
+
+GetDefaultEnabledOk returns a tuple with the DefaultEnabled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDefaultEnabled
+
+`func (o *WorkspaceCodeExecutionPolicyPublic) SetDefaultEnabled(v bool)`
+
+SetDefaultEnabled sets DefaultEnabled field to given value.
+
+
 ### GetDefaultPurposeHint
 
 `func (o *WorkspaceCodeExecutionPolicyPublic) GetDefaultPurposeHint() string`

@@ -5,10 +5,12 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**OrganizationsAcceptCallerPendingMembership**](OrganizationsAPI.md#OrganizationsAcceptCallerPendingMembership) | **Post** /api/v1/organizations/me/pending-memberships/{organization_member_id}/accept | Accept Caller Pending Membership
+[**OrganizationsBulkInviteActiveOrganizationMembers**](OrganizationsAPI.md#OrganizationsBulkInviteActiveOrganizationMembers) | **Post** /api/v1/organizations/me/member-invitations/bulk | Bulk Invite Active Organization Members
 [**OrganizationsCreateActiveOrganizationDomain**](OrganizationsAPI.md#OrganizationsCreateActiveOrganizationDomain) | **Post** /api/v1/organizations/me/domains | Create Active Organization Domain
 [**OrganizationsCreateActiveOrganizationMember**](OrganizationsAPI.md#OrganizationsCreateActiveOrganizationMember) | **Post** /api/v1/organizations/me/members | Create Active Organization Member
 [**OrganizationsCreateOrganization**](OrganizationsAPI.md#OrganizationsCreateOrganization) | **Post** /api/v1/organizations | Create Organization
 [**OrganizationsDeclineCallerPendingMembership**](OrganizationsAPI.md#OrganizationsDeclineCallerPendingMembership) | **Post** /api/v1/organizations/me/pending-memberships/{organization_member_id}/decline | Decline Caller Pending Membership
+[**OrganizationsDeleteActiveOrganization**](OrganizationsAPI.md#OrganizationsDeleteActiveOrganization) | **Delete** /api/v1/organizations/me | Delete Active Organization
 [**OrganizationsDeleteActiveOrganizationDomain**](OrganizationsAPI.md#OrganizationsDeleteActiveOrganizationDomain) | **Delete** /api/v1/organizations/me/domains/{organization_domain_id} | Delete Active Organization Domain
 [**OrganizationsGetActiveOrganizationContext**](OrganizationsAPI.md#OrganizationsGetActiveOrganizationContext) | **Get** /api/v1/organizations/me | Get Active Organization Context
 [**OrganizationsInviteActiveOrganizationMember**](OrganizationsAPI.md#OrganizationsInviteActiveOrganizationMember) | **Post** /api/v1/organizations/me/member-invitations | Invite Active Organization Member
@@ -16,6 +18,7 @@ Method | HTTP request | Description
 [**OrganizationsListActiveOrganizationMembers**](OrganizationsAPI.md#OrganizationsListActiveOrganizationMembers) | **Get** /api/v1/organizations/me/members | List Active Organization Members
 [**OrganizationsListCallerOrganizationMemberships**](OrganizationsAPI.md#OrganizationsListCallerOrganizationMemberships) | **Get** /api/v1/organizations/me/memberships | List Caller Organization Memberships
 [**OrganizationsListCallerPendingMemberships**](OrganizationsAPI.md#OrganizationsListCallerPendingMemberships) | **Get** /api/v1/organizations/me/pending-memberships | List Caller Pending Memberships
+[**OrganizationsReissueActiveOrganizationMemberInvitation**](OrganizationsAPI.md#OrganizationsReissueActiveOrganizationMemberInvitation) | **Post** /api/v1/organizations/me/member-invitations/{invitation_id}/reissue | Reissue Active Organization Member Invitation
 [**OrganizationsRemoveActiveOrganizationMember**](OrganizationsAPI.md#OrganizationsRemoveActiveOrganizationMember) | **Delete** /api/v1/organizations/me/members/{organization_member_id} | Remove Active Organization Member
 [**OrganizationsRevokeActiveOrganizationMemberInvitation**](OrganizationsAPI.md#OrganizationsRevokeActiveOrganizationMemberInvitation) | **Delete** /api/v1/organizations/me/member-invitations/{invitation_id} | Revoke Active Organization Member Invitation
 [**OrganizationsSwitchActiveOrganization**](OrganizationsAPI.md#OrganizationsSwitchActiveOrganization) | **Post** /api/v1/organizations/me/switch | Switch Active Organization
@@ -89,6 +92,72 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## OrganizationsBulkInviteActiveOrganizationMembers
+
+> BulkInviteOrganizationMembersResultPublic OrganizationsBulkInviteActiveOrganizationMembers(ctx).BulkInviteOrganizationMembersRequest(bulkInviteOrganizationMembersRequest).Execute()
+
+Bulk Invite Active Organization Members
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	bulkInviteOrganizationMembersRequest := *openapiclient.NewBulkInviteOrganizationMembersRequest([]string{"Emails_example"}) // BulkInviteOrganizationMembersRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.OrganizationsAPI.OrganizationsBulkInviteActiveOrganizationMembers(context.Background()).BulkInviteOrganizationMembersRequest(bulkInviteOrganizationMembersRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OrganizationsAPI.OrganizationsBulkInviteActiveOrganizationMembers``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `OrganizationsBulkInviteActiveOrganizationMembers`: BulkInviteOrganizationMembersResultPublic
+	fmt.Fprintf(os.Stdout, "Response from `OrganizationsAPI.OrganizationsBulkInviteActiveOrganizationMembers`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOrganizationsBulkInviteActiveOrganizationMembersRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **bulkInviteOrganizationMembersRequest** | [**BulkInviteOrganizationMembersRequest**](BulkInviteOrganizationMembersRequest.md) |  | 
+
+### Return type
+
+[**BulkInviteOrganizationMembersResultPublic**](BulkInviteOrganizationMembersResultPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -349,6 +418,67 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Message**](Message.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## OrganizationsDeleteActiveOrganization
+
+> OrganizationMembershipContextPublic OrganizationsDeleteActiveOrganization(ctx).Execute()
+
+Delete Active Organization
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.OrganizationsAPI.OrganizationsDeleteActiveOrganization(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OrganizationsAPI.OrganizationsDeleteActiveOrganization``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `OrganizationsDeleteActiveOrganization`: OrganizationMembershipContextPublic
+	fmt.Fprintf(os.Stdout, "Response from `OrganizationsAPI.OrganizationsDeleteActiveOrganization`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOrganizationsDeleteActiveOrganizationRequest struct via the builder pattern
+
+
+### Return type
+
+[**OrganizationMembershipContextPublic**](OrganizationMembershipContextPublic.md)
 
 ### Authorization
 
@@ -813,6 +943,76 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**PendingOrganizationInvitationsPublic**](PendingOrganizationInvitationsPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## OrganizationsReissueActiveOrganizationMemberInvitation
+
+> InviteOrganizationMemberResultPublic OrganizationsReissueActiveOrganizationMemberInvitation(ctx, invitationId).Execute()
+
+Reissue Active Organization Member Invitation
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	invitationId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.OrganizationsAPI.OrganizationsReissueActiveOrganizationMemberInvitation(context.Background(), invitationId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `OrganizationsAPI.OrganizationsReissueActiveOrganizationMemberInvitation``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `OrganizationsReissueActiveOrganizationMemberInvitation`: InviteOrganizationMemberResultPublic
+	fmt.Fprintf(os.Stdout, "Response from `OrganizationsAPI.OrganizationsReissueActiveOrganizationMemberInvitation`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**invitationId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOrganizationsReissueActiveOrganizationMemberInvitationRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**InviteOrganizationMemberResultPublic**](InviteOrganizationMemberResultPublic.md)
 
 ### Authorization
 

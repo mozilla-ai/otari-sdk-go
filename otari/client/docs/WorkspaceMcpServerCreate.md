@@ -7,8 +7,10 @@ Name | Type | Description | Notes
 **AllowedTools** | Pointer to **[]string** | Allow-list of tool names; null exposes every tool the server offers | [optional] 
 **AuthorizationToken** | Pointer to **NullableString** | Bearer token for the server; requires an https URL. Encrypted at rest, never returned | [optional] 
 **Enabled** | Pointer to **bool** | Whether a request naming this server actually reaches it | [optional] [default to true]
+**EveryoneTools** | Pointer to **[]string** | What every key of the workspace may call on this server: tool names, &#39;*&#39; for every tool, or &#39;prefix*&#39;, or &#39;@read&#39; for read_tools; [] denies everyone. A grant for a key or its owner overrides it | [optional] 
 **Name** | **string** | Label for the server, unique within the workspace | 
 **PurposeHint** | Pointer to **NullableString** | Hint prepended to the system message to help the model choose | [optional] 
+**ReadTools** | Pointer to **[]string** | The tool names a manager labeled read, which &#39;@read&#39; in an access rule stands for. The server&#39;s own readOnlyHint is never read as one | [optional] 
 **Url** | **string** | Streamable HTTP MCP endpoint | 
 
 ## Methods
@@ -125,6 +127,31 @@ SetEnabled sets Enabled field to given value.
 
 HasEnabled returns a boolean if a field has been set.
 
+### GetEveryoneTools
+
+`func (o *WorkspaceMcpServerCreate) GetEveryoneTools() []string`
+
+GetEveryoneTools returns the EveryoneTools field if non-nil, zero value otherwise.
+
+### GetEveryoneToolsOk
+
+`func (o *WorkspaceMcpServerCreate) GetEveryoneToolsOk() (*[]string, bool)`
+
+GetEveryoneToolsOk returns a tuple with the EveryoneTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEveryoneTools
+
+`func (o *WorkspaceMcpServerCreate) SetEveryoneTools(v []string)`
+
+SetEveryoneTools sets EveryoneTools field to given value.
+
+### HasEveryoneTools
+
+`func (o *WorkspaceMcpServerCreate) HasEveryoneTools() bool`
+
+HasEveryoneTools returns a boolean if a field has been set.
+
 ### GetName
 
 `func (o *WorkspaceMcpServerCreate) GetName() string`
@@ -180,6 +207,31 @@ HasPurposeHint returns a boolean if a field has been set.
 `func (o *WorkspaceMcpServerCreate) UnsetPurposeHint()`
 
 UnsetPurposeHint ensures that no value is present for PurposeHint, not even an explicit nil
+### GetReadTools
+
+`func (o *WorkspaceMcpServerCreate) GetReadTools() []string`
+
+GetReadTools returns the ReadTools field if non-nil, zero value otherwise.
+
+### GetReadToolsOk
+
+`func (o *WorkspaceMcpServerCreate) GetReadToolsOk() (*[]string, bool)`
+
+GetReadToolsOk returns a tuple with the ReadTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReadTools
+
+`func (o *WorkspaceMcpServerCreate) SetReadTools(v []string)`
+
+SetReadTools sets ReadTools field to given value.
+
+### HasReadTools
+
+`func (o *WorkspaceMcpServerCreate) HasReadTools() bool`
+
+HasReadTools returns a boolean if a field has been set.
+
 ### GetUrl
 
 `func (o *WorkspaceMcpServerCreate) GetUrl() string`

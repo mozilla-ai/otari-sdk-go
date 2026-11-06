@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Config** | [**[]ConfigSearchToolSchema**](ConfigSearchToolSchema.md) |  | 
-**Stored** | [**[]StoredSearchToolSchema**](StoredSearchToolSchema.md) |  | 
+**Stored** | [**[]ListedSearchToolSchema**](ListedSearchToolSchema.md) |  | 
 
 ## Methods
 
 ### NewSearchToolsResponse
 
-`func NewSearchToolsResponse(config []ConfigSearchToolSchema, stored []StoredSearchToolSchema, ) *SearchToolsResponse`
+`func NewSearchToolsResponse(config []ConfigSearchToolSchema, stored []ListedSearchToolSchema, ) *SearchToolsResponse`
 
 NewSearchToolsResponse instantiates a new SearchToolsResponse object
 This constructor will assign default values to properties that have it defined,
@@ -48,20 +48,20 @@ SetConfig sets Config field to given value.
 
 ### GetStored
 
-`func (o *SearchToolsResponse) GetStored() []StoredSearchToolSchema`
+`func (o *SearchToolsResponse) GetStored() []ListedSearchToolSchema`
 
 GetStored returns the Stored field if non-nil, zero value otherwise.
 
 ### GetStoredOk
 
-`func (o *SearchToolsResponse) GetStoredOk() (*[]StoredSearchToolSchema, bool)`
+`func (o *SearchToolsResponse) GetStoredOk() (*[]ListedSearchToolSchema, bool)`
 
 GetStoredOk returns a tuple with the Stored field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStored
 
-`func (o *SearchToolsResponse) SetStored(v []StoredSearchToolSchema)`
+`func (o *SearchToolsResponse) SetStored(v []ListedSearchToolSchema)`
 
 SetStored sets Stored field to given value.
 

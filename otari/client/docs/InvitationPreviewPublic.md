@@ -4,17 +4,19 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**CanSignIn** | **bool** | Whether the invited address can already sign in, with a password or through a provider. | 
 **Email** | **string** |  | 
 **ExpiresAt** | **time.Time** |  | 
-**NeedsPassword** | **bool** | Whether the invited address has never signed in here, so accepting should also set its password. False when the address already has a way in, and then accept refuses one. | 
+**NeedsPassword** | **bool** | Whether accepting should also set the invited address&#39;s first password. False when the address already has a way in, and also when another organization has it as a member or invitee, since this link may not choose a password for it then; can_sign_in tells the two apart. Accept refuses a password whenever this is false. | 
 **OrganizationName** | **string** |  | 
 **Role** | **string** |  | 
+**WaysIn** | **[]string** | When the address cannot sign in yet and this link will not set its password, what this deployment offers instead once it has accepted: &#39;provider&#39; (sign in with Google or GitHub) and &#39;password_reset&#39; (choose a password with \&quot;Forgot your password?\&quot;). Empty otherwise, and empty when the deployment offers neither, in which case whoever administers it has to help. | 
 
 ## Methods
 
 ### NewInvitationPreviewPublic
 
-`func NewInvitationPreviewPublic(email string, expiresAt time.Time, needsPassword bool, organizationName string, role string, ) *InvitationPreviewPublic`
+`func NewInvitationPreviewPublic(canSignIn bool, email string, expiresAt time.Time, needsPassword bool, organizationName string, role string, waysIn []string, ) *InvitationPreviewPublic`
 
 NewInvitationPreviewPublic instantiates a new InvitationPreviewPublic object
 This constructor will assign default values to properties that have it defined,
@@ -28,6 +30,26 @@ will change when the set of required properties is changed
 NewInvitationPreviewPublicWithDefaults instantiates a new InvitationPreviewPublic object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetCanSignIn
+
+`func (o *InvitationPreviewPublic) GetCanSignIn() bool`
+
+GetCanSignIn returns the CanSignIn field if non-nil, zero value otherwise.
+
+### GetCanSignInOk
+
+`func (o *InvitationPreviewPublic) GetCanSignInOk() (*bool, bool)`
+
+GetCanSignInOk returns a tuple with the CanSignIn field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCanSignIn
+
+`func (o *InvitationPreviewPublic) SetCanSignIn(v bool)`
+
+SetCanSignIn sets CanSignIn field to given value.
+
 
 ### GetEmail
 
@@ -127,6 +149,26 @@ and a boolean to check if the value has been set.
 `func (o *InvitationPreviewPublic) SetRole(v string)`
 
 SetRole sets Role field to given value.
+
+
+### GetWaysIn
+
+`func (o *InvitationPreviewPublic) GetWaysIn() []string`
+
+GetWaysIn returns the WaysIn field if non-nil, zero value otherwise.
+
+### GetWaysInOk
+
+`func (o *InvitationPreviewPublic) GetWaysInOk() (*[]string, bool)`
+
+GetWaysInOk returns a tuple with the WaysIn field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWaysIn
+
+`func (o *InvitationPreviewPublic) SetWaysIn(v []string)`
+
+SetWaysIn sets WaysIn field to given value.
 
 
 

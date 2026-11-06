@@ -1,0 +1,93 @@
+# HostedProvidersReencryptPublic
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**Reencrypted** | **int32** |  | 
+**Skipped** | **int32** |  | 
+**Unreadable** | **int32** |  | 
+
+## Methods
+
+### NewHostedProvidersReencryptPublic
+
+`func NewHostedProvidersReencryptPublic(reencrypted int32, skipped int32, unreadable int32, ) *HostedProvidersReencryptPublic`
+
+NewHostedProvidersReencryptPublic instantiates a new HostedProvidersReencryptPublic object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewHostedProvidersReencryptPublicWithDefaults
+
+`func NewHostedProvidersReencryptPublicWithDefaults() *HostedProvidersReencryptPublic`
+
+NewHostedProvidersReencryptPublicWithDefaults instantiates a new HostedProvidersReencryptPublic object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetReencrypted
+
+`func (o *HostedProvidersReencryptPublic) GetReencrypted() int32`
+
+GetReencrypted returns the Reencrypted field if non-nil, zero value otherwise.
+
+### GetReencryptedOk
+
+`func (o *HostedProvidersReencryptPublic) GetReencryptedOk() (*int32, bool)`
+
+GetReencryptedOk returns a tuple with the Reencrypted field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReencrypted
+
+`func (o *HostedProvidersReencryptPublic) SetReencrypted(v int32)`
+
+SetReencrypted sets Reencrypted field to given value.
+
+
+### GetSkipped
+
+`func (o *HostedProvidersReencryptPublic) GetSkipped() int32`
+
+GetSkipped returns the Skipped field if non-nil, zero value otherwise.
+
+### GetSkippedOk
+
+`func (o *HostedProvidersReencryptPublic) GetSkippedOk() (*int32, bool)`
+
+GetSkippedOk returns a tuple with the Skipped field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSkipped
+
+`func (o *HostedProvidersReencryptPublic) SetSkipped(v int32)`
+
+SetSkipped sets Skipped field to given value.
+
+
+### GetUnreadable
+
+`func (o *HostedProvidersReencryptPublic) GetUnreadable() int32`
+
+GetUnreadable returns the Unreadable field if non-nil, zero value otherwise.
+
+### GetUnreadableOk
+
+`func (o *HostedProvidersReencryptPublic) GetUnreadableOk() (*int32, bool)`
+
+GetUnreadableOk returns a tuple with the Unreadable field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnreadable
+
+`func (o *HostedProvidersReencryptPublic) SetUnreadable(v int32)`
+
+SetUnreadable sets Unreadable field to given value.
+
+
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

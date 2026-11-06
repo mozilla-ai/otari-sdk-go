@@ -25,12 +25,15 @@ Name | Type | Description | Notes
 **PricingBreakdown** | [**[]UsageEntryPricingBreakdownInner**](UsageEntryPricingBreakdownInner.md) |  | 
 **PromptTokens** | **NullableInt32** |  | 
 **Provider** | **NullableString** |  | 
+**ProviderLatencyMs** | **NullableInt32** |  | 
+**ReasoningTokens** | Pointer to **NullableInt32** |  | [optional] 
 **RequestGroupId** | Pointer to **NullableString** |  | [optional] 
 **SelectionReason** | Pointer to **NullableString** |  | [optional] 
 **Source** | **string** |  | 
 **SourceLabel** | **NullableString** |  | 
 **Status** | **string** |  | 
 **StatusCode** | **NullableInt32** |  | 
+**Tags** | Pointer to **map[string]string** |  | [optional] 
 **Timestamp** | **string** |  | 
 **TotalTokens** | **NullableInt32** |  | 
 **UserAlias** | Pointer to **NullableString** |  | [optional] 
@@ -40,7 +43,7 @@ Name | Type | Description | Notes
 
 ### NewUsageEntry
 
-`func NewUsageEntry(apiKeyId NullableString, billingMeters NullableBillingMeters, bulkEditable bool, cacheReadTokens NullableInt32, cacheWrite1hTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, countsTowardBudget bool, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, pricingBreakdown []UsageEntryPricingBreakdownInner, promptTokens NullableInt32, provider NullableString, source string, sourceLabel NullableString, status string, statusCode NullableInt32, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageEntry`
+`func NewUsageEntry(apiKeyId NullableString, billingMeters NullableBillingMeters, bulkEditable bool, cacheReadTokens NullableInt32, cacheWrite1hTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, countsTowardBudget bool, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, pricingBreakdown []UsageEntryPricingBreakdownInner, promptTokens NullableInt32, provider NullableString, providerLatencyMs NullableInt32, source string, sourceLabel NullableString, status string, statusCode NullableInt32, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageEntry`
 
 NewUsageEntry instantiates a new UsageEntry object
 This constructor will assign default values to properties that have it defined,
@@ -655,6 +658,71 @@ SetProvider sets Provider field to given value.
 `func (o *UsageEntry) UnsetProvider()`
 
 UnsetProvider ensures that no value is present for Provider, not even an explicit nil
+### GetProviderLatencyMs
+
+`func (o *UsageEntry) GetProviderLatencyMs() int32`
+
+GetProviderLatencyMs returns the ProviderLatencyMs field if non-nil, zero value otherwise.
+
+### GetProviderLatencyMsOk
+
+`func (o *UsageEntry) GetProviderLatencyMsOk() (*int32, bool)`
+
+GetProviderLatencyMsOk returns a tuple with the ProviderLatencyMs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProviderLatencyMs
+
+`func (o *UsageEntry) SetProviderLatencyMs(v int32)`
+
+SetProviderLatencyMs sets ProviderLatencyMs field to given value.
+
+
+### SetProviderLatencyMsNil
+
+`func (o *UsageEntry) SetProviderLatencyMsNil(b bool)`
+
+ SetProviderLatencyMsNil sets the value for ProviderLatencyMs to be an explicit nil
+
+### UnsetProviderLatencyMs
+`func (o *UsageEntry) UnsetProviderLatencyMs()`
+
+UnsetProviderLatencyMs ensures that no value is present for ProviderLatencyMs, not even an explicit nil
+### GetReasoningTokens
+
+`func (o *UsageEntry) GetReasoningTokens() int32`
+
+GetReasoningTokens returns the ReasoningTokens field if non-nil, zero value otherwise.
+
+### GetReasoningTokensOk
+
+`func (o *UsageEntry) GetReasoningTokensOk() (*int32, bool)`
+
+GetReasoningTokensOk returns a tuple with the ReasoningTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReasoningTokens
+
+`func (o *UsageEntry) SetReasoningTokens(v int32)`
+
+SetReasoningTokens sets ReasoningTokens field to given value.
+
+### HasReasoningTokens
+
+`func (o *UsageEntry) HasReasoningTokens() bool`
+
+HasReasoningTokens returns a boolean if a field has been set.
+
+### SetReasoningTokensNil
+
+`func (o *UsageEntry) SetReasoningTokensNil(b bool)`
+
+ SetReasoningTokensNil sets the value for ReasoningTokens to be an explicit nil
+
+### UnsetReasoningTokens
+`func (o *UsageEntry) UnsetReasoningTokens()`
+
+UnsetReasoningTokens ensures that no value is present for ReasoningTokens, not even an explicit nil
 ### GetRequestGroupId
 
 `func (o *UsageEntry) GetRequestGroupId() string`
@@ -825,6 +893,41 @@ SetStatusCode sets StatusCode field to given value.
 `func (o *UsageEntry) UnsetStatusCode()`
 
 UnsetStatusCode ensures that no value is present for StatusCode, not even an explicit nil
+### GetTags
+
+`func (o *UsageEntry) GetTags() map[string]string`
+
+GetTags returns the Tags field if non-nil, zero value otherwise.
+
+### GetTagsOk
+
+`func (o *UsageEntry) GetTagsOk() (*map[string]string, bool)`
+
+GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTags
+
+`func (o *UsageEntry) SetTags(v map[string]string)`
+
+SetTags sets Tags field to given value.
+
+### HasTags
+
+`func (o *UsageEntry) HasTags() bool`
+
+HasTags returns a boolean if a field has been set.
+
+### SetTagsNil
+
+`func (o *UsageEntry) SetTagsNil(b bool)`
+
+ SetTagsNil sets the value for Tags to be an explicit nil
+
+### UnsetTags
+`func (o *UsageEntry) UnsetTags()`
+
+UnsetTags ensures that no value is present for Tags, not even an explicit nil
 ### GetTimestamp
 
 `func (o *UsageEntry) GetTimestamp() string`

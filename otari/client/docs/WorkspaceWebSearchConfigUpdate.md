@@ -7,9 +7,11 @@ Name | Type | Description | Notes
 **AllowedDomains** | Pointer to **[]string** | Filters Search results and constrains initial and redirected Fetch destinations; intersected with any list the request sends | [optional] 
 **BlockedDomains** | Pointer to **[]string** | Filters Search results and blocks initial and redirected Fetch destinations; added to any list the request sends | [optional] 
 **Enabled** | **bool** | False refuses web access for this workspace through otari_web_search, otari_web_fetch, and POST /api/v1/search. | 
-**MaxResults** | Pointer to **NullableInt32** | Search only: ceiling on results one search returns; only ever lowers the effective limit, so at most 20 | [optional] 
-**ProviderOptions** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**FetchExecutor** | Pointer to [**NullableCodeExecutor**](CodeExecutor.md) | Who runs a provider-native web-fetch declaration (Anthropic&#39;s web_fetch_&lt;date&gt;) for this workspace, in search_executor&#39;s vocabulary. Pins over the request&#39;s Otari-Web-Fetch header; null leaves the header in charge | [optional] 
+**MaxResults** | Pointer to **NullableInt32** | Search only: ceiling on results one search returns, through otari_web_search and POST /api/v1/search; it only ever lowers the count a request asks for. Unset, the provider&#39;s own maximum is the only limit. | [optional] 
+**ProviderOptions** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **PurposeHint** | Pointer to **NullableString** | Search only: hint used when a request declares otari_web_search without one of its own | [optional] 
+**SearchExecutor** | Pointer to [**NullableCodeExecutor**](CodeExecutor.md) | Who runs a provider-native web-search declaration (Anthropic&#39;s web_search_&lt;date&gt;, OpenAI&#39;s web_search) for this workspace: &#39;auto&#39; (the provider when it runs the tool natively for the model, else this gateway&#39;s search), &#39;otari&#39; or &#39;provider&#39;. Pins over the request&#39;s Otari-Web-Search header; null leaves the header in charge. The deployment&#39;s web_search_intercept still claims every search | [optional] 
 
 ## Methods
 
@@ -120,6 +122,41 @@ and a boolean to check if the value has been set.
 SetEnabled sets Enabled field to given value.
 
 
+### GetFetchExecutor
+
+`func (o *WorkspaceWebSearchConfigUpdate) GetFetchExecutor() CodeExecutor`
+
+GetFetchExecutor returns the FetchExecutor field if non-nil, zero value otherwise.
+
+### GetFetchExecutorOk
+
+`func (o *WorkspaceWebSearchConfigUpdate) GetFetchExecutorOk() (*CodeExecutor, bool)`
+
+GetFetchExecutorOk returns a tuple with the FetchExecutor field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFetchExecutor
+
+`func (o *WorkspaceWebSearchConfigUpdate) SetFetchExecutor(v CodeExecutor)`
+
+SetFetchExecutor sets FetchExecutor field to given value.
+
+### HasFetchExecutor
+
+`func (o *WorkspaceWebSearchConfigUpdate) HasFetchExecutor() bool`
+
+HasFetchExecutor returns a boolean if a field has been set.
+
+### SetFetchExecutorNil
+
+`func (o *WorkspaceWebSearchConfigUpdate) SetFetchExecutorNil(b bool)`
+
+ SetFetchExecutorNil sets the value for FetchExecutor to be an explicit nil
+
+### UnsetFetchExecutor
+`func (o *WorkspaceWebSearchConfigUpdate) UnsetFetchExecutor()`
+
+UnsetFetchExecutor ensures that no value is present for FetchExecutor, not even an explicit nil
 ### GetMaxResults
 
 `func (o *WorkspaceWebSearchConfigUpdate) GetMaxResults() int32`
@@ -225,6 +262,41 @@ HasPurposeHint returns a boolean if a field has been set.
 `func (o *WorkspaceWebSearchConfigUpdate) UnsetPurposeHint()`
 
 UnsetPurposeHint ensures that no value is present for PurposeHint, not even an explicit nil
+### GetSearchExecutor
+
+`func (o *WorkspaceWebSearchConfigUpdate) GetSearchExecutor() CodeExecutor`
+
+GetSearchExecutor returns the SearchExecutor field if non-nil, zero value otherwise.
+
+### GetSearchExecutorOk
+
+`func (o *WorkspaceWebSearchConfigUpdate) GetSearchExecutorOk() (*CodeExecutor, bool)`
+
+GetSearchExecutorOk returns a tuple with the SearchExecutor field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSearchExecutor
+
+`func (o *WorkspaceWebSearchConfigUpdate) SetSearchExecutor(v CodeExecutor)`
+
+SetSearchExecutor sets SearchExecutor field to given value.
+
+### HasSearchExecutor
+
+`func (o *WorkspaceWebSearchConfigUpdate) HasSearchExecutor() bool`
+
+HasSearchExecutor returns a boolean if a field has been set.
+
+### SetSearchExecutorNil
+
+`func (o *WorkspaceWebSearchConfigUpdate) SetSearchExecutorNil(b bool)`
+
+ SetSearchExecutorNil sets the value for SearchExecutor to be an explicit nil
+
+### UnsetSearchExecutor
+`func (o *WorkspaceWebSearchConfigUpdate) UnsetSearchExecutor()`
+
+UnsetSearchExecutor ensures that no value is present for SearchExecutor, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

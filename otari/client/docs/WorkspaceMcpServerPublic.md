@@ -7,10 +7,13 @@ Name | Type | Description | Notes
 **AllowedTools** | **[]string** |  | 
 **CreatedAt** | **string** |  | 
 **Enabled** | **bool** |  | 
+**EveryoneTools** | **[]string** | What every key of the workspace may call; [] denies everyone | 
 **HasToken** | **bool** |  | 
+**Health** | [**NullableWorkspaceMcpServerHealth**](WorkspaceMcpServerHealth.md) | The last connection check; null until one has run | 
 **Id** | **string** |  | 
 **Name** | **string** |  | 
 **PurposeHint** | **NullableString** |  | 
+**ReadTools** | **[]string** | The tool names a manager labeled read, which &#39;@read&#39; stands for | 
 **UpdatedAt** | **string** |  | 
 **Url** | **string** |  | 
 **WorkspaceId** | **string** |  | 
@@ -19,7 +22,7 @@ Name | Type | Description | Notes
 
 ### NewWorkspaceMcpServerPublic
 
-`func NewWorkspaceMcpServerPublic(allowedTools []string, createdAt string, enabled bool, hasToken bool, id string, name string, purposeHint NullableString, updatedAt string, url string, workspaceId string, ) *WorkspaceMcpServerPublic`
+`func NewWorkspaceMcpServerPublic(allowedTools []string, createdAt string, enabled bool, everyoneTools []string, hasToken bool, health NullableWorkspaceMcpServerHealth, id string, name string, purposeHint NullableString, readTools []string, updatedAt string, url string, workspaceId string, ) *WorkspaceMcpServerPublic`
 
 NewWorkspaceMcpServerPublic instantiates a new WorkspaceMcpServerPublic object
 This constructor will assign default values to properties that have it defined,
@@ -104,6 +107,26 @@ and a boolean to check if the value has been set.
 SetEnabled sets Enabled field to given value.
 
 
+### GetEveryoneTools
+
+`func (o *WorkspaceMcpServerPublic) GetEveryoneTools() []string`
+
+GetEveryoneTools returns the EveryoneTools field if non-nil, zero value otherwise.
+
+### GetEveryoneToolsOk
+
+`func (o *WorkspaceMcpServerPublic) GetEveryoneToolsOk() (*[]string, bool)`
+
+GetEveryoneToolsOk returns a tuple with the EveryoneTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEveryoneTools
+
+`func (o *WorkspaceMcpServerPublic) SetEveryoneTools(v []string)`
+
+SetEveryoneTools sets EveryoneTools field to given value.
+
+
 ### GetHasToken
 
 `func (o *WorkspaceMcpServerPublic) GetHasToken() bool`
@@ -124,6 +147,36 @@ and a boolean to check if the value has been set.
 SetHasToken sets HasToken field to given value.
 
 
+### GetHealth
+
+`func (o *WorkspaceMcpServerPublic) GetHealth() WorkspaceMcpServerHealth`
+
+GetHealth returns the Health field if non-nil, zero value otherwise.
+
+### GetHealthOk
+
+`func (o *WorkspaceMcpServerPublic) GetHealthOk() (*WorkspaceMcpServerHealth, bool)`
+
+GetHealthOk returns a tuple with the Health field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHealth
+
+`func (o *WorkspaceMcpServerPublic) SetHealth(v WorkspaceMcpServerHealth)`
+
+SetHealth sets Health field to given value.
+
+
+### SetHealthNil
+
+`func (o *WorkspaceMcpServerPublic) SetHealthNil(b bool)`
+
+ SetHealthNil sets the value for Health to be an explicit nil
+
+### UnsetHealth
+`func (o *WorkspaceMcpServerPublic) UnsetHealth()`
+
+UnsetHealth ensures that no value is present for Health, not even an explicit nil
 ### GetId
 
 `func (o *WorkspaceMcpServerPublic) GetId() string`
@@ -194,6 +247,26 @@ SetPurposeHint sets PurposeHint field to given value.
 `func (o *WorkspaceMcpServerPublic) UnsetPurposeHint()`
 
 UnsetPurposeHint ensures that no value is present for PurposeHint, not even an explicit nil
+### GetReadTools
+
+`func (o *WorkspaceMcpServerPublic) GetReadTools() []string`
+
+GetReadTools returns the ReadTools field if non-nil, zero value otherwise.
+
+### GetReadToolsOk
+
+`func (o *WorkspaceMcpServerPublic) GetReadToolsOk() (*[]string, bool)`
+
+GetReadToolsOk returns a tuple with the ReadTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReadTools
+
+`func (o *WorkspaceMcpServerPublic) SetReadTools(v []string)`
+
+SetReadTools sets ReadTools field to given value.
+
+
 ### GetUpdatedAt
 
 `func (o *WorkspaceMcpServerPublic) GetUpdatedAt() string`

@@ -25,10 +25,12 @@ Name | Type | Description | Notes
 **Providers** | **[]string** | The provider instances offering it, sorted. | 
 **ReleaseDate** | Pointer to **NullableString** |  | [optional] 
 **ResolvesTo** | Pointer to **NullableString** | The offering &#x60;selector&#x60; resolves to. | [optional] 
-**Selector** | Pointer to **NullableString** | The id as a selector: send it as &#x60;model&#x60; and the model&#39;s cheapest offering the caller can reach answers, the vendor&#39;s own provider first where it serves the model. Null until the gateway has indexed the catalog. | [optional] 
+**Selector** | Pointer to **NullableString** | The id as a selector: send it as &#x60;model&#x60; and the best offering the caller can reach answers. Priced offerings come first, and among them the organization&#39;s own key, then the vendor&#39;s own provider, then the cheapest. Null until the gateway has indexed the catalog. | [optional] 
 **Selectors** | **[]string** | Every offering&#39;s selector, so the list can be searched by one. | 
+**Type** | Pointer to **NullableString** | What kind of model it is: the kind most of its offerings give, from the provider&#39;s listing or models.dev. A tie goes to the vendor&#39;s own provider. Null where no offering gives one. | [optional] 
 **UnpricedCount** | **int32** | How many offerings carry no price for this caller. | 
 **Vendor** | **NullableString** |  | 
+**ZeroDataRetentionProviders** | Pointer to **[]string** | The provider instances offering it that are declared to keep no prompt or completion data, sorted. | [optional] 
 
 ## Methods
 
@@ -669,6 +671,41 @@ and a boolean to check if the value has been set.
 SetSelectors sets Selectors field to given value.
 
 
+### GetType
+
+`func (o *CatalogModelSummary) GetType() string`
+
+GetType returns the Type field if non-nil, zero value otherwise.
+
+### GetTypeOk
+
+`func (o *CatalogModelSummary) GetTypeOk() (*string, bool)`
+
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetType
+
+`func (o *CatalogModelSummary) SetType(v string)`
+
+SetType sets Type field to given value.
+
+### HasType
+
+`func (o *CatalogModelSummary) HasType() bool`
+
+HasType returns a boolean if a field has been set.
+
+### SetTypeNil
+
+`func (o *CatalogModelSummary) SetTypeNil(b bool)`
+
+ SetTypeNil sets the value for Type to be an explicit nil
+
+### UnsetType
+`func (o *CatalogModelSummary) UnsetType()`
+
+UnsetType ensures that no value is present for Type, not even an explicit nil
 ### GetUnpricedCount
 
 `func (o *CatalogModelSummary) GetUnpricedCount() int32`
@@ -719,6 +756,31 @@ SetVendor sets Vendor field to given value.
 `func (o *CatalogModelSummary) UnsetVendor()`
 
 UnsetVendor ensures that no value is present for Vendor, not even an explicit nil
+### GetZeroDataRetentionProviders
+
+`func (o *CatalogModelSummary) GetZeroDataRetentionProviders() []string`
+
+GetZeroDataRetentionProviders returns the ZeroDataRetentionProviders field if non-nil, zero value otherwise.
+
+### GetZeroDataRetentionProvidersOk
+
+`func (o *CatalogModelSummary) GetZeroDataRetentionProvidersOk() (*[]string, bool)`
+
+GetZeroDataRetentionProvidersOk returns a tuple with the ZeroDataRetentionProviders field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetZeroDataRetentionProviders
+
+`func (o *CatalogModelSummary) SetZeroDataRetentionProviders(v []string)`
+
+SetZeroDataRetentionProviders sets ZeroDataRetentionProviders field to given value.
+
+### HasZeroDataRetentionProviders
+
+`func (o *CatalogModelSummary) HasZeroDataRetentionProviders() bool`
+
+HasZeroDataRetentionProviders returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

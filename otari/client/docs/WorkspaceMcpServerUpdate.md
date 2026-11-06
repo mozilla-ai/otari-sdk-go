@@ -7,8 +7,10 @@ Name | Type | Description | Notes
 **AllowedTools** | Pointer to **[]string** |  | [optional] 
 **AuthorizationToken** | Pointer to **NullableString** |  | [optional] 
 **Enabled** | Pointer to **bool** |  | [optional] 
+**EveryoneTools** | Pointer to **[]string** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
 **PurposeHint** | Pointer to **NullableString** |  | [optional] 
+**ReadTools** | Pointer to **[]string** |  | [optional] 
 **Url** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -125,6 +127,31 @@ SetEnabled sets Enabled field to given value.
 
 HasEnabled returns a boolean if a field has been set.
 
+### GetEveryoneTools
+
+`func (o *WorkspaceMcpServerUpdate) GetEveryoneTools() []string`
+
+GetEveryoneTools returns the EveryoneTools field if non-nil, zero value otherwise.
+
+### GetEveryoneToolsOk
+
+`func (o *WorkspaceMcpServerUpdate) GetEveryoneToolsOk() (*[]string, bool)`
+
+GetEveryoneToolsOk returns a tuple with the EveryoneTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEveryoneTools
+
+`func (o *WorkspaceMcpServerUpdate) SetEveryoneTools(v []string)`
+
+SetEveryoneTools sets EveryoneTools field to given value.
+
+### HasEveryoneTools
+
+`func (o *WorkspaceMcpServerUpdate) HasEveryoneTools() bool`
+
+HasEveryoneTools returns a boolean if a field has been set.
+
 ### GetName
 
 `func (o *WorkspaceMcpServerUpdate) GetName() string`
@@ -185,6 +212,31 @@ HasPurposeHint returns a boolean if a field has been set.
 `func (o *WorkspaceMcpServerUpdate) UnsetPurposeHint()`
 
 UnsetPurposeHint ensures that no value is present for PurposeHint, not even an explicit nil
+### GetReadTools
+
+`func (o *WorkspaceMcpServerUpdate) GetReadTools() []string`
+
+GetReadTools returns the ReadTools field if non-nil, zero value otherwise.
+
+### GetReadToolsOk
+
+`func (o *WorkspaceMcpServerUpdate) GetReadToolsOk() (*[]string, bool)`
+
+GetReadToolsOk returns a tuple with the ReadTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReadTools
+
+`func (o *WorkspaceMcpServerUpdate) SetReadTools(v []string)`
+
+SetReadTools sets ReadTools field to given value.
+
+### HasReadTools
+
+`func (o *WorkspaceMcpServerUpdate) HasReadTools() bool`
+
+HasReadTools returns a boolean if a field has been set.
+
 ### GetUrl
 
 `func (o *WorkspaceMcpServerUpdate) GetUrl() string`

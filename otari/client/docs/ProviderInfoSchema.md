@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **Name** | **string** | Human-friendly provider name. | 
 **PricingUrls** | Pointer to **[]string** |  | [optional] 
 **ProviderType** | **string** | Underlying any-llm provider type. | 
+**Source** | Pointer to **string** | Where the instance is defined: &#39;config&#39; for config.yml (or OTARI_CONFIG_YAML). | [optional] [default to "config"]
 
 ## Methods
 
@@ -241,6 +242,31 @@ and a boolean to check if the value has been set.
 
 SetProviderType sets ProviderType field to given value.
 
+
+### GetSource
+
+`func (o *ProviderInfoSchema) GetSource() string`
+
+GetSource returns the Source field if non-nil, zero value otherwise.
+
+### GetSourceOk
+
+`func (o *ProviderInfoSchema) GetSourceOk() (*string, bool)`
+
+GetSourceOk returns a tuple with the Source field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSource
+
+`func (o *ProviderInfoSchema) SetSource(v string)`
+
+SetSource sets Source field to given value.
+
+### HasSource
+
+`func (o *ProviderInfoSchema) HasSource() bool`
+
+HasSource returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
