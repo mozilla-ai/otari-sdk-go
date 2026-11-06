@@ -6,9 +6,11 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApiBase** | Pointer to **NullableString** | Backend endpoint. Omit to inherit the provider&#39;s default (searxng inherits web_search_url). | [optional] 
 **ApiKey** | Pointer to **NullableString** | Provider API key. Stored encrypted; never returned. | [optional] 
-**Name** | **string** | Name callers pass as &#39;search_tool_name&#39; or in /api/v1/search/{tool}. | 
-**Options** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
-**Provider** | **string** | Search provider, one of: exa, searxng. | 
+**FetchTool** | Pointer to **NullableString** | For a search instance: the fetch instance that enriches its results, a configured or stored one or builtin_fetch. Omit it for the fetch default. | [optional] 
+**Kind** | Pointer to **string** | &#39;search&#39; or &#39;fetch&#39;. It cannot change once created. | [optional] [default to "search"]
+**Name** | **string** | Name callers pass as &#39;search_tool_name&#39; or in /api/v1/search/{tool}, or that names a fetch instance. It contains no &#39;/&#39; or &#39;:&#39;, is not builtin_fetch or none in any case, and is unique across search and fetch instances. | 
+**Options** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
+**Provider** | **string** | Provider id. GET /api/v1/search-tools/providers lists the search providers, and with ?kind&#x3D;fetch the fetch providers. | 
 **Timeout** | Pointer to **NullableFloat32** | Per-request timeout in seconds. | [optional] 
 
 ## Methods
@@ -100,6 +102,66 @@ HasApiKey returns a boolean if a field has been set.
 `func (o *CreateSearchToolRequest) UnsetApiKey()`
 
 UnsetApiKey ensures that no value is present for ApiKey, not even an explicit nil
+### GetFetchTool
+
+`func (o *CreateSearchToolRequest) GetFetchTool() string`
+
+GetFetchTool returns the FetchTool field if non-nil, zero value otherwise.
+
+### GetFetchToolOk
+
+`func (o *CreateSearchToolRequest) GetFetchToolOk() (*string, bool)`
+
+GetFetchToolOk returns a tuple with the FetchTool field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFetchTool
+
+`func (o *CreateSearchToolRequest) SetFetchTool(v string)`
+
+SetFetchTool sets FetchTool field to given value.
+
+### HasFetchTool
+
+`func (o *CreateSearchToolRequest) HasFetchTool() bool`
+
+HasFetchTool returns a boolean if a field has been set.
+
+### SetFetchToolNil
+
+`func (o *CreateSearchToolRequest) SetFetchToolNil(b bool)`
+
+ SetFetchToolNil sets the value for FetchTool to be an explicit nil
+
+### UnsetFetchTool
+`func (o *CreateSearchToolRequest) UnsetFetchTool()`
+
+UnsetFetchTool ensures that no value is present for FetchTool, not even an explicit nil
+### GetKind
+
+`func (o *CreateSearchToolRequest) GetKind() string`
+
+GetKind returns the Kind field if non-nil, zero value otherwise.
+
+### GetKindOk
+
+`func (o *CreateSearchToolRequest) GetKindOk() (*string, bool)`
+
+GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKind
+
+`func (o *CreateSearchToolRequest) SetKind(v string)`
+
+SetKind sets Kind field to given value.
+
+### HasKind
+
+`func (o *CreateSearchToolRequest) HasKind() bool`
+
+HasKind returns a boolean if a field has been set.
+
 ### GetName
 
 `func (o *CreateSearchToolRequest) GetName() string`

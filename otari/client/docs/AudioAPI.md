@@ -98,8 +98,8 @@ import (
 func main() {
 	file := "file_example" // string | 
 	model := "model_example" // string | 
-	language := "language_example" // string |  (optional)
-	prompt := "prompt_example" // string |  (optional)
+	language := "language_example" // string | Filter to a single event type or metric name (e.g. 'tool_result', 'claude_code.commit.count') (optional)
+	prompt := "prompt_example" // string | Filter to a single event type or metric name (e.g. 'tool_result', 'claude_code.commit.count') (optional)
 	responseFormat := "responseFormat_example" // string |  (optional)
 	temperature := float32(8.14) // float32 |  (optional)
 	user := "user_example" // string |  (optional)
@@ -129,8 +129,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **file** | **string** |  | 
  **model** | **string** |  | 
- **language** | **string** |  | 
- **prompt** | **string** |  | 
+ **language** | **string** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | 
+ **prompt** | **string** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | 
  **responseFormat** | **string** |  | 
  **temperature** | **float32** |  | 
  **user** | **string** |  | 

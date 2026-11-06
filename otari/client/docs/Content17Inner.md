@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Signature** | **string** |  | 
+**Signature** | **string** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | 
 **Thinking** | **string** |  | 
 **Type** | **string** |  | 
 **Citations** | Pointer to [**[]MRBetaTextBlockCitationsInner**](MRBetaTextBlockCitationsInner.md) |  | [optional] 
@@ -21,15 +21,18 @@ Name | Type | Description | Notes
 **ServerName** | **string** |  | 
 **IsError** | **bool** |  | 
 **EncryptedContent** | Pointer to **string** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
+**ToolChanges** | Pointer to [**[]MRBetaCompactionBlockToolChangesInner**](MRBetaCompactionBlockToolChangesInner.md) |  | [optional] 
 **From** | [**MRBetaFallbackInfo**](MRBetaFallbackInfo.md) |  | 
 **To** | [**MRBetaFallbackInfo**](MRBetaFallbackInfo.md) |  | 
 **Trigger** | [**MRBetaFallbackRefusalTrigger**](MRBetaFallbackRefusalTrigger.md) |  | 
+**McpServerName** | **string** |  | 
+**Tools** | [**[]MRBetaMCPTool**](MRBetaMCPTool.md) |  | 
 
 ## Methods
 
 ### NewContent17Inner
 
-`func NewContent17Inner(signature string, thinking string, type_ string, text string, data string, id string, input map[string]interface{}, name string, content string, toolUseId string, fileId string, serverName string, isError bool, from MRBetaFallbackInfo, to MRBetaFallbackInfo, trigger MRBetaFallbackRefusalTrigger, ) *Content17Inner`
+`func NewContent17Inner(signature string, thinking string, type_ string, text string, data string, id string, input map[string]interface{}, name string, content string, toolUseId string, fileId string, serverName string, isError bool, from MRBetaFallbackInfo, to MRBetaFallbackInfo, trigger MRBetaFallbackRefusalTrigger, mcpServerName string, tools []MRBetaMCPTool, ) *Content17Inner`
 
 NewContent17Inner instantiates a new Content17Inner object
 This constructor will assign default values to properties that have it defined,
@@ -414,6 +417,31 @@ SetEncryptedContent sets EncryptedContent field to given value.
 
 HasEncryptedContent returns a boolean if a field has been set.
 
+### GetToolChanges
+
+`func (o *Content17Inner) GetToolChanges() []MRBetaCompactionBlockToolChangesInner`
+
+GetToolChanges returns the ToolChanges field if non-nil, zero value otherwise.
+
+### GetToolChangesOk
+
+`func (o *Content17Inner) GetToolChangesOk() (*[]MRBetaCompactionBlockToolChangesInner, bool)`
+
+GetToolChangesOk returns a tuple with the ToolChanges field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetToolChanges
+
+`func (o *Content17Inner) SetToolChanges(v []MRBetaCompactionBlockToolChangesInner)`
+
+SetToolChanges sets ToolChanges field to given value.
+
+### HasToolChanges
+
+`func (o *Content17Inner) HasToolChanges() bool`
+
+HasToolChanges returns a boolean if a field has been set.
+
 ### GetFrom
 
 `func (o *Content17Inner) GetFrom() MRBetaFallbackInfo`
@@ -472,6 +500,46 @@ and a boolean to check if the value has been set.
 `func (o *Content17Inner) SetTrigger(v MRBetaFallbackRefusalTrigger)`
 
 SetTrigger sets Trigger field to given value.
+
+
+### GetMcpServerName
+
+`func (o *Content17Inner) GetMcpServerName() string`
+
+GetMcpServerName returns the McpServerName field if non-nil, zero value otherwise.
+
+### GetMcpServerNameOk
+
+`func (o *Content17Inner) GetMcpServerNameOk() (*string, bool)`
+
+GetMcpServerNameOk returns a tuple with the McpServerName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMcpServerName
+
+`func (o *Content17Inner) SetMcpServerName(v string)`
+
+SetMcpServerName sets McpServerName field to given value.
+
+
+### GetTools
+
+`func (o *Content17Inner) GetTools() []MRBetaMCPTool`
+
+GetTools returns the Tools field if non-nil, zero value otherwise.
+
+### GetToolsOk
+
+`func (o *Content17Inner) GetToolsOk() (*[]MRBetaMCPTool, bool)`
+
+GetToolsOk returns a tuple with the Tools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTools
+
+`func (o *Content17Inner) SetTools(v []MRBetaMCPTool)`
+
+SetTools sets Tools field to given value.
 
 
 

@@ -4,13 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AcceptedTypes** | **[]string** | Every &#x60;tools[].type&#x60; this deployment currently routes to the tool. Always includes the canonical &#x60;otari_*&#x60; type; for web search it also includes the provider-named keywords when interception is enabled, and for code execution the provider-named keywords unless the deployment&#39;s executor is &#x60;provider&#x60;. | 
-**Available** | **bool** | Whether this deployment has enabled and configured the tool. A request declaring an unavailable tool is rejected with 400. | 
+**AcceptedTypes** | **[]string** | Every &#x60;tools[].type&#x60; this deployment currently routes to the tool. Always includes the canonical &#x60;otari_*&#x60; type; for web search it also includes the provider-named keywords when interception is enabled and the deployment has a search of its own, and for code execution the provider-named keywords unless the deployment&#39;s executor is &#x60;provider&#x60;. | 
+**Available** | **bool** | Whether a request from this caller may declare the tool: the deployment has enabled and configured it and, for an API key, the key&#39;s workspace allows it. A master key or a dashboard session gets the deployment&#39;s answer alone. A request declaring an unavailable tool is refused. | 
 **Description** | **string** | What the tool does, as the model is told. | 
 **Example** | **map[string]interface{}** | A ready-to-use &#x60;tools[]&#x60; entry. | 
 **Id** | **string** | The canonical tool type to put in &#x60;tools[]&#x60;. | 
 **InputSchema** | **map[string]interface{}** | JSON Schema for the arguments the model supplies, as the model sees it. | 
 **Object** | Pointer to **string** |  | [optional] [default to "tool"]
+**Reason** | Pointer to **NullableString** | Why the tool is unavailable, &#x60;null&#x60; when it is available. &#x60;not_configured&#x60;: nothing is set up to run it (for web search, neither the deployment nor the API key&#39;s organization has a search provider). &#x60;workspace_disabled&#x60;: the API key&#39;s workspace does not allow it, which a workspace admin changes under Tools in the dashboard. | [optional] 
 
 ## Methods
 
@@ -176,6 +177,41 @@ SetObject sets Object field to given value.
 
 HasObject returns a boolean if a field has been set.
 
+### GetReason
+
+`func (o *ManagedTool) GetReason() string`
+
+GetReason returns the Reason field if non-nil, zero value otherwise.
+
+### GetReasonOk
+
+`func (o *ManagedTool) GetReasonOk() (*string, bool)`
+
+GetReasonOk returns a tuple with the Reason field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReason
+
+`func (o *ManagedTool) SetReason(v string)`
+
+SetReason sets Reason field to given value.
+
+### HasReason
+
+`func (o *ManagedTool) HasReason() bool`
+
+HasReason returns a boolean if a field has been set.
+
+### SetReasonNil
+
+`func (o *ManagedTool) SetReasonNil(b bool)`
+
+ SetReasonNil sets the value for Reason to be an explicit nil
+
+### UnsetReason
+`func (o *ManagedTool) UnsetReason()`
+
+UnsetReason ensures that no value is present for Reason, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

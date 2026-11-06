@@ -293,7 +293,7 @@ Name | Type | Description  | Notes
 
 ## UsersListUsers
 
-> []UserResponse UsersListUsers(ctx).Skip(skip).Limit(limit).Execute()
+> []UserResponse UsersListUsers(ctx).Skip(skip).Limit(limit).ParentUserId(parentUserId).ExternalId(externalId).Blocked(blocked).IncludeTotal(includeTotal).Execute()
 
 List Users
 
@@ -314,10 +314,14 @@ import (
 func main() {
 	skip := int32(56) // int32 |  (optional) (default to 0)
 	limit := int32(56) // int32 |  (optional) (default to 100)
+	parentUserId := "parentUserId_example" // string | Only the end users of this owner: the user a service key belongs to. (optional)
+	externalId := "externalId_example" // string | Only the end user a service key names with this `user` value. (optional)
+	blocked := true // bool | Only blocked users (true) or only unblocked ones (false). (optional)
+	includeTotal := true // bool | Also count every matching user, in the Otari-Total-Count response header. (optional) (default to false)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.UsersListUsers(context.Background()).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.UsersAPI.UsersListUsers(context.Background()).Skip(skip).Limit(limit).ParentUserId(parentUserId).ExternalId(externalId).Blocked(blocked).IncludeTotal(includeTotal).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UsersListUsers``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -340,6 +344,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **skip** | **int32** |  | [default to 0]
  **limit** | **int32** |  | [default to 100]
+ **parentUserId** | **string** | Only the end users of this owner: the user a service key belongs to. | 
+ **externalId** | **string** | Only the end user a service key names with this &#x60;user&#x60; value. | 
+ **blocked** | **bool** | Only blocked users (true) or only unblocked ones (false). | 
+ **includeTotal** | **bool** | Also count every matching user, in the Otari-Total-Count response header. | [default to false]
 
 ### Return type
 

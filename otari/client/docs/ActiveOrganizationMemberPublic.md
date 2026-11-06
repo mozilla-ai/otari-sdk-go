@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **CreatedAt** | **time.Time** |  | 
 **Email** | Pointer to **NullableString** |  | [optional] 
 **FullName** | Pointer to **NullableString** |  | [optional] 
+**InvitationExpiresAt** | Pointer to **NullableTime** | When the invitation in invitation_id expires, or expired. Null when there is none. | [optional] 
 **InvitationId** | Pointer to **NullableString** |  | [optional] 
 **OrganizationMemberId** | Pointer to **NullableString** |  | [optional] 
 **Role** | **string** |  | 
@@ -196,6 +197,41 @@ HasFullName returns a boolean if a field has been set.
 `func (o *ActiveOrganizationMemberPublic) UnsetFullName()`
 
 UnsetFullName ensures that no value is present for FullName, not even an explicit nil
+### GetInvitationExpiresAt
+
+`func (o *ActiveOrganizationMemberPublic) GetInvitationExpiresAt() time.Time`
+
+GetInvitationExpiresAt returns the InvitationExpiresAt field if non-nil, zero value otherwise.
+
+### GetInvitationExpiresAtOk
+
+`func (o *ActiveOrganizationMemberPublic) GetInvitationExpiresAtOk() (*time.Time, bool)`
+
+GetInvitationExpiresAtOk returns a tuple with the InvitationExpiresAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetInvitationExpiresAt
+
+`func (o *ActiveOrganizationMemberPublic) SetInvitationExpiresAt(v time.Time)`
+
+SetInvitationExpiresAt sets InvitationExpiresAt field to given value.
+
+### HasInvitationExpiresAt
+
+`func (o *ActiveOrganizationMemberPublic) HasInvitationExpiresAt() bool`
+
+HasInvitationExpiresAt returns a boolean if a field has been set.
+
+### SetInvitationExpiresAtNil
+
+`func (o *ActiveOrganizationMemberPublic) SetInvitationExpiresAtNil(b bool)`
+
+ SetInvitationExpiresAtNil sets the value for InvitationExpiresAt to be an explicit nil
+
+### UnsetInvitationExpiresAt
+`func (o *ActiveOrganizationMemberPublic) UnsetInvitationExpiresAt()`
+
+UnsetInvitationExpiresAt ensures that no value is present for InvitationExpiresAt, not even an explicit nil
 ### GetInvitationId
 
 `func (o *ActiveOrganizationMemberPublic) GetInvitationId() string`

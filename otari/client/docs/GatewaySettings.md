@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 **Config** | [**[]ConfigField**](ConfigField.md) |  | 
 **DefaultPricing** | **bool** |  | 
 **MasterKeySource** | **string** | Whether the dashboard master key is configured at startup or generated and stored by Otari. | 
-**Mode** | **string** |  | 
 **ModelDiscovery** | **bool** |  | 
 **RequirePricing** | **bool** |  | 
 **SecretKeyConfigured** | **bool** | Whether OTARI_SECRET_KEY is set on the server. Provider credentials are encrypted at rest with it, so a deployment without it can store none. The dashboard reads the same fact from the membership context&#39;s provider_key_encryption_available, because this endpoint is operator-only and the provider-key pages are read by tenants. | 
@@ -17,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewGatewaySettings
 
-`func NewGatewaySettings(config []ConfigField, defaultPricing bool, masterKeySource string, mode string, modelDiscovery bool, requirePricing bool, secretKeyConfigured bool, version string, ) *GatewaySettings`
+`func NewGatewaySettings(config []ConfigField, defaultPricing bool, masterKeySource string, modelDiscovery bool, requirePricing bool, secretKeyConfigured bool, version string, ) *GatewaySettings`
 
 NewGatewaySettings instantiates a new GatewaySettings object
 This constructor will assign default values to properties that have it defined,
@@ -90,26 +89,6 @@ and a boolean to check if the value has been set.
 `func (o *GatewaySettings) SetMasterKeySource(v string)`
 
 SetMasterKeySource sets MasterKeySource field to given value.
-
-
-### GetMode
-
-`func (o *GatewaySettings) GetMode() string`
-
-GetMode returns the Mode field if non-nil, zero value otherwise.
-
-### GetModeOk
-
-`func (o *GatewaySettings) GetModeOk() (*string, bool)`
-
-GetModeOk returns a tuple with the Mode field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMode
-
-`func (o *GatewaySettings) SetMode(v string)`
-
-SetMode sets Mode field to given value.
 
 
 ### GetModelDiscovery

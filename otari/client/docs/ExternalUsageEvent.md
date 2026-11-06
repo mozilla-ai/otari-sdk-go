@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **Model** | **string** |  | 
 **OutputTokens** | Pointer to **int32** |  | [optional] [default to 0]
 **Provider** | **string** |  | 
+**ReasoningTokens** | Pointer to **int32** |  | [optional] [default to 0]
 **SessionLabel** | Pointer to **NullableString** |  | [optional] 
 **SourceEventId** | **string** |  | 
 **Status** | Pointer to **string** |  | [optional] [default to "success"]
@@ -262,6 +263,31 @@ and a boolean to check if the value has been set.
 
 SetProvider sets Provider field to given value.
 
+
+### GetReasoningTokens
+
+`func (o *ExternalUsageEvent) GetReasoningTokens() int32`
+
+GetReasoningTokens returns the ReasoningTokens field if non-nil, zero value otherwise.
+
+### GetReasoningTokensOk
+
+`func (o *ExternalUsageEvent) GetReasoningTokensOk() (*int32, bool)`
+
+GetReasoningTokensOk returns a tuple with the ReasoningTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReasoningTokens
+
+`func (o *ExternalUsageEvent) SetReasoningTokens(v int32)`
+
+SetReasoningTokens sets ReasoningTokens field to given value.
+
+### HasReasoningTokens
+
+`func (o *ExternalUsageEvent) HasReasoningTokens() bool`
+
+HasReasoningTokens returns a boolean if a field has been set.
 
 ### GetSessionLabel
 

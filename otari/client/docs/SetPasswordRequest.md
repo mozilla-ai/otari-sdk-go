@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CurrentPassword** | Pointer to **NullableString** | The password being replaced. Required when the identity already has one and the request is authenticated by the session cookie; ignored when the master key is sent in a header, which needs no proof of the old password (it still needs &#x60;email&#x60; when the identity has no sign-in address yet). | [optional] 
-**Email** | Pointer to **NullableString** | The address to sign in with. Required when the identity has none, which is the state first boot leaves the operator in, including when the master key is what authenticates the call. Resubmitting the address the identity already holds is accepted and ignored; only a *different* address is refused, because changing one is not supported yet. | [optional] 
+**Email** | Pointer to **NullableString** | The address to sign in with. Required when the identity has none, which is the state first boot leaves the operator in, including when the master key is what authenticates the call. Resubmitting the address the identity already holds is accepted and ignored; only a *different* address is refused, because changing one is not supported yet. It is always the caller&#39;s own address, the operator&#39;s when the master key authenticates the call, and never names another account. | [optional] 
 **NewPassword** | **string** | The password to sign in with from now on. At least 8 characters, and at most 72 bytes, which is bcrypt&#39;s ceiling. | 
 
 ## Methods

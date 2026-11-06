@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Available** | **bool** | False when metadata could not be loaded (enrichment disabled or models.dev unreachable). | 
+**Available** | **bool** | False when no models.dev catalog could be read, not even the one bundled with the gateway. | 
 **Models** | Pointer to [**map[string]ModelMetadata**](ModelMetadata.md) |  | [optional] 
 **Source** | Pointer to **string** |  | [optional] [default to "models.dev"]
 

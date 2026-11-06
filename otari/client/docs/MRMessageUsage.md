@@ -13,8 +13,8 @@ Name | Type | Description | Notes
 **OutputTokensDetails** | Pointer to [**NullableMROutputTokensDetails**](MROutputTokensDetails.md) |  | [optional] 
 **ServerToolUse** | Pointer to [**NullableMRServerToolUsage**](MRServerToolUsage.md) |  | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
-**Iterations** | Pointer to [**[]MRMessageUsageIterationsInner**](MRMessageUsageIterationsInner.md) |  | [optional] 
 **Speed** | Pointer to **NullableString** |  | [optional] 
+**Iterations** | Pointer to [**[]MRMessageUsageIterationsInner**](MRMessageUsageIterationsInner.md) |  | [optional] 
 
 ## Methods
 
@@ -320,41 +320,6 @@ HasServiceTier returns a boolean if a field has been set.
 `func (o *MRMessageUsage) UnsetServiceTier()`
 
 UnsetServiceTier ensures that no value is present for ServiceTier, not even an explicit nil
-### GetIterations
-
-`func (o *MRMessageUsage) GetIterations() []MRMessageUsageIterationsInner`
-
-GetIterations returns the Iterations field if non-nil, zero value otherwise.
-
-### GetIterationsOk
-
-`func (o *MRMessageUsage) GetIterationsOk() (*[]MRMessageUsageIterationsInner, bool)`
-
-GetIterationsOk returns a tuple with the Iterations field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIterations
-
-`func (o *MRMessageUsage) SetIterations(v []MRMessageUsageIterationsInner)`
-
-SetIterations sets Iterations field to given value.
-
-### HasIterations
-
-`func (o *MRMessageUsage) HasIterations() bool`
-
-HasIterations returns a boolean if a field has been set.
-
-### SetIterationsNil
-
-`func (o *MRMessageUsage) SetIterationsNil(b bool)`
-
- SetIterationsNil sets the value for Iterations to be an explicit nil
-
-### UnsetIterations
-`func (o *MRMessageUsage) UnsetIterations()`
-
-UnsetIterations ensures that no value is present for Iterations, not even an explicit nil
 ### GetSpeed
 
 `func (o *MRMessageUsage) GetSpeed() string`
@@ -390,6 +355,41 @@ HasSpeed returns a boolean if a field has been set.
 `func (o *MRMessageUsage) UnsetSpeed()`
 
 UnsetSpeed ensures that no value is present for Speed, not even an explicit nil
+### GetIterations
+
+`func (o *MRMessageUsage) GetIterations() []MRMessageUsageIterationsInner`
+
+GetIterations returns the Iterations field if non-nil, zero value otherwise.
+
+### GetIterationsOk
+
+`func (o *MRMessageUsage) GetIterationsOk() (*[]MRMessageUsageIterationsInner, bool)`
+
+GetIterationsOk returns a tuple with the Iterations field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIterations
+
+`func (o *MRMessageUsage) SetIterations(v []MRMessageUsageIterationsInner)`
+
+SetIterations sets Iterations field to given value.
+
+### HasIterations
+
+`func (o *MRMessageUsage) HasIterations() bool`
+
+HasIterations returns a boolean if a field has been set.
+
+### SetIterationsNil
+
+`func (o *MRMessageUsage) SetIterationsNil(b bool)`
+
+ SetIterationsNil sets the value for Iterations to be an explicit nil
+
+### UnsetIterations
+`func (o *MRMessageUsage) UnsetIterations()`
+
+UnsetIterations ensures that no value is present for Iterations, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

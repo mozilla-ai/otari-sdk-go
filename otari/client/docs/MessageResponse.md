@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **Container** | Pointer to [**NullableMRBetaContainer**](MRBetaContainer.md) |  | [optional] 
 **Content** | [**[]Content17Inner**](Content17Inner.md) |  | 
+**Diagnostics** | Pointer to [**NullableMRBetaDiagnostics**](MRBetaDiagnostics.md) |  | [optional] 
 **Model** | [**Model1**](Model1.md) |  | 
 **Role** | **string** |  | 
 **StopDetails** | Pointer to [**NullableMRRefusalStopDetails**](MRRefusalStopDetails.md) |  | [optional] 
@@ -14,9 +15,8 @@ Name | Type | Description | Notes
 **StopSequence** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Type** | **string** |  | 
 **Usage** | [**MRMessageUsage**](MRMessageUsage.md) |  | 
-**RequestId** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
+**RequestId** | Pointer to **NullableString** |  | [optional] 
 **ContextManagement** | Pointer to [**NullableMRBetaContextManagementResponse**](MRBetaContextManagementResponse.md) |  | [optional] 
-**Diagnostics** | Pointer to [**NullableMRBetaDiagnostics**](MRBetaDiagnostics.md) |  | [optional] 
 
 ## Methods
 
@@ -112,6 +112,41 @@ and a boolean to check if the value has been set.
 SetContent sets Content field to given value.
 
 
+### GetDiagnostics
+
+`func (o *MessageResponse) GetDiagnostics() MRBetaDiagnostics`
+
+GetDiagnostics returns the Diagnostics field if non-nil, zero value otherwise.
+
+### GetDiagnosticsOk
+
+`func (o *MessageResponse) GetDiagnosticsOk() (*MRBetaDiagnostics, bool)`
+
+GetDiagnosticsOk returns a tuple with the Diagnostics field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDiagnostics
+
+`func (o *MessageResponse) SetDiagnostics(v MRBetaDiagnostics)`
+
+SetDiagnostics sets Diagnostics field to given value.
+
+### HasDiagnostics
+
+`func (o *MessageResponse) HasDiagnostics() bool`
+
+HasDiagnostics returns a boolean if a field has been set.
+
+### SetDiagnosticsNil
+
+`func (o *MessageResponse) SetDiagnosticsNil(b bool)`
+
+ SetDiagnosticsNil sets the value for Diagnostics to be an explicit nil
+
+### UnsetDiagnostics
+`func (o *MessageResponse) UnsetDiagnostics()`
+
+UnsetDiagnostics ensures that no value is present for Diagnostics, not even an explicit nil
 ### GetModel
 
 `func (o *MessageResponse) GetModel() Model1`
@@ -367,41 +402,6 @@ HasContextManagement returns a boolean if a field has been set.
 `func (o *MessageResponse) UnsetContextManagement()`
 
 UnsetContextManagement ensures that no value is present for ContextManagement, not even an explicit nil
-### GetDiagnostics
-
-`func (o *MessageResponse) GetDiagnostics() MRBetaDiagnostics`
-
-GetDiagnostics returns the Diagnostics field if non-nil, zero value otherwise.
-
-### GetDiagnosticsOk
-
-`func (o *MessageResponse) GetDiagnosticsOk() (*MRBetaDiagnostics, bool)`
-
-GetDiagnosticsOk returns a tuple with the Diagnostics field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDiagnostics
-
-`func (o *MessageResponse) SetDiagnostics(v MRBetaDiagnostics)`
-
-SetDiagnostics sets Diagnostics field to given value.
-
-### HasDiagnostics
-
-`func (o *MessageResponse) HasDiagnostics() bool`
-
-HasDiagnostics returns a boolean if a field has been set.
-
-### SetDiagnosticsNil
-
-`func (o *MessageResponse) SetDiagnosticsNil(b bool)`
-
- SetDiagnosticsNil sets the value for Diagnostics to be an explicit nil
-
-### UnsetDiagnostics
-`func (o *MessageResponse) UnsetDiagnostics()`
-
-UnsetDiagnostics ensures that no value is present for Diagnostics, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
