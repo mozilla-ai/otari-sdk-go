@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Credential** | Pointer to **NullableString** |  | [optional] 
 **Mode** | Pointer to **string** |  | [optional] [default to "monitor"]
 **On** | Pointer to **[]string** |  | [optional] 
 **OnUnavailable** | Pointer to **string** |  | [optional] [default to "block"]
@@ -30,6 +31,41 @@ NewGuardrailConfigWithDefaults instantiates a new GuardrailConfig object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetCredential
+
+`func (o *GuardrailConfig) GetCredential() string`
+
+GetCredential returns the Credential field if non-nil, zero value otherwise.
+
+### GetCredentialOk
+
+`func (o *GuardrailConfig) GetCredentialOk() (*string, bool)`
+
+GetCredentialOk returns a tuple with the Credential field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCredential
+
+`func (o *GuardrailConfig) SetCredential(v string)`
+
+SetCredential sets Credential field to given value.
+
+### HasCredential
+
+`func (o *GuardrailConfig) HasCredential() bool`
+
+HasCredential returns a boolean if a field has been set.
+
+### SetCredentialNil
+
+`func (o *GuardrailConfig) SetCredentialNil(b bool)`
+
+ SetCredentialNil sets the value for Credential to be an explicit nil
+
+### UnsetCredential
+`func (o *GuardrailConfig) UnsetCredential()`
+
+UnsetCredential ensures that no value is present for Credential, not even an explicit nil
 ### GetMode
 
 `func (o *GuardrailConfig) GetMode() string`

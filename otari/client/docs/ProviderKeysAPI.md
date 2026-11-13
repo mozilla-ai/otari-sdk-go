@@ -23,6 +23,7 @@ Method | HTTP request | Description
 [**ProviderKeysSetOrgProviderKeyDefault**](ProviderKeysAPI.md#ProviderKeysSetOrgProviderKeyDefault) | **Post** /api/v1/organizations/me/provider-keys/{key_id}/default | Set Org Provider Key Default
 [**ProviderKeysSetOrgProviderKeyModelEnabled**](ProviderKeysAPI.md#ProviderKeysSetOrgProviderKeyModelEnabled) | **Patch** /api/v1/organizations/me/provider-keys/{key_id}/models/{model_id} | Set Org Provider Key Model Enabled
 [**ProviderKeysSetWorkspaceProviderKeyOverride**](ProviderKeysAPI.md#ProviderKeysSetWorkspaceProviderKeyOverride) | **Patch** /api/v1/workspaces/{workspace_id}/provider-keys/{key_id} | Set Workspace Provider Key Override
+[**ProviderKeysUnsetOrgProviderKeyDefault**](ProviderKeysAPI.md#ProviderKeysUnsetOrgProviderKeyDefault) | **Delete** /api/v1/organizations/me/provider-keys/{key_id}/default | Unset Org Provider Key Default
 [**ProviderKeysUpdateOrgProviderKey**](ProviderKeysAPI.md#ProviderKeysUpdateOrgProviderKey) | **Patch** /api/v1/organizations/me/provider-keys/{key_id} | Update Org Provider Key
 
 
@@ -452,7 +453,7 @@ Name | Type | Description  | Notes
 
 ## ProviderKeysListOrgProviderKeyModels
 
-> OrgProviderKeyModelsPublic ProviderKeysListOrgProviderKeyModels(ctx, keyId).Skip(skip).Limit(limit).Execute()
+> OrgProviderKeyModelsPublic ProviderKeysListOrgProviderKeyModels(ctx, keyId).Skip(skip).Limit(limit).Type_(type_).Search(search).Enabled(enabled).Execute()
 
 List Org Provider Key Models
 
@@ -474,10 +475,13 @@ func main() {
 	keyId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	skip := int32(56) // int32 | Number of records to skip (optional) (default to 0)
 	limit := int32(56) // int32 | Maximum number of records to return (optional) (default to 500)
+	type_ := "type__example" // string | Only models of this kind; `unknown` for those no source names a kind for (optional)
+	search := "search_example" // string | Only models whose name contains this text, case-insensitively (optional)
+	enabled := true // bool | Only models served (`true`) or only models withheld (`false`) (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ProviderKeysAPI.ProviderKeysListOrgProviderKeyModels(context.Background(), keyId).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.ProviderKeysAPI.ProviderKeysListOrgProviderKeyModels(context.Background(), keyId).Skip(skip).Limit(limit).Type_(type_).Search(search).Enabled(enabled).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProviderKeysAPI.ProviderKeysListOrgProviderKeyModels``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -505,6 +509,9 @@ Name | Type | Description  | Notes
 
  **skip** | **int32** | Number of records to skip | [default to 0]
  **limit** | **int32** | Maximum number of records to return | [default to 500]
+ **type_** | **string** | Only models of this kind; &#x60;unknown&#x60; for those no source names a kind for | 
+ **search** | **string** | Only models whose name contains this text, case-insensitively | 
+ **enabled** | **bool** | Only models served (&#x60;true&#x60;) or only models withheld (&#x60;false&#x60;) | 
 
 ### Return type
 
@@ -1382,6 +1389,76 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ProviderKeysUnsetOrgProviderKeyDefault
+
+> OrgProviderKeyPublic ProviderKeysUnsetOrgProviderKeyDefault(ctx, keyId).Execute()
+
+Unset Org Provider Key Default
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	keyId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProviderKeysAPI.ProviderKeysUnsetOrgProviderKeyDefault(context.Background(), keyId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderKeysAPI.ProviderKeysUnsetOrgProviderKeyDefault``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ProviderKeysUnsetOrgProviderKeyDefault`: OrgProviderKeyPublic
+	fmt.Fprintf(os.Stdout, "Response from `ProviderKeysAPI.ProviderKeysUnsetOrgProviderKeyDefault`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**keyId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProviderKeysUnsetOrgProviderKeyDefaultRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**OrgProviderKeyPublic**](OrgProviderKeyPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

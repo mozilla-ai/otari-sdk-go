@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**AvatarFace** | Pointer to **NullableInt32** | The preset avatar face this identity picked, or null when it has picked none. | [optional] 
 **ClaimsDeployment** | **bool** | Whether setting this identity&#39;s password claims the deployment, which stops the master key signing in to the dashboard. True for the deployment&#39;s operator until it holds a password, whether or not it already has an address; false for everybody else. | 
 **Email** | Pointer to **NullableString** |  | [optional] 
 **FullName** | Pointer to **NullableString** |  | [optional] 
@@ -29,6 +30,41 @@ NewCallerIdentityPublicWithDefaults instantiates a new CallerIdentityPublic obje
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetAvatarFace
+
+`func (o *CallerIdentityPublic) GetAvatarFace() int32`
+
+GetAvatarFace returns the AvatarFace field if non-nil, zero value otherwise.
+
+### GetAvatarFaceOk
+
+`func (o *CallerIdentityPublic) GetAvatarFaceOk() (*int32, bool)`
+
+GetAvatarFaceOk returns a tuple with the AvatarFace field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAvatarFace
+
+`func (o *CallerIdentityPublic) SetAvatarFace(v int32)`
+
+SetAvatarFace sets AvatarFace field to given value.
+
+### HasAvatarFace
+
+`func (o *CallerIdentityPublic) HasAvatarFace() bool`
+
+HasAvatarFace returns a boolean if a field has been set.
+
+### SetAvatarFaceNil
+
+`func (o *CallerIdentityPublic) SetAvatarFaceNil(b bool)`
+
+ SetAvatarFaceNil sets the value for AvatarFace to be an explicit nil
+
+### UnsetAvatarFace
+`func (o *CallerIdentityPublic) UnsetAvatarFace()`
+
+UnsetAvatarFace ensures that no value is present for AvatarFace, not even an explicit nil
 ### GetClaimsDeployment
 
 `func (o *CallerIdentityPublic) GetClaimsDeployment() bool`

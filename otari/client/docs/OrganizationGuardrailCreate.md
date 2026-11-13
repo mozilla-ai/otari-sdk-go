@@ -8,11 +8,12 @@ Name | Type | Description | Notes
 **Credential** | Pointer to **NullableString** | Bearer credential for this entry&#39;s endpoint. Requires url to be set, and https: an entry with no endpoint of its own falls back to the deployment&#39;s guardrails_url, which is commonly a same-host http sidecar. Encrypted at rest, never returned | [optional] 
 **DefinitionId** | Pointer to **NullableString** | A guardrail definition of this organization for Otari to build and run itself, instead of calling a profile on a guardrails service. Mutually exclusive with url and credential, which name a service | [optional] 
 **Enabled** | Pointer to **bool** | False stops the guardrail everywhere without discarding it | [optional] [default to true]
-**Mode** | Pointer to **string** | block rejects a flagged request with 403; monitor annotates the response and forwards it | [optional] [default to "monitor"]
-**OnUnavailable** | Pointer to **string** | What a block-mode entry does when the guardrails service cannot be reached at all | [optional] [default to "block"]
+**Mode** | Pointer to **string** | monitor records the verdict and forwards the request; block refuses flagged input or a flagged answer with 403 and withholds a flagged tool result or tool call | [optional] [default to "monitor"]
+**On** | Pointer to **[]string** | What the guardrail reads: input (the caller&#39;s input), tool_results, tool_calls (each call before it runs or reaches the client), output (the model&#39;s answer) | [optional] 
+**OnUnavailable** | Pointer to **string** | What a block-mode entry does when the guardrails service cannot be reached or gives no verdict | [optional] [default to "block"]
 **Profile** | **string** | Profile name configured on the guardrails service, unique within the organization | 
 **Url** | Pointer to **NullableString** | Guardrails endpoint for this entry; null uses the deployment&#39;s guardrails_url | [optional] 
-**ValidateKwargs** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**ValidateKwargs** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **WorkspaceIds** | Pointer to **[]string** | Workspaces this guardrail runs in. Must be empty when applies_to_all_workspaces is true | [optional] 
 
 ## Methods
@@ -178,6 +179,31 @@ SetMode sets Mode field to given value.
 `func (o *OrganizationGuardrailCreate) HasMode() bool`
 
 HasMode returns a boolean if a field has been set.
+
+### GetOn
+
+`func (o *OrganizationGuardrailCreate) GetOn() []string`
+
+GetOn returns the On field if non-nil, zero value otherwise.
+
+### GetOnOk
+
+`func (o *OrganizationGuardrailCreate) GetOnOk() (*[]string, bool)`
+
+GetOnOk returns a tuple with the On field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOn
+
+`func (o *OrganizationGuardrailCreate) SetOn(v []string)`
+
+SetOn sets On field to given value.
+
+### HasOn
+
+`func (o *OrganizationGuardrailCreate) HasOn() bool`
+
+HasOn returns a boolean if a field has been set.
 
 ### GetOnUnavailable
 

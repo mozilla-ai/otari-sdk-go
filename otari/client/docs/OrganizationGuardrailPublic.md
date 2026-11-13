@@ -11,19 +11,20 @@ Name | Type | Description | Notes
 **HasCredential** | **bool** |  | 
 **Id** | **string** |  | 
 **Mode** | **string** |  | 
+**On** | **[]string** |  | 
 **OnUnavailable** | **string** |  | 
 **OrganizationId** | **string** |  | 
 **Profile** | **string** |  | 
 **UpdatedAt** | **string** |  | 
 **Url** | **NullableString** |  | 
-**ValidateKwargs** | **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | 
+**ValidateKwargs** | **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | 
 **WorkspaceIds** | **[]string** |  | 
 
 ## Methods
 
 ### NewOrganizationGuardrailPublic
 
-`func NewOrganizationGuardrailPublic(appliesToAllWorkspaces bool, createdAt string, definitionId NullableString, enabled bool, hasCredential bool, id string, mode string, onUnavailable string, organizationId string, profile string, updatedAt string, url NullableString, validateKwargs map[string]interface{}, workspaceIds []string, ) *OrganizationGuardrailPublic`
+`func NewOrganizationGuardrailPublic(appliesToAllWorkspaces bool, createdAt string, definitionId NullableString, enabled bool, hasCredential bool, id string, mode string, on []string, onUnavailable string, organizationId string, profile string, updatedAt string, url NullableString, validateKwargs map[string]interface{}, workspaceIds []string, ) *OrganizationGuardrailPublic`
 
 NewOrganizationGuardrailPublic instantiates a new OrganizationGuardrailPublic object
 This constructor will assign default values to properties that have it defined,
@@ -186,6 +187,26 @@ and a boolean to check if the value has been set.
 `func (o *OrganizationGuardrailPublic) SetMode(v string)`
 
 SetMode sets Mode field to given value.
+
+
+### GetOn
+
+`func (o *OrganizationGuardrailPublic) GetOn() []string`
+
+GetOn returns the On field if non-nil, zero value otherwise.
+
+### GetOnOk
+
+`func (o *OrganizationGuardrailPublic) GetOnOk() (*[]string, bool)`
+
+GetOnOk returns a tuple with the On field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOn
+
+`func (o *OrganizationGuardrailPublic) SetOn(v []string)`
+
+SetOn sets On field to given value.
 
 
 ### GetOnUnavailable

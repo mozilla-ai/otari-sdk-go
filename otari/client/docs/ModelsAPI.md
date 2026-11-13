@@ -210,7 +210,7 @@ Other parameters are passed through a pointer to a apiModelsListModelMetadataReq
 
 ## ModelsListModels
 
-> ModelListResponse ModelsListModels(ctx).Provider(provider).Execute()
+> ModelListResponse ModelsListModels(ctx).Provider(provider).WorkspaceId(workspaceId).Execute()
 
 List Models
 
@@ -229,11 +229,12 @@ import (
 )
 
 func main() {
-	provider := "provider_example" // string | Filter models by provider name (optional)
+	provider := "provider_example" // string | Only the models this provider instance serves, described as served there. (optional)
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | For a signed-in caller, only the models a request billed to this workspace may call. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ModelsAPI.ModelsListModels(context.Background()).Provider(provider).Execute()
+	resp, r, err := apiClient.ModelsAPI.ModelsListModels(context.Background()).Provider(provider).WorkspaceId(workspaceId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ModelsAPI.ModelsListModels``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -254,7 +255,8 @@ Other parameters are passed through a pointer to a apiModelsListModelsRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **provider** | **string** | Filter models by provider name | 
+ **provider** | **string** | Only the models this provider instance serves, described as served there. | 
+ **workspaceId** | **string** | For a signed-in caller, only the models a request billed to this workspace may call. | 
 
 ### Return type
 

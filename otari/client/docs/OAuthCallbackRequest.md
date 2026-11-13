@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Code** | **string** | The authorization code from the provider&#39;s redirect. | 
 **State** | **string** | The &#39;state&#39; from the provider&#39;s redirect, as issued by /authorize. | 
+**TermsAccepted** | Pointer to **bool** | Whether the person accepted this deployment&#39;s terms before going to the provider. Required where the bootstrap reports a terms_url and the sign-in creates the account, or is the first way in to one nobody has claimed yet; ignored otherwise. | [optional] [default to false]
 
 ## Methods
 
@@ -65,6 +66,31 @@ and a boolean to check if the value has been set.
 
 SetState sets State field to given value.
 
+
+### GetTermsAccepted
+
+`func (o *OAuthCallbackRequest) GetTermsAccepted() bool`
+
+GetTermsAccepted returns the TermsAccepted field if non-nil, zero value otherwise.
+
+### GetTermsAcceptedOk
+
+`func (o *OAuthCallbackRequest) GetTermsAcceptedOk() (*bool, bool)`
+
+GetTermsAcceptedOk returns a tuple with the TermsAccepted field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTermsAccepted
+
+`func (o *OAuthCallbackRequest) SetTermsAccepted(v bool)`
+
+SetTermsAccepted sets TermsAccepted field to given value.
+
+### HasTermsAccepted
+
+`func (o *OAuthCallbackRequest) HasTermsAccepted() bool`
+
+HasTermsAccepted returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

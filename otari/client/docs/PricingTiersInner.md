@@ -5,7 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CacheReadPricePerMillion** | Pointer to **float32** |  | [optional] 
-**CacheWrite1hPricePerMillion** | Pointer to **float32** |  | [optional] 
 **CacheWritePricePerMillion** | Pointer to **float32** |  | [optional] 
 **InputPricePerMillion** | Pointer to **float32** |  | [optional] 
 **MinInputTokens** | **int32** |  | 
@@ -54,31 +53,6 @@ SetCacheReadPricePerMillion sets CacheReadPricePerMillion field to given value.
 `func (o *PricingTiersInner) HasCacheReadPricePerMillion() bool`
 
 HasCacheReadPricePerMillion returns a boolean if a field has been set.
-
-### GetCacheWrite1hPricePerMillion
-
-`func (o *PricingTiersInner) GetCacheWrite1hPricePerMillion() float32`
-
-GetCacheWrite1hPricePerMillion returns the CacheWrite1hPricePerMillion field if non-nil, zero value otherwise.
-
-### GetCacheWrite1hPricePerMillionOk
-
-`func (o *PricingTiersInner) GetCacheWrite1hPricePerMillionOk() (*float32, bool)`
-
-GetCacheWrite1hPricePerMillionOk returns a tuple with the CacheWrite1hPricePerMillion field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCacheWrite1hPricePerMillion
-
-`func (o *PricingTiersInner) SetCacheWrite1hPricePerMillion(v float32)`
-
-SetCacheWrite1hPricePerMillion sets CacheWrite1hPricePerMillion field to given value.
-
-### HasCacheWrite1hPricePerMillion
-
-`func (o *PricingTiersInner) HasCacheWrite1hPricePerMillion() bool`
-
-HasCacheWrite1hPricePerMillion returns a boolean if a field has been set.
 
 ### GetCacheWritePricePerMillion
 

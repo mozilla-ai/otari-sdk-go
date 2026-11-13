@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Reencrypted** | **int32** | Number of stored search-tool keys re-encrypted. | 
+**Skipped** | Pointer to **int32** | Number of rows whose stored key changed between the read and the write, so the re-encryption was not applied. They already hold whoever wrote them last. | [optional] [default to 0]
 **Unreadable** | **int32** | Number of encrypted keys left untouched because they could not be decrypted. | 
 
 ## Methods
@@ -45,6 +46,31 @@ and a boolean to check if the value has been set.
 
 SetReencrypted sets Reencrypted field to given value.
 
+
+### GetSkipped
+
+`func (o *ReencryptSearchToolsResponse) GetSkipped() int32`
+
+GetSkipped returns the Skipped field if non-nil, zero value otherwise.
+
+### GetSkippedOk
+
+`func (o *ReencryptSearchToolsResponse) GetSkippedOk() (*int32, bool)`
+
+GetSkippedOk returns a tuple with the Skipped field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSkipped
+
+`func (o *ReencryptSearchToolsResponse) SetSkipped(v int32)`
+
+SetSkipped sets Skipped field to given value.
+
+### HasSkipped
+
+`func (o *ReencryptSearchToolsResponse) HasSkipped() bool`
+
+HasSkipped returns a boolean if a field has been set.
 
 ### GetUnreadable
 

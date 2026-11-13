@@ -6,14 +6,17 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Alias** | **NullableString** |  | 
 **AllowedModels** | **[]string** |  | 
+**AllowedTools** | **[]string** |  | 
 **Blocked** | **bool** |  | 
 **BudgetId** | **NullableString** |  | 
 **BudgetStartedAt** | **NullableString** |  | 
 **CreatedAt** | **string** |  | 
 **CurrentRequests** | **int32** |  | 
 **CurrentTokens** | **int32** |  | 
+**ExternalId** | Pointer to **NullableString** |  | [optional] 
 **Metadata** | **map[string]interface{}** |  | 
 **NextBudgetResetAt** | **NullableString** |  | 
+**ParentUserId** | Pointer to **NullableString** |  | [optional] 
 **Reserved** | **float32** |  | 
 **ReservedRequests** | **int32** |  | 
 **ReservedTokens** | **int32** |  | 
@@ -25,7 +28,7 @@ Name | Type | Description | Notes
 
 ### NewUserResponse
 
-`func NewUserResponse(alias NullableString, allowedModels []string, blocked bool, budgetId NullableString, budgetStartedAt NullableString, createdAt string, currentRequests int32, currentTokens int32, metadata map[string]interface{}, nextBudgetResetAt NullableString, reserved float32, reservedRequests int32, reservedTokens int32, spend float32, updatedAt string, userId string, ) *UserResponse`
+`func NewUserResponse(alias NullableString, allowedModels []string, allowedTools []string, blocked bool, budgetId NullableString, budgetStartedAt NullableString, createdAt string, currentRequests int32, currentTokens int32, metadata map[string]interface{}, nextBudgetResetAt NullableString, reserved float32, reservedRequests int32, reservedTokens int32, spend float32, updatedAt string, userId string, ) *UserResponse`
 
 NewUserResponse instantiates a new UserResponse object
 This constructor will assign default values to properties that have it defined,
@@ -100,6 +103,36 @@ SetAllowedModels sets AllowedModels field to given value.
 `func (o *UserResponse) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetAllowedTools
+
+`func (o *UserResponse) GetAllowedTools() []string`
+
+GetAllowedTools returns the AllowedTools field if non-nil, zero value otherwise.
+
+### GetAllowedToolsOk
+
+`func (o *UserResponse) GetAllowedToolsOk() (*[]string, bool)`
+
+GetAllowedToolsOk returns a tuple with the AllowedTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedTools
+
+`func (o *UserResponse) SetAllowedTools(v []string)`
+
+SetAllowedTools sets AllowedTools field to given value.
+
+
+### SetAllowedToolsNil
+
+`func (o *UserResponse) SetAllowedToolsNil(b bool)`
+
+ SetAllowedToolsNil sets the value for AllowedTools to be an explicit nil
+
+### UnsetAllowedTools
+`func (o *UserResponse) UnsetAllowedTools()`
+
+UnsetAllowedTools ensures that no value is present for AllowedTools, not even an explicit nil
 ### GetBlocked
 
 `func (o *UserResponse) GetBlocked() bool`
@@ -240,6 +273,41 @@ and a boolean to check if the value has been set.
 SetCurrentTokens sets CurrentTokens field to given value.
 
 
+### GetExternalId
+
+`func (o *UserResponse) GetExternalId() string`
+
+GetExternalId returns the ExternalId field if non-nil, zero value otherwise.
+
+### GetExternalIdOk
+
+`func (o *UserResponse) GetExternalIdOk() (*string, bool)`
+
+GetExternalIdOk returns a tuple with the ExternalId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExternalId
+
+`func (o *UserResponse) SetExternalId(v string)`
+
+SetExternalId sets ExternalId field to given value.
+
+### HasExternalId
+
+`func (o *UserResponse) HasExternalId() bool`
+
+HasExternalId returns a boolean if a field has been set.
+
+### SetExternalIdNil
+
+`func (o *UserResponse) SetExternalIdNil(b bool)`
+
+ SetExternalIdNil sets the value for ExternalId to be an explicit nil
+
+### UnsetExternalId
+`func (o *UserResponse) UnsetExternalId()`
+
+UnsetExternalId ensures that no value is present for ExternalId, not even an explicit nil
 ### GetMetadata
 
 `func (o *UserResponse) GetMetadata() map[string]interface{}`
@@ -290,6 +358,41 @@ SetNextBudgetResetAt sets NextBudgetResetAt field to given value.
 `func (o *UserResponse) UnsetNextBudgetResetAt()`
 
 UnsetNextBudgetResetAt ensures that no value is present for NextBudgetResetAt, not even an explicit nil
+### GetParentUserId
+
+`func (o *UserResponse) GetParentUserId() string`
+
+GetParentUserId returns the ParentUserId field if non-nil, zero value otherwise.
+
+### GetParentUserIdOk
+
+`func (o *UserResponse) GetParentUserIdOk() (*string, bool)`
+
+GetParentUserIdOk returns a tuple with the ParentUserId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParentUserId
+
+`func (o *UserResponse) SetParentUserId(v string)`
+
+SetParentUserId sets ParentUserId field to given value.
+
+### HasParentUserId
+
+`func (o *UserResponse) HasParentUserId() bool`
+
+HasParentUserId returns a boolean if a field has been set.
+
+### SetParentUserIdNil
+
+`func (o *UserResponse) SetParentUserIdNil(b bool)`
+
+ SetParentUserIdNil sets the value for ParentUserId to be an explicit nil
+
+### UnsetParentUserId
+`func (o *UserResponse) UnsetParentUserId()`
+
+UnsetParentUserId ensures that no value is present for ParentUserId, not even an explicit nil
 ### GetReserved
 
 `func (o *UserResponse) GetReserved() float32`
