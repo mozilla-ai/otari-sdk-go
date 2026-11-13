@@ -5,11 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Country** | Pointer to **NullableString** | Two-letter ISO country code to localize results to | [optional] 
-**MaxResults** | Pointer to **NullableInt32** | Maximum number of results to return | [optional] 
+**IncludeRaw** | Pointer to **bool** | Also return the provider&#39;s whole response, as raw. | [optional] [default to false]
+**MaxResults** | Pointer to **NullableInt32** | Maximum number of results to return; 10 when unset. Lowered to the workspace&#39;s ceiling when it sets one, and to the provider&#39;s own maximum. | [optional] 
 **MaxTokensPerPage** | Pointer to **NullableInt32** | Approximate cap on the page content returned per result | [optional] 
+**ProviderOptions** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **Query** | **string** | The search query | 
 **SearchDomainFilter** | Pointer to **[]string** | Restrict results to these domains; prefix a domain with &#39;-&#39; to exclude it instead | [optional] 
-**SearchToolName** | Pointer to **NullableString** | Configured search tool to run against. Optional when exactly one tool is configured, and ignored on POST /api/v1/search/{search_tool_name}. | [optional] 
+**SearchToolName** | Pointer to **NullableString** | Configured search tool to run against. Optional when the deployment names a default (web_search_default_tool) or has exactly one tool, and ignored on POST /api/v1/search/{search_tool_name}. | [optional] 
 **User** | Pointer to **NullableString** | User ID for usage attribution | [optional] 
 
 ## Methods
@@ -66,6 +68,31 @@ HasCountry returns a boolean if a field has been set.
 `func (o *SearchRequest) UnsetCountry()`
 
 UnsetCountry ensures that no value is present for Country, not even an explicit nil
+### GetIncludeRaw
+
+`func (o *SearchRequest) GetIncludeRaw() bool`
+
+GetIncludeRaw returns the IncludeRaw field if non-nil, zero value otherwise.
+
+### GetIncludeRawOk
+
+`func (o *SearchRequest) GetIncludeRawOk() (*bool, bool)`
+
+GetIncludeRawOk returns a tuple with the IncludeRaw field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIncludeRaw
+
+`func (o *SearchRequest) SetIncludeRaw(v bool)`
+
+SetIncludeRaw sets IncludeRaw field to given value.
+
+### HasIncludeRaw
+
+`func (o *SearchRequest) HasIncludeRaw() bool`
+
+HasIncludeRaw returns a boolean if a field has been set.
+
 ### GetMaxResults
 
 `func (o *SearchRequest) GetMaxResults() int32`
@@ -136,6 +163,41 @@ HasMaxTokensPerPage returns a boolean if a field has been set.
 `func (o *SearchRequest) UnsetMaxTokensPerPage()`
 
 UnsetMaxTokensPerPage ensures that no value is present for MaxTokensPerPage, not even an explicit nil
+### GetProviderOptions
+
+`func (o *SearchRequest) GetProviderOptions() map[string]interface{}`
+
+GetProviderOptions returns the ProviderOptions field if non-nil, zero value otherwise.
+
+### GetProviderOptionsOk
+
+`func (o *SearchRequest) GetProviderOptionsOk() (*map[string]interface{}, bool)`
+
+GetProviderOptionsOk returns a tuple with the ProviderOptions field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProviderOptions
+
+`func (o *SearchRequest) SetProviderOptions(v map[string]interface{})`
+
+SetProviderOptions sets ProviderOptions field to given value.
+
+### HasProviderOptions
+
+`func (o *SearchRequest) HasProviderOptions() bool`
+
+HasProviderOptions returns a boolean if a field has been set.
+
+### SetProviderOptionsNil
+
+`func (o *SearchRequest) SetProviderOptionsNil(b bool)`
+
+ SetProviderOptionsNil sets the value for ProviderOptions to be an explicit nil
+
+### UnsetProviderOptions
+`func (o *SearchRequest) UnsetProviderOptions()`
+
+UnsetProviderOptions ensures that no value is present for ProviderOptions, not even an explicit nil
 ### GetQuery
 
 `func (o *SearchRequest) GetQuery() string`

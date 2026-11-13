@@ -7,14 +7,14 @@ Name | Type | Description | Notes
 **CacheCreation** | Pointer to [**NullableMRCacheCreation**](MRCacheCreation.md) |  | [optional] 
 **CacheCreationInputTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
 **CacheReadInputTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
-**InferenceGeo** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
+**InferenceGeo** | Pointer to **NullableString** |  | [optional] 
 **InputTokens** | **int32** |  | 
 **OutputTokens** | **int32** |  | 
 **OutputTokensDetails** | Pointer to [**NullableMROutputTokensDetails**](MROutputTokensDetails.md) |  | [optional] 
 **ServerToolUse** | Pointer to [**NullableMRServerToolUsage**](MRServerToolUsage.md) |  | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
-**Iterations** | Pointer to [**[]MRMessageUsageIterationsInner**](MRMessageUsageIterationsInner.md) |  | [optional] 
 **Speed** | Pointer to **NullableString** |  | [optional] 
+**Iterations** | Pointer to [**[]MRMessageUsageIterationsInner**](MRMessageUsageIterationsInner.md) |  | [optional] 
 
 ## Methods
 
@@ -320,41 +320,6 @@ HasServiceTier returns a boolean if a field has been set.
 `func (o *MRMessageUsage) UnsetServiceTier()`
 
 UnsetServiceTier ensures that no value is present for ServiceTier, not even an explicit nil
-### GetIterations
-
-`func (o *MRMessageUsage) GetIterations() []MRMessageUsageIterationsInner`
-
-GetIterations returns the Iterations field if non-nil, zero value otherwise.
-
-### GetIterationsOk
-
-`func (o *MRMessageUsage) GetIterationsOk() (*[]MRMessageUsageIterationsInner, bool)`
-
-GetIterationsOk returns a tuple with the Iterations field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIterations
-
-`func (o *MRMessageUsage) SetIterations(v []MRMessageUsageIterationsInner)`
-
-SetIterations sets Iterations field to given value.
-
-### HasIterations
-
-`func (o *MRMessageUsage) HasIterations() bool`
-
-HasIterations returns a boolean if a field has been set.
-
-### SetIterationsNil
-
-`func (o *MRMessageUsage) SetIterationsNil(b bool)`
-
- SetIterationsNil sets the value for Iterations to be an explicit nil
-
-### UnsetIterations
-`func (o *MRMessageUsage) UnsetIterations()`
-
-UnsetIterations ensures that no value is present for Iterations, not even an explicit nil
 ### GetSpeed
 
 `func (o *MRMessageUsage) GetSpeed() string`
@@ -390,6 +355,41 @@ HasSpeed returns a boolean if a field has been set.
 `func (o *MRMessageUsage) UnsetSpeed()`
 
 UnsetSpeed ensures that no value is present for Speed, not even an explicit nil
+### GetIterations
+
+`func (o *MRMessageUsage) GetIterations() []MRMessageUsageIterationsInner`
+
+GetIterations returns the Iterations field if non-nil, zero value otherwise.
+
+### GetIterationsOk
+
+`func (o *MRMessageUsage) GetIterationsOk() (*[]MRMessageUsageIterationsInner, bool)`
+
+GetIterationsOk returns a tuple with the Iterations field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIterations
+
+`func (o *MRMessageUsage) SetIterations(v []MRMessageUsageIterationsInner)`
+
+SetIterations sets Iterations field to given value.
+
+### HasIterations
+
+`func (o *MRMessageUsage) HasIterations() bool`
+
+HasIterations returns a boolean if a field has been set.
+
+### SetIterationsNil
+
+`func (o *MRMessageUsage) SetIterationsNil(b bool)`
+
+ SetIterationsNil sets the value for Iterations to be an explicit nil
+
+### UnsetIterations
+`func (o *MRMessageUsage) UnsetIterations()`
+
+UnsetIterations ensures that no value is present for Iterations, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

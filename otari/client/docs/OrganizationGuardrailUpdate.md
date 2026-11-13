@@ -9,10 +9,11 @@ Name | Type | Description | Notes
 **DefinitionId** | Pointer to **NullableString** | The organization&#39;s own definition this mandate runs. Unlike url and credential, an explicit null clears the link; omit the field to leave it as it is | [optional] 
 **Enabled** | Pointer to **bool** |  | [optional] 
 **Mode** | Pointer to **string** |  | [optional] 
+**On** | Pointer to **[]string** |  | [optional] 
 **OnUnavailable** | Pointer to **string** |  | [optional] 
 **Profile** | Pointer to **string** |  | [optional] 
 **Url** | Pointer to **NullableString** |  | [optional] 
-**ValidateKwargs** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**ValidateKwargs** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **WorkspaceIds** | Pointer to **[]string** |  | [optional] 
 
 ## Methods
@@ -178,6 +179,31 @@ SetMode sets Mode field to given value.
 `func (o *OrganizationGuardrailUpdate) HasMode() bool`
 
 HasMode returns a boolean if a field has been set.
+
+### GetOn
+
+`func (o *OrganizationGuardrailUpdate) GetOn() []string`
+
+GetOn returns the On field if non-nil, zero value otherwise.
+
+### GetOnOk
+
+`func (o *OrganizationGuardrailUpdate) GetOnOk() (*[]string, bool)`
+
+GetOnOk returns a tuple with the On field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOn
+
+`func (o *OrganizationGuardrailUpdate) SetOn(v []string)`
+
+SetOn sets On field to given value.
+
+### HasOn
+
+`func (o *OrganizationGuardrailUpdate) HasOn() bool`
+
+HasOn returns a boolean if a field has been set.
 
 ### GetOnUnavailable
 

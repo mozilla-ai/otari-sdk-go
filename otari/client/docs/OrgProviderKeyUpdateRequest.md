@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **ApiKey** | Pointer to **NullableString** |  | [optional] 
 **ClientArgs** | Pointer to **map[string]interface{}** |  | [optional] 
 **Name** | Pointer to **NullableString** |  | [optional] 
+**ZeroDataRetention** | Pointer to **NullableBool** |  | [optional] 
 
 ## Methods
 
@@ -168,6 +169,41 @@ HasName returns a boolean if a field has been set.
 `func (o *OrgProviderKeyUpdateRequest) UnsetName()`
 
 UnsetName ensures that no value is present for Name, not even an explicit nil
+### GetZeroDataRetention
+
+`func (o *OrgProviderKeyUpdateRequest) GetZeroDataRetention() bool`
+
+GetZeroDataRetention returns the ZeroDataRetention field if non-nil, zero value otherwise.
+
+### GetZeroDataRetentionOk
+
+`func (o *OrgProviderKeyUpdateRequest) GetZeroDataRetentionOk() (*bool, bool)`
+
+GetZeroDataRetentionOk returns a tuple with the ZeroDataRetention field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetZeroDataRetention
+
+`func (o *OrgProviderKeyUpdateRequest) SetZeroDataRetention(v bool)`
+
+SetZeroDataRetention sets ZeroDataRetention field to given value.
+
+### HasZeroDataRetention
+
+`func (o *OrgProviderKeyUpdateRequest) HasZeroDataRetention() bool`
+
+HasZeroDataRetention returns a boolean if a field has been set.
+
+### SetZeroDataRetentionNil
+
+`func (o *OrgProviderKeyUpdateRequest) SetZeroDataRetentionNil(b bool)`
+
+ SetZeroDataRetentionNil sets the value for ZeroDataRetention to be an explicit nil
+
+### UnsetZeroDataRetention
+`func (o *OrgProviderKeyUpdateRequest) UnsetZeroDataRetention()`
+
+UnsetZeroDataRetention ensures that no value is present for ZeroDataRetention, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

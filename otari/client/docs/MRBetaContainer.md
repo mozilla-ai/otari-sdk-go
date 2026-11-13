@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **string** |  | 
 **ExpiresAt** | **time.Time** |  | 
-**Skills** | Pointer to [**[]MRBetaSkill**](MRBetaSkill.md) |  | [optional] 
+**Skills** | Pointer to [**[]MRBetaContainerSkill**](MRBetaContainerSkill.md) |  | [optional] 
 
 ## Methods
 
@@ -69,20 +69,20 @@ SetExpiresAt sets ExpiresAt field to given value.
 
 ### GetSkills
 
-`func (o *MRBetaContainer) GetSkills() []MRBetaSkill`
+`func (o *MRBetaContainer) GetSkills() []MRBetaContainerSkill`
 
 GetSkills returns the Skills field if non-nil, zero value otherwise.
 
 ### GetSkillsOk
 
-`func (o *MRBetaContainer) GetSkillsOk() (*[]MRBetaSkill, bool)`
+`func (o *MRBetaContainer) GetSkillsOk() (*[]MRBetaContainerSkill, bool)`
 
 GetSkillsOk returns a tuple with the Skills field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSkills
 
-`func (o *MRBetaContainer) SetSkills(v []MRBetaSkill)`
+`func (o *MRBetaContainer) SetSkills(v []MRBetaContainerSkill)`
 
 SetSkills sets Skills field to given value.
 

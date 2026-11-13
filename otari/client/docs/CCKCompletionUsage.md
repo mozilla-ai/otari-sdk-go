@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **TotalTokens** | **int32** |  | 
 **CompletionTokensDetails** | Pointer to [**NullableCCKCompletionTokensDetails**](CCKCompletionTokensDetails.md) |  | [optional] 
 **PromptTokensDetails** | Pointer to [**NullableCCKPromptTokensDetails**](CCKPromptTokensDetails.md) |  | [optional] 
+**InferenceGeo** | Pointer to **NullableString** |  | [optional] 
+**ServerToolUse** | Pointer to [**NullableCCKServerToolUsage**](CCKServerToolUsage.md) |  | [optional] 
 
 ## Methods
 
@@ -159,6 +161,76 @@ HasPromptTokensDetails returns a boolean if a field has been set.
 `func (o *CCKCompletionUsage) UnsetPromptTokensDetails()`
 
 UnsetPromptTokensDetails ensures that no value is present for PromptTokensDetails, not even an explicit nil
+### GetInferenceGeo
+
+`func (o *CCKCompletionUsage) GetInferenceGeo() string`
+
+GetInferenceGeo returns the InferenceGeo field if non-nil, zero value otherwise.
+
+### GetInferenceGeoOk
+
+`func (o *CCKCompletionUsage) GetInferenceGeoOk() (*string, bool)`
+
+GetInferenceGeoOk returns a tuple with the InferenceGeo field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetInferenceGeo
+
+`func (o *CCKCompletionUsage) SetInferenceGeo(v string)`
+
+SetInferenceGeo sets InferenceGeo field to given value.
+
+### HasInferenceGeo
+
+`func (o *CCKCompletionUsage) HasInferenceGeo() bool`
+
+HasInferenceGeo returns a boolean if a field has been set.
+
+### SetInferenceGeoNil
+
+`func (o *CCKCompletionUsage) SetInferenceGeoNil(b bool)`
+
+ SetInferenceGeoNil sets the value for InferenceGeo to be an explicit nil
+
+### UnsetInferenceGeo
+`func (o *CCKCompletionUsage) UnsetInferenceGeo()`
+
+UnsetInferenceGeo ensures that no value is present for InferenceGeo, not even an explicit nil
+### GetServerToolUse
+
+`func (o *CCKCompletionUsage) GetServerToolUse() CCKServerToolUsage`
+
+GetServerToolUse returns the ServerToolUse field if non-nil, zero value otherwise.
+
+### GetServerToolUseOk
+
+`func (o *CCKCompletionUsage) GetServerToolUseOk() (*CCKServerToolUsage, bool)`
+
+GetServerToolUseOk returns a tuple with the ServerToolUse field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetServerToolUse
+
+`func (o *CCKCompletionUsage) SetServerToolUse(v CCKServerToolUsage)`
+
+SetServerToolUse sets ServerToolUse field to given value.
+
+### HasServerToolUse
+
+`func (o *CCKCompletionUsage) HasServerToolUse() bool`
+
+HasServerToolUse returns a boolean if a field has been set.
+
+### SetServerToolUseNil
+
+`func (o *CCKCompletionUsage) SetServerToolUseNil(b bool)`
+
+ SetServerToolUseNil sets the value for ServerToolUse to be an explicit nil
+
+### UnsetServerToolUse
+`func (o *CCKCompletionUsage) UnsetServerToolUse()`
+
+UnsetServerToolUse ensures that no value is present for ServerToolUse, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

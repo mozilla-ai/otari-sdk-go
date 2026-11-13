@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Message** | **string** | What the caller should do next. | 
+**Verified** | Pointer to **bool** | The account is verified already, through its invitation, so the caller can sign in now. | [optional] [default to false]
 
 ## Methods
 
@@ -44,6 +45,31 @@ and a boolean to check if the value has been set.
 
 SetMessage sets Message field to given value.
 
+
+### GetVerified
+
+`func (o *SignupResponse) GetVerified() bool`
+
+GetVerified returns the Verified field if non-nil, zero value otherwise.
+
+### GetVerifiedOk
+
+`func (o *SignupResponse) GetVerifiedOk() (*bool, bool)`
+
+GetVerifiedOk returns a tuple with the Verified field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetVerified
+
+`func (o *SignupResponse) SetVerified(v bool)`
+
+SetVerified sets Verified field to given value.
+
+### HasVerified
+
+`func (o *SignupResponse) HasVerified() bool`
+
+HasVerified returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

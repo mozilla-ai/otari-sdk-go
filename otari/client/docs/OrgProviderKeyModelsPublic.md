@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Count** | **int32** |  | 
 **Data** | [**[]OrgProviderKeyModelPublic**](OrgProviderKeyModelPublic.md) |  | 
+**TypeCounts** | Pointer to **map[string]int32** |  | [optional] 
 
 ## Methods
 
@@ -65,6 +66,31 @@ and a boolean to check if the value has been set.
 
 SetData sets Data field to given value.
 
+
+### GetTypeCounts
+
+`func (o *OrgProviderKeyModelsPublic) GetTypeCounts() map[string]int32`
+
+GetTypeCounts returns the TypeCounts field if non-nil, zero value otherwise.
+
+### GetTypeCountsOk
+
+`func (o *OrgProviderKeyModelsPublic) GetTypeCountsOk() (*map[string]int32, bool)`
+
+GetTypeCountsOk returns a tuple with the TypeCounts field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTypeCounts
+
+`func (o *OrgProviderKeyModelsPublic) SetTypeCounts(v map[string]int32)`
+
+SetTypeCounts sets TypeCounts field to given value.
+
+### HasTypeCounts
+
+`func (o *OrgProviderKeyModelsPublic) HasTypeCounts() bool`
+
+HasTypeCounts returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

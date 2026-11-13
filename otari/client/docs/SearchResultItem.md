@@ -4,16 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Date** | Pointer to **NullableString** |  | [optional] 
-**Snippet** | Pointer to **NullableString** |  | [optional] 
-**Title** | Pointer to **NullableString** |  | [optional] 
+**Date** | Pointer to **NullableString** | The page&#39;s date, as the provider gave it. | [optional] 
+**LastUpdated** | Pointer to **NullableString** | Always null: no provider reports it. | [optional] 
+**Snippet** | **string** | The page text the provider returned, else its excerpt, cut to the page budget. | 
+**Title** | **string** | The page&#39;s title; empty when the provider gave none. | 
 **Url** | **string** |  | 
 
 ## Methods
 
 ### NewSearchResultItem
 
-`func NewSearchResultItem(url string, ) *SearchResultItem`
+`func NewSearchResultItem(snippet string, title string, url string, ) *SearchResultItem`
 
 NewSearchResultItem instantiates a new SearchResultItem object
 This constructor will assign default values to properties that have it defined,
@@ -63,6 +64,41 @@ HasDate returns a boolean if a field has been set.
 `func (o *SearchResultItem) UnsetDate()`
 
 UnsetDate ensures that no value is present for Date, not even an explicit nil
+### GetLastUpdated
+
+`func (o *SearchResultItem) GetLastUpdated() string`
+
+GetLastUpdated returns the LastUpdated field if non-nil, zero value otherwise.
+
+### GetLastUpdatedOk
+
+`func (o *SearchResultItem) GetLastUpdatedOk() (*string, bool)`
+
+GetLastUpdatedOk returns a tuple with the LastUpdated field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLastUpdated
+
+`func (o *SearchResultItem) SetLastUpdated(v string)`
+
+SetLastUpdated sets LastUpdated field to given value.
+
+### HasLastUpdated
+
+`func (o *SearchResultItem) HasLastUpdated() bool`
+
+HasLastUpdated returns a boolean if a field has been set.
+
+### SetLastUpdatedNil
+
+`func (o *SearchResultItem) SetLastUpdatedNil(b bool)`
+
+ SetLastUpdatedNil sets the value for LastUpdated to be an explicit nil
+
+### UnsetLastUpdated
+`func (o *SearchResultItem) UnsetLastUpdated()`
+
+UnsetLastUpdated ensures that no value is present for LastUpdated, not even an explicit nil
 ### GetSnippet
 
 `func (o *SearchResultItem) GetSnippet() string`
@@ -82,22 +118,7 @@ and a boolean to check if the value has been set.
 
 SetSnippet sets Snippet field to given value.
 
-### HasSnippet
 
-`func (o *SearchResultItem) HasSnippet() bool`
-
-HasSnippet returns a boolean if a field has been set.
-
-### SetSnippetNil
-
-`func (o *SearchResultItem) SetSnippetNil(b bool)`
-
- SetSnippetNil sets the value for Snippet to be an explicit nil
-
-### UnsetSnippet
-`func (o *SearchResultItem) UnsetSnippet()`
-
-UnsetSnippet ensures that no value is present for Snippet, not even an explicit nil
 ### GetTitle
 
 `func (o *SearchResultItem) GetTitle() string`
@@ -117,22 +138,7 @@ and a boolean to check if the value has been set.
 
 SetTitle sets Title field to given value.
 
-### HasTitle
 
-`func (o *SearchResultItem) HasTitle() bool`
-
-HasTitle returns a boolean if a field has been set.
-
-### SetTitleNil
-
-`func (o *SearchResultItem) SetTitleNil(b bool)`
-
- SetTitleNil sets the value for Title to be an explicit nil
-
-### UnsetTitle
-`func (o *SearchResultItem) UnsetTitle()`
-
-UnsetTitle ensures that no value is present for Title, not even an explicit nil
 ### GetUrl
 
 `func (o *SearchResultItem) GetUrl() string`

@@ -7,6 +7,8 @@ Name | Type | Description | Notes
 **Content** | Pointer to **NullableString** |  | [optional] 
 **EncryptedContent** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Type** | **string** |  | 
+**Signature** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
+**ToolChanges** | Pointer to [**[]MRBetaCompactionBlockToolChangesInner**](MRBetaCompactionBlockToolChangesInner.md) |  | [optional] 
 
 ## Methods
 
@@ -117,6 +119,76 @@ and a boolean to check if the value has been set.
 SetType sets Type field to given value.
 
 
+### GetSignature
+
+`func (o *MRBetaCompactionBlock) GetSignature() string`
+
+GetSignature returns the Signature field if non-nil, zero value otherwise.
+
+### GetSignatureOk
+
+`func (o *MRBetaCompactionBlock) GetSignatureOk() (*string, bool)`
+
+GetSignatureOk returns a tuple with the Signature field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSignature
+
+`func (o *MRBetaCompactionBlock) SetSignature(v string)`
+
+SetSignature sets Signature field to given value.
+
+### HasSignature
+
+`func (o *MRBetaCompactionBlock) HasSignature() bool`
+
+HasSignature returns a boolean if a field has been set.
+
+### SetSignatureNil
+
+`func (o *MRBetaCompactionBlock) SetSignatureNil(b bool)`
+
+ SetSignatureNil sets the value for Signature to be an explicit nil
+
+### UnsetSignature
+`func (o *MRBetaCompactionBlock) UnsetSignature()`
+
+UnsetSignature ensures that no value is present for Signature, not even an explicit nil
+### GetToolChanges
+
+`func (o *MRBetaCompactionBlock) GetToolChanges() []MRBetaCompactionBlockToolChangesInner`
+
+GetToolChanges returns the ToolChanges field if non-nil, zero value otherwise.
+
+### GetToolChangesOk
+
+`func (o *MRBetaCompactionBlock) GetToolChangesOk() (*[]MRBetaCompactionBlockToolChangesInner, bool)`
+
+GetToolChangesOk returns a tuple with the ToolChanges field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetToolChanges
+
+`func (o *MRBetaCompactionBlock) SetToolChanges(v []MRBetaCompactionBlockToolChangesInner)`
+
+SetToolChanges sets ToolChanges field to given value.
+
+### HasToolChanges
+
+`func (o *MRBetaCompactionBlock) HasToolChanges() bool`
+
+HasToolChanges returns a boolean if a field has been set.
+
+### SetToolChangesNil
+
+`func (o *MRBetaCompactionBlock) SetToolChangesNil(b bool)`
+
+ SetToolChangesNil sets the value for ToolChanges to be an explicit nil
+
+### UnsetToolChanges
+`func (o *MRBetaCompactionBlock) UnsetToolChanges()`
+
+UnsetToolChanges ensures that no value is present for ToolChanges, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

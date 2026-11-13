@@ -1,0 +1,13 @@
+# DisabledReason
+
+## Enum
+
+
+* `OPERATOR` (value: `"operator"`)
+
+* `REVOKED` (value: `"revoked"`)
+
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
