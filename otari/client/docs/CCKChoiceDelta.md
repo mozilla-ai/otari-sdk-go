@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Audio** | Pointer to [**NullableCCKChoiceDeltaAudio**](CCKChoiceDeltaAudio.md) |  | [optional] 
 **Content** | Pointer to **NullableString** |  | [optional] 
 **FunctionCall** | Pointer to [**NullableCCKChoiceDeltaFunctionCall**](CCKChoiceDeltaFunctionCall.md) |  | [optional] 
 **Refusal** | Pointer to **NullableString** |  | [optional] 
@@ -12,7 +13,6 @@ Name | Type | Description | Notes
 **Reasoning** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **ExtraContent** | Pointer to **map[string]interface{}** |  | [optional] 
 **Images** | Pointer to [**[]CCKImageContent**](CCKImageContent.md) |  | [optional] 
-**Audio** | Pointer to [**NullableCCKChoiceDeltaAudio**](CCKChoiceDeltaAudio.md) |  | [optional] 
 
 ## Methods
 
@@ -33,6 +33,41 @@ NewCCKChoiceDeltaWithDefaults instantiates a new CCKChoiceDelta object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetAudio
+
+`func (o *CCKChoiceDelta) GetAudio() CCKChoiceDeltaAudio`
+
+GetAudio returns the Audio field if non-nil, zero value otherwise.
+
+### GetAudioOk
+
+`func (o *CCKChoiceDelta) GetAudioOk() (*CCKChoiceDeltaAudio, bool)`
+
+GetAudioOk returns a tuple with the Audio field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAudio
+
+`func (o *CCKChoiceDelta) SetAudio(v CCKChoiceDeltaAudio)`
+
+SetAudio sets Audio field to given value.
+
+### HasAudio
+
+`func (o *CCKChoiceDelta) HasAudio() bool`
+
+HasAudio returns a boolean if a field has been set.
+
+### SetAudioNil
+
+`func (o *CCKChoiceDelta) SetAudioNil(b bool)`
+
+ SetAudioNil sets the value for Audio to be an explicit nil
+
+### UnsetAudio
+`func (o *CCKChoiceDelta) UnsetAudio()`
+
+UnsetAudio ensures that no value is present for Audio, not even an explicit nil
 ### GetContent
 
 `func (o *CCKChoiceDelta) GetContent() string`
@@ -313,41 +348,6 @@ HasImages returns a boolean if a field has been set.
 `func (o *CCKChoiceDelta) UnsetImages()`
 
 UnsetImages ensures that no value is present for Images, not even an explicit nil
-### GetAudio
-
-`func (o *CCKChoiceDelta) GetAudio() CCKChoiceDeltaAudio`
-
-GetAudio returns the Audio field if non-nil, zero value otherwise.
-
-### GetAudioOk
-
-`func (o *CCKChoiceDelta) GetAudioOk() (*CCKChoiceDeltaAudio, bool)`
-
-GetAudioOk returns a tuple with the Audio field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAudio
-
-`func (o *CCKChoiceDelta) SetAudio(v CCKChoiceDeltaAudio)`
-
-SetAudio sets Audio field to given value.
-
-### HasAudio
-
-`func (o *CCKChoiceDelta) HasAudio() bool`
-
-HasAudio returns a boolean if a field has been set.
-
-### SetAudioNil
-
-`func (o *CCKChoiceDelta) SetAudioNil(b bool)`
-
- SetAudioNil sets the value for Audio to be an explicit nil
-
-### UnsetAudio
-`func (o *CCKChoiceDelta) UnsetAudio()`
-
-UnsetAudio ensures that no value is present for Audio, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -5,16 +5,20 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApiBase** | Pointer to **NullableString** |  | [optional] 
+**FetchTool** | Pointer to **NullableString** | A search instance&#39;s enrichment fetch instance. Null means the fetch default enriches it. | [optional] 
 **HasApiKey** | **bool** | Whether the config entry carries an API key. The key itself is not shown. | 
+**Kind** | Pointer to **string** | Whether this is a search or a fetch instance. | [optional] [default to "search"]
 **Name** | **string** |  | 
+**PricePerCall** | **NullableFloat32** | USD for one call on the deployment&#39;s own account when the provider reports no cost of its own, from the deployment&#39;s price list. An override the operator set for one organization prices that organization&#39;s calls instead. Null when no row prices the tool: with require_pricing on, its calls are refused. | 
+**PriceSource** | **string** | Which row price_per_call comes from: &#39;own&#39;, the tool&#39;s own row (its kind and name as model_key); &#39;config&#39;, that row while the tool&#39;s config.yml entry sets price_per_call, which each start writes to it again when the rate in force differs, so a rate set through the API lasts until the next start; &#39;old_key&#39;, the tool&#39;s old &lt;provider&gt;:&lt;name&gt; row, which prices it while it has no row of its own; &#39;none&#39;, no row. | 
 **Provider** | **string** |  | 
-**Shadowed** | Pointer to **bool** | True when a stored search tool of the same name overrides this entry. | [optional] [default to false]
+**Shadowed** | Pointer to **bool** | True when a stored instance of the same name and kind overrides this entry. | [optional] [default to false]
 
 ## Methods
 
 ### NewConfigSearchToolSchema
 
-`func NewConfigSearchToolSchema(hasApiKey bool, name string, provider string, ) *ConfigSearchToolSchema`
+`func NewConfigSearchToolSchema(hasApiKey bool, name string, pricePerCall NullableFloat32, priceSource string, provider string, ) *ConfigSearchToolSchema`
 
 NewConfigSearchToolSchema instantiates a new ConfigSearchToolSchema object
 This constructor will assign default values to properties that have it defined,
@@ -64,6 +68,41 @@ HasApiBase returns a boolean if a field has been set.
 `func (o *ConfigSearchToolSchema) UnsetApiBase()`
 
 UnsetApiBase ensures that no value is present for ApiBase, not even an explicit nil
+### GetFetchTool
+
+`func (o *ConfigSearchToolSchema) GetFetchTool() string`
+
+GetFetchTool returns the FetchTool field if non-nil, zero value otherwise.
+
+### GetFetchToolOk
+
+`func (o *ConfigSearchToolSchema) GetFetchToolOk() (*string, bool)`
+
+GetFetchToolOk returns a tuple with the FetchTool field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFetchTool
+
+`func (o *ConfigSearchToolSchema) SetFetchTool(v string)`
+
+SetFetchTool sets FetchTool field to given value.
+
+### HasFetchTool
+
+`func (o *ConfigSearchToolSchema) HasFetchTool() bool`
+
+HasFetchTool returns a boolean if a field has been set.
+
+### SetFetchToolNil
+
+`func (o *ConfigSearchToolSchema) SetFetchToolNil(b bool)`
+
+ SetFetchToolNil sets the value for FetchTool to be an explicit nil
+
+### UnsetFetchTool
+`func (o *ConfigSearchToolSchema) UnsetFetchTool()`
+
+UnsetFetchTool ensures that no value is present for FetchTool, not even an explicit nil
 ### GetHasApiKey
 
 `func (o *ConfigSearchToolSchema) GetHasApiKey() bool`
@@ -84,6 +123,31 @@ and a boolean to check if the value has been set.
 SetHasApiKey sets HasApiKey field to given value.
 
 
+### GetKind
+
+`func (o *ConfigSearchToolSchema) GetKind() string`
+
+GetKind returns the Kind field if non-nil, zero value otherwise.
+
+### GetKindOk
+
+`func (o *ConfigSearchToolSchema) GetKindOk() (*string, bool)`
+
+GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKind
+
+`func (o *ConfigSearchToolSchema) SetKind(v string)`
+
+SetKind sets Kind field to given value.
+
+### HasKind
+
+`func (o *ConfigSearchToolSchema) HasKind() bool`
+
+HasKind returns a boolean if a field has been set.
+
 ### GetName
 
 `func (o *ConfigSearchToolSchema) GetName() string`
@@ -102,6 +166,56 @@ and a boolean to check if the value has been set.
 `func (o *ConfigSearchToolSchema) SetName(v string)`
 
 SetName sets Name field to given value.
+
+
+### GetPricePerCall
+
+`func (o *ConfigSearchToolSchema) GetPricePerCall() float32`
+
+GetPricePerCall returns the PricePerCall field if non-nil, zero value otherwise.
+
+### GetPricePerCallOk
+
+`func (o *ConfigSearchToolSchema) GetPricePerCallOk() (*float32, bool)`
+
+GetPricePerCallOk returns a tuple with the PricePerCall field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPricePerCall
+
+`func (o *ConfigSearchToolSchema) SetPricePerCall(v float32)`
+
+SetPricePerCall sets PricePerCall field to given value.
+
+
+### SetPricePerCallNil
+
+`func (o *ConfigSearchToolSchema) SetPricePerCallNil(b bool)`
+
+ SetPricePerCallNil sets the value for PricePerCall to be an explicit nil
+
+### UnsetPricePerCall
+`func (o *ConfigSearchToolSchema) UnsetPricePerCall()`
+
+UnsetPricePerCall ensures that no value is present for PricePerCall, not even an explicit nil
+### GetPriceSource
+
+`func (o *ConfigSearchToolSchema) GetPriceSource() string`
+
+GetPriceSource returns the PriceSource field if non-nil, zero value otherwise.
+
+### GetPriceSourceOk
+
+`func (o *ConfigSearchToolSchema) GetPriceSourceOk() (*string, bool)`
+
+GetPriceSourceOk returns a tuple with the PriceSource field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPriceSource
+
+`func (o *ConfigSearchToolSchema) SetPriceSource(v string)`
+
+SetPriceSource sets PriceSource field to given value.
 
 
 ### GetProvider

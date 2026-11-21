@@ -4,7 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ByoProviderKeysAllowed** | Pointer to **bool** |  | [optional] [default to false]
 **Caller** | Pointer to [**NullableCallerIdentityPublic**](CallerIdentityPublic.md) |  | [optional] 
 **DeploymentOperator** | Pointer to **bool** |  | [optional] [default to false]
 **Organization** | [**OrganizationPublic**](OrganizationPublic.md) |  | 
@@ -32,31 +31,6 @@ will change when the set of required properties is changed
 NewOrganizationMembershipContextPublicWithDefaults instantiates a new OrganizationMembershipContextPublic object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetByoProviderKeysAllowed
-
-`func (o *OrganizationMembershipContextPublic) GetByoProviderKeysAllowed() bool`
-
-GetByoProviderKeysAllowed returns the ByoProviderKeysAllowed field if non-nil, zero value otherwise.
-
-### GetByoProviderKeysAllowedOk
-
-`func (o *OrganizationMembershipContextPublic) GetByoProviderKeysAllowedOk() (*bool, bool)`
-
-GetByoProviderKeysAllowedOk returns a tuple with the ByoProviderKeysAllowed field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetByoProviderKeysAllowed
-
-`func (o *OrganizationMembershipContextPublic) SetByoProviderKeysAllowed(v bool)`
-
-SetByoProviderKeysAllowed sets ByoProviderKeysAllowed field to given value.
-
-### HasByoProviderKeysAllowed
-
-`func (o *OrganizationMembershipContextPublic) HasByoProviderKeysAllowed() bool`
-
-HasByoProviderKeysAllowed returns a boolean if a field has been set.
 
 ### GetCaller
 

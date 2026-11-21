@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **ByProvider** | [**[]UsageGroupRow**](UsageGroupRow.md) |  | 
 **BySource** | [**[]UsageGroupRow**](UsageGroupRow.md) |  | 
 **BySourceLabel** | [**[]UsageGroupRow**](UsageGroupRow.md) |  | 
+**ByTag** | Pointer to [**[]UsageGroupRow**](UsageGroupRow.md) |  | [optional] [default to {}]
 **ByTool** | Pointer to [**[]UsageToolRow**](UsageToolRow.md) |  | [optional] [default to {}]
 **ByUser** | [**[]UsageGroupRow**](UsageGroupRow.md) |  | 
 **EndDate** | **string** |  | 
@@ -177,6 +178,31 @@ and a boolean to check if the value has been set.
 
 SetBySourceLabel sets BySourceLabel field to given value.
 
+
+### GetByTag
+
+`func (o *UsageSummary) GetByTag() []UsageGroupRow`
+
+GetByTag returns the ByTag field if non-nil, zero value otherwise.
+
+### GetByTagOk
+
+`func (o *UsageSummary) GetByTagOk() (*[]UsageGroupRow, bool)`
+
+GetByTagOk returns a tuple with the ByTag field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetByTag
+
+`func (o *UsageSummary) SetByTag(v []UsageGroupRow)`
+
+SetByTag sets ByTag field to given value.
+
+### HasByTag
+
+`func (o *UsageSummary) HasByTag() bool`
+
+HasByTag returns a boolean if a field has been set.
 
 ### GetByTool
 

@@ -12,14 +12,14 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Size** | Pointer to **NullableInt32** |  | [optional] 
 **Title** | Pointer to **NullableString** |  | [optional] 
-**Type** | **string** |  | 
+**Type** | Pointer to **string** |  | [optional] [default to "resource_link"]
 **Uri** | **string** |  | 
 
 ## Methods
 
 ### NewResourceLink
 
-`func NewResourceLink(name string, type_ string, uri string, ) *ResourceLink`
+`func NewResourceLink(name string, uri string, ) *ResourceLink`
 
 NewResourceLink instantiates a new ResourceLink object
 This constructor will assign default values to properties that have it defined,
@@ -318,6 +318,11 @@ and a boolean to check if the value has been set.
 
 SetType sets Type field to given value.
 
+### HasType
+
+`func (o *ResourceLink) HasType() bool`
+
+HasType returns a boolean if a field has been set.
 
 ### GetUri
 

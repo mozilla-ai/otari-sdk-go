@@ -6,7 +6,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **BudgetEstimateDefaultOutputTokens** | Pointer to **NullableInt32** |  | [optional] 
 **DefaultPricing** | Pointer to **NullableBool** |  | [optional] 
-**FileUnderstandingEnabled** | Pointer to **NullableBool** |  | [optional] 
 **ModelCacheTtlSeconds** | Pointer to **NullableInt32** |  | [optional] 
 **ModelDiscovery** | Pointer to **NullableBool** |  | [optional] 
 **ModelDiscoveryNegativeTtlSeconds** | Pointer to **NullableFloat32** |  | [optional] 
@@ -111,41 +110,6 @@ HasDefaultPricing returns a boolean if a field has been set.
 `func (o *UpdateSettingsRequest) UnsetDefaultPricing()`
 
 UnsetDefaultPricing ensures that no value is present for DefaultPricing, not even an explicit nil
-### GetFileUnderstandingEnabled
-
-`func (o *UpdateSettingsRequest) GetFileUnderstandingEnabled() bool`
-
-GetFileUnderstandingEnabled returns the FileUnderstandingEnabled field if non-nil, zero value otherwise.
-
-### GetFileUnderstandingEnabledOk
-
-`func (o *UpdateSettingsRequest) GetFileUnderstandingEnabledOk() (*bool, bool)`
-
-GetFileUnderstandingEnabledOk returns a tuple with the FileUnderstandingEnabled field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetFileUnderstandingEnabled
-
-`func (o *UpdateSettingsRequest) SetFileUnderstandingEnabled(v bool)`
-
-SetFileUnderstandingEnabled sets FileUnderstandingEnabled field to given value.
-
-### HasFileUnderstandingEnabled
-
-`func (o *UpdateSettingsRequest) HasFileUnderstandingEnabled() bool`
-
-HasFileUnderstandingEnabled returns a boolean if a field has been set.
-
-### SetFileUnderstandingEnabledNil
-
-`func (o *UpdateSettingsRequest) SetFileUnderstandingEnabledNil(b bool)`
-
- SetFileUnderstandingEnabledNil sets the value for FileUnderstandingEnabled to be an explicit nil
-
-### UnsetFileUnderstandingEnabled
-`func (o *UpdateSettingsRequest) UnsetFileUnderstandingEnabled()`
-
-UnsetFileUnderstandingEnabled ensures that no value is present for FileUnderstandingEnabled, not even an explicit nil
 ### GetModelCacheTtlSeconds
 
 `func (o *UpdateSettingsRequest) GetModelCacheTtlSeconds() int32`

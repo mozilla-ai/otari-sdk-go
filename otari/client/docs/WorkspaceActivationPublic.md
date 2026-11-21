@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **ActivationAttempt** | Pointer to [**NullableActivationAttemptPublic**](ActivationAttemptPublic.md) | The first request that succeeded, which is the guide&#39;s receipt. Null until one does. | [optional] 
 **Dismissed** | **bool** | Whether someone skipped the guide for this workspace. | 
 **ExperienceEligible** | **bool** | Whether the dashboard should offer the guide to this caller right now: the deployment has it enabled, the workspace is classified for it, nobody dismissed it, no request has succeeded yet, and the caller may manage the workspace. | 
+**IssuedKey** | Pointer to [**NullableActivationIssuedKeyPublic**](ActivationIssuedKeyPublic.md) | The setup key the guide already issued, so a reopened guide can offer it instead of rotating it. Null until one is issued, once it is revoked, deleted or expired, when the caller is not the one it was issued to, and whenever the guide is not offered to this caller. | [optional] 
 **LatestAttempt** | Pointer to [**NullableActivationAttemptPublic**](ActivationAttemptPublic.md) | The most recent request, so a failure can be reported while the guide keeps waiting. | [optional] 
 **Status** | **string** | &#39;activated&#39; once a gateway request in this workspace has succeeded, &#39;failed&#39; when the last one failed and none has yet succeeded, &#39;waiting&#39; when there has been none at all. | 
 
@@ -104,6 +105,41 @@ and a boolean to check if the value has been set.
 SetExperienceEligible sets ExperienceEligible field to given value.
 
 
+### GetIssuedKey
+
+`func (o *WorkspaceActivationPublic) GetIssuedKey() ActivationIssuedKeyPublic`
+
+GetIssuedKey returns the IssuedKey field if non-nil, zero value otherwise.
+
+### GetIssuedKeyOk
+
+`func (o *WorkspaceActivationPublic) GetIssuedKeyOk() (*ActivationIssuedKeyPublic, bool)`
+
+GetIssuedKeyOk returns a tuple with the IssuedKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIssuedKey
+
+`func (o *WorkspaceActivationPublic) SetIssuedKey(v ActivationIssuedKeyPublic)`
+
+SetIssuedKey sets IssuedKey field to given value.
+
+### HasIssuedKey
+
+`func (o *WorkspaceActivationPublic) HasIssuedKey() bool`
+
+HasIssuedKey returns a boolean if a field has been set.
+
+### SetIssuedKeyNil
+
+`func (o *WorkspaceActivationPublic) SetIssuedKeyNil(b bool)`
+
+ SetIssuedKeyNil sets the value for IssuedKey to be an explicit nil
+
+### UnsetIssuedKey
+`func (o *WorkspaceActivationPublic) UnsetIssuedKey()`
+
+UnsetIssuedKey ensures that no value is present for IssuedKey, not even an explicit nil
 ### GetLatestAttempt
 
 `func (o *WorkspaceActivationPublic) GetLatestAttempt() ActivationAttemptPublic`

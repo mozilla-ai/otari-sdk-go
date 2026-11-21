@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **OrgProviderKeyId** | **string** |  | 
 **Usable** | **bool** |  | 
 **WorkspaceId** | **string** |  | 
+**ZeroDataRetention** | Pointer to **bool** |  | [optional] [default to false]
 
 ## Methods
 
@@ -191,6 +192,31 @@ and a boolean to check if the value has been set.
 
 SetWorkspaceId sets WorkspaceId field to given value.
 
+
+### GetZeroDataRetention
+
+`func (o *WorkspaceProviderKeyOverridePublic) GetZeroDataRetention() bool`
+
+GetZeroDataRetention returns the ZeroDataRetention field if non-nil, zero value otherwise.
+
+### GetZeroDataRetentionOk
+
+`func (o *WorkspaceProviderKeyOverridePublic) GetZeroDataRetentionOk() (*bool, bool)`
+
+GetZeroDataRetentionOk returns a tuple with the ZeroDataRetention field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetZeroDataRetention
+
+`func (o *WorkspaceProviderKeyOverridePublic) SetZeroDataRetention(v bool)`
+
+SetZeroDataRetention sets ZeroDataRetention field to given value.
+
+### HasZeroDataRetention
+
+`func (o *WorkspaceProviderKeyOverridePublic) HasZeroDataRetention() bool`
+
+HasZeroDataRetention returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

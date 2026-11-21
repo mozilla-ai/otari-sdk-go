@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ActiveOrganizationId** | **string** | The organization that identity is acting in, which scopes every tenancy surface. | 
+**ActiveOrganizationId** | **NullableString** | The organization that identity is acting in, which scopes every tenancy surface. Null when it is an active member of none, as an invitee who has not accepted yet is not. | 
 **ExpiresAt** | **time.Time** | When the session cookie stops being accepted. | 
 **UserId** | **string** | The identity this session speaks for. | 
 
@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 
 ### NewPasskeySessionResponse
 
-`func NewPasskeySessionResponse(activeOrganizationId string, expiresAt time.Time, userId string, ) *PasskeySessionResponse`
+`func NewPasskeySessionResponse(activeOrganizationId NullableString, expiresAt time.Time, userId string, ) *PasskeySessionResponse`
 
 NewPasskeySessionResponse instantiates a new PasskeySessionResponse object
 This constructor will assign default values to properties that have it defined,
@@ -47,6 +47,16 @@ and a boolean to check if the value has been set.
 SetActiveOrganizationId sets ActiveOrganizationId field to given value.
 
 
+### SetActiveOrganizationIdNil
+
+`func (o *PasskeySessionResponse) SetActiveOrganizationIdNil(b bool)`
+
+ SetActiveOrganizationIdNil sets the value for ActiveOrganizationId to be an explicit nil
+
+### UnsetActiveOrganizationId
+`func (o *PasskeySessionResponse) UnsetActiveOrganizationId()`
+
+UnsetActiveOrganizationId ensures that no value is present for ActiveOrganizationId, not even an explicit nil
 ### GetExpiresAt
 
 `func (o *PasskeySessionResponse) GetExpiresAt() time.Time`

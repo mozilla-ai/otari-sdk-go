@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Attachments** | Pointer to [**[]PlaygroundAttachment**](PlaygroundAttachment.md) |  | [optional] [default to {}]
 **Content** | **string** |  | 
 **Reasoning** | Pointer to **NullableString** |  | [optional] 
 **Role** | **string** |  | 
@@ -26,6 +27,31 @@ will change when the set of required properties is changed
 NewPlaygroundMessagePublicWithDefaults instantiates a new PlaygroundMessagePublic object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetAttachments
+
+`func (o *PlaygroundMessagePublic) GetAttachments() []PlaygroundAttachment`
+
+GetAttachments returns the Attachments field if non-nil, zero value otherwise.
+
+### GetAttachmentsOk
+
+`func (o *PlaygroundMessagePublic) GetAttachmentsOk() (*[]PlaygroundAttachment, bool)`
+
+GetAttachmentsOk returns a tuple with the Attachments field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAttachments
+
+`func (o *PlaygroundMessagePublic) SetAttachments(v []PlaygroundAttachment)`
+
+SetAttachments sets Attachments field to given value.
+
+### HasAttachments
+
+`func (o *PlaygroundMessagePublic) HasAttachments() bool`
+
+HasAttachments returns a boolean if a field has been set.
 
 ### GetContent
 

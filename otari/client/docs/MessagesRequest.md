@@ -9,17 +9,19 @@ Name | Type | Description | Notes
 **Container** | Pointer to [**NullableContainer**](Container.md) |  | [optional] 
 **ContextManagement** | Pointer to **map[string]interface{}** |  | [optional] 
 **Guardrails** | Pointer to [**[]GuardrailConfig**](GuardrailConfig.md) |  | [optional] 
+**InferenceGeo** | Pointer to **NullableString** |  | [optional] 
 **MaxTokens** | **int32** |  | 
 **MaxToolIterations** | Pointer to **NullableInt32** |  | [optional] 
 **McpServerIds** | Pointer to **[]string** |  | [optional] 
 **McpServers** | Pointer to [**[]McpServerConfig**](McpServerConfig.md) |  | [optional] 
 **Messages** | **[]map[string]interface{}** |  | 
-**Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
+**Metadata** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **Model** | **string** |  | 
-**OutputFormat** | Pointer to **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | [optional] 
+**OutputConfig** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
+**OutputFormat** | Pointer to **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | [optional] 
 **PromptCacheKey** | Pointer to **NullableString** |  | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
-**SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for cost attribution (per run, experiment, or conversation). In hybrid mode it is forwarded onto the platform usage report so spend can be sliced by session without standing up OpenTelemetry. Stripped before the request is forwarded upstream to the provider. Has no effect in standalone mode, where there is no platform to report it to. | [optional] 
+**SessionLabel** | Pointer to **NullableString** | Optional caller-supplied label for a run, experiment or conversation, which names the session the request&#39;s trace is grouped under. Stripped before the request is forwarded upstream to the provider. | [optional] 
 **StopSequences** | Pointer to **[]string** |  | [optional] 
 **Stream** | Pointer to **bool** |  | [optional] [default to false]
 **System** | Pointer to [**NullableSystem**](System.md) |  | [optional] 
@@ -225,6 +227,41 @@ HasGuardrails returns a boolean if a field has been set.
 `func (o *MessagesRequest) UnsetGuardrails()`
 
 UnsetGuardrails ensures that no value is present for Guardrails, not even an explicit nil
+### GetInferenceGeo
+
+`func (o *MessagesRequest) GetInferenceGeo() string`
+
+GetInferenceGeo returns the InferenceGeo field if non-nil, zero value otherwise.
+
+### GetInferenceGeoOk
+
+`func (o *MessagesRequest) GetInferenceGeoOk() (*string, bool)`
+
+GetInferenceGeoOk returns a tuple with the InferenceGeo field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetInferenceGeo
+
+`func (o *MessagesRequest) SetInferenceGeo(v string)`
+
+SetInferenceGeo sets InferenceGeo field to given value.
+
+### HasInferenceGeo
+
+`func (o *MessagesRequest) HasInferenceGeo() bool`
+
+HasInferenceGeo returns a boolean if a field has been set.
+
+### SetInferenceGeoNil
+
+`func (o *MessagesRequest) SetInferenceGeoNil(b bool)`
+
+ SetInferenceGeoNil sets the value for InferenceGeo to be an explicit nil
+
+### UnsetInferenceGeo
+`func (o *MessagesRequest) UnsetInferenceGeo()`
+
+UnsetInferenceGeo ensures that no value is present for InferenceGeo, not even an explicit nil
 ### GetMaxTokens
 
 `func (o *MessagesRequest) GetMaxTokens() int32`
@@ -425,6 +462,41 @@ and a boolean to check if the value has been set.
 SetModel sets Model field to given value.
 
 
+### GetOutputConfig
+
+`func (o *MessagesRequest) GetOutputConfig() map[string]interface{}`
+
+GetOutputConfig returns the OutputConfig field if non-nil, zero value otherwise.
+
+### GetOutputConfigOk
+
+`func (o *MessagesRequest) GetOutputConfigOk() (*map[string]interface{}, bool)`
+
+GetOutputConfigOk returns a tuple with the OutputConfig field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOutputConfig
+
+`func (o *MessagesRequest) SetOutputConfig(v map[string]interface{})`
+
+SetOutputConfig sets OutputConfig field to given value.
+
+### HasOutputConfig
+
+`func (o *MessagesRequest) HasOutputConfig() bool`
+
+HasOutputConfig returns a boolean if a field has been set.
+
+### SetOutputConfigNil
+
+`func (o *MessagesRequest) SetOutputConfigNil(b bool)`
+
+ SetOutputConfigNil sets the value for OutputConfig to be an explicit nil
+
+### UnsetOutputConfig
+`func (o *MessagesRequest) UnsetOutputConfig()`
+
+UnsetOutputConfig ensures that no value is present for OutputConfig, not even an explicit nil
 ### GetOutputFormat
 
 `func (o *MessagesRequest) GetOutputFormat() map[string]interface{}`

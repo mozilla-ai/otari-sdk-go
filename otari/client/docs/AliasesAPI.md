@@ -176,7 +176,7 @@ import (
 )
 
 func main() {
-	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only stored entries in this workspace. Config-file entries are always included, being deployment-wide. Omit to list the stored entries of every workspace. (optional)
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only stored entries in this workspace. Config-file entries are always included, being deployment-wide. Omit to list the stored entries of every workspace in your organization. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -201,7 +201,7 @@ Other parameters are passed through a pointer to a apiAliasesListAliasesRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **workspaceId** | **string** | Only stored entries in this workspace. Config-file entries are always included, being deployment-wide. Omit to list the stored entries of every workspace. | 
+ **workspaceId** | **string** | Only stored entries in this workspace. Config-file entries are always included, being deployment-wide. Omit to list the stored entries of every workspace in your organization. | 
 
 ### Return type
 
