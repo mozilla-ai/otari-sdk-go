@@ -9,7 +9,9 @@ Name | Type | Description | Notes
 **Data** | Pointer to [**[]IMGImage**](IMGImage.md) |  | [optional] 
 **OutputFormat** | Pointer to **NullableString** |  | [optional] 
 **Quality** | Pointer to **NullableString** |  | [optional] 
-**Size** | Pointer to **NullableString** |  | [optional] 
+**SafetyIdentifier** | Pointer to **NullableString** |  | [optional] 
+**Size** | Pointer to [**NullableSize**](Size.md) |  | [optional] 
+**SvgUsage** | Pointer to [**NullableIMGSvgUsage**](IMGSvgUsage.md) |  | [optional] 
 **Usage** | Pointer to [**NullableIMGUsage**](IMGUsage.md) |  | [optional] 
 
 ## Methods
@@ -191,22 +193,57 @@ HasQuality returns a boolean if a field has been set.
 `func (o *ImagesResponse) UnsetQuality()`
 
 UnsetQuality ensures that no value is present for Quality, not even an explicit nil
+### GetSafetyIdentifier
+
+`func (o *ImagesResponse) GetSafetyIdentifier() string`
+
+GetSafetyIdentifier returns the SafetyIdentifier field if non-nil, zero value otherwise.
+
+### GetSafetyIdentifierOk
+
+`func (o *ImagesResponse) GetSafetyIdentifierOk() (*string, bool)`
+
+GetSafetyIdentifierOk returns a tuple with the SafetyIdentifier field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSafetyIdentifier
+
+`func (o *ImagesResponse) SetSafetyIdentifier(v string)`
+
+SetSafetyIdentifier sets SafetyIdentifier field to given value.
+
+### HasSafetyIdentifier
+
+`func (o *ImagesResponse) HasSafetyIdentifier() bool`
+
+HasSafetyIdentifier returns a boolean if a field has been set.
+
+### SetSafetyIdentifierNil
+
+`func (o *ImagesResponse) SetSafetyIdentifierNil(b bool)`
+
+ SetSafetyIdentifierNil sets the value for SafetyIdentifier to be an explicit nil
+
+### UnsetSafetyIdentifier
+`func (o *ImagesResponse) UnsetSafetyIdentifier()`
+
+UnsetSafetyIdentifier ensures that no value is present for SafetyIdentifier, not even an explicit nil
 ### GetSize
 
-`func (o *ImagesResponse) GetSize() string`
+`func (o *ImagesResponse) GetSize() Size`
 
 GetSize returns the Size field if non-nil, zero value otherwise.
 
 ### GetSizeOk
 
-`func (o *ImagesResponse) GetSizeOk() (*string, bool)`
+`func (o *ImagesResponse) GetSizeOk() (*Size, bool)`
 
 GetSizeOk returns a tuple with the Size field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSize
 
-`func (o *ImagesResponse) SetSize(v string)`
+`func (o *ImagesResponse) SetSize(v Size)`
 
 SetSize sets Size field to given value.
 
@@ -226,6 +263,41 @@ HasSize returns a boolean if a field has been set.
 `func (o *ImagesResponse) UnsetSize()`
 
 UnsetSize ensures that no value is present for Size, not even an explicit nil
+### GetSvgUsage
+
+`func (o *ImagesResponse) GetSvgUsage() IMGSvgUsage`
+
+GetSvgUsage returns the SvgUsage field if non-nil, zero value otherwise.
+
+### GetSvgUsageOk
+
+`func (o *ImagesResponse) GetSvgUsageOk() (*IMGSvgUsage, bool)`
+
+GetSvgUsageOk returns a tuple with the SvgUsage field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSvgUsage
+
+`func (o *ImagesResponse) SetSvgUsage(v IMGSvgUsage)`
+
+SetSvgUsage sets SvgUsage field to given value.
+
+### HasSvgUsage
+
+`func (o *ImagesResponse) HasSvgUsage() bool`
+
+HasSvgUsage returns a boolean if a field has been set.
+
+### SetSvgUsageNil
+
+`func (o *ImagesResponse) SetSvgUsageNil(b bool)`
+
+ SetSvgUsageNil sets the value for SvgUsage to be an explicit nil
+
+### UnsetSvgUsage
+`func (o *ImagesResponse) UnsetSvgUsage()`
+
+UnsetSvgUsage ensures that no value is present for SvgUsage, not even an explicit nil
 ### GetUsage
 
 `func (o *ImagesResponse) GetUsage() IMGUsage`

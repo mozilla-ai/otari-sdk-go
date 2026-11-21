@@ -4,6 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**SettingsDeleteCountryDatabase**](SettingsAPI.md#SettingsDeleteCountryDatabase) | **Delete** /api/v1/settings/country-database | Delete Country Database
+[**SettingsGetCountryDatabase**](SettingsAPI.md#SettingsGetCountryDatabase) | **Get** /api/v1/settings/country-database | Get Country Database
 [**SettingsGetMailSettings**](SettingsAPI.md#SettingsGetMailSettings) | **Get** /api/v1/settings/mail | Get Mail Settings
 [**SettingsGetMaintenanceMode**](SettingsAPI.md#SettingsGetMaintenanceMode) | **Get** /api/v1/settings/maintenance-mode | Get Maintenance Mode
 [**SettingsGetSettings**](SettingsAPI.md#SettingsGetSettings) | **Get** /api/v1/settings | Get Settings
@@ -11,7 +13,128 @@ Method | HTTP request | Description
 [**SettingsSendTestMail**](SettingsAPI.md#SettingsSendTestMail) | **Post** /api/v1/settings/mail/test | Send Test Mail
 [**SettingsUpdateMaintenanceMode**](SettingsAPI.md#SettingsUpdateMaintenanceMode) | **Patch** /api/v1/settings/maintenance-mode | Update Maintenance Mode
 [**SettingsUpdateSettings**](SettingsAPI.md#SettingsUpdateSettings) | **Patch** /api/v1/settings | Update Settings
+[**SettingsUploadCountryDatabase**](SettingsAPI.md#SettingsUploadCountryDatabase) | **Put** /api/v1/settings/country-database | Upload Country Database
 
+
+
+## SettingsDeleteCountryDatabase
+
+> SettingsDeleteCountryDatabase(ctx).Execute()
+
+Delete Country Database
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.SettingsAPI.SettingsDeleteCountryDatabase(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `SettingsAPI.SettingsDeleteCountryDatabase``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSettingsDeleteCountryDatabaseRequest struct via the builder pattern
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SettingsGetCountryDatabase
+
+> CountryDatabaseStatus SettingsGetCountryDatabase(ctx).Execute()
+
+Get Country Database
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.SettingsAPI.SettingsGetCountryDatabase(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `SettingsAPI.SettingsGetCountryDatabase``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SettingsGetCountryDatabase`: CountryDatabaseStatus
+	fmt.Fprintf(os.Stdout, "Response from `SettingsAPI.SettingsGetCountryDatabase`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSettingsGetCountryDatabaseRequest struct via the builder pattern
+
+
+### Return type
+
+[**CountryDatabaseStatus**](CountryDatabaseStatus.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## SettingsGetMailSettings
@@ -449,6 +572,72 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SettingsUploadCountryDatabase
+
+> CountryDatabaseStatus SettingsUploadCountryDatabase(ctx).File(file).Execute()
+
+Upload Country Database
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	file := "file_example" // string | A MaxMind DB country file, such as GeoLite2 Country or DB-IP Lite Country.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.SettingsAPI.SettingsUploadCountryDatabase(context.Background()).File(file).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `SettingsAPI.SettingsUploadCountryDatabase``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SettingsUploadCountryDatabase`: CountryDatabaseStatus
+	fmt.Fprintf(os.Stdout, "Response from `SettingsAPI.SettingsUploadCountryDatabase`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSettingsUploadCountryDatabaseRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file** | **string** | A MaxMind DB country file, such as GeoLite2 Country or DB-IP Lite Country. | 
+
+### Return type
+
+[**CountryDatabaseStatus**](CountryDatabaseStatus.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

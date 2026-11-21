@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **Cost** | **float32** |  | 
 **ErrorCount** | **int32** |  | 
 **PromptTokens** | **int32** |  | 
+**ReasoningTokens** | Pointer to **int32** |  | [optional] [default to 0]
 **RequestCount** | **int32** |  | 
 **TotalTokens** | **int32** |  | 
 **UnpricedRequests** | Pointer to **int32** |  | [optional] [default to 0]
@@ -256,6 +257,31 @@ and a boolean to check if the value has been set.
 
 SetPromptTokens sets PromptTokens field to given value.
 
+
+### GetReasoningTokens
+
+`func (o *UsageTotals) GetReasoningTokens() int32`
+
+GetReasoningTokens returns the ReasoningTokens field if non-nil, zero value otherwise.
+
+### GetReasoningTokensOk
+
+`func (o *UsageTotals) GetReasoningTokensOk() (*int32, bool)`
+
+GetReasoningTokensOk returns a tuple with the ReasoningTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReasoningTokens
+
+`func (o *UsageTotals) SetReasoningTokens(v int32)`
+
+SetReasoningTokens sets ReasoningTokens field to given value.
+
+### HasReasoningTokens
+
+`func (o *UsageTotals) HasReasoningTokens() bool`
+
+HasReasoningTokens returns a boolean if a field has been set.
 
 ### GetRequestCount
 

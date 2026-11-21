@@ -8,10 +8,13 @@ Name | Type | Description | Notes
 **BlockedDomains** | **[]string** |  | 
 **Configured** | **bool** |  | 
 **CreatedAt** | **NullableString** |  | 
+**DefaultEnabled** | **bool** |  | 
 **Enabled** | **bool** |  | 
+**FetchExecutor** | [**NullableCodeExecutor**](CodeExecutor.md) |  | 
 **MaxResults** | **NullableInt32** |  | 
-**ProviderOptions** | **map[string]interface{}** | Provider-native request fields used as defaults (e.g. exa&#39;s &#39;type&#39;, searxng&#39;s &#39;engines&#39;). | 
+**ProviderOptions** | **map[string]interface{}** | Tags for cost attribution, recorded on the request&#39;s usage rows and filterable in the usage API: up to 16 string pairs, keys up to 64 characters and values up to 512. A null value is ignored. LiteLLM&#39;s nested &#x60;spend_logs_metadata&#x60; object is also read, and wins over a flat key of the same name; it is never forwarded to the provider. | 
 **PurposeHint** | **NullableString** |  | 
+**SearchExecutor** | [**NullableCodeExecutor**](CodeExecutor.md) |  | 
 **UpdatedAt** | **NullableString** |  | 
 **WebSearchConfigured** | **bool** |  | 
 **WorkspaceId** | **string** |  | 
@@ -20,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewWorkspaceWebSearchConfigPublic
 
-`func NewWorkspaceWebSearchConfigPublic(allowedDomains []string, blockedDomains []string, configured bool, createdAt NullableString, enabled bool, maxResults NullableInt32, providerOptions map[string]interface{}, purposeHint NullableString, updatedAt NullableString, webSearchConfigured bool, workspaceId string, ) *WorkspaceWebSearchConfigPublic`
+`func NewWorkspaceWebSearchConfigPublic(allowedDomains []string, blockedDomains []string, configured bool, createdAt NullableString, defaultEnabled bool, enabled bool, fetchExecutor NullableCodeExecutor, maxResults NullableInt32, providerOptions map[string]interface{}, purposeHint NullableString, searchExecutor NullableCodeExecutor, updatedAt NullableString, webSearchConfigured bool, workspaceId string, ) *WorkspaceWebSearchConfigPublic`
 
 NewWorkspaceWebSearchConfigPublic instantiates a new WorkspaceWebSearchConfigPublic object
 This constructor will assign default values to properties that have it defined,
@@ -145,6 +148,26 @@ SetCreatedAt sets CreatedAt field to given value.
 `func (o *WorkspaceWebSearchConfigPublic) UnsetCreatedAt()`
 
 UnsetCreatedAt ensures that no value is present for CreatedAt, not even an explicit nil
+### GetDefaultEnabled
+
+`func (o *WorkspaceWebSearchConfigPublic) GetDefaultEnabled() bool`
+
+GetDefaultEnabled returns the DefaultEnabled field if non-nil, zero value otherwise.
+
+### GetDefaultEnabledOk
+
+`func (o *WorkspaceWebSearchConfigPublic) GetDefaultEnabledOk() (*bool, bool)`
+
+GetDefaultEnabledOk returns a tuple with the DefaultEnabled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDefaultEnabled
+
+`func (o *WorkspaceWebSearchConfigPublic) SetDefaultEnabled(v bool)`
+
+SetDefaultEnabled sets DefaultEnabled field to given value.
+
+
 ### GetEnabled
 
 `func (o *WorkspaceWebSearchConfigPublic) GetEnabled() bool`
@@ -165,6 +188,36 @@ and a boolean to check if the value has been set.
 SetEnabled sets Enabled field to given value.
 
 
+### GetFetchExecutor
+
+`func (o *WorkspaceWebSearchConfigPublic) GetFetchExecutor() CodeExecutor`
+
+GetFetchExecutor returns the FetchExecutor field if non-nil, zero value otherwise.
+
+### GetFetchExecutorOk
+
+`func (o *WorkspaceWebSearchConfigPublic) GetFetchExecutorOk() (*CodeExecutor, bool)`
+
+GetFetchExecutorOk returns a tuple with the FetchExecutor field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFetchExecutor
+
+`func (o *WorkspaceWebSearchConfigPublic) SetFetchExecutor(v CodeExecutor)`
+
+SetFetchExecutor sets FetchExecutor field to given value.
+
+
+### SetFetchExecutorNil
+
+`func (o *WorkspaceWebSearchConfigPublic) SetFetchExecutorNil(b bool)`
+
+ SetFetchExecutorNil sets the value for FetchExecutor to be an explicit nil
+
+### UnsetFetchExecutor
+`func (o *WorkspaceWebSearchConfigPublic) UnsetFetchExecutor()`
+
+UnsetFetchExecutor ensures that no value is present for FetchExecutor, not even an explicit nil
 ### GetMaxResults
 
 `func (o *WorkspaceWebSearchConfigPublic) GetMaxResults() int32`
@@ -255,6 +308,36 @@ SetPurposeHint sets PurposeHint field to given value.
 `func (o *WorkspaceWebSearchConfigPublic) UnsetPurposeHint()`
 
 UnsetPurposeHint ensures that no value is present for PurposeHint, not even an explicit nil
+### GetSearchExecutor
+
+`func (o *WorkspaceWebSearchConfigPublic) GetSearchExecutor() CodeExecutor`
+
+GetSearchExecutor returns the SearchExecutor field if non-nil, zero value otherwise.
+
+### GetSearchExecutorOk
+
+`func (o *WorkspaceWebSearchConfigPublic) GetSearchExecutorOk() (*CodeExecutor, bool)`
+
+GetSearchExecutorOk returns a tuple with the SearchExecutor field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSearchExecutor
+
+`func (o *WorkspaceWebSearchConfigPublic) SetSearchExecutor(v CodeExecutor)`
+
+SetSearchExecutor sets SearchExecutor field to given value.
+
+
+### SetSearchExecutorNil
+
+`func (o *WorkspaceWebSearchConfigPublic) SetSearchExecutorNil(b bool)`
+
+ SetSearchExecutorNil sets the value for SearchExecutor to be an explicit nil
+
+### UnsetSearchExecutor
+`func (o *WorkspaceWebSearchConfigPublic) UnsetSearchExecutor()`
+
+UnsetSearchExecutor ensures that no value is present for SearchExecutor, not even an explicit nil
 ### GetUpdatedAt
 
 `func (o *WorkspaceWebSearchConfigPublic) GetUpdatedAt() string`

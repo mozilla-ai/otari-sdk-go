@@ -6,10 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Attribution** | Pointer to [**NullableMemberAttributionPublic**](MemberAttributionPublic.md) |  | [optional] 
 **AttributionUserId** | Pointer to **NullableString** |  | [optional] 
+**AvatarFace** | Pointer to **NullableInt32** | The preset avatar face this member picked, or null when they have picked none. | [optional] 
 **CreatedAt** | **time.Time** |  | 
 **Email** | Pointer to **NullableString** |  | [optional] 
 **FullName** | Pointer to **NullableString** |  | [optional] 
+**InvitationExpiresAt** | Pointer to **NullableTime** | When the invitation in invitation_id expires, or expired. Null when there is none. | [optional] 
 **InvitationId** | Pointer to **NullableString** |  | [optional] 
+**IsSsoAccount** | Pointer to **bool** | Whether an organization&#39;s own OIDC connection provisioned this member&#39;s account. Such an account is created with no sign-in address, so email is null until one is set. | [optional] [default to false]
 **OrganizationMemberId** | Pointer to **NullableString** |  | [optional] 
 **Role** | **string** |  | 
 **Status** | **string** |  | 
@@ -106,6 +109,41 @@ HasAttributionUserId returns a boolean if a field has been set.
 `func (o *ActiveOrganizationMemberPublic) UnsetAttributionUserId()`
 
 UnsetAttributionUserId ensures that no value is present for AttributionUserId, not even an explicit nil
+### GetAvatarFace
+
+`func (o *ActiveOrganizationMemberPublic) GetAvatarFace() int32`
+
+GetAvatarFace returns the AvatarFace field if non-nil, zero value otherwise.
+
+### GetAvatarFaceOk
+
+`func (o *ActiveOrganizationMemberPublic) GetAvatarFaceOk() (*int32, bool)`
+
+GetAvatarFaceOk returns a tuple with the AvatarFace field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAvatarFace
+
+`func (o *ActiveOrganizationMemberPublic) SetAvatarFace(v int32)`
+
+SetAvatarFace sets AvatarFace field to given value.
+
+### HasAvatarFace
+
+`func (o *ActiveOrganizationMemberPublic) HasAvatarFace() bool`
+
+HasAvatarFace returns a boolean if a field has been set.
+
+### SetAvatarFaceNil
+
+`func (o *ActiveOrganizationMemberPublic) SetAvatarFaceNil(b bool)`
+
+ SetAvatarFaceNil sets the value for AvatarFace to be an explicit nil
+
+### UnsetAvatarFace
+`func (o *ActiveOrganizationMemberPublic) UnsetAvatarFace()`
+
+UnsetAvatarFace ensures that no value is present for AvatarFace, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *ActiveOrganizationMemberPublic) GetCreatedAt() time.Time`
@@ -196,6 +234,41 @@ HasFullName returns a boolean if a field has been set.
 `func (o *ActiveOrganizationMemberPublic) UnsetFullName()`
 
 UnsetFullName ensures that no value is present for FullName, not even an explicit nil
+### GetInvitationExpiresAt
+
+`func (o *ActiveOrganizationMemberPublic) GetInvitationExpiresAt() time.Time`
+
+GetInvitationExpiresAt returns the InvitationExpiresAt field if non-nil, zero value otherwise.
+
+### GetInvitationExpiresAtOk
+
+`func (o *ActiveOrganizationMemberPublic) GetInvitationExpiresAtOk() (*time.Time, bool)`
+
+GetInvitationExpiresAtOk returns a tuple with the InvitationExpiresAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetInvitationExpiresAt
+
+`func (o *ActiveOrganizationMemberPublic) SetInvitationExpiresAt(v time.Time)`
+
+SetInvitationExpiresAt sets InvitationExpiresAt field to given value.
+
+### HasInvitationExpiresAt
+
+`func (o *ActiveOrganizationMemberPublic) HasInvitationExpiresAt() bool`
+
+HasInvitationExpiresAt returns a boolean if a field has been set.
+
+### SetInvitationExpiresAtNil
+
+`func (o *ActiveOrganizationMemberPublic) SetInvitationExpiresAtNil(b bool)`
+
+ SetInvitationExpiresAtNil sets the value for InvitationExpiresAt to be an explicit nil
+
+### UnsetInvitationExpiresAt
+`func (o *ActiveOrganizationMemberPublic) UnsetInvitationExpiresAt()`
+
+UnsetInvitationExpiresAt ensures that no value is present for InvitationExpiresAt, not even an explicit nil
 ### GetInvitationId
 
 `func (o *ActiveOrganizationMemberPublic) GetInvitationId() string`
@@ -231,6 +304,31 @@ HasInvitationId returns a boolean if a field has been set.
 `func (o *ActiveOrganizationMemberPublic) UnsetInvitationId()`
 
 UnsetInvitationId ensures that no value is present for InvitationId, not even an explicit nil
+### GetIsSsoAccount
+
+`func (o *ActiveOrganizationMemberPublic) GetIsSsoAccount() bool`
+
+GetIsSsoAccount returns the IsSsoAccount field if non-nil, zero value otherwise.
+
+### GetIsSsoAccountOk
+
+`func (o *ActiveOrganizationMemberPublic) GetIsSsoAccountOk() (*bool, bool)`
+
+GetIsSsoAccountOk returns a tuple with the IsSsoAccount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIsSsoAccount
+
+`func (o *ActiveOrganizationMemberPublic) SetIsSsoAccount(v bool)`
+
+SetIsSsoAccount sets IsSsoAccount field to given value.
+
+### HasIsSsoAccount
+
+`func (o *ActiveOrganizationMemberPublic) HasIsSsoAccount() bool`
+
+HasIsSsoAccount returns a boolean if a field has been set.
+
 ### GetOrganizationMemberId
 
 `func (o *ActiveOrganizationMemberPublic) GetOrganizationMemberId() string`

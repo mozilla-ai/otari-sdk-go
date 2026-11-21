@@ -16,23 +16,30 @@ Name | Type | Description | Notes
 **CompletionTokens** | **NullableInt32** |  | 
 **Cost** | **NullableFloat32** |  | 
 **CountsTowardBudget** | **bool** |  | 
+**DataLocation** | Pointer to **NullableString** | Where the hosted provider or region that served the request declared it keeps request data when the row was written: an ISO 3166-1 alpha-2 code, EU or GLOBAL. Null where the deployment did not serve it or nothing was declared. | [optional] 
 **Endpoint** | **string** |  | 
 **ErrorMessage** | **NullableString** |  | 
 **Id** | **string** |  | 
 **LatencyMs** | **NullableInt32** |  | 
 **Model** | **string** |  | 
+**OutputTokensPerSecond** | **NullableFloat32** |  | 
 **PolicyName** | Pointer to **NullableString** |  | [optional] 
 **PricingBreakdown** | [**[]UsageEntryPricingBreakdownInner**](UsageEntryPricingBreakdownInner.md) |  | 
 **PromptTokens** | **NullableInt32** |  | 
 **Provider** | **NullableString** |  | 
+**ProviderLatencyMs** | **NullableInt32** |  | 
+**ReasoningTokens** | Pointer to **NullableInt32** |  | [optional] 
 **RequestGroupId** | Pointer to **NullableString** |  | [optional] 
 **SelectionReason** | Pointer to **NullableString** |  | [optional] 
 **Source** | **string** |  | 
 **SourceLabel** | **NullableString** |  | 
 **Status** | **string** |  | 
 **StatusCode** | **NullableInt32** |  | 
+**StreamCutBy** | Pointer to **NullableString** |  | [optional] 
+**Tags** | Pointer to **map[string]string** |  | [optional] 
 **Timestamp** | **string** |  | 
 **TotalTokens** | **NullableInt32** |  | 
+**TtftMs** | **NullableInt32** |  | 
 **UserAlias** | Pointer to **NullableString** |  | [optional] 
 **UserId** | **NullableString** |  | 
 
@@ -40,7 +47,7 @@ Name | Type | Description | Notes
 
 ### NewUsageEntry
 
-`func NewUsageEntry(apiKeyId NullableString, billingMeters NullableBillingMeters, bulkEditable bool, cacheReadTokens NullableInt32, cacheWrite1hTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, countsTowardBudget bool, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, pricingBreakdown []UsageEntryPricingBreakdownInner, promptTokens NullableInt32, provider NullableString, source string, sourceLabel NullableString, status string, statusCode NullableInt32, timestamp string, totalTokens NullableInt32, userId NullableString, ) *UsageEntry`
+`func NewUsageEntry(apiKeyId NullableString, billingMeters NullableBillingMeters, bulkEditable bool, cacheReadTokens NullableInt32, cacheWrite1hTokens NullableInt32, cacheWriteTokens NullableInt32, completionTokens NullableInt32, cost NullableFloat32, countsTowardBudget bool, endpoint string, errorMessage NullableString, id string, latencyMs NullableInt32, model string, outputTokensPerSecond NullableFloat32, pricingBreakdown []UsageEntryPricingBreakdownInner, promptTokens NullableInt32, provider NullableString, providerLatencyMs NullableInt32, source string, sourceLabel NullableString, status string, statusCode NullableInt32, timestamp string, totalTokens NullableInt32, ttftMs NullableInt32, userId NullableString, ) *UsageEntry`
 
 NewUsageEntry instantiates a new UsageEntry object
 This constructor will assign default values to properties that have it defined,
@@ -410,6 +417,41 @@ and a boolean to check if the value has been set.
 SetCountsTowardBudget sets CountsTowardBudget field to given value.
 
 
+### GetDataLocation
+
+`func (o *UsageEntry) GetDataLocation() string`
+
+GetDataLocation returns the DataLocation field if non-nil, zero value otherwise.
+
+### GetDataLocationOk
+
+`func (o *UsageEntry) GetDataLocationOk() (*string, bool)`
+
+GetDataLocationOk returns a tuple with the DataLocation field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDataLocation
+
+`func (o *UsageEntry) SetDataLocation(v string)`
+
+SetDataLocation sets DataLocation field to given value.
+
+### HasDataLocation
+
+`func (o *UsageEntry) HasDataLocation() bool`
+
+HasDataLocation returns a boolean if a field has been set.
+
+### SetDataLocationNil
+
+`func (o *UsageEntry) SetDataLocationNil(b bool)`
+
+ SetDataLocationNil sets the value for DataLocation to be an explicit nil
+
+### UnsetDataLocation
+`func (o *UsageEntry) UnsetDataLocation()`
+
+UnsetDataLocation ensures that no value is present for DataLocation, not even an explicit nil
 ### GetEndpoint
 
 `func (o *UsageEntry) GetEndpoint() string`
@@ -530,6 +572,36 @@ and a boolean to check if the value has been set.
 SetModel sets Model field to given value.
 
 
+### GetOutputTokensPerSecond
+
+`func (o *UsageEntry) GetOutputTokensPerSecond() float32`
+
+GetOutputTokensPerSecond returns the OutputTokensPerSecond field if non-nil, zero value otherwise.
+
+### GetOutputTokensPerSecondOk
+
+`func (o *UsageEntry) GetOutputTokensPerSecondOk() (*float32, bool)`
+
+GetOutputTokensPerSecondOk returns a tuple with the OutputTokensPerSecond field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOutputTokensPerSecond
+
+`func (o *UsageEntry) SetOutputTokensPerSecond(v float32)`
+
+SetOutputTokensPerSecond sets OutputTokensPerSecond field to given value.
+
+
+### SetOutputTokensPerSecondNil
+
+`func (o *UsageEntry) SetOutputTokensPerSecondNil(b bool)`
+
+ SetOutputTokensPerSecondNil sets the value for OutputTokensPerSecond to be an explicit nil
+
+### UnsetOutputTokensPerSecond
+`func (o *UsageEntry) UnsetOutputTokensPerSecond()`
+
+UnsetOutputTokensPerSecond ensures that no value is present for OutputTokensPerSecond, not even an explicit nil
 ### GetPolicyName
 
 `func (o *UsageEntry) GetPolicyName() string`
@@ -655,6 +727,71 @@ SetProvider sets Provider field to given value.
 `func (o *UsageEntry) UnsetProvider()`
 
 UnsetProvider ensures that no value is present for Provider, not even an explicit nil
+### GetProviderLatencyMs
+
+`func (o *UsageEntry) GetProviderLatencyMs() int32`
+
+GetProviderLatencyMs returns the ProviderLatencyMs field if non-nil, zero value otherwise.
+
+### GetProviderLatencyMsOk
+
+`func (o *UsageEntry) GetProviderLatencyMsOk() (*int32, bool)`
+
+GetProviderLatencyMsOk returns a tuple with the ProviderLatencyMs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProviderLatencyMs
+
+`func (o *UsageEntry) SetProviderLatencyMs(v int32)`
+
+SetProviderLatencyMs sets ProviderLatencyMs field to given value.
+
+
+### SetProviderLatencyMsNil
+
+`func (o *UsageEntry) SetProviderLatencyMsNil(b bool)`
+
+ SetProviderLatencyMsNil sets the value for ProviderLatencyMs to be an explicit nil
+
+### UnsetProviderLatencyMs
+`func (o *UsageEntry) UnsetProviderLatencyMs()`
+
+UnsetProviderLatencyMs ensures that no value is present for ProviderLatencyMs, not even an explicit nil
+### GetReasoningTokens
+
+`func (o *UsageEntry) GetReasoningTokens() int32`
+
+GetReasoningTokens returns the ReasoningTokens field if non-nil, zero value otherwise.
+
+### GetReasoningTokensOk
+
+`func (o *UsageEntry) GetReasoningTokensOk() (*int32, bool)`
+
+GetReasoningTokensOk returns a tuple with the ReasoningTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReasoningTokens
+
+`func (o *UsageEntry) SetReasoningTokens(v int32)`
+
+SetReasoningTokens sets ReasoningTokens field to given value.
+
+### HasReasoningTokens
+
+`func (o *UsageEntry) HasReasoningTokens() bool`
+
+HasReasoningTokens returns a boolean if a field has been set.
+
+### SetReasoningTokensNil
+
+`func (o *UsageEntry) SetReasoningTokensNil(b bool)`
+
+ SetReasoningTokensNil sets the value for ReasoningTokens to be an explicit nil
+
+### UnsetReasoningTokens
+`func (o *UsageEntry) UnsetReasoningTokens()`
+
+UnsetReasoningTokens ensures that no value is present for ReasoningTokens, not even an explicit nil
 ### GetRequestGroupId
 
 `func (o *UsageEntry) GetRequestGroupId() string`
@@ -825,6 +962,76 @@ SetStatusCode sets StatusCode field to given value.
 `func (o *UsageEntry) UnsetStatusCode()`
 
 UnsetStatusCode ensures that no value is present for StatusCode, not even an explicit nil
+### GetStreamCutBy
+
+`func (o *UsageEntry) GetStreamCutBy() string`
+
+GetStreamCutBy returns the StreamCutBy field if non-nil, zero value otherwise.
+
+### GetStreamCutByOk
+
+`func (o *UsageEntry) GetStreamCutByOk() (*string, bool)`
+
+GetStreamCutByOk returns a tuple with the StreamCutBy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStreamCutBy
+
+`func (o *UsageEntry) SetStreamCutBy(v string)`
+
+SetStreamCutBy sets StreamCutBy field to given value.
+
+### HasStreamCutBy
+
+`func (o *UsageEntry) HasStreamCutBy() bool`
+
+HasStreamCutBy returns a boolean if a field has been set.
+
+### SetStreamCutByNil
+
+`func (o *UsageEntry) SetStreamCutByNil(b bool)`
+
+ SetStreamCutByNil sets the value for StreamCutBy to be an explicit nil
+
+### UnsetStreamCutBy
+`func (o *UsageEntry) UnsetStreamCutBy()`
+
+UnsetStreamCutBy ensures that no value is present for StreamCutBy, not even an explicit nil
+### GetTags
+
+`func (o *UsageEntry) GetTags() map[string]string`
+
+GetTags returns the Tags field if non-nil, zero value otherwise.
+
+### GetTagsOk
+
+`func (o *UsageEntry) GetTagsOk() (*map[string]string, bool)`
+
+GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTags
+
+`func (o *UsageEntry) SetTags(v map[string]string)`
+
+SetTags sets Tags field to given value.
+
+### HasTags
+
+`func (o *UsageEntry) HasTags() bool`
+
+HasTags returns a boolean if a field has been set.
+
+### SetTagsNil
+
+`func (o *UsageEntry) SetTagsNil(b bool)`
+
+ SetTagsNil sets the value for Tags to be an explicit nil
+
+### UnsetTags
+`func (o *UsageEntry) UnsetTags()`
+
+UnsetTags ensures that no value is present for Tags, not even an explicit nil
 ### GetTimestamp
 
 `func (o *UsageEntry) GetTimestamp() string`
@@ -875,6 +1082,36 @@ SetTotalTokens sets TotalTokens field to given value.
 `func (o *UsageEntry) UnsetTotalTokens()`
 
 UnsetTotalTokens ensures that no value is present for TotalTokens, not even an explicit nil
+### GetTtftMs
+
+`func (o *UsageEntry) GetTtftMs() int32`
+
+GetTtftMs returns the TtftMs field if non-nil, zero value otherwise.
+
+### GetTtftMsOk
+
+`func (o *UsageEntry) GetTtftMsOk() (*int32, bool)`
+
+GetTtftMsOk returns a tuple with the TtftMs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTtftMs
+
+`func (o *UsageEntry) SetTtftMs(v int32)`
+
+SetTtftMs sets TtftMs field to given value.
+
+
+### SetTtftMsNil
+
+`func (o *UsageEntry) SetTtftMsNil(b bool)`
+
+ SetTtftMsNil sets the value for TtftMs to be an explicit nil
+
+### UnsetTtftMs
+`func (o *UsageEntry) UnsetTtftMs()`
+
+UnsetTtftMs ensures that no value is present for TtftMs, not even an explicit nil
 ### GetUserAlias
 
 `func (o *UsageEntry) GetUserAlias() string`

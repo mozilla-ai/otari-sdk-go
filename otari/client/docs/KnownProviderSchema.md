@@ -6,10 +6,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DefaultApiBase** | Pointer to **NullableString** | Built-in endpoint; blank means the SDK&#39;s default. | [optional] 
 **EnvKey** | Pointer to **NullableString** | Env var the SDK reads this provider&#39;s key from. | [optional] 
-**EnvKeyPresent** | Pointer to **bool** | True when env_key is already set on the server, so a pasted key is optional (env fallback). | [optional] [default to false]
+**EnvKeyPresent** | Pointer to **bool** | True when env_key is set on the server. Informational: a stored provider never reads it, so a key the provider requires must still be supplied. | [optional] [default to false]
 **Id** | **string** | any-llm provider id, used as the default instance name. | 
 **Name** | **string** | Human-friendly display name. | 
-**RequiresApiKey** | **bool** | False for keyless local backends (Ollama, llama.cpp). | 
+**RequiresApiKey** | **bool** | False for providers that need no key: keyless local backends (Ollama, llama.cpp) and ambient cloud credentials (Bedrock, Vertex AI). | 
 
 ## Methods
 

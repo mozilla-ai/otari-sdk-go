@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **Created** | **int32** |  | 
 **Model** | **string** |  | 
 **Object** | **string** |  | 
+**Metadata** | Pointer to **map[string]string** |  | [optional] 
+**Moderation** | Pointer to [**NullableCCModeration**](CCModeration.md) |  | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
 **SystemFingerprint** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Usage** | Pointer to [**NullableCCCompletionUsage**](CCCompletionUsage.md) |  | [optional] 
@@ -132,6 +134,76 @@ and a boolean to check if the value has been set.
 SetObject sets Object field to given value.
 
 
+### GetMetadata
+
+`func (o *ChatCompletion) GetMetadata() map[string]string`
+
+GetMetadata returns the Metadata field if non-nil, zero value otherwise.
+
+### GetMetadataOk
+
+`func (o *ChatCompletion) GetMetadataOk() (*map[string]string, bool)`
+
+GetMetadataOk returns a tuple with the Metadata field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetadata
+
+`func (o *ChatCompletion) SetMetadata(v map[string]string)`
+
+SetMetadata sets Metadata field to given value.
+
+### HasMetadata
+
+`func (o *ChatCompletion) HasMetadata() bool`
+
+HasMetadata returns a boolean if a field has been set.
+
+### SetMetadataNil
+
+`func (o *ChatCompletion) SetMetadataNil(b bool)`
+
+ SetMetadataNil sets the value for Metadata to be an explicit nil
+
+### UnsetMetadata
+`func (o *ChatCompletion) UnsetMetadata()`
+
+UnsetMetadata ensures that no value is present for Metadata, not even an explicit nil
+### GetModeration
+
+`func (o *ChatCompletion) GetModeration() CCModeration`
+
+GetModeration returns the Moderation field if non-nil, zero value otherwise.
+
+### GetModerationOk
+
+`func (o *ChatCompletion) GetModerationOk() (*CCModeration, bool)`
+
+GetModerationOk returns a tuple with the Moderation field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetModeration
+
+`func (o *ChatCompletion) SetModeration(v CCModeration)`
+
+SetModeration sets Moderation field to given value.
+
+### HasModeration
+
+`func (o *ChatCompletion) HasModeration() bool`
+
+HasModeration returns a boolean if a field has been set.
+
+### SetModerationNil
+
+`func (o *ChatCompletion) SetModerationNil(b bool)`
+
+ SetModerationNil sets the value for Moderation to be an explicit nil
+
+### UnsetModeration
+`func (o *ChatCompletion) UnsetModeration()`
+
+UnsetModeration ensures that no value is present for Moderation, not even an explicit nil
 ### GetServiceTier
 
 `func (o *ChatCompletion) GetServiceTier() string`

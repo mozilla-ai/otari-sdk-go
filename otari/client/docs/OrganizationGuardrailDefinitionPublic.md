@@ -4,7 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**BuildState** | **string** | Whether the worker that answered this request holds a guardrail built from this version of the definition. built means it does and the check runs; failed means that worker tried these exact arguments and could not build them, so every mandate pointing here is unevaluable; pending means it holds nothing for this version yet, which is the answer right after a write and on any worker that has not caught up within the refresh interval; disabled means the definition is switched off and nothing is built on purpose. It answers for one worker, so two reads can disagree while a write propagates. Why a build failed is never reported here: the reason is in the gateway&#39;s log | 
+**BuildRefusal** | Pointer to **NullableString** | When build_state is failed because the definition breaks one of the gateway&#39;s own rules (an address off the vendor&#39;s hosts or not public, or an endpoint without its own credential), which rule and which argument. Null otherwise, including when the vendor&#39;s library failed, whose reason stays in the gateway&#39;s log because it can repeat what was sent | [optional] 
+**BuildState** | **string** | Whether the worker that answered this request holds a guardrail built from this version of the definition. built means it does and the check runs; failed means that worker tried these exact arguments and could not build them, so every mandate pointing here is unevaluable; pending means it holds nothing for this version yet, which is the answer right after a write and on any worker that has not caught up within the refresh interval; disabled means the definition is switched off and nothing is built on purpose. It answers for one worker, so two reads can disagree while a write propagates. Why a build failed is not reported here: see build_refusal for a rule this definition breaks, and the gateway&#39;s log for anything else | 
 **CreateKwargs** | **map[string]interface{}** | The constructor arguments the catalog does not mark secret, as they were stored. Returned in clear: the secrets were taken out of this map by flag, and a form has to round-trip an endpoint or a project id | 
 **CreateSecrets** | **map[string]string** | The secret constructor arguments this definition holds, each as ***. Sending one back unchanged keeps the stored value; sending a new one rotates it, and leaving one out clears it | 
 **CreatedAt** | **string** |  | 
@@ -35,6 +36,41 @@ NewOrganizationGuardrailDefinitionPublicWithDefaults instantiates a new Organiza
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetBuildRefusal
+
+`func (o *OrganizationGuardrailDefinitionPublic) GetBuildRefusal() string`
+
+GetBuildRefusal returns the BuildRefusal field if non-nil, zero value otherwise.
+
+### GetBuildRefusalOk
+
+`func (o *OrganizationGuardrailDefinitionPublic) GetBuildRefusalOk() (*string, bool)`
+
+GetBuildRefusalOk returns a tuple with the BuildRefusal field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBuildRefusal
+
+`func (o *OrganizationGuardrailDefinitionPublic) SetBuildRefusal(v string)`
+
+SetBuildRefusal sets BuildRefusal field to given value.
+
+### HasBuildRefusal
+
+`func (o *OrganizationGuardrailDefinitionPublic) HasBuildRefusal() bool`
+
+HasBuildRefusal returns a boolean if a field has been set.
+
+### SetBuildRefusalNil
+
+`func (o *OrganizationGuardrailDefinitionPublic) SetBuildRefusalNil(b bool)`
+
+ SetBuildRefusalNil sets the value for BuildRefusal to be an explicit nil
+
+### UnsetBuildRefusal
+`func (o *OrganizationGuardrailDefinitionPublic) UnsetBuildRefusal()`
+
+UnsetBuildRefusal ensures that no value is present for BuildRefusal, not even an explicit nil
 ### GetBuildState
 
 `func (o *OrganizationGuardrailDefinitionPublic) GetBuildState() string`

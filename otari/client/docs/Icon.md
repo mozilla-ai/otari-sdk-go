@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **MimeType** | Pointer to **NullableString** |  | [optional] 
 **Sizes** | Pointer to **[]string** |  | [optional] 
 **Src** | **string** |  | 
+**Theme** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -117,6 +118,41 @@ and a boolean to check if the value has been set.
 SetSrc sets Src field to given value.
 
 
+### GetTheme
+
+`func (o *Icon) GetTheme() string`
+
+GetTheme returns the Theme field if non-nil, zero value otherwise.
+
+### GetThemeOk
+
+`func (o *Icon) GetThemeOk() (*string, bool)`
+
+GetThemeOk returns a tuple with the Theme field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTheme
+
+`func (o *Icon) SetTheme(v string)`
+
+SetTheme sets Theme field to given value.
+
+### HasTheme
+
+`func (o *Icon) HasTheme() bool`
+
+HasTheme returns a boolean if a field has been set.
+
+### SetThemeNil
+
+`func (o *Icon) SetThemeNil(b bool)`
+
+ SetThemeNil sets the value for Theme to be an explicit nil
+
+### UnsetTheme
+`func (o *Icon) UnsetTheme()`
+
+UnsetTheme ensures that no value is present for Theme, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

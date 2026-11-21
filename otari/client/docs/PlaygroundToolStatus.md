@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Configured** | **bool** | Whether this deployment has a backend for the tool at all. | 
+**Configured** | **bool** | Whether the menu lists the tool: the deployment, or for web search the workspace&#39;s organization search key, provides it. Whether it can be attached, and why not, are enabled and reason. | 
 **Enabled** | **bool** | Whether the caller&#39;s workspace may attach it. | 
 **Reason** | Pointer to **NullableString** | Why it cannot be attached. Null when it can. | [optional] 
 

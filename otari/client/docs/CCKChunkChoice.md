@@ -5,8 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Delta** | [**CCKChoiceDelta**](CCKChoiceDelta.md) |  | 
-**FinishReason** | Pointer to **NullableString** |  | [optional] 
 **Index** | **int32** |  | 
+**FinishReason** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **Logprobs** | Pointer to [**NullableCCKChoiceLogprobs**](CCKChoiceLogprobs.md) |  | [optional] 
 
 ## Methods
@@ -48,6 +48,26 @@ and a boolean to check if the value has been set.
 SetDelta sets Delta field to given value.
 
 
+### GetIndex
+
+`func (o *CCKChunkChoice) GetIndex() int32`
+
+GetIndex returns the Index field if non-nil, zero value otherwise.
+
+### GetIndexOk
+
+`func (o *CCKChunkChoice) GetIndexOk() (*int32, bool)`
+
+GetIndexOk returns a tuple with the Index field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIndex
+
+`func (o *CCKChunkChoice) SetIndex(v int32)`
+
+SetIndex sets Index field to given value.
+
+
 ### GetFinishReason
 
 `func (o *CCKChunkChoice) GetFinishReason() string`
@@ -83,26 +103,6 @@ HasFinishReason returns a boolean if a field has been set.
 `func (o *CCKChunkChoice) UnsetFinishReason()`
 
 UnsetFinishReason ensures that no value is present for FinishReason, not even an explicit nil
-### GetIndex
-
-`func (o *CCKChunkChoice) GetIndex() int32`
-
-GetIndex returns the Index field if non-nil, zero value otherwise.
-
-### GetIndexOk
-
-`func (o *CCKChunkChoice) GetIndexOk() (*int32, bool)`
-
-GetIndexOk returns a tuple with the Index field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIndex
-
-`func (o *CCKChunkChoice) SetIndex(v int32)`
-
-SetIndex sets Index field to given value.
-
-
 ### GetLogprobs
 
 `func (o *CCKChunkChoice) GetLogprobs() CCKChoiceLogprobs`

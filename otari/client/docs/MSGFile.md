@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **File** | [**MSGFileFile**](MSGFileFile.md) |  | 
 **Type** | **string** |  | 
+**PromptCacheBreakpoint** | Pointer to [**MSGFilePromptCacheBreakpoint**](MSGFilePromptCacheBreakpoint.md) |  | [optional] 
 
 ## Methods
 
@@ -65,6 +66,31 @@ and a boolean to check if the value has been set.
 
 SetType sets Type field to given value.
 
+
+### GetPromptCacheBreakpoint
+
+`func (o *MSGFile) GetPromptCacheBreakpoint() MSGFilePromptCacheBreakpoint`
+
+GetPromptCacheBreakpoint returns the PromptCacheBreakpoint field if non-nil, zero value otherwise.
+
+### GetPromptCacheBreakpointOk
+
+`func (o *MSGFile) GetPromptCacheBreakpointOk() (*MSGFilePromptCacheBreakpoint, bool)`
+
+GetPromptCacheBreakpointOk returns a tuple with the PromptCacheBreakpoint field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPromptCacheBreakpoint
+
+`func (o *MSGFile) SetPromptCacheBreakpoint(v MSGFilePromptCacheBreakpoint)`
+
+SetPromptCacheBreakpoint sets PromptCacheBreakpoint field to given value.
+
+### HasPromptCacheBreakpoint
+
+`func (o *MSGFile) HasPromptCacheBreakpoint() bool`
+
+HasPromptCacheBreakpoint returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

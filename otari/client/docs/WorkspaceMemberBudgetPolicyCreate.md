@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **BudgetId** | **string** | The budget this workspace hands to every member | 
-**ProviderKeyId** | Pointer to **NullableString** | Narrow the default to one provider instance; omit or null to apply to every provider. Must name a real instance: a blank value would materialize ceilings that never bind | [optional] 
+**ProviderKeyId** | Pointer to **NullableString** | Narrow the default to one provider instance; omit or null to apply to every provider. A blank value would materialize ceilings that never bind, so it is refused; this does not check that the value names a configured provider instance | [optional] 
 
 ## Methods
 
