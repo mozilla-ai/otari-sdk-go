@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/mozilla-ai/otari-sdk-go/compare/v0.3.1...v0.3.2) (2026-11-25)
+
+
+### Bug Fixes
+
+* refuse to follow redirects ([7fa6869](https://github.com/mozilla-ai/otari-sdk-go/commit/7fa68694cc8e43c6e91fa44ac46a70752ab93451))
+
 ## [0.3.1](https://github.com/mozilla-ai/otari-sdk-go/compare/v0.3.0...v0.3.1) (2026-09-25)
 
 
