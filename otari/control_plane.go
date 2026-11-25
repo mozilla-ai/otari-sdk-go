@@ -261,6 +261,7 @@ func (c *Client) ControlPlane(adminKey string) *ControlPlaneClient {
 	cfg := client.NewConfiguration()
 	cfg.Servers = client.ServerConfigurations{{URL: c.baseURL}}
 	cfg.AddDefaultHeader(authorizationHeader, bearerPrefix+adminKey)
+	cfg.HTTPClient = c.httpClient
 	raw := client.NewAPIClient(cfg)
 	return &ControlPlaneClient{
 		Raw:     raw,
