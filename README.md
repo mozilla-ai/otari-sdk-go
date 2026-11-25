@@ -345,6 +345,7 @@ if err != nil {
 | 429 | `*RateLimitError` | `ErrRateLimit` | Rate limit exceeded |
 | 502 | `*UpstreamProviderError` | `ErrUpstreamProvider` | Upstream provider unreachable |
 | 504 | `*TimeoutError` | `ErrTimeout` | Gateway timed out waiting for provider |
+| 3xx | (wrapped transport error) | `ErrRedirect` | Gateway answered with a redirect. The SDK never follows one, because the request carries credentials; set the base URL to the address the gateway answers on |
 
 ## Project Structure
 

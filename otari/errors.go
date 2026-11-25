@@ -60,6 +60,11 @@ var (
 	// ErrRateLimit is matched by errors.Is when the API rate limit is exceeded (HTTP 429).
 	ErrRateLimit = stderrors.New("rate limit exceeded")
 
+	// ErrRedirect is matched by errors.Is when the gateway answers with a
+	// redirect. The SDK never follows one, because the request carries
+	// credentials and the redirect may name another host.
+	ErrRedirect = stderrors.New("refusing to follow redirect")
+
 	// ErrTimeout is matched by errors.Is on otari timeout errors (HTTP 504).
 	ErrTimeout = stderrors.New("otari timeout")
 

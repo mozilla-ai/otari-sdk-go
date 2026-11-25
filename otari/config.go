@@ -85,7 +85,8 @@ func WithBaseURL(baseURL string) Option {
 	}
 }
 
-// WithHTTPClient sets a custom HTTP client.
+// WithHTTPClient sets a custom HTTP client. The SDK uses a copy of it that
+// refuses redirects (see ErrRedirect), so its CheckRedirect is not called.
 func WithHTTPClient(client *http.Client) Option {
 	return func(c *config) error {
 		if client == nil {
@@ -145,15 +146,31 @@ func (c *config) extraValue(key string) (any, bool) {
 	return v, ok
 }
 
-// httpClientValue returns the configured HTTP client, or lazily creates one
-// using the configured timeout if no custom client was provided.
+// httpClientValue returns the HTTP client the SDK sends with: a copy of the
+// custom client, or one built with the configured timeout. Either way it
+// refuses redirects.
 func (c *config) httpClientValue() *http.Client {
 	c.httpClientOnce.Do(func() {
-		if c.httpClient == nil {
-			c.httpClient = &http.Client{Timeout: c.timeout}
+		hc := &http.Client{Timeout: c.timeout}
+		if c.httpClient != nil {
+			custom := *c.httpClient
+			hc = &custom
 		}
+		hc.CheckRedirect = refuseRedirect
+		c.httpClient = hc
 	})
 	return c.httpClient
+}
+
+// refuseRedirect is the http.Client.CheckRedirect of every client the SDK
+// sends with. net/http drops Authorization when a redirect leaves the host,
+// but it keeps Otari-Key and the request body, so following one would hand
+// both to whatever address the response named.
+func refuseRedirect(req *http.Request, _ []*http.Request) error {
+	return fmt.Errorf(
+		"%w to %s://%s; set the base URL to the address the gateway answers on",
+		ErrRedirect, req.URL.Scheme, req.URL.Host,
+	)
 }
 
 // resolveEnv returns the value of the specified environment variable,

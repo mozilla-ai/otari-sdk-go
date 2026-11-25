@@ -3,6 +3,7 @@ package otari
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/mozilla-ai/otari-sdk-go/otari/client"
@@ -87,6 +88,9 @@ type Client struct {
 
 	// baseURL is the gateway root URL, kept for ControlPlane wiring.
 	baseURL string
+
+	// httpClient is the redirect-refusing client, kept for ControlPlane wiring.
+	httpClient *http.Client
 
 	// adminAuth is the resolved Authorization bearer value for batch calls
 	// in platform mode (empty in non-platform mode, where Otari-Key is used).
@@ -200,6 +204,7 @@ func New(opts ...Option) (*Client, error) {
 		api:           api,
 		apiBase:       apiBase,
 		baseURL:       apiBase,
+		httpClient:    httpClient,
 		platformMode:  platformMode,
 		platformToken: platformToken,
 	}, nil
