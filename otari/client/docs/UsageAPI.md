@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**UsageCountUsage**](UsageAPI.md#UsageCountUsage) | **Get** /api/v1/usage/count | Count Usage
 [**UsageDeleteUsageRows**](UsageAPI.md#UsageDeleteUsageRows) | **Delete** /api/v1/usage | Delete Usage Rows
+[**UsageGetRequestSettlement**](UsageAPI.md#UsageGetRequestSettlement) | **Get** /api/v1/usage/requests/{request_id} | Get Request Settlement
 [**UsageIngestExternalUsage**](UsageAPI.md#UsageIngestExternalUsage) | **Post** /api/v1/usage/external-events | Ingest External Usage
 [**UsageListInFlight**](UsageAPI.md#UsageListInFlight) | **Get** /api/v1/usage/in-flight | List In Flight
 [**UsageListUsage**](UsageAPI.md#UsageListUsage) | **Get** /api/v1/usage | List Usage
@@ -17,7 +18,7 @@ Method | HTTP request | Description
 
 ## UsageCountUsage
 
-> UsageCount UsageCountUsage(ctx).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).RequestGroupId(requestGroupId).WorkspaceId(workspaceId).Execute()
+> UsageCount UsageCountUsage(ctx).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).Tag(tag).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).DeploymentPaid(deploymentPaid).RequestGroupId(requestGroupId).WorkspaceId(workspaceId).Execute()
 
 Count Usage
 
@@ -46,17 +47,19 @@ func main() {
 	endpoint := "endpoint_example" // string | Filter to a single endpoint (e.g. '/v1/chat/completions') (optional)
 	provider := "provider_example" // string | Filter to a single provider (e.g. 'openai') (optional)
 	source := "source_example" // string | Filter to a single provenance source (e.g. 'gateway' or 'claude_code') (optional)
-	sourceLabel := "sourceLabel_example" // string | Filter to a single session/project label (the source_label carried by imported usage) (optional)
+	sourceLabel := "sourceLabel_example" // string | Filter to a single session (source_label): the session's trace id on a gateway request that named one, or the session/project label imported usage carried (optional)
+	tag := []string{"Inner_example"} // []string | Filter by a request tag (what a request sent in its `metadata`), as `key:value`. Repeatable: values for the same key match any of them, and different keys must all match. At most 50 per call. (optional)
 	apiKeyId := []string{"Inner_example"} // []string | Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b). Several values match any of them. At most 50 per call. (optional)
 	priced := true // bool | Filter by token-pricing state: true = only rows whose model tokens were priced, false = only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing. (optional)
 	tool := "tool_example" // string | Filter to requests that ran a gateway-run tool. 'any' matches any tool; a tool name (web_search, web_fetch, code_execution) matches that tool specifically. (optional)
 	countsTowardBudget := true // bool | Filter by budget participation: true = only enforced gateway rows, false = only imported rows, narrowed past the filter of the same name on GET /api/v1/usage so the total matches what bulk delete and set-price can reach (optional)
+	deploymentPaid := true // bool | Filter by who paid the provider: true = only rows served on a credential the deployment pays for (a hosted provider), false = every other row (optional)
 	requestGroupId := []string{"Inner_example"} // []string | Filter to the rows of one or more request groups; repeatable (request_group_id=a&request_group_id=b). A routed request writes one row per attempt, all sharing a request_group_id, so this returns a request's whole plan: its absorbed attempts and the attempt that served it. Ignore ordering by timestamp and read attempt_position to reconstruct the plan. At most 1000 ids per call. (optional)
 	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only usage recorded in this workspace. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsageAPI.UsageCountUsage(context.Background()).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).RequestGroupId(requestGroupId).WorkspaceId(workspaceId).Execute()
+	resp, r, err := apiClient.UsageAPI.UsageCountUsage(context.Background()).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).Tag(tag).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).DeploymentPaid(deploymentPaid).RequestGroupId(requestGroupId).WorkspaceId(workspaceId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.UsageCountUsage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -86,11 +89,13 @@ Name | Type | Description  | Notes
  **endpoint** | **string** | Filter to a single endpoint (e.g. &#39;/v1/chat/completions&#39;) | 
  **provider** | **string** | Filter to a single provider (e.g. &#39;openai&#39;) | 
  **source** | **string** | Filter to a single provenance source (e.g. &#39;gateway&#39; or &#39;claude_code&#39;) | 
- **sourceLabel** | **string** | Filter to a single session/project label (the source_label carried by imported usage) | 
+ **sourceLabel** | **string** | Filter to a single session (source_label): the session&#39;s trace id on a gateway request that named one, or the session/project label imported usage carried | 
+ **tag** | **[]string** | Filter by a request tag (what a request sent in its &#x60;metadata&#x60;), as &#x60;key:value&#x60;. Repeatable: values for the same key match any of them, and different keys must all match. At most 50 per call. | 
  **apiKeyId** | **[]string** | Filter to one or more API key ids; repeatable (api_key_id&#x3D;a&amp;api_key_id&#x3D;b). Several values match any of them. At most 50 per call. | 
  **priced** | **bool** | Filter by token-pricing state: true &#x3D; only rows whose model tokens were priced, false &#x3D; only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing. | 
  **tool** | **string** | Filter to requests that ran a gateway-run tool. &#39;any&#39; matches any tool; a tool name (web_search, web_fetch, code_execution) matches that tool specifically. | 
  **countsTowardBudget** | **bool** | Filter by budget participation: true &#x3D; only enforced gateway rows, false &#x3D; only imported rows, narrowed past the filter of the same name on GET /api/v1/usage so the total matches what bulk delete and set-price can reach | 
+ **deploymentPaid** | **bool** | Filter by who paid the provider: true &#x3D; only rows served on a credential the deployment pays for (a hosted provider), false &#x3D; every other row | 
  **requestGroupId** | **[]string** | Filter to the rows of one or more request groups; repeatable (request_group_id&#x3D;a&amp;request_group_id&#x3D;b). A routed request writes one row per attempt, all sharing a request_group_id, so this returns a request&#39;s whole plan: its absorbed attempts and the attempt that served it. Ignore ordering by timestamp and read attempt_position to reconstruct the plan. At most 1000 ids per call. | 
  **workspaceId** | **string** | Only usage recorded in this workspace. | 
 
@@ -171,6 +176,76 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UsageGetRequestSettlement
+
+> RequestSettlement UsageGetRequestSettlement(ctx, requestId).Execute()
+
+Get Request Settlement
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	requestId := "requestId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.UsageAPI.UsageGetRequestSettlement(context.Background(), requestId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.UsageGetRequestSettlement``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UsageGetRequestSettlement`: RequestSettlement
+	fmt.Fprintf(os.Stdout, "Response from `UsageAPI.UsageGetRequestSettlement`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**requestId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUsageGetRequestSettlementRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**RequestSettlement**](RequestSettlement.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -308,7 +383,7 @@ Other parameters are passed through a pointer to a apiUsageListInFlightRequest s
 
 ## UsageListUsage
 
-> []UsageEntry UsageListUsage(ctx).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).RequestGroupId(requestGroupId).WorkspaceId(workspaceId).Skip(skip).Limit(limit).Execute()
+> []UsageEntry UsageListUsage(ctx).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).Tag(tag).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).DeploymentPaid(deploymentPaid).RequestGroupId(requestGroupId).WorkspaceId(workspaceId).Skip(skip).Limit(limit).Execute()
 
 List Usage
 
@@ -337,11 +412,13 @@ func main() {
 	endpoint := "endpoint_example" // string | Filter to a single endpoint (e.g. '/v1/chat/completions') (optional)
 	provider := "provider_example" // string | Filter to a single provider (e.g. 'openai') (optional)
 	source := "source_example" // string | Filter to a single provenance source (e.g. 'gateway' or 'claude_code') (optional)
-	sourceLabel := "sourceLabel_example" // string | Filter to a single session/project label (the source_label carried by imported usage) (optional)
+	sourceLabel := "sourceLabel_example" // string | Filter to a single session (source_label): the session's trace id on a gateway request that named one, or the session/project label imported usage carried (optional)
+	tag := []string{"Inner_example"} // []string | Filter by a request tag (what a request sent in its `metadata`), as `key:value`. Repeatable: values for the same key match any of them, and different keys must all match. At most 50 per call. (optional)
 	apiKeyId := []string{"Inner_example"} // []string | Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b). Several values match any of them. At most 50 per call. (optional)
 	priced := true // bool | Filter by token-pricing state: true = only rows whose model tokens were priced, false = only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing. (optional)
 	tool := "tool_example" // string | Filter to requests that ran a gateway-run tool. 'any' matches any tool; a tool name (web_search, web_fetch, code_execution) matches that tool specifically. (optional)
 	countsTowardBudget := true // bool | Filter by budget participation, which is not the same question as provenance: true = only enforced gateway rows, false = every row that never touches a budget, meaning imported usage and also gateway traffic on a budget-exempt key (optional)
+	deploymentPaid := true // bool | Filter by who paid the provider: true = only rows served on a credential the deployment pays for (a hosted provider), false = every other row (optional)
 	requestGroupId := []string{"Inner_example"} // []string | Filter to the rows of one or more request groups; repeatable (request_group_id=a&request_group_id=b). A routed request writes one row per attempt, all sharing a request_group_id, so this returns a request's whole plan: its absorbed attempts and the attempt that served it. Ignore ordering by timestamp and read attempt_position to reconstruct the plan. At most 1000 ids per call. (optional)
 	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only usage recorded in this workspace. (optional)
 	skip := int32(56) // int32 |  (optional) (default to 0)
@@ -349,7 +426,7 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsageAPI.UsageListUsage(context.Background()).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).RequestGroupId(requestGroupId).WorkspaceId(workspaceId).Skip(skip).Limit(limit).Execute()
+	resp, r, err := apiClient.UsageAPI.UsageListUsage(context.Background()).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).Tag(tag).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).DeploymentPaid(deploymentPaid).RequestGroupId(requestGroupId).WorkspaceId(workspaceId).Skip(skip).Limit(limit).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.UsageListUsage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -379,11 +456,13 @@ Name | Type | Description  | Notes
  **endpoint** | **string** | Filter to a single endpoint (e.g. &#39;/v1/chat/completions&#39;) | 
  **provider** | **string** | Filter to a single provider (e.g. &#39;openai&#39;) | 
  **source** | **string** | Filter to a single provenance source (e.g. &#39;gateway&#39; or &#39;claude_code&#39;) | 
- **sourceLabel** | **string** | Filter to a single session/project label (the source_label carried by imported usage) | 
+ **sourceLabel** | **string** | Filter to a single session (source_label): the session&#39;s trace id on a gateway request that named one, or the session/project label imported usage carried | 
+ **tag** | **[]string** | Filter by a request tag (what a request sent in its &#x60;metadata&#x60;), as &#x60;key:value&#x60;. Repeatable: values for the same key match any of them, and different keys must all match. At most 50 per call. | 
  **apiKeyId** | **[]string** | Filter to one or more API key ids; repeatable (api_key_id&#x3D;a&amp;api_key_id&#x3D;b). Several values match any of them. At most 50 per call. | 
  **priced** | **bool** | Filter by token-pricing state: true &#x3D; only rows whose model tokens were priced, false &#x3D; only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing. | 
  **tool** | **string** | Filter to requests that ran a gateway-run tool. &#39;any&#39; matches any tool; a tool name (web_search, web_fetch, code_execution) matches that tool specifically. | 
  **countsTowardBudget** | **bool** | Filter by budget participation, which is not the same question as provenance: true &#x3D; only enforced gateway rows, false &#x3D; every row that never touches a budget, meaning imported usage and also gateway traffic on a budget-exempt key | 
+ **deploymentPaid** | **bool** | Filter by who paid the provider: true &#x3D; only rows served on a credential the deployment pays for (a hosted provider), false &#x3D; every other row | 
  **requestGroupId** | **[]string** | Filter to the rows of one or more request groups; repeatable (request_group_id&#x3D;a&amp;request_group_id&#x3D;b). A routed request writes one row per attempt, all sharing a request_group_id, so this returns a request&#39;s whole plan: its absorbed attempts and the attempt that served it. Ignore ordering by timestamp and read attempt_position to reconstruct the plan. At most 1000 ids per call. | 
  **workspaceId** | **string** | Only usage recorded in this workspace. | 
  **skip** | **int32** |  | [default to 0]
@@ -475,7 +554,7 @@ Name | Type | Description  | Notes
 
 ## UsageUsageSeries
 
-> UsageGroupedSeries UsageUsageSeries(ctx).GroupBy(groupBy).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).WorkspaceId(workspaceId).Bucket(bucket).Execute()
+> UsageGroupedSeries UsageUsageSeries(ctx).GroupBy(groupBy).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).Tag(tag).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).DeploymentPaid(deploymentPaid).WorkspaceId(workspaceId).Bucket(bucket).Execute()
 
 Usage Series
 
@@ -505,17 +584,19 @@ func main() {
 	endpoint := "endpoint_example" // string | Filter to a single endpoint (e.g. '/v1/chat/completions') (optional)
 	provider := "provider_example" // string | Filter to a single provider (e.g. 'openai') (optional)
 	source := "source_example" // string | Filter to a single provenance source (e.g. 'gateway' or 'claude_code') (optional)
-	sourceLabel := "sourceLabel_example" // string | Filter to a single session/project label (the source_label carried by imported usage) (optional)
+	sourceLabel := "sourceLabel_example" // string | Filter to a single session (source_label): the session's trace id on a gateway request that named one, or the session/project label imported usage carried (optional)
+	tag := []string{"Inner_example"} // []string | Filter by a request tag (what a request sent in its `metadata`), as `key:value`. Repeatable: values for the same key match any of them, and different keys must all match. At most 50 per call. (optional)
 	apiKeyId := []string{"Inner_example"} // []string | Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b). Several values match any of them. At most 50 per call. (optional)
 	priced := true // bool | Filter by token-pricing state: true = only rows whose model tokens were priced, false = only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing. (optional)
 	tool := "tool_example" // string | Filter to requests that ran a gateway-run tool. 'any' matches any tool; a tool name (web_search, web_fetch, code_execution) matches that tool specifically. (optional)
 	countsTowardBudget := true // bool | Filter by budget participation, which is not the same question as provenance: true = only enforced gateway rows, false = every row that never touches a budget, meaning imported usage and also gateway traffic on a budget-exempt key (optional)
+	deploymentPaid := true // bool | Filter by who paid the provider: true = only rows served on a credential the deployment pays for (a hosted provider), false = every other row (optional)
 	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only usage recorded in this workspace. (optional)
 	bucket := "bucket_example" // string | Time-series granularity: 'hour' or 'day' (optional) (default to "day")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsageAPI.UsageUsageSeries(context.Background()).GroupBy(groupBy).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).WorkspaceId(workspaceId).Bucket(bucket).Execute()
+	resp, r, err := apiClient.UsageAPI.UsageUsageSeries(context.Background()).GroupBy(groupBy).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).Tag(tag).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).DeploymentPaid(deploymentPaid).WorkspaceId(workspaceId).Bucket(bucket).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.UsageUsageSeries``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -546,11 +627,13 @@ Name | Type | Description  | Notes
  **endpoint** | **string** | Filter to a single endpoint (e.g. &#39;/v1/chat/completions&#39;) | 
  **provider** | **string** | Filter to a single provider (e.g. &#39;openai&#39;) | 
  **source** | **string** | Filter to a single provenance source (e.g. &#39;gateway&#39; or &#39;claude_code&#39;) | 
- **sourceLabel** | **string** | Filter to a single session/project label (the source_label carried by imported usage) | 
+ **sourceLabel** | **string** | Filter to a single session (source_label): the session&#39;s trace id on a gateway request that named one, or the session/project label imported usage carried | 
+ **tag** | **[]string** | Filter by a request tag (what a request sent in its &#x60;metadata&#x60;), as &#x60;key:value&#x60;. Repeatable: values for the same key match any of them, and different keys must all match. At most 50 per call. | 
  **apiKeyId** | **[]string** | Filter to one or more API key ids; repeatable (api_key_id&#x3D;a&amp;api_key_id&#x3D;b). Several values match any of them. At most 50 per call. | 
  **priced** | **bool** | Filter by token-pricing state: true &#x3D; only rows whose model tokens were priced, false &#x3D; only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing. | 
  **tool** | **string** | Filter to requests that ran a gateway-run tool. &#39;any&#39; matches any tool; a tool name (web_search, web_fetch, code_execution) matches that tool specifically. | 
  **countsTowardBudget** | **bool** | Filter by budget participation, which is not the same question as provenance: true &#x3D; only enforced gateway rows, false &#x3D; every row that never touches a budget, meaning imported usage and also gateway traffic on a budget-exempt key | 
+ **deploymentPaid** | **bool** | Filter by who paid the provider: true &#x3D; only rows served on a credential the deployment pays for (a hosted provider), false &#x3D; every other row | 
  **workspaceId** | **string** | Only usage recorded in this workspace. | 
  **bucket** | **string** | Time-series granularity: &#39;hour&#39; or &#39;day&#39; | [default to &quot;day&quot;]
 
@@ -574,7 +657,7 @@ Name | Type | Description  | Notes
 
 ## UsageUsageSummary
 
-> UsageSummary UsageUsageSummary(ctx).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).WorkspaceId(workspaceId).Bucket(bucket).Dimensions(dimensions).Execute()
+> UsageSummary UsageUsageSummary(ctx).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).Tag(tag).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).DeploymentPaid(deploymentPaid).WorkspaceId(workspaceId).Bucket(bucket).Dimensions(dimensions).GroupByTag(groupByTag).Execute()
 
 Usage Summary
 
@@ -603,18 +686,21 @@ func main() {
 	endpoint := "endpoint_example" // string | Filter to a single endpoint (e.g. '/v1/chat/completions') (optional)
 	provider := "provider_example" // string | Filter to a single provider (e.g. 'openai') (optional)
 	source := "source_example" // string | Filter to a single provenance source (e.g. 'gateway' or 'claude_code') (optional)
-	sourceLabel := "sourceLabel_example" // string | Filter to a single session/project label (the source_label carried by imported usage) (optional)
+	sourceLabel := "sourceLabel_example" // string | Filter to a single session (source_label): the session's trace id on a gateway request that named one, or the session/project label imported usage carried (optional)
+	tag := []string{"Inner_example"} // []string | Filter by a request tag (what a request sent in its `metadata`), as `key:value`. Repeatable: values for the same key match any of them, and different keys must all match. At most 50 per call. (optional)
 	apiKeyId := []string{"Inner_example"} // []string | Filter to one or more API key ids; repeatable (api_key_id=a&api_key_id=b). Several values match any of them. At most 50 per call. (optional)
 	priced := true // bool | Filter by token-pricing state: true = only rows whose model tokens were priced, false = only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing. (optional)
 	tool := "tool_example" // string | Filter to requests that ran a gateway-run tool. 'any' matches any tool; a tool name (web_search, web_fetch, code_execution) matches that tool specifically. (optional)
 	countsTowardBudget := true // bool | Filter by budget participation, which is not the same question as provenance: true = only enforced gateway rows, false = every row that never touches a budget, meaning imported usage and also gateway traffic on a budget-exempt key (optional)
+	deploymentPaid := true // bool | Filter by who paid the provider: true = only rows served on a credential the deployment pays for (a hosted provider), false = every other row (optional)
 	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only usage recorded in this workspace. (optional)
 	bucket := "bucket_example" // string | Time-series granularity: 'hour' or 'day' (optional) (default to "day")
 	dimensions := []string{"Dimensions_example"} // []string | Which breakdowns to compute; repeatable (dimensions=model&dimensions=user). Each value names the 'by_<value>' response field it fills, except 'status_code', which fills the failure taxonomy in 'errors_by_status_code'. Omit for every breakdown (the default); pass 'none' for a totals-and-series-only response. Each dimension left out skips one GROUP BY scan, so a caller that reads only the tiles or the time series should say so. Fields that were not requested come back empty. (optional)
+	groupByTag := "groupByTag_example" // string | A tag key to break spend down by, returned as `by_tag`. Rows that do not carry the tag group under a null key. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsageAPI.UsageUsageSummary(context.Background()).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).WorkspaceId(workspaceId).Bucket(bucket).Dimensions(dimensions).Execute()
+	resp, r, err := apiClient.UsageAPI.UsageUsageSummary(context.Background()).StartDate(startDate).EndDate(endDate).UserId(userId).Status(status).StatusCode(statusCode).Model(model).Endpoint(endpoint).Provider(provider).Source(source).SourceLabel(sourceLabel).Tag(tag).ApiKeyId(apiKeyId).Priced(priced).Tool(tool).CountsTowardBudget(countsTowardBudget).DeploymentPaid(deploymentPaid).WorkspaceId(workspaceId).Bucket(bucket).Dimensions(dimensions).GroupByTag(groupByTag).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.UsageUsageSummary``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -644,14 +730,17 @@ Name | Type | Description  | Notes
  **endpoint** | **string** | Filter to a single endpoint (e.g. &#39;/v1/chat/completions&#39;) | 
  **provider** | **string** | Filter to a single provider (e.g. &#39;openai&#39;) | 
  **source** | **string** | Filter to a single provenance source (e.g. &#39;gateway&#39; or &#39;claude_code&#39;) | 
- **sourceLabel** | **string** | Filter to a single session/project label (the source_label carried by imported usage) | 
+ **sourceLabel** | **string** | Filter to a single session (source_label): the session&#39;s trace id on a gateway request that named one, or the session/project label imported usage carried | 
+ **tag** | **[]string** | Filter by a request tag (what a request sent in its &#x60;metadata&#x60;), as &#x60;key:value&#x60;. Repeatable: values for the same key match any of them, and different keys must all match. At most 50 per call. | 
  **apiKeyId** | **[]string** | Filter to one or more API key ids; repeatable (api_key_id&#x3D;a&amp;api_key_id&#x3D;b). Several values match any of them. At most 50 per call. | 
  **priced** | **bool** | Filter by token-pricing state: true &#x3D; only rows whose model tokens were priced, false &#x3D; only rows that still need pricing (no cost at all, or tokens that were never metered because the model had no rate). A row charged only for gateway-run tool calls still counts as needing pricing. | 
  **tool** | **string** | Filter to requests that ran a gateway-run tool. &#39;any&#39; matches any tool; a tool name (web_search, web_fetch, code_execution) matches that tool specifically. | 
  **countsTowardBudget** | **bool** | Filter by budget participation, which is not the same question as provenance: true &#x3D; only enforced gateway rows, false &#x3D; every row that never touches a budget, meaning imported usage and also gateway traffic on a budget-exempt key | 
+ **deploymentPaid** | **bool** | Filter by who paid the provider: true &#x3D; only rows served on a credential the deployment pays for (a hosted provider), false &#x3D; every other row | 
  **workspaceId** | **string** | Only usage recorded in this workspace. | 
  **bucket** | **string** | Time-series granularity: &#39;hour&#39; or &#39;day&#39; | [default to &quot;day&quot;]
  **dimensions** | **[]string** | Which breakdowns to compute; repeatable (dimensions&#x3D;model&amp;dimensions&#x3D;user). Each value names the &#39;by_&lt;value&gt;&#39; response field it fills, except &#39;status_code&#39;, which fills the failure taxonomy in &#39;errors_by_status_code&#39;. Omit for every breakdown (the default); pass &#39;none&#39; for a totals-and-series-only response. Each dimension left out skips one GROUP BY scan, so a caller that reads only the tiles or the time series should say so. Fields that were not requested come back empty. | 
+ **groupByTag** | **string** | A tag key to break spend down by, returned as &#x60;by_tag&#x60;. Rows that do not carry the tag group under a null key. | 
 
 ### Return type
 

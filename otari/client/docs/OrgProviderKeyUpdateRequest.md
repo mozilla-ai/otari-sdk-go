@@ -7,7 +7,9 @@ Name | Type | Description | Notes
 **ApiBase** | Pointer to **NullableString** |  | [optional] 
 **ApiKey** | Pointer to **NullableString** |  | [optional] 
 **ClientArgs** | Pointer to **map[string]interface{}** |  | [optional] 
+**EndpointAuth** | Pointer to [**NullableEndpointAuthRequest**](EndpointAuthRequest.md) | The credential an edge proxy in front of &#x60;api_base&#x60; requires. Send it to set or replace one; send an explicit null to remove one. Leave it out to keep what is stored. | [optional] 
 **Name** | Pointer to **NullableString** |  | [optional] 
+**ZeroDataRetention** | Pointer to **NullableBool** |  | [optional] 
 
 ## Methods
 
@@ -133,6 +135,41 @@ HasClientArgs returns a boolean if a field has been set.
 `func (o *OrgProviderKeyUpdateRequest) UnsetClientArgs()`
 
 UnsetClientArgs ensures that no value is present for ClientArgs, not even an explicit nil
+### GetEndpointAuth
+
+`func (o *OrgProviderKeyUpdateRequest) GetEndpointAuth() EndpointAuthRequest`
+
+GetEndpointAuth returns the EndpointAuth field if non-nil, zero value otherwise.
+
+### GetEndpointAuthOk
+
+`func (o *OrgProviderKeyUpdateRequest) GetEndpointAuthOk() (*EndpointAuthRequest, bool)`
+
+GetEndpointAuthOk returns a tuple with the EndpointAuth field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndpointAuth
+
+`func (o *OrgProviderKeyUpdateRequest) SetEndpointAuth(v EndpointAuthRequest)`
+
+SetEndpointAuth sets EndpointAuth field to given value.
+
+### HasEndpointAuth
+
+`func (o *OrgProviderKeyUpdateRequest) HasEndpointAuth() bool`
+
+HasEndpointAuth returns a boolean if a field has been set.
+
+### SetEndpointAuthNil
+
+`func (o *OrgProviderKeyUpdateRequest) SetEndpointAuthNil(b bool)`
+
+ SetEndpointAuthNil sets the value for EndpointAuth to be an explicit nil
+
+### UnsetEndpointAuth
+`func (o *OrgProviderKeyUpdateRequest) UnsetEndpointAuth()`
+
+UnsetEndpointAuth ensures that no value is present for EndpointAuth, not even an explicit nil
 ### GetName
 
 `func (o *OrgProviderKeyUpdateRequest) GetName() string`
@@ -168,6 +205,41 @@ HasName returns a boolean if a field has been set.
 `func (o *OrgProviderKeyUpdateRequest) UnsetName()`
 
 UnsetName ensures that no value is present for Name, not even an explicit nil
+### GetZeroDataRetention
+
+`func (o *OrgProviderKeyUpdateRequest) GetZeroDataRetention() bool`
+
+GetZeroDataRetention returns the ZeroDataRetention field if non-nil, zero value otherwise.
+
+### GetZeroDataRetentionOk
+
+`func (o *OrgProviderKeyUpdateRequest) GetZeroDataRetentionOk() (*bool, bool)`
+
+GetZeroDataRetentionOk returns a tuple with the ZeroDataRetention field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetZeroDataRetention
+
+`func (o *OrgProviderKeyUpdateRequest) SetZeroDataRetention(v bool)`
+
+SetZeroDataRetention sets ZeroDataRetention field to given value.
+
+### HasZeroDataRetention
+
+`func (o *OrgProviderKeyUpdateRequest) HasZeroDataRetention() bool`
+
+HasZeroDataRetention returns a boolean if a field has been set.
+
+### SetZeroDataRetentionNil
+
+`func (o *OrgProviderKeyUpdateRequest) SetZeroDataRetentionNil(b bool)`
+
+ SetZeroDataRetentionNil sets the value for ZeroDataRetention to be an explicit nil
+
+### UnsetZeroDataRetention
+`func (o *OrgProviderKeyUpdateRequest) UnsetZeroDataRetention()`
+
+UnsetZeroDataRetention ensures that no value is present for ZeroDataRetention, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

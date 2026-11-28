@@ -4,7 +4,6 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**PricingConfirmPricingRefresh**](PricingAPI.md#PricingConfirmPricingRefresh) | **Post** /api/v1/pricing/refresh/confirm | Confirm Pricing Refresh
 [**PricingDeletePricing**](PricingAPI.md#PricingDeletePricing) | **Delete** /api/v1/pricing/{model_key} | Delete Pricing
 [**PricingGetPendingPricingRefresh**](PricingAPI.md#PricingGetPendingPricingRefresh) | **Get** /api/v1/pricing/refresh/pending | Get Pending Pricing Refresh
 [**PricingGetPricing**](PricingAPI.md#PricingGetPricing) | **Get** /api/v1/pricing/{model_key} | Get Pricing
@@ -13,76 +12,14 @@ Method | HTTP request | Description
 [**PricingListPricing**](PricingAPI.md#PricingListPricing) | **Get** /api/v1/pricing | List Pricing
 [**PricingListPricingDrift**](PricingAPI.md#PricingListPricingDrift) | **Get** /api/v1/pricing/drift | List Pricing Drift
 [**PricingListPricingSnapshots**](PricingAPI.md#PricingListPricingSnapshots) | **Get** /api/v1/pricing/snapshots | List Pricing Snapshots
-[**PricingPreviewPricingRefresh**](PricingAPI.md#PricingPreviewPricingRefresh) | **Post** /api/v1/pricing/refresh | Preview Pricing Refresh
 [**PricingRejectPricingRefresh**](PricingAPI.md#PricingRejectPricingRefresh) | **Post** /api/v1/pricing/refresh/reject | Reject Pricing Refresh
 [**PricingSetPricing**](PricingAPI.md#PricingSetPricing) | **Post** /api/v1/pricing | Set Pricing
 
 
 
-## PricingConfirmPricingRefresh
-
-> PricingRefreshConfirmationResponse PricingConfirmPricingRefresh(ctx).Execute()
-
-Confirm Pricing Refresh
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PricingAPI.PricingConfirmPricingRefresh(context.Background()).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.PricingConfirmPricingRefresh``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `PricingConfirmPricingRefresh`: PricingRefreshConfirmationResponse
-	fmt.Fprintf(os.Stdout, "Response from `PricingAPI.PricingConfirmPricingRefresh`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-This endpoint does not need any parameter.
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiPricingConfirmPricingRefreshRequest struct via the builder pattern
-
-
-### Return type
-
-[**PricingRefreshConfirmationResponse**](PricingRefreshConfirmationResponse.md)
-
-### Authorization
-
-[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## PricingDeletePricing
 
-> PricingDeletePricing(ctx, modelKey).EffectiveAt(effectiveAt).Execute()
+> PricingDeletePricing(ctx, modelKey).EffectiveAt(effectiveAt).Kind(kind).Execute()
 
 Delete Pricing
 
@@ -104,10 +41,11 @@ import (
 func main() {
 	modelKey := "modelKey_example" // string | 
 	effectiveAt := time.Now() // time.Time | ISO datetime identifying a specific pricing row to delete (optional)
+	kind := "kind_example" // string | What the row prices: 'model' (the default), or 'search' or 'fetch' for a search or fetch instance, keyed by the instance's name and priced per call. Only the deployment operator sets a search or fetch rate. (optional) (default to "model")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.PricingAPI.PricingDeletePricing(context.Background(), modelKey).EffectiveAt(effectiveAt).Execute()
+	r, err := apiClient.PricingAPI.PricingDeletePricing(context.Background(), modelKey).EffectiveAt(effectiveAt).Kind(kind).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.PricingDeletePricing``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -132,6 +70,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **effectiveAt** | **time.Time** | ISO datetime identifying a specific pricing row to delete | 
+ **kind** | **string** | What the row prices: &#39;model&#39; (the default), or &#39;search&#39; or &#39;fetch&#39; for a search or fetch instance, keyed by the instance&#39;s name and priced per call. Only the deployment operator sets a search or fetch rate. | [default to &quot;model&quot;]
 
 ### Return type
 
@@ -214,7 +153,7 @@ Other parameters are passed through a pointer to a apiPricingGetPendingPricingRe
 
 ## PricingGetPricing
 
-> PricingResponse PricingGetPricing(ctx, modelKey).AsOf(asOf).Execute()
+> PricingResponse PricingGetPricing(ctx, modelKey).AsOf(asOf).Kind(kind).Execute()
 
 Get Pricing
 
@@ -236,10 +175,11 @@ import (
 func main() {
 	modelKey := "modelKey_example" // string | 
 	asOf := time.Now() // time.Time | ISO datetime for effective lookup (optional)
+	kind := "kind_example" // string | What the row prices: 'model' (the default), or 'search' or 'fetch' for a search or fetch instance, keyed by the instance's name and priced per call. Only the deployment operator sets a search or fetch rate. (optional) (default to "model")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PricingAPI.PricingGetPricing(context.Background(), modelKey).AsOf(asOf).Execute()
+	resp, r, err := apiClient.PricingAPI.PricingGetPricing(context.Background(), modelKey).AsOf(asOf).Kind(kind).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.PricingGetPricing``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -266,6 +206,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **asOf** | **time.Time** | ISO datetime for effective lookup | 
+ **kind** | **string** | What the row prices: &#39;model&#39; (the default), or &#39;search&#39; or &#39;fetch&#39; for a search or fetch instance, keyed by the instance&#39;s name and priced per call. Only the deployment operator sets a search or fetch rate. | [default to &quot;model&quot;]
 
 ### Return type
 
@@ -287,7 +228,7 @@ Name | Type | Description  | Notes
 
 ## PricingGetPricingHistory
 
-> []PricingResponse PricingGetPricingHistory(ctx, modelKey).Execute()
+> []PricingResponse PricingGetPricingHistory(ctx, modelKey).Kind(kind).Execute()
 
 Get Pricing History
 
@@ -307,10 +248,11 @@ import (
 
 func main() {
 	modelKey := "modelKey_example" // string | 
+	kind := "kind_example" // string | What the row prices: 'model' (the default), or 'search' or 'fetch' for a search or fetch instance, keyed by the instance's name and priced per call. Only the deployment operator sets a search or fetch rate. (optional) (default to "model")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PricingAPI.PricingGetPricingHistory(context.Background(), modelKey).Execute()
+	resp, r, err := apiClient.PricingAPI.PricingGetPricingHistory(context.Background(), modelKey).Kind(kind).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.PricingGetPricingHistory``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -336,6 +278,7 @@ Other parameters are passed through a pointer to a apiPricingGetPricingHistoryRe
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **kind** | **string** | What the row prices: &#39;model&#39; (the default), or &#39;search&#39; or &#39;fetch&#39; for a search or fetch instance, keyed by the instance&#39;s name and priced per call. Only the deployment operator sets a search or fetch rate. | [default to &quot;model&quot;]
 
 ### Return type
 
@@ -623,70 +566,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## PricingPreviewPricingRefresh
-
-> PricingRefreshPreviewResponse PricingPreviewPricingRefresh(ctx).Execute()
-
-Preview Pricing Refresh
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PricingAPI.PricingPreviewPricingRefresh(context.Background()).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.PricingPreviewPricingRefresh``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `PricingPreviewPricingRefresh`: PricingRefreshPreviewResponse
-	fmt.Fprintf(os.Stdout, "Response from `PricingAPI.PricingPreviewPricingRefresh`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-This endpoint does not need any parameter.
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiPricingPreviewPricingRefreshRequest struct via the builder pattern
-
-
-### Return type
-
-[**PricingRefreshPreviewResponse**](PricingRefreshPreviewResponse.md)
-
-### Authorization
-
-[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## PricingRejectPricingRefresh
 
-> PricingRejectPricingRefresh(ctx).Execute()
+> PricingRejectPricingRefresh(ctx).Digest(digest).Execute()
 
 Reject Pricing Refresh
 
@@ -705,10 +587,11 @@ import (
 )
 
 func main() {
+	digest := "digest_example" // string | The `digest` of the previewed snapshot; 409 when the pending one differs. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.PricingAPI.PricingRejectPricingRefresh(context.Background()).Execute()
+	r, err := apiClient.PricingAPI.PricingRejectPricingRefresh(context.Background()).Digest(digest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PricingAPI.PricingRejectPricingRefresh``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -718,12 +601,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiPricingRejectPricingRefreshRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **digest** | **string** | The &#x60;digest&#x60; of the previewed snapshot; 409 when the pending one differs. | 
 
 ### Return type
 
@@ -736,7 +623,7 @@ Other parameters are passed through a pointer to a apiPricingRejectPricingRefres
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -764,7 +651,7 @@ import (
 )
 
 func main() {
-	setPricingRequest := *openapiclient.NewSetPricingRequest(float32(123), "ModelKey_example", float32(123)) // SetPricingRequest | 
+	setPricingRequest := *openapiclient.NewSetPricingRequest("ModelKey_example") // SetPricingRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

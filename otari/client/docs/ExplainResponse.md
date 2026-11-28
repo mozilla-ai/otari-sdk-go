@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **RouterBackend** | Pointer to **NullableString** |  | [optional] 
 **RouterCandidates** | Pointer to **[]string** |  | [optional] 
-**RouterWeights** | Pointer to **map[string]float32** | For a weighted policy, the percentage of traffic each candidate receives, normalized over the candidates this caller may use. Empty for every other policy, and for a weighted policy whose whole split this caller may not use: a split over no candidate is not a split, and each filtered candidate is named in &#x60;dropped&#x60; instead. A weighted split needs no request state, so unlike a learned router&#39;s ranking it is knowable here: the plan above is the real ordering by share, not the decline path. | [optional] 
+**RouterWeights** | Pointer to **map[string]float32** | For a weighted policy, the percentage of traffic each candidate receives, normalized over the candidates this caller may use. Empty for every other policy, and for a weighted policy whose whole split this caller may not use: a split over no candidate is not a split, and each filtered candidate is named in &#x60;dropped&#x60; instead. A weighted split needs no request state, so it is knowable here: the plan above is the real ordering by share, not the decline path. | [optional] 
 **SelectionReason** | **string** |  | 
 
 ## Methods

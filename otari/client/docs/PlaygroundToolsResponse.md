@@ -5,14 +5,16 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CodeExecution** | [**PlaygroundToolStatus**](PlaygroundToolStatus.md) |  | 
+**Files** | [**PlaygroundToolStatus**](PlaygroundToolStatus.md) | Whether a message may attach a file uploaded here. | 
 **McpServers** | [**[]PlaygroundMcpServer**](PlaygroundMcpServer.md) |  | 
+**WebFetch** | [**PlaygroundToolStatus**](PlaygroundToolStatus.md) | Whether a message may declare otari_web_fetch. | 
 **WebSearch** | [**PlaygroundToolStatus**](PlaygroundToolStatus.md) |  | 
 
 ## Methods
 
 ### NewPlaygroundToolsResponse
 
-`func NewPlaygroundToolsResponse(codeExecution PlaygroundToolStatus, mcpServers []PlaygroundMcpServer, webSearch PlaygroundToolStatus, ) *PlaygroundToolsResponse`
+`func NewPlaygroundToolsResponse(codeExecution PlaygroundToolStatus, files PlaygroundToolStatus, mcpServers []PlaygroundMcpServer, webFetch PlaygroundToolStatus, webSearch PlaygroundToolStatus, ) *PlaygroundToolsResponse`
 
 NewPlaygroundToolsResponse instantiates a new PlaygroundToolsResponse object
 This constructor will assign default values to properties that have it defined,
@@ -47,6 +49,26 @@ and a boolean to check if the value has been set.
 SetCodeExecution sets CodeExecution field to given value.
 
 
+### GetFiles
+
+`func (o *PlaygroundToolsResponse) GetFiles() PlaygroundToolStatus`
+
+GetFiles returns the Files field if non-nil, zero value otherwise.
+
+### GetFilesOk
+
+`func (o *PlaygroundToolsResponse) GetFilesOk() (*PlaygroundToolStatus, bool)`
+
+GetFilesOk returns a tuple with the Files field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFiles
+
+`func (o *PlaygroundToolsResponse) SetFiles(v PlaygroundToolStatus)`
+
+SetFiles sets Files field to given value.
+
+
 ### GetMcpServers
 
 `func (o *PlaygroundToolsResponse) GetMcpServers() []PlaygroundMcpServer`
@@ -65,6 +87,26 @@ and a boolean to check if the value has been set.
 `func (o *PlaygroundToolsResponse) SetMcpServers(v []PlaygroundMcpServer)`
 
 SetMcpServers sets McpServers field to given value.
+
+
+### GetWebFetch
+
+`func (o *PlaygroundToolsResponse) GetWebFetch() PlaygroundToolStatus`
+
+GetWebFetch returns the WebFetch field if non-nil, zero value otherwise.
+
+### GetWebFetchOk
+
+`func (o *PlaygroundToolsResponse) GetWebFetchOk() (*PlaygroundToolStatus, bool)`
+
+GetWebFetchOk returns a tuple with the WebFetch field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWebFetch
+
+`func (o *PlaygroundToolsResponse) SetWebFetch(v PlaygroundToolStatus)`
+
+SetWebFetch sets WebFetch field to given value.
 
 
 ### GetWebSearch

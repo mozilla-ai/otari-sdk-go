@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **ByFilter** | Pointer to **bool** |  | [optional] [default to false]
 **CacheReadPricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
 **CacheWritePricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
+**DeploymentPaid** | Pointer to **NullableBool** |  | [optional] 
 **EndDate** | Pointer to **NullableTime** |  | [optional] 
 **Endpoint** | Pointer to **NullableString** |  | [optional] 
 **Ids** | Pointer to **[]string** |  | [optional] 
@@ -173,6 +174,41 @@ HasCacheWritePricePerMillion returns a boolean if a field has been set.
 `func (o *UsageSetPriceRequest) UnsetCacheWritePricePerMillion()`
 
 UnsetCacheWritePricePerMillion ensures that no value is present for CacheWritePricePerMillion, not even an explicit nil
+### GetDeploymentPaid
+
+`func (o *UsageSetPriceRequest) GetDeploymentPaid() bool`
+
+GetDeploymentPaid returns the DeploymentPaid field if non-nil, zero value otherwise.
+
+### GetDeploymentPaidOk
+
+`func (o *UsageSetPriceRequest) GetDeploymentPaidOk() (*bool, bool)`
+
+GetDeploymentPaidOk returns a tuple with the DeploymentPaid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDeploymentPaid
+
+`func (o *UsageSetPriceRequest) SetDeploymentPaid(v bool)`
+
+SetDeploymentPaid sets DeploymentPaid field to given value.
+
+### HasDeploymentPaid
+
+`func (o *UsageSetPriceRequest) HasDeploymentPaid() bool`
+
+HasDeploymentPaid returns a boolean if a field has been set.
+
+### SetDeploymentPaidNil
+
+`func (o *UsageSetPriceRequest) SetDeploymentPaidNil(b bool)`
+
+ SetDeploymentPaidNil sets the value for DeploymentPaid to be an explicit nil
+
+### UnsetDeploymentPaid
+`func (o *UsageSetPriceRequest) UnsetDeploymentPaid()`
+
+UnsetDeploymentPaid ensures that no value is present for DeploymentPaid, not even an explicit nil
 ### GetEndDate
 
 `func (o *UsageSetPriceRequest) GetEndDate() time.Time`

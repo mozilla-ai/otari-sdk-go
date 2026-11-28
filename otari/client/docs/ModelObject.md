@@ -4,14 +4,22 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Architecture** | Pointer to [**NullableModelArchitecture**](ModelArchitecture.md) |  | [optional] 
 **ContextWindow** | Pointer to **NullableInt32** |  | [optional] 
 **Created** | **int32** |  | 
 **DeploymentManaged** | Pointer to **bool** |  | [optional] [default to false]
+**Description** | Pointer to **NullableString** |  | [optional] 
 **Id** | **string** |  | 
+**KnowledgeCutoff** | Pointer to **NullableString** |  | [optional] 
+**MaxOutputTokens** | Pointer to **NullableInt32** |  | [optional] 
+**Name** | Pointer to **NullableString** |  | [optional] 
 **Object** | Pointer to **string** |  | [optional] [default to "model"]
 **OwnedBy** | **string** |  | 
 **Pricing** | Pointer to [**NullableModelPricingInfo**](ModelPricingInfo.md) |  | [optional] 
 **PricingSource** | Pointer to **string** |  | [optional] [default to "none"]
+**ReleaseDate** | Pointer to **NullableString** |  | [optional] 
+**SupportedParameters** | Pointer to **[]string** |  | [optional] 
+**Type** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -32,6 +40,41 @@ NewModelObjectWithDefaults instantiates a new ModelObject object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetArchitecture
+
+`func (o *ModelObject) GetArchitecture() ModelArchitecture`
+
+GetArchitecture returns the Architecture field if non-nil, zero value otherwise.
+
+### GetArchitectureOk
+
+`func (o *ModelObject) GetArchitectureOk() (*ModelArchitecture, bool)`
+
+GetArchitectureOk returns a tuple with the Architecture field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetArchitecture
+
+`func (o *ModelObject) SetArchitecture(v ModelArchitecture)`
+
+SetArchitecture sets Architecture field to given value.
+
+### HasArchitecture
+
+`func (o *ModelObject) HasArchitecture() bool`
+
+HasArchitecture returns a boolean if a field has been set.
+
+### SetArchitectureNil
+
+`func (o *ModelObject) SetArchitectureNil(b bool)`
+
+ SetArchitectureNil sets the value for Architecture to be an explicit nil
+
+### UnsetArchitecture
+`func (o *ModelObject) UnsetArchitecture()`
+
+UnsetArchitecture ensures that no value is present for Architecture, not even an explicit nil
 ### GetContextWindow
 
 `func (o *ModelObject) GetContextWindow() int32`
@@ -112,6 +155,41 @@ SetDeploymentManaged sets DeploymentManaged field to given value.
 
 HasDeploymentManaged returns a boolean if a field has been set.
 
+### GetDescription
+
+`func (o *ModelObject) GetDescription() string`
+
+GetDescription returns the Description field if non-nil, zero value otherwise.
+
+### GetDescriptionOk
+
+`func (o *ModelObject) GetDescriptionOk() (*string, bool)`
+
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDescription
+
+`func (o *ModelObject) SetDescription(v string)`
+
+SetDescription sets Description field to given value.
+
+### HasDescription
+
+`func (o *ModelObject) HasDescription() bool`
+
+HasDescription returns a boolean if a field has been set.
+
+### SetDescriptionNil
+
+`func (o *ModelObject) SetDescriptionNil(b bool)`
+
+ SetDescriptionNil sets the value for Description to be an explicit nil
+
+### UnsetDescription
+`func (o *ModelObject) UnsetDescription()`
+
+UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetId
 
 `func (o *ModelObject) GetId() string`
@@ -132,6 +210,111 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
+### GetKnowledgeCutoff
+
+`func (o *ModelObject) GetKnowledgeCutoff() string`
+
+GetKnowledgeCutoff returns the KnowledgeCutoff field if non-nil, zero value otherwise.
+
+### GetKnowledgeCutoffOk
+
+`func (o *ModelObject) GetKnowledgeCutoffOk() (*string, bool)`
+
+GetKnowledgeCutoffOk returns a tuple with the KnowledgeCutoff field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKnowledgeCutoff
+
+`func (o *ModelObject) SetKnowledgeCutoff(v string)`
+
+SetKnowledgeCutoff sets KnowledgeCutoff field to given value.
+
+### HasKnowledgeCutoff
+
+`func (o *ModelObject) HasKnowledgeCutoff() bool`
+
+HasKnowledgeCutoff returns a boolean if a field has been set.
+
+### SetKnowledgeCutoffNil
+
+`func (o *ModelObject) SetKnowledgeCutoffNil(b bool)`
+
+ SetKnowledgeCutoffNil sets the value for KnowledgeCutoff to be an explicit nil
+
+### UnsetKnowledgeCutoff
+`func (o *ModelObject) UnsetKnowledgeCutoff()`
+
+UnsetKnowledgeCutoff ensures that no value is present for KnowledgeCutoff, not even an explicit nil
+### GetMaxOutputTokens
+
+`func (o *ModelObject) GetMaxOutputTokens() int32`
+
+GetMaxOutputTokens returns the MaxOutputTokens field if non-nil, zero value otherwise.
+
+### GetMaxOutputTokensOk
+
+`func (o *ModelObject) GetMaxOutputTokensOk() (*int32, bool)`
+
+GetMaxOutputTokensOk returns a tuple with the MaxOutputTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMaxOutputTokens
+
+`func (o *ModelObject) SetMaxOutputTokens(v int32)`
+
+SetMaxOutputTokens sets MaxOutputTokens field to given value.
+
+### HasMaxOutputTokens
+
+`func (o *ModelObject) HasMaxOutputTokens() bool`
+
+HasMaxOutputTokens returns a boolean if a field has been set.
+
+### SetMaxOutputTokensNil
+
+`func (o *ModelObject) SetMaxOutputTokensNil(b bool)`
+
+ SetMaxOutputTokensNil sets the value for MaxOutputTokens to be an explicit nil
+
+### UnsetMaxOutputTokens
+`func (o *ModelObject) UnsetMaxOutputTokens()`
+
+UnsetMaxOutputTokens ensures that no value is present for MaxOutputTokens, not even an explicit nil
+### GetName
+
+`func (o *ModelObject) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *ModelObject) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *ModelObject) SetName(v string)`
+
+SetName sets Name field to given value.
+
+### HasName
+
+`func (o *ModelObject) HasName() bool`
+
+HasName returns a boolean if a field has been set.
+
+### SetNameNil
+
+`func (o *ModelObject) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *ModelObject) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetObject
 
 `func (o *ModelObject) GetObject() string`
@@ -237,6 +420,111 @@ SetPricingSource sets PricingSource field to given value.
 
 HasPricingSource returns a boolean if a field has been set.
 
+### GetReleaseDate
+
+`func (o *ModelObject) GetReleaseDate() string`
+
+GetReleaseDate returns the ReleaseDate field if non-nil, zero value otherwise.
+
+### GetReleaseDateOk
+
+`func (o *ModelObject) GetReleaseDateOk() (*string, bool)`
+
+GetReleaseDateOk returns a tuple with the ReleaseDate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReleaseDate
+
+`func (o *ModelObject) SetReleaseDate(v string)`
+
+SetReleaseDate sets ReleaseDate field to given value.
+
+### HasReleaseDate
+
+`func (o *ModelObject) HasReleaseDate() bool`
+
+HasReleaseDate returns a boolean if a field has been set.
+
+### SetReleaseDateNil
+
+`func (o *ModelObject) SetReleaseDateNil(b bool)`
+
+ SetReleaseDateNil sets the value for ReleaseDate to be an explicit nil
+
+### UnsetReleaseDate
+`func (o *ModelObject) UnsetReleaseDate()`
+
+UnsetReleaseDate ensures that no value is present for ReleaseDate, not even an explicit nil
+### GetSupportedParameters
+
+`func (o *ModelObject) GetSupportedParameters() []string`
+
+GetSupportedParameters returns the SupportedParameters field if non-nil, zero value otherwise.
+
+### GetSupportedParametersOk
+
+`func (o *ModelObject) GetSupportedParametersOk() (*[]string, bool)`
+
+GetSupportedParametersOk returns a tuple with the SupportedParameters field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSupportedParameters
+
+`func (o *ModelObject) SetSupportedParameters(v []string)`
+
+SetSupportedParameters sets SupportedParameters field to given value.
+
+### HasSupportedParameters
+
+`func (o *ModelObject) HasSupportedParameters() bool`
+
+HasSupportedParameters returns a boolean if a field has been set.
+
+### SetSupportedParametersNil
+
+`func (o *ModelObject) SetSupportedParametersNil(b bool)`
+
+ SetSupportedParametersNil sets the value for SupportedParameters to be an explicit nil
+
+### UnsetSupportedParameters
+`func (o *ModelObject) UnsetSupportedParameters()`
+
+UnsetSupportedParameters ensures that no value is present for SupportedParameters, not even an explicit nil
+### GetType
+
+`func (o *ModelObject) GetType() string`
+
+GetType returns the Type field if non-nil, zero value otherwise.
+
+### GetTypeOk
+
+`func (o *ModelObject) GetTypeOk() (*string, bool)`
+
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetType
+
+`func (o *ModelObject) SetType(v string)`
+
+SetType sets Type field to given value.
+
+### HasType
+
+`func (o *ModelObject) HasType() bool`
+
+HasType returns a boolean if a field has been set.
+
+### SetTypeNil
+
+`func (o *ModelObject) SetTypeNil(b bool)`
+
+ SetTypeNil sets the value for Type to be an explicit nil
+
+### UnsetType
+`func (o *ModelObject) UnsetType()`
+
+UnsetType ensures that no value is present for Type, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

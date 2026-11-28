@@ -7,12 +7,20 @@ Method | HTTP request | Description
 [**AuthAuthenticatePasskey**](AuthAPI.md#AuthAuthenticatePasskey) | **Post** /api/v1/auth/webauthn/authenticate | Authenticate Passkey
 [**AuthAuthenticationOptions**](AuthAPI.md#AuthAuthenticationOptions) | **Post** /api/v1/auth/webauthn/authenticate/options | Authentication Options
 [**AuthAuthorize**](AuthAPI.md#AuthAuthorize) | **Get** /api/v1/auth/oauth/{provider}/authorize | Authorize
+[**AuthAuthorizeSso**](AuthAPI.md#AuthAuthorizeSso) | **Get** /api/v1/auth/sso/{slug}/authorize | Authorize Sso
 [**AuthCallback**](AuthAPI.md#AuthCallback) | **Post** /api/v1/auth/oauth/{provider}/callback | Callback
+[**AuthCallbackSso**](AuthAPI.md#AuthCallbackSso) | **Post** /api/v1/auth/sso/callback | Callback Sso
 [**AuthConfirmReset**](AuthAPI.md#AuthConfirmReset) | **Post** /api/v1/auth/password/reset/confirm | Confirm Reset
+[**AuthCreateAccessToken**](AuthAPI.md#AuthCreateAccessToken) | **Post** /api/v1/auth/access-tokens | Create Access Token
 [**AuthCreateSession**](AuthAPI.md#AuthCreateSession) | **Post** /api/v1/auth/session | Create Session
+[**AuthDeleteAccessToken**](AuthAPI.md#AuthDeleteAccessToken) | **Delete** /api/v1/auth/access-tokens/{token_id} | Delete Access Token
+[**AuthDeleteOwnAccount**](AuthAPI.md#AuthDeleteOwnAccount) | **Delete** /api/v1/auth/account | Delete Own Account
 [**AuthDeletePasskey**](AuthAPI.md#AuthDeletePasskey) | **Delete** /api/v1/auth/webauthn/credentials/{credential_id} | Delete Passkey
 [**AuthDeleteSession**](AuthAPI.md#AuthDeleteSession) | **Delete** /api/v1/auth/session | Delete Session
+[**AuthGetOwnProfile**](AuthAPI.md#AuthGetOwnProfile) | **Get** /api/v1/auth/profile | Get Own Profile
+[**AuthListAccessTokens**](AuthAPI.md#AuthListAccessTokens) | **Get** /api/v1/auth/access-tokens | List Access Tokens
 [**AuthListPasskeys**](AuthAPI.md#AuthListPasskeys) | **Get** /api/v1/auth/webauthn/credentials | List Passkeys
+[**AuthLookupSso**](AuthAPI.md#AuthLookupSso) | **Post** /api/v1/auth/sso/lookup | Lookup Sso
 [**AuthRegisterPasskey**](AuthAPI.md#AuthRegisterPasskey) | **Post** /api/v1/auth/webauthn/register | Register Passkey
 [**AuthRegistrationOptions**](AuthAPI.md#AuthRegistrationOptions) | **Post** /api/v1/auth/webauthn/register/options | Registration Options
 [**AuthRenamePasskey**](AuthAPI.md#AuthRenamePasskey) | **Patch** /api/v1/auth/webauthn/credentials/{credential_id} | Rename Passkey
@@ -20,7 +28,10 @@ Method | HTTP request | Description
 [**AuthResendVerification**](AuthAPI.md#AuthResendVerification) | **Post** /api/v1/auth/resend-verification | Resend Verification
 [**AuthSetDashboardPassword**](AuthAPI.md#AuthSetDashboardPassword) | **Put** /api/v1/auth/password | Set Dashboard Password
 [**AuthSignup**](AuthAPI.md#AuthSignup) | **Post** /api/v1/auth/signup | Signup
+[**AuthUpdateOwnAvatar**](AuthAPI.md#AuthUpdateOwnAvatar) | **Put** /api/v1/auth/profile/avatar | Update Own Avatar
 [**AuthUpdateOwnProfile**](AuthAPI.md#AuthUpdateOwnProfile) | **Patch** /api/v1/auth/profile | Update Own Profile
+[**AuthValidateResetLink**](AuthAPI.md#AuthValidateResetLink) | **Post** /api/v1/auth/password/reset/validate | Validate Reset Link
+[**AuthValidateVerificationLink**](AuthAPI.md#AuthValidateVerificationLink) | **Post** /api/v1/auth/verify-email/validate | Validate Verification Link
 [**AuthVerifyEmailRoute**](AuthAPI.md#AuthVerifyEmailRoute) | **Post** /api/v1/auth/verify-email | Verify Email Route
 
 
@@ -222,6 +233,76 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## AuthAuthorizeSso
+
+> SsoAuthorizeResponse AuthAuthorizeSso(ctx, slug).Execute()
+
+Authorize Sso
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	slug := "slug_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthAuthorizeSso(context.Background(), slug).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthAuthorizeSso``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthAuthorizeSso`: SsoAuthorizeResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthAuthorizeSso`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**slug** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthAuthorizeSsoRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**SsoAuthorizeResponse**](SsoAuthorizeResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## AuthCallback
 
 > OAuthSessionResponse AuthCallback(ctx, provider).OAuthCallbackRequest(oAuthCallbackRequest).Execute()
@@ -283,6 +364,72 @@ Name | Type | Description  | Notes
 ### Authorization
 
 No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AuthCallbackSso
+
+> SsoSessionPublic AuthCallbackSso(ctx).SsoCallbackRequest(ssoCallbackRequest).Execute()
+
+Callback Sso
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	ssoCallbackRequest := *openapiclient.NewSsoCallbackRequest("Code_example", "State_example") // SsoCallbackRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthCallbackSso(context.Background()).SsoCallbackRequest(ssoCallbackRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthCallbackSso``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthCallbackSso`: SsoSessionPublic
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthCallbackSso`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthCallbackSsoRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ssoCallbackRequest** | [**SsoCallbackRequest**](SsoCallbackRequest.md) |  | 
+
+### Return type
+
+[**SsoSessionPublic**](SsoSessionPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -358,6 +505,72 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## AuthCreateAccessToken
+
+> AccessTokenCreated AuthCreateAccessToken(ctx).AccessTokenCreate(accessTokenCreate).Execute()
+
+Create Access Token
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	accessTokenCreate := *openapiclient.NewAccessTokenCreate("Name_example") // AccessTokenCreate | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthCreateAccessToken(context.Background()).AccessTokenCreate(accessTokenCreate).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthCreateAccessToken``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthCreateAccessToken`: AccessTokenCreated
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthCreateAccessToken`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthCreateAccessTokenRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **accessTokenCreate** | [**AccessTokenCreate**](AccessTokenCreate.md) |  | 
+
+### Return type
+
+[**AccessTokenCreated**](AccessTokenCreated.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## AuthCreateSession
 
 > SessionResponse AuthCreateSession(ctx).CreateSessionRequest(createSessionRequest).Execute()
@@ -413,6 +626,138 @@ Name | Type | Description  | Notes
 ### Authorization
 
 No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AuthDeleteAccessToken
+
+> AuthDeleteAccessToken(ctx, tokenId).Execute()
+
+Delete Access Token
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	tokenId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.AuthAPI.AuthDeleteAccessToken(context.Background(), tokenId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthDeleteAccessToken``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tokenId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthDeleteAccessTokenRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AuthDeleteOwnAccount
+
+> AuthDeleteOwnAccount(ctx).DeleteAccountRequest(deleteAccountRequest).Execute()
+
+Delete Own Account
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	deleteAccountRequest := *openapiclient.NewDeleteAccountRequest("ConfirmEmail_example") // DeleteAccountRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.AuthAPI.AuthDeleteOwnAccount(context.Background()).DeleteAccountRequest(deleteAccountRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthDeleteOwnAccount``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthDeleteOwnAccountRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **deleteAccountRequest** | [**DeleteAccountRequest**](DeleteAccountRequest.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -551,6 +896,128 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## AuthGetOwnProfile
+
+> CallerIdentityPublic AuthGetOwnProfile(ctx).Execute()
+
+Get Own Profile
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthGetOwnProfile(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthGetOwnProfile``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthGetOwnProfile`: CallerIdentityPublic
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthGetOwnProfile`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthGetOwnProfileRequest struct via the builder pattern
+
+
+### Return type
+
+[**CallerIdentityPublic**](CallerIdentityPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AuthListAccessTokens
+
+> AccessTokensPublic AuthListAccessTokens(ctx).Execute()
+
+List Access Tokens
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthListAccessTokens(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthListAccessTokens``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthListAccessTokens`: AccessTokensPublic
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthListAccessTokens`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthListAccessTokensRequest struct via the builder pattern
+
+
+### Return type
+
+[**AccessTokensPublic**](AccessTokensPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## AuthListPasskeys
 
 > WebAuthnCredentialsPublic AuthListPasskeys(ctx).Execute()
@@ -605,6 +1072,72 @@ Other parameters are passed through a pointer to a apiAuthListPasskeysRequest st
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AuthLookupSso
+
+> SsoLookupResponse AuthLookupSso(ctx).SsoLookupRequest(ssoLookupRequest).Execute()
+
+Lookup Sso
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	ssoLookupRequest := *openapiclient.NewSsoLookupRequest("Email_example") // SsoLookupRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthLookupSso(context.Background()).SsoLookupRequest(ssoLookupRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthLookupSso``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthLookupSso`: SsoLookupResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthLookupSso`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthLookupSsoRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ssoLookupRequest** | [**SsoLookupRequest**](SsoLookupRequest.md) |  | 
+
+### Return type
+
+[**SsoLookupResponse**](SsoLookupResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -1075,6 +1608,72 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## AuthUpdateOwnAvatar
+
+> CallerIdentityPublic AuthUpdateOwnAvatar(ctx).UpdateAvatarRequest(updateAvatarRequest).Execute()
+
+Update Own Avatar
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	updateAvatarRequest := *openapiclient.NewUpdateAvatarRequest(NullableInt32(123)) // UpdateAvatarRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthUpdateOwnAvatar(context.Background()).UpdateAvatarRequest(updateAvatarRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthUpdateOwnAvatar``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthUpdateOwnAvatar`: CallerIdentityPublic
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthUpdateOwnAvatar`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthUpdateOwnAvatarRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **updateAvatarRequest** | [**UpdateAvatarRequest**](UpdateAvatarRequest.md) |  | 
+
+### Return type
+
+[**CallerIdentityPublic**](CallerIdentityPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## AuthUpdateOwnProfile
 
 > CallerIdentityPublic AuthUpdateOwnProfile(ctx).UpdateProfileRequest(updateProfileRequest).Execute()
@@ -1141,6 +1740,138 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## AuthValidateResetLink
+
+> MailedLinkStatusResponse AuthValidateResetLink(ctx).MailedLinkRequest(mailedLinkRequest).Execute()
+
+Validate Reset Link
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	mailedLinkRequest := *openapiclient.NewMailedLinkRequest("Token_example") // MailedLinkRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthValidateResetLink(context.Background()).MailedLinkRequest(mailedLinkRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthValidateResetLink``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthValidateResetLink`: MailedLinkStatusResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthValidateResetLink`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthValidateResetLinkRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **mailedLinkRequest** | [**MailedLinkRequest**](MailedLinkRequest.md) |  | 
+
+### Return type
+
+[**MailedLinkStatusResponse**](MailedLinkStatusResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AuthValidateVerificationLink
+
+> MailedLinkStatusResponse AuthValidateVerificationLink(ctx).MailedLinkRequest(mailedLinkRequest).Execute()
+
+Validate Verification Link
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	mailedLinkRequest := *openapiclient.NewMailedLinkRequest("Token_example") // MailedLinkRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.AuthValidateVerificationLink(context.Background()).MailedLinkRequest(mailedLinkRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.AuthValidateVerificationLink``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AuthValidateVerificationLink`: MailedLinkStatusResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.AuthValidateVerificationLink`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAuthValidateVerificationLinkRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **mailedLinkRequest** | [**MailedLinkRequest**](MailedLinkRequest.md) |  | 
+
+### Return type
+
+[**MailedLinkStatusResponse**](MailedLinkStatusResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## AuthVerifyEmailRoute
 
 > VerifyEmailResponse AuthVerifyEmailRoute(ctx).VerifyEmailRequest(verifyEmailRequest).Execute()
@@ -1162,7 +1893,7 @@ import (
 )
 
 func main() {
-	verifyEmailRequest := *openapiclient.NewVerifyEmailRequest("Token_example") // VerifyEmailRequest | 
+	verifyEmailRequest := *openapiclient.NewVerifyEmailRequest("Password_example", "Token_example") // VerifyEmailRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

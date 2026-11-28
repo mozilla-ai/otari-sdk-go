@@ -9,8 +9,8 @@ Name | Type | Description | Notes
 **FromName** | **string** | The &#39;From&#39; display name on outgoing mail. | 
 **Missing** | **[]string** | Settings that must be set before mail works, in config order. Empty exactly when &#39;ready&#39; is true, so the dashboard can name what to configure rather than only reporting that mail is off. | 
 **PublicBaseUrl** | **NullableString** | This deployment&#39;s own externally-reachable URL, which mail needs before it can send. The links themselves are built from ui_base_url, or from this when that is unset. | 
-**Ready** | **bool** | Whether a message carrying a link back to this deployment can be sent, which is what every message the control plane sends needs. Matches &#39;mail_ready&#39; on /api/v1/bootstrap. | 
-**Transport** | **string** | The transport a send would use: &#39;smtp&#39;, &#39;console&#39; (logged, not delivered), or &#39;none&#39;. | 
+**Ready** | **bool** | Whether an email carrying a link back to this deployment reaches its recipient, which is what every message the control plane sends needs. | 
+**Transport** | **string** | The transport a send would use: &#39;smtp&#39; or &#39;none&#39;. | 
 
 ## Methods
 

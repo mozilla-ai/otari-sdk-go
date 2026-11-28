@@ -8,14 +8,17 @@ Method | HTTP request | Description
 [**SearchToolsDeleteStoredSearchTool**](SearchToolsAPI.md#SearchToolsDeleteStoredSearchTool) | **Delete** /api/v1/search-tools/{name} | Delete Stored Search Tool
 [**SearchToolsListAllSearchTools**](SearchToolsAPI.md#SearchToolsListAllSearchTools) | **Get** /api/v1/search-tools | List All Search Tools
 [**SearchToolsListSearchProviders**](SearchToolsAPI.md#SearchToolsListSearchProviders) | **Get** /api/v1/search-tools/providers | List Search Providers
+[**SearchToolsListSearchToolCatalog**](SearchToolsAPI.md#SearchToolsListSearchToolCatalog) | **Get** /api/v1/search-tools/catalog | List Search Tool Catalog
 [**SearchToolsReencryptStoredSearchToolKeys**](SearchToolsAPI.md#SearchToolsReencryptStoredSearchToolKeys) | **Post** /api/v1/search-tools/reencrypt | Reencrypt Stored Search Tool Keys
+[**SearchToolsTestSearchTool**](SearchToolsAPI.md#SearchToolsTestSearchTool) | **Post** /api/v1/search-tools/{name}/test | Test Search Tool
+[**SearchToolsTestUnsavedSearchTool**](SearchToolsAPI.md#SearchToolsTestUnsavedSearchTool) | **Post** /api/v1/search-tools/test | Test Unsaved Search Tool
 [**SearchToolsUpdateSearchTool**](SearchToolsAPI.md#SearchToolsUpdateSearchTool) | **Patch** /api/v1/search-tools/{name} | Update Search Tool
 
 
 
 ## SearchToolsCreateSearchTool
 
-> StoredSearchToolSchema SearchToolsCreateSearchTool(ctx).CreateSearchToolRequest(createSearchToolRequest).Execute()
+> CreatedSearchToolSchema SearchToolsCreateSearchTool(ctx).CreateSearchToolRequest(createSearchToolRequest).Execute()
 
 Create Search Tool
 
@@ -43,7 +46,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `SearchToolsAPI.SearchToolsCreateSearchTool``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `SearchToolsCreateSearchTool`: StoredSearchToolSchema
+	// response from `SearchToolsCreateSearchTool`: CreatedSearchToolSchema
 	fmt.Fprintf(os.Stdout, "Response from `SearchToolsAPI.SearchToolsCreateSearchTool`: %v\n", resp)
 }
 ```
@@ -63,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**StoredSearchToolSchema**](StoredSearchToolSchema.md)
+[**CreatedSearchToolSchema**](CreatedSearchToolSchema.md)
 
 ### Authorization
 
@@ -149,7 +152,7 @@ Name | Type | Description  | Notes
 
 ## SearchToolsListAllSearchTools
 
-> SearchToolsResponse SearchToolsListAllSearchTools(ctx).Execute()
+> SearchToolsResponse SearchToolsListAllSearchTools(ctx).Kind(kind).Execute()
 
 List All Search Tools
 
@@ -168,10 +171,11 @@ import (
 )
 
 func main() {
+	kind := "kind_example" // string | Which instances to list: 'search' (the default) or 'fetch'. (optional) (default to "search")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SearchToolsAPI.SearchToolsListAllSearchTools(context.Background()).Execute()
+	resp, r, err := apiClient.SearchToolsAPI.SearchToolsListAllSearchTools(context.Background()).Kind(kind).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `SearchToolsAPI.SearchToolsListAllSearchTools``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -183,12 +187,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSearchToolsListAllSearchToolsRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **kind** | **string** | Which instances to list: &#39;search&#39; (the default) or &#39;fetch&#39;. | [default to &quot;search&quot;]
 
 ### Return type
 
@@ -210,7 +218,7 @@ Other parameters are passed through a pointer to a apiSearchToolsListAllSearchTo
 
 ## SearchToolsListSearchProviders
 
-> []SearchProviderSchema SearchToolsListSearchProviders(ctx).Execute()
+> []SearchProviderSchema SearchToolsListSearchProviders(ctx).Kind(kind).Execute()
 
 List Search Providers
 
@@ -229,10 +237,11 @@ import (
 )
 
 func main() {
+	kind := "kind_example" // string | Which providers to list: search providers (the default) or fetch providers. (optional) (default to "search")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SearchToolsAPI.SearchToolsListSearchProviders(context.Background()).Execute()
+	resp, r, err := apiClient.SearchToolsAPI.SearchToolsListSearchProviders(context.Background()).Kind(kind).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `SearchToolsAPI.SearchToolsListSearchProviders``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -244,16 +253,88 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSearchToolsListSearchProvidersRequest struct via the builder pattern
 
 
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **kind** | **string** | Which providers to list: search providers (the default) or fetch providers. | [default to &quot;search&quot;]
+
 ### Return type
 
 [**[]SearchProviderSchema**](SearchProviderSchema.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SearchToolsListSearchToolCatalog
+
+> SearchToolCatalogResponse SearchToolsListSearchToolCatalog(ctx).Skip(skip).Limit(limit).Execute()
+
+List Search Tool Catalog
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	skip := int32(56) // int32 | Number of records to skip (optional) (default to 0)
+	limit := int32(56) // int32 | Maximum number of records to return (optional) (default to 100)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.SearchToolsAPI.SearchToolsListSearchToolCatalog(context.Background()).Skip(skip).Limit(limit).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `SearchToolsAPI.SearchToolsListSearchToolCatalog``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SearchToolsListSearchToolCatalog`: SearchToolCatalogResponse
+	fmt.Fprintf(os.Stdout, "Response from `SearchToolsAPI.SearchToolsListSearchToolCatalog`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSearchToolsListSearchToolCatalogRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **skip** | **int32** | Number of records to skip | [default to 0]
+ **limit** | **int32** | Maximum number of records to return | [default to 100]
+
+### Return type
+
+[**SearchToolCatalogResponse**](SearchToolCatalogResponse.md)
 
 ### Authorization
 
@@ -323,6 +404,144 @@ Other parameters are passed through a pointer to a apiSearchToolsReencryptStored
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SearchToolsTestSearchTool
+
+> SearchToolTestResponse SearchToolsTestSearchTool(ctx, name).StoredSearchToolTestRequest(storedSearchToolTestRequest).Execute()
+
+Test Search Tool
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	name := "name_example" // string | 
+	storedSearchToolTestRequest := *openapiclient.NewStoredSearchToolTestRequest() // StoredSearchToolTestRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.SearchToolsAPI.SearchToolsTestSearchTool(context.Background(), name).StoredSearchToolTestRequest(storedSearchToolTestRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `SearchToolsAPI.SearchToolsTestSearchTool``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SearchToolsTestSearchTool`: SearchToolTestResponse
+	fmt.Fprintf(os.Stdout, "Response from `SearchToolsAPI.SearchToolsTestSearchTool`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**name** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSearchToolsTestSearchToolRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **storedSearchToolTestRequest** | [**StoredSearchToolTestRequest**](StoredSearchToolTestRequest.md) |  | 
+
+### Return type
+
+[**SearchToolTestResponse**](SearchToolTestResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SearchToolsTestUnsavedSearchTool
+
+> SearchToolTestResponse SearchToolsTestUnsavedSearchTool(ctx).SearchToolTestRequest(searchToolTestRequest).Execute()
+
+Test Unsaved Search Tool
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	searchToolTestRequest := *openapiclient.NewSearchToolTestRequest("Name_example", "Provider_example") // SearchToolTestRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.SearchToolsAPI.SearchToolsTestUnsavedSearchTool(context.Background()).SearchToolTestRequest(searchToolTestRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `SearchToolsAPI.SearchToolsTestUnsavedSearchTool``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SearchToolsTestUnsavedSearchTool`: SearchToolTestResponse
+	fmt.Fprintf(os.Stdout, "Response from `SearchToolsAPI.SearchToolsTestUnsavedSearchTool`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSearchToolsTestUnsavedSearchToolRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **searchToolTestRequest** | [**SearchToolTestRequest**](SearchToolTestRequest.md) |  | 
+
+### Return type
+
+[**SearchToolTestResponse**](SearchToolTestResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

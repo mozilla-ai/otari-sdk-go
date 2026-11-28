@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **Created** | **int32** |  | 
 **Model** | **string** |  | 
 **Object** | **string** |  | 
+**Moderation** | Pointer to [**NullableCCKModeration**](CCKModeration.md) |  | [optional] 
+**Obfuscation** | Pointer to **NullableString** | Filter to a single event type or metric name (e.g. &#39;tool_result&#39;, &#39;claude_code.commit.count&#39;) | [optional] 
 **ServiceTier** | Pointer to **NullableString** |  | [optional] 
 **SystemFingerprint** | Pointer to **NullableString** |  | [optional] 
 **Usage** | Pointer to [**NullableCCKCompletionUsage**](CCKCompletionUsage.md) |  | [optional] 
@@ -132,6 +134,76 @@ and a boolean to check if the value has been set.
 SetObject sets Object field to given value.
 
 
+### GetModeration
+
+`func (o *ChatCompletionChunk) GetModeration() CCKModeration`
+
+GetModeration returns the Moderation field if non-nil, zero value otherwise.
+
+### GetModerationOk
+
+`func (o *ChatCompletionChunk) GetModerationOk() (*CCKModeration, bool)`
+
+GetModerationOk returns a tuple with the Moderation field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetModeration
+
+`func (o *ChatCompletionChunk) SetModeration(v CCKModeration)`
+
+SetModeration sets Moderation field to given value.
+
+### HasModeration
+
+`func (o *ChatCompletionChunk) HasModeration() bool`
+
+HasModeration returns a boolean if a field has been set.
+
+### SetModerationNil
+
+`func (o *ChatCompletionChunk) SetModerationNil(b bool)`
+
+ SetModerationNil sets the value for Moderation to be an explicit nil
+
+### UnsetModeration
+`func (o *ChatCompletionChunk) UnsetModeration()`
+
+UnsetModeration ensures that no value is present for Moderation, not even an explicit nil
+### GetObfuscation
+
+`func (o *ChatCompletionChunk) GetObfuscation() string`
+
+GetObfuscation returns the Obfuscation field if non-nil, zero value otherwise.
+
+### GetObfuscationOk
+
+`func (o *ChatCompletionChunk) GetObfuscationOk() (*string, bool)`
+
+GetObfuscationOk returns a tuple with the Obfuscation field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetObfuscation
+
+`func (o *ChatCompletionChunk) SetObfuscation(v string)`
+
+SetObfuscation sets Obfuscation field to given value.
+
+### HasObfuscation
+
+`func (o *ChatCompletionChunk) HasObfuscation() bool`
+
+HasObfuscation returns a boolean if a field has been set.
+
+### SetObfuscationNil
+
+`func (o *ChatCompletionChunk) SetObfuscationNil(b bool)`
+
+ SetObfuscationNil sets the value for Obfuscation to be an explicit nil
+
+### UnsetObfuscation
+`func (o *ChatCompletionChunk) UnsetObfuscation()`
+
+UnsetObfuscation ensures that no value is present for Obfuscation, not even an explicit nil
 ### GetServiceTier
 
 `func (o *ChatCompletionChunk) GetServiceTier() string`

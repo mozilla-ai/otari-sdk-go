@@ -4,15 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**NextStep** | [**InvitationNextStep**](InvitationNextStep.md) | What the invited address does now that it has accepted. | 
 **OrganizationName** | **string** |  | 
-**PasswordSet** | Pointer to **bool** | Whether this accept set the identity&#39;s password. | [optional] [default to false]
 **Role** | **string** |  | 
+**WaysIn** | **[]string** | What this deployment offers instead, where next_step names them, as the preview&#39;s ways_in says. | 
 
 ## Methods
 
 ### NewAcceptInvitationResultPublic
 
-`func NewAcceptInvitationResultPublic(organizationName string, role string, ) *AcceptInvitationResultPublic`
+`func NewAcceptInvitationResultPublic(nextStep InvitationNextStep, organizationName string, role string, waysIn []string, ) *AcceptInvitationResultPublic`
 
 NewAcceptInvitationResultPublic instantiates a new AcceptInvitationResultPublic object
 This constructor will assign default values to properties that have it defined,
@@ -26,6 +27,26 @@ will change when the set of required properties is changed
 NewAcceptInvitationResultPublicWithDefaults instantiates a new AcceptInvitationResultPublic object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetNextStep
+
+`func (o *AcceptInvitationResultPublic) GetNextStep() InvitationNextStep`
+
+GetNextStep returns the NextStep field if non-nil, zero value otherwise.
+
+### GetNextStepOk
+
+`func (o *AcceptInvitationResultPublic) GetNextStepOk() (*InvitationNextStep, bool)`
+
+GetNextStepOk returns a tuple with the NextStep field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNextStep
+
+`func (o *AcceptInvitationResultPublic) SetNextStep(v InvitationNextStep)`
+
+SetNextStep sets NextStep field to given value.
+
 
 ### GetOrganizationName
 
@@ -47,31 +68,6 @@ and a boolean to check if the value has been set.
 SetOrganizationName sets OrganizationName field to given value.
 
 
-### GetPasswordSet
-
-`func (o *AcceptInvitationResultPublic) GetPasswordSet() bool`
-
-GetPasswordSet returns the PasswordSet field if non-nil, zero value otherwise.
-
-### GetPasswordSetOk
-
-`func (o *AcceptInvitationResultPublic) GetPasswordSetOk() (*bool, bool)`
-
-GetPasswordSetOk returns a tuple with the PasswordSet field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPasswordSet
-
-`func (o *AcceptInvitationResultPublic) SetPasswordSet(v bool)`
-
-SetPasswordSet sets PasswordSet field to given value.
-
-### HasPasswordSet
-
-`func (o *AcceptInvitationResultPublic) HasPasswordSet() bool`
-
-HasPasswordSet returns a boolean if a field has been set.
-
 ### GetRole
 
 `func (o *AcceptInvitationResultPublic) GetRole() string`
@@ -90,6 +86,26 @@ and a boolean to check if the value has been set.
 `func (o *AcceptInvitationResultPublic) SetRole(v string)`
 
 SetRole sets Role field to given value.
+
+
+### GetWaysIn
+
+`func (o *AcceptInvitationResultPublic) GetWaysIn() []string`
+
+GetWaysIn returns the WaysIn field if non-nil, zero value otherwise.
+
+### GetWaysInOk
+
+`func (o *AcceptInvitationResultPublic) GetWaysInOk() (*[]string, bool)`
+
+GetWaysInOk returns a tuple with the WaysIn field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWaysIn
+
+`func (o *AcceptInvitationResultPublic) SetWaysIn(v []string)`
+
+SetWaysIn sets WaysIn field to given value.
 
 
 

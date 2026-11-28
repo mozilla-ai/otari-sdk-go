@@ -10,6 +10,9 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **Name** | **string** |  | 
 **OrganizationId** | **string** |  | 
+**RequestMcpServersAllowed** | Pointer to **bool** | Whether this workspace&#39;s keys may name MCP servers by URL in a request. | [optional] [default to false]
+**TraceContentEnabled** | Pointer to **bool** | Whether this workspace keeps what its agent sessions were about. | [optional] [default to false]
+**TraceContentToolOutput** | Pointer to **bool** | Whether this workspace also keeps what each tool returned, where it keeps content and the deployment keeps tool output. | [optional] [default to true]
 **UpdatedAt** | Pointer to **NullableTime** |  | [optional] 
 
 ## Methods
@@ -180,6 +183,81 @@ and a boolean to check if the value has been set.
 
 SetOrganizationId sets OrganizationId field to given value.
 
+
+### GetRequestMcpServersAllowed
+
+`func (o *WorkspacePublic) GetRequestMcpServersAllowed() bool`
+
+GetRequestMcpServersAllowed returns the RequestMcpServersAllowed field if non-nil, zero value otherwise.
+
+### GetRequestMcpServersAllowedOk
+
+`func (o *WorkspacePublic) GetRequestMcpServersAllowedOk() (*bool, bool)`
+
+GetRequestMcpServersAllowedOk returns a tuple with the RequestMcpServersAllowed field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRequestMcpServersAllowed
+
+`func (o *WorkspacePublic) SetRequestMcpServersAllowed(v bool)`
+
+SetRequestMcpServersAllowed sets RequestMcpServersAllowed field to given value.
+
+### HasRequestMcpServersAllowed
+
+`func (o *WorkspacePublic) HasRequestMcpServersAllowed() bool`
+
+HasRequestMcpServersAllowed returns a boolean if a field has been set.
+
+### GetTraceContentEnabled
+
+`func (o *WorkspacePublic) GetTraceContentEnabled() bool`
+
+GetTraceContentEnabled returns the TraceContentEnabled field if non-nil, zero value otherwise.
+
+### GetTraceContentEnabledOk
+
+`func (o *WorkspacePublic) GetTraceContentEnabledOk() (*bool, bool)`
+
+GetTraceContentEnabledOk returns a tuple with the TraceContentEnabled field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTraceContentEnabled
+
+`func (o *WorkspacePublic) SetTraceContentEnabled(v bool)`
+
+SetTraceContentEnabled sets TraceContentEnabled field to given value.
+
+### HasTraceContentEnabled
+
+`func (o *WorkspacePublic) HasTraceContentEnabled() bool`
+
+HasTraceContentEnabled returns a boolean if a field has been set.
+
+### GetTraceContentToolOutput
+
+`func (o *WorkspacePublic) GetTraceContentToolOutput() bool`
+
+GetTraceContentToolOutput returns the TraceContentToolOutput field if non-nil, zero value otherwise.
+
+### GetTraceContentToolOutputOk
+
+`func (o *WorkspacePublic) GetTraceContentToolOutputOk() (*bool, bool)`
+
+GetTraceContentToolOutputOk returns a tuple with the TraceContentToolOutput field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTraceContentToolOutput
+
+`func (o *WorkspacePublic) SetTraceContentToolOutput(v bool)`
+
+SetTraceContentToolOutput sets TraceContentToolOutput field to given value.
+
+### HasTraceContentToolOutput
+
+`func (o *WorkspacePublic) HasTraceContentToolOutput() bool`
+
+HasTraceContentToolOutput returns a boolean if a field has been set.
 
 ### GetUpdatedAt
 

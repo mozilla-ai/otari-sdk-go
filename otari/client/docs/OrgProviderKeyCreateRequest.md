@@ -7,8 +7,11 @@ Name | Type | Description | Notes
 **ApiBase** | Pointer to **NullableString** |  | [optional] 
 **ApiKey** | Pointer to **NullableString** |  | [optional] 
 **ClientArgs** | Pointer to **map[string]interface{}** |  | [optional] 
+**EndpointAuth** | Pointer to [**NullableEndpointAuthRequest**](EndpointAuthRequest.md) | The credential an edge proxy in front of &#x60;api_base&#x60; requires. Only valid with an &#x60;api_base&#x60;. | [optional] 
 **Name** | **string** |  | 
 **Provider** | **string** |  | 
+**Slug** | Pointer to **NullableString** | The name requests reach a key with a custom base URL by, as in &#x60;&lt;slug&gt;:&lt;model&gt;&#x60;. Only such a key has one, and once set it never changes. Left out, it is made from the key&#39;s name. | [optional] 
+**ZeroDataRetention** | Pointer to **bool** | The organization&#39;s declaration that the provider account behind this key keeps no prompt or completion data. The catalog shows it and filters on it; nothing is enforced on it. | [optional] [default to false]
 
 ## Methods
 
@@ -134,6 +137,41 @@ HasClientArgs returns a boolean if a field has been set.
 `func (o *OrgProviderKeyCreateRequest) UnsetClientArgs()`
 
 UnsetClientArgs ensures that no value is present for ClientArgs, not even an explicit nil
+### GetEndpointAuth
+
+`func (o *OrgProviderKeyCreateRequest) GetEndpointAuth() EndpointAuthRequest`
+
+GetEndpointAuth returns the EndpointAuth field if non-nil, zero value otherwise.
+
+### GetEndpointAuthOk
+
+`func (o *OrgProviderKeyCreateRequest) GetEndpointAuthOk() (*EndpointAuthRequest, bool)`
+
+GetEndpointAuthOk returns a tuple with the EndpointAuth field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndpointAuth
+
+`func (o *OrgProviderKeyCreateRequest) SetEndpointAuth(v EndpointAuthRequest)`
+
+SetEndpointAuth sets EndpointAuth field to given value.
+
+### HasEndpointAuth
+
+`func (o *OrgProviderKeyCreateRequest) HasEndpointAuth() bool`
+
+HasEndpointAuth returns a boolean if a field has been set.
+
+### SetEndpointAuthNil
+
+`func (o *OrgProviderKeyCreateRequest) SetEndpointAuthNil(b bool)`
+
+ SetEndpointAuthNil sets the value for EndpointAuth to be an explicit nil
+
+### UnsetEndpointAuth
+`func (o *OrgProviderKeyCreateRequest) UnsetEndpointAuth()`
+
+UnsetEndpointAuth ensures that no value is present for EndpointAuth, not even an explicit nil
 ### GetName
 
 `func (o *OrgProviderKeyCreateRequest) GetName() string`
@@ -173,6 +211,66 @@ and a boolean to check if the value has been set.
 
 SetProvider sets Provider field to given value.
 
+
+### GetSlug
+
+`func (o *OrgProviderKeyCreateRequest) GetSlug() string`
+
+GetSlug returns the Slug field if non-nil, zero value otherwise.
+
+### GetSlugOk
+
+`func (o *OrgProviderKeyCreateRequest) GetSlugOk() (*string, bool)`
+
+GetSlugOk returns a tuple with the Slug field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSlug
+
+`func (o *OrgProviderKeyCreateRequest) SetSlug(v string)`
+
+SetSlug sets Slug field to given value.
+
+### HasSlug
+
+`func (o *OrgProviderKeyCreateRequest) HasSlug() bool`
+
+HasSlug returns a boolean if a field has been set.
+
+### SetSlugNil
+
+`func (o *OrgProviderKeyCreateRequest) SetSlugNil(b bool)`
+
+ SetSlugNil sets the value for Slug to be an explicit nil
+
+### UnsetSlug
+`func (o *OrgProviderKeyCreateRequest) UnsetSlug()`
+
+UnsetSlug ensures that no value is present for Slug, not even an explicit nil
+### GetZeroDataRetention
+
+`func (o *OrgProviderKeyCreateRequest) GetZeroDataRetention() bool`
+
+GetZeroDataRetention returns the ZeroDataRetention field if non-nil, zero value otherwise.
+
+### GetZeroDataRetentionOk
+
+`func (o *OrgProviderKeyCreateRequest) GetZeroDataRetentionOk() (*bool, bool)`
+
+GetZeroDataRetentionOk returns a tuple with the ZeroDataRetention field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetZeroDataRetention
+
+`func (o *OrgProviderKeyCreateRequest) SetZeroDataRetention(v bool)`
+
+SetZeroDataRetention sets ZeroDataRetention field to given value.
+
+### HasZeroDataRetention
+
+`func (o *OrgProviderKeyCreateRequest) HasZeroDataRetention() bool`
+
+HasZeroDataRetention returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
