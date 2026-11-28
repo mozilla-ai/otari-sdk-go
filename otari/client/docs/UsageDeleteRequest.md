@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApiKeyId** | Pointer to [**NullableApiKeyId**](ApiKeyId.md) |  | [optional] 
 **ByFilter** | Pointer to **bool** |  | [optional] [default to false]
+**DeploymentPaid** | Pointer to **NullableBool** |  | [optional] 
 **EndDate** | Pointer to **NullableTime** |  | [optional] 
 **Endpoint** | Pointer to **NullableString** |  | [optional] 
 **Ids** | Pointer to **[]string** |  | [optional] 
@@ -99,6 +100,41 @@ SetByFilter sets ByFilter field to given value.
 
 HasByFilter returns a boolean if a field has been set.
 
+### GetDeploymentPaid
+
+`func (o *UsageDeleteRequest) GetDeploymentPaid() bool`
+
+GetDeploymentPaid returns the DeploymentPaid field if non-nil, zero value otherwise.
+
+### GetDeploymentPaidOk
+
+`func (o *UsageDeleteRequest) GetDeploymentPaidOk() (*bool, bool)`
+
+GetDeploymentPaidOk returns a tuple with the DeploymentPaid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDeploymentPaid
+
+`func (o *UsageDeleteRequest) SetDeploymentPaid(v bool)`
+
+SetDeploymentPaid sets DeploymentPaid field to given value.
+
+### HasDeploymentPaid
+
+`func (o *UsageDeleteRequest) HasDeploymentPaid() bool`
+
+HasDeploymentPaid returns a boolean if a field has been set.
+
+### SetDeploymentPaidNil
+
+`func (o *UsageDeleteRequest) SetDeploymentPaidNil(b bool)`
+
+ SetDeploymentPaidNil sets the value for DeploymentPaid to be an explicit nil
+
+### UnsetDeploymentPaid
+`func (o *UsageDeleteRequest) UnsetDeploymentPaid()`
+
+UnsetDeploymentPaid ensures that no value is present for DeploymentPaid, not even an explicit nil
 ### GetEndDate
 
 `func (o *UsageDeleteRequest) GetEndDate() time.Time`

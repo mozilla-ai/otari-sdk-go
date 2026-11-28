@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Count** | **int32** |  | 
 **Data** | [**[]WorkspaceMcpServerPublic**](WorkspaceMcpServerPublic.md) |  | 
+**SignInUnavailable** | Pointer to **NullableString** | Why this deployment cannot sign anyone in to an MCP server yet, in words for a workspace admin: a server in personal-accounts mode cannot be added, and nobody can sign in for everyone. Null when sign-ins work. | [optional] 
 
 ## Methods
 
@@ -66,6 +67,41 @@ and a boolean to check if the value has been set.
 SetData sets Data field to given value.
 
 
+### GetSignInUnavailable
+
+`func (o *WorkspaceMcpServersPublic) GetSignInUnavailable() string`
+
+GetSignInUnavailable returns the SignInUnavailable field if non-nil, zero value otherwise.
+
+### GetSignInUnavailableOk
+
+`func (o *WorkspaceMcpServersPublic) GetSignInUnavailableOk() (*string, bool)`
+
+GetSignInUnavailableOk returns a tuple with the SignInUnavailable field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSignInUnavailable
+
+`func (o *WorkspaceMcpServersPublic) SetSignInUnavailable(v string)`
+
+SetSignInUnavailable sets SignInUnavailable field to given value.
+
+### HasSignInUnavailable
+
+`func (o *WorkspaceMcpServersPublic) HasSignInUnavailable() bool`
+
+HasSignInUnavailable returns a boolean if a field has been set.
+
+### SetSignInUnavailableNil
+
+`func (o *WorkspaceMcpServersPublic) SetSignInUnavailableNil(b bool)`
+
+ SetSignInUnavailableNil sets the value for SignInUnavailable to be an explicit nil
+
+### UnsetSignInUnavailable
+`func (o *WorkspaceMcpServersPublic) UnsetSignInUnavailable()`
+
+UnsetSignInUnavailable ensures that no value is present for SignInUnavailable, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

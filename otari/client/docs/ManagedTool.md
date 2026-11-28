@@ -4,13 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AcceptedTypes** | **[]string** | Every &#x60;tools[].type&#x60; this deployment currently routes to the tool. Always includes the canonical &#x60;otari_*&#x60; type; for web search it also includes the provider-named keywords when interception is enabled, and for code execution the provider-named keywords unless the deployment&#39;s executor is &#x60;provider&#x60;. | 
-**Available** | **bool** | Whether this deployment has enabled and configured the tool. A request declaring an unavailable tool is rejected with 400. | 
+**AcceptedTypes** | **[]string** | Every &#x60;tools[].type&#x60; this deployment currently routes to the tool. Always includes the canonical &#x60;otari_*&#x60; type; for web search it also includes the provider-named keywords when interception is enabled and the deployment has a search of its own, and for code execution the provider-named keywords unless the deployment&#39;s executor is &#x60;provider&#x60;. | 
+**Available** | **bool** | Whether a request from this caller may declare the tool: the deployment has enabled and configured it and, for an API key, the key&#39;s workspace allows it and its organization can pay for what the tool runs on the deployment&#39;s account. A master key or a dashboard session gets the deployment&#39;s answer alone. A request declaring an unavailable tool is refused. | 
 **Description** | **string** | What the tool does, as the model is told. | 
+**DirectAvailable** | Pointer to **NullableBool** | For web search and web fetch, whether &#x60;POST /api/v1/search&#x60; or &#x60;POST /api/v1/fetch&#x60; naming no tool would be admitted for this caller: something is set up to run it, the workspace allows web access, the organization can pay for a call on the deployment&#39;s account, and for an API key, the key holds the &#x60;web:search&#x60; or &#x60;web:fetch&#x60; scope and its tool list allows the instance the call would run on. Pricing and budgets still apply to the call itself. It can differ from &#x60;available&#x60;, which is about declaring the tool in a model request. &#x60;null&#x60; for the other tools, which have no direct endpoint here. | [optional] 
 **Example** | **map[string]interface{}** | A ready-to-use &#x60;tools[]&#x60; entry. | 
 **Id** | **string** | The canonical tool type to put in &#x60;tools[]&#x60;. | 
 **InputSchema** | **map[string]interface{}** | JSON Schema for the arguments the model supplies, as the model sees it. | 
 **Object** | Pointer to **string** |  | [optional] [default to "tool"]
+**Reason** | Pointer to **NullableString** | Why the tool is unavailable, &#x60;null&#x60; when it is available. &#x60;not_configured&#x60;: nothing is set up to run it (for web search, neither the deployment nor the API key&#39;s organization has a search provider). &#x60;workspace_disabled&#x60;: the API key&#39;s workspace does not allow it, which a workspace admin changes under Tools in the dashboard. &#x60;insufficient_funds&#x60;: the tool, or for web search the pages it reads, would run on the deployment&#39;s account and the API key&#39;s organization has no funds to pay for it, which adding funds changes. | [optional] 
 
 ## Methods
 
@@ -91,6 +93,41 @@ and a boolean to check if the value has been set.
 SetDescription sets Description field to given value.
 
 
+### GetDirectAvailable
+
+`func (o *ManagedTool) GetDirectAvailable() bool`
+
+GetDirectAvailable returns the DirectAvailable field if non-nil, zero value otherwise.
+
+### GetDirectAvailableOk
+
+`func (o *ManagedTool) GetDirectAvailableOk() (*bool, bool)`
+
+GetDirectAvailableOk returns a tuple with the DirectAvailable field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDirectAvailable
+
+`func (o *ManagedTool) SetDirectAvailable(v bool)`
+
+SetDirectAvailable sets DirectAvailable field to given value.
+
+### HasDirectAvailable
+
+`func (o *ManagedTool) HasDirectAvailable() bool`
+
+HasDirectAvailable returns a boolean if a field has been set.
+
+### SetDirectAvailableNil
+
+`func (o *ManagedTool) SetDirectAvailableNil(b bool)`
+
+ SetDirectAvailableNil sets the value for DirectAvailable to be an explicit nil
+
+### UnsetDirectAvailable
+`func (o *ManagedTool) UnsetDirectAvailable()`
+
+UnsetDirectAvailable ensures that no value is present for DirectAvailable, not even an explicit nil
 ### GetExample
 
 `func (o *ManagedTool) GetExample() map[string]interface{}`
@@ -176,6 +213,41 @@ SetObject sets Object field to given value.
 
 HasObject returns a boolean if a field has been set.
 
+### GetReason
+
+`func (o *ManagedTool) GetReason() string`
+
+GetReason returns the Reason field if non-nil, zero value otherwise.
+
+### GetReasonOk
+
+`func (o *ManagedTool) GetReasonOk() (*string, bool)`
+
+GetReasonOk returns a tuple with the Reason field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReason
+
+`func (o *ManagedTool) SetReason(v string)`
+
+SetReason sets Reason field to given value.
+
+### HasReason
+
+`func (o *ManagedTool) HasReason() bool`
+
+HasReason returns a boolean if a field has been set.
+
+### SetReasonNil
+
+`func (o *ManagedTool) SetReasonNil(b bool)`
+
+ SetReasonNil sets the value for Reason to be an explicit nil
+
+### UnsetReason
+`func (o *ManagedTool) UnsetReason()`
+
+UnsetReason ensures that no value is present for Reason, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

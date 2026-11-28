@@ -5,20 +5,20 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CacheReadPricePerMillion** | Pointer to **NullableFloat32** | Price per 1M cached-input tokens | [optional] 
-**CacheWrite1hPricePerMillion** | Pointer to **NullableFloat32** | Price per 1M Anthropic 1-hour cache-write tokens | [optional] 
 **CacheWritePricePerMillion** | Pointer to **NullableFloat32** | Price per 1M cache-write (creation) tokens | [optional] 
 **EffectiveFrom** | **time.Time** | ISO 8601 datetime from which this rate applies, inclusive. Required on a replacement, so an omitted value cannot silently move a stored period to the present. | 
 **EffectiveTo** | Pointer to **NullableTime** | ISO 8601 datetime at which this rate stops applying, exclusive. Null leaves it open ended. Because the end is exclusive, the next period may begin at exactly this instant without overlapping. | [optional] 
-**InputPricePerMillion** | **float32** | Price per 1M input tokens | 
-**OutputPricePerMillion** | **float32** | Price per 1M output tokens | 
+**InputPricePerMillion** | Pointer to **float32** | Price per 1M of the rate&#39;s unit: input tokens, requests, images or characters | [optional] 
+**OutputPricePerMillion** | Pointer to **float32** | Price per 1M output tokens; unused by a rate per request or per image | [optional] 
 **PricingTiers** | Pointer to [**[]PricingTier**](PricingTier.md) | Whole-request context thresholds. Fields omitted by a tier inherit the base rate. | [optional] 
-**Unit** | Pointer to **string** | What the rates are per: tokens for a model, requests or images for a non-token endpoint. | [optional] [default to "tokens"]
+**Rates** | Pointer to [**NullableRatesDocumentInput**](RatesDocumentInput.md) | Every price of the row as a models.dev cost block: each modality&#39;s input and output price with its unit, cache and overrides, web_search beside the modalities, and multipliers. A price is per its unit as published (one image, one million tokens, one thousand searches). Given instead of the per-million fields, which are then read out of it; a row always reads back with both. | [optional] 
+**Unit** | Pointer to **string** | What the rates are per: token for a model, request, image or character for a non-token endpoint. A completion model priced per request is charged one request per successful call. Every rate is USD per million of its unit. A rate in a unit that has no meter yet is stored and prices nothing. The plural names tokens, requests and images are still read for one release. | [optional] [default to "token"]
 
 ## Methods
 
 ### NewOrganizationModelPricingUpdate
 
-`func NewOrganizationModelPricingUpdate(effectiveFrom time.Time, inputPricePerMillion float32, outputPricePerMillion float32, ) *OrganizationModelPricingUpdate`
+`func NewOrganizationModelPricingUpdate(effectiveFrom time.Time, ) *OrganizationModelPricingUpdate`
 
 NewOrganizationModelPricingUpdate instantiates a new OrganizationModelPricingUpdate object
 This constructor will assign default values to properties that have it defined,
@@ -68,41 +68,6 @@ HasCacheReadPricePerMillion returns a boolean if a field has been set.
 `func (o *OrganizationModelPricingUpdate) UnsetCacheReadPricePerMillion()`
 
 UnsetCacheReadPricePerMillion ensures that no value is present for CacheReadPricePerMillion, not even an explicit nil
-### GetCacheWrite1hPricePerMillion
-
-`func (o *OrganizationModelPricingUpdate) GetCacheWrite1hPricePerMillion() float32`
-
-GetCacheWrite1hPricePerMillion returns the CacheWrite1hPricePerMillion field if non-nil, zero value otherwise.
-
-### GetCacheWrite1hPricePerMillionOk
-
-`func (o *OrganizationModelPricingUpdate) GetCacheWrite1hPricePerMillionOk() (*float32, bool)`
-
-GetCacheWrite1hPricePerMillionOk returns a tuple with the CacheWrite1hPricePerMillion field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCacheWrite1hPricePerMillion
-
-`func (o *OrganizationModelPricingUpdate) SetCacheWrite1hPricePerMillion(v float32)`
-
-SetCacheWrite1hPricePerMillion sets CacheWrite1hPricePerMillion field to given value.
-
-### HasCacheWrite1hPricePerMillion
-
-`func (o *OrganizationModelPricingUpdate) HasCacheWrite1hPricePerMillion() bool`
-
-HasCacheWrite1hPricePerMillion returns a boolean if a field has been set.
-
-### SetCacheWrite1hPricePerMillionNil
-
-`func (o *OrganizationModelPricingUpdate) SetCacheWrite1hPricePerMillionNil(b bool)`
-
- SetCacheWrite1hPricePerMillionNil sets the value for CacheWrite1hPricePerMillion to be an explicit nil
-
-### UnsetCacheWrite1hPricePerMillion
-`func (o *OrganizationModelPricingUpdate) UnsetCacheWrite1hPricePerMillion()`
-
-UnsetCacheWrite1hPricePerMillion ensures that no value is present for CacheWrite1hPricePerMillion, not even an explicit nil
 ### GetCacheWritePricePerMillion
 
 `func (o *OrganizationModelPricingUpdate) GetCacheWritePricePerMillion() float32`
@@ -212,6 +177,11 @@ and a boolean to check if the value has been set.
 
 SetInputPricePerMillion sets InputPricePerMillion field to given value.
 
+### HasInputPricePerMillion
+
+`func (o *OrganizationModelPricingUpdate) HasInputPricePerMillion() bool`
+
+HasInputPricePerMillion returns a boolean if a field has been set.
 
 ### GetOutputPricePerMillion
 
@@ -232,6 +202,11 @@ and a boolean to check if the value has been set.
 
 SetOutputPricePerMillion sets OutputPricePerMillion field to given value.
 
+### HasOutputPricePerMillion
+
+`func (o *OrganizationModelPricingUpdate) HasOutputPricePerMillion() bool`
+
+HasOutputPricePerMillion returns a boolean if a field has been set.
 
 ### GetPricingTiers
 
@@ -268,6 +243,41 @@ HasPricingTiers returns a boolean if a field has been set.
 `func (o *OrganizationModelPricingUpdate) UnsetPricingTiers()`
 
 UnsetPricingTiers ensures that no value is present for PricingTiers, not even an explicit nil
+### GetRates
+
+`func (o *OrganizationModelPricingUpdate) GetRates() RatesDocumentInput`
+
+GetRates returns the Rates field if non-nil, zero value otherwise.
+
+### GetRatesOk
+
+`func (o *OrganizationModelPricingUpdate) GetRatesOk() (*RatesDocumentInput, bool)`
+
+GetRatesOk returns a tuple with the Rates field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRates
+
+`func (o *OrganizationModelPricingUpdate) SetRates(v RatesDocumentInput)`
+
+SetRates sets Rates field to given value.
+
+### HasRates
+
+`func (o *OrganizationModelPricingUpdate) HasRates() bool`
+
+HasRates returns a boolean if a field has been set.
+
+### SetRatesNil
+
+`func (o *OrganizationModelPricingUpdate) SetRatesNil(b bool)`
+
+ SetRatesNil sets the value for Rates to be an explicit nil
+
+### UnsetRates
+`func (o *OrganizationModelPricingUpdate) UnsetRates()`
+
+UnsetRates ensures that no value is present for Rates, not even an explicit nil
 ### GetUnit
 
 `func (o *OrganizationModelPricingUpdate) GetUnit() string`

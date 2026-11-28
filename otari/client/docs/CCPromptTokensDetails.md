@@ -5,9 +5,12 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AudioTokens** | Pointer to **NullableInt32** |  | [optional] 
-**CachedTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
 **CacheWriteTokens** | Pointer to **NullableInt32** |  | [optional] 
+**CachedTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
+**ImageTokens** | Pointer to **NullableInt32** |  | [optional] 
+**TextTokens** | Pointer to **NullableInt32** |  | [optional] 
 **CacheCreationTokenDetails** | Pointer to [**NullableCCCacheCreationTokenDetails**](CCCacheCreationTokenDetails.md) |  | [optional] 
+**CachedAudioTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
 
 ## Methods
 
@@ -63,41 +66,6 @@ HasAudioTokens returns a boolean if a field has been set.
 `func (o *CCPromptTokensDetails) UnsetAudioTokens()`
 
 UnsetAudioTokens ensures that no value is present for AudioTokens, not even an explicit nil
-### GetCachedTokens
-
-`func (o *CCPromptTokensDetails) GetCachedTokens() int32`
-
-GetCachedTokens returns the CachedTokens field if non-nil, zero value otherwise.
-
-### GetCachedTokensOk
-
-`func (o *CCPromptTokensDetails) GetCachedTokensOk() (*int32, bool)`
-
-GetCachedTokensOk returns a tuple with the CachedTokens field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCachedTokens
-
-`func (o *CCPromptTokensDetails) SetCachedTokens(v int32)`
-
-SetCachedTokens sets CachedTokens field to given value.
-
-### HasCachedTokens
-
-`func (o *CCPromptTokensDetails) HasCachedTokens() bool`
-
-HasCachedTokens returns a boolean if a field has been set.
-
-### SetCachedTokensNil
-
-`func (o *CCPromptTokensDetails) SetCachedTokensNil(b bool)`
-
- SetCachedTokensNil sets the value for CachedTokens to be an explicit nil
-
-### UnsetCachedTokens
-`func (o *CCPromptTokensDetails) UnsetCachedTokens()`
-
-UnsetCachedTokens ensures that no value is present for CachedTokens, not even an explicit nil
 ### GetCacheWriteTokens
 
 `func (o *CCPromptTokensDetails) GetCacheWriteTokens() int32`
@@ -133,6 +101,111 @@ HasCacheWriteTokens returns a boolean if a field has been set.
 `func (o *CCPromptTokensDetails) UnsetCacheWriteTokens()`
 
 UnsetCacheWriteTokens ensures that no value is present for CacheWriteTokens, not even an explicit nil
+### GetCachedTokens
+
+`func (o *CCPromptTokensDetails) GetCachedTokens() int32`
+
+GetCachedTokens returns the CachedTokens field if non-nil, zero value otherwise.
+
+### GetCachedTokensOk
+
+`func (o *CCPromptTokensDetails) GetCachedTokensOk() (*int32, bool)`
+
+GetCachedTokensOk returns a tuple with the CachedTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCachedTokens
+
+`func (o *CCPromptTokensDetails) SetCachedTokens(v int32)`
+
+SetCachedTokens sets CachedTokens field to given value.
+
+### HasCachedTokens
+
+`func (o *CCPromptTokensDetails) HasCachedTokens() bool`
+
+HasCachedTokens returns a boolean if a field has been set.
+
+### SetCachedTokensNil
+
+`func (o *CCPromptTokensDetails) SetCachedTokensNil(b bool)`
+
+ SetCachedTokensNil sets the value for CachedTokens to be an explicit nil
+
+### UnsetCachedTokens
+`func (o *CCPromptTokensDetails) UnsetCachedTokens()`
+
+UnsetCachedTokens ensures that no value is present for CachedTokens, not even an explicit nil
+### GetImageTokens
+
+`func (o *CCPromptTokensDetails) GetImageTokens() int32`
+
+GetImageTokens returns the ImageTokens field if non-nil, zero value otherwise.
+
+### GetImageTokensOk
+
+`func (o *CCPromptTokensDetails) GetImageTokensOk() (*int32, bool)`
+
+GetImageTokensOk returns a tuple with the ImageTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetImageTokens
+
+`func (o *CCPromptTokensDetails) SetImageTokens(v int32)`
+
+SetImageTokens sets ImageTokens field to given value.
+
+### HasImageTokens
+
+`func (o *CCPromptTokensDetails) HasImageTokens() bool`
+
+HasImageTokens returns a boolean if a field has been set.
+
+### SetImageTokensNil
+
+`func (o *CCPromptTokensDetails) SetImageTokensNil(b bool)`
+
+ SetImageTokensNil sets the value for ImageTokens to be an explicit nil
+
+### UnsetImageTokens
+`func (o *CCPromptTokensDetails) UnsetImageTokens()`
+
+UnsetImageTokens ensures that no value is present for ImageTokens, not even an explicit nil
+### GetTextTokens
+
+`func (o *CCPromptTokensDetails) GetTextTokens() int32`
+
+GetTextTokens returns the TextTokens field if non-nil, zero value otherwise.
+
+### GetTextTokensOk
+
+`func (o *CCPromptTokensDetails) GetTextTokensOk() (*int32, bool)`
+
+GetTextTokensOk returns a tuple with the TextTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTextTokens
+
+`func (o *CCPromptTokensDetails) SetTextTokens(v int32)`
+
+SetTextTokens sets TextTokens field to given value.
+
+### HasTextTokens
+
+`func (o *CCPromptTokensDetails) HasTextTokens() bool`
+
+HasTextTokens returns a boolean if a field has been set.
+
+### SetTextTokensNil
+
+`func (o *CCPromptTokensDetails) SetTextTokensNil(b bool)`
+
+ SetTextTokensNil sets the value for TextTokens to be an explicit nil
+
+### UnsetTextTokens
+`func (o *CCPromptTokensDetails) UnsetTextTokens()`
+
+UnsetTextTokens ensures that no value is present for TextTokens, not even an explicit nil
 ### GetCacheCreationTokenDetails
 
 `func (o *CCPromptTokensDetails) GetCacheCreationTokenDetails() CCCacheCreationTokenDetails`
@@ -168,6 +241,41 @@ HasCacheCreationTokenDetails returns a boolean if a field has been set.
 `func (o *CCPromptTokensDetails) UnsetCacheCreationTokenDetails()`
 
 UnsetCacheCreationTokenDetails ensures that no value is present for CacheCreationTokenDetails, not even an explicit nil
+### GetCachedAudioTokens
+
+`func (o *CCPromptTokensDetails) GetCachedAudioTokens() int32`
+
+GetCachedAudioTokens returns the CachedAudioTokens field if non-nil, zero value otherwise.
+
+### GetCachedAudioTokensOk
+
+`func (o *CCPromptTokensDetails) GetCachedAudioTokensOk() (*int32, bool)`
+
+GetCachedAudioTokensOk returns a tuple with the CachedAudioTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCachedAudioTokens
+
+`func (o *CCPromptTokensDetails) SetCachedAudioTokens(v int32)`
+
+SetCachedAudioTokens sets CachedAudioTokens field to given value.
+
+### HasCachedAudioTokens
+
+`func (o *CCPromptTokensDetails) HasCachedAudioTokens() bool`
+
+HasCachedAudioTokens returns a boolean if a field has been set.
+
+### SetCachedAudioTokensNil
+
+`func (o *CCPromptTokensDetails) SetCachedAudioTokensNil(b bool)`
+
+ SetCachedAudioTokensNil sets the value for CachedAudioTokens to be an explicit nil
+
+### UnsetCachedAudioTokens
+`func (o *CCPromptTokensDetails) UnsetCachedAudioTokens()`
+
+UnsetCachedAudioTokens ensures that no value is present for CachedAudioTokens, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

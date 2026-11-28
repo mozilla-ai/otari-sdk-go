@@ -1,0 +1,93 @@
+# DroppedCandidateRecord
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**Detail** | **string** |  | 
+**Reason** | **string** |  | 
+**Selector** | **string** |  | 
+
+## Methods
+
+### NewDroppedCandidateRecord
+
+`func NewDroppedCandidateRecord(detail string, reason string, selector string, ) *DroppedCandidateRecord`
+
+NewDroppedCandidateRecord instantiates a new DroppedCandidateRecord object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewDroppedCandidateRecordWithDefaults
+
+`func NewDroppedCandidateRecordWithDefaults() *DroppedCandidateRecord`
+
+NewDroppedCandidateRecordWithDefaults instantiates a new DroppedCandidateRecord object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetDetail
+
+`func (o *DroppedCandidateRecord) GetDetail() string`
+
+GetDetail returns the Detail field if non-nil, zero value otherwise.
+
+### GetDetailOk
+
+`func (o *DroppedCandidateRecord) GetDetailOk() (*string, bool)`
+
+GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDetail
+
+`func (o *DroppedCandidateRecord) SetDetail(v string)`
+
+SetDetail sets Detail field to given value.
+
+
+### GetReason
+
+`func (o *DroppedCandidateRecord) GetReason() string`
+
+GetReason returns the Reason field if non-nil, zero value otherwise.
+
+### GetReasonOk
+
+`func (o *DroppedCandidateRecord) GetReasonOk() (*string, bool)`
+
+GetReasonOk returns a tuple with the Reason field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReason
+
+`func (o *DroppedCandidateRecord) SetReason(v string)`
+
+SetReason sets Reason field to given value.
+
+
+### GetSelector
+
+`func (o *DroppedCandidateRecord) GetSelector() string`
+
+GetSelector returns the Selector field if non-nil, zero value otherwise.
+
+### GetSelectorOk
+
+`func (o *DroppedCandidateRecord) GetSelectorOk() (*string, bool)`
+
+GetSelectorOk returns a tuple with the Selector field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSelector
+
+`func (o *DroppedCandidateRecord) SetSelector(v string)`
+
+SetSelector sets Selector field to given value.
+
+
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **Name** | **string** |  | 
 **PurposeHint** | Pointer to **NullableString** |  | [optional] 
+**SignInRequired** | Pointer to **bool** | The server sends each user&#39;s own credential and the caller has not signed in to it, so a message that attaches it is refused with mcp_sign_in_required until they do | [optional] [default to false]
 
 ## Methods
 
@@ -123,6 +124,31 @@ HasPurposeHint returns a boolean if a field has been set.
 `func (o *PlaygroundMcpServer) UnsetPurposeHint()`
 
 UnsetPurposeHint ensures that no value is present for PurposeHint, not even an explicit nil
+### GetSignInRequired
+
+`func (o *PlaygroundMcpServer) GetSignInRequired() bool`
+
+GetSignInRequired returns the SignInRequired field if non-nil, zero value otherwise.
+
+### GetSignInRequiredOk
+
+`func (o *PlaygroundMcpServer) GetSignInRequiredOk() (*bool, bool)`
+
+GetSignInRequiredOk returns a tuple with the SignInRequired field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSignInRequired
+
+`func (o *PlaygroundMcpServer) SetSignInRequired(v bool)`
+
+SetSignInRequired sets SignInRequired field to given value.
+
+### HasSignInRequired
+
+`func (o *PlaygroundMcpServer) HasSignInRequired() bool`
+
+HasSignInRequired returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

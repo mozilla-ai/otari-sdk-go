@@ -9,7 +9,9 @@ Name | Type | Description | Notes
 **Name** | Pointer to **NullableString** | Admin-facing label for the budget | [optional] 
 **RequestLimit** | Pointer to **NullableInt32** | Maximum requests over the period. Independent of max_budget; null is unlimited | [optional] 
 **ResetAlignment** | Pointer to **NullableString** | Reset on a UTC calendar boundary instead of a fixed number of seconds, which is the only way to express a calendar month. Mutually exclusive with budget_duration_sec | [optional] 
+**RpmLimit** | Pointer to **NullableInt32** | Requests per minute for each user on this budget, across replicas; null is unlimited | [optional] 
 **TokenLimit** | Pointer to **NullableInt32** | Maximum tokens over the period. Independent of max_budget; null is unlimited | [optional] 
+**TpmLimit** | Pointer to **NullableInt32** | Tokens per minute for each user on this budget, counted on what requests used: a request is admitted while the user&#39;s minute is under the limit. Null is unlimited | [optional] 
 
 ## Methods
 
@@ -205,6 +207,41 @@ HasResetAlignment returns a boolean if a field has been set.
 `func (o *CreateBudgetRequest) UnsetResetAlignment()`
 
 UnsetResetAlignment ensures that no value is present for ResetAlignment, not even an explicit nil
+### GetRpmLimit
+
+`func (o *CreateBudgetRequest) GetRpmLimit() int32`
+
+GetRpmLimit returns the RpmLimit field if non-nil, zero value otherwise.
+
+### GetRpmLimitOk
+
+`func (o *CreateBudgetRequest) GetRpmLimitOk() (*int32, bool)`
+
+GetRpmLimitOk returns a tuple with the RpmLimit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRpmLimit
+
+`func (o *CreateBudgetRequest) SetRpmLimit(v int32)`
+
+SetRpmLimit sets RpmLimit field to given value.
+
+### HasRpmLimit
+
+`func (o *CreateBudgetRequest) HasRpmLimit() bool`
+
+HasRpmLimit returns a boolean if a field has been set.
+
+### SetRpmLimitNil
+
+`func (o *CreateBudgetRequest) SetRpmLimitNil(b bool)`
+
+ SetRpmLimitNil sets the value for RpmLimit to be an explicit nil
+
+### UnsetRpmLimit
+`func (o *CreateBudgetRequest) UnsetRpmLimit()`
+
+UnsetRpmLimit ensures that no value is present for RpmLimit, not even an explicit nil
 ### GetTokenLimit
 
 `func (o *CreateBudgetRequest) GetTokenLimit() int32`
@@ -240,6 +277,41 @@ HasTokenLimit returns a boolean if a field has been set.
 `func (o *CreateBudgetRequest) UnsetTokenLimit()`
 
 UnsetTokenLimit ensures that no value is present for TokenLimit, not even an explicit nil
+### GetTpmLimit
+
+`func (o *CreateBudgetRequest) GetTpmLimit() int32`
+
+GetTpmLimit returns the TpmLimit field if non-nil, zero value otherwise.
+
+### GetTpmLimitOk
+
+`func (o *CreateBudgetRequest) GetTpmLimitOk() (*int32, bool)`
+
+GetTpmLimitOk returns a tuple with the TpmLimit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTpmLimit
+
+`func (o *CreateBudgetRequest) SetTpmLimit(v int32)`
+
+SetTpmLimit sets TpmLimit field to given value.
+
+### HasTpmLimit
+
+`func (o *CreateBudgetRequest) HasTpmLimit() bool`
+
+HasTpmLimit returns a boolean if a field has been set.
+
+### SetTpmLimitNil
+
+`func (o *CreateBudgetRequest) SetTpmLimitNil(b bool)`
+
+ SetTpmLimitNil sets the value for TpmLimit to be an explicit nil
+
+### UnsetTpmLimit
+`func (o *CreateBudgetRequest) UnsetTpmLimit()`
+
+UnsetTpmLimit ensures that no value is present for TpmLimit, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

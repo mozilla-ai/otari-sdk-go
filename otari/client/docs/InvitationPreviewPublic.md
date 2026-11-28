@@ -6,15 +6,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Email** | **string** |  | 
 **ExpiresAt** | **time.Time** |  | 
-**NeedsPassword** | **bool** | Whether the invited address has never signed in here, so accepting should also set its password. False when the address already has a way in, and then accept refuses one. | 
+**NextStep** | [**InvitationNextStep**](InvitationNextStep.md) | What the invited address does to get in. Accept refuses a password unless this is &#39;set_password&#39;. | 
 **OrganizationName** | **string** |  | 
 **Role** | **string** |  | 
+**WaysIn** | **[]string** | What this deployment offers instead, where next_step names them: &#39;provider&#39; (sign in with Google or GitHub) and &#39;password_reset&#39; (choose a password with \&quot;Forgot your password?\&quot;). Empty for the other steps, and empty where the deployment offers neither, in which case whoever administers it has to help. | 
 
 ## Methods
 
 ### NewInvitationPreviewPublic
 
-`func NewInvitationPreviewPublic(email string, expiresAt time.Time, needsPassword bool, organizationName string, role string, ) *InvitationPreviewPublic`
+`func NewInvitationPreviewPublic(email string, expiresAt time.Time, nextStep InvitationNextStep, organizationName string, role string, waysIn []string, ) *InvitationPreviewPublic`
 
 NewInvitationPreviewPublic instantiates a new InvitationPreviewPublic object
 This constructor will assign default values to properties that have it defined,
@@ -69,24 +70,24 @@ and a boolean to check if the value has been set.
 SetExpiresAt sets ExpiresAt field to given value.
 
 
-### GetNeedsPassword
+### GetNextStep
 
-`func (o *InvitationPreviewPublic) GetNeedsPassword() bool`
+`func (o *InvitationPreviewPublic) GetNextStep() InvitationNextStep`
 
-GetNeedsPassword returns the NeedsPassword field if non-nil, zero value otherwise.
+GetNextStep returns the NextStep field if non-nil, zero value otherwise.
 
-### GetNeedsPasswordOk
+### GetNextStepOk
 
-`func (o *InvitationPreviewPublic) GetNeedsPasswordOk() (*bool, bool)`
+`func (o *InvitationPreviewPublic) GetNextStepOk() (*InvitationNextStep, bool)`
 
-GetNeedsPasswordOk returns a tuple with the NeedsPassword field if it's non-nil, zero value otherwise
+GetNextStepOk returns a tuple with the NextStep field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetNeedsPassword
+### SetNextStep
 
-`func (o *InvitationPreviewPublic) SetNeedsPassword(v bool)`
+`func (o *InvitationPreviewPublic) SetNextStep(v InvitationNextStep)`
 
-SetNeedsPassword sets NeedsPassword field to given value.
+SetNextStep sets NextStep field to given value.
 
 
 ### GetOrganizationName
@@ -127,6 +128,26 @@ and a boolean to check if the value has been set.
 `func (o *InvitationPreviewPublic) SetRole(v string)`
 
 SetRole sets Role field to given value.
+
+
+### GetWaysIn
+
+`func (o *InvitationPreviewPublic) GetWaysIn() []string`
+
+GetWaysIn returns the WaysIn field if non-nil, zero value otherwise.
+
+### GetWaysInOk
+
+`func (o *InvitationPreviewPublic) GetWaysInOk() (*[]string, bool)`
+
+GetWaysInOk returns a tuple with the WaysIn field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWaysIn
+
+`func (o *InvitationPreviewPublic) SetWaysIn(v []string)`
+
+SetWaysIn sets WaysIn field to given value.
 
 
 

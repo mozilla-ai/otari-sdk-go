@@ -12,8 +12,10 @@ Name | Type | Description | Notes
 **CacheWriteTokens** | **int32** |  | 
 **CompletionTokens** | **int32** |  | 
 **Cost** | **float32** |  | 
+**DeploymentPaidCost** | Pointer to **float32** |  | [optional] [default to 0.0]
 **ErrorCount** | **int32** |  | 
 **PromptTokens** | **int32** |  | 
+**ReasoningTokens** | Pointer to **int32** |  | [optional] [default to 0]
 **RequestCount** | **int32** |  | 
 **TotalTokens** | **int32** |  | 
 **UnpricedRequests** | Pointer to **int32** |  | [optional] [default to 0]
@@ -217,6 +219,31 @@ and a boolean to check if the value has been set.
 SetCost sets Cost field to given value.
 
 
+### GetDeploymentPaidCost
+
+`func (o *UsageTotals) GetDeploymentPaidCost() float32`
+
+GetDeploymentPaidCost returns the DeploymentPaidCost field if non-nil, zero value otherwise.
+
+### GetDeploymentPaidCostOk
+
+`func (o *UsageTotals) GetDeploymentPaidCostOk() (*float32, bool)`
+
+GetDeploymentPaidCostOk returns a tuple with the DeploymentPaidCost field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDeploymentPaidCost
+
+`func (o *UsageTotals) SetDeploymentPaidCost(v float32)`
+
+SetDeploymentPaidCost sets DeploymentPaidCost field to given value.
+
+### HasDeploymentPaidCost
+
+`func (o *UsageTotals) HasDeploymentPaidCost() bool`
+
+HasDeploymentPaidCost returns a boolean if a field has been set.
+
 ### GetErrorCount
 
 `func (o *UsageTotals) GetErrorCount() int32`
@@ -256,6 +283,31 @@ and a boolean to check if the value has been set.
 
 SetPromptTokens sets PromptTokens field to given value.
 
+
+### GetReasoningTokens
+
+`func (o *UsageTotals) GetReasoningTokens() int32`
+
+GetReasoningTokens returns the ReasoningTokens field if non-nil, zero value otherwise.
+
+### GetReasoningTokensOk
+
+`func (o *UsageTotals) GetReasoningTokensOk() (*int32, bool)`
+
+GetReasoningTokensOk returns a tuple with the ReasoningTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReasoningTokens
+
+`func (o *UsageTotals) SetReasoningTokens(v int32)`
+
+SetReasoningTokens sets ReasoningTokens field to given value.
+
+### HasReasoningTokens
+
+`func (o *UsageTotals) HasReasoningTokens() bool`
+
+HasReasoningTokens returns a boolean if a field has been set.
 
 ### GetRequestCount
 

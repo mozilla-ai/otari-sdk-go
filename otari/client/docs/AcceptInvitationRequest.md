@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **FullName** | Pointer to **NullableString** | Filled in only if not already set. | [optional] 
-**Password** | Pointer to **NullableString** | Sets the invited identity&#39;s password in the same step, when the preview reported needs_password. Needs no mail: the link is the proof, whether it was emailed or an admin handed it over. | [optional] 
+**Password** | Pointer to **NullableString** | Sets the invited identity&#39;s password in the same step, where the preview answered a next_step of &#39;set_password&#39;. Needs no mail: the link is the proof, whether it was emailed or an admin handed it over. | [optional] 
 **TermsAccepted** | Pointer to **bool** | Whether the caller accepted this deployment&#39;s terms. | [optional] [default to false]
 **Token** | **string** |  | 
 

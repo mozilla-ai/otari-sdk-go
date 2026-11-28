@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Alias** | Pointer to **NullableString** |  | [optional] 
 **AllowedModels** | Pointer to **[]string** |  | [optional] 
+**AllowedTools** | Pointer to **[]string** |  | [optional] 
 **Blocked** | Pointer to **NullableBool** |  | [optional] 
 **BudgetId** | Pointer to **NullableString** |  | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
@@ -99,6 +100,41 @@ HasAllowedModels returns a boolean if a field has been set.
 `func (o *UpdateUserRequest) UnsetAllowedModels()`
 
 UnsetAllowedModels ensures that no value is present for AllowedModels, not even an explicit nil
+### GetAllowedTools
+
+`func (o *UpdateUserRequest) GetAllowedTools() []string`
+
+GetAllowedTools returns the AllowedTools field if non-nil, zero value otherwise.
+
+### GetAllowedToolsOk
+
+`func (o *UpdateUserRequest) GetAllowedToolsOk() (*[]string, bool)`
+
+GetAllowedToolsOk returns a tuple with the AllowedTools field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAllowedTools
+
+`func (o *UpdateUserRequest) SetAllowedTools(v []string)`
+
+SetAllowedTools sets AllowedTools field to given value.
+
+### HasAllowedTools
+
+`func (o *UpdateUserRequest) HasAllowedTools() bool`
+
+HasAllowedTools returns a boolean if a field has been set.
+
+### SetAllowedToolsNil
+
+`func (o *UpdateUserRequest) SetAllowedToolsNil(b bool)`
+
+ SetAllowedToolsNil sets the value for AllowedTools to be an explicit nil
+
+### UnsetAllowedTools
+`func (o *UpdateUserRequest) UnsetAllowedTools()`
+
+UnsetAllowedTools ensures that no value is present for AllowedTools, not even an explicit nil
 ### GetBlocked
 
 `func (o *UpdateUserRequest) GetBlocked() bool`

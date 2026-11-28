@@ -5,20 +5,25 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ContextWindow** | Pointer to **NullableInt32** |  | [optional] 
-**Credential** | [**CatalogCredential**](CatalogCredential.md) | Who may price it: &#x60;deployment&#x60; for a &#x60;providers:&#x60; instance the operator configured, &#x60;hosted&#x60; for a provider the deployment pays for in any workspace of the viewer&#39;s organization, &#x60;organization&#x60; for one the viewer&#39;s organization may set its own rate for. A workspace can still call a &#x60;hosted&#x60; provider with the organization&#39;s own key. | 
+**Credential** | [**CatalogCredential**](CatalogCredential.md) | Whose key serves it: &#x60;deployment&#x60; for a &#x60;providers:&#x60; instance the operator configured, &#x60;hosted&#x60; for a provider the deployment pays for in any workspace of the viewer&#39;s organization, &#x60;organization&#x60; for one on the organization&#39;s own key, which it may set its own rate for. A workspace can still call a &#x60;hosted&#x60; provider with the organization&#39;s own key. | 
+**DataLocations** | Pointer to **[]string** | Where a &#x60;hosted&#x60; offering&#39;s provider keeps request data, one entry per place it may serve from, distinct and sorted; empty where it declares none and for every other offering. | [optional] 
 **Discovered** | **bool** | Whether the provider itself reported this model. | 
+**Endpoints** | Pointer to **[]string** | The Otari routes its models.dev protocols map to, below the API base, in models.dev&#39;s order. &#x60;/decisions&#x60; and &#x60;/systemone&#x60; take only a &#x60;decision_providers&#x60; selector, not this one. Empty when not known: models.dev has no entry for the offering, or names no protocol Otari serves. | [optional] 
 **MaxOutputTokens** | Pointer to **NullableInt32** |  | [optional] 
-**MetadataInputPricePerMillion** | Pointer to **NullableFloat32** | What models.dev lists this provider charging, for a cross-check. Not billed from: two independent datasets disagreeing is the cheapest stale-price detector there is. | [optional] 
+**MetadataInputPricePerMillion** | Pointer to **NullableFloat32** | What the live models.dev catalog lists this provider charging. The default is billed from the accepted models.dev snapshot, which can lag the live catalog, so a difference means a price update is waiting for review. | [optional] 
 **MetadataOutputPricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
-**PriceReference** | Pointer to **NullableString** | For a default, the genai-prices &#x60;provider:model&#x60; entry that matched; the selector otherwise. | [optional] 
-**PriceSource** | Pointer to **NullableString** | Which price list &#x60;pricing&#x60; came from, for this viewer: the organization&#39;s own override, the deployment&#39;s stored row, or the genai-prices defaults. Null when nothing prices it. | [optional] 
+**MetadataOverride** | Pointer to [**NullableModelMetadataOverrideRequest**](ModelMetadataOverrideRequest.md) | What whoever holds the serving key set in place of the server&#39;s and models.dev&#39;s word: the organization for an &#x60;organization&#x60; offering, the operator otherwise. Null when nothing is set. | [optional] 
+**PriceReference** | Pointer to **NullableString** | For a default, the &#x60;models.dev:&lt;provider&gt;/&lt;model&gt;&#x60; entry that matched; the selector otherwise. | [optional] 
+**PriceSource** | Pointer to **NullableString** | Which price list &#x60;pricing&#x60; came from, for this viewer: the organization&#39;s own override, the deployment&#39;s stored row, or the models.dev defaults. Null when nothing prices it. | [optional] 
 **Pricing** | Pointer to [**NullableModelPricingInfo**](ModelPricingInfo.md) |  | [optional] 
 **Provider** | **string** | The provider instance the selector names. | 
 **ProviderType** | **string** | The any-llm implementation behind the instance. | 
 **Quantization** | Pointer to **NullableString** | From the provider&#39;s id, when it names one. | [optional] 
 **Selector** | **string** | What to send as &#x60;model&#x60;, in &#x60;instance:model&#x60; form. | 
-**ShortSelector** | Pointer to **NullableString** | The pinned spelling the gateway also accepts for this offering: the instance with the model&#39;s catalog id (&#x60;fireworks:openai/gpt-oss-120b&#x60;), which pins the instance and reaches the model&#39;s cheapest offering on it. Null for a dearer sibling on the same instance, or until the gateway has indexed the catalog. | [optional] 
+**ShortSelector** | Pointer to **NullableString** | The pinned spelling the gateway also accepts for this offering: the instance with the model&#39;s catalog id (&#x60;fireworks:openai/gpt-oss-120b&#x60;), which pins the instance and reaches the model&#39;s best offering on it. Null for another build on the same instance, or until the gateway has indexed the catalog. | [optional] 
+**Speed7d** | Pointer to [**NullableOfferingSpeedInfo**](OfferingSpeedInfo.md) |  | [optional] 
 **Usage30d** | Pointer to [**NullableOfferingUsage**](OfferingUsage.md) |  | [optional] 
+**ZeroDataRetention** | Pointer to **bool** | Whether whoever holds the serving key declared that the provider keeps no prompt or completion data: the operator for a &#x60;hosted&#x60; offering, the organization for one on its own keys, where every usable key of the provider must declare it. A declaration, not something the gateway can verify. | [optional] [default to false]
 
 ## Methods
 
@@ -94,6 +99,31 @@ and a boolean to check if the value has been set.
 SetCredential sets Credential field to given value.
 
 
+### GetDataLocations
+
+`func (o *CatalogOffering) GetDataLocations() []string`
+
+GetDataLocations returns the DataLocations field if non-nil, zero value otherwise.
+
+### GetDataLocationsOk
+
+`func (o *CatalogOffering) GetDataLocationsOk() (*[]string, bool)`
+
+GetDataLocationsOk returns a tuple with the DataLocations field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDataLocations
+
+`func (o *CatalogOffering) SetDataLocations(v []string)`
+
+SetDataLocations sets DataLocations field to given value.
+
+### HasDataLocations
+
+`func (o *CatalogOffering) HasDataLocations() bool`
+
+HasDataLocations returns a boolean if a field has been set.
+
 ### GetDiscovered
 
 `func (o *CatalogOffering) GetDiscovered() bool`
@@ -113,6 +143,31 @@ and a boolean to check if the value has been set.
 
 SetDiscovered sets Discovered field to given value.
 
+
+### GetEndpoints
+
+`func (o *CatalogOffering) GetEndpoints() []string`
+
+GetEndpoints returns the Endpoints field if non-nil, zero value otherwise.
+
+### GetEndpointsOk
+
+`func (o *CatalogOffering) GetEndpointsOk() (*[]string, bool)`
+
+GetEndpointsOk returns a tuple with the Endpoints field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndpoints
+
+`func (o *CatalogOffering) SetEndpoints(v []string)`
+
+SetEndpoints sets Endpoints field to given value.
+
+### HasEndpoints
+
+`func (o *CatalogOffering) HasEndpoints() bool`
+
+HasEndpoints returns a boolean if a field has been set.
 
 ### GetMaxOutputTokens
 
@@ -219,6 +274,41 @@ HasMetadataOutputPricePerMillion returns a boolean if a field has been set.
 `func (o *CatalogOffering) UnsetMetadataOutputPricePerMillion()`
 
 UnsetMetadataOutputPricePerMillion ensures that no value is present for MetadataOutputPricePerMillion, not even an explicit nil
+### GetMetadataOverride
+
+`func (o *CatalogOffering) GetMetadataOverride() ModelMetadataOverrideRequest`
+
+GetMetadataOverride returns the MetadataOverride field if non-nil, zero value otherwise.
+
+### GetMetadataOverrideOk
+
+`func (o *CatalogOffering) GetMetadataOverrideOk() (*ModelMetadataOverrideRequest, bool)`
+
+GetMetadataOverrideOk returns a tuple with the MetadataOverride field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetadataOverride
+
+`func (o *CatalogOffering) SetMetadataOverride(v ModelMetadataOverrideRequest)`
+
+SetMetadataOverride sets MetadataOverride field to given value.
+
+### HasMetadataOverride
+
+`func (o *CatalogOffering) HasMetadataOverride() bool`
+
+HasMetadataOverride returns a boolean if a field has been set.
+
+### SetMetadataOverrideNil
+
+`func (o *CatalogOffering) SetMetadataOverrideNil(b bool)`
+
+ SetMetadataOverrideNil sets the value for MetadataOverride to be an explicit nil
+
+### UnsetMetadataOverride
+`func (o *CatalogOffering) UnsetMetadataOverride()`
+
+UnsetMetadataOverride ensures that no value is present for MetadataOverride, not even an explicit nil
 ### GetPriceReference
 
 `func (o *CatalogOffering) GetPriceReference() string`
@@ -454,6 +544,41 @@ HasShortSelector returns a boolean if a field has been set.
 `func (o *CatalogOffering) UnsetShortSelector()`
 
 UnsetShortSelector ensures that no value is present for ShortSelector, not even an explicit nil
+### GetSpeed7d
+
+`func (o *CatalogOffering) GetSpeed7d() OfferingSpeedInfo`
+
+GetSpeed7d returns the Speed7d field if non-nil, zero value otherwise.
+
+### GetSpeed7dOk
+
+`func (o *CatalogOffering) GetSpeed7dOk() (*OfferingSpeedInfo, bool)`
+
+GetSpeed7dOk returns a tuple with the Speed7d field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSpeed7d
+
+`func (o *CatalogOffering) SetSpeed7d(v OfferingSpeedInfo)`
+
+SetSpeed7d sets Speed7d field to given value.
+
+### HasSpeed7d
+
+`func (o *CatalogOffering) HasSpeed7d() bool`
+
+HasSpeed7d returns a boolean if a field has been set.
+
+### SetSpeed7dNil
+
+`func (o *CatalogOffering) SetSpeed7dNil(b bool)`
+
+ SetSpeed7dNil sets the value for Speed7d to be an explicit nil
+
+### UnsetSpeed7d
+`func (o *CatalogOffering) UnsetSpeed7d()`
+
+UnsetSpeed7d ensures that no value is present for Speed7d, not even an explicit nil
 ### GetUsage30d
 
 `func (o *CatalogOffering) GetUsage30d() OfferingUsage`
@@ -489,6 +614,31 @@ HasUsage30d returns a boolean if a field has been set.
 `func (o *CatalogOffering) UnsetUsage30d()`
 
 UnsetUsage30d ensures that no value is present for Usage30d, not even an explicit nil
+### GetZeroDataRetention
+
+`func (o *CatalogOffering) GetZeroDataRetention() bool`
+
+GetZeroDataRetention returns the ZeroDataRetention field if non-nil, zero value otherwise.
+
+### GetZeroDataRetentionOk
+
+`func (o *CatalogOffering) GetZeroDataRetentionOk() (*bool, bool)`
+
+GetZeroDataRetentionOk returns a tuple with the ZeroDataRetention field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetZeroDataRetention
+
+`func (o *CatalogOffering) SetZeroDataRetention(v bool)`
+
+SetZeroDataRetention sets ZeroDataRetention field to given value.
+
+### HasZeroDataRetention
+
+`func (o *CatalogOffering) HasZeroDataRetention() bool`
+
+HasZeroDataRetention returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

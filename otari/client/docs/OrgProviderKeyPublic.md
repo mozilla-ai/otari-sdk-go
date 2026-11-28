@@ -8,20 +8,26 @@ Name | Type | Description | Notes
 **ArchivedAt** | Pointer to **NullableTime** |  | [optional] 
 **ClientArgs** | Pointer to **map[string]interface{}** |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
+**EndpointAuth** | Pointer to [**NullableEndpointAuthPublic**](EndpointAuthPublic.md) |  | [optional] 
+**EndpointAuthUnreadable** | Pointer to **bool** | True where the key stores an endpoint credential this deployment cannot read, so &#x60;endpoint_auth&#x60; is absent while the key still carries one. Holding one that cannot be read is a third state, distinct from holding none: it is what a client needs to report it and offer to remove it. | [optional] [default to false]
 **Id** | **string** |  | 
 **IsOrgDefault** | **bool** |  | 
 **Last4** | Pointer to **NullableString** |  | [optional] 
 **Name** | **string** |  | 
+**OfferedCount** | **int32** | How many models the organization offers on this key. Zero means the key has never been refreshed, so it is unnarrowed and reaches whatever its provider serves. | 
 **OrganizationId** | **string** |  | 
 **Provider** | **string** |  | 
+**ServingCount** | **int32** | How many of the offered models have their serving switch on. A key offering models and serving none refuses every request through it until one is switched on. | 
+**Slug** | Pointer to **NullableString** | What requests name this key by, as in &#x60;&lt;slug&gt;:&lt;model&gt;&#x60;, for a key with a custom base URL. Absent for a key reached as &#x60;&lt;provider&gt;:&lt;model&gt;&#x60;. | [optional] 
 **UpdatedAt** | Pointer to **NullableTime** |  | [optional] 
-**Usable** | **bool** | False when the stored credential cannot be decrypted on this deployment, so the key supplies nothing at dispatch and the catalog withholds its provider. A row this deployment cannot read is still listed, because deleting or replacing it is what fixes it. | 
+**Usable** | **bool** | False when the key cannot be served as stored, so it supplies nothing at dispatch and the catalog withholds its provider: a credential this deployment cannot decrypt or read, a provider that cannot take a custom base URL, or an endpoint credential the key may not carry. Such a row is still listed, because deleting or replacing it is what fixes it. | 
+**ZeroDataRetention** | Pointer to **bool** |  | [optional] [default to false]
 
 ## Methods
 
 ### NewOrgProviderKeyPublic
 
-`func NewOrgProviderKeyPublic(createdAt time.Time, id string, isOrgDefault bool, name string, organizationId string, provider string, usable bool, ) *OrgProviderKeyPublic`
+`func NewOrgProviderKeyPublic(createdAt time.Time, id string, isOrgDefault bool, name string, offeredCount int32, organizationId string, provider string, servingCount int32, usable bool, ) *OrgProviderKeyPublic`
 
 NewOrgProviderKeyPublic instantiates a new OrgProviderKeyPublic object
 This constructor will assign default values to properties that have it defined,
@@ -161,6 +167,66 @@ and a boolean to check if the value has been set.
 SetCreatedAt sets CreatedAt field to given value.
 
 
+### GetEndpointAuth
+
+`func (o *OrgProviderKeyPublic) GetEndpointAuth() EndpointAuthPublic`
+
+GetEndpointAuth returns the EndpointAuth field if non-nil, zero value otherwise.
+
+### GetEndpointAuthOk
+
+`func (o *OrgProviderKeyPublic) GetEndpointAuthOk() (*EndpointAuthPublic, bool)`
+
+GetEndpointAuthOk returns a tuple with the EndpointAuth field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndpointAuth
+
+`func (o *OrgProviderKeyPublic) SetEndpointAuth(v EndpointAuthPublic)`
+
+SetEndpointAuth sets EndpointAuth field to given value.
+
+### HasEndpointAuth
+
+`func (o *OrgProviderKeyPublic) HasEndpointAuth() bool`
+
+HasEndpointAuth returns a boolean if a field has been set.
+
+### SetEndpointAuthNil
+
+`func (o *OrgProviderKeyPublic) SetEndpointAuthNil(b bool)`
+
+ SetEndpointAuthNil sets the value for EndpointAuth to be an explicit nil
+
+### UnsetEndpointAuth
+`func (o *OrgProviderKeyPublic) UnsetEndpointAuth()`
+
+UnsetEndpointAuth ensures that no value is present for EndpointAuth, not even an explicit nil
+### GetEndpointAuthUnreadable
+
+`func (o *OrgProviderKeyPublic) GetEndpointAuthUnreadable() bool`
+
+GetEndpointAuthUnreadable returns the EndpointAuthUnreadable field if non-nil, zero value otherwise.
+
+### GetEndpointAuthUnreadableOk
+
+`func (o *OrgProviderKeyPublic) GetEndpointAuthUnreadableOk() (*bool, bool)`
+
+GetEndpointAuthUnreadableOk returns a tuple with the EndpointAuthUnreadable field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEndpointAuthUnreadable
+
+`func (o *OrgProviderKeyPublic) SetEndpointAuthUnreadable(v bool)`
+
+SetEndpointAuthUnreadable sets EndpointAuthUnreadable field to given value.
+
+### HasEndpointAuthUnreadable
+
+`func (o *OrgProviderKeyPublic) HasEndpointAuthUnreadable() bool`
+
+HasEndpointAuthUnreadable returns a boolean if a field has been set.
+
 ### GetId
 
 `func (o *OrgProviderKeyPublic) GetId() string`
@@ -256,6 +322,26 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
+### GetOfferedCount
+
+`func (o *OrgProviderKeyPublic) GetOfferedCount() int32`
+
+GetOfferedCount returns the OfferedCount field if non-nil, zero value otherwise.
+
+### GetOfferedCountOk
+
+`func (o *OrgProviderKeyPublic) GetOfferedCountOk() (*int32, bool)`
+
+GetOfferedCountOk returns a tuple with the OfferedCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOfferedCount
+
+`func (o *OrgProviderKeyPublic) SetOfferedCount(v int32)`
+
+SetOfferedCount sets OfferedCount field to given value.
+
+
 ### GetOrganizationId
 
 `func (o *OrgProviderKeyPublic) GetOrganizationId() string`
@@ -296,6 +382,61 @@ and a boolean to check if the value has been set.
 SetProvider sets Provider field to given value.
 
 
+### GetServingCount
+
+`func (o *OrgProviderKeyPublic) GetServingCount() int32`
+
+GetServingCount returns the ServingCount field if non-nil, zero value otherwise.
+
+### GetServingCountOk
+
+`func (o *OrgProviderKeyPublic) GetServingCountOk() (*int32, bool)`
+
+GetServingCountOk returns a tuple with the ServingCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetServingCount
+
+`func (o *OrgProviderKeyPublic) SetServingCount(v int32)`
+
+SetServingCount sets ServingCount field to given value.
+
+
+### GetSlug
+
+`func (o *OrgProviderKeyPublic) GetSlug() string`
+
+GetSlug returns the Slug field if non-nil, zero value otherwise.
+
+### GetSlugOk
+
+`func (o *OrgProviderKeyPublic) GetSlugOk() (*string, bool)`
+
+GetSlugOk returns a tuple with the Slug field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSlug
+
+`func (o *OrgProviderKeyPublic) SetSlug(v string)`
+
+SetSlug sets Slug field to given value.
+
+### HasSlug
+
+`func (o *OrgProviderKeyPublic) HasSlug() bool`
+
+HasSlug returns a boolean if a field has been set.
+
+### SetSlugNil
+
+`func (o *OrgProviderKeyPublic) SetSlugNil(b bool)`
+
+ SetSlugNil sets the value for Slug to be an explicit nil
+
+### UnsetSlug
+`func (o *OrgProviderKeyPublic) UnsetSlug()`
+
+UnsetSlug ensures that no value is present for Slug, not even an explicit nil
 ### GetUpdatedAt
 
 `func (o *OrgProviderKeyPublic) GetUpdatedAt() time.Time`
@@ -350,6 +491,31 @@ and a boolean to check if the value has been set.
 
 SetUsable sets Usable field to given value.
 
+
+### GetZeroDataRetention
+
+`func (o *OrgProviderKeyPublic) GetZeroDataRetention() bool`
+
+GetZeroDataRetention returns the ZeroDataRetention field if non-nil, zero value otherwise.
+
+### GetZeroDataRetentionOk
+
+`func (o *OrgProviderKeyPublic) GetZeroDataRetentionOk() (*bool, bool)`
+
+GetZeroDataRetentionOk returns a tuple with the ZeroDataRetention field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetZeroDataRetention
+
+`func (o *OrgProviderKeyPublic) SetZeroDataRetention(v bool)`
+
+SetZeroDataRetention sets ZeroDataRetention field to given value.
+
+### HasZeroDataRetention
+
+`func (o *OrgProviderKeyPublic) HasZeroDataRetention() bool`
+
+HasZeroDataRetention returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

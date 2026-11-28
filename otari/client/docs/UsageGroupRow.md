@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **IsOther** | Pointer to **bool** |  | [optional] [default to false]
 **Key** | **NullableString** |  | 
 **Label** | Pointer to **NullableString** |  | [optional] 
+**ModelGroup** | Pointer to **NullableString** |  | [optional] 
 **Requests** | **int32** |  | 
 **Tokens** | **int32** |  | 
 
@@ -140,6 +141,41 @@ HasLabel returns a boolean if a field has been set.
 `func (o *UsageGroupRow) UnsetLabel()`
 
 UnsetLabel ensures that no value is present for Label, not even an explicit nil
+### GetModelGroup
+
+`func (o *UsageGroupRow) GetModelGroup() string`
+
+GetModelGroup returns the ModelGroup field if non-nil, zero value otherwise.
+
+### GetModelGroupOk
+
+`func (o *UsageGroupRow) GetModelGroupOk() (*string, bool)`
+
+GetModelGroupOk returns a tuple with the ModelGroup field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetModelGroup
+
+`func (o *UsageGroupRow) SetModelGroup(v string)`
+
+SetModelGroup sets ModelGroup field to given value.
+
+### HasModelGroup
+
+`func (o *UsageGroupRow) HasModelGroup() bool`
+
+HasModelGroup returns a boolean if a field has been set.
+
+### SetModelGroupNil
+
+`func (o *UsageGroupRow) SetModelGroupNil(b bool)`
+
+ SetModelGroupNil sets the value for ModelGroup to be an explicit nil
+
+### UnsetModelGroup
+`func (o *UsageGroupRow) UnsetModelGroup()`
+
+UnsetModelGroup ensures that no value is present for ModelGroup, not even an explicit nil
 ### GetRequests
 
 `func (o *UsageGroupRow) GetRequests() int32`

@@ -5,12 +5,12 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CacheReadPricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
-**CacheWrite1hPricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
 **CacheWritePricePerMillion** | Pointer to **NullableFloat32** |  | [optional] 
 **InputPricePerMillion** | **float32** |  | 
 **OutputPricePerMillion** | **float32** |  | 
 **PricingTiers** | Pointer to [**[]PricingTiersInner**](PricingTiersInner.md) |  | [optional] 
-**Unit** | Pointer to **string** |  | [optional] [default to "tokens"]
+**Rates** | Pointer to **map[string]interface{}** | Every price of the row as a models.dev cost block: each modality&#39;s input and output price with its unit, web_search, and the overrides and multipliers that change a price when a condition holds. The fields above are its text view. Null where the stored block cannot be read. | [optional] 
+**Unit** | Pointer to **string** |  | [optional] [default to "token"]
 
 ## Methods
 
@@ -66,41 +66,6 @@ HasCacheReadPricePerMillion returns a boolean if a field has been set.
 `func (o *ModelPricingInfo) UnsetCacheReadPricePerMillion()`
 
 UnsetCacheReadPricePerMillion ensures that no value is present for CacheReadPricePerMillion, not even an explicit nil
-### GetCacheWrite1hPricePerMillion
-
-`func (o *ModelPricingInfo) GetCacheWrite1hPricePerMillion() float32`
-
-GetCacheWrite1hPricePerMillion returns the CacheWrite1hPricePerMillion field if non-nil, zero value otherwise.
-
-### GetCacheWrite1hPricePerMillionOk
-
-`func (o *ModelPricingInfo) GetCacheWrite1hPricePerMillionOk() (*float32, bool)`
-
-GetCacheWrite1hPricePerMillionOk returns a tuple with the CacheWrite1hPricePerMillion field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCacheWrite1hPricePerMillion
-
-`func (o *ModelPricingInfo) SetCacheWrite1hPricePerMillion(v float32)`
-
-SetCacheWrite1hPricePerMillion sets CacheWrite1hPricePerMillion field to given value.
-
-### HasCacheWrite1hPricePerMillion
-
-`func (o *ModelPricingInfo) HasCacheWrite1hPricePerMillion() bool`
-
-HasCacheWrite1hPricePerMillion returns a boolean if a field has been set.
-
-### SetCacheWrite1hPricePerMillionNil
-
-`func (o *ModelPricingInfo) SetCacheWrite1hPricePerMillionNil(b bool)`
-
- SetCacheWrite1hPricePerMillionNil sets the value for CacheWrite1hPricePerMillion to be an explicit nil
-
-### UnsetCacheWrite1hPricePerMillion
-`func (o *ModelPricingInfo) UnsetCacheWrite1hPricePerMillion()`
-
-UnsetCacheWrite1hPricePerMillion ensures that no value is present for CacheWrite1hPricePerMillion, not even an explicit nil
 ### GetCacheWritePricePerMillion
 
 `func (o *ModelPricingInfo) GetCacheWritePricePerMillion() float32`
@@ -201,6 +166,41 @@ SetPricingTiers sets PricingTiers field to given value.
 
 HasPricingTiers returns a boolean if a field has been set.
 
+### GetRates
+
+`func (o *ModelPricingInfo) GetRates() map[string]interface{}`
+
+GetRates returns the Rates field if non-nil, zero value otherwise.
+
+### GetRatesOk
+
+`func (o *ModelPricingInfo) GetRatesOk() (*map[string]interface{}, bool)`
+
+GetRatesOk returns a tuple with the Rates field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRates
+
+`func (o *ModelPricingInfo) SetRates(v map[string]interface{})`
+
+SetRates sets Rates field to given value.
+
+### HasRates
+
+`func (o *ModelPricingInfo) HasRates() bool`
+
+HasRates returns a boolean if a field has been set.
+
+### SetRatesNil
+
+`func (o *ModelPricingInfo) SetRatesNil(b bool)`
+
+ SetRatesNil sets the value for Rates to be an explicit nil
+
+### UnsetRates
+`func (o *ModelPricingInfo) UnsetRates()`
+
+UnsetRates ensures that no value is present for Rates, not even an explicit nil
 ### GetUnit
 
 `func (o *ModelPricingInfo) GetUnit() string`

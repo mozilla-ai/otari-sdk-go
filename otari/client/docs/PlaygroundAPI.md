@@ -6,8 +6,10 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**PlaygroundDeletePlaygroundComparison**](PlaygroundAPI.md#PlaygroundDeletePlaygroundComparison) | **Delete** /api/v1/playground/comparisons/{comparison_id} | Delete Playground Comparison
 [**PlaygroundDeletePlaygroundConversation**](PlaygroundAPI.md#PlaygroundDeletePlaygroundConversation) | **Delete** /api/v1/playground/conversations/{conversation_id} | Delete Playground Conversation
+[**PlaygroundDeletePlaygroundFile**](PlaygroundAPI.md#PlaygroundDeletePlaygroundFile) | **Delete** /api/v1/playground/files/{file_id} | Delete Playground File
 [**PlaygroundListPlaygroundComparisons**](PlaygroundAPI.md#PlaygroundListPlaygroundComparisons) | **Get** /api/v1/playground/comparisons | List Playground Comparisons
 [**PlaygroundListPlaygroundConversations**](PlaygroundAPI.md#PlaygroundListPlaygroundConversations) | **Get** /api/v1/playground/conversations | List Playground Conversations
+[**PlaygroundListPlaygroundFiles**](PlaygroundAPI.md#PlaygroundListPlaygroundFiles) | **Get** /api/v1/playground/files | List Playground Files
 [**PlaygroundPlaygroundChatCompletions**](PlaygroundAPI.md#PlaygroundPlaygroundChatCompletions) | **Post** /api/v1/playground/chat/completions | Playground Chat Completions
 [**PlaygroundReadPlaygroundConsent**](PlaygroundAPI.md#PlaygroundReadPlaygroundConsent) | **Get** /api/v1/playground/consent | Read Playground Consent
 [**PlaygroundReadPlaygroundConversationMessages**](PlaygroundAPI.md#PlaygroundReadPlaygroundConversationMessages) | **Get** /api/v1/playground/conversations/{conversation_id}/messages | Read Playground Conversation Messages
@@ -17,6 +19,7 @@ Method | HTTP request | Description
 [**PlaygroundSavePlaygroundComparison**](PlaygroundAPI.md#PlaygroundSavePlaygroundComparison) | **Post** /api/v1/playground/comparisons | Save Playground Comparison
 [**PlaygroundSavePlaygroundConversation**](PlaygroundAPI.md#PlaygroundSavePlaygroundConversation) | **Post** /api/v1/playground/conversations | Save Playground Conversation
 [**PlaygroundUpdatePlaygroundConsent**](PlaygroundAPI.md#PlaygroundUpdatePlaygroundConsent) | **Put** /api/v1/playground/consent | Update Playground Consent
+[**PlaygroundUploadPlaygroundFile**](PlaygroundAPI.md#PlaygroundUploadPlaygroundFile) | **Post** /api/v1/playground/files | Upload Playground File
 
 
 
@@ -156,6 +159,78 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## PlaygroundDeletePlaygroundFile
+
+> OpenAIFileDeleted PlaygroundDeletePlaygroundFile(ctx, fileId).WorkspaceId(workspaceId).Execute()
+
+Delete Playground File
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	fileId := "fileId_example" // string | 
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Workspace to act in. Defaults to the caller's organization's default workspace. A workspace the caller is not a member of answers 404, as a nonexistent one does. (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PlaygroundAPI.PlaygroundDeletePlaygroundFile(context.Background(), fileId).WorkspaceId(workspaceId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PlaygroundAPI.PlaygroundDeletePlaygroundFile``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PlaygroundDeletePlaygroundFile`: OpenAIFileDeleted
+	fmt.Fprintf(os.Stdout, "Response from `PlaygroundAPI.PlaygroundDeletePlaygroundFile`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**fileId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPlaygroundDeletePlaygroundFileRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **workspaceId** | **string** | Workspace to act in. Defaults to the caller&#39;s organization&#39;s default workspace. A workspace the caller is not a member of answers 404, as a nonexistent one does. | 
+
+### Return type
+
+[**OpenAIFileDeleted**](OpenAIFileDeleted.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## PlaygroundListPlaygroundComparisons
 
 > PlaygroundComparisonsPublic PlaygroundListPlaygroundComparisons(ctx).WorkspaceId(workspaceId).Execute()
@@ -273,6 +348,76 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**PlaygroundConversationsPublic**](PlaygroundConversationsPublic.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PlaygroundListPlaygroundFiles
+
+> OpenAIFileList PlaygroundListPlaygroundFiles(ctx).WorkspaceId(workspaceId).Limit(limit).After(after).Execute()
+
+List Playground Files
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Workspace to act in. Defaults to the caller's organization's default workspace. A workspace the caller is not a member of answers 404, as a nonexistent one does. (optional)
+	limit := int32(56) // int32 |  (optional) (default to 100)
+	after := "after_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PlaygroundAPI.PlaygroundListPlaygroundFiles(context.Background()).WorkspaceId(workspaceId).Limit(limit).After(after).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PlaygroundAPI.PlaygroundListPlaygroundFiles``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PlaygroundListPlaygroundFiles`: OpenAIFileList
+	fmt.Fprintf(os.Stdout, "Response from `PlaygroundAPI.PlaygroundListPlaygroundFiles`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPlaygroundListPlaygroundFilesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspaceId** | **string** | Workspace to act in. Defaults to the caller&#39;s organization&#39;s default workspace. A workspace the caller is not a member of answers 404, as a nonexistent one does. | 
+ **limit** | **int32** |  | [default to 100]
+ **after** | **string** |  | 
+
+### Return type
+
+[**OpenAIFileList**](OpenAIFileList.md)
 
 ### Authorization
 
@@ -878,6 +1023,74 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PlaygroundUploadPlaygroundFile
+
+> OpenAIFileObject PlaygroundUploadPlaygroundFile(ctx).File(file).WorkspaceId(workspaceId).Execute()
+
+Upload Playground File
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	file := "file_example" // string | 
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Workspace to act in. Defaults to the caller's organization's default workspace. A workspace the caller is not a member of answers 404, as a nonexistent one does. (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PlaygroundAPI.PlaygroundUploadPlaygroundFile(context.Background()).File(file).WorkspaceId(workspaceId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PlaygroundAPI.PlaygroundUploadPlaygroundFile``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PlaygroundUploadPlaygroundFile`: OpenAIFileObject
+	fmt.Fprintf(os.Stdout, "Response from `PlaygroundAPI.PlaygroundUploadPlaygroundFile`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPlaygroundUploadPlaygroundFileRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file** | **string** |  | 
+ **workspaceId** | **string** | Workspace to act in. Defaults to the caller&#39;s organization&#39;s default workspace. A workspace the caller is not a member of answers 404, as a nonexistent one does. | 
+
+### Return type
+
+[**OpenAIFileObject**](OpenAIFileObject.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

@@ -6,8 +6,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AcceptedPredictionTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
 **AudioTokens** | Pointer to **NullableInt32** |  | [optional] 
-**ReasoningTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
+**ReasoningTokens** | Pointer to **NullableInt32** |  | [optional] 
 **RejectedPredictionTokens** | Pointer to **NullableInt32** | Filter to a single failure status code (e.g. 429 for provider rate limits, 402 for missing-pricing rejections). Only error rows carry one, so this filter also restricts to status&#x3D;&#39;error&#39; unless &#39;status&#39; is given explicitly | [optional] 
+**TextTokens** | Pointer to **NullableInt32** |  | [optional] 
+**ImageTokens** | Pointer to **NullableInt32** |  | [optional] 
 
 ## Methods
 
@@ -168,6 +170,76 @@ HasRejectedPredictionTokens returns a boolean if a field has been set.
 `func (o *CCCompletionTokensDetails) UnsetRejectedPredictionTokens()`
 
 UnsetRejectedPredictionTokens ensures that no value is present for RejectedPredictionTokens, not even an explicit nil
+### GetTextTokens
+
+`func (o *CCCompletionTokensDetails) GetTextTokens() int32`
+
+GetTextTokens returns the TextTokens field if non-nil, zero value otherwise.
+
+### GetTextTokensOk
+
+`func (o *CCCompletionTokensDetails) GetTextTokensOk() (*int32, bool)`
+
+GetTextTokensOk returns a tuple with the TextTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTextTokens
+
+`func (o *CCCompletionTokensDetails) SetTextTokens(v int32)`
+
+SetTextTokens sets TextTokens field to given value.
+
+### HasTextTokens
+
+`func (o *CCCompletionTokensDetails) HasTextTokens() bool`
+
+HasTextTokens returns a boolean if a field has been set.
+
+### SetTextTokensNil
+
+`func (o *CCCompletionTokensDetails) SetTextTokensNil(b bool)`
+
+ SetTextTokensNil sets the value for TextTokens to be an explicit nil
+
+### UnsetTextTokens
+`func (o *CCCompletionTokensDetails) UnsetTextTokens()`
+
+UnsetTextTokens ensures that no value is present for TextTokens, not even an explicit nil
+### GetImageTokens
+
+`func (o *CCCompletionTokensDetails) GetImageTokens() int32`
+
+GetImageTokens returns the ImageTokens field if non-nil, zero value otherwise.
+
+### GetImageTokensOk
+
+`func (o *CCCompletionTokensDetails) GetImageTokensOk() (*int32, bool)`
+
+GetImageTokensOk returns a tuple with the ImageTokens field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetImageTokens
+
+`func (o *CCCompletionTokensDetails) SetImageTokens(v int32)`
+
+SetImageTokens sets ImageTokens field to given value.
+
+### HasImageTokens
+
+`func (o *CCCompletionTokensDetails) HasImageTokens() bool`
+
+HasImageTokens returns a boolean if a field has been set.
+
+### SetImageTokensNil
+
+`func (o *CCCompletionTokensDetails) SetImageTokensNil(b bool)`
+
+ SetImageTokensNil sets the value for ImageTokens to be an explicit nil
+
+### UnsetImageTokens
+`func (o *CCCompletionTokensDetails) UnsetImageTokens()`
+
+UnsetImageTokens ensures that no value is present for ImageTokens, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

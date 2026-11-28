@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DefaultInputPricePerMillion** | **NullableFloat32** | What genai-prices would meter this key at today. Null when the dataset does not know it. | 
+**DefaultInputPricePerMillion** | **NullableFloat32** | What models.dev would meter this key at today. Null when the dataset does not know it. | 
 **DefaultOutputPricePerMillion** | **NullableFloat32** |  | 
-**DefaultReference** | **NullableString** | The genai-prices entry the default came from. | 
+**DefaultReference** | **NullableString** | The models.dev entry the default came from. | 
 **EffectiveAt** | **string** |  | 
 **InputDeltaPercent** | **NullableFloat32** | (stored - default) / default, as a percentage. | 
 **InputPricePerMillion** | **float32** |  | 

@@ -6,11 +6,13 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**RoutingDeleteOrganizationRoutingPolicy**](RoutingAPI.md#RoutingDeleteOrganizationRoutingPolicy) | **Delete** /api/v1/organizations/me/routing-policies/{name} | Delete Organization Routing Policy
 [**RoutingDeletePolicy**](RoutingAPI.md#RoutingDeletePolicy) | **Delete** /api/v1/routing/policies/{name} | Delete Policy
+[**RoutingExplainOrganizationRoutingPolicy**](RoutingAPI.md#RoutingExplainOrganizationRoutingPolicy) | **Post** /api/v1/organizations/me/routing-policies/explain | Explain Organization Routing Policy
 [**RoutingExplainPolicy**](RoutingAPI.md#RoutingExplainPolicy) | **Post** /api/v1/routing/policies/explain | Explain Policy
+[**RoutingListAutomaticFallbacks**](RoutingAPI.md#RoutingListAutomaticFallbacks) | **Get** /api/v1/organizations/me/automatic-fallbacks | List Automatic Fallbacks
 [**RoutingListPolicies**](RoutingAPI.md#RoutingListPolicies) | **Get** /api/v1/routing/policies | List Policies
 [**RoutingListVisibleRoutingPolicies**](RoutingAPI.md#RoutingListVisibleRoutingPolicies) | **Get** /api/v1/organizations/me/routing-policies | List Visible Routing Policies
-[**RoutingRankCandidates**](RoutingAPI.md#RoutingRankCandidates) | **Post** /api/v1/routing/preferences/rank | Rank Candidates
-[**RoutingRoutingMemoryStatus**](RoutingAPI.md#RoutingRoutingMemoryStatus) | **Get** /api/v1/routing/status | Routing Memory Status
+[**RoutingRecommendModelForAgent**](RoutingAPI.md#RoutingRecommendModelForAgent) | **Post** /api/v1/routing/recommend | Recommend Model For Agent
+[**RoutingReportSubagentOutcome**](RoutingAPI.md#RoutingReportSubagentOutcome) | **Put** /api/v1/routing/decisions/{decision_id}/outcome | Report Subagent Outcome
 [**RoutingSetOrganizationRoutingPolicy**](RoutingAPI.md#RoutingSetOrganizationRoutingPolicy) | **Post** /api/v1/organizations/me/routing-policies | Set Organization Routing Policy
 [**RoutingSetPolicy**](RoutingAPI.md#RoutingSetPolicy) | **Post** /api/v1/routing/policies | Set Policy
 
@@ -158,6 +160,72 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## RoutingExplainOrganizationRoutingPolicy
+
+> ExplainResponse RoutingExplainOrganizationRoutingPolicy(ctx).ExplainRequest(explainRequest).Execute()
+
+Explain Organization Routing Policy
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	explainRequest := *openapiclient.NewExplainRequest() // ExplainRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.RoutingAPI.RoutingExplainOrganizationRoutingPolicy(context.Background()).ExplainRequest(explainRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `RoutingAPI.RoutingExplainOrganizationRoutingPolicy``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RoutingExplainOrganizationRoutingPolicy`: ExplainResponse
+	fmt.Fprintf(os.Stdout, "Response from `RoutingAPI.RoutingExplainOrganizationRoutingPolicy`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRoutingExplainOrganizationRoutingPolicyRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **explainRequest** | [**ExplainRequest**](ExplainRequest.md) |  | 
+
+### Return type
+
+[**ExplainResponse**](ExplainResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## RoutingExplainPolicy
 
 > ExplainResponse RoutingExplainPolicy(ctx).ExplainRequest(explainRequest).Execute()
@@ -224,6 +292,72 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## RoutingListAutomaticFallbacks
+
+> AutomaticFallbacksResponse RoutingListAutomaticFallbacks(ctx).WorkspaceId(workspaceId).Execute()
+
+List Automatic Fallbacks
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only the offerings a request billed to this workspace may call. (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.RoutingAPI.RoutingListAutomaticFallbacks(context.Background()).WorkspaceId(workspaceId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `RoutingAPI.RoutingListAutomaticFallbacks``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RoutingListAutomaticFallbacks`: AutomaticFallbacksResponse
+	fmt.Fprintf(os.Stdout, "Response from `RoutingAPI.RoutingListAutomaticFallbacks`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRoutingListAutomaticFallbacksRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspaceId** | **string** | Only the offerings a request billed to this workspace may call. | 
+
+### Return type
+
+[**AutomaticFallbacksResponse**](AutomaticFallbacksResponse.md)
+
+### Authorization
+
+[XApiKeyAuth](../README.md#XApiKeyAuth), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## RoutingListPolicies
 
 > []PolicyResponse RoutingListPolicies(ctx).WorkspaceId(workspaceId).Execute()
@@ -245,7 +379,7 @@ import (
 )
 
 func main() {
-	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only stored policies in this workspace. Config-file policies are always included, being deployment-wide. Omit to list the stored policies of every workspace. (optional)
+	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Only stored policies in this workspace. Config-file policies are always included, being deployment-wide. Omit to list the stored policies of every workspace in your organization. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -270,7 +404,7 @@ Other parameters are passed through a pointer to a apiRoutingListPoliciesRequest
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **workspaceId** | **string** | Only stored policies in this workspace. Config-file policies are always included, being deployment-wide. Omit to list the stored policies of every workspace. | 
+ **workspaceId** | **string** | Only stored policies in this workspace. Config-file policies are always included, being deployment-wide. Omit to list the stored policies of every workspace in your organization. | 
 
 ### Return type
 
@@ -358,11 +492,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## RoutingRankCandidates
+## RoutingRecommendModelForAgent
 
-> RankResponse RoutingRankCandidates(ctx).RankRequest(rankRequest).Execute()
+> AgentModelRecommendation RoutingRecommendModelForAgent(ctx).AgentModelRecommendationRequest(agentModelRecommendationRequest).Execute()
 
-Rank Candidates
+Recommend Model For Agent
 
 
 
@@ -379,17 +513,17 @@ import (
 )
 
 func main() {
-	rankRequest := *openapiclient.NewRankRequest([]openapiclient.ScoredExample{*openapiclient.NewScoredExample("Prompt_example", map[string]float32{"key": float32(123)})}, "UserId_example") // RankRequest | 
+	agentModelRecommendationRequest := *openapiclient.NewAgentModelRecommendationRequest("AgentType_example", "Harness_example", "ParentModel_example", "Prompt_example", "SessionId_example", "ToolUseId_example") // AgentModelRecommendationRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.RoutingAPI.RoutingRankCandidates(context.Background()).RankRequest(rankRequest).Execute()
+	resp, r, err := apiClient.RoutingAPI.RoutingRecommendModelForAgent(context.Background()).AgentModelRecommendationRequest(agentModelRecommendationRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `RoutingAPI.RoutingRankCandidates``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `RoutingAPI.RoutingRecommendModelForAgent``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `RoutingRankCandidates`: RankResponse
-	fmt.Fprintf(os.Stdout, "Response from `RoutingAPI.RoutingRankCandidates`: %v\n", resp)
+	// response from `RoutingRecommendModelForAgent`: AgentModelRecommendation
+	fmt.Fprintf(os.Stdout, "Response from `RoutingAPI.RoutingRecommendModelForAgent`: %v\n", resp)
 }
 ```
 
@@ -399,16 +533,16 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiRoutingRankCandidatesRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiRoutingRecommendModelForAgentRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rankRequest** | [**RankRequest**](RankRequest.md) |  | 
+ **agentModelRecommendationRequest** | [**AgentModelRecommendationRequest**](AgentModelRecommendationRequest.md) |  | 
 
 ### Return type
 
-[**RankResponse**](RankResponse.md)
+[**AgentModelRecommendation**](AgentModelRecommendation.md)
 
 ### Authorization
 
@@ -424,11 +558,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## RoutingRoutingMemoryStatus
+## RoutingReportSubagentOutcome
 
-> RouterStatus RoutingRoutingMemoryStatus(ctx).UserId(userId).WorkspaceId(workspaceId).Execute()
+> RoutingReportSubagentOutcome(ctx, decisionId).SubagentOutcomeReport(subagentOutcomeReport).Execute()
 
-Routing Memory Status
+Report Subagent Outcome
 
 
 
@@ -445,38 +579,40 @@ import (
 )
 
 func main() {
-	userId := "userId_example" // string | Whose routing memory to report on.
-	workspaceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Which workspace's routing memory to report on. Omit for the default workspace. (optional)
+	decisionId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	subagentOutcomeReport := *openapiclient.NewSubagentOutcomeReport([]openapiclient.SubagentUsageLine{*openapiclient.NewSubagentUsageLine(int32(123), "Model_example", int32(123))}) // SubagentOutcomeReport | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.RoutingAPI.RoutingRoutingMemoryStatus(context.Background()).UserId(userId).WorkspaceId(workspaceId).Execute()
+	r, err := apiClient.RoutingAPI.RoutingReportSubagentOutcome(context.Background(), decisionId).SubagentOutcomeReport(subagentOutcomeReport).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `RoutingAPI.RoutingRoutingMemoryStatus``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `RoutingAPI.RoutingReportSubagentOutcome``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `RoutingRoutingMemoryStatus`: RouterStatus
-	fmt.Fprintf(os.Stdout, "Response from `RoutingAPI.RoutingRoutingMemoryStatus`: %v\n", resp)
 }
 ```
 
 ### Path Parameters
 
 
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**decisionId** | **string** |  | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiRoutingRoutingMemoryStatusRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiRoutingReportSubagentOutcomeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **string** | Whose routing memory to report on. | 
- **workspaceId** | **string** | Which workspace&#39;s routing memory to report on. Omit for the default workspace. | 
+
+ **subagentOutcomeReport** | [**SubagentOutcomeReport**](SubagentOutcomeReport.md) |  | 
 
 ### Return type
 
-[**RouterStatus**](RouterStatus.md)
+ (empty response body)
 
 ### Authorization
 
@@ -484,7 +620,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
